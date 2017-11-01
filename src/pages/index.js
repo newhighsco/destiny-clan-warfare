@@ -2,7 +2,7 @@ import React from 'react'
 
 const IndexPage = () => (
   <div>
-    <h1>COMING SOON</h1>
+    <h1>Coming soon</h1>
   </div>
 )
 

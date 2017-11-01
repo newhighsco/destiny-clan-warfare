@@ -8,8 +8,8 @@
     "yarn": "^0.17.9"
   },
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop"
+    "start": "gatsby develop",
+    "build": "gatsby build"
   },
   "dependencies": {
     "gatsby": "^1.9.73",

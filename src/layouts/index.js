@@ -11,6 +11,9 @@ const TemplateWrapper = ({ children }) => (
       meta={[
         { name: 'description', content: 'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard' }
       ]}
+      htmlAttributes={
+        { lang: 'en' }
+      }
     />
     <div>
       {children()}

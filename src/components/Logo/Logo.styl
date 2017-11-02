@@ -1,0 +1,51 @@
+.logo
+  color $color--white
+  fill rgba($color--white, 0.95)
+  margin 10% auto
+  padding 20px
+  text-align center
+
+.logo__icon
+  display block
+  margin auto
+  height auto
+  max-width 200px
+
+.logo__lockup
+  display inline-block
+  font-family $font--heading
+  font-size 50px
+  font-weight bold
+  line-height 1
+  text-align left
+
+  .logo__icon + &
+    margin-top -40px
+
+.logo__kicker
+  border-bottom 5px solid $color--white
+  border-color rgba($color--white, 0.75)
+  display block
+  font-size 0.4em
+  letter-spacing 0.4em
+  margin 0 2px 0.5em
+  padding 0 5px 5px
+  text-align left
+  text-transform uppercase
+
+.logo__text
+  display inline-block
+  font-weight bolder
+  margin auto
+  position relative
+  text-transform uppercase
+
+  &:after
+    border 1px solid $color--white
+    border-color rgba($color--white, 0.5)
+    content ''
+    position absolute
+    top 0.25em
+    right -5px
+    bottom 0.3em
+    left -5px

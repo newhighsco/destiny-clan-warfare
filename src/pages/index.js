@@ -1,9 +1,8 @@
 import React from 'react'
+import Logo from '../components/Logo/Logo'
 
 const IndexPage = () => (
-  <div>
-    <h1>Coming soon</h1>
-  </div>
+  <Logo />
 )
 
 export default IndexPage

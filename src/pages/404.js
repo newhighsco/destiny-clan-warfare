@@ -1,9 +1,8 @@
 import React from 'react'
+import Logo from '../components/Logo/Logo'
 
 const NotFoundPage = () => (
-  <div>
-    <h1>Not found</h1>
-  </div>
+  <Logo />
 )
 
 export default NotFoundPage

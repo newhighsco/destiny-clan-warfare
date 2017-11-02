@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
 import Helmet from 'react-helmet'
 
 import '../stylus/index.styl'
@@ -8,9 +7,9 @@ import '../stylus/index.styl'
 const TemplateWrapper = ({ children }) => (
   <div>
     <Helmet
-      title="Destiny Clan Wars"
+      title="Destiny Clan Warfare - Coming soon"
       meta={[
-        { name: 'description', content: 'Destiny Clan Wars' },
+        { name: 'description', content: 'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard' }
       ]}
     />
     <div>
@@ -20,7 +19,7 @@ const TemplateWrapper = ({ children }) => (
 )
 
 TemplateWrapper.propTypes = {
-  children: PropTypes.func,
+  children: PropTypes.func
 }
 
 export default TemplateWrapper

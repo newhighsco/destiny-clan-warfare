@@ -15,10 +15,11 @@
     "qa": "npm-run-all --parallel qa:*",
     "qa:lint": "eslint --cache -f unix .",
     "qa:stylint": "stylint ./src",
-    "test": "npm-run-all build --parallel qa"
+    "test": "npm-run-all --parallel qa"
   },
   "dependencies": {
     "@jacobmischka/gatsby-plugin-react-svg": "^1.0.0",
+    "axios": "^0.17.0",
     "gatsby": "^1.9.73",
     "gatsby-link": "^1.6.22",
     "gatsby-plugin-manifest": "^1.0.8",

@@ -14,5 +14,6 @@
     "browser": true
   },
   "globals": {
+    "graphql": true
   }
 }

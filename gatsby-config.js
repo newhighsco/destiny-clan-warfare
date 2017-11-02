@@ -1,24 +1,36 @@
 module.exports = {
   plugins: [
-    'gatsby-plugin-react-helmet',
+    `gatsby-plugin-react-helmet`,
     {
-      resolve: 'gatsby-plugin-stylus',
+      resolve: `gatsby-plugin-stylus`,
       options: {
         use: []
       }
     },
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'Destiny Clan Warfare',
-        short_name: 'Clan Warfare',
-        start_url: '/',
-        background_color: '#222',
-        theme_color: '#222',
-        display: 'minimal-ui'
+        name: `Destiny Clan Warfare`,
+        short_name: `Clan Warfare`,
+        start_url: `/`,
+        background_color: `#222`,
+        theme_color: `#222`,
+        display: `minimal-ui`,
+        icons: [
+          {
+            src: `/favicon-192x192.png`,
+            sizes: `192x192`,
+            type: `image/png`
+          },
+          {
+            src: `/favicon-512x512.png`,
+            sizes: `512x512`,
+            type: `image/png`
+          }
+        ]
       }
     },
-    'gatsby-plugin-offline',
-    '@jacobmischka/gatsby-plugin-react-svg'
+    `gatsby-plugin-offline`,
+    `@jacobmischka/gatsby-plugin-react-svg`
   ]
 }

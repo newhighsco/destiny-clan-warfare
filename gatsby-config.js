@@ -11,7 +11,11 @@ module.exports = {
       resolve: 'gatsby-plugin-manifest',
       options: {
         name: 'Destiny Clan Warfare',
-        short_name: 'Clan Warfare'
+        short_name: 'Clan Warfare',
+        start_url: '/',
+        background_color: '#222',
+        theme_color: '#222',
+        display: 'minimal-ui'
       }
     },
     'gatsby-plugin-offline',

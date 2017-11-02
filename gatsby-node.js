@@ -1,25 +1,25 @@
-const axios = require(`axios`)
-const crypto = require(`crypto`)
+// const axios = require(`axios`)
+// const crypto = require(`crypto`)
 // const path = require(`path`)
 
-exports.sourceNodes = async ({ boundActionCreators }) => {
-  const { createNode } = boundActionCreators
-  const data = await axios.get(`https://dog.ceo/api/breeds/list/all`)
+// exports.sourceNodes = async ({ boundActionCreators }) => {
+//   const { createNode } = boundActionCreators
+//   const data = await axios.get(`https://dog.ceo/api/breeds/list/all`)
 
-  Object.keys(data.data.message).map(clan => createNode({
-    id: `clan/${clan}`,
-    name: clan,
-    parent: null,
-    children: [],
-    internal: {
-      type: `Clan`,
-      contentDigest: crypto
-        .createHash(`md5`)
-        .update(JSON.stringify(clan))
-        .digest(`hex`)
-    }
-  }))
-}
+//   Object.keys(data.data.message).map(clan => createNode({
+//     id: `clan/${clan}`,
+//     name: clan,
+//     parent: null,
+//     children: [],
+//     internal: {
+//       type: `Clan`,
+//       contentDigest: crypto
+//         .createHash(`md5`)
+//         .update(JSON.stringify(clan))
+//         .digest(`hex`)
+//     }
+//   }))
+// }
 
 // exports.createPages = ({ graphql, boundActionCreators }) => {
 //   const { createPage } = boundActionCreators

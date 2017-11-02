@@ -15,9 +15,7 @@ const TemplateWrapper = ({ children }) => (
         { lang: 'en' }
       }
     />
-    <div>
-      {children()}
-    </div>
+    {children()}
   </div>
 )
 

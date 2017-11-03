@@ -9,7 +9,7 @@ const IndexPage = () => (
   <HoldingPage>
     <div className="content-center content-gutter">
       <Logo medium />
-      <form className="panel" action="thanks" data-netlify="true" method="post">
+      <form className="panel" name="pre-launch" action="thanks" data-netlify="true" method="post">
         <h2 className="panel__title text-center">Sign up to be notified when we launch</h2>
         <div className="content-center content-center--narrow">
           <div className="field" id="field--email">

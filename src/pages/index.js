@@ -4,7 +4,7 @@ import Logo from '../components/Logo/Logo'
 
 const IndexPage = () => (
   <HoldingPage>
-    <Logo small />
+    <Logo />
   </HoldingPage>
 )
 

@@ -38,9 +38,8 @@ class Html extends Component {
           <div
             key={`body`}
             id="___gatsby"
-          >
-            {this.props.body}
-          </div>
+            dangerouslySetInnerHTML={{ __html: this.props.body }}
+          />
           {this.props.postBodyComponents}
         </body>
       </html>

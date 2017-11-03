@@ -10,7 +10,9 @@ const NotFoundPage = () => (
         { name: 'robots', content: 'noindex,nofollow' }
       ]}
     />
-    <Logo />
+    <div className="content-center content-gutter">
+      <Logo />
+    </div>
   </HoldingPage>
 )
 

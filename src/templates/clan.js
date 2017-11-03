@@ -21,7 +21,7 @@
 // export default ClanTemplate
 
 // export const pageQuery = graphql`
-//   query currentPageQuery($id: String!) {
+//   query clanTemplateQuery($id: String!) {
 //     clan(id: { eq: $id }) {
 //       name
 //     }

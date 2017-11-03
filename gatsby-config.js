@@ -2,6 +2,10 @@ const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 
 module.exports = {
+  siteMetadata: {
+    title: `Destiny Clan Warfare - Coming soon`,
+    description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
+  },
   plugins: [
     `gatsby-plugin-react-helmet`,
     {

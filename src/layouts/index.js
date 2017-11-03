@@ -4,12 +4,12 @@ import Helmet from 'react-helmet'
 
 import '../stylus/index.styl'
 
-const TemplateWrapper = ({ children }) => (
+const TemplateWrapper = ({ children, data }) => (
   <div className="site-container">
     <Helmet
-      title="Destiny Clan Warfare - Coming soon"
+      title={data.site.siteMetadata.title}
       meta={[
-        { name: 'description', content: 'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard' }
+        { name: 'description', content: data.site.siteMetadata.description }
       ]}
       htmlAttributes={
         { lang: 'en' }
@@ -20,7 +20,19 @@ const TemplateWrapper = ({ children }) => (
 )
 
 TemplateWrapper.propTypes = {
-  children: PropTypes.func
+  children: PropTypes.func,
+  data: PropTypes.object
 }
 
 export default TemplateWrapper
+
+export const query = graphql`
+  query templateWrapperQuery {
+    site {
+      siteMetadata {
+        title
+        description
+      }
+    }
+  }
+`

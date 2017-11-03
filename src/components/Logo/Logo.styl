@@ -3,25 +3,37 @@
   display block
   fill rgba($color--white, 0.95)
   margin auto
-  padding 20px
+  padding ($spacing--default * 3) 0
   text-align center
 
 .logo__icon
   display block
   margin auto
   height auto
-  max-width 200px
+  max-width 70px
+
+  +width-min($mq--tablet)
+    max-width 100px
+
+  +width-min($mq--desktop)
+    max-width 200px
 
 .logo__lockup
   display inline-block
   font-family $font--heading
-  font-size 50px
+  font-size 30px
   font-weight bold
   line-height 1
   text-align left
 
   .logo__icon + &
     margin-top -0.8em
+
+  +width-min($mq--tablet)
+    font-size 40px
+
+  +width-min($mq--desktop)
+    font-size 50px
 
 .logo__kicker
   border-bottom 5px solid $color--white
@@ -52,6 +64,13 @@
     left -5px
 
 .logo--small
+  .logo__icon
+    max-width 70px
+
+  .logo__lockup
+    font-size 30px
+
+.logo--medium
   .logo__icon
     max-width 100px
 

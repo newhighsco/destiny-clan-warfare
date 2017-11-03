@@ -1,5 +1,6 @@
 import React from 'react'
 import HoldingPage from '../components/HoldingPage/HoldingPage'
+import Helmet from 'react-helmet'
 import Logo from '../components/Logo/Logo'
 import PatreonSvg from '../images/patreon.svg'
 import DiscordSvg from '../images/discord.svg'
@@ -7,32 +8,16 @@ import AvalancheUkSvg from '../images/avalanche-uk.svg'
 
 const IndexPage = () => (
   <HoldingPage>
+    <Helmet
+      meta={[
+        { name: 'robots', content: 'noindex,nofollow' }
+      ]}
+    />
     <div className="content-center content-gutter">
       <Logo medium />
-      <form className="panel" action="thanks" data-netlify="true" method="post">
-        <h2 className="panel__title text-center">Sign up to be notified when we launch</h2>
-        <div className="content-center content-center--narrow">
-          <div className="field" id="field--email">
-            <div className="field__question">
-              <label htmlFor="control--email">Email</label>
-            </div>
-            <div className="field__answer">
-              <input type="email" className="control control--text" name="email" id="control--email" />
-            </div>
-          </div>
-          <div className="field" id="field--twitter">
-            <div className="field__question">
-              <label htmlFor="control--twitter">Twitter</label>
-            </div>
-            <div className="field__answer">
-              <input type="text" className="control control--text" name="twitter" id="control--twitter" />
-            </div>
-          </div>
-          <div className="text-center">
-            <button className="button" type="submit">Submit</button>
-          </div>
-        </div>
-      </form>
+      <div className="panel">
+        <h2 className="panel__title text-center">Thanks! We'll be in touch as soon as we're ready to launch</h2>
+      </div>
       <div className="content-center content-center--narrow">
         <div className="grid">
           <div className="grid__item tablet-one-half">

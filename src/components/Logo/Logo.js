@@ -4,18 +4,19 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from './logo.svg'
 
-const Logo = ({ small }) => (
-  <Link to="/" className={classNames({ logo: true, 'logo--small': small })}>
+const Logo = ({ small, medium }) => (
+  <Link to="/" className={classNames({ logo: true, 'logo--small': small, 'logo--medium': medium })}>
     <Icon className="logo__icon" />
-    <div className="logo__lockup">
-      <div className="logo__kicker">Destiny</div>
+    <h1 className="logo__lockup">
+      <div className="logo__kicker">Destiny </div>
       <div className="logo__text">Clan Warfare</div>
-    </div>
+    </h1>
   </Link>
 )
 
 Logo.propTypes = {
-  small: PropTypes.bool
+  small: PropTypes.bool,
+  medium: PropTypes.bool
 }
 
 export default Logo

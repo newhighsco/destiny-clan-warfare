@@ -21,20 +21,20 @@ const IndexPage = () => (
       <div className="content-center content-center--narrow">
         <div className="grid">
           <div className="grid__item tablet-one-half">
-            <a className="panel text-center" href="https://www.patreon.com/destinyclanwarfare" target="_blank">
+            <a className="panel text-center" href="https://www.patreon.com/destinyclanwarfare" target="_blank" rel="noopener">
               <h2 className="panel__title">Become a Patron and gain exclusive access to the beta</h2>
               <PatreonSvg className="panel__icon" />
             </a>
           </div>
           <div className="grid__item tablet-one-half">
-            <a className="panel text-center" href="http://discord.destinyclanwarfare.com" target="_blank">
+            <a className="panel text-center" href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener">
               <h2 className="panel__title">Join our Discord server to stay up-to-date with developments</h2>
               <DiscordSvg className="panel__icon" />
             </a>
           </div>
         </div>
         <div className="credit">
-          <a className="credit__link" href="https://avaclanche.uk" target="_blank">
+          <a className="credit__link" href="https://avaclanche.uk" target="_blank" rel="noopener">
             <AvalancheUkSvg className="credit__logo" />
             <div className="credit__details">
               <small>Proudly brought to you by</small>

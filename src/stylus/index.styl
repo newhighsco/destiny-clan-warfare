@@ -3,42 +3,38 @@
 // ================
 //
 
+//
+// STYLUS PLUGINS
+//
+
+@require 'stylus-mixins'
+@require 'responsive-grid'
 
 // SETTINGS
-
+// Set variables. Should not output CSS.
 @require 'settings/*'
 
-*
-*:after
-*:before
-  box-sizing border-box
+// TOOLS
+// Globally used mixins and functions. Should not output CSS.
+@require 'tools/*'
 
-html
-  height 100%
+// GENERIC
+// Reset/normalize styles, box-sizing definition, etc.
+@require 'generic/*'
 
-body
-  background $color--nero
-  color $color--white
-  display flex
-  align-items center
-  justify-content center
-  font-family $font--body
-  height 100%
-  margin 0
-  padding 0
+// ELEMENTS
+// Base styles for actual HTML elements, no classes allowed.
+@require 'elements/*'
 
-  &:after
-    background url('../images/body.jpg')
-    background-position 50% 0
-    background-size cover
-    content ''
-    position fixed
-    height 100%
-    width 100%
-    top 0
-    left 0
-    z-index -1
+// OBJECTS
+// class-based selectors which define undecorated design patterns, for example media object known from OOCSS.
+@require 'objects/*'
 
 // COMPONENTS
-
+// specific UI components. This is where majority of our work takes place.
+// Our UI components are often composed of Objects and Components
 @require '../components/**/*.styl'
+
+// UTILITIES
+// Helper classes with ability to override anything, e.g. visibility
+@require 'utilities/*'

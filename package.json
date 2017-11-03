@@ -23,10 +23,13 @@
     "classnames": "^2.2.5",
     "gatsby": "^1.9.73",
     "gatsby-link": "^1.6.22",
+    "gatsby-plugin-google-analytics": "^1.0.11",
     "gatsby-plugin-manifest": "^1.0.8",
     "gatsby-plugin-offline": "^1.0.10",
     "gatsby-plugin-react-helmet": "^1.0.8",
-    "gatsby-plugin-stylus": "^1.1.10"
+    "gatsby-plugin-stylus": "^1.1.10",
+    "responsive-grid": "^1.1.0",
+    "stylus-mixins": "^0.4.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

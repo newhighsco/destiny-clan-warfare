@@ -1,10 +1,16 @@
+const stylusMixins = require('stylus-mixins')
+const responsiveGrid = require('responsive-grid')
+
 module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-stylus`,
       options: {
-        use: []
+        use: [
+          stylusMixins(),
+          responsiveGrid()
+        ]
       }
     },
     {
@@ -31,6 +37,13 @@ module.exports = {
       }
     },
     `gatsby-plugin-offline`,
-    `@jacobmischka/gatsby-plugin-react-svg`
+    `@jacobmischka/gatsby-plugin-react-svg`,
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: `UA-109161360-1`,
+        anonymize: false
+      }
+    }
   ]
 }

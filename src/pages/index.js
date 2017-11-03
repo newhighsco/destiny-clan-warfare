@@ -1,8 +1,11 @@
 import React from 'react'
+import HoldingPage from '../components/HoldingPage/HoldingPage'
 import Logo from '../components/Logo/Logo'
 
 const IndexPage = () => (
-  <Logo />
+  <HoldingPage>
+    <Logo small />
+  </HoldingPage>
 )
 
 export default IndexPage

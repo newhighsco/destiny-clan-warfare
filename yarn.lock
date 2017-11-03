@@ -3456,6 +3456,12 @@ gatsby-module-loader@^1.0.7:
     babel-runtime "^6.26.0"
     loader-utils "^0.2.16"
 
+gatsby-plugin-google-analytics@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-1.0.11.tgz#ec814e28b7d9bd20703ab2e2388f062c19220fd9"
+  dependencies:
+    babel-runtime "^6.26.0"
+
 gatsby-plugin-manifest@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-1.0.8.tgz#8c155cd2aed54759554c25bf9efb4a2c48de6429"
@@ -7181,6 +7187,10 @@ resolve@^1.1.6, resolve@^1.1.7, resolve@^1.2.0:
   dependencies:
     path-parse "^1.0.5"
 
+responsive-grid@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/responsive-grid/-/responsive-grid-1.1.0.tgz#775fb70afb45c90c06e517aa2061e54f1dce04f1"
+
 restore-cursor@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/restore-cursor/-/restore-cursor-1.0.1.tgz#34661f46886327fed2991479152252df92daa541"
@@ -7970,6 +7980,10 @@ stylus-loader@webpack1:
     loader-utils "^0.2.9"
     lodash.clonedeep "^4.5.0"
     when "~3.6.x"
+
+stylus-mixins@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/stylus-mixins/-/stylus-mixins-0.4.0.tgz#86467c47317b7b45f8005402a8676e414f7295c5"
 
 stylus@^0.54.5:
   version "0.54.5"

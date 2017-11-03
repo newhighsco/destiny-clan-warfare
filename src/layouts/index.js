@@ -5,7 +5,7 @@ import Helmet from 'react-helmet'
 import '../stylus/index.styl'
 
 const TemplateWrapper = ({ children }) => (
-  <div>
+  <div className="site-container">
     <Helmet
       title="Destiny Clan Warfare - Coming soon"
       meta={[

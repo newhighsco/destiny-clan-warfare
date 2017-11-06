@@ -5,7 +5,7 @@
   "license": "ISC",
   "engines": {
     "node": "^8.9.0",
-    "yarn": "^0.17.9"
+    "yarn": "^1.2.1"
   },
   "scripts": {
     "start": "gatsby develop",
@@ -25,6 +25,7 @@
     "gatsby-link": "^1.6.22",
     "gatsby-plugin-google-analytics": "^1.0.11",
     "gatsby-plugin-manifest": "^1.0.8",
+    "gatsby-plugin-netlify": "^1.0.6",
     "gatsby-plugin-offline": "^1.0.10",
     "gatsby-plugin-react-helmet": "^1.0.8",
     "gatsby-plugin-stylus": "^1.1.10",

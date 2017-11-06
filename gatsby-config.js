@@ -40,6 +40,7 @@ module.exports = {
         ]
       }
     },
+    // Keep this after gatsby-plugin-manifest
     `gatsby-plugin-offline`,
     `@jacobmischka/gatsby-plugin-react-svg`,
     {
@@ -48,6 +49,8 @@ module.exports = {
         trackingId: `UA-109161360-1`,
         anonymize: false
       }
-    }
+    },
+    // Keep this at the end
+    `gatsby-plugin-netlify`
   ]
 }

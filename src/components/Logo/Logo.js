@@ -6,11 +6,8 @@ import Icon from './logo.svg'
 
 const Logo = ({ small, medium }) => (
   <Link to="/" className={classNames({ logo: true, 'logo--small': small, 'logo--medium': medium })}>
-    <Icon className="logo__icon" />
-    <h1 className="logo__lockup">
-      <div className="logo__kicker">Destiny </div>
-      <div className="logo__text">Clan Warfare</div>
-    </h1>
+    <LogoIcon />
+    <LogoLockup />
   </Link>
 )
 
@@ -19,4 +16,21 @@ Logo.propTypes = {
   medium: PropTypes.bool
 }
 
-export default Logo
+const LogoIcon = () => (
+  <Icon className="logo-icon" />
+)
+
+const LogoLockup = () => (
+  <h1 className="logo-lockup">
+    <div className="logo-lockup__kicker">Destiny </div>
+    <div className="logo-lockup__text">Clan Warfare</div>
+  </h1>
+)
+
+const components = {
+  Logo,
+  LogoIcon,
+  LogoLockup
+}
+
+export default components

@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 import HoldingPage from '../components/HoldingPage/HoldingPage'
-import Logo from '../components/Logo/Logo'
+import { Logo } from '../components/Logo/Logo'
 
 const NotFoundPage = () => (
   <HoldingPage>
@@ -10,9 +10,7 @@ const NotFoundPage = () => (
         { name: 'robots', content: 'noindex,nofollow' }
       ]}
     />
-    <div className="content-center content-gutter">
-      <Logo />
-    </div>
+    <Logo />
   </HoldingPage>
 )
 

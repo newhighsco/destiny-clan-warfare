@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import identity from 'netlify-identity-widget'
 import HoldingPage from '../components/HoldingPage/HoldingPage'
-import Logo from '../components/Logo/Logo'
+import { Logo } from '../components/Logo/Logo'
 
 import '../stylus/index.styl'
 
@@ -41,10 +41,8 @@ class TemplateWrapper extends Component {
             ]}
           />
           <HoldingPage>
-            <div className="content-center content-gutter text-center">
               <Logo />
               <button className="button" onClick={this.handleOpen}>Log in to view</button>
-            </div>
           </HoldingPage>
         </div>
       )

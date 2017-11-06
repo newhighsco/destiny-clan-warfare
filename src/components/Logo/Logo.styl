@@ -1,13 +1,12 @@
 .logo
-  color $color--white
-  display block
-  fill rgba($color--white, 0.95)
+  display inline-block
   margin auto
   padding ($spacing--default * 3) 0
   text-align center
 
-.logo__icon
-  display block
+.logo-icon
+  display table
+  fill $color--white
   margin auto
   height auto
   max-width 70px
@@ -18,15 +17,17 @@
   +width-min($mq--desktop)
     max-width 200px
 
-.logo__lockup
-  display inline-block
+.logo-lockup
+  color $color--white
+  display table
   font-family $font--heading
   font-size 30px
   font-weight bold
   line-height 1
+  margin auto
   text-align left
 
-  .logo__icon + &
+  .logo-icon + &
     margin-top -0.8em
 
   +width-min($mq--tablet)
@@ -35,7 +36,7 @@
   +width-min($mq--desktop)
     font-size 50px
 
-.logo__kicker
+.logo-lockup__kicker
   border-bottom 5px solid $color--white
   border-color rgba($color--white, 0.75)
   display block
@@ -46,7 +47,7 @@
   text-align left
   text-transform uppercase
 
-.logo__text
+.logo-lockup__text
   display inline-block
   font-weight bolder
   margin auto
@@ -64,15 +65,15 @@
     left -5px
 
 .logo--small
-  .logo__icon
+  .logo-icon
     max-width 70px
 
-  .logo__lockup
+  .logo-lockup
     font-size 30px
 
 .logo--medium
-  .logo__icon
+  .logo-icon
     max-width 100px
 
-  .logo__lockup
+  .logo-lockup
     font-size 40px

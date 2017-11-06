@@ -43,6 +43,7 @@ class TemplateWrapper extends Component {
           />
           <HoldingPage>
             <Logo />
+            <br />
             <Button onClick={this.handleOpen}>Log in to view</Button>
           </HoldingPage>
         </div>

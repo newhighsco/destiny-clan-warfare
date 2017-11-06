@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 const HoldingPage = ({ children }) => (
   <div className="holding-page">
-    {children}
+    <div className="content-center content-gutter text-center">
+      {children}
+    </div>
   </div>
 )
 

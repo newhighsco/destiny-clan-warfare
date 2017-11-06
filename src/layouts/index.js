@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import identity from 'netlify-identity-widget'
 import HoldingPage from '../components/HoldingPage/HoldingPage'
 import { Logo } from '../components/Logo/Logo'
+import Button from '../components/Button/Button'
 
 import '../stylus/index.styl'
 
@@ -41,8 +42,8 @@ class TemplateWrapper extends Component {
             ]}
           />
           <HoldingPage>
-              <Logo />
-              <button className="button" onClick={this.handleOpen}>Log in to view</button>
+            <Logo />
+            <Button onClick={this.handleOpen}>Log in to view</Button>
           </HoldingPage>
         </div>
       )

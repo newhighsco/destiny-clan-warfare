@@ -33,7 +33,6 @@ class TemplateWrapper extends Component {
     const { user } = this.state
 
     if (data.site.siteMetadata.enableIdentity && !user) {
-      this.handleOpen()
       return (
         <div className="site-container">
           <Helmet
@@ -50,8 +49,6 @@ class TemplateWrapper extends Component {
         </div>
       )
     }
-
-    identity.close()
 
     return (
       <div className="site-container">

@@ -4,16 +4,15 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from './logo.svg'
 
-const Logo = ({ small, medium }) => (
-  <Link to="/" className={classNames({ logo: true, 'logo--small': small, 'logo--medium': medium })}>
+const Logo = ({ size }) => (
+  <Link to="/" className={classNames('logo', size && `logo--${size}`)}>
     <LogoIcon />
     <LogoLockup />
   </Link>
 )
 
 Logo.propTypes = {
-  small: PropTypes.bool,
-  medium: PropTypes.bool
+  size: PropTypes.oneOf([ 'small', 'medium' ])
 }
 
 const LogoIcon = () => (

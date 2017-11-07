@@ -1,0 +1,61 @@
+.lockup
+  display inline-block
+  font-family $font--heading
+  font-size 30px
+  font-weight bold
+  line-height 1
+  text-align left
+
+  +width-min($mq--tablet)
+    font-size 40px
+
+  +width-min($mq--desktop)
+    font-size 50px
+
+.lockup__kicker
+  display block
+  font-size 0.4em
+  letter-spacing 0.4em
+  padding 0 5px
+  text-align left
+  text-transform uppercase
+
+  &:after
+    border-bottom 5px solid currentColor
+    content ''
+    display block
+    margin 0.25em -5px 0.5em
+    opacity 0.75
+
+.lockup__heading
+  display inline-block
+  font-weight bolder
+  margin auto
+  position relative
+  text-transform uppercase
+
+  &:after
+    border 1px solid currentColor
+    content ''
+    opacity 0.5
+    position absolute
+    top 0.25em
+    right -5px
+    bottom 0.3em
+    left -5px
+
+.lockup__content
+  border-top 2px solid currentColor
+  border-color rgba($color--white, 0.5)
+  display block
+  font-family $font--body
+  font-size 0.5333em
+  font-weight normal
+  margin 0.625em 0 0 5px
+  padding 0.625em 0 0
+
+  +width-min($mq--tablet)
+    font-size 0.4em
+
+  +width-min($mq--desktop)
+    font-size 0.32em

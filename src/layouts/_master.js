@@ -44,8 +44,9 @@ class MasterLayout extends Component {
           </Helmet>
           <HoldingPage>
             <Logo />
-            <br />
-            <Button onClick={this.handleLogin}>Log in to view</Button>
+            <div className="button-group">
+              <Button onClick={this.handleLogin}>Log in to view</Button>
+            </div>
           </HoldingPage>
         </div>
       )

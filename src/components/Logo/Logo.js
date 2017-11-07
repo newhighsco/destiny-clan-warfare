@@ -1,29 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import Lockup from '../Lockup/Lockup'
 import Icon from './logo.svg'
 
-const Logo = ({ size }) => (
-  <h1 className={classNames('logo', size && `logo--${size}`)}>
-    <LogoIcon />
-    <LogoLockup />
-  </h1>
-)
+const sizes = [ 'small', 'medium' ]
 
-Logo.propTypes = {
-  size: PropTypes.oneOf([ 'small', 'medium' ])
+const Logo = ({ size, className }) => {
+  const baseClassName = 'logo'
+
+  return (
+    <h1 className={classNames(baseClassName, className)}>
+      <LogoIcon size={size} />
+      <LogoLockup size={size} />
+    </h1>
+  )
 }
 
-const LogoIcon = () => (
-  <Icon className="logo-icon" />
-)
+Logo.propTypes = {
+  className: PropTypes.string,
+  size: PropTypes.oneOf(sizes)
+}
 
-const LogoLockup = () => (
-  <span className="logo-lockup">
-    <span className="logo-lockup__kicker">Destiny </span>
-    <span className="logo-lockup__text">Clan Warfare</span>
-  </span>
-)
+const LogoIcon = ({ size, className }) => {
+  const baseClassName = 'logo-icon'
+
+  return (
+    <Icon className={classNames(baseClassName, size && `${baseClassName}--${size}`, className)} />
+  )
+}
+
+LogoIcon.propTypes = {
+  className: PropTypes.string,
+  size: PropTypes.oneOf(sizes)
+}
+
+const LogoLockup = ({ size, className }) => {
+  const baseClassName = 'logo-lockup'
+
+  return (
+    <Lockup className={classNames(baseClassName, size && `${baseClassName}--${size}`, className)}
+      heading="Clan Warfare"
+      kicker="Destiny"
+    />
+  )
+}
+
+LogoLockup.propTypes = {
+  className: PropTypes.string,
+  size: PropTypes.oneOf(sizes)
+}
 
 const components = {
   Logo,

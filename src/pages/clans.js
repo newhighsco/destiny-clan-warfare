@@ -14,7 +14,7 @@ class ClansPage extends Component {
         <Helmet>
           <title>Clans</title>
         </Helmet>
-        <Lockup heading="All clans" />
+        <Lockup kicker="Beta site" heading="All clans" />
         {data.allClan.edges.map(({ node }) => (
           <p>
             <Link to={`/clans/${node.groupId}/`} key={node.groupId}>{node.name}</Link>
@@ -37,7 +37,7 @@ export const data = {
 
 export const pageQuery = graphql`
   query ClansPageQuery {
-    allClan {
+    allClan(sort: { fields: [ name ] }) {
       edges {
         node {
           groupId

@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import PageContainer from '../components/PageContainer/PageContainer'
 import Lockup from '../components/Lockup/Lockup'
 
 class IndexPage extends Component {
   render () {
     return (
-      <Lockup kicker="Beta site" heading="Coming soon" />
+      <PageContainer>
+        <Lockup kicker="Beta site" heading="Coming soon" />
+      </PageContainer>
     )
   }
 }

@@ -1,14 +1,13 @@
 import React from 'react'
-import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from './logo.svg'
 
 const Logo = ({ size }) => (
-  <Link to="/" className={classNames('logo', size && `logo--${size}`)}>
+  <h1 className={classNames('logo', size && `logo--${size}`)}>
     <LogoIcon />
     <LogoLockup />
-  </Link>
+  </h1>
 )
 
 Logo.propTypes = {
@@ -20,10 +19,10 @@ const LogoIcon = () => (
 )
 
 const LogoLockup = () => (
-  <h1 className="logo-lockup">
-    <div className="logo-lockup__kicker">Destiny </div>
-    <div className="logo-lockup__text">Clan Warfare</div>
-  </h1>
+  <span className="logo-lockup">
+    <span className="logo-lockup__kicker">Destiny </span>
+    <span className="logo-lockup__text">Clan Warfare</span>
+  </span>
 )
 
 const components = {

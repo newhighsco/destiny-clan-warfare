@@ -9,6 +9,14 @@ module.exports = {
     description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
   },
   plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `pages`,
+        path: `${__dirname}/src/pages/`
+      }
+    },
+    `gatsby-transformer-javascript-static-exports`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-stylus`,

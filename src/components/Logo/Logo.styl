@@ -15,23 +15,23 @@
   display inline-block
   fill $color--white
   height auto
-  max-width 70px
+  max-width rem(70)
 
   +width-min($mq--tablet)
-    max-width 100px
+    max-width rem(100)
 
   +width-min($mq--desktop)
-    max-width 200px
+    max-width rem(200)
 
   .logo &
     display table
     margin auto
 
 .logo-icon--small
-  max-width 70px
+  max-width rem(70)
 
 .logo-icon--medium
-  max-width 100px
+  max-width rem(100)
 
 //
 // TEXT LOCKUP
@@ -44,8 +44,11 @@
   .logo-icon + &
     margin-top -0.8em
 
+  .lockup__kicker:after
+    border-color currentColor
+
 .logo-lockup--small
-  font-size 30px
+  font-size rem(30)
 
 .logo-lockup--medium
-  font-size 40px
+  font-size rem(40)

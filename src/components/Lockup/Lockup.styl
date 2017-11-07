@@ -1,30 +1,30 @@
 .lockup
   display inline-block
   font-family $font--heading
-  font-size 30px
+  font-size rem(30)
   font-weight bold
   line-height 1
   text-align left
 
   +width-min($mq--tablet)
-    font-size 40px
+    font-size rem(40)
 
   +width-min($mq--desktop)
-    font-size 50px
+    font-size rem(50)
 
 .lockup__kicker
   display block
   font-size 0.4em
   letter-spacing 0.4em
-  padding 0 5px
+  padding 0 $spacing--quarter
   text-align left
   text-transform uppercase
 
   &:after
-    border-bottom 5px solid currentColor
+    border-bottom 5px solid $color--primary
     content ''
     display block
-    margin 0.25em -5px 0.5em
+    margin 0.25em ($spacing--quarter * -1) 0.5em
     opacity 0.75
 
 .lockup__heading
@@ -39,23 +39,22 @@
     content ''
     opacity 0.5
     position absolute
-    top 0.25em
-    right -5px
-    bottom 0.3em
-    left -5px
+    top 0.225em
+    right ($spacing--quarter * -1)
+    bottom 0.275em
+    left ($spacing--quarter * -1)
 
 .lockup__content
-  border-top 2px solid currentColor
-  border-color rgba($color--white, 0.5)
   display block
   font-family $font--body
-  font-size 0.5333em
+  font-size rem(16)
   font-weight normal
-  margin 0.625em 0 0 5px
-  padding 0.625em 0 0
+  line-height 1.5
+  margin $spacing--half 0 0 $spacing--quarter
 
-  +width-min($mq--tablet)
-    font-size 0.4em
-
-  +width-min($mq--desktop)
-    font-size 0.32em
+  &:before
+    border-top 2px solid currentColor
+    content ''
+    display block
+    margin-bottom $spacing--default
+    opacity 0.5

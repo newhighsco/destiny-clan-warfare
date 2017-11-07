@@ -42,6 +42,7 @@ const LogoLockup = ({ size, className }) => {
     <Lockup className={classNames(baseClassName, size && `${baseClassName}--${size}`, className)}
       heading="Clan Warfare"
       kicker="Destiny"
+      element="span"
     />
   )
 }

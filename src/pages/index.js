@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import Lockup from '../components/Lockup/Lockup'
 
 class IndexPage extends Component {
   render () {
     return (
-      <div>Homepage</div>
+      <Lockup kicker="Beta site" heading="Coming soon" />
     )
   }
 }

@@ -11,7 +11,11 @@ class ContentLayout extends Component {
     return (
       <MasterLayout {...this.props}>
         <Header />
-        {children()}
+        <main id="content" className="page-container" role="main">
+          <div className="content-center content-gutter">
+            {children()}
+          </div>
+        </main>
         <Footer />
       </MasterLayout>
     )

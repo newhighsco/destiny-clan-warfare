@@ -4,6 +4,7 @@
   font-size rem(30)
   font-weight bold
   line-height 1
+  max-width 100%
   text-align left
 
   +width-min($mq--tablet)
@@ -12,13 +13,22 @@
   +width-min($mq--desktop)
     font-size rem(50)
 
+  &[href]:hover
+    transform scale(1.05)
+
+  &[href]:active
+  &[href]:focus
+    transform scale(1)
+
 .lockup__kicker
   display block
   font-size 0.4em
   letter-spacing 0.4em
+  max-width 100%
   padding 0 $spacing--quarter
   text-align left
   text-transform uppercase
+  word-wrap break-word
 
   &:after
     border-bottom 5px solid $color--primary
@@ -31,8 +41,10 @@
   display inline-block
   font-weight bolder
   margin auto
+  max-width 100%
   position relative
   text-transform uppercase
+  word-wrap break-word
 
   &:after
     border 1px solid currentColor

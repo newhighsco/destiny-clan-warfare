@@ -38,6 +38,8 @@ export const pageQuery = graphql`
       tag
       motto
       description
+      color
+      icon
     }
   }
 `

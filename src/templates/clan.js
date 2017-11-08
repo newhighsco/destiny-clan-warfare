@@ -14,13 +14,11 @@ class ClanTemplate extends Component {
         <Helmet>
           <title>{data.clan.name}</title>
         </Helmet>
-        <div className="content-center content-center--narrow">
           <Card>
             <Lockup kicker={data.clan.motto} heading={data.clan.name}>
               <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
             </Lockup>
           </Card>
-        </div>
       </PageContainer>
     )
   }

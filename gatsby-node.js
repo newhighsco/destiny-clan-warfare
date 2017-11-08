@@ -23,9 +23,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const clans = require('./src/fixtures/clans.json')
 
   clans.forEach(clan => createNode({
-    id: `Clan ${clan.id}`,
+    id: clan.groupId,
     path: `/clans/${clan.groupId}/`,
-    groupId: clan.groupId,
     name: clan.name,
     tag: clan.tag,
     motto: clan.motto,
@@ -43,9 +42,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const members = require('./src/fixtures/members.json')
 
   members.forEach(member => createNode({
-    id: `Member ${member.id}`,
+    id: member.profileId,
     path: `/members/${member.profileId}/`,
-    clanId: `Clan ${member.clanId}`,
+    clanId: member.groupId,
     name: member.name,
     parent: null,
     children: [],

@@ -11,16 +11,18 @@ class IndexPage extends Component {
     return (
       <PageContainer>
         <Lockup kicker="Beta site" heading="All pages" />
-        {data.allSitePage.edges.reduce((pages, { node }) => {
-          if (!node.path.includes('404')) {
-            pages.push(
-              <p>
-                <Link to={node.path} key={node.id}>{node.path}</Link>
-              </p>
-            )
-          }
-          return pages
-        }, [])}
+        <ul>
+          {data.allSitePage.edges.reduce((pages, { node }) => {
+            if (!node.path.includes('404')) {
+              pages.push(
+                <li>
+                  <Link to={node.path} key={node.id}>{node.path}</Link>
+                </li>
+              )
+            }
+            return pages
+          }, [])}
+        </ul>
       </PageContainer>
     )
   }

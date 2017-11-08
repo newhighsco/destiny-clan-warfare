@@ -17,8 +17,8 @@ class ClansPage extends Component {
         <Lockup kicker="Beta site" heading="All clans" />
         <ul>
           {data.allClan.edges.map(({ node }) => (
-            <li>
-              <Link to={`/clans/${node.groupId}/`} key={node.groupId}>{node.name}</Link>
+            <li key={node.groupId}>
+              <Link to={`/clans/${node.groupId}/`}>{node.name}</Link>
             </li>
           ))}
         </ul>

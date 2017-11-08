@@ -15,8 +15,8 @@ class IndexPage extends Component {
           {data.allSitePage.edges.reduce((pages, { node }) => {
             if (!node.path.includes('404')) {
               pages.push(
-                <li>
-                  <Link to={node.path} key={node.id}>{node.path}</Link>
+                <li key={node.id}>
+                  <Link to={node.path}>{node.path}</Link>
                 </li>
               )
             }

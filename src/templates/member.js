@@ -17,7 +17,9 @@ class MemberTemplate extends Component {
         <Card>
           <Lockup href={data.clan.path} kicker={data.clan.name} />
           <br />
-          <Lockup heading={data.member.name} />
+          <Lockup heading={data.member.name}>
+            <p>Stats, medals, etc. to go here</p>
+          </Lockup>
         </Card>
       </PageContainer>
     )

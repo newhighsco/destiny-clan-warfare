@@ -6,7 +6,7 @@ const Header = () => (
   <header className="header" role="banner">
     <div className="header__container content-center content-gutter">
       <LogoIcon size="medium" className="header__logo-icon" />
-      <Link className="header__logo" to="/">
+      <Link className="header__logo-link" to="/">
         <LogoLockup size="small" className="header__logo-lockup" />
       </Link>
     </div>

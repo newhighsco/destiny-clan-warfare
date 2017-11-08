@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Link from 'gatsby-link'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
+// import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 
 class ClanTemplate extends Component {
@@ -15,10 +17,23 @@ class ClanTemplate extends Component {
           <title>{data.clan.name}</title>
         </Helmet>
         <Card>
+          {/* data.clan.icon &&
+            <Avatar src={data.clan.icon} style={{ backgroundColor: data.clan.color }} />
+          */}
           <Lockup kicker={data.clan.motto} heading={data.clan.name}>
-            <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
+            {data.clan.description &&
+              <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
+            }
           </Lockup>
         </Card>
+        <Lockup kicker="Members" />
+        <ul>
+          {data.allMember.edges.map(({ node }) => (
+            <li key={node.id}>
+              <Link to={node.path}>{node.name}</Link>
+            </li>
+          ))}
+        </ul>
       </PageContainer>
     )
   }
@@ -40,6 +55,15 @@ export const pageQuery = graphql`
       description
       color
       icon
+    }
+    allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ name ] }) {
+      edges {
+        node {
+          id
+          path
+          name
+        }
+      }
     }
   }
 `

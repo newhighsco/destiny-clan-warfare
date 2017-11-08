@@ -5,8 +5,28 @@
     "name": "Avalanche UK",
     "tag": "AVA",
     "motto": "Hardcore Casuals / Laidback Diehards",
-    "description": "Avalanche UK is a team of parents and adult gamers who've found mutual friendship through Destiny on Xbox One, our goal is to play the games we love with people who share our ethics. While fun is our main goal we also try to help new members rank up and progress as much as we can. So if you're an adult with or without commitments we could be the clan for you.<br><br>Website: https://avaclanche.uk<br>Discord: https://discord.avaclanche.uk",
+    "description": "Avalanche UK is a team of parents and adult gamers who've found mutual friendship through Destiny on Xbox One, our goal is to play the games we love with people who share our ethics. While fun is our main goal we also try to help new members rank up and progress as much as we can. So if you're an adult with or without commitments we could be the clan for you.\n\nWebsite: https://avaclanche.uk\nDiscord: https://discord.avaclanche.uk",
     "color": "#5be7de",
     "icon": "https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_c0ecd484a44c9aa934f9fb67e1ac1108.png"
+  },
+  {
+    "id": "2",
+    "groupId": "1160899",
+    "name": "Dames of Destiny X1 Iris",
+    "tag": "DAME",
+    "motto": null,
+    "description": null,
+    "color": null,
+    "icon": null
+  },
+  {
+    "id": "3",
+    "groupId": "2596984",
+    "name": "Destiny Raiders",
+    "tag": "DR",
+    "motto": null,
+    "description": null,
+    "color": null,
+    "icon": null
   }
 ]

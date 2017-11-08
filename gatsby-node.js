@@ -23,7 +23,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const clans = require('./src/fixtures/clans.json')
 
   clans.forEach(clan => createNode({
-    id: clan.id,
+    id: `Clan ${clan.id}`,
+    path: `/clans/${clan.groupId}/`,
     groupId: clan.groupId,
     name: clan.name,
     tag: clan.tag,
@@ -36,6 +37,21 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     internal: {
       type: `Clan`,
       contentDigest: createContentDigest(clan)
+    }
+  }))
+
+  const members = require('./src/fixtures/members.json')
+
+  members.forEach(member => createNode({
+    id: `Member ${member.id}`,
+    path: `/members/${member.profileId}/`,
+    clanId: `Clan ${member.clanId}`,
+    name: member.name,
+    parent: null,
+    children: [],
+    internal: {
+      type: `Member`,
+      contentDigest: createContentDigest(member)
     }
   }))
 
@@ -85,7 +101,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             edges {
               node {
                 id
-                groupId
+                path
+              }
+            }
+          }
+          allMember {
+            edges {
+              node {
+                id
+                path
+                clanId
               }
             }
           }
@@ -112,11 +137,23 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
       result.data.allClan.edges.forEach(edge => {
         createPage({
-          path: `/clans/${edge.node.groupId}/`,
+          path: edge.node.path,
           layout: `content`,
           component: path.resolve(`./src/templates/clan.js`),
           context: {
             id: edge.node.id
+          }
+        })
+      })
+
+      result.data.allMember.edges.forEach(edge => {
+        createPage({
+          path: edge.node.path,
+          layout: `content`,
+          component: path.resolve(`./src/templates/member.js`),
+          context: {
+            id: edge.node.id,
+            clanId: edge.node.clanId
           }
         })
       })

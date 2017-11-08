@@ -5,18 +5,18 @@ import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Lockup from '../components/lockup/Lockup'
 
-class ClansPage extends Component {
+class MembersPage extends Component {
   render () {
     const { data } = this.props
 
     return (
       <PageContainer>
         <Helmet>
-          <title>Clans</title>
+          <title>Members</title>
         </Helmet>
-        <Lockup kicker="Beta site" heading="All clans" />
+        <Lockup kicker="Beta site" heading="All members" />
         <ul>
-          {data.allClan.edges.map(({ node }) => (
+          {data.allMember.edges.map(({ node }) => (
             <li key={node.id}>
               <Link to={node.path}>{node.name}</Link>
             </li>
@@ -27,19 +27,19 @@ class ClansPage extends Component {
   }
 }
 
-ClansPage.propTypes = {
+MembersPage.propTypes = {
   data: PropTypes.object
 }
 
-export default ClansPage
+export default MembersPage
 
 export const data = {
   layout: 'content'
 }
 
 export const pageQuery = graphql`
-  query ClansPageQuery {
-    allClan(sort: { fields: [ name ] }) {
+  query MembersPageQuery {
+    allMember(sort: { fields: [ clanId, name ] }) {
       edges {
         node {
           id

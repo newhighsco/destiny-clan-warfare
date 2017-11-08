@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Lockup from '../Lockup/Lockup'
+import Lockup from '../lockup/Lockup'
 import Icon from './logo.svg'
 
 const sizes = [ 'small', 'medium' ]

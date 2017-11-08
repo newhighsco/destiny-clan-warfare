@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import identity from 'netlify-identity-widget'
-import HoldingPage from '../components/HoldingPage/HoldingPage'
-import { Logo } from '../components/Logo/Logo'
-import Button from '../components/Button/Button'
+import HoldingPage from '../components/holding-page/HoldingPage'
+import { Logo } from '../components/logo/Logo'
+import Button from '../components/button/Button'
 
 import '../stylus/index.styl'
 

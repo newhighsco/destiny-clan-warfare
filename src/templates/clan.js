@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import PageContainer from '../components/PageContainer/PageContainer'
-import Card from '../components/Card/Card'
-import Lockup from '../components/Lockup/Lockup'
+import PageContainer from '../components/page-container/PageContainer'
+import Card from '../components/card/Card'
+import Lockup from '../components/lockup/Lockup'
 
 class ClanTemplate extends Component {
   render () {
@@ -14,11 +14,11 @@ class ClanTemplate extends Component {
         <Helmet>
           <title>{data.clan.name}</title>
         </Helmet>
-          <Card>
-            <Lockup kicker={data.clan.motto} heading={data.clan.name}>
-              <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
-            </Lockup>
-          </Card>
+        <Card>
+          <Lockup kicker={data.clan.motto} heading={data.clan.name}>
+            <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
+          </Lockup>
+        </Card>
       </PageContainer>
     )
   }

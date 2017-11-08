@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
-import PageContainer from '../components/PageContainer/PageContainer'
-import Lockup from '../components/Lockup/Lockup'
+import PageContainer from '../components/page-container/PageContainer'
+import Lockup from '../components/lockup/Lockup'
 
 class IndexPage extends Component {
   render () {

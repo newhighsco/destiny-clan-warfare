@@ -1,5 +1,5 @@
 import React from 'react'
-import Credit from '../Credit/Credit'
+import Credit from '../credit/Credit'
 
 const Footer = () => (
   <footer className="footer" role="contentinfo">

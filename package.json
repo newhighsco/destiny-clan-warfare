@@ -11,7 +11,8 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "optimize": "npm-run-all --parallel optimize:*",
-    "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass --pretty --indent=2",
+    "optimize:images": "imagemin src/images/* --out-dir=images",
+    "optimize:static": "imagemin static/* --out-dir=static",
     "qa": "npm-run-all --parallel qa:*",
     "qa:lint": "eslint --cache -f unix .",
     "qa:stylint": "stylint ./src",
@@ -48,8 +49,8 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.0.1",
     "eslint-plugin-standard": "^3.0.1",
+    "imagemin-cli": "^3.0.0",
     "npm-run-all": "^4.1.1",
-    "stylint": "^1.5.9",
-    "svgo": "^1.0.1"
+    "stylint": "^1.5.9"
   }
 }

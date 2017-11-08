@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Lockup from '../lockup/Lockup'
-import Icon from './logo.svg'
+import LogoSvg from './logo.svg'
 
 const sizes = [ 'small', 'medium' ]
 
@@ -26,7 +26,7 @@ const LogoIcon = ({ size, className }) => {
   const baseClassName = 'logo-icon'
 
   return (
-    <Icon className={classNames(baseClassName, size && `${baseClassName}--${size}`, className)} />
+    <LogoSvg className={classNames(baseClassName, size && `${baseClassName}--${size}`, className)} />
   )
 }
 

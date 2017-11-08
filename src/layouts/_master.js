@@ -40,6 +40,8 @@ class MasterLayout extends Component {
       return (
         <div className="site-container">
           <Helmet>
+            <html lang="en" />
+            <title>{data.site.siteMetadata.title}</title>
             <meta name="robots" content="noindex,nofollow" />
           </Helmet>
           <HoldingPage>

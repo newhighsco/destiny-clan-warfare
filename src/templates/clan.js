@@ -48,7 +48,7 @@ export default ClanTemplate
 export const pageQuery = graphql`
   query clanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
-      groupId
+      id
       name
       tag
       motto

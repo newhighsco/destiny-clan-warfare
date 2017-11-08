@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
-import { LogoIcon, LogoLockup } from '../Logo/Logo'
+import { LogoIcon, LogoLockup } from '../logo/Logo'
 
 const Header = () => (
   <header className="header" role="banner">

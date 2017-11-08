@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import MasterLayout from './_master'
-import Header from '../components/Header/Header'
-import Footer from '../components/Footer/Footer'
+import Header from '../components/header/Header'
+import Footer from '../components/footer/Footer'
 
 class ContentLayout extends Component {
   render () {

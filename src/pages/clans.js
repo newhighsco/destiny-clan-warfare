@@ -15,11 +15,13 @@ class ClansPage extends Component {
           <title>Clans</title>
         </Helmet>
         <Lockup kicker="Beta site" heading="All clans" />
-        {data.allClan.edges.map(({ node }) => (
-          <p>
-            <Link to={`/clans/${node.groupId}/`} key={node.groupId}>{node.name}</Link>
-          </p>
-        ))}
+        <ul>
+          {data.allClan.edges.map(({ node }) => (
+            <li>
+              <Link to={`/clans/${node.groupId}/`} key={node.groupId}>{node.name}</Link>
+            </li>
+          ))}
+        </ul>
       </PageContainer>
     )
   }

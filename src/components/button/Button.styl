@@ -17,15 +17,14 @@
 
   // Presentational Styles
   background transparent
-  border 1px solid $color--white
-  border-color rgba($color--white, 0.5)
-  color $color--white
+  border 1px solid currentColor
+  color currentColor
   font-family $font--heading
   font-size rem(18)
   font-weight bold
   line-height inherit
   margin auto
-  padding rem(20) rem(50)
+  padding $spacing--default $spacing--double
   text-align center
   text-decoration none
   text-transform uppercase
@@ -33,7 +32,7 @@
 
   &:hover
   &:focus
-    border-color $color--white
+    border-color currentColor
     transform scale(1.1)
     outline 0
 
@@ -45,7 +44,6 @@
 //
 
 .button[disabled]
-.button.is-disabled
   opacity 0.75
   user-select none
   pointer-events none

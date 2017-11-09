@@ -49,7 +49,7 @@ export const pageQuery = graphql`
       color
       icon
     }
-    allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ name ] }) {
+    allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {
       edges {
         node {
           id

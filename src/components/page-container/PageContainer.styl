@@ -4,4 +4,7 @@
 
 .page-container__inner
   > * + *
-    margin-top $spacing--double
+    margin-top $spacing--default
+
+    +width-min($mq--tablet)
+      margin-top $spacing--double

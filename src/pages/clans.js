@@ -33,7 +33,7 @@ export const data = {
 
 export const pageQuery = graphql`
   query ClansPageQuery {
-    allClan(sort: { fields: [ name ] }) {
+    allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {
           id

@@ -13,9 +13,9 @@ const Button = (props) => {
   if (!href) {
     return (
       <button
-        type={type}
-        {...commonAttributes}
         {...props}
+        {...commonAttributes}
+        type={type}
       >
         {children}
       </button>
@@ -25,11 +25,11 @@ const Button = (props) => {
   if (absoluteUrlRegEx.exec(href)) {
     return (
       <a
+        {...props}
+        {...commonAttributes}
         href={href}
         {...target && { target }}
         {...target === '_blank' && { rel: 'noopener' }}
-        {...commonAttributes}
-        {...props}
       >
         {children}
       </a>
@@ -38,9 +38,9 @@ const Button = (props) => {
 
   return (
     <Link
-      to={href}
-      {...commonAttributes}
       {...props}
+      {...commonAttributes}
+      to={href}
     >
       {children}
     </Link>

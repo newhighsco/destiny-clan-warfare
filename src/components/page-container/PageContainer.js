@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const PageContainer = ({ children }) => (
   <main id="content" className="page-container" role="main">
-    <div className="content-center content-gutter">
+    <div className="page-container__inner content-center content-gutter">
       {children}
     </div>
   </main>

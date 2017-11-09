@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 
 const Avatar = (props) => {
   const { src, className } = props
 
   return (
-    <div className={classNames('avatar', className)} {...props}>
-      <ResponsiveMedia ratio="1:1">
-        <img src={src} alt="" />
-      </ResponsiveMedia>
+    <div {...props} className={classNames('avatar', className)}>
+      <img src={src} alt="" />
     </div>
   )
 }

@@ -10,18 +10,14 @@ class IndexPage extends Component {
 
     return (
       <PageContainer>
-        <Lockup kicker="Beta site" heading="All pages" />
+        <Lockup kicker="Beta site" heading="Pages" />
         <ul>
-          {data.allSitePage.edges.reduce((pages, { node }) => {
-            if (!node.path.includes('404')) {
-              pages.push(
-                <li key={node.id}>
-                  <Link to={node.path}>{node.path}</Link>
-                </li>
-              )
-            }
-            return pages
-          }, [])}
+          <li>
+            <Link to="/clans">Clans</Link>
+          </li>
+          <li>
+            <Link to="/members">Members</Link>
+          </li>
         </ul>
       </PageContainer>
     )

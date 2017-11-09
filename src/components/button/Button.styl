@@ -24,20 +24,25 @@
   font-weight bold
   line-height inherit
   margin auto
-  padding $spacing--default $spacing--double
+  padding $spacing--half $spacing--default
   text-align center
   text-decoration none
   text-transform uppercase
   vertical-align middle
+  width 100%
 
   &:hover
   &:focus
     border-color currentColor
-    transform scale(1.1)
+    transform scale(1.05)
     outline 0
 
   &:active
     transform scale(1.01)
+
+  +width-min($mq--tablet)
+    padding $spacing--default $spacing--double
+    width auto
 
 //
 // DISABLED BUTTON
@@ -53,4 +58,4 @@
 //
 
 .button-group
-  margin-top $spacing--double
+  display block

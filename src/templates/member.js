@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
+import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 
 class MemberTemplate extends Component {
@@ -14,12 +15,12 @@ class MemberTemplate extends Component {
         <Helmet>
           <title>{data.member.name}</title>
         </Helmet>
-        <Card>
-          <Lockup href={data.clan.path} kicker={data.clan.name} />
-          <br />
-          <Lockup heading={data.member.name}>
-            <p>Stats, medals, etc. to go here</p>
-          </Lockup>
+        <Card className="text-center">
+          {data.member.icon &&
+            <Avatar className="card__avatar" src={data.member.icon} />
+          }
+          <Lockup kicker={data.clan.name} kickerHref={data.clan.path} heading={data.member.name} />
+          <p>Stats, medals, etc. to go here</p>
         </Card>
       </PageContainer>
     )
@@ -36,6 +37,7 @@ export const pageQuery = graphql`
   query memberTemplateQuery($id: String!, $clanId: String!) {
     member(id: { eq: $id }) {
       name
+      icon
     }
     clan(id: { eq: $clanId }) {
       path

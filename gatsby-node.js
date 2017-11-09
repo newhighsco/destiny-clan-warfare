@@ -1,13 +1,13 @@
 const path = require(`path`)
 const crypto = require(`crypto`)
-// const axios = require(`axios`)
+const axios = require(`axios`)
 
-// const baseApiUrl = 'https://destinyclanwarfare.azurewebsites.net/api/'
+const baseApiUrl = 'https://destinyclanwarfare.azurewebsites.net/api/'
 
-// const fetch = endpoint => {
-//   const url = `${baseApiUrl}${endpoint}`
-//   return axios.get(url)
-// }
+const fetch = endpoint => {
+  const url = `${baseApiUrl}${endpoint}`
+  return axios.get(url)
+}
 
 const createContentDigest = content => {
   return crypto
@@ -20,10 +20,10 @@ let frontmatterEdges
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
-  const clans = require('./src/fixtures/clans.json')
+  const clans = await fetch(`Clan/GetAllClans`)
 
-  clans.forEach(clan => createNode({
-    id: clan.groupId,
+  clans.data.forEach(clan => createNode({
+    id: `${clan.groupId}`,
     path: `/clans/${clan.groupId}/`,
     name: clan.name,
     tag: clan.tag,
@@ -39,13 +39,14 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
   }))
 
-  const members = require('./src/fixtures/members.json')
+  const members = await fetch(`Clan/GetAllMembers`)
 
-  members.forEach(member => createNode({
-    id: member.profileId,
+  members.data.forEach(member => createNode({
+    id: `${member.profileId}`,
     path: `/members/${member.profileId}/`,
-    clanId: member.groupId,
+    clanId: `${member.groupId}`,
     name: member.name,
+    icon: member.icon,
     parent: null,
     children: [],
     internal: {

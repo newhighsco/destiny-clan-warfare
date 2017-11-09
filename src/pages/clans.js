@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Lockup from '../components/lockup/Lockup'
+import Leaderboard from '../components/leaderboard/Leaderboard'
 
 class ClansPage extends Component {
   render () {
@@ -14,14 +14,8 @@ class ClansPage extends Component {
         <Helmet>
           <title>Clans</title>
         </Helmet>
-        <Lockup kicker="Beta site" heading="All clans" />
-        <ul>
-          {data.allClan.edges.map(({ node }) => (
-            <li key={node.id}>
-              <Link to={node.path}>{node.name}</Link>
-            </li>
-          ))}
-        </ul>
+        <Lockup kicker="Beta site" heading="Clans" />
+        <Leaderboard data={data.allClan.edges} columns={[ 'icon', 'name' ]} />
       </PageContainer>
     )
   }
@@ -45,6 +39,8 @@ export const pageQuery = graphql`
           id
           path
           name
+          color
+          icon
         }
       }
     }

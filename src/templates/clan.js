@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Button from '../components/button/Button'
-// import Avatar from '../components/avatar/Avatar'
+import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
+import Leaderboard from '../components/leaderboard/Leaderboard'
 
 class ClanTemplate extends Component {
   render () {
@@ -17,27 +17,16 @@ class ClanTemplate extends Component {
         <Helmet>
           <title>{data.clan.name}</title>
         </Helmet>
-        <Card>
-          {/* data.clan.icon &&
-            <Avatar src={data.clan.icon} style={{ backgroundColor: data.clan.color }} />
-          */}
-          <Lockup kicker={data.clan.motto} heading={data.clan.name}>
-            {data.clan.description &&
-              <p dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/\n/g, '<br />') }} />
-            }
-          </Lockup>
+        <Card className="card--cutout text-center">
+          {data.clan.icon &&
+            <Avatar className="card__avatar" src={data.clan.icon} style={data.clan.color && { backgroundColor: data.clan.color }} />
+          }
+          <Lockup kicker={data.clan.motto} heading={data.clan.name} />
           <div className="button-group">
             <Button href={`https://www.bungie.net/en/ClanV2?groupid=${data.clan.id}`}>Bungie.net</Button>
           </div>
         </Card>
-        <Lockup kicker="Leaderboard of sortable member stats to go here" />
-        <ul>
-          {data.allMember.edges.map(({ node }) => (
-            <li key={node.id}>
-              <Link to={node.path}>{node.name}</Link>
-            </li>
-          ))}
-        </ul>
+        <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name', 'id' ]} />
       </PageContainer>
     )
   }
@@ -66,6 +55,7 @@ export const pageQuery = graphql`
           id
           path
           name
+          icon
         }
       }
     }

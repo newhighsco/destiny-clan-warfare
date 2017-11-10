@@ -21,7 +21,7 @@ class ClanTemplate extends Component {
             <Avatar className="card__avatar" src={data.clan.icon} style={data.clan.color && { backgroundColor: data.clan.color }} />
           }
           <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
-
+          <p>Stats, medals, etc. to go here</p>
         </Card>
         <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name', 'points' ]} />
       </PageContainer>

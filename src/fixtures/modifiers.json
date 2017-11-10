@@ -1,0 +1,20 @@
+{
+  "data":
+  [
+    {
+      "id": 1,
+      "name": "Double Kills (Name TBC)",
+      "description": "Get Double Kills for bonus points"
+    },
+    {
+      "id": 2,
+      "name": "5x Kill Spree (Name TBC)",
+      "description": "Get bonus points for each 5x killing spree"
+    },
+    {
+      "id": 3,
+      "name": "Precision Kills Bonus",
+      "description": "Get bonus points for each precision kill"
+    }
+  ]
+}

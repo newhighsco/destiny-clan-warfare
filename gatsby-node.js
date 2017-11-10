@@ -22,23 +22,25 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
   const clans = await fetch(`Clan/GetAllClans`)
 
-  clans.data.forEach(clan => createNode({
-    id: `${clan.groupId}`,
-    path: `/clans/${clan.groupId}/`,
-    name: clan.name,
-    nameSortable: clan.name.toUpperCase(),
-    tag: clan.tag,
-    motto: clan.motto,
-    description: clan.description,
-    color: clan.color,
-    icon: clan.icon,
-    parent: null,
-    children: [],
-    internal: {
-      type: `Clan`,
-      contentDigest: createContentDigest(clan)
-    }
-  }))
+  clans.data.forEach(clan => {
+    createNode({
+      id: `${clan.groupId}`,
+      path: `/clans/${clan.groupId}/`,
+      name: clan.name,
+      nameSortable: clan.name.toUpperCase(),
+      tag: clan.tag,
+      motto: clan.motto,
+      description: clan.description,
+      color: clan.color,
+      icon: clan.icon,
+      parent: null,
+      children: [],
+      internal: {
+        type: `Clan`,
+        contentDigest: createContentDigest(clan)
+      }
+    })
+  })
 
   const members = await fetch(`Clan/GetAllMembers`)
 
@@ -61,6 +63,16 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         type: `Member`,
         contentDigest: createContentDigest(member)
       }
+    })
+  })
+
+  const modifiers = require('./src/fixture/modifiers.json')
+
+  modifiers.data.forEach(modifier => {
+    createNode({
+      id: `${modifier.id}`,
+      name: modifier.name,
+      description: modifier.description
     })
   })
 

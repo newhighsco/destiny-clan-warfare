@@ -12,20 +12,21 @@ $grid--gutter = $spacing--default
 
 grid-base()
 
-
 //
 // GRID WIDTHS
 // Only add widths when required, to keep compiled CSS clean
 //
 
-// +width-min($mq--tablet)
-//   grid-widths('tablet', 2)
-
-.auto
-  width auto
++width-min($mq--tablet)
+  grid-widths('tablet', 2)
 
 //
 // GRID MODIFIERS
 //
 
 grid-gutter-modifier('gutterless', 0)
+grid-reverse()
+
+.grid--middled
+  > .grid__item
+    vertical-align middle

@@ -1,0 +1,80 @@
+.leaderboard
+  a:hover
+    text-decoration underline
+
+.leaderboard__container
+  border-collapse collapse
+  width 100%
+
+.leaderboard__body
+  background-color $color--nero
+
+.leaderboard__row
+  background $color--nightrider
+  border-bottom 1px solid $color--nero
+  position relative
+  z-index 1
+
+  &:nth-of-type(even)
+    background $color--eclipse
+
+  &:last-child
+    border-bottom 0
+
+  &:hover
+    background $color--white-smoke
+    box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+    color $color--black
+    transform scale(1)
+    z-index 2
+
+    .leaderboard__avatar
+      transform scale(1.25)
+
+    .leaderboard__tag
+      color $color--eclipse
+
+.leaderboard__heading
+  background $color--black
+  border-right 1px solid $color--nero
+  font-size smaller
+  padding $spacing--half $spacing--default
+  text-align left
+
+  &:last-child
+    border-right 0
+
+.leaderboard__column
+  border-left 1px solid $color--nero
+  line-height 1.2
+  padding $spacing--default
+  text-align left
+
+  &:first-child
+    border-left 0
+
+.leaderboard__avatar
+  background-color $color--nero
+  padding 0
+  width rem(75)
+
+.leaderboard__name
+  max-width 20%
+
+.leaderboard__tag
+  border-left 0
+  color $color--silver
+  width 1%
+
+  .leaderboard__name + &
+    padding-left 0
+
+.leaderboard--cutout
+  +width-min($mq--tablet)
+    margin-top ($spacing--quadruple * -1) !important // @stylint ignore
+    margin-right $spacing--default
+    margin-left $spacing--default
+
+  +width-min($mq--desktop)
+    margin-right $spacing--double
+    margin-left $spacing--double

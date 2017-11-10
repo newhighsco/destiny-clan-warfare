@@ -1,0 +1,26 @@
+.card
+  background $color--white-smoke
+  box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
+  color $color--nero
+  padding $spacing--double $spacing--default
+
+  > * + *
+    margin-top $spacing--default
+
+  &:last-child
+    margin-bottom 0
+
+  +width-min($mq--tablet)
+    padding $spacing--double
+
+.card__avatar
+  border 2px solid $color--white
+  margin ($spacing--treble * -1) auto 0
+  width rem(75)
+
+  +width-min($mq--tablet)
+    width auto
+
+.card--cutout
+  +width-min($mq--tablet)
+    padding-bottom ($spacing--default * 7)

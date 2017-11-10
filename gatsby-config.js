@@ -3,10 +3,20 @@ const responsiveGrid = require('responsive-grid')
 
 module.exports = {
   siteMetadata: {
-    title: `Destiny Clan Warfare - Coming soon`,
+    enableIdentity: true,
+    siteUrl: `https://destinyclanwarfare.com`,
+    title: `Destiny Clan Warfare`,
     description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
   },
   plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `pages`,
+        path: `${__dirname}/src/pages/`
+      }
+    },
+    `gatsby-transformer-javascript-static-exports`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-stylus`,
@@ -17,6 +27,7 @@ module.exports = {
         ]
       }
     },
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -40,6 +51,7 @@ module.exports = {
         ]
       }
     },
+    // Keep this after gatsby-plugin-manifest
     `gatsby-plugin-offline`,
     `@jacobmischka/gatsby-plugin-react-svg`,
     {
@@ -48,6 +60,8 @@ module.exports = {
         trackingId: `UA-109161360-1`,
         anonymize: false
       }
-    }
+    },
+    // Keep this at the end
+    `gatsby-plugin-netlify`
   ]
 }

@@ -16,38 +16,46 @@
   overflow visible // removes padding in IE
 
   // Presentational Styles
-  font-size 1em
-  text-align center
   background transparent
-  border 1px solid $color--white
-  border-color rgba($color--white, 0.5)
-  color $color--white
-  position relative
-  text-decoration none
-  margin rem(20) auto 0
-  padding rem(20) rem(50)
+  border 1px solid currentColor
+  color currentColor
   font-family $font--heading
   font-size rem(18)
   font-weight bold
+  line-height inherit
+  margin auto
+  padding $spacing--half $spacing--default
+  text-align center
+  text-decoration none
   text-transform uppercase
-  transform scale(1)
+  vertical-align middle
+  width 100%
 
   &:hover
   &:focus
-    border-color $color--white
-    text-decoration none
-    transform scale(1.1)
+    border-color currentColor
+    transform scale(1.05)
     outline 0
 
   &:active
     transform scale(1.01)
+
+  +width-min($mq--tablet)
+    padding $spacing--default $spacing--double
+    width auto
 
 //
 // DISABLED BUTTON
 //
 
 .button[disabled]
-.button.is-disabled
   opacity 0.75
   user-select none
   pointer-events none
+
+//
+// BUTTON GROUP
+//
+
+.button-group
+  display block

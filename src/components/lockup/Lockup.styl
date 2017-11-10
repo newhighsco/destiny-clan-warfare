@@ -1,0 +1,70 @@
+.lockup
+  display inline-block
+  font-family $font--heading
+  font-size rem(30)
+  font-weight bold
+  line-height 1
+  max-width 100%
+  text-align left
+
+  +width-min($mq--tablet)
+    font-size rem(40)
+
+  +width-min($mq--desktop)
+    font-size rem(50)
+
+  & + &
+    margin-top 0
+
+.lockup__kicker
+  display block
+  font-size 0.4em
+  letter-spacing 0.4em
+  max-width 100%
+  padding 0 $spacing--quarter
+  padding-right 0
+  text-transform uppercase
+  word-wrap break-word
+
+  &:after
+    border-bottom 5px solid $color--primary
+    content ''
+    display block
+    margin 0.25em auto 0.5em ($spacing--quarter * -1)
+    opacity 0.75
+
+    .text-center &
+      margin-left auto
+
+  &[href]:hover
+    transform scale(1.05)
+
+  &[href]:active
+  &[href]:focus
+    transform scale(1)
+
+.lockup__heading
+  display inline-block
+  font-weight bolder
+  margin auto
+  max-width 100%
+  position relative
+  text-transform uppercase
+  word-wrap break-word
+
+  &:after
+    border 1px solid currentColor
+    content ''
+    opacity 0.5
+    position absolute
+    top 0.2em
+    right ($spacing--quarter * -1)
+    bottom 0.275em
+    left ($spacing--quarter * -1)
+
+  &[href]:hover
+    transform scale(1.1)
+
+  &[href]:active
+  &[href]:focus
+    transform scale(1)

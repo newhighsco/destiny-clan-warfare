@@ -1,0 +1,10 @@
+.page-container
+  flex 1 0 auto
+  padding $spacing--default 0
+
+.page-container__inner
+  > * + *
+    margin-top $spacing--default
+
+    +width-min($mq--tablet)
+      margin-top $spacing--double

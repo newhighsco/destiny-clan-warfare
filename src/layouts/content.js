@@ -1,27 +1,31 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import MasterLayout from './_master'
+import Header from '../components/header/Header'
+import Footer from '../components/footer/Footer'
 
-class IndexLayout extends Component {
+class ContentLayout extends Component {
   render () {
     const { children } = this.props
 
     return (
       <MasterLayout {...this.props}>
+        <Header />
         {children()}
+        <Footer />
       </MasterLayout>
     )
   }
 }
 
-IndexLayout.propTypes = {
+ContentLayout.propTypes = {
   children: PropTypes.func
 }
 
-export default IndexLayout
+export default ContentLayout
 
 export const pageQuery = graphql`
-  query IndexLayoutQuery {
+  query ContentLayoutQuery {
     site {
       siteMetadata {
         enableIdentity

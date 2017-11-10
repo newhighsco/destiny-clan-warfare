@@ -1,5 +1,41 @@
 .footer
+  border-top 1px solid $color--eclipse
+  margin-top $spacing--double
   padding $spacing--default 0
 
   +width-min($mq--tablet)
+    margin-top $spacing--treble
     padding $spacing--double 0
+
+.footer__list
+  color $color--silver
+  padding $spacing--default 0
+  text-transform uppercase
+
+  +width-min($mq--tablet)
+    text-align right
+
+.footer__item
+  margin-right $spacing--default
+
+  +width-min($mq--tablet)
+    margin-right 0
+
+    & + &
+      margin-left $spacing--default
+
+.footer__link
+  display block
+  font-size smaller
+  letter-spacing 0.4em
+
+  &:after
+    content ''
+    display block
+    border-bottom 1px solid transparent
+    margin-right 0.4em
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+      border-color $color--terracotta

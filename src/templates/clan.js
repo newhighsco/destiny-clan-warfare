@@ -17,9 +17,7 @@ class ClanTemplate extends Component {
           <title>{data.clan.name}</title>
         </Helmet>
         <Card className="card--cutout text-center">
-          {data.clan.icon &&
-            <Avatar className="card__avatar" src={data.clan.icon} style={data.clan.color && { backgroundColor: data.clan.color }} />
-          }
+          <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
           <p>Stats, medals, etc. to go here</p>
         </Card>
@@ -44,7 +42,14 @@ export const pageQuery = graphql`
       motto
       description
       color
-      icon
+      foreground {
+        color
+        icon
+      }
+      background {
+        color
+        icon
+      }
     }
     allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {
       edges {

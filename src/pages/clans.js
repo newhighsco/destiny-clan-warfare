@@ -40,7 +40,14 @@ export const pageQuery = graphql`
           path
           name
           color
-          icon
+          foreground {
+            color
+            icon
+          }
+          background {
+            color
+            icon
+          }
         }
       }
     }

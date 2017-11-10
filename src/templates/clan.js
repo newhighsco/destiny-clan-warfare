@@ -21,12 +21,10 @@ class ClanTemplate extends Component {
           {data.clan.icon &&
             <Avatar className="card__avatar" src={data.clan.icon} style={data.clan.color && { backgroundColor: data.clan.color }} />
           }
-          <Lockup kicker={data.clan.motto} heading={data.clan.name} />
-          <div className="button-group">
-            <Button href={`https://www.bungie.net/en/ClanV2?groupid=${data.clan.id}`}>Bungie.net</Button>
-          </div>
+          <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
+
         </Card>
-        <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name', 'id' ]} />
+        <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name', 'points' ]} />
       </PageContainer>
     )
   }
@@ -52,10 +50,10 @@ export const pageQuery = graphql`
     allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {
       edges {
         node {
-          id
           path
           name
           icon
+          points
         }
       }
     }

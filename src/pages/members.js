@@ -15,7 +15,7 @@ class MembersPage extends Component {
           <title>Members</title>
         </Helmet>
         <Lockup kicker="Beta site" heading="Members" />
-        <Leaderboard data={data.allMember.edges} columns={[ 'icon', 'name' ]} />
+        <Leaderboard data={data.allMember.edges} columns={[ 'icon', 'name', 'clan' ]} />
       </PageContainer>
     )
   }
@@ -33,13 +33,17 @@ export const data = {
 
 export const pageQuery = graphql`
   query MembersPageQuery {
-    allMember(sort: { fields: [ clanId, nameSortable ] }) {
+    allMember(sort: { fields: [ clanSortable, nameSortable ] }) {
       edges {
         node {
           id
           path
           name
           icon
+          clanId
+          clan {
+            tag
+          }
         }
       }
     }

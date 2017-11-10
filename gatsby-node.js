@@ -42,20 +42,27 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   const members = await fetch(`Clan/GetAllMembers`)
 
-  members.data.forEach(member => createNode({
-    id: `${member.profileId}`,
-    path: `/members/${member.profileId}/`,
-    clanId: `${member.groupId}`,
-    name: member.name,
-    nameSortable: member.name.toUpperCase(),
-    icon: member.icon,
-    parent: null,
-    children: [],
-    internal: {
-      type: `Member`,
-      contentDigest: createContentDigest(member)
-    }
-  }))
+  members.data.forEach(member => {
+    const clan = clans.data.find(clan => clan.groupId === member.groupId)
+
+    createNode({
+      id: `${member.profileId}`,
+      path: `/members/${member.profileId}/`,
+      clanId: `${member.groupId}`,
+      clan: clan,
+      clanSortable: clan.tag.toUpperCase(),
+      name: member.name,
+      nameSortable: member.name.toUpperCase(),
+      icon: member.icon,
+      points: '-',
+      parent: null,
+      children: [],
+      internal: {
+        type: `Member`,
+        contentDigest: createContentDigest(member)
+      }
+    })
+  })
 
   // const result = await fetch('Tournament/GetCurrentTournament')
   // const tournaments = [ result.data ]

@@ -11,8 +11,9 @@ const Leaderboard = ({ data, columns, className }) => {
 
   let keys = columns || Object.keys(data[0].node)
   const showIcons = keys.indexOf('icon') !== -1
+  const showClanTag = keys.indexOf('clan') !== -1
   const showNames = keys.indexOf('name') !== -1
-  const blackListedKeys = [ 'icon', 'name' ]
+  const blackListedKeys = [ 'icon', 'name', 'clan' ]
 
   keys = keys.reduce((filtered, key) => {
     if (blackListedKeys.indexOf(key) === -1) {
@@ -32,7 +33,7 @@ const Leaderboard = ({ data, columns, className }) => {
             }
 
             {showNames && keys.length > 0 &&
-              <th className="leaderboard__heading">Name</th>
+              <th className="leaderboard__heading" colSpan={showClanTag && 2}>Name</th>
             }
 
             {keys.map((key, i) => (
@@ -51,11 +52,19 @@ const Leaderboard = ({ data, columns, className }) => {
                 </td>
               }
 
-              {showNames &&
+              {showNames && [
                 <td className="leaderboard__column leaderboard__name">
-                  <Link to={node.path}>{node.name}</Link>
-                </td>
-              }
+                  <Link to={node.path}>
+                    {node.name}
+                  </Link>
+                </td>,
+                showClanTag && node.clan &&
+                  <td className="leaderboard__column leaderboard__tag text-right" aria-hidden="true">
+                    <Link to={`/clans/${node.clanId}`}>
+                      [{node.clan.tag}]
+                    </Link>
+                  </td>
+              ]}
 
               {keys.map((key, i) => (
                 <td key={i} className="leaderboard__column text-center">{node[key]}</td>

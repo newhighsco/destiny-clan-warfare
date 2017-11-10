@@ -19,7 +19,7 @@ class MemberTemplate extends Component {
           {data.member.icon &&
             <Avatar className="card__avatar" src={data.member.icon} />
           }
-          <Lockup kicker={data.clan.name} kickerHref={data.clan.path} heading={data.member.name} />
+          <Lockup className="text-center" kicker={data.clan.name} kickerHref={data.clan.path} heading={data.member.name} />
           <p>Stats, medals, etc. to go here</p>
         </Card>
       </PageContainer>

@@ -6,14 +6,12 @@
 //
 
 .responsive-media
-  position relative
   height 0
-  overflow hidden
+  // overflow hidden
   padding-bottom 100% // Default to square
+  // position relative
   text-align left // Video in centered text can mis-align
-
-  // Optional visual indication of where the asset should load
-  background-color rgba($color--black, 0.1)
+  z-index 0
 
   // Ensure images fill placeholder
   & > img

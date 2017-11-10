@@ -23,7 +23,6 @@
   max-width 100%
   padding 0 $spacing--quarter
   padding-right 0
-  text-align left
   text-transform uppercase
   word-wrap break-word
 
@@ -31,8 +30,11 @@
     border-bottom 5px solid $color--primary
     content ''
     display block
-    margin 0.25em 0 0.5em ($spacing--quarter * -1)
+    margin 0.25em auto 0.5em ($spacing--quarter * -1)
     opacity 0.75
+
+    .text-center &
+      margin-left auto
 
   &[href]:hover
     transform scale(1.05)
@@ -66,18 +68,3 @@
   &[href]:active
   &[href]:focus
     transform scale(1)
-
-// .lockup__content
-//   display block
-//   font-family $font--body
-//   font-size rem(16)
-//   font-weight normal
-//   line-height 1.5
-//   margin $spacing--half 0 0 $spacing--quarter
-
-//   &:before
-//     border-top 2px solid currentColor
-//     content ''
-//     display block
-//     margin-bottom $spacing--default
-//     opacity 0.5

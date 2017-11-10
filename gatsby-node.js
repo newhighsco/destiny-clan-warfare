@@ -70,9 +70,16 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   modifiers.data.forEach(modifier => {
     createNode({
-      id: `${modifier.id}`,
+      id: `Modifier ${modifier.id}`,
+      path: `/modifiers/${modifier.id}/`,
       name: modifier.name,
-      description: modifier.description
+      description: modifier.description,
+      parent: null,
+      children: [],
+      internal: {
+        type: `Modifier`,
+        contentDigest: createContentDigest(modifier)
+      }
     })
   })
 

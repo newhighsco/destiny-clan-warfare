@@ -1,32 +1,35 @@
-[
-  {
-    "profileId": "4199570",
-    "groupId": "1486166",
-    "name": "benedfit",
-    "icon": "https://www.bungie.net/img/profile/avatars/cc18.jpg"
-  },
-  {
-    "profileId": "311349",
-    "groupId": "1486166",
-    "name": "mbeard",
-    "icon": "https://www.bungie.net/img/profile/avatars/Destiny26.jpg"
-  },
-  {
-    "profileId": "13954880",
-    "groupId": "1486166",
-    "name": "brad1LEY",
-    "icon": "https://www.bungie.net/img/profile/avatars/bungieday_04.jpg"
-  },
-  {
-    "profileId": "15251515",
-    "groupId": "1160899",
-    "name": "HumorousSnow931",
-    "icon": "https://www.bungie.net/img/profile/avatars/default_avatar.gif"
-  },
-  {
-    "profileId": "16087411",
-    "groupId": "2596984",
-    "name": "TommyyToYou",
-    "icon": "https://www.bungie.net/img/profile/avatars/default_avatar.gif"
-  }
-]
+{
+  "data":
+  [
+    {
+      "profileId": 4199570,
+      "groupId": 1486166,
+      "name": "benedfit",
+      "icon": "https://www.bungie.net/img/profile/avatars/cc18.jpg"
+    },
+    {
+      "profileId": 311349,
+      "groupId": 1486166,
+      "name": "mbeard",
+      "icon": "https://www.bungie.net/img/profile/avatars/Destiny26.jpg"
+    },
+    {
+      "profileId": 13954880,
+      "groupId": 1486166,
+      "name": "brad1LEY",
+      "icon": "https://www.bungie.net/img/profile/avatars/bungieday_04.jpg"
+    },
+    {
+      "profileId": 15251515,
+      "groupId": 1160899,
+      "name": "HumorousSnow931",
+      "icon": "https://www.bungie.net/img/profile/avatars/default_avatar.gif"
+    },
+    {
+      "profileId": 16087411,
+      "groupId": 2596984,
+      "name": "TommyyToYou",
+      "icon": "https://www.bungie.net/img/profile/avatars/default_avatar.gif"
+    }
+  ]
+}

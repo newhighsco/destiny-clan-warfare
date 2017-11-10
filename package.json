@@ -11,6 +11,7 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "optimize": "npm-run-all --parallel optimize:*",
+    "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass --pretty --indent=2",
     "optimize:images": "imagemin src/images/* --out-dir=images",
     "optimize:static": "imagemin static/* --out-dir=static",
     "qa": "npm-run-all --parallel qa:*",
@@ -38,6 +39,7 @@
     "responsive-grid": "^1.1.0",
     "sentence-case": "^2.1.1",
     "stylus-mixins": "^0.4.0",
+    "svgo": "^1.0.3",
     "yarn": "^1.3.2"
   },
   "devDependencies": {

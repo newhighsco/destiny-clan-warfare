@@ -66,7 +66,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   })
 
-  const modifiers = require('./src/fixture/modifiers.json')
+  const modifiers = require('./src/fixtures/modifiers.json')
 
   modifiers.data.forEach(modifier => {
     createNode({

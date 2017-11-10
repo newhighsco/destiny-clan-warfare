@@ -7,8 +7,11 @@
       "tag": "AVA",
       "motto": "Hardcore Casuals / Laidback Diehards",
       "description": "Avalanche UK is a team of parents and adult gamers who've found mutual friendship through Destiny on Xbox One, our goal is to play the games we love with people who share our ethics. While fun is our main goal we also try to help new members rank up and progress as much as we can. So if you're an adult with or without commitments we could be the clan for you.\n\nWebsite: https://avaclanche.uk\nDiscord: https://discord.avaclanche.uk",
-      "color": "#5be7de",
-      "icon": "https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_c0ecd484a44c9aa934f9fb67e1ac1108.png"
+      "color": "#7ac2e4",
+      "forgroundColor": "#ff4646",
+      "foregroundIcon": "https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_611491d8b2faa442a61b89ac80e51ca6.png",
+      "backgroundColor": "#e8c834",
+      "backgroundIcon": "https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_07e063b57a6a45016c21a17b52ba1a2a.png"
     },
     {
       "groupId": 1160899,

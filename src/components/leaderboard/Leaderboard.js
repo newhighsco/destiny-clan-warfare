@@ -43,23 +43,21 @@ const Leaderboard = ({ data, columns, className }) => {
         </thead>
         <tbody className="leaderboard__body">
           {data.map(({ node }) => (
-            <tr key={node.id} className="leaderboard__row">
+            <tr key={node.path} className="leaderboard__row">
               {showIcons &&
                 <td className="leaderboard__column leaderboard__avatar is-hidden-mobile">
-                  {node.icon &&
-                    <Avatar src={node.icon} style={node.color && { backgroundColor: node.color }} />
-                  }
+                  <Avatar color={node.color} icon={node.icon} foreground={node.foreground} background={node.background} />
                 </td>
               }
 
               {showNames && [
-                <td className="leaderboard__column leaderboard__name">
+                <td key="name" className="leaderboard__column leaderboard__name">
                   <Link to={node.path}>
                     {node.name}
                   </Link>
                 </td>,
                 showClanTag && node.clan &&
-                  <td className="leaderboard__column leaderboard__tag text-right" aria-hidden="true">
+                  <td key="tag" className="leaderboard__column leaderboard__tag text-right" aria-hidden="true">
                     <Link to={`/clans/${node.clanId}`}>
                       [{node.clan.tag}]
                     </Link>

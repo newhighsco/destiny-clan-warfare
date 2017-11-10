@@ -31,8 +31,15 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       tag: clan.tag,
       motto: clan.motto,
       description: clan.description,
-      color: clan.color,
-      icon: clan.icon,
+      color: clan.backgroundcolor,
+      foreground: {
+        color: clan.emblemcolor1,
+        icon: clan.foregroundicon
+      },
+      background: {
+        color: clan.emblemcolor2,
+        icon: clan.backgroundicon
+      },
       parent: null,
       children: [],
       internal: {

@@ -17,6 +17,8 @@ grid-base()
 // Only add widths when required, to keep compiled CSS clean
 //
 
+grid-widths('', 2)
+
 +width-min($mq--tablet)
   grid-widths('tablet', 2)
 
@@ -30,3 +32,7 @@ grid-reverse()
 .grid--middled
   > .grid__item
     vertical-align middle
+
+.grid--bottomed
+  > .grid__item
+    vertical-align bottom

@@ -16,7 +16,7 @@ const IndexPage = () => (
     <div className="content-center content-gutter">
       <Logo medium />
       <div className="panel">
-        <h2 className="panel__title text-center">Thanks! We'll be in touch as soon as we're ready to launch</h2>
+        <h2 className="panel__title text-center">Thanks! We'll be in touch as soon as we're ready to launch.</h2>
       </div>
       <div className="content-center content-center--narrow">
         <div className="grid">

@@ -1,11 +1,15 @@
 .footer
   border-top 1px solid $color--eclipse
   margin-top $spacing--double
-  padding $spacing--default 0
+  padding $spacing--quadruple 0 $spacing--default
+  position relative
 
   +width-min($mq--tablet)
     margin-top $spacing--treble
-    padding $spacing--double 0
+    padding-top $spacing--treble
+
+  +width-min($mq--tablet--landscape)
+    padding-top $spacing--default
 
 .footer__list
   color $color--silver
@@ -39,3 +43,12 @@
   &[href]:hover
     &:after
       border-color $color--terracotta
+
+.footer__logo.logo-icon
+  fill $color--silver
+  margin auto
+  // opacity 0.25
+  position absolute
+  left 0
+  right 0
+  top ($spacing--double * -1)

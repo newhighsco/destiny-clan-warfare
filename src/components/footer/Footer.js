@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import { LogoIcon } from '../logo/Logo'
 import Credit from '../credit/Credit'
 
 const Footer = () => {
@@ -7,6 +8,7 @@ const Footer = () => {
 
   return (
     <footer className="footer" role="contentinfo">
+      <LogoIcon size="small" className="footer__logo" />
       <div className="content-center content-gutter">
         <div className="grid grid--reverse grid--middled">
           <div className="grid__item tablet-one-half">

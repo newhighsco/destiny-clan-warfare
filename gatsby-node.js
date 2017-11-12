@@ -2,12 +2,9 @@ const path = require(`path`)
 const crypto = require(`crypto`)
 const axios = require(`axios`)
 
-const baseApiUrl = 'https://destinyclanwarfare.azurewebsites.net/api/'
-
-const fetch = endpoint => {
-  const url = `${baseApiUrl}${endpoint}`
-  return axios.get(url)
-}
+const api = axios.create({
+  baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/'
+})
 
 const createContentDigest = content => {
   return crypto
@@ -20,7 +17,7 @@ let frontmatterEdges
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
-  const clans = await fetch(`Clan/GetAllClans`)
+  const clans = await api(`Clan/GetAllClans`)
 
   clans.data.forEach(clan => {
     createNode({
@@ -49,7 +46,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   })
 
-  const members = await fetch(`Clan/GetAllMembers`)
+  const members = await api(`Clan/GetAllMembers`)
 
   members.data.forEach(member => {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)

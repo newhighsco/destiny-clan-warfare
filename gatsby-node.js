@@ -60,7 +60,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
-      points: '-',
       parent: null,
       children: [],
       internal: {

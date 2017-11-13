@@ -8,6 +8,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 class ClansPage extends Component {
   render () {
     const { data } = this.props
+    const leaderboard = data.allClan.edges.map(edge => edge.node)
 
     return (
       <PageContainer>
@@ -15,7 +16,7 @@ class ClansPage extends Component {
           <title>Clans</title>
         </Helmet>
         <Lockup kicker="Beta site" heading="Clans" />
-        <Leaderboard data={data.allClan.edges} columns={[ 'icon', 'name' ]} />
+        <Leaderboard data={leaderboard} columns={[ 'icon', 'name' ]} />
       </PageContainer>
     )
   }

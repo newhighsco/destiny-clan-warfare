@@ -32,7 +32,7 @@ MemberTemplate.propTypes = {
 export default MemberTemplate
 
 export const pageQuery = graphql`
-  query memberTemplateQuery($id: String!, $clanId: String!) {
+  query MemberTemplateQuery($id: String!, $clanId: String!) {
     member(id: { eq: $id }) {
       name
       icon

@@ -10,6 +10,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
+    const leaderboard = data.clan.leaderboard
 
     return (
       <PageContainer>
@@ -21,7 +22,7 @@ class ClanTemplate extends Component {
           <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
           <p>Stats, medals, etc. to go here</p>
         </Card>
-        <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name' ]} />
+        <Leaderboard className="leaderboard--cutout" data={leaderboard} sortBy="TotalScore" descending />
       </PageContainer>
     )
   }
@@ -34,7 +35,7 @@ ClanTemplate.propTypes = {
 export default ClanTemplate
 
 export const pageQuery = graphql`
-  query clanTemplateQuery($id: String!) {
+  query ClanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
       id
       name
@@ -49,6 +50,15 @@ export const pageQuery = graphql`
       background {
         color
         icon
+      }
+      leaderboard  {
+        Name
+        GamesPlayed
+        GamesWon
+        Kills
+        Assists
+        Deaths
+        TotalScore
       }
     }
     allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {

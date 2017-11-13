@@ -1,0 +1,32 @@
+{
+  "data":
+  [
+    {
+      "id": 1,
+      "name": "Event 1",
+      "type": "Quickplay",
+      "description": "Event 1",
+      "startDate": "2017-11-06T16:12:20.22",
+      "endDate": "2018-01-06T16:12:20.22",
+      "modifiers": [ 1, 2 ]
+    },
+    {
+      "id": 2,
+      "name": "Event 2",
+      "type": "Competitive",
+      "description": "Event 2",
+      "startDate": "2017-11-05T16:12:20.22",
+      "endDate": "2017-11-06T16:12:20.22",
+      "modifiers": [ 2, 3 ]
+    },
+    {
+      "id": 3,
+      "name": "Event 3",
+      "type": "Strikes",
+      "description": "Event 3",
+      "startDate": "2017-11-04T16:12:20.22",
+      "endDate": "2017-11-05T16:12:20.22",
+      "modifiers": [ 3, 1 ]
+    }
+  ]
+}

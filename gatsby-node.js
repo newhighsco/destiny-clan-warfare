@@ -19,7 +19,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
   const clans = await api(`Clan/GetAllClans`)
 
-  clans.data.forEach(clan => {
+  await Promise.all(clans.data.map(async (clan) => {
+    const leaderboard = await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
+
     createNode({
       id: `${clan.groupId}`,
       path: `/clans/${clan.groupId}/`,
@@ -37,6 +39,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
+      leaderboard: leaderboard.data,
       parent: null,
       children: [],
       internal: {
@@ -44,11 +47,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(clan)
       }
     })
-  })
+  }))
 
   const members = await api(`Clan/GetAllMembers`)
 
-  members.data.forEach(member => {
+  await Promise.all(members.data.map(async (member) => {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)
 
     createNode({
@@ -60,6 +63,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
+      history: [],
       parent: null,
       children: [],
       internal: {
@@ -67,11 +71,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(member)
       }
     })
-  })
+  }))
 
-  const modifiers = require('./src/fixtures/modifiers.json')
+  const modifiers = await require('./src/fixtures/modifiers.json')
 
-  modifiers.data.forEach(modifier => {
+  await Promise.all(modifiers.data.map(async (modifier) => {
     createNode({
       id: `Modifier ${modifier.id}`,
       path: `/modifiers/${modifier.id}/`,
@@ -84,24 +88,28 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(modifier)
       }
     })
-  })
+  }))
 
-  // const result = await fetch('Tournament/GetCurrentTournament')
-  // const tournaments = [ result.data ]
+  const events = await require('./src/fixtures/events.json')
 
-  // tournaments.forEach(tournament => createNode({
-  //   id: `tournament/${tournament.id}`,
-  //   name: tournament.Name,
-  //   startDate: tournament.StartDate,
-  //   endDate: tournament.EndDate,
-  //   modifiers: tournament.TournamentModifiers,
-  //   parent: null,
-  //   children: [],
-  //   internal: {
-  //     type: `Tournament`,
-  //     contentDigest: createContentDigest(tournament)
-  //   }
-  // }))
+  await Promise.all(events.data.map(async (event) => {
+    createNode({
+      id: `Event ${event.id}`,
+      path: `/events/${event.id}/`,
+      name: event.name,
+      type: event.type,
+      description: event.description,
+      startDate: event.startDate,
+      endDate: event.endDate,
+      modifiers: [],
+      parent: null,
+      children: [],
+      internal: {
+        type: `Event`,
+        contentDigest: createContentDigest(event)
+      }
+    })
+  }))
 }
 
 exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
@@ -145,6 +153,14 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               }
             }
           }
+          allEvent {
+            edges {
+              node {
+                id
+                path
+              }
+            }
+          }
           allJsFrontmatter {
             edges {
               node {
@@ -166,7 +182,9 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         reject(result.errors)
       }
 
-      result.data.allClan.edges.forEach(edge => {
+      frontmatterEdges = result.data.allJsFrontmatter.edges
+
+      Promise.all(result.data.allClan.edges.map(async (edge) => {
         createPage({
           path: edge.node.path,
           layout: `content`,
@@ -175,9 +193,9 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             id: edge.node.id
           }
         })
-      })
+      }))
 
-      result.data.allMember.edges.forEach(edge => {
+      Promise.all(result.data.allMember.edges.map(async (edge) => {
         createPage({
           path: edge.node.path,
           layout: `content`,
@@ -187,9 +205,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             clanId: edge.node.clanId
           }
         })
-      })
+      }))
 
-      frontmatterEdges = result.data.allJsFrontmatter.edges
+      Promise.all(result.data.allEvent.edges.map(async (edge) => {
+        createPage({
+          path: edge.node.path,
+          layout: `content`,
+          component: path.resolve(`./src/templates/event.js`),
+          context: {
+            id: edge.node.id
+          }
+        })
+      }))
     })
 
     resolve()

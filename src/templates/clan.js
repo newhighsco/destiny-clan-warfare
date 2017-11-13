@@ -21,7 +21,7 @@ class ClanTemplate extends Component {
           <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
           <p>Stats, medals, etc. to go here</p>
         </Card>
-        <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name', 'points' ]} />
+        <Leaderboard className="leaderboard--cutout" data={data.allMember.edges} columns={[ 'icon', 'name' ]} />
       </PageContainer>
     )
   }
@@ -57,7 +57,6 @@ export const pageQuery = graphql`
           path
           name
           icon
-          points
         }
       }
     }

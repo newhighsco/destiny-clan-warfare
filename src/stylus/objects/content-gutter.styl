@@ -5,5 +5,9 @@
 //
 
 .content-gutter
-  padding-left $spacing--default
-  padding-right $spacing--default
+  padding-left $spacing--half
+  padding-right $spacing--half
+
+  +width-min($mq--tablet)
+    padding-left $spacing--default
+    padding-right $spacing--default

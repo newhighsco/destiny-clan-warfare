@@ -22,7 +22,7 @@ class ClanTemplate extends Component {
           <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
           <p>Stats, medals, etc. to go here</p>
         </Card>
-        <Leaderboard className="leaderboard--cutout" data={leaderboard} sortBy="TotalScore" descending />
+        <Leaderboard className="leaderboard--cutout" data={leaderboard} sortBy="score" descending />
       </PageContainer>
     )
   }
@@ -52,13 +52,15 @@ export const pageQuery = graphql`
         icon
       }
       leaderboard  {
-        Name
-        GamesPlayed
-        GamesWon
-        Kills
-        Assists
-        Deaths
-        TotalScore
+        path
+        name
+        icon
+        played
+        wins
+        kills
+        assists
+        deaths
+        score
       }
     }
     allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {

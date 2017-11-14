@@ -1,83 +1,167 @@
 .leaderboard
-  a:hover
-    text-decoration underline
+  position relative
 
-.leaderboard__container
-  border-collapse collapse
-  width 100%
+.leaderboard--cutout
+  margin-top ($spacing--default * -1) !important // @stylint ignore
+  margin-left $spacing--half
+  margin-right $spacing--half
 
-.leaderboard__body
-  background-color $color--nero
+  +width-min($mq--tablet)
+    margin-top ($spacing--double * -1) !important // @stylint ignore
+    margin-left $spacing--default
+    margin-right $spacing--default
+
+  +width-min($mq--desktop)
+    margin-left $spacing--double
+    margin-right $spacing--double
 
 .leaderboard__row
-  background $color--nightrider
-  border-bottom 1px solid $color--nero
+  display block
+  line-height 1.2
+  margin-bottom 1
   position relative
   z-index 1
 
   &:nth-of-type(even)
-    background $color--eclipse
+    .leaderboard__header
+    .leaderboard__body
+      background $color--eclipse
 
-  &:last-child
-    border-bottom 0
+    +width-min($mq--tablet--landscape)
+      background $color--eclipse
 
   &:hover
-    background $color--white-smoke
-    box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
-    color $color--black
-    transform scale(1)
     z-index 2
 
-    .leaderboard__avatar
+    .leaderboard__header
+      background $color--white-smoke
+      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      color $color--black
+      z-index 2
+
+    .leaderboard__icon
       transform scale(1.25)
 
-    .leaderboard__tag
-      color $color--eclipse
+    +width-min($mq--tablet--landscape)
+      background $color--white-smoke
+      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      color $color--black
 
-.leaderboard__heading
-  background $color--black
-  border-right 1px solid $color--nero
-  font-size smaller
-  padding $spacing--half $spacing--default
-  text-align left
+  +width-min($mq--tablet--landscape)
+    background $color--nightrider
 
-  &[data-sortby]
-    cursor pointer
+.leaderboard__header
+  background $color--nightrider
+  border-bottom 1px solid $color--nero
+  position relative
+  position sticky
+  top 0
+  z-index 1
 
-  &:last-child
-    border-right 0
+  +width-min($mq--tablet--landscape)
+    background none !important // @stylint ignore
+    box-shadow none !important // @stylint ignore
+    border-bottom 0
+    display inline-block
+    position static
+    vertical-align middle
+    white-space nowrap
+    width 35%
 
-.leaderboard__column
-  border-left 1px solid $color--nero
-  line-height 1.2
-  padding $spacing--default
-  text-align left
+    &:last-child
+      width 100%
 
-  &:first-child
-    border-left 0
+.leaderboard__body
+  background $color--nightrider
+  margin-left rem(48)
 
-.leaderboard__avatar
-  background-color $color--nero
-  padding 0
-  width rem(75)
-
-.leaderboard__name
-  max-width 20%
-
-.leaderboard__tag
-  border-left 0
-  color $color--silver
-  width 1%
-
-  .leaderboard__name + &
-    padding-left 0
-
-.leaderboard--cutout
   +width-min($mq--tablet)
-    margin-top ($spacing--quadruple * -1) !important // @stylint ignore
-    margin-right $spacing--default
-    margin-left $spacing--default
+    margin-left rem(60)
+
+  +width-min($mq--tablet--landscape)
+    background none !important // @stylint ignore
+    display inline-block
+    margin-left 0
+    vertical-align middle
+    width 65%
+
+.leaderboard__icon
+  display inline-block
+  vertical-align middle
+  width rem(48)
+
+  +width-min($mq--tablet)
+    width rem(60)
 
   +width-min($mq--desktop)
-    margin-right $spacing--double
-    margin-left $spacing--double
+    width rem(75)
+
+.leaderboard__name
+  display inline-block
+  vertical-align middle
+  padding $spacing--half $spacing--default
+
+  &:after
+    content ''
+    display block
+    border-bottom 1px solid transparent
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+      border-color $color--terracotta
+
+.leaderboard__tag
+  color $color--silver
+  float right
+  line-height rem(48)
+  padding 0 $spacing--default
+
+  &:before
+    content '['
+
+  &:after
+    content ']'
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+    &:before
+      color $color--terracotta
+
+  +width-min($mq--tablet)
+    line-height rem(60)
+
+  +width-min($mq--desktop)
+    line-height rem(75)
+
+.leaderboard__stats
+  display flex
+  flex-wrap wrap
+  padding $spacing--half
+
+  +width-min($mq--tablet--landscape)
+    padding 0
+
+.leaderboard__stat
+  display inline-block
+  flex 1 1 0
+  max-width 33.333%
+  padding 0 $spacing--half $spacing--half
+  position relative
+  text-align left
+
+  &:before
+    content attr(data-label)
+    color $color--silver
+    display block
+    font-size x-small
+    text-transform uppercase
+
+  +width-min($mq--tablet--landscape)
+    padding 0 $spacing--default 0 0
+    text-align right
+
+    &:before
+      position relative
+      margin-top -1em

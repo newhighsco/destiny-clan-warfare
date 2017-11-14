@@ -18,6 +18,9 @@ let frontmatterEdges
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
   const clans = await api(`Clan/GetAllClans`)
+  const members = await api(`Clan/GetAllMembers`)
+  const modifiers = await require('./src/fixtures/modifiers.json')
+  const events = await require('./src/fixtures/events.json')
 
   for (let clan of clans.data) {
     const leaderboard = await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
@@ -49,8 +52,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  const members = await api(`Clan/GetAllMembers`)
-
   for (let member of members.data) {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)
 
@@ -73,8 +74,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  const modifiers = await require('./src/fixtures/modifiers.json')
-
   for (let modifier of modifiers.data) {
     createNode({
       id: `Modifier ${modifier.id}`,
@@ -89,8 +88,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       }
     })
   }
-
-  const events = await require('./src/fixtures/events.json')
 
   for (let event of events.data) {
     createNode({

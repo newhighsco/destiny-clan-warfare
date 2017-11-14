@@ -4,7 +4,7 @@ import AvalancheUkSvg from '../../images/avalanche-uk.svg'
 
 const Credit = () => (
   <div className="credit">
-    <a className="credit__link" href="https://avaclanche.uk" target="_blank" rel="noopener">
+    <a className="credit__link" href="https://avaclanche.uk" target="_blank" rel="noopener noreferrer">
       <Icon className="credit__icon">
         <AvalancheUkSvg />
       </Icon>

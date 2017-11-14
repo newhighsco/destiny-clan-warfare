@@ -29,7 +29,7 @@ const Button = (props) => {
         {...commonAttributes}
         href={href}
         {...target && { target }}
-        {...target === '_blank' && { rel: 'noopener' }}
+        {...target === '_blank' && { rel: 'noopener noreferrer' }}
       >
         {children}
       </a>

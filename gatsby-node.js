@@ -55,8 +55,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)
 
     createNode({
-      id: `${member.profileId}`,
-      path: `/members/${member.profileId}/`,
+      id: member.profileIdStr,
+      path: `/members/${member.profileIdStr}/`,
       clanId: `${member.groupId}`,
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),

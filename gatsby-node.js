@@ -19,7 +19,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
   const clans = await api(`Clan/GetAllClans`)
 
-  await Promise.all(clans.data.map(async (clan) => {
+  for (let clan of clans.data) {
     const leaderboard = await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
 
     createNode({
@@ -47,11 +47,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(clan)
       }
     })
-  }))
+  }
 
   const members = await api(`Clan/GetAllMembers`)
 
-  await Promise.all(members.data.map(async (member) => {
+  for (let member of members.data) {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)
 
     createNode({
@@ -71,11 +71,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(member)
       }
     })
-  }))
+  }
 
   const modifiers = await require('./src/fixtures/modifiers.json')
 
-  await Promise.all(modifiers.data.map(async (modifier) => {
+  for (let modifier of modifiers.data) {
     createNode({
       id: `Modifier ${modifier.id}`,
       path: `/modifiers/${modifier.id}/`,
@@ -88,11 +88,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(modifier)
       }
     })
-  }))
+  }
 
   const events = await require('./src/fixtures/events.json')
 
-  await Promise.all(events.data.map(async (event) => {
+  for (let event of events.data) {
     createNode({
       id: `Event ${event.id}`,
       path: `/events/${event.id}/`,
@@ -109,7 +109,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(event)
       }
     })
-  }))
+  }
 }
 
 exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {

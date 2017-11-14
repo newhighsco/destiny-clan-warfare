@@ -14,7 +14,6 @@
     padding $spacing--double
 
 .card__avatar
-  border 2px solid $color--white
   margin ($spacing--treble * -1) auto 0
   width rem(75)
 
@@ -22,5 +21,7 @@
     width auto
 
 .card--cutout
+  padding-bottom $spacing--treble
+
   +width-min($mq--tablet)
-    padding-bottom ($spacing--default * 7)
+    padding-bottom $spacing--quadruple

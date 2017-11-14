@@ -34,10 +34,10 @@ class Leaderboard extends Component {
     if (!data) return (null)
 
     let keys = columns || Object.keys(data[0])
-    const showIcons = keys.indexOf('icon') !== -1
+    const showIcons = keys.indexOf('icon') !== -1 && navigator.onLine
     const showClanTag = keys.indexOf('clan') !== -1
     const showNames = keys.indexOf('name') !== -1
-    const blackListedKeys = [ 'icon', 'name', 'clan' ]
+    const blackListedKeys = [ 'icon', 'name', 'clan', 'path' ]
 
     keys = keys.reduce((filtered, key) => {
       if (blackListedKeys.indexOf(key) === -1) {
@@ -58,52 +58,34 @@ class Leaderboard extends Component {
 
     return (
       <div className={classNames('leaderboard', className)}>
-        <table className="leaderboard__container">
-          <thead>
-            <tr>
-              {showIcons && keys.length > 0 &&
-                <th className="is-hidden-mobile" />
+        {data.map((item, i) => (
+          <div key={i} className="leaderboard__row">
+            <div className="leaderboard__header">
+              {showIcons &&
+                <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
               }
-
-              {showNames && keys.length > 0 &&
-                <th className="leaderboard__heading" colSpan={showClanTag && 2} data-sortby="name" data-descending={sortBy === 'name' ? descending : null} onClick={this.handleSort}>Name</th>
+              {showNames &&
+                <Link to={item.path} className="leaderboard__name">
+                  {item.name}
+                </Link>
               }
-
-              {keys.map((key, i) => (
-                <th key={i} className="leaderboard__heading text-center" data-sortby={key} data-descending={sortBy === key ? descending : null} onClick={this.handleSort}>{sentenceCase(key)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="leaderboard__body">
-            {data.map((item, i) => (
-              <tr key={i} className="leaderboard__row">
-                {showIcons &&
-                  <td className="leaderboard__column leaderboard__avatar is-hidden-mobile">
-                    <Avatar color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
-                  </td>
-                }
-
-                {showNames && [
-                  <td key="name" className="leaderboard__column leaderboard__name">
-                    <Link to={item.path}>
-                      {item.name}
-                    </Link>
-                  </td>,
-                  showClanTag && item.clan &&
-                    <td key="tag" className="leaderboard__column leaderboard__tag text-right" aria-hidden="true">
-                      <Link to={`/clans/${item.clanId}`}>
-                        [{item.clan.tag}]
-                      </Link>
-                    </td>
-                ]}
-
-                {keys.map((key, i) => (
-                  <td key={i} className="leaderboard__column text-center">{item[key]}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              {showClanTag && item.clan &&
+                <Link to={`/clans/${item.clanId}`} className="leaderboard__tag">
+                  {item.clan.tag}
+                </Link>
+              }
+            </div>
+            {keys.length > 0 &&
+              <div className="leaderboard__body">
+                <div className="leaderboard__stats">
+                  {keys.map((key, i) => (
+                    <div key={i} className="leaderboard__stat" data-label={sentenceCase(key)}>{item[key]}</div>
+                  ))}
+                </div>
+              </div>
+            }
+          </div>
+        ))}
       </div>
     )
   }

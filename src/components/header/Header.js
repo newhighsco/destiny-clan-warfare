@@ -18,21 +18,21 @@ const Header = () => (
         <div className="grid__item one-half">
           <ul className="header__list list--inline">
             <li className="header__item">
-              <a className="header__link" href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener">
+              <a className="header__link" href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener noreferrer">
                 <Icon className="header__icon" a11yText="Follow us on Twitter">
                   <TwitterSvg />
                 </Icon>
               </a>
             </li>
             <li className="header__item">
-              <a className="header__link" href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener">
+              <a className="header__link" href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">
                 <Icon className="header__icon" a11yText="Join our Discord server">
                   <DiscordSvg />
                 </Icon>
               </a>
             </li>
             <li className="header__item">
-              <a className="header__link" href="https://www.patreon.com/destinyclanwarfare" target="_blank" rel="noopener">
+              <a className="header__link" href="https://www.patreon.com/destinyclanwarfare" target="_blank" rel="noopener noreferrer">
                 <Icon className="header__icon" a11yText="Become a Patron">
                   <PatreonSvg />
                 </Icon>

@@ -42,7 +42,21 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: leaderboard.data,
+      leaderboard: leaderboard.data.map(leader => {
+        const member = members.data.find(member => member.profileIdStr === leader.MemberShipIdStr)
+
+        return {
+          path: `/members/${member.profileIdStr}/`,
+          name: member.name,
+          icon: member.icon,
+          played: leader.GamesPlayed,
+          wins: leader.GamesWon,
+          kills: leader.Kills,
+          assists: leader.Assists,
+          deaths: leader.Deaths,
+          score: leader.TotalScore
+        }
+      }),
       parent: null,
       children: [],
       internal: {

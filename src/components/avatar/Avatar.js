@@ -32,6 +32,8 @@ const AvatarLayer = (layer) => {
 const Avatar = (props) => {
   const { icon, color, foreground, background, className } = props
 
+  if (!navigator.onLine) return null
+
   return (
     <div className={classNames('avatar', className)} style={color && { backgroundColor: color }}>
       {icon &&

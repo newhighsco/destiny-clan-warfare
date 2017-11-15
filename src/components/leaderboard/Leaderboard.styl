@@ -160,6 +160,7 @@
 .leaderboard__stats
   display flex
   flex-wrap wrap
+  align-items center
   padding $spacing--half
 
   +width-min($mq--tablet--landscape)
@@ -173,18 +174,45 @@
   position relative
   text-align left
 
-  &:before
-    content attr(data-label)
-    color $color--silver
-    display block
-    font-size x-small
-    text-transform uppercase
-
   +width-min($mq--tablet--landscape)
     max-height rem(60)
     padding $spacing--default $spacing--default $spacing--default 0
     text-align right
 
-    &:before
+  &[data-prefix]:before
+    content attr(data-prefix)
+    color $color--silver
+    display block
+    font-size x-small
+    text-transform uppercase
+
+    +width-min($mq--tablet--landscape)
       position relative
-      margin-top -1em
+      margin-top rem(-12)
+
+  &[data-suffix]:after
+    content attr(data-suffix)
+    color $color--silver
+    display block
+    font-size smaller
+
+.leaderboard__stat--game
+  flex auto
+  max-width none
+  text-align left
+  width 100%
+
+  +width-min($mq--tablet--landscape)
+    padding $spacing--half $spacing--default
+    width 35%
+
+.leaderboard__external
+  display inline-block
+  fill currentColor
+  margin-left $spacing--quarter
+  vertical-align bottom
+  width rem(20)
+
+  &:hover
+    fill $color--terracotta
+    transform scale(1.25)

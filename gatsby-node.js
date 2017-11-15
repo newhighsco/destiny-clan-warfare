@@ -86,7 +86,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         item = camelcaseKeys(item)
 
         return {
-          win: item.gameWon,
+          game: {
+            path: `http://destinytracker.com/d2/pgcr/${item.pgcrId}`,
+            win: item.gameWon,
+            type: item.gameType,
+            map: item.map,
+            date: new Date(item.datePlayed)
+          },
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,

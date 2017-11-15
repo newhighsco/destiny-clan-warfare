@@ -10,19 +10,18 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.clan.leaderboard
 
     return (
       <PageContainer>
         <Helmet>
           <title>{data.clan.name}</title>
         </Helmet>
-        <Card className="card--cutout text-center">
+        <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
-          <Lockup className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
+          <Lockup reverse className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
           <p>Stats, medals, etc. to go here</p>
         </Card>
-        <Leaderboard className="leaderboard--cutout" data={leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={data.clan.leaderboard} sortBy="score" descending />
       </PageContainer>
     )
   }
@@ -55,7 +54,7 @@ export const pageQuery = graphql`
         path
         name
         icon
-        played
+        games
         wins
         kills
         assists

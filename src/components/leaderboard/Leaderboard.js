@@ -28,16 +28,18 @@ class Leaderboard extends Component {
   }
 
   render () {
-    const { data, columns, className } = this.props
+    const { data, columns, cutout, className } = this.props
     const { sortBy, descending } = this.state
+    const baseClassName = 'leaderboard'
 
-    if (!data) return (null)
+    if (!data || data.length <= 0) return (null)
 
     let keys = columns || Object.keys(data[0])
     const showIcons = keys.indexOf('icon') !== -1 && navigator.onLine
     const showClanTag = keys.indexOf('clan') !== -1
     const showNames = keys.indexOf('name') !== -1
-    const blackListedKeys = [ 'icon', 'name', 'clan', 'path' ]
+    const showResults = keys.indexOf('win') !== -1
+    const blackListedKeys = [ 'icon', 'name', 'clan', 'path', 'win' ]
 
     keys = keys.reduce((filtered, key) => {
       if (blackListedKeys.indexOf(key) === -1) {
@@ -57,29 +59,31 @@ class Leaderboard extends Component {
     }
 
     return (
-      <div className={classNames('leaderboard', className)}>
+      <div className={classNames(baseClassName, className, cutout && `${baseClassName}--cutout`)}>
         {data.map((item, i) => (
-          <div key={i} className="leaderboard__row">
-            <div className="leaderboard__header">
-              {showIcons &&
-                <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
-              }
-              {showNames &&
-                <Link to={item.path} className="leaderboard__name">
-                  {item.name}
-                </Link>
-              }
-              {showClanTag && item.clan &&
-                <Link to={`/clans/${item.clanId}`} className="leaderboard__tag">
-                  {item.clan.tag}
-                </Link>
-              }
-            </div>
+          <div key={i} className="leaderboard__row" data-result={showResults && (item.win ? 'win' : 'loss')}>
+            {(showIcons || showNames) &&
+              <div className="leaderboard__header">
+                {showIcons &&
+                  <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
+                }
+                {showNames &&
+                  <Link to={item.path} className="leaderboard__name">
+                    {item.name}
+                  </Link>
+                }
+                {showClanTag && item.clan &&
+                  <Link to={`/clans/${item.clanId}`} className="leaderboard__tag">
+                    {item.clan.tag}
+                  </Link>
+                }
+              </div>
+            }
             {keys.length > 0 &&
               <div className="leaderboard__body">
                 <div className="leaderboard__stats">
                   {keys.map((key, i) => (
-                    <div key={i} className="leaderboard__stat" data-label={sentenceCase(key)}>{item[key]}</div>
+                    <div key={i} className="leaderboard__stat" data-label={sentenceCase(key)}>{item[key] || '-'}</div>
                   ))}
                 </div>
               </div>
@@ -92,7 +96,8 @@ class Leaderboard extends Component {
 }
 
 Leaderboard.defaultProps = {
-  descending: false
+  descending: false,
+  cutout: false
 }
 
 Leaderboard.propTypes = {
@@ -100,6 +105,7 @@ Leaderboard.propTypes = {
   columns: PropTypes.array,
   sortBy: PropTypes.string,
   descending: PropTypes.bool,
+  cutout: PropTypes.bool,
   className: PropTypes.string
 }
 

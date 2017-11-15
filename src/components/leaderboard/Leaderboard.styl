@@ -18,9 +18,24 @@
 .leaderboard__row
   display block
   line-height 1.2
-  margin-bottom 1
+  margin-bottom 1px
   position relative
   z-index 1
+
+  &[data-result]
+    &:before
+      content ''
+      position absolute
+      top 0
+      left -2px
+      bottom 0
+      width 2px
+
+  &[data-result=win]:before
+    background $color--success
+
+  &[data-result=loss]:before
+    background $color--error
 
   &:nth-of-type(even)
     .leaderboard__header
@@ -75,6 +90,10 @@
   background $color--nightrider
   margin-left rem(48)
 
+  &:first-child
+    margin-left 0
+    width 100%
+
   +width-min($mq--tablet)
     margin-left rem(60)
 
@@ -110,6 +129,9 @@
   &[href]:hover
     &:after
       border-color $color--terracotta
+
+  +width-min($mq--tablet)
+    padding $spacing--default
 
 .leaderboard__tag
   color $color--silver
@@ -159,7 +181,8 @@
     text-transform uppercase
 
   +width-min($mq--tablet--landscape)
-    padding 0 $spacing--default 0 0
+    max-height rem(60)
+    padding $spacing--default $spacing--default $spacing--default 0
     text-align right
 
     &:before

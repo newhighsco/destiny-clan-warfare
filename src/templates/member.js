@@ -39,7 +39,13 @@ export const pageQuery = graphql`
       name
       icon
       history {
-        win
+        game {
+          path
+          win
+          type
+          map
+          date
+        }
         kills
         assists
         deaths

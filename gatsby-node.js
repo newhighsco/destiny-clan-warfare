@@ -1,6 +1,7 @@
 const path = require(`path`)
 const crypto = require(`crypto`)
 const axios = require(`axios`)
+const camelcaseKeys = require(`camelcase-keys`)
 
 const api = axios.create({
   baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/'
@@ -19,7 +20,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
   const clans = await api(`Clan/GetAllClans`)
   const members = await api(`Clan/GetAllMembers`)
-  const modifiers = await require('./src/fixtures/modifiers.json')
+  const histories = await api(`Leaderboard/GetAllPlayersHistory`)
+  const modifiers = await api(`Modifier/GetAllModifiers`)
   const events = await require('./src/fixtures/events.json')
 
   for (let clan of clans.data) {
@@ -42,19 +44,20 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: leaderboard.data.map(leader => {
-        const member = members.data.find(member => member.profileIdStr === leader.MemberShipIdStr)
+      leaderboard: leaderboard.data.map(item => {
+        item = camelcaseKeys(item)
+        const member = members.data.find(member => member.profileIdStr === item.memberShipIdStr)
 
         return {
           path: `/members/${member.profileIdStr}/`,
           name: member.name,
           icon: member.icon,
-          played: leader.GamesPlayed,
-          wins: leader.GamesWon,
-          kills: leader.Kills,
-          assists: leader.Assists,
-          deaths: leader.Deaths,
-          score: leader.TotalScore
+          games: item.gamesPlayed,
+          wins: item.gamesWon,
+          kills: item.kills,
+          assists: item.assists,
+          deaths: item.deaths,
+          score: item.totalScore
         }
       }),
       parent: null,
@@ -68,6 +71,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   for (let member of members.data) {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)
+    const history = histories.data.filter(history => history.MemberShipIdStr === member.profileIdStr)
 
     createNode({
       id: member.profileIdStr,
@@ -78,7 +82,17 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
-      history: [],
+      history: history.map(item => {
+        item = camelcaseKeys(item)
+
+        return {
+          win: item.gameWon,
+          kills: item.kills,
+          assists: item.assists,
+          deaths: item.deaths,
+          score: item.totalScore
+        }
+      }),
       parent: null,
       children: [],
       internal: {
@@ -89,6 +103,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   }
 
   for (let modifier of modifiers.data) {
+    modifier = camelcaseKeys(modifier)
     createNode({
       id: `Modifier ${modifier.id}`,
       path: `/modifiers/${modifier.id}/`,

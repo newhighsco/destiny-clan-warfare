@@ -26,6 +26,9 @@
   text-transform uppercase
   word-wrap break-word
 
+  .text-center &
+    margin auto
+
   &:after
     border-bottom 5px solid $color--primary
     content ''
@@ -68,3 +71,7 @@
   &[href]:active
   &[href]:focus
     transform scale(1)
+
+.lockup--reverse
+  .lockup__kicker
+    display table

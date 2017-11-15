@@ -23,6 +23,7 @@
     "@jacobmischka/gatsby-plugin-react-svg": "^1.0.0",
     "add": "^2.0.6",
     "axios": "^0.17.0",
+    "camelcase-keys": "^4.1.0",
     "classnames": "^2.2.5",
     "gatsby": "^1.9.73",
     "gatsby-link": "^1.6.22",

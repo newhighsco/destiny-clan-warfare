@@ -5,20 +5,29 @@ import classNames from 'classnames'
 
 const baseClassName = 'lockup'
 
-const Lockup = ({ heading, headingHref, kicker, kickerHref, className, element }) => {
+const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, className, element }) => {
   const commonAttributes = {
-    className: classNames(baseClassName, className)
+    className: classNames(baseClassName, className, reverse && `${baseClassName}--reverse`)
   }
+
+  const Kicker = () => (<LockupElement elementName="kicker" href={kickerHref}>{kicker}</LockupElement>)
+  const Heading = () => (<LockupElement element={element} elementName="heading" href={headingHref}>{heading}</LockupElement>)
 
   return (
     <span {...commonAttributes}>
-      <LockupElement elementName="kicker" href={kickerHref}>{kicker}</LockupElement>
-      <LockupElement element={element} elementName="heading" href={headingHref}>{heading}</LockupElement>
+      {reverse ? ([
+        <Heading key="heading" />,
+        <Kicker key="kicker" />
+      ]) : ([
+        <Kicker key="kicker" />,
+        <Heading key="heading" />
+      ])}
     </span>
   )
 }
 
 Lockup.defaultProps = {
+  reverse: false,
   element: 'h1'
 }
 
@@ -27,6 +36,7 @@ Lockup.propTypes = {
   headingHref: PropTypes.string,
   kicker: PropTypes.string,
   kickerHref: PropTypes.string,
+  reverse: PropTypes.bool,
   className: PropTypes.string,
   element: PropTypes.string
 }

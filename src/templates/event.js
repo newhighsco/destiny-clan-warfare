@@ -15,7 +15,7 @@ class EventTemplate extends Component {
           <title>{data.event.name}</title>
         </Helmet>
         <Card className="text-center">
-          <Lockup className="text-center" kicker={data.event.type} heading={data.event.name} />
+          <Lockup reverse className="text-center" kicker={data.event.type} heading={data.event.name} />
           <p>{JSON.stringify(data.event)}</p>
         </Card>
       </PageContainer>

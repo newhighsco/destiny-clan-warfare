@@ -16,6 +16,9 @@ class MembersPage extends Component {
           <title>Members</title>
         </Helmet>
         <Lockup kicker="Beta site" heading="Members" />
+        <div className="temp">
+          <p>Search for members</p>
+        </div>
         <Leaderboard data={leaderboard} columns={[ 'icon', 'name', 'clan' ]} />
       </PageContainer>
     )

@@ -16,6 +16,9 @@ class ClansPage extends Component {
           <title>Clans</title>
         </Helmet>
         <Lockup kicker="Beta site" heading="Clans" />
+        <div className="temp">
+          <p>Search for clan</p>
+        </div>
         <Leaderboard data={leaderboard} columns={[ 'icon', 'name' ]} />
       </PageContainer>
     )

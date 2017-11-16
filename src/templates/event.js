@@ -17,6 +17,44 @@ class EventTemplate extends Component {
         <Card className="text-center">
           <Lockup reverse className="text-center" kicker={data.event.type} heading={data.event.name} />
           <p>{JSON.stringify(data.event)}</p>
+          {data.event.isPast &&
+            <div className="temp">
+              <p>Past event</p>
+              <p>Name</p>
+              <p>Description</p>
+              <div className="temp">
+                <p>List of modifier icons</p>
+              </div>
+              <div className="temp">
+                <p>Clan winners medals</p>
+              </div>
+              <div className="temp">
+                <p>Leaderboard of all clans for each division</p>
+                <p>Each "clan link" links through the general "Clan page" (there is no player history on that page)</p>
+              </div>
+            </div>
+          }
+          {data.event.isFuture &&
+            <div className="temp">
+              <p>Future event</p>
+              <p>Preview of future event</p>
+            </div>
+          }
+          {data.event.isCurrent &&
+            <div className="temp">
+              <p>Current event</p>
+              <p>Name</p>
+              <p>Description</p>
+              <p>Dates / countdown</p>
+              <div className="temp">
+                <p>List of modifier icons</p>
+              </div>
+              <div className="temp">
+                <p>Leaderboard of all clans for each division</p>
+                <p>Each "clan links" links through to the new "Event clan page" (the one with the player history for this event on it)</p>
+              </div>
+            </div>
+          }
         </Card>
       </PageContainer>
     )
@@ -37,6 +75,9 @@ export const pageQuery = graphql`
       description
       startDate
       endDate
+      isPast
+      isFuture
+      isCurrent
     }
   }
 `

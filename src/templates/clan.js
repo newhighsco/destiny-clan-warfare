@@ -19,7 +19,15 @@ class ClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup reverse className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
-          <p>Stats, medals, etc. to go here</p>
+          <div className="temp">
+            <p>When this page is reach from the current event it will show a new "Top player" block to show who has played most matches etc, and then the event leaderboard below</p>
+            <p>It will also show some basic information about the current event (probably modifiers)</p>
+          </div>
+          <div className="temp">
+            <p>When this page is reach from a previous event it will show all the Medals that the clan has ever earned.</p>
+            <p>It won't show the event leaderboard below</p>
+            <p>It will show a simplified general list of member details (I can create this)</p>
+          </div>
         </Card>
         <Leaderboard cutout data={data.clan.leaderboard} sortBy="score" descending />
       </PageContainer>

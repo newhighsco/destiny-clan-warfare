@@ -19,7 +19,15 @@ class MemberTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" icon={data.member.icon} />
           <Lockup reverse className="text-center" kicker={data.clan.name} kickerHref={data.clan.path} heading={data.member.name} />
-          <p>Stats, medals, etc. to go here</p>
+          <div className="temp">
+            <p>When this page is reach from the current event it will show a summary of the players current event stats and the match history below</p>
+            <p>It will also show some basic information about the current event (probably modifiers)</p>
+          </div>
+          <div className="temp">
+            <p>When this page is reach from a previous event it will show all the Medals that the player has ever earned.</p>
+            <p>It will also show the accumlative totals of the following for each player:</p>
+            <p>Event count, Matches, Wins, Kills, Assists, Deaths, Score</p>
+          </div>
         </Card>
         <Leaderboard cutout data={data.member.history} />
       </PageContainer>

@@ -125,14 +125,21 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   }
 
   for (let event of events.data) {
+    const currentDate = new Date()
+    const startDate = new Date(event.startDate)
+    const endDate = new Date(event.endDate)
+
     createNode({
       id: `Event ${event.id}`,
       path: `/events/${event.id}/`,
       name: event.name,
       type: event.type,
       description: event.description,
-      startDate: event.startDate,
-      endDate: event.endDate,
+      startDate: startDate,
+      endDate: endDate,
+      isPast: endDate < currentDate,
+      isFuture: startDate > currentDate,
+      isCurrent: startDate < currentDate && endDate > currentDate,
       modifiers: [],
       parent: null,
       children: [],

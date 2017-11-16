@@ -14,6 +14,9 @@ const Footer = () => {
           <div className="grid__item tablet-one-half">
             <ul className="footer__list list--inline">
               <li className="footer__item">
+                <Link className="footer__link" to="/events">Events</Link>
+              </li>
+              <li className="footer__item">
                 <Link className="footer__link" to="/clans">Clans</Link>
               </li>
               <li className="footer__item">

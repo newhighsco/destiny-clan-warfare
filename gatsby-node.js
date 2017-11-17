@@ -23,6 +23,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const members = await api(`Clan/GetAllMembers`)
   const histories = await api(`Leaderboard/GetAllPlayersHistory`)
   const modifiers = await api(`Modifier/GetAllModifiers`)
+  // const events = await api(`Event/GetAllEvents`)
   const events = await require('./src/fixtures/events.json')
 
   for (let clan of clans.data) {
@@ -116,6 +117,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   for (let modifier of modifiers.data) {
     modifier = camelcaseKeys(modifier)
+
     createNode({
       id: `Modifier ${modifier.id}`,
       path: `/modifiers/${modifier.id}/`,
@@ -135,6 +137,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   }
 
   for (let event of events.data) {
+    event = camelcaseKeys(event)
+
     const currentDate = new Date()
     const startDate = new Date(event.startDate)
     const endDate = new Date(event.endDate)
@@ -281,12 +285,12 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           ]
 
           currentEventRedirects.forEach(fromPath => {
-          createRedirect({
+            createRedirect({
               fromPath: fromPath,
-            toPath: eventPath,
-            isPermanent: true,
-            redirectInBrowser: true
-          })
+              toPath: eventPath,
+              isPermanent: true,
+              redirectInBrowser: true
+            })
           })
 
           Promise.all(result.data.allClan.edges.map(async (clan) => {

@@ -12,20 +12,26 @@ const urlBuilder = require('../utils/url-builder')
 class MemberTemplate extends Component {
   render () {
     const { data } = this.props
-    const currentEvent = data.allEvent !== null
-    const titleSuffix = currentEvent ? 'Current event' : 'Members'
-    const kickerHref = currentEvent ? urlBuilder.currentEventUrl(data.clan.id) : data.clan.path
-    const leaderboard = currentEvent ? data.member.history : []
+    const hasEvent = data.allEvent !== null
+    const currentEvent = hasEvent ? data.allEvent.edges[0] : null
+    const titleSuffix = hasEvent ? 'Current event' : 'Members'
+    const kickerHref = hasEvent ? urlBuilder.eventUrl(currentEvent.node.path, data.clan.id) : data.clan.path
+    const leaderboard = hasEvent ? data.member.history : []
 
     return (
       <PageContainer>
         <Helmet>
           <title>{`${data.member.name} | ${titleSuffix}`}</title>
         </Helmet>
+        {hasEvent &&
+          <div className="text-center">
+            <Lockup className="text-center" kicker="Current event" kickerHref={currentEvent.node.path} heading={currentEvent.node.name} />
+          </div>
+        }
         <Card cutout className="text-center">
           <Avatar className="card__avatar" icon={data.member.icon} />
           <Lockup reverse className="text-center" kicker={data.clan.name} kickerHref={kickerHref} heading={data.member.name} />
-          {currentEvent ? (
+          {hasEvent ? (
             <div className="temp">
               <p>When this page is reach from the current event it will show a summary of the players current event stats and the match history below</p>
               <p>It will also show some basic information about the current event (probably modifiers)</p>
@@ -37,9 +43,6 @@ class MemberTemplate extends Component {
               <p>Event count, Matches, Wins, Kills, Assists, Deaths, Score</p>
             </div>
           )}
-          {currentEvent &&
-            <Lockup kicker="Current event" />
-          }
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>
@@ -83,6 +86,8 @@ export const pageQuery = graphql`
       edges {
         node {
           id
+          path
+          name
         }
       }
     }

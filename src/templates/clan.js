@@ -7,22 +7,35 @@ import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 
+const urlBuilder = require('../utils/url-builder')
+
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const currentEvent = data.allEvent !== null
-    const titleSuffix = currentEvent ? 'Current event' : 'Clans'
-    const leaderboard = currentEvent ? data.clan.leaderboard : []
+    const hasEvent = data.allEvent !== null
+    const currentEvent = hasEvent ? data.allEvent.edges[0] : null
+    const titleSuffix = hasEvent ? 'Current event' : 'Clans'
+    const leaderboard = hasEvent ? data.clan.leaderboard.map(item => {
+      return {
+        ...item,
+        path: urlBuilder.eventUrl(currentEvent.node.path, data.clan.id, item.id)
+      }
+    }) : []
 
     return (
       <PageContainer>
         <Helmet>
           <title>{`${data.clan.name} | ${titleSuffix}`}</title>
         </Helmet>
+        {hasEvent &&
+          <div className="text-center">
+            <Lockup className="text-center" kicker="Current event" kickerHref={currentEvent.node.path} heading={currentEvent.node.name} />
+          </div>
+        }
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup reverse className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
-          {currentEvent ? (
+          {hasEvent ? (
             <div className="temp">
               <p>When this page is reach from the current event it will show a new "Top player" block to show who has played most matches etc, and then the event leaderboard below</p>
               <p>It will also show some basic information about the current event (probably modifiers)</p>
@@ -34,9 +47,6 @@ class ClanTemplate extends Component {
               <p>It will show a simplified general list of member details (I can create this)</p>
             </div>
           )}
-          {currentEvent &&
-            <Lockup kicker="Current event" />
-          }
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>
@@ -67,8 +77,9 @@ export const pageQuery = graphql`
         color
         icon
       }
-      leaderboard  {
+      leaderboard {
         path
+        id
         name
         icon
         games
@@ -92,6 +103,7 @@ export const pageQuery = graphql`
       edges {
         node {
           name
+          path
         }
       }
     }

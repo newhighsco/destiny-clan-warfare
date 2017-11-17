@@ -47,7 +47,7 @@ class Leaderboard extends Component {
     const showNames = keys.indexOf('name') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
     const showModifiers = keys.indexOf('modifiers') !== -1
-    const blackListedKeys = [ 'icon', 'name', 'clan', 'path', 'game', 'modifiers' ]
+    const blackListedKeys = [ 'id', 'icon', 'name', 'clan', 'path', 'game', 'modifiers' ]
     const relativeDate = (date) => {
       return moment(date).fromNow()
     }

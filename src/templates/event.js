@@ -19,14 +19,20 @@ class EventTemplate extends Component {
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
     const currentLeaderboard = data.allClan.edges.map(({ node }, i) => {
       return {
+        ...node,
+        icon: null,
         path: urlBuilder.eventUrl(data.event.path, node.id),
-        name: node.name,
         rank: `#${i + 1}`,
         currentScore: '0',
         someStats: '0'
       }
     })
-    const pastLeaderboard = data.allClan.edges.map(edge => edge.node)
+    const pastLeaderboard = data.allClan.edges.map(({ node }) => {
+      return {
+        ...node,
+        icon: null
+      }
+    })
     const leaderboard = data.event.isCurrent ? currentLeaderboard : (data.event.isPast ? pastLeaderboard : [])
 
     return (
@@ -100,8 +106,18 @@ export const pageQuery = graphql`
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {
+          id
           path
           name
+          color
+          foreground {
+            color
+            icon
+          }
+          background {
+            color
+            icon
+          }
         }
       }
     }

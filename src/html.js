@@ -28,7 +28,7 @@ class Html extends Component {
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta
             name="viewport"
-            content="initial-scale=1"
+            content="width=device-width, initial-scale=1"
           />
           {this.props.headComponents}
           {css}

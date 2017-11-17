@@ -65,6 +65,7 @@ export const pageQuery = graphql`
           result
           type
           map
+          mapSeparator
           date
         }
         kills

@@ -93,7 +93,7 @@ class Leaderboard extends Component {
               <div className="leaderboard__body">
                 <div className="leaderboard__stats">
                   {showGameDetails &&
-                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map} - ` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
+                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
                       {item.game.isExternal ? (
                         <a href={item.game.path} target="_blank" rel="noopener noreferrer">
                           <span>{item.game.type}</span>

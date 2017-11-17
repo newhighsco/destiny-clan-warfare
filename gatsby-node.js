@@ -275,11 +275,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
 
         if (event.node.isCurrent) {
+          const currentEventRedirects = [
+            urlBuilder.currentEventRootUrl,
+            urlBuilder.currentEventRootUrl.replace(/\/$/, '')
+          ]
+
+          currentEventRedirects.forEach(fromPath => {
           createRedirect({
-            fromPath: urlBuilder.currentEventRootUrl,
+              fromPath: fromPath,
             toPath: eventPath,
             isPermanent: true,
             redirectInBrowser: true
+          })
           })
 
           Promise.all(result.data.allClan.edges.map(async (clan) => {

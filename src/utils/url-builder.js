@@ -1,4 +1,5 @@
 const clanRootUrl = '/clans/'
+const currentEventRootUrl = '/current/'
 const eventRootUrl = '/events/'
 const pgrcRootUrl = 'http://destinytracker.com/d2/pgcr/'
 const profileRootUrl = '/members/'
@@ -10,6 +11,7 @@ module.exports = {
     return `${clanRootUrl}${clanId}/`
   },
 
+  currentEventRootUrl,
   eventRootUrl,
 
   eventUrl: (eventId, clanId, profileId) => {

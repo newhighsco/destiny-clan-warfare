@@ -275,6 +275,13 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
 
         if (event.node.isCurrent) {
+          createRedirect({
+            fromPath: urlBuilder.currentEventRootUrl,
+            toPath: eventPath,
+            isPermanent: true,
+            redirectInBrowser: true
+          })
+
           Promise.all(result.data.allClan.edges.map(async (clan) => {
             createPage({
               path: urlBuilder.eventUrl(event.node.path, clan.node.id),

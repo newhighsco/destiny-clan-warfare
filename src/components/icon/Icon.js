@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import './Icon.styl'
+
 export default function Icon ({ children, a11yText, className, height, width }) {
   const iconClassNames = classNames(
     'icon',

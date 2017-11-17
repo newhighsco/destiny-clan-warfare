@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import './Card.styl'
+
 const Card = ({ cutout, children, className }) => {
   const baseClassName = 'card'
 

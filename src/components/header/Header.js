@@ -6,6 +6,8 @@ import TwitterSvg from '../../images/twitter.svg'
 import DiscordSvg from '../../images/discord.svg'
 import PatreonSvg from '../../images/patreon.svg'
 
+import './Header.styl'
+
 const Header = () => (
   <header className="header" role="banner">
     <div className="header__container content-center content-gutter">

@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import Lockup from '../lockup/Lockup'
 import LogoSvg from './logo.svg'
 
+import './Logo.styl'
+
 const sizes = [ 'small', 'medium' ]
 
 const Logo = ({ size, className }) => {

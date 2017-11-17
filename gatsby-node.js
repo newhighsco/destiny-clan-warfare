@@ -47,7 +47,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       },
       leaderboard: leaderboard.data.map(item => {
         item = camelcaseKeys(item)
-        const member = members.data.find(member => member.profileIdStr === item.memberShipIdStr)
+        const member = members.data
+          .find(member => member.profileIdStr === item.memberShipIdStr)
 
         return {
           path: urlBuilder.currentEventUrl(clan.groupId, member.profileIdStr),
@@ -72,7 +73,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   for (let member of members.data) {
     const clan = clans.data.find(clan => clan.groupId === member.groupId)
-    const history = histories.data.filter(history => history.MemberShipIdStr === member.profileIdStr)
+    const history = histories.data
+      .filter(history => history.MemberShipIdStr === member.profileIdStr)
 
     createNode({
       id: member.profileIdStr,
@@ -129,19 +131,21 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     const currentDate = new Date()
     const startDate = new Date(event.startDate)
     const endDate = new Date(event.endDate)
+    const modifier = modifiers.data
+      .filter(modifier => event.modifiers.includes(modifier.Id))
+      .map(modifier => camelcaseKeys(modifier))
 
     createNode({
       id: `Event ${event.id}`,
       path: urlBuilder.eventUrl(event.id),
       name: event.name,
-      type: event.type,
       description: event.description,
       startDate: startDate,
       endDate: endDate,
       isPast: endDate < currentDate,
       isFuture: startDate > currentDate,
       isCurrent: startDate < currentDate && endDate > currentDate,
-      modifiers: [],
+      modifiers: modifier,
       parent: null,
       children: [],
       internal: {

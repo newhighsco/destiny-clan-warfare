@@ -5,7 +5,6 @@ const responsiveGrid = require('responsive-grid')
 module.exports = {
   siteMetadata: {
     enableIdentity: true,
-    siteUrl: `https://destinyclanwarfare.com`,
     title: `Destiny Clan Warfare`,
     description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
   },
@@ -31,6 +30,12 @@ module.exports = {
           `~responsive-grid/index.styl`,
           path.resolve(__dirname, './src/stylus/_______settings/index.styl')
         ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: `https://destinyclanwarfare.com`
       }
     },
     `gatsby-plugin-sitemap`,

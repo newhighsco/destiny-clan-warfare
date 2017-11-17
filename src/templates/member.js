@@ -37,6 +37,9 @@ class MemberTemplate extends Component {
               <p>Event count, Matches, Wins, Kills, Assists, Deaths, Score</p>
             </div>
           )}
+          {currentEvent &&
+            <Lockup kicker="Current event" />
+          }
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>

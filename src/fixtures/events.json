@@ -3,30 +3,43 @@
   [
     {
       "id": 1,
-      "name": "Event 1 (current)",
-      "type": "Quickplay",
-      "description": "Event 1 in more details",
+      "name": "Quickplay",
+      "description": "Score points by completing matches in the Quickplay playlist",
       "startDate": "2017-11-06T16:12:20.22",
       "endDate": "2018-01-06T16:12:20.22",
       "modifiers": [ 1, 2 ]
     },
     {
       "id": 2,
-      "name": "Event 2 (past)",
-      "type": "Competitive",
-      "description": "Event 2 in more details",
+      "name": "Competitive",
+      "description": "Score points by completing matches in the Competitive playlist",
       "startDate": "2016-11-05T16:12:20.22",
       "endDate": "2016-11-06T16:12:20.22",
       "modifiers": [ 2, 3 ]
     },
     {
       "id": 3,
-      "name": "Event 3 (future)",
-      "type": "Strikes",
-      "description": "Event 3 in more details",
+      "name": "Vanguard Strikes",
+      "description": "Score points by undertaking high-priority missions against the City's enemies",
       "startDate": "2019-11-04T16:12:20.22",
       "endDate": "2019-11-05T16:12:20.22",
       "modifiers": [ 3, 1 ]
+    },
+    {
+      "id": 4,
+      "name": "Competitive",
+      "description": "Score points by completing matches in the Competitive playlist",
+      "startDate": "2015-11-05T16:12:20.22",
+      "endDate": "2015-11-06T16:12:20.22",
+      "modifiers": [ 1, 2, 3 ]
+    },
+    {
+      "id": 5,
+      "name": "Competitive",
+      "description": "Score points by completing matches in the Competitive playlist",
+      "startDate": "2014-11-05T16:12:20.22",
+      "endDate": "2014-11-06T16:12:20.22",
+      "modifiers": [ 3, 2, 1 ]
     }
   ]
 }

@@ -23,14 +23,14 @@ class EventTemplate extends Component {
         icon: null,
         path: urlBuilder.eventUrl(data.event.path, node.id),
         rank: `#${i + 1}`,
-        currentScore: '0',
         someStats: '0'
       }
     })
     const pastLeaderboard = data.allClan.edges.map(({ node }) => {
       return {
         ...node,
-        icon: null
+        icon: null,
+        someStats: '0'
       }
     })
     const leaderboard = data.event.isCurrent ? currentLeaderboard : (data.event.isPast ? pastLeaderboard : [])

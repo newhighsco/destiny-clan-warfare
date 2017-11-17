@@ -15,12 +15,21 @@ class ClanTemplate extends Component {
     const hasEvent = data.allEvent !== null
     const currentEvent = hasEvent ? data.allEvent.edges[0] : null
     const titleSuffix = hasEvent ? 'Current event' : 'Clans'
-    const leaderboard = hasEvent ? data.clan.leaderboard.map(item => {
+    const currentLeaderboard = hasEvent ? data.clan.leaderboard.map(item => {
       return {
         ...item,
         path: urlBuilder.eventUrl(currentEvent.node.path, data.clan.id, item.id)
       }
     }) : []
+    const pastLeaderboard = data.clan.leaderboard.map(item => {
+      return {
+        path: item.path,
+        name: item.name,
+        icon: item.icon,
+        someStats: '0'
+      }
+    })
+    const leaderboard = hasEvent ? currentLeaderboard : pastLeaderboard
 
     return (
       <PageContainer>

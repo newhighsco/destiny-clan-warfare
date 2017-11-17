@@ -1,29 +1,45 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import Link from 'gatsby-link'
 import PageContainer from '../components/page-container/PageContainer'
+import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
+import Modifiers from '../components/modifiers/Modifiers'
+import Leaderboard from '../components/leaderboard/Leaderboard'
 
 class EventsPage extends Component {
   render () {
     const { data } = this.props
+    const currentEvents = data.allEvent.edges.filter(({ node }) => node.isCurrent)
+    const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast)
+    const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture)
+    const pastLeaderboard = pastEvents.map(edge => {
+      return {
+        game: {
+          path: edge.node.path,
+          type: edge.node.name,
+          date: edge.node.endDate
+        },
+        modifiers: edge.node.modifiers
+      }
+    })
 
     return (
       <PageContainer>
         <Helmet>
           <title>Events</title>
         </Helmet>
-        <Lockup kicker="Beta site" heading="Events" />
-
-        <ul>
-          {data.allEvent.edges.map(({ node }) => (
-            <li key={node.id}>
-              <Link to={node.path}>{node.name}</Link>
-            </li>
-          ))}
-        </ul>
-
+        {currentEvents.map(({ node }) => {
+          return (
+            <Card key={node.id} className="text-center">
+              <Lockup className="text-center" kicker="Current event" kickerHref={node.path} heading={node.name} />
+              {node.description &&
+                <p>{node.description}</p>
+              }
+              <Modifiers data={node.modifiers} />
+            </Card>
+          )
+        })}
         <div className="temp">
           <p>Current event</p>
           <p>Name</p>
@@ -38,15 +54,23 @@ class EventsPage extends Component {
             <p>Link to see all</p>
           </div>
         </div>
-
-        <div className="temp">
-          <p>Preview of next event (if applicable)</p>
-        </div>
-
-        <div className="temp">
-          <p>Past events list</p>
-          <p>Name, dates, modifiers, link to view past event in more details</p>
-        </div>
+        {futureEvents.map(({ node }) => {
+          return (
+            <Card key={node.id} className="text-center">
+              <Lockup className="text-center" kicker="Coming soon" kickerHref={node.path} heading={node.name} />
+              {node.description &&
+                <p>{node.description}</p>
+              }
+              <Modifiers data={node.modifiers} />
+            </Card>
+          )
+        })}
+        {pastEvents.length > 0 && [
+          <Card key="card" cutout className="text-center">
+            <Lockup className="text-center" kicker="Past events" />
+          </Card>,
+          <Leaderboard key="leaderboard" cutout data={pastLeaderboard} />
+        ]}
       </PageContainer>
     )
   }
@@ -70,8 +94,11 @@ export const pageQuery = graphql`
           id
           path
           name
-          type
           description
+          modifiers {
+            id
+            name
+          }
           startDate
           endDate
           isPast

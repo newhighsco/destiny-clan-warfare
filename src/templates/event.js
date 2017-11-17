@@ -8,7 +8,11 @@ import Lockup from '../components/lockup/Lockup'
 class EventTemplate extends Component {
   render () {
     const { data } = this.props
-    const title = data.event.isCurrent ? 'Current event' : `${data.event.name} | Events`
+    const currentEventKicker = 'Current event'
+    const pastEventKicker = 'Past event'
+    const futureEventKicker = 'Coming soon'
+    const title = data.event.isCurrent ? currentEventKicker : `${data.event.name} | Events`
+    const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
 
     return (
       <PageContainer>
@@ -16,8 +20,10 @@ class EventTemplate extends Component {
           <title>{title}</title>
         </Helmet>
         <Card className="text-center">
-          <Lockup reverse className="text-center" kicker={data.event.type} heading={data.event.name} />
-          <p>{JSON.stringify(data.event)}</p>
+          <Lockup className="text-center" kicker={kicker} heading={data.event.name} />
+          {data.event.description &&
+            <p>{data.event.description}</p>
+          }
           {data.event.isPast &&
             <div className="temp">
               <p>Past event</p>
@@ -72,7 +78,6 @@ export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
     event(id: { eq: $id }) {
       name
-      type
       description
       startDate
       endDate

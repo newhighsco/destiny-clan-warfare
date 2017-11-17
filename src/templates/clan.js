@@ -34,6 +34,9 @@ class ClanTemplate extends Component {
               <p>It will show a simplified general list of member details (I can create this)</p>
             </div>
           )}
+          {currentEvent &&
+            <Lockup kicker="Current event" />
+          }
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>

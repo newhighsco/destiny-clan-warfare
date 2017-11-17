@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
+import Leaderboard from '../components/leaderboard/Leaderboard'
 
 const urlBuilder = require('../utils/url-builder')
 
@@ -17,6 +17,17 @@ class EventTemplate extends Component {
     const futureEventKicker = 'Coming soon'
     const title = data.event.isCurrent ? currentEventKicker : `${data.event.name} | Events`
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
+    const currentLeaderboard = data.allClan.edges.map(({ node }, i) => {
+      return {
+        path: urlBuilder.eventUrl(data.event.path, node.id),
+        name: node.name,
+        rank: `#${i + 1}`,
+        currentScore: '0',
+        someStats: '0'
+      }
+    })
+    const pastLeaderboard = data.allClan.edges.map(edge => edge.node)
+    const leaderboard = data.event.isCurrent ? currentLeaderboard : (data.event.isPast ? pastLeaderboard : [])
 
     return (
       <PageContainer>
@@ -26,7 +37,7 @@ class EventTemplate extends Component {
         <div className="text-center">
           <Lockup className="text-center" kicker={kicker} heading={data.event.name} />
         </div>
-        <Card className="text-center">
+        <Card cutout className="text-center">
           {data.event.description &&
             <p>{data.event.description}</p>
           }
@@ -38,13 +49,6 @@ class EventTemplate extends Component {
                 <p>Leaderboard of all clans for each division</p>
                 <p>Each "clan links" links through to the new "Current event clan page" (the one with the player history for this event on it)</p>
               </div>
-              <ul>
-                {data.allClan.edges.map(({ node }) => (
-                  <li key={node.id}>
-                    <Link to={urlBuilder.eventUrl(data.event.path, node.id)}>{node.name}</Link>
-                  </li>
-                ))}
-              </ul>
             </div>
           }
           {data.event.isPast &&
@@ -65,6 +69,7 @@ class EventTemplate extends Component {
             </div>
           }
         </Card>
+        <Leaderboard cutout data={leaderboard} />
       </PageContainer>
     )
   }
@@ -95,7 +100,7 @@ export const pageQuery = graphql`
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {
-          id
+          path
           name
         }
       }

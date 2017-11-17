@@ -60,7 +60,7 @@ class IndexPage extends Component {
         {pastEvents.slice(0, 1).map(({ node }) => {
           return (
             <Card key={node.id} className="text-center">
-              <Lockup className="text-center" kicker="Previous event" kickerHref={node.path} heading={node.name} />
+              <Lockup className="text-center" kicker="Last event" kickerHref={node.path} heading={node.name} />
               {node.description &&
                 <p>{node.description}</p>
               }

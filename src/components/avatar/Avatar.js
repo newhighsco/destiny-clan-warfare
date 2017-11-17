@@ -6,15 +6,7 @@ import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 
 import './Avatar.styl'
 
-const hexToRgb = (hex) => {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : { r: 255, g: 255, b: 255 }
-}
+const hexToRgb = require('./lib/hex-to-rgb')
 
 const AvatarLayer = (layer) => {
   const hex = hexToRgb(layer.color)
@@ -37,15 +29,15 @@ const Avatar = (props) => {
 
   return (
     <Online>
-    <div className={classNames('avatar', className)} style={color && { backgroundColor: color }}>
-      {icon &&
-        <ResponsiveMedia className="avatar__layer" ratio="1:1">
-          <img src={icon} alt="" />
-        </ResponsiveMedia>
-      }
-      {background && AvatarLayer(background)}
-      {foreground && AvatarLayer(foreground)}
-    </div>
+      <div className={classNames('avatar', className)} style={color && { backgroundColor: color }}>
+        {icon &&
+          <ResponsiveMedia className="avatar__layer" ratio="1:1">
+            <img src={icon} alt="" />
+          </ResponsiveMedia>
+        }
+        {background && AvatarLayer(background)}
+        {foreground && AvatarLayer(foreground)}
+      </div>
     </Online>
   )
 }

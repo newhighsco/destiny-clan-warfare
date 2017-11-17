@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
+import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 
@@ -15,11 +16,13 @@ class ClansPage extends Component {
         <Helmet>
           <title>Clans</title>
         </Helmet>
-        <Lockup kicker="Beta site" heading="Clans" />
-        <div className="temp">
-          <p>Search for clan</p>
-        </div>
-        <Leaderboard data={leaderboard} columns={[ 'icon', 'name' ]} />
+        <Card cutout className="text-center">
+          <Lockup className="text-center" kicker="All" heading="Clans" />
+          <div className="temp">
+            <p>Search for clan</p>
+          </div>
+        </Card>
+        <Leaderboard cutout data={leaderboard} columns={[ 'icon', 'name' ]} />
       </PageContainer>
     )
   }

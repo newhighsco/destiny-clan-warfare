@@ -8,6 +8,7 @@ import ExternalSvg from '../../images/external.svg'
 
 const moment = require('moment')
 const sentenceCase = require('sentence-case')
+const urlBuilder = require('../../utils/url-builder')
 
 class Leaderboard extends Component {
   constructor (props) {
@@ -78,7 +79,7 @@ class Leaderboard extends Component {
                     {item.name}
                   </Link>,
                   showClanTag &&
-                    <Link key="tag" to={`/clans/${item.clanId}`} className="leaderboard__tag">
+                    <Link key="tag" to={urlBuilder.clanUrl(item.clanId)} className="leaderboard__tag">
                       {item.clan.tag}
                     </Link>
                 ]}

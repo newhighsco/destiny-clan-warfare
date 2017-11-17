@@ -2,6 +2,7 @@ const path = require(`path`)
 const crypto = require(`crypto`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
+const urlBuilder = require('./src/utils/url-builder')
 
 const api = axios.create({
   baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/'
@@ -29,7 +30,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${clan.groupId}`,
-      path: `/clans/${clan.groupId}/`,
+      path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
       nameSortable: clan.name.toUpperCase(),
       tag: clan.tag,
@@ -49,7 +50,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         const member = members.data.find(member => member.profileIdStr === item.memberShipIdStr)
 
         return {
-          path: `/members/${member.profileIdStr}/`,
+          path: urlBuilder.currentEventUrl(clan.groupId, member.profileIdStr),
           name: member.name,
           icon: member.icon,
           games: item.gamesPlayed,
@@ -75,7 +76,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: member.profileIdStr,
-      path: `/members/${member.profileIdStr}/`,
+      path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${member.groupId}`,
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
@@ -87,7 +88,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
         return {
           game: {
-            path: `http://destinytracker.com/d2/pgcr/${item.pgcrId}`,
+            path: urlBuilder.pgcrUrl(item.pgcrId),
             win: item.gameWon,
             type: item.gameType,
             map: item.map,
@@ -131,7 +132,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `Event ${event.id}`,
-      path: `/events/${event.id}/`,
+      path: urlBuilder.eventUrl(event.id),
       name: event.name,
       type: event.type,
       description: event.description,
@@ -169,7 +170,7 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
 }
 
 exports.createPages = ({ graphql, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
+  const { createPage, createRedirect } = boundActionCreators
 
   return new Promise((resolve, reject) => {
     graphql(
@@ -197,6 +198,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               node {
                 id
                 path
+                isCurrent
               }
             }
           }
@@ -223,38 +225,75 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
       frontmatterEdges = result.data.allJsFrontmatter.edges
 
-      Promise.all(result.data.allClan.edges.map(async (edge) => {
+      Promise.all(result.data.allClan.edges.map(async (clan) => {
         createPage({
-          path: edge.node.path,
+          path: clan.node.path,
           layout: `content`,
           component: path.resolve(`./src/templates/clan.js`),
           context: {
-            id: edge.node.id
+            id: clan.node.id,
+            eventId: null
           }
         })
       }))
 
-      Promise.all(result.data.allMember.edges.map(async (edge) => {
+      Promise.all(result.data.allMember.edges.map(async (member) => {
         createPage({
-          path: edge.node.path,
+          path: member.node.path,
           layout: `content`,
           component: path.resolve(`./src/templates/member.js`),
           context: {
-            id: edge.node.id,
-            clanId: edge.node.clanId
+            id: member.node.id,
+            clanId: member.node.clanId,
+            eventId: null
           }
         })
       }))
 
-      Promise.all(result.data.allEvent.edges.map(async (edge) => {
+      Promise.all(result.data.allEvent.edges.map(async (event) => {
+        const eventPath = event.node.path
+        const eventId = event.node.id
+
         createPage({
-          path: edge.node.path,
+          path: eventPath,
           layout: `content`,
           component: path.resolve(`./src/templates/event.js`),
           context: {
-            id: edge.node.id
+            id: eventId
           }
         })
+
+        if (event.node.isCurrent) {
+          createRedirect({
+            fromPath: urlBuilder.currentEventRootUrl,
+            toPath: eventPath
+          })
+
+          Promise.all(result.data.allClan.edges.map(async (clan) => {
+            createPage({
+              path: urlBuilder.currentEventUrl(clan.node.id),
+              layout: `content`,
+              component: path.resolve(`./src/templates/clan.js`),
+              context: {
+                id: clan.node.id,
+                eventId: eventId
+              }
+            })
+          }))
+
+          Promise.all(result.data.allMember.edges.map(async (member) => {
+            createPage({
+              path: urlBuilder.currentEventUrl(member.node.clanId, member.node.id),
+              layout: `content`,
+              component: path.resolve(`./src/templates/member.js`),
+              context: {
+                id: member.node.id,
+                clanId: member.node.clanId,
+                eventId: eventId
+              }
+            })
+          }))
+        }
       }))
     })
 

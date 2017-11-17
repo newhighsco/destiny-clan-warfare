@@ -4,7 +4,7 @@ const responsiveGrid = require('responsive-grid')
 
 module.exports = {
   siteMetadata: {
-    enableIdentity: false,
+    enableIdentity: true,
     siteUrl: `https://destinyclanwarfare.com`,
     title: `Destiny Clan Warfare`,
     description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`

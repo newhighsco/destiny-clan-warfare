@@ -2,7 +2,6 @@ const clanRootUrl = '/clans/'
 const eventRootUrl = '/events/'
 const pgrcRootUrl = 'http://destinytracker.com/d2/pgcr/'
 const profileRootUrl = '/members/'
-const currentEventRootUrl = `${eventRootUrl}current/`
 
 module.exports = {
   clanRootUrl,
@@ -11,19 +10,16 @@ module.exports = {
     return `${clanRootUrl}${clanId}/`
   },
 
-  currentEventRootUrl,
-
-  currentEventUrl: (clanId, profileId) => {
-    const clanUrl = `${clanId}/`
-    const profileUrl = profileId ? `${profileId}/` : ''
-
-    return `${currentEventRootUrl}${clanUrl}${profileUrl}`
-  },
-
   eventRootUrl,
 
-  eventUrl: (eventId) => {
-    return `${eventRootUrl}${eventId}/`
+  eventUrl: (eventId, clanId, profileId) => {
+    const isExistingUrl = `${eventId}`.startsWith(eventRootUrl)
+    const rootUrl = isExistingUrl ? '' : eventRootUrl
+    const eventUrl = `${eventId}${isExistingUrl ? '' : '/'}`
+    const clanUrl = clanId ? `${clanId}/` : ''
+    const profileUrl = (clanId && profileId) ? `${profileId}/` : ''
+
+    return `${rootUrl}${eventUrl}${clanUrl}${profileUrl}`
   },
 
   pgcrUrl: (pgcrId) => {

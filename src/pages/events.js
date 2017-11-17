@@ -4,20 +4,18 @@ import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
-import Modifiers from '../components/modifiers/Modifiers'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 
 class EventsPage extends Component {
   render () {
     const { data } = this.props
-    const currentEvents = data.allEvent.edges.filter(({ node }) => node.isCurrent)
-    const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast)
-    const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture)
-    const pastLeaderboard = pastEvents.map(edge => {
+    const leaderboard = data.allEvent.edges.map(edge => {
       return {
         game: {
           path: edge.node.path,
           type: edge.node.name,
+          map: edge.node.isCurrent ? 'Ends' : (edge.node.isPast ? 'Ended' : 'Starts'),
+          mapSeparator: ' ',
           date: edge.node.endDate
         },
         modifiers: edge.node.modifiers
@@ -29,48 +27,13 @@ class EventsPage extends Component {
         <Helmet>
           <title>Events</title>
         </Helmet>
-        {currentEvents.map(({ node }) => {
-          return (
-            <Card key={node.id} className="text-center">
-              <Lockup className="text-center" kicker="Current event" kickerHref={node.path} heading={node.name} />
-              {node.description &&
-                <p>{node.description}</p>
-              }
-              <Modifiers data={node.modifiers} />
-            </Card>
-          )
-        })}
-        <div className="temp">
-          <p>Current event</p>
-          <p>Name</p>
-          <p>Description</p>
-          <p>Dates / countdown</p>
+        <Card cutout className="text-center">
+          <Lockup className="text-center" kicker="All" heading="Events" />
           <div className="temp">
-            <p>List of modifier icons</p>
+            <p>Search for event</p>
           </div>
-          <div className="temp">
-            <p>Top 3/5 for each division</p>
-            <p>Name, Overall score, Active members (I can work this out), Total members (I can work this out)</p>
-            <p>Link to see all</p>
-          </div>
-        </div>
-        {futureEvents.map(({ node }) => {
-          return (
-            <Card key={node.id} className="text-center">
-              <Lockup className="text-center" kicker="Coming soon" kickerHref={node.path} heading={node.name} />
-              {node.description &&
-                <p>{node.description}</p>
-              }
-              <Modifiers data={node.modifiers} />
-            </Card>
-          )
-        })}
-        {pastEvents.length > 0 && [
-          <Card key="card" cutout className="text-center">
-            <Lockup className="text-center" kicker="Past events" />
-          </Card>,
-          <Leaderboard key="leaderboard" cutout data={pastLeaderboard} />
-        ]}
+        </Card>
+        <Leaderboard cutout data={leaderboard} />
       </PageContainer>
     )
   }

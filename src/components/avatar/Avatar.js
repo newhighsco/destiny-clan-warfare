@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { Online } from 'react-detect-offline'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 
 import './Avatar.styl'
@@ -34,9 +35,8 @@ const AvatarLayer = (layer) => {
 const Avatar = (props) => {
   const { icon, color, foreground, background, className } = props
 
-  if (!navigator.onLine) return null
-
   return (
+    <Online>
     <div className={classNames('avatar', className)} style={color && { backgroundColor: color }}>
       {icon &&
         <ResponsiveMedia className="avatar__layer" ratio="1:1">
@@ -46,6 +46,7 @@ const Avatar = (props) => {
       {background && AvatarLayer(background)}
       {foreground && AvatarLayer(foreground)}
     </div>
+    </Online>
   )
 }
 

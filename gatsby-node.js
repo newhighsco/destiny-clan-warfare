@@ -91,9 +91,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         return {
           game: {
             path: urlBuilder.pgcrUrl(item.pgcrId),
-            win: item.gameWon,
-            type: item.gameType,
-            map: item.map,
+            isExternal: true,
+            result: item.gameWon ? 'win' : 'loss',
+            type: item.gameType || '',
+            map: item.map || '',
             date: new Date(item.datePlayed)
           },
           kills: item.kills,
@@ -118,6 +119,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       path: `/modifiers/${modifier.id}/`,
       name: modifier.name,
       description: modifier.description,
+      scoringModifier: modifier.scoringModifier,
+      multiplierModifier: modifier.multiplierModifier,
+      scoringBonus: modifier.scoringBonus,
+      multiplierBonus: modifier.multiplierBonus,
       parent: null,
       children: [],
       internal: {

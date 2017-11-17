@@ -4,6 +4,7 @@ import Link from 'gatsby-link'
 import classNames from 'classnames'
 import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
+import Modifiers from '../modifiers/Modifiers'
 import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
@@ -45,7 +46,8 @@ class Leaderboard extends Component {
     const showClanTag = keys.indexOf('clan') !== -1
     const showNames = keys.indexOf('name') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
-    const blackListedKeys = [ 'icon', 'name', 'clan', 'path', 'game' ]
+    const showModifiers = keys.indexOf('modifiers') !== -1
+    const blackListedKeys = [ 'icon', 'name', 'clan', 'path', 'game', 'modifiers' ]
     const relativeDate = (date) => {
       return moment(date).fromNow()
     }
@@ -70,14 +72,14 @@ class Leaderboard extends Component {
     return (
       <div className={classNames(baseClassName, className, cutout && `${baseClassName}--cutout`)}>
         {data.map((item, i) => (
-          <div key={i} className="leaderboard__row" data-result={showGameDetails ? (item.game.win ? 'win' : 'loss') : null}>
+          <div key={i} className="leaderboard__row" data-result={showGameDetails && item.game.result}>
             {(showIcons || showNames) &&
               <div className="leaderboard__header">
                 {showIcons &&
                   <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
                 }
                 {showNames && [
-                  <Link key="name" to={item.path} className="leaderboard__name">
+                  <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
                     {item.name}
                   </Link>,
                   showClanTag &&
@@ -87,22 +89,37 @@ class Leaderboard extends Component {
                 ]}
               </div>
             }
-            {keys.length > 0 &&
+            {(keys.length > 0 || showGameDetails) &&
               <div className="leaderboard__body">
                 <div className="leaderboard__stats">
                   {showGameDetails &&
-                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map} - ${relativeDate(item.game.date)}`}>
-                      {item.game.type}
-                      <a href={item.game.path} target="_blank" rel="noopener noreferrer">
-                        <Icon className="leaderboard__external" a11yText="View on Destiny Tracker">
-                          <ExternalSvg />
-                        </Icon>
-                      </a>
+                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map} - ` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
+                      {item.game.isExternal ? (
+                        <a href={item.game.path} target="_blank" rel="noopener noreferrer">
+                          <span>{item.game.type}</span>
+                          <Icon className="leaderboard__external" a11yText="View permalink">
+                            <ExternalSvg />
+                          </Icon>
+                        </a>
+                      ) : (
+                        <Link to={item.game.path} className="leaderboard__link">
+                          {item.game.type}
+                        </Link>
+                      )}
                     </div>
                   }
-                  {keys.map((key, i) => (
-                    <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{item[key] || '-'}</div>
-                  ))}
+                  {showModifiers &&
+                    <div className="leaderboard__stat leaderboard__stat--modifiers">
+                      <Modifiers size="small" data={item.modifiers} />
+                    </div>
+                  }
+                  {keys.map((key, i) => {
+                    const value = item[key] ? `${item[key]}` : '-'
+
+                    return (
+                      <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>
+                    )
+                  })}
                 </div>
               </div>
             }

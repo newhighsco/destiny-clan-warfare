@@ -58,7 +58,8 @@ export const pageQuery = graphql`
       history {
         game {
           path
-          win
+          isExternal
+          result
           type
           map
           date

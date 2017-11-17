@@ -57,6 +57,11 @@
     .leaderboard__icon
       transform scale(1.25)
 
+    .leaderboard__body:first-child
+      background $color--white-smoke
+      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      color $color--black
+
     +width-min($mq--tablet--landscape)
       background $color--white-smoke
       box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
@@ -115,10 +120,8 @@
   +width-min($mq--desktop)
     width rem(75)
 
-.leaderboard__name
+.leaderboard__link
   display inline-block
-  vertical-align middle
-  padding $spacing--half $spacing--default
 
   &:after
     content ''
@@ -129,6 +132,11 @@
   &[href]:hover
     &:after
       border-color $color--terracotta
+
+.leaderboard__name
+  display inline-block
+  vertical-align middle
+  padding $spacing--half $spacing--default
 
   +width-min($mq--tablet)
     padding $spacing--default
@@ -206,12 +214,28 @@
     padding $spacing--half $spacing--default
     width 35%
 
+.leaderboard__stat--modifiers
+  flex auto
+  max-width none
+  padding 0
+  text-align right
+  width 100%
+
+  +width-min($mq--tablet--landscape)
+    max-height none
+    // padding $spacing--double $spacing--default
+    padding $spacing--half
+    width 65%
+
 .leaderboard__external
   display inline-block
   fill currentColor
   margin-left $spacing--quarter
   vertical-align bottom
   width rem(20)
+
+  &:first-child
+    margin-left 0
 
   &:hover
     fill $color--terracotta

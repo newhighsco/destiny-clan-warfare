@@ -2,6 +2,8 @@ import React from 'react'
 import Icon from '../icon/Icon'
 import AvalancheUkSvg from '../../images/avalanche-uk.svg'
 
+import './Credit.styl'
+
 const Credit = () => (
   <div className="credit">
     <a className="credit__link" href="https://avaclanche.uk" target="_blank" rel="noopener noreferrer">

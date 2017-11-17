@@ -3,6 +3,8 @@ import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import './Lockup.styl'
+
 const baseClassName = 'lockup'
 
 const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, className, element }) => {

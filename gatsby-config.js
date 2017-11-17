@@ -1,3 +1,4 @@
+const path = require('path')
 const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 
@@ -24,6 +25,11 @@ module.exports = {
         use: [
           stylusMixins(),
           responsiveGrid()
+        ],
+        import: [
+          `~stylus-mixins/index.styl`,
+          `~responsive-grid/index.styl`,
+          path.resolve(__dirname, './src/stylus/_______settings/index.styl')
         ]
       }
     },

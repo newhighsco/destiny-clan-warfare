@@ -3,6 +3,8 @@ import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import './Button.styl'
+
 const Button = (props) => {
   const { children, className, href, target, type } = props
   const absoluteUrlRegEx = /^\w[\w-.+]+:/ // http://regexr.com/3fhfg

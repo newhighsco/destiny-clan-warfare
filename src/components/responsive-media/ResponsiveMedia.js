@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import './ResponsiveMedia.styl'
+
 // Ratio should be supplied in a `16:9` style format
 const ratioRegex = /^\d+:\d+$/
 

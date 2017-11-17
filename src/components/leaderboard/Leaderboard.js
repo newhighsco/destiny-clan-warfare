@@ -6,6 +6,8 @@ import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
 import ExternalSvg from '../../images/external.svg'
 
+import './Leaderboard.styl'
+
 const moment = require('moment')
 const sentenceCase = require('sentence-case')
 const urlBuilder = require('../../utils/url-builder')

@@ -3,6 +3,8 @@ import Link from 'gatsby-link'
 import { LogoIcon } from '../logo/Logo'
 import Credit from '../credit/Credit'
 
+import './Footer.styl'
+
 const urlBuilder = require('../../utils/url-builder')
 
 const Footer = () => {

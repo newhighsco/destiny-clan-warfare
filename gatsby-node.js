@@ -95,6 +95,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
             result: item.gameWon ? 'win' : 'loss',
             type: item.gameType || '',
             map: item.map || '',
+            mapSeparator: item.map ? ' - ' : '',
             date: new Date(item.datePlayed)
           },
           kills: item.kills,

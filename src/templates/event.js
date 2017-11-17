@@ -8,11 +8,12 @@ import Lockup from '../components/lockup/Lockup'
 class EventTemplate extends Component {
   render () {
     const { data } = this.props
+    const title = data.event.isCurrent ? 'Current event' : `${data.event.name} | Events`
 
     return (
       <PageContainer>
         <Helmet>
-          <title>{data.event.name}</title>
+          <title>{title}</title>
         </Helmet>
         <Card className="text-center">
           <Lockup reverse className="text-center" kicker={data.event.type} heading={data.event.name} />
@@ -51,7 +52,7 @@ class EventTemplate extends Component {
               </div>
               <div className="temp">
                 <p>Leaderboard of all clans for each division</p>
-                <p>Each "clan links" links through to the new "Event clan page" (the one with the player history for this event on it)</p>
+                <p>Each "clan links" links through to the new "Current event clan page" (the one with the player history for this event on it)</p>
               </div>
             </div>
           }

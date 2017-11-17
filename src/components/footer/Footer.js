@@ -3,6 +3,8 @@ import Link from 'gatsby-link'
 import { LogoIcon } from '../logo/Logo'
 import Credit from '../credit/Credit'
 
+const urlBuilder = require('../../utils/url-builder')
+
 const Footer = () => {
   const date = new Date()
 
@@ -14,13 +16,13 @@ const Footer = () => {
           <div className="grid__item tablet-one-half">
             <ul className="footer__list list--inline">
               <li className="footer__item">
-                <Link className="footer__link" to="/events">Events</Link>
+                <Link className="footer__link" to={urlBuilder.eventRootUrl}>Events</Link>
               </li>
               <li className="footer__item">
-                <Link className="footer__link" to="/clans">Clans</Link>
+                <Link className="footer__link" to={urlBuilder.clanRootUrl}>Clans</Link>
               </li>
               <li className="footer__item">
-                <Link className="footer__link" to="/members">Members</Link>
+                <Link className="footer__link" to={urlBuilder.profileRootUrl}>Members</Link>
               </li>
               <li className="footer__item">
                 <span className="footer__link">&copy;{date.getFullYear()}</span>

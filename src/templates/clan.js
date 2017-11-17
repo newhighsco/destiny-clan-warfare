@@ -10,26 +10,32 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
+    const currentEvent = data.allEvent !== null
+    const titleSuffix = currentEvent ? 'Current event' : 'Clans'
+    const leaderboard = currentEvent ? data.clan.leaderboard : []
 
     return (
       <PageContainer>
         <Helmet>
-          <title>{data.clan.name}</title>
+          <title>{`${data.clan.name} | ${titleSuffix}`}</title>
         </Helmet>
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup reverse className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
-          <div className="temp">
-            <p>When this page is reach from the current event it will show a new "Top player" block to show who has played most matches etc, and then the event leaderboard below</p>
-            <p>It will also show some basic information about the current event (probably modifiers)</p>
-          </div>
-          <div className="temp">
-            <p>When this page is reach from a previous event it will show all the Medals that the clan has ever earned.</p>
-            <p>It won't show the event leaderboard below</p>
-            <p>It will show a simplified general list of member details (I can create this)</p>
-          </div>
+          {currentEvent ? (
+            <div className="temp">
+              <p>When this page is reach from the current event it will show a new "Top player" block to show who has played most matches etc, and then the event leaderboard below</p>
+              <p>It will also show some basic information about the current event (probably modifiers)</p>
+            </div>
+          ) : (
+            <div className="temp">
+              <p>When this page is reach from a previous event it will show all the Medals that the clan has ever earned.</p>
+              <p>It won't show the event leaderboard below</p>
+              <p>It will show a simplified general list of member details (I can create this)</p>
+            </div>
+          )}
         </Card>
-        <Leaderboard cutout data={data.clan.leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>
     )
   }
@@ -42,7 +48,7 @@ ClanTemplate.propTypes = {
 export default ClanTemplate
 
 export const pageQuery = graphql`
-  query ClanTemplateQuery($id: String!) {
+  query ClanTemplateQuery($id: String!, $eventId: String) {
     clan(id: { eq: $id }) {
       id
       name
@@ -76,6 +82,13 @@ export const pageQuery = graphql`
           path
           name
           icon
+        }
+      }
+    }
+    allEvent(filter: { id: { eq: $eventId } }) {
+      edges {
+        node {
+          name
         }
       }
     }

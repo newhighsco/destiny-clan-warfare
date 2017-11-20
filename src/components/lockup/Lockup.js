@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import './Lockup.styl'
 
+const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
 const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, className, element }) => {
@@ -54,7 +55,7 @@ const LockupElement = ({ children, element, elementName, href }) => {
       )
     }
 
-    if (absoluteUrlRegEx.exec(href)) {
+    if (absoluteUrl(href)) {
       return (
         <a href={href} className={`${baseClassName}__${elementName}`}>{children}</a>
       )

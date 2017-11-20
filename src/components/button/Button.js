@@ -5,9 +5,10 @@ import classNames from 'classnames'
 
 import './Button.styl'
 
+const absoluteUrl = require('../../utils/absolute-url')
+
 const Button = (props) => {
   const { children, className, href, target, type } = props
-  const absoluteUrlRegEx = /^\w[\w-.+]+:/ // http://regexr.com/3fhfg
   const commonAttributes = {
     className: classNames('button', className)
   }
@@ -24,7 +25,7 @@ const Button = (props) => {
     )
   }
 
-  if (absoluteUrlRegEx.exec(href)) {
+  if (absoluteUrl(href)) {
     return (
       <a
         {...props}

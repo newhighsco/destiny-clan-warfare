@@ -28,7 +28,7 @@ class EventsPage extends Component {
           <title>Events</title>
         </Helmet>
         <Card cutout className="text-center">
-          <Lockup className="text-center" kicker="All" heading="Events" />
+          <Lockup center kicker="All" heading="Events" />
           <div className="temp">
             <p>Search for event</p>
           </div>

@@ -17,7 +17,7 @@ class ClansPage extends Component {
           <title>Clans</title>
         </Helmet>
         <Card cutout className="text-center">
-          <Lockup className="text-center" kicker="All" heading="Clans" />
+          <Lockup center kicker="All" heading="Clans" />
           <div className="temp">
             <p>Search for clan</p>
           </div>

@@ -24,13 +24,11 @@ class MemberTemplate extends Component {
           <title>{`${data.member.name} | ${titleSuffix}`}</title>
         </Helmet>
         {hasEvent &&
-          <div className="text-center">
-            <Lockup className="text-center" kicker="Current event" kickerHref={currentEvent.node.path} heading={currentEvent.node.name} />
-          </div>
+          <Lockup center kicker="Current event" kickerHref={currentEvent.node.path} />
         }
         <Card cutout className="text-center">
           <Avatar className="card__avatar" icon={data.member.icon} />
-          <Lockup reverse className="text-center" kicker={data.clan.name} kickerHref={kickerHref} heading={data.member.name} />
+          <Lockup center reverse kicker={data.clan.name} kickerHref={kickerHref} heading={data.member.name} />
           {hasEvent ? (
             <div className="temp">
               <p>When this page is reach from the current event it will show a summary of the players current event stats and the match history below</p>

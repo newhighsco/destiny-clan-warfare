@@ -37,13 +37,11 @@ class ClanTemplate extends Component {
           <title>{`${data.clan.name} | ${titleSuffix}`}</title>
         </Helmet>
         {hasEvent &&
-          <div className="text-center">
-            <Lockup className="text-center" kicker="Current event" kickerHref={currentEvent.node.path} heading={currentEvent.node.name} />
-          </div>
+          <Lockup center kicker="Current event" kickerHref={currentEvent.node.path} />
         }
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
-          <Lockup reverse className="text-center" kicker={data.clan.motto} heading={data.clan.name} />
+          <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           {hasEvent ? (
             <div className="temp">
               <p>When this page is reach from the current event it will show a new "Top player" block to show who has played most matches etc, and then the event leaderboard below</p>

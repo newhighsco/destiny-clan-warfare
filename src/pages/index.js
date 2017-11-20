@@ -10,76 +10,85 @@ class IndexPage extends Component {
   render () {
     const { data } = this.props
     const currentEvents = data.allEvent.edges.filter(({ node }) => node.isCurrent)
-    const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast)
-    const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture).reverse()
+    const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast).slice(0, 1)
+    const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture).reverse().slice(0, 1)
 
     return (
       <PageContainer>
         <div className="temp">
           <p>Introduction/Search/Enrollment</p>
         </div>
-        {currentEvents.slice(0, 1).map(({ node }) => {
-          return (
-            <Card key={node.id} className="text-center">
-              <Lockup className="text-center" kicker="Current event" kickerHref={node.path} heading={node.name} />
-              {node.description &&
-                <p>{node.description}</p>
-              }
-              <Modifiers data={node.modifiers} />
-              <div className="temp">
-                <p>Dates / countdown</p>
+        {currentEvents.length && [
+          <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`} />,
+          currentEvents.map(({ node }) => {
+            return (
+              <Card key={node.id} className="text-center">
+                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                {node.description &&
+                  <p>{node.description}</p>
+                }
+                <Modifiers data={node.modifiers} />
                 <div className="temp">
-                  <p>Current leaderboard</p>
-                  <p>Top 3/5 for each division</p>
-                  <ul>
-                    <li>Clan name</li>
-                    <li>Current event total score</li>
-                    <li>Current event Active member count</li>
-                    <li>Total member count</li>
-                  </ul>
+                  <p>Dates / countdown</p>
+                  <div className="temp">
+                    <p>Current leaderboard</p>
+                    <p>Top 3/5 for each division</p>
+                    <ul>
+                      <li>Clan name</li>
+                      <li>Current event total score</li>
+                      <li>Current event Active member count</li>
+                      <li>Total member count</li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <Button href={node.path}>View leaderboard</Button>
-            </Card>
-          )
-        })}
-        {futureEvents.slice(0, 1).map(({ node }) => {
-          return (
-            <Card key={node.id} className="text-center">
-              <Lockup className="text-center" kicker="Coming soon" kickerHref={node.path} heading={node.name} />
-              {node.description &&
-                <p>{node.description}</p>
-              }
-              <Modifiers data={node.modifiers} />
-              <div className="temp">
-                <p>Preview of future event</p>
-              </div>
-            </Card>
-          )
-        })}
-        {pastEvents.slice(0, 1).map(({ node }) => {
-          return (
-            <Card key={node.id} className="text-center">
-              <Lockup className="text-center" kicker="Last event" kickerHref={node.path} heading={node.name} />
-              {node.description &&
-                <p>{node.description}</p>
-              }
-              <div className="temp">
-                <p>Dates</p>
+                <Button href={node.path}>View leaderboard</Button>
+              </Card>
+            )
+          })
+        ]}
+        {futureEvents.length && [
+          <Lockup key="kicker" center element="h1" kicker="Next event" />,
+          futureEvents.map(({ node }) => {
+            return (
+              <Card key={node.id} className="text-center">
+                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                {node.description &&
+                  <p>{node.description}</p>
+                }
+                <Modifiers data={node.modifiers} />
                 <div className="temp">
-                  <p>Results</p>
-                  <p>Top 3/5 for each division</p>
-                  <ul>
-                    <li>Clan name</li>
-                    <li>Clan medals won</li>
-                    <li>Final event stats - TBC</li>
-                  </ul>
+                  <p>Preview of future event</p>
                 </div>
-              </div>
-              <Button href={node.path}>View results</Button>
-            </Card>
-          )
-        })}
+              </Card>
+            )
+          })
+        ]}
+        {pastEvents.length && [
+          <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
+          pastEvents.slice(0, 1).map(({ node }) => {
+            return (
+              <Card key={node.id} className="text-center">
+                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                {node.description &&
+                  <p>{node.description}</p>
+                }
+                <div className="temp">
+                  <p>Dates</p>
+                  <div className="temp">
+                    <p>Results</p>
+                    <p>Top 3/5 for each division</p>
+                    <ul>
+                      <li>Clan name</li>
+                      <li>Clan medals won</li>
+                      <li>Final event stats - TBC</li>
+                    </ul>
+                  </div>
+                </div>
+                <Button href={node.path}>View results</Button>
+              </Card>
+            )
+          })
+        ]}
       </PageContainer>
     )
   }

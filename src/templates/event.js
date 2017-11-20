@@ -15,8 +15,8 @@ class EventTemplate extends Component {
     const currentEventKicker = 'Current event'
     const pastEventKicker = 'Past event'
     const futureEventKicker = 'Coming soon'
-    const title = data.event.isCurrent ? currentEventKicker : `${data.event.name} | Events`
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
+    const title = `${data.event.name} | ${kicker}`
     const currentLeaderboard = data.allClan.edges.map(({ node }, i) => {
       return {
         ...node,
@@ -40,10 +40,9 @@ class EventTemplate extends Component {
         <Helmet>
           <title>{title}</title>
         </Helmet>
-        <div className="text-center">
-          <Lockup className="text-center" kicker={kicker} heading={data.event.name} />
-        </div>
+        <Lockup center kicker={kicker} />
         <Card cutout className="text-center">
+          <Lockup center heading={data.event.name} />
           {data.event.description &&
             <p>{data.event.description}</p>
           }

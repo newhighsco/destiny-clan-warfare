@@ -17,7 +17,7 @@ class MembersPage extends Component {
           <title>Members</title>
         </Helmet>
         <Card cutout className="text-center">
-          <Lockup className="text-center" kicker="All" heading="Members" />
+          <Lockup center kicker="All" heading="Members" />
           <div className="temp">
             <p>Search for member</p>
           </div>

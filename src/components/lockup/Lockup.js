@@ -8,13 +8,21 @@ import './Lockup.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
-const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, className, element }) => {
+const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, className, element }) => {
   const commonAttributes = {
-    className: classNames(baseClassName, className, reverse && `${baseClassName}--reverse`)
+    className: classNames(
+      baseClassName
+      , className
+      , reverse && `${baseClassName}--reverse`
+      , center && `${baseClassName}--center`
+    )
   }
 
-  const Kicker = () => (<LockupElement elementName="kicker" href={kickerHref}>{kicker}</LockupElement>)
-  const Heading = () => (<LockupElement element={element} elementName="heading" href={headingHref}>{heading}</LockupElement>)
+  const kickerElement = heading ? 'span' : element
+  const headingElement = element || 'h1'
+
+  const Kicker = () => (<LockupElement element={kickerElement} elementName="kicker" href={kickerHref}>{kicker}</LockupElement>)
+  const Heading = () => (<LockupElement element={headingElement} elementName="heading" href={headingHref}>{heading}</LockupElement>)
 
   return (
     <span {...commonAttributes}>
@@ -29,40 +37,42 @@ const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, className, 
   )
 }
 
-Lockup.defaultProps = {
-  reverse: false,
-  element: 'h1'
-}
-
 Lockup.propTypes = {
   heading: PropTypes.string,
   headingHref: PropTypes.string,
   kicker: PropTypes.string,
   kickerHref: PropTypes.string,
   reverse: PropTypes.bool,
+  center: PropTypes.bool,
   className: PropTypes.string,
   element: PropTypes.string
 }
 
 const LockupElement = ({ children, element, elementName, href }) => {
-  const absoluteUrlRegEx = /^\w[\w-.+]+:/ // http://regexr.com/3fhfg
   const Element = element
+  const commonAttributes = {
+    className: `${baseClassName}__${elementName}`
+  }
 
   if (children) {
     if (!href) {
       return (
-        <Element className={`${baseClassName}__${elementName}`}>{children}</Element>
+        <Element {...commonAttributes}>{children}</Element>
       )
     }
 
     if (absoluteUrl(href)) {
       return (
-        <a href={href} className={`${baseClassName}__${elementName}`}>{children}</a>
+        <a href={href} {...commonAttributes}>
+          <Element>{children}</Element>
+        </a>
       )
     }
 
     return (
-      <Link to={href} className={`${baseClassName}__${elementName}`}>{children}</Link>
+      <Link to={href} {...commonAttributes}>
+        <Element>{children}</Element>
+      </Link>
     )
   }
 

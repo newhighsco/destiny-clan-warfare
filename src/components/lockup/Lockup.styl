@@ -20,14 +20,12 @@
   display block
   font-size 0.4em
   letter-spacing 0.4em
+  margin auto
   max-width 100%
   padding 0 $spacing--quarter
   padding-right 0
   text-transform uppercase
   word-wrap break-word
-
-  .text-center &
-    margin auto
 
   &:after
     border-bottom 5px solid $color--primary
@@ -35,9 +33,6 @@
     display block
     margin 0.25em auto 0.5em ($spacing--quarter * -1)
     opacity 0.75
-
-    .text-center &
-      margin-left auto
 
   &[href]:hover
     transform scale(1.05)
@@ -81,3 +76,9 @@
 .lockup--reverse
   .lockup__kicker
     display table
+
+.lockup--center
+  display table
+  margin-left auto
+  margin-right auto
+  text-align center

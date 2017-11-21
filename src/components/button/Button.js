@@ -8,9 +8,14 @@ import './Button.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 
 const Button = (props) => {
-  const { children, className, href, target, type } = props
+  const { children, className, href, target, type, size } = props
+  const baseClassName = 'button'
   const commonAttributes = {
-    className: classNames('button', className)
+    className: classNames(
+      baseClassName,
+      size && `${baseClassName}--${size}`,
+      className
+    )
   }
 
   if (!href) {
@@ -30,6 +35,7 @@ const Button = (props) => {
       <a
         {...props}
         {...commonAttributes}
+        type={null}
         href={href}
         {...target && { target }}
         {...target === '_blank' && { rel: 'noopener noreferrer' }}
@@ -59,7 +65,8 @@ Button.propTypes = {
   className: PropTypes.string,
   href: PropTypes.string,
   target: PropTypes.string,
-  type: PropTypes.oneOf([ 'button', 'reset', 'submit' ])
+  type: PropTypes.oneOf([ 'button', 'reset', 'submit' ]),
+  size: PropTypes.oneOf([ 'small' ])
 }
 
 export default Button

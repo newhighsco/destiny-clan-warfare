@@ -16,7 +16,7 @@ const Footer = () => {
       <div className="content-center content-gutter">
         <div className="grid grid--reverse grid--middled">
           <div className="grid__item tablet-one-half">
-            <ul className="footer__list list--inline">
+            <ul className="list--inline footer__list">
               <li className="footer__item">
                 <Link className="footer__link" to={urlBuilder.eventRootUrl}>Events</Link>
               </li>

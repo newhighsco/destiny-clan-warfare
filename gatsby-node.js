@@ -2,7 +2,9 @@ const path = require(`path`)
 const crypto = require(`crypto`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
+const moment = require('moment')
 const urlBuilder = require('./src/utils/url-builder')
+const constants = require('./src/utils/constants')
 
 const api = axios.create({
   baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/'
@@ -19,15 +21,45 @@ let frontmatterEdges
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
-  const clans = await api(`Clan/GetAllClans`)
-  const members = await api(`Clan/GetAllMembers`)
-  const histories = await api(`Leaderboard/GetAllPlayersHistory`)
-  const modifiers = await api(`Modifier/GetAllModifiers`)
-  // const events = await api(`Event/GetAllEvents`)
-  const events = await require('./src/fixtures/events.json')
 
-  for (let clan of clans.data) {
-    const leaderboard = await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
+  let clans = []
+  let members = []
+  let histories = []
+  let events = []
+  const casingOptions = { deep: true }
+
+  await api(`Clan/GetAllClans`)
+    .then(({ data }) => {
+      clans = data.map(item => camelcaseKeys(item, casingOptions))
+    })
+    .catch(err => console.log(err))
+
+  await api(`Clan/GetAllMembers`)
+    .then(({ data }) => {
+      members = data.map(item => camelcaseKeys(item, casingOptions))
+    })
+    .catch(err => console.log(err))
+
+  await api(`Leaderboard/GetAllPlayersHistory`)
+    .then(({ data }) => {
+      histories = data.map(item => camelcaseKeys(item, casingOptions))
+    })
+    .catch(err => console.log(err))
+
+  await api(`Event/GetAllEvents`)
+    .then(({ data }) => {
+      events = data.map(item => camelcaseKeys(item, casingOptions))
+    })
+    .catch(err => console.log(err))
+
+  for (let clan of clans) {
+    let leaderboard = []
+
+    await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
+      .then(({ data }) => {
+        leaderboard = data.map(item => camelcaseKeys(item, casingOptions))
+      })
+      .catch(err => console.log(err))
 
     createNode({
       id: `${clan.groupId}`,
@@ -46,10 +78,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: leaderboard.data.map(item => {
-        item = camelcaseKeys(item)
-        const member = members.data
-          .find(member => member.profileIdStr === item.memberShipIdStr)
+      leaderboard: leaderboard.map(item => {
+        const member = members.find(member => member.profileIdStr === item.memberShipIdStr)
 
         return {
           path: urlBuilder.profileUrl(member.profileIdStr),
@@ -73,10 +103,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  for (let member of members.data) {
-    const clan = clans.data.find(clan => clan.groupId === member.groupId)
-    const history = histories.data
-      .filter(history => history.MemberShipIdStr === member.profileIdStr)
+  for (let member of members) {
+    const clan = clans.find(clan => clan.groupId === member.groupId)
+    const history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
 
     createNode({
       id: member.profileIdStr,
@@ -87,18 +116,24 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
+      totals: {
+        wins: member.currentScore.gamesWon,
+        kills: member.currentScore.kills,
+        assists: member.currentScore.assists,
+        deaths: member.currentScore.deaths,
+        score: member.currentScore.totalScore,
+        lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : null
+      },
       history: history.map(item => {
-        item = camelcaseKeys(item)
-
         return {
           game: {
             path: urlBuilder.pgcrUrl(item.pgcrId),
             isExternal: true,
-            result: item.gameWon ? 'win' : 'loss',
+            result: item.gameWon ? constants.result.win : constants.result.loss,
             type: item.gameType || '',
             map: item.map || '',
             mapSeparator: item.map ? ' - ' : '',
-            date: new Date(item.datePlayed)
+            date: item.datePlayed ? new Date(item.datePlayed) : null
           },
           kills: item.kills,
           assists: item.assists,
@@ -115,48 +150,95 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  for (let modifier of modifiers.data) {
-    modifier = camelcaseKeys(modifier)
+  for (let event of events) {
+    const parseClans = (rawClans, eventId) => {
+      if (!rawClans) return []
 
-    createNode({
-      id: `Modifier ${modifier.id}`,
-      path: `/modifiers/${modifier.id}/`,
-      name: modifier.name,
-      description: modifier.description,
-      scoringModifier: modifier.scoringModifier,
-      multiplierModifier: modifier.multiplierModifier,
-      scoringBonus: modifier.scoringBonus,
-      multiplierBonus: modifier.multiplierBonus,
-      parent: null,
-      children: [],
-      internal: {
-        type: `Modifier`,
-        contentDigest: createContentDigest(modifier)
+      return rawClans.map((rawClan, i) => {
+        const clan = clans.find(clan => clan.groupId === (rawClan.clanId || rawClan.id))
+
+        return {
+          path: eventId ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId),
+          name: clan.name,
+          color: clan.backgroundcolor,
+          foreground: {
+            color: clan.emblemcolor1,
+            icon: clan.foregroundicon
+          },
+          background: {
+            color: clan.emblemcolor2,
+            icon: clan.backgroundicon
+          },
+          rank: `#${i + 1}`,
+          size: rawClan.size,
+          games: rawClan.gamesPlayed,
+          wins: rawClan.gamesWon,
+          kills: rawClan.kills,
+          assists: rawClan.assists,
+          deaths: rawClan.deaths,
+          score: rawClan.score || rawClan.totalScore
+        }
+      })
+    }
+
+    const parseResults = (division, leaderboard, results) => {
+      if (leaderboard && leaderboard.length) {
+        results.push({
+          ...leaderboard[0],
+          division: division
+        })
       }
-    })
-  }
+    }
 
-  for (let event of events.data) {
-    event = camelcaseKeys(event)
+    const startDate = new Date(event.startTime)
+    const endDate = new Date(event.endTime)
+    const isCurrent = event.eventTense === constants.tense.current
+    const isPast = event.eventTense === constants.tense.past
+    const isFuture = event.eventTense === constants.tense.future
+    const results = []
+    let largeLeaderboard = []
+    let mediumLeaderboard = []
+    let smallLeaderboard = []
 
-    const currentDate = new Date()
-    const startDate = new Date(event.startDate)
-    const endDate = new Date(event.endDate)
-    const modifier = modifiers.data
-      .filter(modifier => event.modifiers.includes(modifier.Id))
-      .map(modifier => camelcaseKeys(modifier))
+    if (isCurrent) {
+      let leaderboard
+
+      await api(`Leaderboard/GetLeaderboard`)
+        .then(({ data }) => {
+          leaderboard = camelcaseKeys(data, casingOptions)
+        })
+        .catch(err => console.log(err))
+
+      largeLeaderboard = parseClans(leaderboard.largeLeaderboard, event.eventId)
+      mediumLeaderboard = parseClans(leaderboard.mediumLeaderboard, event.eventId)
+      smallLeaderboard = parseClans(leaderboard.smallLeaderboard, event.eventId)
+    } else {
+      largeLeaderboard = parseClans(event.result.large)
+      mediumLeaderboard = parseClans(event.result.medium)
+      smallLeaderboard = parseClans(event.result.small)
+
+      parseResults(constants.division.large, largeLeaderboard, results)
+      parseResults(constants.division.medium, mediumLeaderboard, results)
+      parseResults(constants.division.small, smallLeaderboard, results)
+    }
 
     createNode({
-      id: `Event ${event.id}`,
-      path: urlBuilder.eventUrl(event.id),
+      id: `Event ${event.eventId}`,
+      path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
-      description: event.description,
+      description: event.description || '',
       startDate: startDate,
       endDate: endDate,
-      isPast: endDate < currentDate,
-      isFuture: startDate > currentDate,
-      isCurrent: startDate < currentDate && endDate > currentDate,
-      modifiers: modifier,
+      isPast: isPast,
+      isFuture: isFuture,
+      isCurrent: isCurrent,
+      modifiers: event.modifiers,
+      leaderboards: {
+        large: largeLeaderboard,
+        medium: mediumLeaderboard,
+        small: smallLeaderboard
+      },
+      results: results,
       parent: null,
       children: [],
       internal: {

@@ -10,9 +10,17 @@ const Modifiers = ({ data, size }) => {
   if (!data || data.length <= 0) return (null)
 
   return (
-    <ul className={classNames(baseClassName, 'list--inline', size && `${baseClassName}--${size}`)}>
+    <ul className={classNames('list--inline', baseClassName, size && `${baseClassName}--${size}`)}>
       {data.map(modifier => (
-        <li key={modifier.id} className="modifiers__icon">{modifier.name}</li>
+        <li key={modifier.id} className="modifiers__icon">
+          <div className="modifiers__label">
+            {modifier.scoringModifier ? (
+              `+${modifier.scoringBonus}`
+            ) : (
+              `x${modifier.multiplierBonus}`
+            )}
+          </div>
+        </li>
       ))}
     </ul>
   )
@@ -24,3 +32,17 @@ Modifiers.propTypes = {
 }
 
 export default Modifiers
+
+export const componentFragment = graphql`
+  fragment modifiersFragment on Event {
+    modifiers {
+      id
+      name
+      description
+      scoringModifier
+      scoringBonus
+      multiplierModifier
+      multiplierBonus
+    }
+  }
+`

@@ -18,7 +18,7 @@ const Header = () => (
           </Link>
         </div>
         <div className="grid__item one-half">
-          <ul className="header__list list--inline">
+          <ul className="list--inline header__list">
             <li className="header__item">
               <a className="header__link" href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener noreferrer">
                 <Icon className="header__icon" a11yText="Follow us on Twitter">

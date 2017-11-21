@@ -42,7 +42,7 @@ class Leaderboard extends Component {
     if (!data || data.length <= 0) return (null)
 
     let keys = columns || Object.keys(data[0])
-    const showIcons = keys.indexOf('icon') !== -1
+    const showIcons = (keys.indexOf('icon') !== -1 || keys.indexOf('foreground') !== -1 || keys.indexOf('background') !== -1)
     const showClanTag = keys.indexOf('clan') !== -1
     const showNames = keys.indexOf('name') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
@@ -54,6 +54,7 @@ class Leaderboard extends Component {
       'foreground',
       'background',
       'name',
+      'clanId',
       'clan',
       'path',
       'game',

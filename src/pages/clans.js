@@ -22,7 +22,7 @@ class ClansPage extends Component {
             <p>Search for clan</p>
           </div>
         </Card>
-        <Leaderboard cutout data={leaderboard} columns={[ 'icon', 'name' ]} />
+        <Leaderboard cutout data={leaderboard} />
       </PageContainer>
     )
   }
@@ -43,7 +43,6 @@ export const pageQuery = graphql`
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {
-          id
           path
           name
           color

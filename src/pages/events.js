@@ -16,7 +16,7 @@ class EventsPage extends Component {
           type: edge.node.name,
           map: edge.node.isCurrent ? 'Ends' : (edge.node.isPast ? 'Ended' : 'Starts'),
           mapSeparator: ' ',
-          date: edge.node.endDate
+          date: edge.node.isCurrent ? edge.node.endDate : (edge.node.isPast) ? edge.node.endDate : edge.node.startDate
         },
         modifiers: edge.node.modifiers
       }
@@ -54,19 +54,13 @@ export const pageQuery = graphql`
     allEvent(sort: { fields: [ startDate ], order: DESC }) {
       edges {
         node {
-          id
           path
           name
-          description
-          modifiers {
-            id
-            name
-          }
           startDate
           endDate
-          isPast
-          isFuture
           isCurrent
+          isPast
+          ...modifiersFragment
         }
       }
     }

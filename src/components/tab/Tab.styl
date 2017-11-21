@@ -1,0 +1,41 @@
+.tab-container
+  position relative
+
+.tab-container--cutout
+  margin-top ($spacing--default * -1) !important // @stylint ignore
+  margin-left $spacing--half
+  margin-right $spacing--half
+
+  +width-min($mq--tablet)
+    margin-left $spacing--default
+    margin-right $spacing--default
+
+  +width-min($mq--desktop)
+    margin-left $spacing--double
+    margin-right $spacing--double
+
+.tab-navigation
+  display flex
+  justify-content center
+  margin 0 auto $spacing--half
+  max-width $mq--tablet
+  position relative
+  text-align center
+  z-index 2
+
+.tab-navigation__item
+  flex 1 1
+  max-width 33.333%
+  padding 0 $spacing--quarter
+
+.tab-button
+  background-color $color--nero
+  border-color $color--eclipse
+  color $color--silver
+  width 100%
+
+  &.is-active
+    border-color currentColor
+    border-bottom-width 5px
+    color currentColor
+    pointer-events none

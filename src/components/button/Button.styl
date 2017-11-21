@@ -30,6 +30,9 @@
   vertical-align middle
   width auto
 
+  +width-min($mq--tablet)
+    padding $spacing--default $spacing--double
+
   &:hover
   &:focus
     border-color currentColor
@@ -37,19 +40,25 @@
     outline 0
 
   &:active
+  &.is-active
     transform scale(1.01)
 
+  &[disabled]
+  &.is-disabled
+    opacity 0.5
+    user-select none
+    pointer-events none
+
+//
+// BUTTON SIZES
+//
+
+.button--small
+  font-size 0.75em
+  padding $spacing--half $spacing--quarter
+
   +width-min($mq--tablet)
-    padding $spacing--default $spacing--double
-
-//
-// DISABLED BUTTON
-//
-
-.button[disabled]
-  opacity 0.75
-  user-select none
-  pointer-events none
+    padding $spacing--half $spacing--double
 
 //
 // BUTTON GROUP
@@ -57,4 +66,4 @@
 
 .button-group
   display block
-  padding $spacing--default 0
+  text-align center

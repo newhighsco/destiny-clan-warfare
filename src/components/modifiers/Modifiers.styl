@@ -5,12 +5,14 @@
   background $color--black
   border-radius 100%
   color $color--white
+  cursor default
   font-size rem(45)
   fill $color--white
   display block
   margin 0 $spacing--half $spacing--half !important // @stylint ignore
   overflow hidden
   height 1em
+  line-height 1em
   width 1em
   text-align center
   vertical-align middle
@@ -19,8 +21,12 @@
     transform scale(1.1)
 
   +width-min($mq--tablet)
-    height 1.333em
-    width 1.333em
+    font-size rem(60)
+
+.modifiers__label
+  display inline-block
+  font-size 0.333em
+  vertical-align top
 
 .modifiers--small
   .modifiers__icon

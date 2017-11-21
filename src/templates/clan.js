@@ -6,6 +6,8 @@ import Card from '../components/card/Card'
 import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
+import Medals from '../components/medals/Medals'
+import Button from '../components/button/Button'
 
 const urlBuilder = require('../utils/url-builder')
 
@@ -21,12 +23,12 @@ class ClanTemplate extends Component {
         path: urlBuilder.eventUrl(currentEvent.node.path, data.clan.id, item.id)
       }
     }) : []
-    const pastLeaderboard = data.clan.leaderboard.map(item => {
+    const pastLeaderboard = data.allMember.edges.map(({ node }) => {
       return {
-        path: item.path,
-        name: item.name,
-        icon: item.icon,
-        someStats: '0'
+        path: node.path,
+        name: node.name,
+        icon: node.icon,
+        ...node.totals
       }
     })
     const leaderboard = hasEvent ? currentLeaderboard : pastLeaderboard
@@ -44,16 +46,13 @@ class ClanTemplate extends Component {
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           {hasEvent ? (
             <div className="temp">
-              <p>When this page is reach from the current event it will show a new "Top player" block to show who has played most matches etc, and then the event leaderboard below</p>
-              <p>It will also show some basic information about the current event (probably modifiers)</p>
+              <p>"Top player" block to show who has played most matches etc.</p>
             </div>
-          ) : (
-            <div className="temp">
-              <p>When this page is reach from a previous event it will show all the Medals that the clan has ever earned.</p>
-              <p>It won't show the event leaderboard below</p>
-              <p>It will show a simplified general list of member details (I can create this)</p>
-            </div>
-          )}
+          ) : ([
+            <p key="description" dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />,
+            <Button key="button" href={`https://www.bungie.net/en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>,
+            <Medals key="medals" count={5} />
+          ])}
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>
@@ -72,7 +71,6 @@ export const pageQuery = graphql`
     clan(id: { eq: $id }) {
       id
       name
-      tag
       motto
       description
       color
@@ -85,8 +83,8 @@ export const pageQuery = graphql`
         icon
       }
       leaderboard {
-        path
         id
+        path
         name
         icon
         games
@@ -103,13 +101,20 @@ export const pageQuery = graphql`
           path
           name
           icon
+          totals {
+            wins
+            kills
+            assists
+            deaths
+            score
+            lastPlayed
+          }
         }
       }
     }
     allEvent(filter: { id: { eq: $eventId } }) {
       edges {
         node {
-          name
           path
         }
       }

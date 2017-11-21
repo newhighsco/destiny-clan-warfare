@@ -5,6 +5,12 @@ import Button from '../components/button/Button'
 import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
+import { TabContainer, Tab } from '../components/tab/Tab'
+import Leaderboard from '../components/leaderboard/Leaderboard'
+import Medals from '../components/medals/Medals'
+
+const constants = require('../utils/constants')
+const moment = require('moment')
 
 class IndexPage extends Component {
   render () {
@@ -18,75 +24,71 @@ class IndexPage extends Component {
         <div className="temp">
           <p>Introduction/Search/Enrollment</p>
         </div>
-        {currentEvents.length && [
+        {currentEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`} />,
           currentEvents.map(({ node }) => {
-            return (
+            return ([
               <Card key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                <p>Ends {moment(node.endDate).fromNow()}</p>
                 {node.description &&
                   <p>{node.description}</p>
                 }
                 <Modifiers data={node.modifiers} />
-                <div className="temp">
-                  <p>Dates / countdown</p>
-                  <div className="temp">
-                    <p>Current leaderboard</p>
-                    <p>Top 3/5 for each division</p>
-                    <ul>
-                      <li>Clan name</li>
-                      <li>Current event total score</li>
-                      <li>Current event Active member count</li>
-                      <li>Total member count</li>
-                    </ul>
-                  </div>
-                </div>
-                <Button href={node.path}>View leaderboard</Button>
-              </Card>
-            )
+              </Card>,
+              <TabContainer cutout>
+                <Tab name={constants.division.large}>
+                  <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
+                </Tab>
+                <Tab name={constants.division.medium}>
+                  <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
+                </Tab>
+                <Tab name={constants.division.small}>
+                  <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
+                </Tab>
+              </TabContainer>,
+              <div className="button-group">
+                <Button href={node.path}>View full leaderboard</Button>
+              </div>
+            ])
           })
         ]}
-        {futureEvents.length && [
+        {futureEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker="Next event" />,
           futureEvents.map(({ node }) => {
             return (
               <Card key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                <p>Starts {moment(node.startDate).fromNow()}</p>
                 {node.description &&
                   <p>{node.description}</p>
                 }
                 <Modifiers data={node.modifiers} />
-                <div className="temp">
-                  <p>Preview of future event</p>
-                </div>
               </Card>
             )
           })
         ]}
-        {pastEvents.length && [
+        {pastEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
-          pastEvents.slice(0, 1).map(({ node }) => {
-            return (
-              <Card key={node.id} className="text-center">
+          pastEvents.map(({ node }) => {
+            return ([
+              <Card cutout key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                <p>Ended {moment(node.endDate).fromNow()}</p>
                 {node.description &&
                   <p>{node.description}</p>
                 }
-                <div className="temp">
-                  <p>Dates</p>
-                  <div className="temp">
-                    <p>Results</p>
-                    <p>Top 3/5 for each division</p>
-                    <ul>
-                      <li>Clan name</li>
-                      <li>Clan medals won</li>
-                      <li>Final event stats - TBC</li>
-                    </ul>
-                  </div>
-                </div>
-                <Button href={node.path}>View results</Button>
-              </Card>
-            )
+                <Medals count={3} />
+              </Card>,
+              <TabContainer cutout>
+                <Tab name="Winners">
+                  <Leaderboard data={node.results} />
+                </Tab>
+              </TabContainer>,
+              <div className="button-group">
+                <Button href={node.path}>View full results</Button>
+              </div>
+            ])
           })
         ]}
       </PageContainer>
@@ -109,19 +111,77 @@ export const pageQuery = graphql`
     allEvent(sort: { fields: [ startDate ], order: DESC }) {
       edges {
         node {
-          id
           path
           name
           description
-          modifiers {
-            id
-            name
-          }
           startDate
           endDate
+          isCurrent
           isPast
           isFuture
-          isCurrent
+          leaderboards {
+            large {
+              path
+              name
+              color
+              foreground {
+                color
+                icon
+              }
+              background {
+                color
+                icon
+              }
+              rank
+              score
+            }
+            medium {
+              path
+              name
+              color
+              foreground {
+                color
+                icon
+              }
+              background {
+                color
+                icon
+              }
+              rank
+              score
+            }
+            small {
+              path
+              name
+              color
+              foreground {
+                color
+                icon
+              }
+              background {
+                color
+                icon
+              }
+              rank
+              score
+            }
+          }
+          results {
+            path
+            name
+            color
+            foreground {
+              color
+              icon
+            }
+            background {
+              color
+              icon
+            }
+            division
+            score
+          }
+          ...modifiersFragment
         }
       }
     }

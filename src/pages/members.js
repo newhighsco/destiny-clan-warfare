@@ -22,7 +22,7 @@ class MembersPage extends Component {
             <p>Search for member</p>
           </div>
         </Card>
-        <Leaderboard cutout data={leaderboard} columns={[ 'icon', 'name', 'clan' ]} />
+        <Leaderboard cutout data={leaderboard} />
       </PageContainer>
     )
   }
@@ -43,14 +43,13 @@ export const pageQuery = graphql`
     allMember(sort: { fields: [ clanSortable, nameSortable ] }) {
       edges {
         node {
-          id
           path
           name
-          icon
           clanId
           clan {
             tag
           }
+          icon
         }
       }
     }

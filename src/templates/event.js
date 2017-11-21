@@ -5,9 +5,13 @@ import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
+import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
+import Medals from '../components/medals/Medals'
+import Button from '../components/button/Button'
 
-const urlBuilder = require('../utils/url-builder')
+const moment = require('moment')
+const constants = require('../utils/constants')
 
 class EventTemplate extends Component {
   render () {
@@ -17,23 +21,6 @@ class EventTemplate extends Component {
     const futureEventKicker = 'Coming soon'
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
     const title = `${data.event.name} | ${kicker}`
-    const currentLeaderboard = data.allClan.edges.map(({ node }, i) => {
-      return {
-        ...node,
-        icon: null,
-        path: urlBuilder.eventUrl(data.event.path, node.id),
-        rank: `#${i + 1}`,
-        someStats: '0'
-      }
-    })
-    const pastLeaderboard = data.allClan.edges.map(({ node }) => {
-      return {
-        ...node,
-        icon: null,
-        someStats: '0'
-      }
-    })
-    const leaderboard = data.event.isCurrent ? currentLeaderboard : (data.event.isPast ? pastLeaderboard : [])
 
     return (
       <PageContainer>
@@ -43,38 +30,39 @@ class EventTemplate extends Component {
         <Lockup center kicker={kicker} />
         <Card cutout className="text-center">
           <Lockup center heading={data.event.name} />
+          {data.event.isCurrent &&
+            <p>Ends {moment(data.event.endDate).fromNow()}</p>
+          }
+          {data.event.isPast &&
+            <p>Ended {moment(data.event.endDate).fromNow()}</p>
+          }
+          {data.event.isFuture &&
+            <p>Starts {moment(data.event.startDate).fromNow()}</p>
+          }
           {data.event.description &&
             <p>{data.event.description}</p>
           }
           <Modifiers data={data.event.modifiers} />
-          {data.event.isCurrent &&
-            <div className="temp">
-              <p>Dates / countdown</p>
-              <div className="temp">
-                <p>Leaderboard of all clans for each division</p>
-                <p>Each "clan links" links through to the new "Current event clan page" (the one with the player history for this event on it)</p>
-              </div>
-            </div>
-          }
           {data.event.isPast &&
-            <div className="temp">
-              <p>Dates</p>
-              <div className="temp">
-                <p>Clan winners medals</p>
-              </div>
-              <div className="temp">
-                <p>Results board of all clans for each division</p>
-                <p>Each "clan link" links through the general "Clan page" (there is no player history on that page)</p>
-              </div>
-            </div>
+            <Medals key="medals" count={9} />
           }
           {data.event.isFuture &&
-            <div className="temp">
-              <p>Preview of future event</p>
-            </div>
+            <Button href="/">Join today</Button>
           }
         </Card>
-        <Leaderboard cutout data={leaderboard} />
+        {!data.event.isFuture &&
+          <TabContainer cutout>
+            <Tab name={constants.division.large}>
+              <Leaderboard data={data.event.leaderboards.large} />
+            </Tab>
+            <Tab name={constants.division.medium}>
+              <Leaderboard data={data.event.leaderboards.medium} />
+            </Tab>
+            <Tab name={constants.division.small}>
+              <Leaderboard data={data.event.leaderboards.small} />
+            </Tab>
+          </TabContainer>
+        }
       </PageContainer>
     )
   }
@@ -89,23 +77,15 @@ export default EventTemplate
 export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
     event(id: { eq: $id }) {
-      path
       name
       description
-      modifiers {
-        id
-        name
-      }
       startDate
       endDate
+      isCurrent
       isPast
       isFuture
-      isCurrent
-    }
-    allClan(sort: { fields: [ nameSortable ] }) {
-      edges {
-        node {
-          id
+      leaderboards {
+        large {
           path
           name
           color
@@ -117,8 +97,56 @@ export const pageQuery = graphql`
             color
             icon
           }
+          rank
+          score
+        }
+        medium {
+          path
+          name
+          color
+          foreground {
+            color
+            icon
+          }
+          background {
+            color
+            icon
+          }
+          rank
+          score
+        }
+        small {
+          path
+          name
+          color
+          foreground {
+            color
+            icon
+          }
+          background {
+            color
+            icon
+          }
+          rank
+          score
         }
       }
+      results {
+        path
+        name
+        color
+        foreground {
+          color
+          icon
+        }
+        background {
+          color
+          icon
+        }
+        division
+        score
+      }
+      ...modifiersFragment
     }
   }
 `

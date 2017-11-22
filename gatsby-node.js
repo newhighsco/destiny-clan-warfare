@@ -114,13 +114,14 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         kills: member.currentScore.kills,
         assists: member.currentScore.assists,
         deaths: member.currentScore.deaths,
-        lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : ''
         score: Math.round(member.currentScore.totalScore),
+        lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : '-'
       }
     }
 
     createNode({
       id: member.profileIdStr,
+      updatedDate: updatedDate,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${member.groupId}`,
       clan: clan,

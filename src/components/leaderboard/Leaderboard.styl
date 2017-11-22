@@ -146,9 +146,12 @@
 
 .leaderboard__tag
   color $color--silver
-  float right
+  display none
   line-height rem(48)
   padding 0 $spacing--default
+  position absolute
+  top 0
+  right 0
 
   &:before
     content '['
@@ -163,6 +166,7 @@
       color $color--terracotta
 
   +width-min($mq--tablet)
+    display block
     line-height rem(60)
 
   +width-min($mq--desktop)

@@ -106,6 +106,18 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   for (let member of members) {
     const clan = clans.find(clan => clan.groupId === member.groupId)
     const history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
+    let totals
+
+    if (member.currentScore) {
+      totals = {
+        wins: member.currentScore.gamesWon,
+        kills: member.currentScore.kills,
+        assists: member.currentScore.assists,
+        deaths: member.currentScore.deaths,
+        score: member.currentScore.totalScore,
+        lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : ''
+      }
+    }
 
     createNode({
       id: member.profileIdStr,
@@ -116,14 +128,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
-      totals: {
-        wins: member.currentScore.gamesWon,
-        kills: member.currentScore.kills,
-        assists: member.currentScore.assists,
-        deaths: member.currentScore.deaths,
-        score: member.currentScore.totalScore,
-        lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : null
-      },
+      totals: totals,
       history: history.map(item => {
         return {
           game: {

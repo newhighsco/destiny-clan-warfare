@@ -1,5 +1,6 @@
 {
   "name": "destiny-clan-warfare",
+  "description": "Destiny Clan Warfare",
   "version": "0.1.0",
   "author": "Avalanche UK <admins@avaclanche.uk>",
   "license": "ISC",
@@ -8,8 +9,10 @@
     "yarn": "^1.2.1"
   },
   "scripts": {
-    "start": "gatsby develop",
-    "build": "gatsby build",
+    "start": "npm-run-all  --parallel start:*",
+    "start:gatsby": "gatsby develop",
+    "build": "npm-run build:gatsby",
+    "build:gatsby": "gatsby build",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",
     "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass --pretty --indent=2",

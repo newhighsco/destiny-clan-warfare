@@ -27,7 +27,11 @@ class EventTemplate extends Component {
         <Helmet>
           <title>{title}</title>
         </Helmet>
-        <Lockup center kicker={kicker} />
+        <Lockup center kicker={kicker}>
+          {data.event.isCurrent &&
+            `Updated ${moment.utc(data.event.updatedDate).format('HH:mm [UTC]')}`
+          }
+        </Lockup>
         <Card cutout className="text-center">
           <Lockup center heading={data.event.name} />
           {data.event.isCurrent &&
@@ -77,6 +81,7 @@ export default EventTemplate
 export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
     event(id: { eq: $id }) {
+      updatedDate
       name
       description
       startDate

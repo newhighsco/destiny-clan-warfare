@@ -9,6 +9,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
 import Button from '../components/button/Button'
 
+const moment = require('moment')
 const urlBuilder = require('../utils/url-builder')
 
 class ClanTemplate extends Component {
@@ -39,7 +40,9 @@ class ClanTemplate extends Component {
           <title>{`${data.clan.name} | ${titleSuffix}`}</title>
         </Helmet>
         {hasEvent &&
-          <Lockup center kicker="Current event" kickerHref={currentEvent.node.path} />
+          <Lockup center kicker="Current event" kickerHref={currentEvent.node.path}>
+            Updated {moment.utc(currentEvent.node.updatedDate).format('HH:mm [UTC]')}
+          </Lockup>
         }
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
@@ -115,6 +118,7 @@ export const pageQuery = graphql`
     allEvent(filter: { id: { eq: $eventId } }) {
       edges {
         node {
+          updatedDate
           path
         }
       }

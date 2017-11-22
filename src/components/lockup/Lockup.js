@@ -8,7 +8,7 @@ import './Lockup.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
-const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, className, element }) => {
+const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, className, element, children }) => {
   const commonAttributes = {
     className: classNames(
       baseClassName
@@ -21,17 +21,20 @@ const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, cla
   const kickerElement = heading ? 'span' : element
   const headingElement = element || 'h1'
 
-  const Kicker = () => (<LockupElement element={kickerElement} elementName="kicker" href={kickerHref}>{kicker}</LockupElement>)
-  const Heading = () => (<LockupElement element={headingElement} elementName="heading" href={headingHref}>{heading}</LockupElement>)
+  const Kicker = () => <LockupElement element={kickerElement} elementName="kicker" href={kickerHref}>{kicker}</LockupElement>
+  const Heading = () => <LockupElement element={headingElement} elementName="heading" href={headingHref}>{heading}</LockupElement>
+  const Content = () => <LockupElement elementName="content">{children}</LockupElement>
 
   return (
     <span {...commonAttributes}>
       {reverse ? ([
         <Heading key="heading" />,
-        <Kicker key="kicker" />
+        <Kicker key="kicker" />,
+        <Content key="content" />
       ]) : ([
         <Kicker key="kicker" />,
-        <Heading key="heading" />
+        <Heading key="heading" />,
+        <Content key="content" />
       ])}
     </span>
   )
@@ -45,7 +48,8 @@ Lockup.propTypes = {
   reverse: PropTypes.bool,
   center: PropTypes.bool,
   className: PropTypes.string,
-  element: PropTypes.string
+  element: PropTypes.string,
+  children: PropTypes.node
 }
 
 const LockupElement = ({ children, element, elementName, href }) => {

@@ -25,7 +25,9 @@ class IndexPage extends Component {
           <p>Introduction/Search/Enrollment</p>
         </div>
         {currentEvents.length > 0 && [
-          <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`} />,
+          <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`}>
+            Updated {moment.utc(currentEvents[0].node.updatedDate).format('HH:mm [UTC]')}
+          </Lockup>,
           currentEvents.map(({ node }) => {
             return ([
               <Card key={node.id} className="text-center">
@@ -111,6 +113,7 @@ export const pageQuery = graphql`
     allEvent(sort: { fields: [ startDate ], order: DESC }) {
       edges {
         node {
+          updatedDate
           path
           name
           description

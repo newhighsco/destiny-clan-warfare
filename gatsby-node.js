@@ -27,6 +27,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   let histories = []
   let events = []
   const casingOptions = { deep: true }
+  const updatedDate = new Date()
 
   await api(`Clan/GetAllClans`)
     .then(({ data }) => {
@@ -63,6 +64,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${clan.groupId}`,
+      updatedDate: updatedDate,
       path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
       nameSortable: clan.name.toUpperCase(),
@@ -230,6 +232,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `Event ${event.eventId}`,
+      updatedDate: updatedDate,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',

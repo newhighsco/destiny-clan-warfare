@@ -9,6 +9,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
 import Button from '../components/button/Button'
 
+const moment = require('moment')
 const urlBuilder = require('../utils/url-builder')
 
 class MemberTemplate extends Component {
@@ -26,7 +27,9 @@ class MemberTemplate extends Component {
           <title>{`${data.member.name} | ${titleSuffix}`}</title>
         </Helmet>
         {hasEvent &&
-          <Lockup center kicker="Current event" kickerHref={currentEvent.node.path} />
+          <Lockup center kicker="Current event" kickerHref={currentEvent.node.path}>
+            Updated {moment.utc(currentEvent.node.updatedDate).format('HH:mm [UTC]')}
+          </Lockup>
         }
         <Card cutout className="text-center">
           {data.member.icon &&
@@ -92,6 +95,7 @@ export const pageQuery = graphql`
     allEvent(filter: { id: { eq: $eventId } }) {
       edges {
         node {
+          updatedDate
           path
         }
       }

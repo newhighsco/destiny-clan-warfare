@@ -73,6 +73,12 @@ module.exports = {
         anonymize: false
       }
     },
+    {
+      resolve: `gatsby-plugin-sentry`,
+      options: {
+        dsn: `https://d16928953a68480ca15b7377fef94cd7@sentry.io/249072`
+      }
+    },
     // Keep this at the end
     `gatsby-plugin-netlify`
   ]

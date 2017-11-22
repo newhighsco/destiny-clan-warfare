@@ -126,7 +126,7 @@ class Leaderboard extends Component {
                     </div>
                   }
                   {keys.map((key, i) => {
-                    const value = item[key] ? `${item[key]}` : '-'
+                    const value = item[key] !== null ? `${item[key]}` : '-'
 
                     return (
                       <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>

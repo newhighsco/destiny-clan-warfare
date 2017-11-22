@@ -90,8 +90,8 @@ export const pageQuery = graphql`
         games
         wins
         kills
-        assists
         deaths
+        assists
         score
       }
     }
@@ -104,8 +104,8 @@ export const pageQuery = graphql`
           totals {
             wins
             kills
-            assists
             deaths
+            assists
             score
             lastPlayed
           }

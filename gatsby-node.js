@@ -91,7 +91,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          score: item.totalScore
+          score: Math.round(item.totalScore)
         }
       }),
       parent: null,
@@ -114,8 +114,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         kills: member.currentScore.kills,
         assists: member.currentScore.assists,
         deaths: member.currentScore.deaths,
-        score: member.currentScore.totalScore,
         lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : ''
+        score: Math.round(member.currentScore.totalScore),
       }
     }
 
@@ -143,7 +143,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          score: item.totalScore
+          score: Math.round(item.totalScore)
         }
       }),
       parent: null,
@@ -181,7 +181,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: rawClan.kills,
           assists: rawClan.assists,
           deaths: rawClan.deaths,
-          score: rawClan.score || rawClan.totalScore
+          score: Math.round(rawClan.score || rawClan.totalScore)
         }
       })
     }

@@ -37,6 +37,7 @@
     "gatsby-plugin-netlify": "^1.0.6",
     "gatsby-plugin-offline": "^1.0.10",
     "gatsby-plugin-react-helmet": "^1.0.8",
+    "gatsby-plugin-sentry": "^0.0.2",
     "gatsby-plugin-sitemap": "^1.2.5",
     "gatsby-plugin-stylus": "^1.1.10",
     "gatsby-source-filesystem": "^1.5.8",

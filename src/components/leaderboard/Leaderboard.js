@@ -122,7 +122,7 @@ class Leaderboard extends Component {
                   }
                   {showModifiers &&
                     <div className="leaderboard__stat leaderboard__stat--modifiers">
-                      <Modifiers size="small" data={item.modifiers} />
+                      <Modifiers size="small" align="right" data={item.modifiers} />
                     </div>
                   }
                   {keys.map((key, i) => {

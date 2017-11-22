@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Icon from '../icon/Icon'
+import Tooltip from '../tooltip/Tooltip'
 import MedalSvg from '../../images/medal.svg'
 
 import './Medals.styl'
@@ -14,9 +15,11 @@ const Medals = ({ count }) => {
         while (++i <= len) {
           rows.push(
             <li key={i}>
-              <Icon className="medals__icon">
-                <MedalSvg />
-              </Icon>
+              <Tooltip heading="Medal name TBC" text="Medal description TBC" enableHover>
+                <Icon className="medals__icon">
+                  <MedalSvg />
+                </Icon>
+              </Tooltip>
             </li>
           )
         }

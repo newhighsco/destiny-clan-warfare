@@ -71,15 +71,15 @@ export const pageQuery = graphql`
           date
         }
         kills
-        assists
         deaths
+        assists
         score
       }
       totals {
         wins
         kills
-        assists
         deaths
+        assists
         score
         lastPlayed
       }

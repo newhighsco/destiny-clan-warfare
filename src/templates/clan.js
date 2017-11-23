@@ -8,8 +8,8 @@ import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
 import Button from '../components/button/Button'
+import LastUpdated from '../components/last-updated/LastUpdated'
 
-const moment = require('moment')
 const urlBuilder = require('../utils/url-builder')
 
 class ClanTemplate extends Component {
@@ -41,7 +41,7 @@ class ClanTemplate extends Component {
         </Helmet>
         {hasEvent &&
           <Lockup center kicker="Current event" kickerHref={currentEvent.node.path}>
-            Updated {moment.utc(currentEvent.node.updatedDate).format('HH:mm [UTC]')}
+            <LastUpdated date={currentEvent.node.updatedDate} />
           </Lockup>
         }
         <Card cutout className="text-center">

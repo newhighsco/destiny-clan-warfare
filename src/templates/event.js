@@ -9,6 +9,7 @@ import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
 import Button from '../components/button/Button'
+import LastUpdated from '../components/last-updated/LastUpdated'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -29,7 +30,7 @@ class EventTemplate extends Component {
         </Helmet>
         <Lockup center kicker={kicker}>
           {data.event.isCurrent &&
-            `Updated ${moment.utc(data.event.updatedDate).format('HH:mm [UTC]')}`
+            <LastUpdated date={data.event.updatedDate} />
           }
         </Lockup>
         <Card cutout className="text-center">

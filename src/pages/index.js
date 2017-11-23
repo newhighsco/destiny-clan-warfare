@@ -8,6 +8,7 @@ import Modifiers from '../components/modifiers/Modifiers'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
+import LastUpdated from '../components/last-updated/LastUpdated'
 
 const constants = require('../utils/constants')
 const moment = require('moment')
@@ -26,7 +27,7 @@ class IndexPage extends Component {
         </div>
         {currentEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`}>
-            Updated {moment.utc(currentEvents[0].node.updatedDate).format('HH:mm [UTC]')}
+            <LastUpdated date={currentEvents[0].node.updatedDate} />
           </Lockup>,
           currentEvents.map(({ node }) => {
             return ([

@@ -117,7 +117,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         assists: member.currentScore.assists,
         deaths: member.currentScore.deaths,
         score: Math.round(member.currentScore.totalScore),
-        lastPlayed: member.currentScore.lastSeen ? moment(member.currentScore.lastSeen).format('YYYY-MM-DD') : '-'
+        lastPlayed: member.currentScore.lastSeen ? moment.utc(member.currentScore.lastSeen).format('YYYY-MM-DD') : '-'
       }
     }
 

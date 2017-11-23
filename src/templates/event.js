@@ -35,13 +35,13 @@ class EventTemplate extends Component {
         <Card cutout className="text-center">
           <Lockup center heading={data.event.name} />
           {data.event.isCurrent &&
-            <p>Ends {moment(data.event.endDate).fromNow()}</p>
+            <p>Ends {moment.utc(data.event.endDate).fromNow()}</p>
           }
           {data.event.isPast &&
-            <p>Ended {moment(data.event.endDate).fromNow()}</p>
+            <p>Ended {moment.utc(data.event.endDate).fromNow()}</p>
           }
           {data.event.isFuture &&
-            <p>Starts {moment(data.event.startDate).fromNow()}</p>
+            <p>Starts {moment.utc(data.event.startDate).fromNow()}</p>
           }
           {data.event.description &&
             <p>{data.event.description}</p>

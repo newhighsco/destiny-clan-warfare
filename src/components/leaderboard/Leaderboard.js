@@ -61,7 +61,7 @@ class Leaderboard extends Component {
       'modifiers'
     ]
     const relativeDate = (date) => {
-      return moment(date).fromNow()
+      return moment.utc(date).fromNow()
     }
 
     keys = keys.reduce((filtered, key) => {

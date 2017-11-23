@@ -32,7 +32,7 @@ class IndexPage extends Component {
             return ([
               <Card key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <p>Ends {moment(node.endDate).fromNow()}</p>
+                <p>Ends {moment.utc(node.endDate).fromNow()}</p>
                 {node.description &&
                   <p>{node.description}</p>
                 }
@@ -61,7 +61,7 @@ class IndexPage extends Component {
             return (
               <Card key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <p>Starts {moment(node.startDate).fromNow()}</p>
+                <p>Starts {moment.utc(node.startDate).fromNow()}</p>
                 {node.description &&
                   <p>{node.description}</p>
                 }
@@ -76,7 +76,7 @@ class IndexPage extends Component {
             return ([
               <Card cutout key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <p>Ended {moment(node.endDate).fromNow()}</p>
+                <p>Ended {moment.utc(node.endDate).fromNow()}</p>
                 {node.description &&
                   <p>{node.description}</p>
                 }

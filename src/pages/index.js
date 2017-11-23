@@ -8,10 +8,9 @@ import Modifiers from '../components/modifiers/Modifiers'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
-import LastUpdated from '../components/last-updated/LastUpdated'
+import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
-const moment = require('moment')
 
 class IndexPage extends Component {
   render () {
@@ -27,13 +26,13 @@ class IndexPage extends Component {
         </div>
         {currentEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`}>
-            <LastUpdated date={currentEvents[0].node.updatedDate} />
+            <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
           </Lockup>,
           currentEvents.map(({ node }) => {
             return ([
               <Card key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <p>Ends {moment.utc(node.endDate).fromNow()}</p>
+                <RelativeDate label={constants.relativeDate.current} date={node.endDate} />
                 {node.description &&
                   <p>{node.description}</p>
                 }
@@ -62,7 +61,7 @@ class IndexPage extends Component {
             return (
               <Card key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <p>Starts {moment.utc(node.startDate).fromNow()}</p>
+                <RelativeDate label={constants.relativeDate.future} date={node.startDate} />
                 {node.description &&
                   <p>{node.description}</p>
                 }
@@ -77,7 +76,7 @@ class IndexPage extends Component {
             return ([
               <Card cutout key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <p>Ended {moment.utc(node.endDate).fromNow()}</p>
+                <RelativeDate label={constants.relativeDate.past} date={node.endDate} />
                 {node.description &&
                   <p>{node.description}</p>
                 }

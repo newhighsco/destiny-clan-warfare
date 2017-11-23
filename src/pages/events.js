@@ -6,6 +6,8 @@ import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 
+const constants = require('../utils/constants')
+
 class EventsPage extends Component {
   render () {
     const { data } = this.props
@@ -14,7 +16,7 @@ class EventsPage extends Component {
         game: {
           path: edge.node.path,
           type: edge.node.name,
-          map: edge.node.isCurrent ? 'Ends' : (edge.node.isPast ? 'Ended' : 'Starts'),
+          map: edge.node.isCurrent ? constants.relativeDate.current : (edge.node.isPast ? constants.relativeDate.past : constants.relativeDate.future),
           mapSeparator: ' ',
           date: edge.node.isCurrent ? edge.node.endDate : (edge.node.isPast) ? edge.node.endDate : edge.node.startDate
         },

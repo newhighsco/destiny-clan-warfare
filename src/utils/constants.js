@@ -12,6 +12,12 @@ const constants = {
     current: 'Current',
     past: 'Past',
     future: 'Future'
+  },
+  relativeDate: {
+    updated: 'Updated',
+    current: 'Ends',
+    past: 'Ended',
+    future: 'Starts'
   }
 }
 

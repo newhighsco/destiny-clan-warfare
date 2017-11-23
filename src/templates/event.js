@@ -9,9 +9,8 @@ import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Medals from '../components/medals/Medals'
 import Button from '../components/button/Button'
-import LastUpdated from '../components/last-updated/LastUpdated'
+import RelativeDate from '../components/relative-date/RelativeDate'
 
-const moment = require('moment')
 const constants = require('../utils/constants')
 
 class EventTemplate extends Component {
@@ -30,19 +29,19 @@ class EventTemplate extends Component {
         </Helmet>
         <Lockup center kicker={kicker}>
           {data.event.isCurrent &&
-            <LastUpdated date={data.event.updatedDate} />
+            <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
           }
         </Lockup>
         <Card cutout className="text-center">
           <Lockup center heading={data.event.name} />
           {data.event.isCurrent &&
-            <p>Ends {moment.utc(data.event.endDate).fromNow()}</p>
+            <RelativeDate label={constants.relativeDate.current} date={data.event.endDate} />
           }
           {data.event.isPast &&
-            <p>Ended {moment.utc(data.event.endDate).fromNow()}</p>
+            <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
           }
           {data.event.isFuture &&
-            <p>Starts {moment.utc(data.event.startDate).fromNow()}</p>
+            <RelativeDate label={constants.relativeDate.future} date={data.event.startDate} />
           }
           {data.event.description &&
             <p>{data.event.description}</p>

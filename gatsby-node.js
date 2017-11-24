@@ -8,7 +8,7 @@ const constants = require('./src/utils/constants')
 
 const api = axios.create({
   baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/',
-  timeout: 30000
+  timeout: 60000
 })
 
 const createContentDigest = content => {

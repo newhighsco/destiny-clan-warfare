@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
-import MedalSvg from '../../images/medal.svg'
+import MedalSvg from './medal.svg'
+import HighlightSvg from './highlight.svg'
 
 import './Medals.styl'
 
@@ -18,6 +19,7 @@ const Medals = ({ count }) => {
               <Tooltip heading="Medal name TBC" text="Medal description TBC" enableHover>
                 <Icon className="medals__icon">
                   <MedalSvg />
+                  <HighlightSvg className="medals__highlight" />
                 </Icon>
               </Tooltip>
             </li>

@@ -15,7 +15,7 @@
     "build:gatsby": "gatsby build",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",
-    "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass --pretty --indent=2",
+    "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass",
     "optimize:images": "imagemin src/images/* --out-dir=src/images",
     "optimize:static": "imagemin static/* --out-dir=static",
     "qa": "npm-run-all --parallel qa:*",

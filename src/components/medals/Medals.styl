@@ -5,17 +5,38 @@
   fill $color--black
   margin $spacing--half
   position relative
-  width rem(45)
+  width rem(60)
 
   &:hover
     transform scale(1.1)
 
   +width-min($mq--tablet)
-    width rem(60)
+    width rem(75)
 
 .medals__highlight
   fill $color--white
-  opacity 0.25
+  opacity 0.1
   position absolute
   top 0
   left 0
+
+.medals__tier--1
+  .background
+    fill $color--silver
+
+  .foreground
+    fill $color--terracotta
+
+.medals__tier--2
+  .background
+    fill $color--eclipse
+
+  .foreground
+    fill $color--equator
+
+.medals__tier--3
+  .background
+    fill $color--nero
+
+  .foreground
+    fill $color--lemon

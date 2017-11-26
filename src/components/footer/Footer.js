@@ -18,13 +18,10 @@ const Footer = () => {
           <div className="grid__item tablet-one-half">
             <ul className="list--inline footer__list">
               <li className="footer__item">
-                <Link className="footer__link" to={urlBuilder.eventRootUrl}>Events</Link>
+                <Link className="footer__link" to={urlBuilder.currentEventRootUrl}>Current</Link>
               </li>
               <li className="footer__item">
-                <Link className="footer__link" to={urlBuilder.clanRootUrl}>Clans</Link>
-              </li>
-              <li className="footer__item">
-                <Link className="footer__link" to={urlBuilder.profileRootUrl}>Members</Link>
+                <a className="footer__link" href="https://status.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">Status</a>
               </li>
               <li className="footer__item">
                 <span className="footer__link">&copy;{date.getFullYear()}</span>

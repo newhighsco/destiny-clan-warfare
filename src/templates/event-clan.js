@@ -9,25 +9,18 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
-const urlBuilder = require('../utils/url-builder')
 
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.clan.leaderboard.map(item => {
-      return {
-        ...item,
-        path: urlBuilder.eventUrl(data.event.path, data.clan.id, item.id)
-      }
-    })
 
     return (
       <PageContainer>
         <Helmet>
           <title>{`${data.clan.name} | Current event`}</title>
         </Helmet>
-        <Lockup center kicker="Current event" kickerHref={data.event.path}>
-          <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
+        <Lockup center kicker="Current event">
+          <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
         </Lockup>
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
@@ -36,7 +29,7 @@ class EventClanTemplate extends Component {
             <p>"Top player" block to show who has played most matches etc.</p>
           </div>
         </Card>
-        <Leaderboard cutout data={leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={data.clan.leaderboard} sortBy="score" descending />
       </PageContainer>
     )
   }
@@ -49,9 +42,10 @@ EventClanTemplate.propTypes = {
 export default EventClanTemplate
 
 export const pageQuery = graphql`
-  query EventClanTemplateQuery($id: String!, $eventId: String!) {
+  query EventClanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
       id
+      updatedDate
       name
       motto
       color
@@ -75,10 +69,6 @@ export const pageQuery = graphql`
         assists
         score
       }
-    }
-    event(id: { eq: $eventId }) {
-      updatedDate
-      path
     }
   }
 `

@@ -9,7 +9,6 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
-const urlBuilder = require('../utils/url-builder')
 
 class EventMemberTemplate extends Component {
   render () {
@@ -20,14 +19,14 @@ class EventMemberTemplate extends Component {
         <Helmet>
           <title>{`${data.member.name} | Current event`}</title>
         </Helmet>
-        <Lockup center kicker="Current event" kickerHref={data.event.path}>
-          <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
+        <Lockup center kicker="Current event">
+          <RelativeDate label={constants.relativeDate.updated} date={data.member.updatedDate} />
         </Lockup>
         <Card cutout className="text-center">
           {data.member.icon &&
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
-          <Lockup center reverse kicker={data.clan.name} kickerHref={urlBuilder.eventUrl(data.event.path, data.clan.id)} heading={data.member.name} />
+          <Lockup center reverse kicker={data.member.clan.name} heading={data.member.name} />
           <div className="temp">
             <p>Event totals</p>
           </div>
@@ -45,10 +44,15 @@ EventMemberTemplate.propTypes = {
 export default EventMemberTemplate
 
 export const pageQuery = graphql`
-  query EventMemberTemplateQuery($id: String!, $clanId: String!, $eventId: String!) {
+  query EventMemberTemplateQuery($id: String!) {
     member(id: { eq: $id }) {
+      updatedDate
       name
       icon
+      clanId
+      clan {
+        name
+      }
       history {
         game {
           path
@@ -64,14 +68,6 @@ export const pageQuery = graphql`
         assists
         score
       }
-    }
-    clan(id: { eq: $clanId }) {
-      id
-      name
-    }
-    event(id: { eq: $eventId }) {
-      updatedDate
-      path
     }
   }
 `

@@ -21,7 +21,6 @@
     "qa": "npm-run-all --parallel qa:*",
     "qa:lint": "eslint --cache -f unix .",
     "qa:stylint": "stylint ./src",
-    "pretest": "npm-run-all --parallel build:*",
     "test": "npm-run-all --parallel qa"
   },
   "dependencies": {

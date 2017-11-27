@@ -27,6 +27,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   let members = []
   let histories = []
   let events = []
+  let currentEvent
   const casingOptions = { deep: true }
   const updatedDate = new Date()
 
@@ -51,6 +52,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   await api(`Event/GetAllEvents`)
     .then(({ data }) => {
       events = data.map(item => camelcaseKeys(item, casingOptions))
+      currentEvent = events.find(event => event.eventTense === constants.tense.current)
     })
     .catch(err => console.log(err))
 
@@ -85,7 +87,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         const member = members.find(member => member.profileIdStr === item.memberShipIdStr)
 
         return {
-          path: urlBuilder.profileUrl(member.profileIdStr),
+          path: urlBuilder.eventUrl(currentEvent.eventId, member.groupId, member.profileIdStr),
           id: member.profileIdStr,
           name: member.name,
           icon: member.icon,
@@ -341,6 +343,15 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             id: clan.node.id
           }
         })
+
+        createPage({
+          path: urlBuilder.eventUrl(event.node.path, clan.node.id),
+          layout: `content`,
+          component: path.resolve(`./src/templates/event-clan.js`),
+          context: {
+            id: clan.node.id
+          }
+        })
       }))
 
       Promise.all(result.data.allMember.edges.map(async (member) => {
@@ -349,22 +360,20 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           layout: `content`,
           component: path.resolve(`./src/templates/member.js`),
           context: {
-            id: member.node.id,
-            clanId: member.node.clanId
+            id: member.node.id
           }
         })
       }))
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         const eventPath = event.node.path
-        const eventId = event.node.id
 
         createPage({
           path: eventPath,
           layout: `content`,
           component: path.resolve(`./src/templates/event.js`),
           context: {
-            id: eventId
+            id: event.node.id
           }
         })
 
@@ -389,8 +398,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               layout: `content`,
               component: path.resolve(`./src/templates/event-clan.js`),
               context: {
-                id: clan.node.id,
-                eventId: eventId
+                id: clan.node.id
               }
             })
           }))
@@ -401,9 +409,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               layout: `content`,
               component: path.resolve(`./src/templates/event-member.js`),
               context: {
-                id: member.node.id,
-                clanId: member.node.clanId,
-                eventId: eventId
+                id: member.node.id
               }
             })
           }))

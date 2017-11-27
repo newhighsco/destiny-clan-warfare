@@ -12,8 +12,22 @@ import HeraldOfWarSvg from './foreground/herald-of-war.svg'
 import './Medal.styl'
 
 const uppercamelcase = require('uppercamelcase')
+// const path = require('path')
 
-const baseClassName = 'medal'
+// const requireSvgs = (req) => {
+//   let svgs = {}
+
+//   req.keys().forEach(key => {
+//     const filename = uppercamelcase(path.basename(key, '.svg'))
+//     svgs[filename] = req(key)
+//   })
+
+//   return svgs
+// }
+
+// const reqBackgroundSvgs = require.context('./background', false, /\.svg$/)
+// const reqForegroundSvgs = require.context('./foreground', false, /\.svg$/)
+
 const BackgroundSvgs = {
   Tier1: Tier1Svg,
   Tier2: Tier2Svg,
@@ -22,6 +36,7 @@ const BackgroundSvgs = {
 const ForegroundSvgs = {
   HeraldOfWar: HeraldOfWarSvg
 }
+const baseClassName = 'medal'
 
 const Medal = ({ name, description, tier }) => {
   const backgroundKey = `Tier${tier}`
@@ -33,7 +48,10 @@ const Medal = ({ name, description, tier }) => {
 
   return (
     <Tooltip heading={name} text={description} enableHover>
-      <Icon className={classNames(baseClassName, `${baseClassName}--tier-${tier}`)}>
+      <Icon className={classNames(
+        baseClassName,
+        `${baseClassName}--tier-${tier}`
+      )}>
         <BackgroundSvg />
         {ForegroundSvg &&
           <ForegroundSvg className={classNames(`${baseClassName}__layer`, 'foreground')} />

@@ -6,7 +6,7 @@ import Card from '../components/card/Card'
 import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import Medals from '../components/medals/Medals'
+import { MedalList } from '../components/medal/Medal'
 import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
@@ -43,7 +43,7 @@ class MemberTemplate extends Component {
             </div>
           ) : ([
             <Button key="button" href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>,
-            <Medals key="medals" count={2} />
+            <MedalList key="medals" medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
           ])}
         </Card>
         <Leaderboard cutout data={leaderboard} />

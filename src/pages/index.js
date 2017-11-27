@@ -7,7 +7,7 @@ import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import Medals from '../components/medals/Medals'
+import { MedalList } from '../components/medal/Medal'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
@@ -80,7 +80,7 @@ class IndexPage extends Component {
                 {node.description &&
                   <p>{node.description}</p>
                 }
-                <Medals count={3} />
+                <MedalList medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
               </Card>,
               <TabContainer cutout>
                 <Tab name="Winners">

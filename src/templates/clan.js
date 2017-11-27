@@ -6,7 +6,7 @@ import Card from '../components/card/Card'
 import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import Medals from '../components/medals/Medals'
+import { MedalList } from '../components/medal/Medal'
 import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
@@ -55,7 +55,7 @@ class ClanTemplate extends Component {
           ) : ([
             <p key="description" dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />,
             <Button key="button" href={`https://www.bungie.net/en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>,
-            <Medals key="medals" count={5} />
+            <MedalList key="medals" medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
           ])}
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />

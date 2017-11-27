@@ -7,7 +7,7 @@ import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import Medals from '../components/medals/Medals'
+import { MedalList } from '../components/medal/Medal'
 import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
@@ -48,7 +48,7 @@ class EventTemplate extends Component {
           }
           <Modifiers data={data.event.modifiers} />
           {data.event.isPast &&
-            <Medals key="medals" count={9} />
+            <MedalList key="medals" medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
           }
           {data.event.isFuture &&
             <Button href="/">Join today</Button>

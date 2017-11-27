@@ -343,15 +343,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             id: clan.node.id
           }
         })
-
-        createPage({
-          path: urlBuilder.eventUrl(event.node.path, clan.node.id),
-          layout: `content`,
-          component: path.resolve(`./src/templates/event-clan.js`),
-          context: {
-            id: clan.node.id
-          }
-        })
       }))
 
       Promise.all(result.data.allMember.edges.map(async (member) => {

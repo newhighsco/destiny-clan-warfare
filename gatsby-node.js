@@ -68,6 +68,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     createNode({
       id: `${clan.groupId}`,
       updatedDate: updatedDate,
+      currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
       nameSortable: clan.name.toUpperCase(),
@@ -127,6 +128,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     createNode({
       id: member.profileIdStr,
       updatedDate: updatedDate,
+      currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${member.groupId}`,
       clan: clan,

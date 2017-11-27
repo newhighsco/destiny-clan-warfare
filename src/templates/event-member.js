@@ -9,6 +9,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 class EventMemberTemplate extends Component {
   render () {
@@ -19,14 +20,14 @@ class EventMemberTemplate extends Component {
         <Helmet>
           <title>{`${data.member.name} | Current event`}</title>
         </Helmet>
-        <Lockup center kicker="Current event">
+        <Lockup center kicker="Current event" kickerHref={urlBuilder.eventUrl(data.member.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.member.updatedDate} />
         </Lockup>
         <Card cutout className="text-center">
           {data.member.icon &&
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
-          <Lockup center reverse kicker={data.member.clan.name} heading={data.member.name} />
+          <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId)} heading={data.member.name} />
           <div className="temp">
             <p>Event totals</p>
           </div>
@@ -47,6 +48,7 @@ export const pageQuery = graphql`
   query EventMemberTemplateQuery($id: String!) {
     member(id: { eq: $id }) {
       updatedDate
+      currentEventId
       name
       icon
       clanId

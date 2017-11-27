@@ -54,10 +54,8 @@ LogoLockup.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-const components = {
+export {
   Logo,
   LogoIcon,
   LogoLockup
 }
-
-export default components

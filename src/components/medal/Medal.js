@@ -4,28 +4,24 @@ import classNames from 'classnames'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import HighlightSvg from './highlight.svg'
+import Tier1Svg from './background/tier1.svg'
+import Tier2Svg from './background/tier2.svg'
+import Tier3Svg from './background/tier3.svg'
+import HeraldOfWarSvg from './foreground/herald-of-war.svg'
 
 import './Medal.styl'
 
-const path = require('path')
 const uppercamelcase = require('uppercamelcase')
 
-const requireSvgs = (req) => {
-  let svgs = {}
-
-  req.keys().forEach(key => {
-    const filename = uppercamelcase(path.basename(key, '.svg'))
-    svgs[filename] = req(key)
-  })
-
-  return svgs
-}
-
-const reqBackgroundSvgs = require.context('./background', false, /\.svg$/)
-const reqForegroundSvgs = require.context('./foreground', false, /\.svg$/)
-const BackgroundSvgs = requireSvgs(reqBackgroundSvgs)
-const ForegroundSvgs = requireSvgs(reqForegroundSvgs)
 const baseClassName = 'medal'
+const BackgroundSvgs = {
+  Tier1: Tier1Svg,
+  Tier2: Tier2Svg,
+  Tier3: Tier3Svg
+}
+const ForegroundSvgs = {
+  HeraldOfWar: HeraldOfWarSvg
+}
 
 const Medal = ({ name, description, tier }) => {
   const backgroundKey = `Tier${tier}`

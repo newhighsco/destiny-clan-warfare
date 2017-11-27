@@ -10,9 +10,9 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel start:*",
-    "start:gatsby": "gatsby develop",
+    "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop",
     "build": "npm-run-all build:gatsby",
-    "build:gatsby": "gatsby build",
+    "build:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby build",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",
     "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass",

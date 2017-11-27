@@ -20,7 +20,7 @@ const RelativeDate = ({ date, label }) => {
 }
 
 RelativeDate.propTypes = {
-  date: PropTypes.date,
+  date: PropTypes.string,
   label: PropTypes.string
 }
 

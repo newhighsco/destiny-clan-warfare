@@ -9,6 +9,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 class EventClanTemplate extends Component {
   render () {
@@ -19,7 +20,7 @@ class EventClanTemplate extends Component {
         <Helmet>
           <title>{`${data.clan.name} | Current event`}</title>
         </Helmet>
-        <Lockup center kicker="Current event">
+        <Lockup center kicker="Current event" kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
         </Lockup>
         <Card cutout className="text-center">
@@ -46,6 +47,7 @@ export const pageQuery = graphql`
     clan(id: { eq: $id }) {
       id
       updatedDate
+      currentEventId
       name
       motto
       color

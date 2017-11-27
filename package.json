@@ -9,9 +9,9 @@
     "yarn": "^1.2.1"
   },
   "scripts": {
-    "start": "npm-run-all  --parallel start:*",
+    "start": "npm-run-all --parallel start:*",
     "start:gatsby": "gatsby develop",
-    "build": "npm-run build:gatsby",
+    "build": "npm-run-all build:gatsby",
     "build:gatsby": "gatsby build",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",

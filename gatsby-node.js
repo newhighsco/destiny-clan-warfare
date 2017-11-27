@@ -338,8 +338,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           layout: `content`,
           component: path.resolve(`./src/templates/clan.js`),
           context: {
-            id: clan.node.id,
-            eventId: null
+            id: clan.node.id
           }
         })
       }))
@@ -351,8 +350,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           component: path.resolve(`./src/templates/member.js`),
           context: {
             id: member.node.id,
-            clanId: member.node.clanId,
-            eventId: null
+            clanId: member.node.clanId
           }
         })
       }))
@@ -389,7 +387,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             createPage({
               path: urlBuilder.eventUrl(event.node.path, clan.node.id),
               layout: `content`,
-              component: path.resolve(`./src/templates/clan.js`),
+              component: path.resolve(`./src/templates/event-clan.js`),
               context: {
                 id: clan.node.id,
                 eventId: eventId
@@ -401,7 +399,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             createPage({
               path: urlBuilder.eventUrl(event.node.path, member.node.clanId, member.node.id),
               layout: `content`,
-              component: path.resolve(`./src/templates/member.js`),
+              component: path.resolve(`./src/templates/event-member.js`),
               context: {
                 id: member.node.id,
                 clanId: member.node.clanId,

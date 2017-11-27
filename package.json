@@ -49,6 +49,7 @@
     "sentence-case": "^2.1.1",
     "stylus-mixins": "^0.4.0",
     "svgo": "^1.0.3",
+    "uppercamelcase": "^3.0.0",
     "yarn": "^1.3.2"
   },
   "devDependencies": {

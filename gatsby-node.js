@@ -345,16 +345,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
       }))
 
-      Promise.all(result.data.allMember.edges.map(async (member) => {
-        createPage({
-          path: member.node.path,
-          layout: `content`,
-          component: path.resolve(`./src/templates/member.js`),
-          context: {
-            id: member.node.id
-          }
-        })
-      }))
+      // Promise.all(result.data.allMember.edges.map(async (member) => {
+      //   createPage({
+      //     path: member.node.path,
+      //     layout: `content`,
+      //     component: path.resolve(`./src/templates/member.js`),
+      //     context: {
+      //       id: member.node.id
+      //     }
+      //   })
+      // }))
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         const eventPath = event.node.path

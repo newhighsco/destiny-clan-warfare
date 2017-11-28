@@ -39,14 +39,14 @@ class EventTemplate extends Component {
             break
           case '#2':
             medal = {
-              tier: 2,
+              tier: 1,
               name: `Second ${division}`,
               description: description('second')
             }
             break
           case '#3':
             medal = {
-              tier: 2,
+              tier: 1,
               name: `Third ${division}`,
               description: description('third')
             }

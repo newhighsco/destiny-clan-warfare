@@ -7,7 +7,6 @@ import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import { MedalList } from '../components/medal/Medal'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
@@ -65,7 +64,7 @@ class IndexPage extends Component {
                 {node.description &&
                   <p>{node.description}</p>
                 }
-                <MedalList medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
+                <Modifiers data={node.modifiers} />
               </Card>,
               <TabContainer cutout>
                 <Tab name="Winners">
@@ -183,6 +182,11 @@ export const pageQuery = graphql`
             }
             division
             score
+            medal {
+              tier
+              name
+              description
+            }
           }
           ...modifiersFragment
         }

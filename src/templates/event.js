@@ -7,7 +7,6 @@ import Lockup from '../components/lockup/Lockup'
 import Modifiers from '../components/modifiers/Modifiers'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import { MedalList } from '../components/medal/Medal'
 import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
@@ -21,6 +20,53 @@ class EventTemplate extends Component {
     const futureEventKicker = 'Coming soon'
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
     const title = `${data.event.name} | ${kicker}`
+    let largeLeaderboard = data.event.leaderboards.large
+    let mediumLeaderboard = data.event.leaderboards.medium
+    let smallLeaderboard = data.event.leaderboards.small
+
+    const medalEmbellisher = (leaderboard, division) => {
+      let medal
+      const description = (place) => `Finished ${place} place in the ${division} division`
+
+      return leaderboard.map(item => {
+        switch (item.rank) {
+          case '#1':
+            medal = {
+              tier: 3,
+              name: `First ${division}`,
+              description: description('first')
+            }
+            break
+          case '#2':
+            medal = {
+              tier: 2,
+              name: `Second ${division}`,
+              description: description('second')
+            }
+            break
+          case '#3':
+            medal = {
+              tier: 2,
+              name: `Third ${division}`,
+              description: description('third')
+            }
+            break
+          default:
+            medal = {}
+        }
+
+        return {
+          ...item,
+          medal: medal
+        }
+      })
+    }
+
+    if (data.event.isPast) {
+      largeLeaderboard = medalEmbellisher(data.event.leaderboards.large, constants.division.large)
+      mediumLeaderboard = medalEmbellisher(data.event.leaderboards.medium, constants.division.medium)
+      smallLeaderboard = medalEmbellisher(data.event.leaderboards.small, constants.division.small)
+    }
 
     return (
       <PageContainer>
@@ -47,9 +93,6 @@ class EventTemplate extends Component {
             <p>{data.event.description}</p>
           }
           <Modifiers data={data.event.modifiers} />
-          {data.event.isPast &&
-            <MedalList key="medals" medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
-          }
           {data.event.isFuture &&
             <Button href="/">Join today</Button>
           }
@@ -57,13 +100,13 @@ class EventTemplate extends Component {
         {!data.event.isFuture &&
           <TabContainer cutout>
             <Tab name={constants.division.large}>
-              <Leaderboard data={data.event.leaderboards.large} />
+              <Leaderboard data={largeLeaderboard} />
             </Tab>
             <Tab name={constants.division.medium}>
-              <Leaderboard data={data.event.leaderboards.medium} />
+              <Leaderboard data={mediumLeaderboard} />
             </Tab>
             <Tab name={constants.division.small}>
-              <Leaderboard data={data.event.leaderboards.small} />
+              <Leaderboard data={smallLeaderboard} />
             </Tab>
           </TabContainer>
         }

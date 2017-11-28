@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
 import Modifiers from '../modifiers/Modifiers'
+import { Medal } from '../medal/Medal'
 import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
@@ -47,6 +48,7 @@ class Leaderboard extends Component {
     const showNames = keys.indexOf('name') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
     const showModifiers = keys.indexOf('modifiers') !== -1
+    const showMedals = keys.indexOf('medal') !== -1
     const blackListedKeys = [
       'id',
       'icon',
@@ -58,7 +60,8 @@ class Leaderboard extends Component {
       'clan',
       'path',
       'game',
-      'modifiers'
+      'modifiers',
+      'medal'
     ]
     const relativeDate = (date) => {
       return moment.utc(date).fromNow()
@@ -91,6 +94,8 @@ class Leaderboard extends Component {
                   <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
                 }
                 {showNames && [
+                  showMedals &&
+                    <Medal {...item.medal} size="small" className="leaderboard__medal" />,
                   <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
                     {item.name}
                   </Link>,

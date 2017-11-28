@@ -27,7 +27,7 @@ const BackgroundSvgs = requireSvgs(reqBackgroundSvgs)
 const ForegroundSvgs = requireSvgs(reqForegroundSvgs)
 const baseClassName = 'medal'
 
-const Medal = ({ name, description, tier }) => {
+const Medal = ({ name, description, tier, size, className }) => {
   const backgroundKey = `Tier${tier}`
   const foregroundKey = uppercamelcase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
@@ -36,10 +36,11 @@ const Medal = ({ name, description, tier }) => {
   if (!BackgroundSvg) return null
 
   return (
-    <Tooltip heading={name} text={description} enableHover>
+    <Tooltip heading={name} text={description} className={className} enableHover>
       <Icon className={classNames(
         baseClassName,
-        `${baseClassName}--tier-${tier}`
+        `${baseClassName}--tier-${tier}`,
+        size && `${baseClassName}--${size}`
       )}>
         <BackgroundSvg />
         {ForegroundSvg &&
@@ -54,7 +55,9 @@ const Medal = ({ name, description, tier }) => {
 Medal.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  tier: PropTypes.number
+  tier: PropTypes.number,
+  size: PropTypes.oneOf([ 'small' ]),
+  className: PropTypes.string
 }
 
 const MedalList = ({ medals }) => {

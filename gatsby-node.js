@@ -202,7 +202,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       if (leaderboard && leaderboard.length) {
         results.push({
           ...leaderboard[0],
-          division: division
+          division: division,
+          medal: {
+            tier: 3,
+            name: `First ${division}`,
+            description: `Finished first place in the ${division} division`
+          }
         })
       }
     }

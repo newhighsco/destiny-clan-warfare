@@ -204,7 +204,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           ...leaderboard[0],
           division: division,
           medal: {
-            tier: 3,
+            tier: 2,
             name: `First ${division}`,
             description: `Finished first place in the ${division} division`
           }

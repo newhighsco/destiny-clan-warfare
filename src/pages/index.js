@@ -55,21 +55,6 @@ class IndexPage extends Component {
             ])
           })
         ]}
-        {futureEvents.length > 0 && [
-          <Lockup key="kicker" center element="h1" kicker="Next event" />,
-          futureEvents.map(({ node }) => {
-            return (
-              <Card key={node.id} className="text-center">
-                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <RelativeDate label={constants.relativeDate.future} date={node.startDate} />
-                {node.description &&
-                  <p>{node.description}</p>
-                }
-                <Modifiers data={node.modifiers} />
-              </Card>
-            )
-          })
-        ]}
         {pastEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
@@ -91,6 +76,21 @@ class IndexPage extends Component {
                 <Button href={node.path}>View full results</Button>
               </div>
             ])
+          })
+        ]}
+        {futureEvents.length > 0 && [
+          <Lockup key="kicker" center element="h1" kicker="Next event" />,
+          futureEvents.map(({ node }) => {
+            return (
+              <Card key={node.id} className="text-center">
+                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                <RelativeDate label={constants.relativeDate.future} date={node.startDate} />
+                {node.description &&
+                  <p>{node.description}</p>
+                }
+                <Modifiers data={node.modifiers} />
+              </Card>
+            )
           })
         ]}
       </PageContainer>

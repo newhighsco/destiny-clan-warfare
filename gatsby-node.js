@@ -111,8 +111,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   for (let member of members) {
     const clan = clans.find(clan => clan.groupId === member.groupId)
-    const history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
+    let history = [ {} ]
     let totals
+
+    if (histories.length > 0) {
+      history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
+    }
 
     if (member.currentScore) {
       totals = {
@@ -140,18 +144,18 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       history: history.map(item => {
         return {
           game: {
-            path: urlBuilder.pgcrUrl(item.pgcrId),
+            path: item.pgcrId ? urlBuilder.pgcrUrl(item.pgcrId) : '',
             isExternal: true,
             result: item.gameWon ? constants.result.win : constants.result.loss,
             type: item.gameType || '',
             map: item.map || '',
             mapSeparator: item.map ? ' - ' : '',
-            date: item.datePlayed ? new Date(item.datePlayed) : null
+            date: item.datePlayed ? new Date(item.datePlayed) : ''
           },
-          kills: item.kills,
-          assists: item.assists,
-          deaths: item.deaths,
-          score: parseInt(Math.round(item.totalScore))
+          kills: item.kills || '',
+          assists: item.assists || '',
+          deaths: item.deaths || '',
+          score: item.totalScore ? parseInt(Math.round(item.totalScore)) : ''
         }
       }),
       parent: null,
@@ -204,14 +208,19 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
 
     const startDate = new Date(event.startTime)
-    const endDate = new Date(event.endTime)
-    const isCurrent = event.eventTense === constants.tense.current
-    const isPast = event.eventTense === constants.tense.past
+    const endDate = new Date(event.scoringEndTime)
+    let isCurrent = event.eventTense === constants.tense.current
+    let isPast = event.eventTense === constants.tense.past
     const isFuture = event.eventTense === constants.tense.future
     const results = []
     let largeLeaderboard = []
     let mediumLeaderboard = []
     let smallLeaderboard = []
+
+    if (isCurrent && endDate < updatedDate) {
+      isCurrent = false
+      isPast = true
+    }
 
     if (isCurrent) {
       let leaderboard

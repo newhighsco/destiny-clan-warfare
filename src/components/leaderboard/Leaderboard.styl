@@ -136,6 +136,17 @@
     &:after
       border-color $color--terracotta
 
+.leaderboard__medal
+  display none
+
+  +width-min($mq--tablet)
+    display inline-block
+    padding $spacing--half $spacing--default
+    padding-right 0
+
+    svg
+      filter drop-shadow(0 0 1px rgba($color--silver, 0.5))
+
 .leaderboard__name
   display inline-block
   vertical-align middle

@@ -32,7 +32,7 @@ class EventTemplate extends Component {
         switch (item.rank) {
           case '#1':
             medal = {
-              tier: 3,
+              tier: 2,
               name: `First ${division}`,
               description: description('first')
             }

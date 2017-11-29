@@ -7,6 +7,7 @@ import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
+import { StatList } from '../components/stat/Stat'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -15,6 +16,7 @@ class EventMemberTemplate extends Component {
   render () {
     const { data } = this.props
     const leaderboard = data.member.history.filter(({ game }) => game.path.length)
+    const stats = data.clan.leaderboard.find(({ id }) => id === data.member.id)
 
     return (
       <PageContainer>
@@ -29,9 +31,7 @@ class EventMemberTemplate extends Component {
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
           <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId)} heading={data.member.name} />
-          <div className="temp">
-            <p>Event totals</p>
-          </div>
+          <StatList stats={stats} />
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>
@@ -46,8 +46,9 @@ EventMemberTemplate.propTypes = {
 export default EventMemberTemplate
 
 export const pageQuery = graphql`
-  query EventMemberTemplateQuery($id: String!) {
+  query EventMemberTemplateQuery($id: String!, $clanId: String!) {
     member(id: { eq: $id }) {
+      id
       updatedDate
       currentEventId
       name
@@ -66,6 +67,17 @@ export const pageQuery = graphql`
           mapSeparator
           date
         }
+        kills
+        deaths
+        assists
+        score
+      }
+    }
+    clan(id: { eq: $clanId }) {
+      leaderboard {
+        id
+        games
+        wins
         kills
         deaths
         assists

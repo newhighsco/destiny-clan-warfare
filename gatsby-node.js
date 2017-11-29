@@ -452,7 +452,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               layout: `content`,
               component: path.resolve(`./src/templates/event-member.js`),
               context: {
-                id: member.node.id
+                id: member.node.id,
+                clanId: member.node.clanId
               }
             })
           }))

@@ -111,12 +111,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   for (let member of members) {
     const clan = clans.find(clan => clan.groupId === member.groupId)
-    let history = [ {} ]
     let totals
+    let history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
 
-    if (histories.length > 0) {
-      history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
-    }
+    if (history.length === 0) history = [ {} ]
 
     if (member.currentScore) {
       totals = {
@@ -150,12 +148,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
             type: item.gameType || '',
             map: item.map || '',
             mapSeparator: item.map ? ' - ' : '',
-            date: item.datePlayed ? new Date(item.datePlayed) : ''
+            date: item.datePlayed || ''
           },
-          kills: item.kills || '',
-          assists: item.assists || '',
-          deaths: item.deaths || '',
-          score: item.totalScore ? parseInt(Math.round(item.totalScore)) : ''
+          kills: item.kills || 0,
+          assists: item.assists || 0,
+          deaths: item.deaths || 0,
+          score: item.totalScore ? parseInt(Math.round(item.totalScore)) : 0
         }
       }),
       parent: null,

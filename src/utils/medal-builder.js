@@ -2,7 +2,7 @@ var numberToWords = require('number-to-words')
 var sentenceCase = require('sentence-case')
 
 const build = (rank, tier, division) => {
-  const place = numberToWords(rank)
+  const place = numberToWords.toWords(rank)
 
   return {
     tier: tier,

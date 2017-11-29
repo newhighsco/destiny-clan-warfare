@@ -1,0 +1,26 @@
+.stat
+  text-align center
+  white-space nowrap
+
+  &:hover
+    transform scale(1.1)
+
+.stat__label
+  border-bottom 1px solid $color--silver
+  display inline-block
+  font-size smaller
+  line-height 1
+  opacity
+  text-transform uppercase
+  padding-bottom $spacing--quarter
+
+.stat__value
+  font-size rem(45)
+  font-weight bold
+  line-height 1
+
+.stat-list
+  text-align center
+
+  .stat
+    margin $spacing--half $spacing--default

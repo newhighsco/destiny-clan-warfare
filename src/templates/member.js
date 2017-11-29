@@ -5,8 +5,8 @@ import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
-import Leaderboard from '../components/leaderboard/Leaderboard'
 import { MedalList } from '../components/medal/Medal'
+import { StatList } from '../components/stat/Stat'
 import Button from '../components/button/Button'
 
 const moment = require('moment')
@@ -19,10 +19,10 @@ class MemberTemplate extends Component {
     const totals = data.member.totals
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
     const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
-    const leaderboard = [ {
+    const stats = {
       ...totals,
       lastPlayed: lastPlayedDate
-    } ]
+    }
 
     return (
       <PageContainer>
@@ -34,12 +34,12 @@ class MemberTemplate extends Component {
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
           <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.clanUrl(data.member.clanId)} heading={data.member.name} />
-          <Button key="button" href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>
           <MedalList key="medals" medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
+          {lastPlayedDate > emptyDate &&
+            <StatList stats={stats} />
+          }
+          <Button key="button" href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>
         </Card>
-        {lastPlayedDate > emptyDate &&
-          <Leaderboard cutout data={leaderboard} />
-        }
       </PageContainer>
     )
   }

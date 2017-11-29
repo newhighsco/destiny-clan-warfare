@@ -3,8 +3,9 @@ const crypto = require(`crypto`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
 const moment = require('moment')
-const urlBuilder = require('./src/utils/url-builder')
 const constants = require('./src/utils/constants')
+const medalBuilder = require('./src/utils/medal-builder')
+const urlBuilder = require('./src/utils/url-builder')
 
 const api = axios.create({
   baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/',
@@ -113,8 +114,18 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     const clan = clans.find(clan => clan.groupId === member.groupId)
     let totals
     let history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
+    const emptyHistory = {
+      pgcrId: null,
+      gameType: '',
+      map: '',
+      datePlayed: 0,
+      kills: Number.MIN_VALUE,
+      assists: Number.MIN_VALUE,
+      deaths: Number.MIN_VALUE,
+      score: Number.MIN_VALUE
+    }
 
-    if (history.length === 0) history = [ {} ]
+    if (history.length === 0) history = [ emptyHistory ]
 
     if (member.currentScore) {
       totals = {
@@ -144,16 +155,16 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           game: {
             path: item.pgcrId ? urlBuilder.pgcrUrl(item.pgcrId) : '',
             isExternal: true,
-            result: item.gameWon ? constants.result.win : constants.result.loss,
-            type: item.gameType || '',
-            map: item.map || '',
+            result: item.pgcrId ? (item.gameWon ? constants.result.win : constants.result.loss) : '',
+            type: item.gameType,
+            map: item.map,
             mapSeparator: item.map ? ' - ' : '',
-            date: item.datePlayed || ''
+            date: new Date(item.datePlayed)
           },
-          kills: item.kills || 0,
-          assists: item.assists || 0,
-          deaths: item.deaths || 0,
-          score: item.totalScore ? parseInt(Math.round(item.totalScore)) : 0
+          kills: item.kills,
+          assists: item.assists,
+          deaths: item.deaths,
+          score: parseInt(Math.round(item.totalScore))
         }
       }),
       parent: null,
@@ -201,10 +212,28 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         results.push({
           ...leaderboard[0],
           division: division,
+          medal: medalBuilder.build(1, 2, division)
+        })
+      } else {
+        results.push({
+          path: '',
+          name: '',
+          color: '',
+          foreground: { color: '', icon: '' },
+          background: { color: '', icon: '' },
+          rank: '',
+          size: Number.MIN_VALUE,
+          games: Number.MIN_VALUE,
+          wins: Number.MIN_VALUE,
+          kills: Number.MIN_VALUE,
+          assists: Number.MIN_VALUE,
+          deaths: Number.MIN_VALUE,
+          score: Number.MIN_VALUE,
+          division: '',
           medal: {
-            tier: 2,
-            name: `First ${division}`,
-            description: `Finished first place in the ${division} division`
+            tier: Number.MIN_VALUE,
+            name: '',
+            description: ''
           }
         })
       }

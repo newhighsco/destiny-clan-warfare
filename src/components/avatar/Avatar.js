@@ -9,6 +9,8 @@ import './Avatar.styl'
 const hexToRgb = require('./lib/hex-to-rgb')
 
 const AvatarLayer = (layer) => {
+  if (!layer.color || !layer.icon) return null
+
   const hex = hexToRgb(layer.color)
   const r = hex.r / 255
   const g = hex.g / 255
@@ -29,7 +31,7 @@ const Avatar = (props) => {
 
   return (
     <Online>
-      <div className={classNames('avatar', className)} style={color && { backgroundColor: color }}>
+      <div className={classNames('avatar', className)} style={{ backgroundColor: color }}>
         {icon &&
           <ResponsiveMedia className="avatar__layer" ratio="1:1">
             <img src={icon} alt="" />
@@ -40,6 +42,10 @@ const Avatar = (props) => {
       </div>
     </Online>
   )
+}
+
+Avatar.defaultProps = {
+  color: '#000'
 }
 
 Avatar.propTypes = {

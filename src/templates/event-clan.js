@@ -14,6 +14,7 @@ const urlBuilder = require('../utils/url-builder')
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
+    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
 
     return (
       <PageContainer>
@@ -30,7 +31,7 @@ class EventClanTemplate extends Component {
             <p>"Top player" block to show who has played most matches etc.</p>
           </div>
         </Card>
-        <Leaderboard cutout data={data.clan.leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>
     )
   }

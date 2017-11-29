@@ -68,15 +68,16 @@ class IndexPage extends Component {
                 }
                 <Modifiers data={node.modifiers} />
               </Card>,
-              leaderboard.length > 0 &&
+              leaderboard.length > 0 && [
                 <TabContainer cutout>
                   <Tab name="Winners">
                     <Leaderboard data={leaderboard} />
                   </Tab>
                 </TabContainer>,
-              <div className="button-group">
-                <Button href={node.path}>View full results</Button>
-              </div>
+                <div className="button-group">
+                  <Button href={node.path}>View full results</Button>
+                </div>
+              ]
             ])
           })
         ]}

@@ -11,6 +11,7 @@ import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
+const medalBuilder = require('../utils/medal-builder')
 
 class EventTemplate extends Component {
   render () {
@@ -24,48 +25,10 @@ class EventTemplate extends Component {
     let mediumLeaderboard = data.event.leaderboards.medium
     let smallLeaderboard = data.event.leaderboards.small
 
-    const medalEmbellisher = (leaderboard, division) => {
-      let medal
-      const description = (place) => `Finished ${place} place in the ${division} division`
-
-      return leaderboard.map(item => {
-        switch (item.rank) {
-          case '#1':
-            medal = {
-              tier: 2,
-              name: `First ${division}`,
-              description: description('first')
-            }
-            break
-          case '#2':
-            medal = {
-              tier: 1,
-              name: `Second ${division}`,
-              description: description('second')
-            }
-            break
-          case '#3':
-            medal = {
-              tier: 1,
-              name: `Third ${division}`,
-              description: description('third')
-            }
-            break
-          default:
-            medal = {}
-        }
-
-        return {
-          ...item,
-          medal: medal
-        }
-      })
-    }
-
     if (data.event.isPast) {
-      largeLeaderboard = medalEmbellisher(data.event.leaderboards.large, constants.division.large)
-      mediumLeaderboard = medalEmbellisher(data.event.leaderboards.medium, constants.division.medium)
-      smallLeaderboard = medalEmbellisher(data.event.leaderboards.small, constants.division.small)
+      largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)
+      mediumLeaderboard = medalBuilder.embellishLeaderboard(mediumLeaderboard, constants.division.medium)
+      smallLeaderboard = medalBuilder.embellishLeaderboard(smallLeaderboard, constants.division.small)
     }
 
     return (
@@ -99,15 +62,21 @@ class EventTemplate extends Component {
         </Card>
         {!data.event.isFuture &&
           <TabContainer cutout>
-            <Tab name={constants.division.large}>
-              <Leaderboard data={largeLeaderboard} />
-            </Tab>
-            <Tab name={constants.division.medium}>
-              <Leaderboard data={mediumLeaderboard} />
-            </Tab>
-            <Tab name={constants.division.small}>
-              <Leaderboard data={smallLeaderboard} />
-            </Tab>
+            {largeLeaderboard.length > 0 &&
+              <Tab name={constants.division.large}>
+                <Leaderboard data={largeLeaderboard} />
+              </Tab>
+            }
+            {mediumLeaderboard.length > 0 &&
+              <Tab name={constants.division.medium}>
+                <Leaderboard data={mediumLeaderboard} />
+              </Tab>
+            }
+            {smallLeaderboard.length > 0 &&
+              <Tab name={constants.division.small}>
+                <Leaderboard data={smallLeaderboard} />
+              </Tab>
+            }
           </TabContainer>
         }
       </PageContainer>
@@ -146,6 +115,7 @@ export const pageQuery = graphql`
             icon
           }
           rank
+          size
           score
         }
         medium {
@@ -161,6 +131,7 @@ export const pageQuery = graphql`
             icon
           }
           rank
+          size
           score
         }
         small {
@@ -176,6 +147,7 @@ export const pageQuery = graphql`
             icon
           }
           rank
+          size
           score
         }
       }

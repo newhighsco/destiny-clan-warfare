@@ -57,6 +57,8 @@ class IndexPage extends Component {
         {pastEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
+            const leaderboard = node.results.filter(({ score }) => score !== Number.MIN_VALUE)
+
             return ([
               <Card cutout key={node.id} className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
@@ -66,11 +68,12 @@ class IndexPage extends Component {
                 }
                 <Modifiers data={node.modifiers} />
               </Card>,
-              <TabContainer cutout>
-                <Tab name="Winners">
-                  <Leaderboard data={node.results} />
-                </Tab>
-              </TabContainer>,
+              leaderboard.length > 0 &&
+                <TabContainer cutout>
+                  <Tab name="Winners">
+                    <Leaderboard data={leaderboard} />
+                  </Tab>
+                </TabContainer>,
               <div className="button-group">
                 <Button href={node.path}>View full results</Button>
               </div>
@@ -135,6 +138,7 @@ export const pageQuery = graphql`
                 icon
               }
               rank
+              size
               score
             }
             medium {
@@ -150,6 +154,7 @@ export const pageQuery = graphql`
                 icon
               }
               rank
+              size
               score
             }
             small {
@@ -165,6 +170,7 @@ export const pageQuery = graphql`
                 icon
               }
               rank
+              size
               score
             }
           }

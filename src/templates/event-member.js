@@ -14,6 +14,7 @@ const urlBuilder = require('../utils/url-builder')
 class EventMemberTemplate extends Component {
   render () {
     const { data } = this.props
+    const leaderboard = data.member.history.filter(({ game }) => game.path.length)
 
     return (
       <PageContainer>
@@ -32,7 +33,7 @@ class EventMemberTemplate extends Component {
             <p>Event totals</p>
           </div>
         </Card>
-        <Leaderboard cutout data={data.member.history} />
+        <Leaderboard cutout data={leaderboard} />
       </PageContainer>
     )
   }

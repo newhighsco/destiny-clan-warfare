@@ -47,11 +47,15 @@ class TabContainer extends Component {
     return (
       <div className={classNames(baseClassName, cutout && `${baseClassName}--cutout`)}>
         <ul className="list--inline tab-navigation">
-          {React.Children.map(children, (child, i) => (
-            <li className="tab-navigation__item">
-              <Button onClick={this.handleToggle} className={classNames('tab-button', activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
-            </li>
-          ))}
+          {React.Children.map(children, (child, i) => {
+            if (!child) return null
+
+            return (
+              <li className="tab-navigation__item">
+                <Button onClick={this.handleToggle} className={classNames('tab-button', activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
+              </li>
+            )
+          })}
         </ul>
         {React.Children.map(children, (child, i) => {
           if (activeIndex === i) return child

@@ -2,7 +2,6 @@ const path = require(`path`)
 const crypto = require(`crypto`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
-const moment = require('moment')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -112,29 +111,38 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   for (let member of members) {
     const clan = clans.find(clan => clan.groupId === member.groupId)
-    let totals
     let history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
+
     const emptyHistory = {
       pgcrId: null,
       gameType: '',
       map: '',
       datePlayed: 0,
-      kills: Number.MIN_VALUE,
-      assists: Number.MIN_VALUE,
-      deaths: Number.MIN_VALUE,
-      score: Number.MIN_VALUE
+      kills: Number.NEGATIVE_INFINITY,
+      assists: Number.NEGATIVE_INFINITY,
+      deaths: Number.NEGATIVE_INFINITY,
+      score: Number.NEGATIVE_INFINITY
     }
 
     if (history.length === 0) history = [ emptyHistory ]
 
-    if (member.currentScore) {
+    let totals = {
+      wins: Number.NEGATIVE_INFINITY,
+      kills: Number.NEGATIVE_INFINITY,
+      assists: Number.NEGATIVE_INFINITY,
+      deaths: Number.NEGATIVE_INFINITY,
+      score: Number.NEGATIVE_INFINITY,
+      lastPlayed: new Date(0)
+    }
+
+    if (member.currentScore && member.currentScore.lastSeen) {
       totals = {
         wins: member.currentScore.gamesWon,
         kills: member.currentScore.kills,
         assists: member.currentScore.assists,
         deaths: member.currentScore.deaths,
         score: parseInt(Math.round(member.currentScore.totalScore)),
-        lastPlayed: member.currentScore.lastSeen ? moment.utc(member.currentScore.lastSeen).format('YYYY-MM-DD') : '-'
+        lastPlayed: new Date(member.currentScore.lastSeen)
       }
     }
 
@@ -196,7 +204,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
             icon: clan.backgroundicon
           },
           rank: `#${i + 1}`,
-          size: rawClan.size,
+          size: rawClan.size || 0,
+          active: rawClan.active || 0,
           games: rawClan.gamesPlayed,
           wins: rawClan.gamesWon,
           kills: rawClan.kills,
@@ -222,16 +231,16 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           foreground: { color: '', icon: '' },
           background: { color: '', icon: '' },
           rank: '',
-          size: Number.MIN_VALUE,
-          games: Number.MIN_VALUE,
-          wins: Number.MIN_VALUE,
-          kills: Number.MIN_VALUE,
-          assists: Number.MIN_VALUE,
-          deaths: Number.MIN_VALUE,
-          score: Number.MIN_VALUE,
+          size: Number.NEGATIVE_INFINITY,
+          games: Number.NEGATIVE_INFINITY,
+          wins: Number.NEGATIVE_INFINITY,
+          kills: Number.NEGATIVE_INFINITY,
+          assists: Number.NEGATIVE_INFINITY,
+          deaths: Number.NEGATIVE_INFINITY,
+          score: Number.NEGATIVE_INFINITY,
           division: '',
           medal: {
-            tier: Number.MIN_VALUE,
+            tier: Number.NEGATIVE_INFINITY,
             name: '',
             description: ''
           }

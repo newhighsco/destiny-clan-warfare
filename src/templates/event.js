@@ -24,11 +24,13 @@ class EventTemplate extends Component {
     let largeLeaderboard = data.event.leaderboards.large
     let mediumLeaderboard = data.event.leaderboards.medium
     let smallLeaderboard = data.event.leaderboards.small
+    let leaderboardColumns = []
 
     if (data.event.isPast) {
       largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)
       mediumLeaderboard = medalBuilder.embellishLeaderboard(mediumLeaderboard, constants.division.medium)
       smallLeaderboard = medalBuilder.embellishLeaderboard(smallLeaderboard, constants.division.small)
+      leaderboardColumns = [ 'color', 'foreground', 'background', 'name', 'medal', 'rank', 'score' ]
     }
 
     return (
@@ -64,17 +66,17 @@ class EventTemplate extends Component {
           <TabContainer cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} />
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {mediumLeaderboard.length > 0 &&
               <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} />
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {smallLeaderboard.length > 0 &&
               <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} />
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
           </TabContainer>
@@ -115,6 +117,7 @@ export const pageQuery = graphql`
             icon
           }
           rank
+          active
           size
           score
         }
@@ -131,6 +134,7 @@ export const pageQuery = graphql`
             icon
           }
           rank
+          active
           size
           score
         }
@@ -147,6 +151,7 @@ export const pageQuery = graphql`
             icon
           }
           rank
+          active
           size
           score
         }

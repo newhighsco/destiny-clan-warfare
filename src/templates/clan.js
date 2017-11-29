@@ -9,15 +9,22 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import { MedalList } from '../components/medal/Medal'
 import Button from '../components/button/Button'
 
+const moment = require('moment')
+const constants = require('../utils/constants')
+
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
     const leaderboard = data.allMember.edges.map(({ node }) => {
+      const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
+      const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)
+
       return {
         path: node.path,
         name: node.name,
         icon: node.icon,
-        ...node.totals
+        ...node.totals,
+        lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
 

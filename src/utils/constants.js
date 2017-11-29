@@ -1,4 +1,6 @@
 const constants = {
+  blank: '-',
+  dateFormat: 'YYYY-MM-DD',
   division: {
     large: 'Company',
     medium: 'Platoon',

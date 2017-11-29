@@ -31,7 +31,7 @@ const Avatar = (props) => {
 
   return (
     <Online>
-      <div className={classNames('avatar', className)} style={{ backgroundColor: color }}>
+      <div className={classNames('avatar', className)} style={ color && { backgroundColor: color }}>
         {icon &&
           <ResponsiveMedia className="avatar__layer" ratio="1:1">
             <img src={icon} alt="" />
@@ -42,10 +42,6 @@ const Avatar = (props) => {
       </div>
     </Online>
   )
-}
-
-Avatar.defaultProps = {
-  color: '#000'
 }
 
 Avatar.propTypes = {

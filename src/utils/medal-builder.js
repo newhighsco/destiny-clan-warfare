@@ -20,10 +20,10 @@ const embellishLeaderboard = (leaderboard, division) => {
         medal = build(1, 2, division)
         break
       case '#2':
-        build(2, 1, division)
+        medal = build(2, 1, division)
         break
       case '#3':
-        build(3, 1, division)
+        medal = build(3, 1, division)
         break
     }
 

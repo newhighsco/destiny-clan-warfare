@@ -24,7 +24,7 @@ class EventTemplate extends Component {
     let largeLeaderboard = data.event.leaderboards.large
     let mediumLeaderboard = data.event.leaderboards.medium
     let smallLeaderboard = data.event.leaderboards.small
-    let leaderboardColumns = []
+    let leaderboardColumns = null
 
     if (data.event.isPast) {
       largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)

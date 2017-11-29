@@ -38,15 +38,21 @@ class IndexPage extends Component {
                 <Modifiers data={node.modifiers} />
               </Card>,
               <TabContainer cutout>
-                <Tab name={constants.division.large}>
-                  <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
-                </Tab>
-                <Tab name={constants.division.medium}>
-                  <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
-                </Tab>
-                <Tab name={constants.division.small}>
-                  <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
-                </Tab>
+                {node.leaderboards.large.length > 0 &&
+                  <Tab name={constants.division.large}>
+                    <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
+                  </Tab>
+                }
+                {node.leaderboards.medium.length > 0 &&
+                  <Tab name={constants.division.medium}>
+                    <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
+                  </Tab>
+                }
+                {node.leaderboards.small.length > 0 &&
+                  <Tab name={constants.division.small}>
+                    <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
+                  </Tab>
+                }
               </TabContainer>,
               <div className="button-group">
                 <Button href={node.path}>View full leaderboard</Button>
@@ -57,7 +63,7 @@ class IndexPage extends Component {
         {pastEvents.length > 0 && [
           <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
-            const leaderboard = node.results.filter(({ score }) => score !== Number.MIN_VALUE)
+            const leaderboard = node.results.filter(({ score }) => score > 0)
 
             return ([
               <Card cutout key={node.id} className="text-center">
@@ -139,6 +145,7 @@ export const pageQuery = graphql`
                 icon
               }
               rank
+              active
               size
               score
             }
@@ -155,6 +162,7 @@ export const pageQuery = graphql`
                 icon
               }
               rank
+              active
               size
               score
             }
@@ -171,6 +179,7 @@ export const pageQuery = graphql`
                 icon
               }
               rank
+              active
               size
               score
             }

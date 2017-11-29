@@ -41,6 +41,7 @@ class TabContainer extends Component {
     const { children, cutout } = this.props
     const { activeIndex } = this.state
     const baseClassName = 'tab-container'
+    let firstVisibleIndex = 0
 
     if (!children) return null
 
@@ -50,6 +51,8 @@ class TabContainer extends Component {
           {React.Children.map(children, (child, i) => {
             if (!child) return null
 
+            firstVisibleIndex = i
+
             return (
               <li className="tab-navigation__item">
                 <Button onClick={this.handleToggle} className={classNames('tab-button', activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
@@ -58,7 +61,7 @@ class TabContainer extends Component {
           })}
         </ul>
         {React.Children.map(children, (child, i) => {
-          if (activeIndex === i) return child
+          if (activeIndex === i || firstVisibleIndex === i) return child
           return null
         })}
       </div>

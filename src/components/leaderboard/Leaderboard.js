@@ -12,6 +12,7 @@ import './Leaderboard.styl'
 
 const moment = require('moment')
 const sentenceCase = require('sentence-case')
+const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 
 class Leaderboard extends Component {
@@ -80,6 +81,9 @@ class Leaderboard extends Component {
 
       data.sort((a, b) => {
         var x = a[sortBy]; var y = b[sortBy]
+        if (x === y) return 0
+        if (x === null) return (-1 * direction)
+        if (y === null) return (1 * direction)
         return ((x < y) ? (-1 * direction) : ((x > y) ? (1 * direction) : 0))
       })
     }
@@ -131,7 +135,7 @@ class Leaderboard extends Component {
                     </div>
                   }
                   {keys.map((key, i) => {
-                    const value = item[key] !== null ? `${item[key]}` : '-'
+                    const value = item[key] !== null ? `${item[key]}` : constants.blank
 
                     return (
                       <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>

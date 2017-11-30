@@ -31,9 +31,6 @@ class EventsPage extends Component {
         </Helmet>
         <Card cutout className="text-center">
           <Lockup center kicker="All" heading="Events" />
-          <div className="temp">
-            <p>Search for event</p>
-          </div>
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>

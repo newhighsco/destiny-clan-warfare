@@ -18,9 +18,6 @@ class ClansPage extends Component {
         </Helmet>
         <Card cutout className="text-center">
           <Lockup center kicker="All" heading="Clans" />
-          <div className="temp">
-            <p>Search for clan</p>
-          </div>
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>

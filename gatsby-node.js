@@ -345,23 +345,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   }
 }
 
-exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
-  const { createNodeField } = boundActionCreators
-
-  var slug
-
-  if (node.internal.type === `JSFrontmatter`) {
-    const fileNode = getNode(node.parent)
-    const parsedFilePath = path.parse(fileNode.relativePath)
-    const parsedName = parsedFilePath.name === `index` ? `` : parsedFilePath.name
-
-    slug = path.posix.join(`/`, parsedFilePath.dir, parsedName, `/`)
-
-    // Add slug as a field on the node.
-    createNodeField({ node, name: `slug`, value: slug })
-  }
-}
-
 exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage, createRedirect } = boundActionCreators
 
@@ -401,9 +384,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                 fileAbsolutePath
                 data {
                   layout
-                }
-                fields {
-                  slug
                 }
               }
             }
@@ -520,8 +500,6 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
       if (frontmatter) {
         page.layout = frontmatter.node.data.layout || 'index'
       }
-
-      page.context.slug = page.path
     }
 
     createPage(page)

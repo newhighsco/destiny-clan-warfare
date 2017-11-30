@@ -8,14 +8,14 @@ import HighlightSvg from './highlight.svg'
 
 import './Medal.styl'
 
-const uppercamelcase = require('uppercamelcase')
+const pascalCase = require('pascal-case')
 const path = require('path')
 
 const requireSvgs = (req) => {
   var svgs = {}
 
   req.keys().forEach(key => {
-    const filename = uppercamelcase(path.basename(key, '.svg'))
+    const filename = pascalCase(path.basename(key, '.svg'))
     svgs[filename] = req(key)
   })
 
@@ -30,7 +30,7 @@ const baseClassName = 'medal'
 
 const Medal = ({ name, description, label, tier, count, size, className }) => {
   const backgroundKey = `Tier${tier}`
-  const foregroundKey = uppercamelcase(name || '')
+  const foregroundKey = pascalCase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
   const ForegroundSvg = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
 

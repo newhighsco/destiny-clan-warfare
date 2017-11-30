@@ -34,8 +34,8 @@ class MemberTemplate extends Component {
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
           <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.clanUrl(data.member.clanId)} heading={data.member.name} />
-          <Button key="button" href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>
-          <MedalList key="medals" medals={[ { tier: 1, description: 'TBC', count: 2 }, { tier: 2, description: 'TBC', count: 5 }, { tier: 3, description: 'TBC', count: 1 } ]} />
+          <Button href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>
+          <MedalList medals={data.member.medals} />
           {lastPlayedDate > emptyDate &&
             <StatList stats={stats} />
           }
@@ -69,6 +69,7 @@ export const pageQuery = graphql`
         score
         lastPlayed
       }
+      ...memberMedalsFragment
     }
   }
 `

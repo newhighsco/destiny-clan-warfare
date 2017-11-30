@@ -67,6 +67,10 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
   )
 }
 
+Medal.defaultProps = {
+  tier: 1
+}
+
 Medal.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
@@ -106,3 +110,14 @@ export {
   Medal,
   MedalList
 }
+
+export const componentFragment = graphql`
+  fragment memberMedalsFragment on Member {
+    medals {
+      tier
+      name
+      description
+      count
+    }
+  }
+`

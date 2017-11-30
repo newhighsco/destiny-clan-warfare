@@ -21,7 +21,7 @@ const Stat = ({ label, value }) => (
 
 Stat.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
 }
 
 const StatList = ({ stats }) => {
@@ -57,7 +57,7 @@ const StatList = ({ stats }) => {
 }
 
 StatList.propTypes = {
-  stats: PropTypes.array
+  stats: PropTypes.object
 }
 
 export {

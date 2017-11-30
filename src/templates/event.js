@@ -21,10 +21,10 @@ class EventTemplate extends Component {
     const futureEventKicker = 'Coming soon'
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
     const title = `${data.event.name} | ${kicker}`
-    let largeLeaderboard = data.event.leaderboards.large
-    let mediumLeaderboard = data.event.leaderboards.medium
-    let smallLeaderboard = data.event.leaderboards.small
-    let leaderboardColumns = null
+    var largeLeaderboard = data.event.leaderboards.large
+    var mediumLeaderboard = data.event.leaderboards.medium
+    var smallLeaderboard = data.event.leaderboards.small
+    var leaderboardColumns = null
 
     if (data.event.isPast) {
       largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)

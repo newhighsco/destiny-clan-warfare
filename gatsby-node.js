@@ -18,16 +18,16 @@ const createContentDigest = content => {
     .digest(`hex`)
 }
 
-let frontmatterEdges
+var frontmatterEdges
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 
-  let clans = []
-  let members = []
-  let histories = []
-  let events = []
-  let currentEvent
+  var clans = []
+  var members = []
+  var histories = []
+  var events = []
+  var currentEvent
   const casingOptions = { deep: true }
   const updatedDate = new Date()
 
@@ -56,12 +56,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
-  for (let clan of clans) {
-    let leaderboard = []
+  for (var clan of clans) {
+    var clanLeaderboard = []
 
     await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
       .then(({ data }) => {
-        leaderboard = data.map(item => camelcaseKeys(item, casingOptions))
+        clanLeaderboard = data.map(item => camelcaseKeys(item, casingOptions))
       })
       .catch(err => console.log(err))
 
@@ -84,7 +84,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: leaderboard.map(item => {
+      leaderboard: clanLeaderboard.map(item => {
         const member = members.find(member => member.profileIdStr === item.memberShipIdStr)
 
         return {
@@ -109,9 +109,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  for (let member of members) {
+  for (var member of members) {
     const clan = clans.find(clan => clan.groupId === member.groupId)
-    let history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
+    var history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
 
     const emptyHistory = {
       pgcrId: null,
@@ -126,7 +126,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     if (history.length === 0) history = [ emptyHistory ]
 
-    let totals = {
+    var totals = {
       wins: Number.NEGATIVE_INFINITY,
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
@@ -184,7 +184,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  for (let event of events) {
+  for (var event of events) {
     const parseClans = (rawClans, eventId) => {
       if (!rawClans) return []
 
@@ -250,13 +250,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     const startDate = new Date(event.startTime)
     const endDate = new Date(event.scoringEndTime)
-    let isCurrent = event.eventTense === constants.tense.current
-    let isPast = event.eventTense === constants.tense.past
+    var isCurrent = event.eventTense === constants.tense.current
+    var isPast = event.eventTense === constants.tense.past
     const isFuture = event.eventTense === constants.tense.future
     const results = []
-    let largeLeaderboard = []
-    let mediumLeaderboard = []
-    let smallLeaderboard = []
+    var largeLeaderboard = []
+    var mediumLeaderboard = []
+    var smallLeaderboard = []
 
     if (isCurrent && endDate < updatedDate) {
       isCurrent = false
@@ -264,17 +264,17 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
 
     if (isCurrent) {
-      let leaderboard
+      var currentLeaderboard
 
       await api(`Leaderboard/GetLeaderboard`)
         .then(({ data }) => {
-          leaderboard = camelcaseKeys(data, casingOptions)
+          currentLeaderboard = camelcaseKeys(data, casingOptions)
         })
         .catch(err => console.log(err))
 
-      largeLeaderboard = parseClans(leaderboard.largeLeaderboard, event.eventId)
-      mediumLeaderboard = parseClans(leaderboard.mediumLeaderboard, event.eventId)
-      smallLeaderboard = parseClans(leaderboard.smallLeaderboard, event.eventId)
+      largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId)
+      mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId)
+      smallLeaderboard = parseClans(currentLeaderboard.smallLeaderboard, event.eventId)
     } else {
       largeLeaderboard = parseClans(event.result.large)
       mediumLeaderboard = parseClans(event.result.medium)
@@ -316,7 +316,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
   const { createNodeField } = boundActionCreators
 
-  let slug
+  var slug
 
   if (node.internal.type === `JSFrontmatter`) {
     const fileNode = getNode(node.parent)
@@ -484,7 +484,7 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 
   return new Promise((resolve, reject) => {
     if (frontmatterEdges) {
-      let frontmatter = frontmatterEdges.find(edge => edge.node.fileAbsolutePath === page.component)
+      var frontmatter = frontmatterEdges.find(edge => edge.node.fileAbsolutePath === page.component)
 
       if (frontmatter) {
         page.layout = frontmatter.node.data.layout || 'index'

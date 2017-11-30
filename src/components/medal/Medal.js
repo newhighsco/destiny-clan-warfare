@@ -11,7 +11,7 @@ const uppercamelcase = require('uppercamelcase')
 const path = require('path')
 
 const requireSvgs = (req) => {
-  let svgs = {}
+  var svgs = {}
 
   req.keys().forEach(key => {
     const filename = uppercamelcase(path.basename(key, '.svg'))

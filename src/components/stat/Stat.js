@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
-
+const constants = require('../../utils/constants')
 const baseClassName = 'stat'
 
 const Stat = ({ label, value }) => (
@@ -44,7 +44,7 @@ const StatList = ({ stats }) => {
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {keys.map((key, i) => {
         const label = sentenceCase(key)
-        const value = stats[key]
+        const value = stats[key] !== null ? `${stats[key]}` : constants.blank
 
         return (
           <li key={i}>

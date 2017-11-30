@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
+import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import HighlightSvg from './highlight.svg'
 
 import './Medal.styl'
@@ -42,11 +43,13 @@ const Medal = ({ name, description, tier, size, className }) => {
         `${baseClassName}--tier-${tier}`,
         size && `${baseClassName}--${size}`
       )}>
-        <BackgroundSvg />
-        {ForegroundSvg &&
-          <ForegroundSvg className={classNames(`${baseClassName}__layer`, 'foreground')} />
-        }
-        <HighlightSvg className={classNames(`${baseClassName}__layer`, `${baseClassName}__highlight`)} />
+        <ResponsiveMedia ratio="124:129">
+          <BackgroundSvg />
+          {ForegroundSvg &&
+            <ForegroundSvg className={classNames(`${baseClassName}__layer`, 'foreground')} />
+          }
+          <HighlightSvg className={classNames(`${baseClassName}__layer`, `${baseClassName}__highlight`)} />
+        </ResponsiveMedia>
       </Icon>
     </Tooltip>
   )

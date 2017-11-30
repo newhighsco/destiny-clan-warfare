@@ -57,7 +57,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
             {label}
           </div>
         }
-        {count > 0 &&
+        {count > 1 &&
           <div className={classNames(`${baseClassName}__count`, 'foreground')}>
             <span className="background">{count}</span>
           </div>

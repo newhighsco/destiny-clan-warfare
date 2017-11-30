@@ -30,7 +30,7 @@
     "axios": "^0.17.0",
     "camelcase-keys": "^4.1.0",
     "classnames": "^2.2.5",
-    "gatsby": "^1.9.73",
+    "gatsby": "^1.9.127",
     "gatsby-link": "^1.6.22",
     "gatsby-plugin-canonical-urls": "^1.0.8",
     "gatsby-plugin-google-analytics": "^1.0.11",

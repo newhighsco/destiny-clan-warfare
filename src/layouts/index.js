@@ -24,7 +24,6 @@ export const pageQuery = graphql`
   query IndexLayoutQuery {
     site {
       siteMetadata {
-        enableIdentity
         title
         description
       }

@@ -11,7 +11,8 @@
   "scripts": {
     "start": "npm-run-all --parallel start:*",
     "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop",
-    "build": "npm-run-all build:gatsby",
+    "build": "npm-run-all build:patch build:gatsby",
+    "build:patch": "sed -i -e 's/if(c\\.initial) return;/if(!c||c.initial) return;/g' ./node_modules/extract-text-webpack-plugin/index.js",
     "build:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby build",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",

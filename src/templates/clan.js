@@ -23,6 +23,7 @@ class ClanTemplate extends Component {
         path: node.path,
         name: node.name,
         icon: node.icon,
+        tags: node.tags,
         ...node.totals,
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
@@ -75,6 +76,9 @@ export const pageQuery = graphql`
           path
           name
           icon
+          tags {
+            name
+          }
           totals {
             wins
             kills

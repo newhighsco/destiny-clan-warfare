@@ -8,6 +8,7 @@ import Lockup from '../components/lockup/Lockup'
 import { MedalList } from '../components/medal/Medal'
 import { StatList } from '../components/stat/Stat'
 import Button from '../components/button/Button'
+import { TagList } from '../components/tag/Tag'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -33,6 +34,7 @@ class MemberTemplate extends Component {
           {data.member.icon &&
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
+          <TagList tags={data.member.tags} className="card__tags" />
           <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.clanUrl(data.member.clanId)} heading={data.member.name} />
           <Button href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>
           <MedalList medals={data.member.medals} />
@@ -57,6 +59,9 @@ export const pageQuery = graphql`
       id
       name
       icon
+      tags {
+        name
+      }
       clanId
       clan {
         name

@@ -47,6 +47,9 @@ export const pageQuery = graphql`
             tag
           }
           icon
+          tags {
+            name
+          }
         }
       }
     }

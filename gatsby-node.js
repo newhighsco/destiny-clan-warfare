@@ -91,6 +91,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           id: member.profileIdStr,
           name: member.name,
           icon: member.icon,
+          tags: member.bonusUnlocks.map(bonus => {
+            return {
+              name: bonus.name || '',
+              description: bonus.description || ''
+            }
+          }),
           games: item.gamesPlayed,
           wins: item.gamesWon,
           kills: item.kills,
@@ -181,6 +187,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
+      tags: member.bonusUnlocks.map(bonus => {
+        return {
+          name: bonus.name || '',
+          description: bonus.description || ''
+        }
+      }),
       medals: member.medalUnlocks.map(medal => {
         return {
           tier: medal.tier || 1,

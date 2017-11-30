@@ -8,6 +8,7 @@ import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
+import { TagList } from '../components/tag/Tag'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -29,6 +30,7 @@ class EventMemberTemplate extends Component {
           {data.member.icon &&
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
+          <TagList tags={data.member.tags} className="card__tags" />
           <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId)} heading={data.member.name} />
           <StatList stats={data.member.leaderboard} />
         </Card>
@@ -52,6 +54,9 @@ export const pageQuery = graphql`
       currentEventId
       name
       icon
+      tags {
+        name
+      }
       clanId
       clan {
         name

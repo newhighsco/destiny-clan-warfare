@@ -80,6 +80,9 @@ export const pageQuery = graphql`
         path
         name
         icon
+        tags {
+          name
+        }
         games
         wins
         kills

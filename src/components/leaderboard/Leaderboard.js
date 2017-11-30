@@ -6,6 +6,7 @@ import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal } from '../medal/Medal'
+import { TagList } from '../tag/Tag'
 import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
@@ -47,6 +48,7 @@ class Leaderboard extends Component {
     const showIcons = (keys.indexOf('icon') !== -1 || keys.indexOf('foreground') !== -1 || keys.indexOf('background') !== -1)
     const showClanTag = keys.indexOf('clan') !== -1
     const showNames = keys.indexOf('name') !== -1
+    const showNameTags = keys.indexOf('tags') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
     const showModifiers = keys.indexOf('modifiers') !== -1
     const showMedals = keys.indexOf('medal') !== -1
@@ -62,7 +64,8 @@ class Leaderboard extends Component {
       'path',
       'game',
       'modifiers',
-      'medal'
+      'medal',
+      'tags'
     ]
     const relativeDate = (date) => {
       return moment.utc(date).fromNow()
@@ -103,8 +106,10 @@ class Leaderboard extends Component {
                   <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
                     {item.name}
                   </Link>,
+                  showNameTags &&
+                    <TagList key="tags" tags={item.tags} className="leaderboard__tags" />,
                   showClanTag &&
-                    <Link key="tag" to={urlBuilder.clanUrl(item.clanId)} className="leaderboard__tag">
+                    <Link key="claTag" to={urlBuilder.clanUrl(item.clanId)} className="leaderboard__clan-tag">
                       {item.clan.tag}
                     </Link>
                 ]}

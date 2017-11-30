@@ -183,9 +183,9 @@ export const componentFragment = graphql`
           icon
         }
         rank
+        score
         active
         size
-        score
       }
       medium {
         path
@@ -200,9 +200,9 @@ export const componentFragment = graphql`
           icon
         }
         rank
+        score
         active
         size
-        score
       }
       small {
         path
@@ -217,9 +217,9 @@ export const componentFragment = graphql`
           icon
         }
         rank
+        score
         active
         size
-        score
       }
     }
   }

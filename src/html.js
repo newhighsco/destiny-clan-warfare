@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-let stylesStr
+var stylesStr
 if (process.env.NODE_ENV === `production`) {
   try {
     stylesStr = require(`!raw-loader!../public/styles.css`)
@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === `production`) {
 
 class Html extends Component {
   render () {
-    let css
+    var css
     if (process.env.NODE_ENV === `production`) {
       css = (
         <style

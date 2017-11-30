@@ -13,7 +13,7 @@ const build = (rank, tier, division) => {
 
 const embellishLeaderboard = (leaderboard, division) => {
   return leaderboard.map(item => {
-    let medal = {}
+    var medal = {}
 
     switch (item.rank) {
       case '#1':

@@ -1,0 +1,42 @@
+.modifier
+  background $color--black
+  border-radius 100%
+  color $color--white
+  font-size rem(45)
+  fill currentColor
+  display block
+  overflow hidden
+  height 1em
+  line-height 1em
+  width 1em
+  text-align center
+  vertical-align middle
+
+  &:hover
+    transform scale(1.1)
+
+  +width-min($mq--tablet)
+    font-size rem(60)
+
+.modifier__label
+  display inline-block
+  font-size 0.333em
+  vertical-align top
+
+.modifier__icon
+  display block
+  width 1em
+  height 1em
+
+.modifier--small
+  font-size rem(30)
+
+.modifier-list
+  position relative
+
+  .modifier
+    margin $spacing--half
+
+  .modifier--small
+    margin-left $spacing--quarter
+    margin-right $spacing--quarter

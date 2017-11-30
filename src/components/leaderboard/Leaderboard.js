@@ -4,7 +4,7 @@ import Link from 'gatsby-link'
 import classNames from 'classnames'
 import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
-import Modifiers from '../modifiers/Modifiers'
+import { ModifierList } from '../modifier/Modifier'
 import { Medal } from '../medal/Medal'
 import ExternalSvg from '../../images/external.svg'
 
@@ -131,7 +131,7 @@ class Leaderboard extends Component {
                   }
                   {showModifiers &&
                     <div className="leaderboard__stat leaderboard__stat--modifiers">
-                      <Modifiers size="small" align="right" data={item.modifiers} />
+                      <ModifierList size="small" align="right" modifiers={item.modifiers} />
                     </div>
                   }
                   {keys.map((key, i) => {

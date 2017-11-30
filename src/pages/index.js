@@ -4,7 +4,7 @@ import PageContainer from '../components/page-container/PageContainer'
 import Button from '../components/button/Button'
 import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
-import Modifiers from '../components/modifiers/Modifiers'
+import { ModifierList } from '../components/modifier/Modifier'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
@@ -35,7 +35,7 @@ class IndexPage extends Component {
                 {node.description &&
                   <p>{node.description}</p>
                 }
-                <Modifiers data={node.modifiers} />
+                <ModifierList modifiers={node.modifiers} />
               </Card>,
               <TabContainer cutout>
                 {node.leaderboards.large.length > 0 &&
@@ -72,7 +72,7 @@ class IndexPage extends Component {
                 {node.description &&
                   <p>{node.description}</p>
                 }
-                <Modifiers data={node.modifiers} />
+                <ModifierList modifiers={node.modifiers} />
               </Card>,
               leaderboard.length > 0 && [
                 <TabContainer cutout>
@@ -97,7 +97,7 @@ class IndexPage extends Component {
                 {node.description &&
                   <p>{node.description}</p>
                 }
-                <Modifiers data={node.modifiers} />
+                <ModifierList modifiers={node.modifiers} />
               </Card>
             )
           })

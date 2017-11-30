@@ -181,6 +181,14 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       name: member.name,
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
+      medals: member.medalUnlocks.map(medal => {
+        return {
+          tier: medal.tier || 1,
+          name: medal.name,
+          description: medal.description,
+          count: medal.count
+        }
+      }),
       totals: totals,
       leaderboard: leaderboard,
       history: history.map(item => {

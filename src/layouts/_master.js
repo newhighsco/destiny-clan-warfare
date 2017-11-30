@@ -12,10 +12,13 @@ class MasterLayout extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { user: identity.currentUser() }
+    this.state = {
+      user: identity.currentUser(),
+      enableIdentity: false
+    }
 
     identity.on('login', (user) => {
-      this.setState({ user })
+      this.setState({ user: user })
       identity.close()
     })
     identity.on('logout', () => this.setState({ user: null }))
@@ -24,6 +27,7 @@ class MasterLayout extends Component {
   }
 
   componentDidMount () {
+    this.setState({ enableIdentity: JSON.parse(process.env.ENABLE_IDENTITY) })
     identity.init()
   }
 
@@ -34,8 +38,7 @@ class MasterLayout extends Component {
 
   render () {
     const { children, data } = this.props
-    const { user } = this.state
-    const enableIdentity = JSON.parse(process.env.ENABLE_IDENTITY)
+    const { user, enableIdentity } = this.state
 
     if (enableIdentity && !user) {
       return (

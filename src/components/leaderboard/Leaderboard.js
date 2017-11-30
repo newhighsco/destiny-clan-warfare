@@ -99,7 +99,7 @@ class Leaderboard extends Component {
                 }
                 {showNames && [
                   showMedals &&
-                    <Medal key="medal" {...item.medal} size="small" className="leaderboard__medal" />,
+                    <Medal key="medal" {...item.medal} size="small" align="left" className="leaderboard__medal" />,
                   <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
                     {item.name}
                   </Link>,

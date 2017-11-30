@@ -28,7 +28,7 @@ const BackgroundSvgs = requireSvgs(reqBackgroundSvgs)
 const ForegroundSvgs = requireSvgs(reqForegroundSvgs)
 const baseClassName = 'medal'
 
-const Medal = ({ name, description, label, tier, count, size, className }) => {
+const Medal = ({ name, description, label, tier, count, size, align, className }) => {
   const backgroundKey = `Tier${tier}`
   const foregroundKey = pascalCase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
@@ -37,13 +37,12 @@ const Medal = ({ name, description, label, tier, count, size, className }) => {
   if (!BackgroundSvg) return null
 
   return (
-    <Tooltip heading={name} text={description} className={className} enableHover>
+    <Tooltip heading={name} text={description} className={className} align={align} enableHover>
       <div className={classNames(
-          baseClassName,
-          `${baseClassName}--tier-${tier}`,
-          size && `${baseClassName}--${size}`
-        )}
-      >
+        baseClassName,
+        `${baseClassName}--tier-${tier}`,
+        size && `${baseClassName}--${size}`
+      )}>
         <Icon className={`${baseClassName}__icon`}>
           <ResponsiveMedia ratio="124:129">
             <BackgroundSvg />
@@ -75,25 +74,32 @@ Medal.propTypes = {
   tier: PropTypes.number,
   count: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
   className: PropTypes.string
 }
 
-const MedalList = ({ medals }) => {
+const MedalList = ({ medals, size, align }) => {
   if (!medals) return null
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {medals.map((medal, i) => (
         <li key={i}>
-          <Medal {...medal} />
+          <Medal {...medal} size={size} align={align} />
         </li>
       ))}
     </ul>
   )
 }
 
+MedalList.defaultProps = {
+  align: 'center'
+}
+
 MedalList.propTypes = {
-  medals: PropTypes.array
+  medals: PropTypes.array,
+  size: PropTypes.oneOf([ 'small' ]),
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ])
 }
 
 export {

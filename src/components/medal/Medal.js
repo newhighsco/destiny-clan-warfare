@@ -28,7 +28,7 @@ const BackgroundSvgs = requireSvgs(reqBackgroundSvgs)
 const ForegroundSvgs = requireSvgs(reqForegroundSvgs)
 const baseClassName = 'medal'
 
-const Medal = ({ name, description, tier, size, className }) => {
+const Medal = ({ name, description, label, tier, count, size, className }) => {
   const backgroundKey = `Tier${tier}`
   const foregroundKey = uppercamelcase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
@@ -38,19 +38,32 @@ const Medal = ({ name, description, tier, size, className }) => {
 
   return (
     <Tooltip heading={name} text={description} className={className} enableHover>
-      <Icon className={classNames(
-        baseClassName,
-        `${baseClassName}--tier-${tier}`,
-        size && `${baseClassName}--${size}`
-      )}>
-        <ResponsiveMedia ratio="124:129">
-          <BackgroundSvg />
-          {ForegroundSvg &&
-            <ForegroundSvg className={classNames(`${baseClassName}__layer`, 'foreground')} />
-          }
-          <HighlightSvg className={classNames(`${baseClassName}__layer`, `${baseClassName}__highlight`)} />
-        </ResponsiveMedia>
-      </Icon>
+      <div className={classNames(
+          baseClassName,
+          `${baseClassName}--tier-${tier}`,
+          size && `${baseClassName}--${size}`
+        )}
+      >
+        <Icon className={`${baseClassName}__icon`}>
+          <ResponsiveMedia ratio="124:129">
+            <BackgroundSvg />
+            {ForegroundSvg &&
+              <ForegroundSvg className={classNames(`${baseClassName}__layer`, 'foreground')} />
+            }
+            <HighlightSvg className={classNames(`${baseClassName}__layer`, `${baseClassName}__highlight`)} />
+          </ResponsiveMedia>
+        </Icon>
+        {label &&
+          <div className={`${baseClassName}__label`}>
+            {label}
+          </div>
+        }
+        {count > 0 &&
+          <div className={classNames(`${baseClassName}__count`, 'foreground')}>
+            <span className="background">{count}</span>
+          </div>
+        }
+      </div>
     </Tooltip>
   )
 }
@@ -58,7 +71,9 @@ const Medal = ({ name, description, tier, size, className }) => {
 Medal.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
+  label: PropTypes.string,
   tier: PropTypes.number,
+  count: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),
   className: PropTypes.string
 }

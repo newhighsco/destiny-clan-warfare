@@ -23,41 +23,61 @@ class TabContainer extends Component {
     super(props)
 
     this.state = {
+      active: false,
       activeIndex: 0
     }
 
     this.handleToggle = this.handleToggle.bind(this)
   }
 
+  componentDidMount () {
+    this.setState({ active: true })
+  }
+
   handleToggle (e) {
     e.preventDefault()
 
-    this.setState({
-      activeIndex: JSON.parse(e.target.dataset.index)
-    })
+    this.setState({ activeIndex: JSON.parse(e.target.dataset.index) })
   }
 
   render () {
     const { children, cutout } = this.props
-    const { activeIndex } = this.state
+    const { active, activeIndex } = this.state
     const baseClassName = 'tab-container'
+    var visibleChildren = []
 
-    if (!children) return null
+    React.Children.map(children, (child) => {
+      if (child) visibleChildren.push(child)
+    })
+
+    if (!visibleChildren.length) return null
 
     return (
       <div className={classNames(baseClassName, cutout && `${baseClassName}--cutout`)}>
-        <ul className="list--inline tab-navigation">
-          {React.Children.map(children, (child, i) => {
-            if (!child) return null
-            return (
-              <li className="tab-navigation__item">
-                <Button onClick={this.handleToggle} className={classNames('tab-button', activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
-              </li>
-            )
-          })}
-        </ul>
-        {React.Children.map(children, (child, i) => {
-          if (activeIndex === i) return child
+        {active &&
+          <ul className="list--inline tab-navigation">
+            {visibleChildren.map((child, i) => {
+              return (
+                <li key={i} className="tab-navigation__item">
+                  <Button onClick={this.handleToggle} className={classNames('tab-button', activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
+                </li>
+              )
+            })}
+          </ul>
+        }
+        {visibleChildren.map((child, i) => {
+          if (activeIndex === i || !active) {
+            return [
+              !active &&
+                <div key={i} className="tab-navigation tab-navigation--heading">
+                  <div className="tab-navigation__item">
+                    <Button className="tab-button is-active" size="small">{child.props.name}</Button>
+                  </div>
+                </div>,
+              child
+            ]
+          }
+
           return null
         })}
       </div>

@@ -35,8 +35,9 @@ class MasterLayout extends Component {
   render () {
     const { children, data } = this.props
     const { user } = this.state
+    const enableIdentity = JSON.parse(process.env.ENABLE_IDENTITY)
 
-    if (data.site.siteMetadata.enableIdentity && !user) {
+    if (enableIdentity && !user) {
       return (
         <div className="site-container">
           <Helmet>

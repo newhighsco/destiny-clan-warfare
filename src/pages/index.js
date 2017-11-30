@@ -131,59 +131,7 @@ export const pageQuery = graphql`
           isCurrent
           isPast
           isFuture
-          leaderboards {
-            large {
-              path
-              name
-              color
-              foreground {
-                color
-                icon
-              }
-              background {
-                color
-                icon
-              }
-              rank
-              active
-              size
-              score
-            }
-            medium {
-              path
-              name
-              color
-              foreground {
-                color
-                icon
-              }
-              background {
-                color
-                icon
-              }
-              rank
-              active
-              size
-              score
-            }
-            small {
-              path
-              name
-              color
-              foreground {
-                color
-                icon
-              }
-              background {
-                color
-                icon
-              }
-              rank
-              active
-              size
-              score
-            }
-          }
+          ...leaderboardFragment
           results {
             path
             name

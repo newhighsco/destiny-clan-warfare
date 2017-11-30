@@ -166,3 +166,61 @@ Leaderboard.propTypes = {
 }
 
 export default Leaderboard
+
+export const componentFragment = graphql`
+  fragment leaderboardFragment on Event {
+    leaderboards {
+      large {
+        path
+        name
+        color
+        foreground {
+          color
+          icon
+        }
+        background {
+          color
+          icon
+        }
+        rank
+        active
+        size
+        score
+      }
+      medium {
+        path
+        name
+        color
+        foreground {
+          color
+          icon
+        }
+        background {
+          color
+          icon
+        }
+        rank
+        active
+        size
+        score
+      }
+      small {
+        path
+        name
+        color
+        foreground {
+          color
+          icon
+        }
+        background {
+          color
+          icon
+        }
+        rank
+        active
+        size
+        score
+      }
+    }
+  }
+`

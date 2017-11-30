@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Lockup from '../components/lockup/Lockup'
-import Modifiers from '../components/modifiers/Modifiers'
+import { ModifierList } from '../components/modifier/Modifier'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Button from '../components/button/Button'
@@ -58,7 +58,7 @@ class EventTemplate extends Component {
           {data.event.description &&
             <p>{data.event.description}</p>
           }
-          <Modifiers data={data.event.modifiers} />
+          <ModifierList modifiers={data.event.modifiers} />
           {data.event.isPast &&
             <MedalList medals={[ { tier: 1, description: 'TBC', label: 'Some winner' }, { tier: 2, description: 'TBC', label: 'Some winner' }, { tier: 3, description: 'TBC', label: 'Some winner' } ]} />
           }

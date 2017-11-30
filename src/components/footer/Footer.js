@@ -21,6 +21,9 @@ const Footer = () => {
                 <Link className="footer__link" to={urlBuilder.currentEventRootUrl}>Current</Link>
               </li>
               <li className="footer__item">
+                <Link className="footer__link" to="/faqs">FAQs</Link>
+              </li>
+              <li className="footer__item">
                 <a className="footer__link" href="https://status.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">Status</a>
               </li>
               <li className="footer__item">

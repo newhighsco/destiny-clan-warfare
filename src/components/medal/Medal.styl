@@ -1,13 +1,38 @@
 .medal
-  fill $color--black
+  color $color--black
   position relative
-  width rem(60)
 
   &:hover
     transform scale(1.1)
 
+  .background
+  .foreground
+    fill currentColor
+
+.medal__icon
+  width rem(60)
+
   +width-min($mq--tablet)
     width rem(75)
+
+.medal__label
+  font-size small
+  line-height 1
+  padding-top $spacing--quarter
+  width rem(100)
+
+.medal__count
+  background currentColor
+  border-radius $spacing--default
+  font-size x-small
+  font-weight bold
+  line-height 1
+  min-width 2em
+  padding $spacing--quarter
+  position absolute
+  top 0.5em
+  right -0.5em
+  text-align center
 
 .medal__layer
   position absolute
@@ -22,30 +47,34 @@
 
 .medal--tier-1
   .background
-    fill $color--silver
+    color $color--silver
 
   .foreground
-    fill $color--terracotta
+    color $color--terracotta
 
 .medal--tier-2
   .background
-    fill $color--eclipse
+    color $color--eclipse
 
   .foreground
-    fill $color--equator
+    color $color--equator
 
 .medal--tier-3
   .background
-    fill $color--black
+    color $color--black
 
   .foreground
-    fill $color--lemon
+    color $color--lemon
 
 .medal--small
-  width rem(45)
+  .medal__icon
+    width rem(45)
 
 .medal-list
   text-align center
+
+  > li
+    vertical-align top
 
   .medal
     margin $spacing--half

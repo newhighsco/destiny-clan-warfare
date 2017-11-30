@@ -60,7 +60,7 @@ class EventTemplate extends Component {
           }
           <Modifiers data={data.event.modifiers} />
           {data.event.isPast &&
-            <MedalList medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
+            <MedalList medals={[ { tier: 1, description: 'TBC', label: 'Some winner' }, { tier: 2, description: 'TBC', label: 'Some winner' }, { tier: 3, description: 'TBC', label: 'Some winner' } ]} />
           }
           {data.event.isFuture &&
             <Button href="/">Join today</Button>

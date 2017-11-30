@@ -1,22 +1,15 @@
 const path = require(`path`)
-const crypto = require(`crypto`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
+const createContentDigest = require('./src/utils/create-content-digest')
 
 const api = axios.create({
   baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/',
   timeout: 60000
 })
-
-const createContentDigest = content => {
-  return crypto
-    .createHash(`md5`)
-    .update(JSON.stringify(content))
-    .digest(`hex`)
-}
 
 var frontmatterEdges
 

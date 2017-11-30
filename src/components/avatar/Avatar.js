@@ -6,6 +6,7 @@ import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import './Avatar.styl'
 
 const hexToRgb = require('./lib/hex-to-rgb')
+const createContentDigest = require('../../utils/create-content-digest')
 
 const AvatarLayer = (layer) => {
   if (!layer.color || !layer.icon) return null
@@ -14,13 +15,14 @@ const AvatarLayer = (layer) => {
   const r = hex.r / 255
   const g = hex.g / 255
   const b = hex.b / 255
+  const contentDigest = createContentDigest(layer)
 
   return (
     <svg className="avatar__layer" viewBox="0 0 512 512">
-      <filter id={layer.color} x="0" y="0" width="100%" height="100%">
+      <filter id={contentDigest} x="0" y="0" width="100%" height="100%">
         <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
       </filter>
-      <image width="100%" height="100%" filter={`url(#${layer.color})`} xlinkHref={layer.icon} />
+      <image width="100%" height="100%" filter={`url(#${contentDigest})`} xlinkHref={layer.icon} />
     </svg>
   )
 }

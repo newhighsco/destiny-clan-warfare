@@ -24,6 +24,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 
   var clans = []
+  var leaderboards = []
   var members = []
   var histories = []
   var events = []
@@ -62,6 +63,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
       .then(({ data }) => {
         clanLeaderboard = data.map(item => camelcaseKeys(item, casingOptions))
+
+        leaderboards.push({
+          id: clan.groupId,
+          leaderboard: clanLeaderboard
+        })
       })
       .catch(err => console.log(err))
 
@@ -126,6 +132,31 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     if (history.length === 0) history = [ emptyHistory ]
 
+    var memberLeaderboard = leaderboards
+      .find(({ id }) => id === member.groupId)
+      .leaderboard
+      .find(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr)
+
+    var leaderboard = {
+      games: Number.NEGATIVE_INFINITY,
+      wins: Number.NEGATIVE_INFINITY,
+      kills: Number.NEGATIVE_INFINITY,
+      assists: Number.NEGATIVE_INFINITY,
+      deaths: Number.NEGATIVE_INFINITY,
+      score: Number.NEGATIVE_INFINITY
+    }
+
+    if (memberLeaderboard) {
+      leaderboard = {
+        games: memberLeaderboard.gamesPlayed,
+        wins: memberLeaderboard.gamesWon,
+        kills: memberLeaderboard.kills,
+        assists: memberLeaderboard.assists,
+        deaths: memberLeaderboard.deaths,
+        score: parseInt(Math.round(memberLeaderboard.totalScore))
+      }
+    }
+
     var totals = {
       wins: Number.NEGATIVE_INFINITY,
       kills: Number.NEGATIVE_INFINITY,
@@ -158,6 +189,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
       totals: totals,
+      leaderboard: leaderboard,
       history: history.map(item => {
         return {
           game: {
@@ -354,7 +386,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               }
             }
           }
-          allEvent(sort: { fields: [ startDate ], order: DESC }) {
+          allEvent {
             edges {
               node {
                 id
@@ -452,8 +484,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               layout: `content`,
               component: path.resolve(`./src/templates/event-member.js`),
               context: {
-                id: member.node.id,
-                clanId: member.node.clanId
+                id: member.node.id
               }
             })
           }))

@@ -7,14 +7,31 @@ import Avatar from '../components/avatar/Avatar'
 import Lockup from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
+import { StatList } from '../components/stat/Stat'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
+const kda = require('../utils/kda')
 
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
     const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
+    var stats
+
+    if (leaderboard.length) {
+      const topGames = leaderboard.reduce((a, b) => (a.games > b.games) ? a : b)
+      const topWins = leaderboard.reduce((a, b) => (a.wins > b.wins) ? a : b)
+      const topKDA = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
+      const topScore = leaderboard.reduce((a, b) => (a.score > b.score) ? a : b)
+
+      stats = {
+        mostGames: topGames ? { stat: `${topGames.games}`, label: topGames.name } : null,
+        mostWins: topWins ? { stat: `${topWins.wins}`, label: topWins.name } : null,
+        highestKDA: topKDA ? { stat: `${kda(topKDA)}`, label: topKDA.name } : null,
+        highestScore: topScore ? { stat: `${topScore.score}`, label: topScore.name } : null
+      }
+    }
 
     return (
       <PageContainer>
@@ -27,9 +44,7 @@ class EventClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <div className="temp">
-            <p>"Top player" block to show who has played most matches etc.</p>
-          </div>
+          <StatList stats={stats} />
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>

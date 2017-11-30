@@ -1,6 +1,5 @@
 .stat
   text-align center
-  white-space nowrap
 
   &:hover
     transform scale(1.1)
@@ -10,9 +9,15 @@
   display inline-block
   font-size smaller
   line-height 1
-  opacity
   text-transform uppercase
-  padding-bottom $spacing--quarter
+  padding 0 0 $spacing--quarter
+
+.stat__label--simple
+  border 0
+  font-size small
+  max-width rem(100)
+  padding $spacing--quarter 0 0
+  text-transform none
 
 .stat__value
   font-size rem(45)
@@ -21,6 +26,9 @@
 
 .stat-list
   text-align center
+
+  > li
+    vertical-align top
 
   .stat
     margin $spacing--half $spacing--default

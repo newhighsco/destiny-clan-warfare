@@ -8,20 +8,35 @@ const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const baseClassName = 'stat'
 
-const Stat = ({ label, value }) => (
-  <div className={`${baseClassName}`}>
-    <div className={`${baseClassName}__label`}>
-      {label}
+const Stat = ({ label, stat }) => {
+  var value = stat
+  var valueLabel
+
+  if (typeof value === 'object') {
+    valueLabel = value.label
+    value = value.stat || constants.blank
+  }
+
+  return (
+    <div className={`${baseClassName}`}>
+      <div className={`${baseClassName}__label`}>
+        {label}
+      </div>
+      <div className={`${baseClassName}__value`}>
+        {value}
+      </div>
+      {valueLabel &&
+        <div className={classNames(`${baseClassName}__label`, `${baseClassName}__label--simple`)}>
+          {valueLabel}
+        </div>
+      }
     </div>
-    <div className={`${baseClassName}__value`}>
-      {value}
-    </div>
-  </div>
-)
+  )
+}
 
 Stat.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
+  stat: PropTypes.oneOfType([ PropTypes.string, PropTypes.number, PropTypes.object ])
 }
 
 const StatList = ({ stats }) => {
@@ -44,11 +59,11 @@ const StatList = ({ stats }) => {
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {keys.map((key, i) => {
         const label = sentenceCase(key)
-        const value = stats[key] !== null ? `${stats[key]}` : constants.blank
+        const stat = stats[key] !== null ? stats[key] : constants.blank
 
         return (
           <li key={i}>
-            <Stat label={label} value={value} />
+            <Stat label={label} stat={stat} />
           </li>
         )
       })}

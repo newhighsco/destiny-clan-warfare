@@ -46,7 +46,6 @@
     "moment": "^2.19.2",
     "netlify-identity-widget": "^1.2.0",
     "number-to-words": "^1.2.3",
-    "react-detect-offline": "^1.0.5",
     "responsive-grid": "^1.1.0",
     "sentence-case": "^2.1.1",
     "stylus-mixins": "^0.4.0",

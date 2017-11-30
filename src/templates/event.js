@@ -9,6 +9,7 @@ import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
+import { MedalList } from '../components/medal/Medal'
 
 const constants = require('../utils/constants')
 const medalBuilder = require('../utils/medal-builder')
@@ -58,6 +59,9 @@ class EventTemplate extends Component {
             <p>{data.event.description}</p>
           }
           <Modifiers data={data.event.modifiers} />
+          {data.event.isPast &&
+            <MedalList medals={[ { tier: 1, description: 'TBC' }, { tier: 2, description: 'TBC' }, { tier: 3, description: 'TBC' } ]} />
+          }
           {data.event.isFuture &&
             <Button href="/">Join today</Button>
           }

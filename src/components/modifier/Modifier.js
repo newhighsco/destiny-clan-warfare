@@ -63,7 +63,7 @@ Modifier.propTypes = {
 }
 
 const ModifierList = ({ modifiers, size, align }) => {
-  if (!modifiers) return null
+  if (!modifiers || modifiers.length < 1) return null
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>

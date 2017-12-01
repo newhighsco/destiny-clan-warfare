@@ -7,6 +7,7 @@ import './Avatar.styl'
 
 const hexToRgb = require('./lib/hex-to-rgb')
 const createContentDigest = require('../../utils/create-content-digest')
+const online = require('../../utils/online')
 
 const AvatarLayer = (layer) => {
   if (!layer.color || !layer.icon) return null
@@ -29,13 +30,6 @@ const AvatarLayer = (layer) => {
 
 const Avatar = (props) => {
   const { icon, color, foreground, background, className } = props
-  var online
-
-  try {
-    online = navigator && navigator.onLine
-  } catch (e) {
-    online = true
-  }
 
   if (!online) return null
 

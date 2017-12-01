@@ -23,7 +23,7 @@ const Footer = () => {
             <ul className="list--inline footer__list">
               {links.map((link, i) => {
                 return (
-                  <li className="footer__item">
+                  <li key={i} className="footer__item">
                     <Link className="footer__link" to={link.href}>{link.text}</Link>
                   </li>
                 )

@@ -28,6 +28,7 @@ export const pageQuery = graphql`
   query ContentLayoutQuery {
     site {
       siteMetadata {
+        name
         title
         description
       }

@@ -12,6 +12,7 @@ import { StatList } from '../components/stat/Stat'
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 const kda = require('../utils/kda')
+const possessive = require('../utils/possessive')
 
 class EventClanTemplate extends Component {
   render () {
@@ -37,6 +38,7 @@ class EventClanTemplate extends Component {
       <PageContainer>
         <Helmet>
           <title>{`${data.clan.name} | Current event`}</title>
+          <meta name="description" content={`${possessive(data.clan.name)} clan standings in the current Destiny Clan Warfare event`} />
         </Helmet>
         <Lockup center kicker="Current event" kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />

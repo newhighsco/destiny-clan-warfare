@@ -12,6 +12,7 @@ import { TagList } from '../components/tag/Tag'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
+const possessive = require('../utils/possessive')
 
 class EventMemberTemplate extends Component {
   render () {
@@ -22,6 +23,7 @@ class EventMemberTemplate extends Component {
       <PageContainer>
         <Helmet>
           <title>{`${data.member.name} | Current event`}</title>
+          <meta name="description" content={`${possessive(data.member.name)} stats and match history in the current Destiny Clan Warfare event`} />
         </Helmet>
         <Lockup center kicker="Current event" kickerHref={urlBuilder.eventUrl(data.member.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.member.updatedDate} />

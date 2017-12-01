@@ -8,6 +8,7 @@ class FaqsPage extends Component {
       <PageContainer>
         <Helmet>
           <title>FAQs</title>
+          <meta name="description" content="Frequently asked questions about Destiny Clan Warfare" />
         </Helmet>
         <div className="temp">
           <p>FAQs</p>

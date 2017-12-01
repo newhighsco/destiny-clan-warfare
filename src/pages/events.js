@@ -28,6 +28,7 @@ class EventsPage extends Component {
       <PageContainer>
         <Helmet>
           <title>Events</title>
+          <meta name="description" content="All Destiny Clan Warfare events to date" />
         </Helmet>
         <Card cutout className="text-center">
           <Lockup center kicker="All" heading="Events" />

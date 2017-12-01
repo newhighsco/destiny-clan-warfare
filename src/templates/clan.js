@@ -11,6 +11,7 @@ import Button from '../components/button/Button'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
+const possessive = require('../utils/possessive')
 
 class ClanTemplate extends Component {
   render () {
@@ -33,6 +34,7 @@ class ClanTemplate extends Component {
       <PageContainer>
         <Helmet>
           <title>{`${data.clan.name} | Clans`}</title>
+          <meta name="description" content={`${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`} />
         </Helmet>
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />

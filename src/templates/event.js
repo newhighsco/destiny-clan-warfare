@@ -22,6 +22,11 @@ class EventTemplate extends Component {
     const futureEventKicker = 'Coming soon'
     const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
     const title = `${data.event.name} | ${kicker}`
+    const description = data.event.isCurrent
+      ? `The divisional leaderboards for the current Destiny Clan Warfare event`
+      : (data.event.isPast
+        ? `The results of past ${data.event.name} Destiny Clan Warfare event`
+        : `Preview of upcoming ${data.event.name} Destiny Clan Warfare event`)
     var largeLeaderboard = data.event.leaderboards.large
     var mediumLeaderboard = data.event.leaderboards.medium
     var smallLeaderboard = data.event.leaderboards.small
@@ -38,6 +43,7 @@ class EventTemplate extends Component {
       <PageContainer>
         <Helmet>
           <title>{title}</title>
+          <meta name="description" content={description} />
         </Helmet>
         <Lockup center kicker={kicker}>
           {data.event.isCurrent &&

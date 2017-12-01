@@ -24,6 +24,7 @@ export const pageQuery = graphql`
   query IndexLayoutQuery {
     site {
       siteMetadata {
+        name
         title
         description
       }

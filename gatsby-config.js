@@ -5,7 +5,8 @@ const responsiveGrid = require('responsive-grid')
 module.exports = {
   siteMetadata: {
     siteUrl: `https://destinyclanwarfare.com`,
-    title: `Destiny Clan Warfare`,
+    name: `Destiny Clan Warfare`,
+    title: `Destiny Clan Warfare - Band together, Guardians`,
     description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
   },
   plugins: [
@@ -43,10 +44,10 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Destiny Clan Warfare`,
-        short_name: `Clan Warfare`,
+        short_name: `D2 Clan Wars`,
         start_url: `/`,
-        background_color: `#222`,
-        theme_color: `#222`,
+        background_color: `#404040`,
+        theme_color: `#404040`,
         display: `minimal-ui`,
         icons: [
           {

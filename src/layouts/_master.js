@@ -47,6 +47,7 @@ class MasterLayout extends Component {
             <html lang="en" />
             <title>{data.site.siteMetadata.title}</title>
             <meta name="robots" content="noindex,nofollow" />
+            <meta name="description" content={data.site.siteMetadata.description} />
           </Helmet>
           <HoldingPage>
             <Logo />
@@ -62,7 +63,7 @@ class MasterLayout extends Component {
       <div className="site-container">
         <Helmet
           defaultTitle={data.site.siteMetadata.title}
-          titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+          titleTemplate={`%s | ${data.site.siteMetadata.name}`}
         >
           <html lang="en" />
           <meta name="description" content={data.site.siteMetadata.description} />

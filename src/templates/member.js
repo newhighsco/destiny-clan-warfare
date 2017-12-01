@@ -13,6 +13,7 @@ import { TagList } from '../components/tag/Tag'
 const moment = require('moment')
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
+const possessive = require('../utils/possessive')
 
 class MemberTemplate extends Component {
   render () {
@@ -29,6 +30,7 @@ class MemberTemplate extends Component {
       <PageContainer>
         <Helmet>
           <title>{`${data.member.name} | Members`}</title>
+          <meta name="description" content={`${possessive(data.member.name)} progress in the war against other clans in Destiny 2`} />
         </Helmet>
         <Card cutout className="text-center">
           {data.member.icon &&

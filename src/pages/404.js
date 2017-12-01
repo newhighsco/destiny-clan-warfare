@@ -10,6 +10,7 @@ class NotFoundPage extends Component {
       <HoldingPage>
         <Helmet>
           <title>Page not found</title>
+          <meta name="description" content="Sorry, this page could not be found" />
           <meta name="robots" content="noindex,nofollow" />
         </Helmet>
         <Link to="/">

@@ -15,6 +15,7 @@ class MembersPage extends Component {
       <PageContainer>
         <Helmet>
           <title>Members</title>
+          <meta name="description" content="All clan members waging war against other clans in Destiny 2" />
         </Helmet>
         <Card cutout className="text-center">
           <Lockup center kicker="All" heading="Members" />

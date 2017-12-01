@@ -40,7 +40,7 @@ Stat.propTypes = {
 }
 
 const StatList = ({ stats }) => {
-  if (!stats) return null
+  if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
   const blackListedKeys = [

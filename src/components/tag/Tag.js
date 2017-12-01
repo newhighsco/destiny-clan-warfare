@@ -23,7 +23,7 @@ Tag.propTypes = {
 }
 
 const TagList = ({ tags, className }) => {
-  if (!tags) return null
+  if (!tags || tags.length < 1) return null
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`, className)}>

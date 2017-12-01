@@ -83,7 +83,7 @@ Medal.propTypes = {
 }
 
 const MedalList = ({ medals, size, align }) => {
-  if (!medals) return null
+  if (!medals || medals.length < 1) return null
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>

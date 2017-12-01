@@ -19,6 +19,7 @@ class MemberTemplate extends Component {
   render () {
     const { data } = this.props
     const totals = data.member.totals
+    const medals = data.member.medals.sort((a, b) => { return a.tier - b.tier })
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
     const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
     const stats = {
@@ -39,7 +40,7 @@ class MemberTemplate extends Component {
           <TagList tags={data.member.tags} className="card__tags" />
           <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.clanUrl(data.member.clanId)} heading={data.member.name} />
           <Button href={`https://www.bungie.net/en/Profile/${data.member.id}`} target="_blank">View profile</Button>
-          <MedalList medals={data.member.medals} />
+          <MedalList medals={medals} />
           {lastPlayedDate > emptyDate &&
             <StatList stats={stats} />
           }

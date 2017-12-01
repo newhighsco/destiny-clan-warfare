@@ -31,6 +31,12 @@ class EventTemplate extends Component {
     var mediumLeaderboard = data.event.leaderboards.medium
     var smallLeaderboard = data.event.leaderboards.small
     var leaderboardColumns = null
+    var memberMedals = data.event.medals.members ? data.event.medals.members
+      .filter(({ tier }) => tier > 1)
+      .sort((a, b) => { return a.tier - b.tier }) : []
+    var clanMedals = data.event.medals.clans ? data.event.medals.clans
+      .filter(({ tier }) => tier > 1)
+      .sort((a, b) => { return a.tier - b.tier }) : []
 
     if (data.event.isPast) {
       largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)
@@ -65,9 +71,10 @@ class EventTemplate extends Component {
             <p>{data.event.description}</p>
           }
           <ModifierList modifiers={data.event.modifiers} />
-          {data.event.isPast &&
-            <MedalList medals={[ { tier: 1, description: 'TBC', label: 'Some winner' }, { tier: 2, description: 'TBC', label: 'Some winner' }, { tier: 3, description: 'TBC', label: 'Some winner' } ]} />
-          }
+          {data.event.isPast && [
+            <MedalList key="clanMedals" medals={clanMedals} />,
+            <MedalList key="memberMedals" medals={memberMedals} />
+          ]}
           {data.event.isFuture &&
             <Button href="/">Join today</Button>
           }
@@ -130,6 +137,7 @@ export const pageQuery = graphql`
         score
       }
       ...modifiersFragment
+      ...eventMedalsFragment
     }
   }
 `

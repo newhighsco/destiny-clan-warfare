@@ -29,6 +29,7 @@ class ClanTemplate extends Component {
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
+    const medals = data.clan.medals.sort((a, b) => { return a.tier - b.tier })
 
     return (
       <PageContainer>
@@ -41,7 +42,7 @@ class ClanTemplate extends Component {
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           <p key="description" dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
           <Button key="button" href={`https://www.bungie.net/en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
-          <MedalList key="medals" medals={[ { tier: 1, description: 'TBC', count: 2 }, { tier: 2, description: 'TBC', count: 5 }, { tier: 3, description: 'TBC', count: 1 } ]} />
+          <MedalList key="medals" medals={medals} />
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>
@@ -71,6 +72,7 @@ export const pageQuery = graphql`
         color
         icon
       }
+      ...clanMedalsFragment
     }
     allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {
       edges {

@@ -120,4 +120,24 @@ export const componentFragment = graphql`
       count
     }
   }
+
+  fragment clanMedalsFragment on Clan {
+    medals {
+      tier
+      name
+      description
+      count
+    }
+  }
+
+  fragment eventMedalsFragment on Event {
+    medals {
+      clans {
+        tier
+        name
+        description
+        label
+      }
+    }
+  }
 `

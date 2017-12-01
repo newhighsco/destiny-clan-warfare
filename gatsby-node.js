@@ -50,6 +50,16 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
+  const parseMedal = (medal) => {
+    return {
+      tier: medal.medalTier || 1,
+      name: medal.name,
+      description: medal.description,
+      count: medal.count || null,
+      label: medal.awardedTo || null
+    }
+  }
+
   for (var clan of clans) {
     var clanLeaderboard = []
 
@@ -105,6 +115,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           score: parseInt(Math.round(item.totalScore))
         }
       }),
+      medals: clan.medalUnlocks.map(medal => parseMedal(medal)),
       parent: null,
       children: [],
       internal: {
@@ -193,14 +204,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           description: bonus.description || ''
         }
       }),
-      medals: member.medalUnlocks.map(medal => {
-        return {
-          tier: medal.tier || 1,
-          name: medal.name,
-          description: medal.description,
-          count: medal.count
-        }
-      }),
+      medals: member.medalUnlocks.map(medal => parseMedal(medal)),
       totals: totals,
       leaderboard: leaderboard,
       history: history.map(item => {
@@ -348,6 +352,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         small: smallLeaderboard
       },
       results: results,
+      medals: {
+        clans: event.clanMedals ? event.clanMedals.map(medal => parseMedal(medal)) : [],
+        members: event.clanMemberMedals ? event.clanMemberMedals.map(medal => parseMedal(medal)) : []
+      },
       parent: null,
       children: [],
       internal: {

@@ -8,6 +8,7 @@ import { ModifierList } from '../components/modifier/Modifier'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
+import Advert from '../components/advert/Advert'
 
 const constants = require('../utils/constants')
 
@@ -61,6 +62,7 @@ class IndexPage extends Component {
           })
         ]}
         {pastEvents.length > 0 && [
+          <Advert key="advert" />,
           <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
             const leaderboard = node.results.filter(({ score }) => score > 0)
@@ -88,6 +90,7 @@ class IndexPage extends Component {
           })
         ]}
         {futureEvents.length > 0 && [
+          <Advert key="advert" />,
           <Lockup key="kicker" center element="h1" kicker="Next event" />,
           futureEvents.map(({ node }) => {
             return (

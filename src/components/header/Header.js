@@ -8,43 +8,43 @@ import PatreonSvg from '../../images/patreon.svg'
 
 import './Header.styl'
 
-const Header = () => (
-  <header className="header" role="banner">
-    <div className="header__container content-center content-gutter">
-      <div className="grid">
-        <div className="grid__item one-half">
-          <Link className="header__logo-link" to="/">
-            <LogoLockup size="small" className="header__logo-lockup" />
-          </Link>
-        </div>
-        <div className="grid__item one-half">
-          <ul className="list--inline header__list">
-            <li className="header__item">
-              <a className="header__link" href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener noreferrer">
-                <Icon className="header__icon" a11yText="Follow us on Twitter">
-                  <TwitterSvg />
-                </Icon>
-              </a>
-            </li>
-            <li className="header__item">
-              <a className="header__link" href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">
-                <Icon className="header__icon" a11yText="Join our Discord server">
-                  <DiscordSvg />
-                </Icon>
-              </a>
-            </li>
-            <li className="header__item">
-              <a className="header__link" href="https://www.patreon.com/destinyclanwarfare" target="_blank" rel="noopener noreferrer">
-                <Icon className="header__icon" a11yText="Become a Patron">
-                  <PatreonSvg />
-                </Icon>
-              </a>
-            </li>
-          </ul>
+const Header = () => {
+  const links = [
+    { href: 'https://twitter.com/destinyclanwar', text: 'Follow us on Twitter', icon: TwitterSvg },
+    { href: 'http://discord.destinyclanwarfare.com', text: 'Join our Discord server', icon: DiscordSvg },
+    { href: 'https://www.patreon.com/destinyclanwarfare', text: 'Become a Patron', icon: PatreonSvg }
+  ]
+
+  return (
+    <header className="header" role="banner">
+      <div className="header__container content-center content-gutter">
+        <div className="grid">
+          <div className="grid__item one-half">
+            <Link className="header__logo-link" to="/">
+              <LogoLockup size="small" className="header__logo-lockup" />
+            </Link>
+          </div>
+          { links.length &&
+            <div className="grid__item one-half">
+              <ul className="list--inline header__list">
+                {links.map((link, i) => {
+                  return (
+                    <li key={i} className="header__item">
+                      <a className="header__link" href={link.href} target="_blank" rel="noopener noreferrer">
+                        <Icon className="header__icon" a11yText={link.text}>
+                          <link.icon />
+                        </Icon>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          }
         </div>
       </div>
-    </div>
-  </header>
-)
+    </header>
+  )
+}
 
 export default Header

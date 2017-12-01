@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Lockup from '../lockup/Lockup'
+import { Lockup } from '../lockup/Lockup'
 import LogoSvg from './logo.svg'
 
 import './Logo.styl'

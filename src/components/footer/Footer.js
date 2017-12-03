@@ -18,7 +18,7 @@ const Footer = () => {
     <footer className="footer" role="contentinfo">
       <LogoIcon size="small" className="footer__logo" />
       <div className="content-center content-gutter">
-        <div className="grid grid--reverse grid--middled">
+        <div className="grid grid--reverse grid--middled grid--gutter-double">
           <div className="grid__item tablet-one-half">
             <ul className="list--inline footer__list">
               {links.map((link, i) => {

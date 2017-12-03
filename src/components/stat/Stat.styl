@@ -7,10 +7,13 @@
 .stat__label
   border-bottom 1px solid $color--silver
   display inline-block
-  font-size smaller
+  font-size small
   line-height 1
   text-transform uppercase
-  padding 0 0 $spacing--quarter
+  padding 0 0 0.1em
+
+  +width-min($mq--tablet)
+    font-size smaller
 
 .stat__label--simple
   border 0
@@ -20,9 +23,12 @@
   text-transform none
 
 .stat__value
-  font-size rem(45)
+  font-size rem(40)
   font-weight bold
   line-height 1
+
+  +width-min($mq--tablet)
+    font-size rem(50)
 
 .stat-list
   text-align center
@@ -31,4 +37,7 @@
     vertical-align top
 
   .stat
-    margin $spacing--half $spacing--default
+    margin $spacing--quarter $spacing--default
+
+    +width-min($mq--tablet)
+      margin $spacing--half $spacing--default

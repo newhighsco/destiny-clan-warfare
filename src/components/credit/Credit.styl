@@ -1,7 +1,11 @@
 .credit
-  display inline-block
+  display table
   line-height 1.1
+  margin auto
   white-space nowrap
+
+  +width-min($mq--tablet)
+    display inline-block
 
 .credit__link
   display inline-block

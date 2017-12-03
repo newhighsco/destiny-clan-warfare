@@ -14,19 +14,20 @@
 .footer__list
   color $color--silver
   padding $spacing--default 0
+  text-align center
   text-transform uppercase
 
   +width-min($mq--tablet)
     text-align right
 
 .footer__item
-  margin-right $spacing--default
+  margin 0 $spacing--half !important
 
   +width-min($mq--tablet)
-    margin-right 0
+    margin 0 !important
 
     & + &
-      margin-left $spacing--default
+      margin-left $spacing--default !important
 
 .footer__link
   display block

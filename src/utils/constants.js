@@ -20,6 +20,11 @@ const constants = {
     current: 'Ends',
     past: 'Ended',
     future: 'Starts'
+  },
+  kicker: {
+    current: 'Current event',
+    past: 'Past event',
+    future: 'Coming soon'
   }
 }
 

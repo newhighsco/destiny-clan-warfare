@@ -37,10 +37,10 @@ class EventClanTemplate extends Component {
     return (
       <PageContainer>
         <Helmet>
-          <title>{`${data.clan.name} | Current event`}</title>
+          <title>{`${data.clan.name} | ${constants.kicker.current}`}</title>
           <meta name="description" content={`${possessive(data.clan.name)} clan standings in the current Destiny Clan Warfare event`} />
         </Helmet>
-        <Lockup center kicker="Current event" kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
+        <Lockup center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
         </Lockup>
         <Card cutout className="text-center">

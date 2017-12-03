@@ -7,9 +7,9 @@ import { Lockup } from '../components/lockup/Lockup'
 import { ModifierList } from '../components/modifier/Modifier'
 import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import Button from '../components/button/Button'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { MedalList } from '../components/medal/Medal'
+import FutureEvent from '../components/event/FutureEvent'
 
 const constants = require('../utils/constants')
 const medalBuilder = require('../utils/medal-builder')
@@ -17,11 +17,7 @@ const medalBuilder = require('../utils/medal-builder')
 class EventTemplate extends Component {
   render () {
     const { data } = this.props
-    const currentEventKicker = 'Current event'
-    const pastEventKicker = 'Past event'
-    const futureEventKicker = 'Coming soon'
-    const kicker = data.event.isCurrent ? currentEventKicker : (data.event.isPast ? pastEventKicker : futureEventKicker)
-    const title = `${data.event.name} | ${kicker}`
+    const kicker = data.event.isCurrent ? constants.kicker.current : (data.event.isPast ? constants.kicker.past : constants.kicker.future)
     const description = data.event.isCurrent
       ? `The divisional leaderboards for the current Destiny Clan Warfare event`
       : (data.event.isPast
@@ -48,39 +44,22 @@ class EventTemplate extends Component {
     return (
       <PageContainer>
         <Helmet>
-          <title>{title}</title>
+          <title>{`${data.event.name} | ${kicker}`}</title>
           <meta name="description" content={description} />
         </Helmet>
-        <Lockup center kicker={kicker}>
-          {data.event.isCurrent &&
+        {data.event.isCurrent && [
+          <Lockup key="lockup" center kicker={kicker}>
             <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
-          }
-        </Lockup>
-        <Card cutout className="text-center">
-          <Lockup center heading={data.event.name} />
-          {data.event.isCurrent &&
+          </Lockup>,
+          <Card key="card" cutout className="text-center">
+            <Lockup center heading={data.event.name} />
             <RelativeDate label={constants.relativeDate.current} date={data.event.endDate} />
-          }
-          {data.event.isPast &&
-            <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
-          }
-          {data.event.isFuture &&
-            <RelativeDate label={constants.relativeDate.future} date={data.event.startDate} />
-          }
-          {data.event.description &&
-            <p>{data.event.description}</p>
-          }
-          <ModifierList modifiers={data.event.modifiers} />
-          {data.event.isPast && [
-            <MedalList key="clanMedals" medals={clanMedals} />,
-            <MedalList key="memberMedals" medals={memberMedals} />
-          ]}
-          {data.event.isFuture &&
-            <Button href="/">Join today</Button>
-          }
-        </Card>
-        {!data.event.isFuture &&
-          <TabContainer cutout>
+            {data.event.description &&
+              <p>{data.event.description}</p>
+            }
+            <ModifierList modifiers={data.event.modifiers} />
+          </Card>,
+          <TabContainer key="tabs" cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
                 <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
@@ -97,7 +76,41 @@ class EventTemplate extends Component {
               </Tab>
             }
           </TabContainer>
-        }
+        ]}
+        {data.event.isPast && [
+          <Lockup key="lockup" center kicker={kicker} />,
+          <Card key="card" cutout className="text-center">
+            <Lockup center heading={data.event.name} />
+            <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
+            {data.event.description &&
+              <p>{data.event.description}</p>
+            }
+            <ModifierList modifiers={data.event.modifiers} />
+            <MedalList key="clanMedals" medals={clanMedals} />,
+            <MedalList key="memberMedals" medals={memberMedals} />
+          </Card>,
+          <TabContainer key="tabs" cutout>
+            {largeLeaderboard.length > 0 &&
+              <Tab name={constants.division.large}>
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
+              </Tab>
+            }
+            {mediumLeaderboard.length > 0 &&
+              <Tab name={constants.division.medium}>
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
+              </Tab>
+            }
+            {smallLeaderboard.length > 0 &&
+              <Tab name={constants.division.small}>
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
+              </Tab>
+            }
+          </TabContainer>
+        ]}
+        {data.event.isFuture && [
+          <Lockup key="lockup" center kicker={kicker} />,
+          <FutureEvent key="event" event={data.event} />
+        ]}
       </PageContainer>
     )
   }

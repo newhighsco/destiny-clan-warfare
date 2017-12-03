@@ -9,6 +9,8 @@ import { TabContainer, Tab } from '../components/tab/Tab'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import Advert from '../components/advert/Advert'
+import Enrollment from '../components/enrollment/Enrollment'
+import FutureEvent from '../components/event/FutureEvent'
 
 const constants = require('../utils/constants')
 
@@ -21,11 +23,9 @@ class IndexPage extends Component {
 
     return (
       <PageContainer>
-        <div className="temp">
-          <p>Introduction/Search/Enrollment</p>
-        </div>
+        <Enrollment />
         {currentEvents.length > 0 && [
-          <Lockup key="kicker" center element="h1" kicker={`Current event${currentEvents.length > 1 ? 's' : ''}`}>
+          <Lockup key="kicker" center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
             <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
           </Lockup>,
           currentEvents.map(({ node }) => {
@@ -63,7 +63,7 @@ class IndexPage extends Component {
         ]}
         {pastEvents.length > 0 && [
           <Advert key="advert" />,
-          <Lockup key="kicker" center element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
+          <Lockup key="kicker" center element="h1" kicker={`${constants.kicker.past}${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
             const leaderboard = node.results.filter(({ score }) => score > 0)
 
@@ -91,17 +91,10 @@ class IndexPage extends Component {
         ]}
         {futureEvents.length > 0 && [
           <Advert key="advert" />,
-          <Lockup key="kicker" center element="h1" kicker="Next event" />,
+          <Lockup key="kicker" center element="h1" kicker={constants.kicker.future} />,
           futureEvents.map(({ node }) => {
             return (
-              <Card key={node.id} className="text-center">
-                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                <RelativeDate label={constants.relativeDate.future} date={node.startDate} />
-                {node.description &&
-                  <p>{node.description}</p>
-                }
-                <ModifierList modifiers={node.modifiers} />
-              </Card>
+              <FutureEvent event={node} element="h2" />
             )
           })
         ]}

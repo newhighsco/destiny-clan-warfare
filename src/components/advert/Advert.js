@@ -14,9 +14,12 @@ class Advert extends Component {
   }
 
   componentDidMount () {
-    (window.adsbygoogle = window.adsbygoogle || []).push({})
-
-    this.setState({ active: true })
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({})
+      this.setState({ active: true })
+    } catch (e) {
+      this.setState({ active: false })
+    }
   }
 
   render () {

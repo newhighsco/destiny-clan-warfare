@@ -1,7 +1,12 @@
 .page-container
   flex 1 0 auto
-  padding $spacing--default 0
 
 .page-container__inner
   > * + *
     margin-top $spacing--double
+
+  > *:first-child
+    padding-top $spacing--default
+
+  > *:last-child
+    padding-bottom $spacing--default

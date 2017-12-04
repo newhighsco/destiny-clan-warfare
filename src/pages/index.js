@@ -30,7 +30,7 @@ class IndexPage extends Component {
           </Lockup>,
           currentEvents.map(({ node }) => {
             return ([
-              <Card key={node.id} className="text-center">
+              <Card key={node.id} cutout className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
                 <RelativeDate label={constants.relativeDate.current} date={node.endDate} />
                 {node.description &&
@@ -68,7 +68,7 @@ class IndexPage extends Component {
             const leaderboard = node.results.filter(({ score }) => score > 0)
 
             return ([
-              <Card cutout key={node.id} className="text-center">
+              <Card key={node.id} cutout className="text-center">
                 <Lockup center element="h2" headingHref={node.path} heading={node.name} />
                 <RelativeDate label={constants.relativeDate.past} date={node.endDate} />
                 {node.description &&

@@ -40,25 +40,6 @@ class MasterLayout extends Component {
     const { children, data } = this.props
     const { user, enableIdentity } = this.state
 
-    if (enableIdentity && !user) {
-      return (
-        <div className="site-container">
-          <Helmet>
-            <html lang="en" />
-            <title>{data.site.siteMetadata.title}</title>
-            <meta name="robots" content="noindex,nofollow" />
-            <meta name="description" content={data.site.siteMetadata.description} />
-          </Helmet>
-          <HoldingPage>
-            <Logo />
-            <div className="button-group">
-              <Button onClick={this.handleLogin}>Log in to view</Button>
-            </div>
-          </HoldingPage>
-        </div>
-      )
-    }
-
     return (
       <div className="site-container">
         <Helmet
@@ -68,7 +49,16 @@ class MasterLayout extends Component {
           <html lang="en" />
           <meta name="description" content={data.site.siteMetadata.description} />
         </Helmet>
-        {children}
+        {(enableIdentity && !user) ? (
+          <HoldingPage>
+            <Logo />
+            <ButtonGroup>
+              <Button onClick={this.handleLogin}>Log in to view</Button>
+            </ButtonGroup>
+          </HoldingPage>
+        ) : (
+          children
+        )}
       </div>
     )
   }

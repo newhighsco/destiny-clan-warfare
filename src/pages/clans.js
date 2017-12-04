@@ -18,7 +18,7 @@ class ClansPage extends Component {
           <meta name="description" content="All clans battling their way to the top of the Destiny 2 clan leaderboard" />
         </Helmet>
         <Card cutout className="text-center">
-          <Lockup center kicker="All" heading="Clans" />
+          <Lockup primary center kicker="All" heading="Clans" />
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>

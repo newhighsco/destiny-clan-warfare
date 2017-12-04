@@ -10,6 +10,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { MedalList } from '../components/medal/Medal'
 import FutureEvent from '../components/event/FutureEvent'
+import { Button, ButtonGroup } from '../components/button/Button'
 
 const constants = require('../utils/constants')
 const medalBuilder = require('../utils/medal-builder')
@@ -75,7 +76,10 @@ class EventTemplate extends Component {
                 <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
-          </TabContainer>
+          </TabContainer>,
+          <ButtonGroup key="button">
+            <Button href="/#enroll">Enroll your clan today</Button>
+          </ButtonGroup>
         ]}
         {data.event.isPast && [
           <Lockup key="lockup" center kicker={kicker} />,
@@ -109,7 +113,10 @@ class EventTemplate extends Component {
         ]}
         {data.event.isFuture && [
           <Lockup key="lockup" center kicker={kicker} />,
-          <FutureEvent key="event" event={data.event} />
+          <FutureEvent key="event" event={data.event} />,
+          <ButtonGroup key="button">
+            <Button href="/#enroll">Enroll your clan today</Button>
+          </ButtonGroup>
         ]}
       </PageContainer>
     )

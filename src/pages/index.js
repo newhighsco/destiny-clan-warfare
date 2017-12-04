@@ -96,7 +96,10 @@ class IndexPage extends Component {
             return (
               <FutureEvent event={node} element="h2" />
             )
-          })
+          }),
+          <ButtonGroup key="button">
+            <Button href="/#enroll">Enroll your clan today</Button>
+          </ButtonGroup>
         ]}
       </PageContainer>
     )

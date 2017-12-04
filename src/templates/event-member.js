@@ -25,7 +25,7 @@ class EventMemberTemplate extends Component {
           <title>{`${data.member.name} | ${constants.kicker.current}`}</title>
           <meta name="description" content={`${possessive(data.member.name)} stats and match history in the current Destiny Clan Warfare event`} />
         </Helmet>
-        <Lockup center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.member.currentEventId)}>
+        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.member.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.member.updatedDate} />
         </Lockup>
         <Card cutout className="text-center">

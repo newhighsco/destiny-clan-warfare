@@ -25,7 +25,7 @@ class IndexPage extends Component {
       <PageContainer>
         <Enrollment />
         {currentEvents.length > 0 && [
-          <Lockup key="kicker" center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
+          <Lockup key="kicker" primary center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
             <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
           </Lockup>,
           currentEvents.map(({ node }) => {
@@ -63,7 +63,7 @@ class IndexPage extends Component {
         ]}
         {pastEvents.length > 0 && [
           <Advert key="advert" />,
-          <Lockup key="kicker" center element="h1" kicker={`${constants.kicker.past}${pastEvents.length > 1 ? 's' : ''}`} />,
+          <Lockup key="kicker" center primary element="h1" kicker={`${constants.kicker.past}${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
             const leaderboard = node.results.filter(({ score }) => score > 0)
 
@@ -91,7 +91,7 @@ class IndexPage extends Component {
         ]}
         {futureEvents.length > 0 && [
           <Advert key="advert" />,
-          <Lockup key="kicker" center element="h1" kicker={constants.kicker.future} />,
+          <Lockup key="kicker" center primary element="h1" kicker={constants.kicker.future} />,
           futureEvents.map(({ node }) => {
             return (
               <FutureEvent event={node} element="h2" />

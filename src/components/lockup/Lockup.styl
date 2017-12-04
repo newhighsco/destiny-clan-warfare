@@ -28,11 +28,11 @@
   word-wrap break-word
 
   &:after
-    border-bottom 5px solid $color--primary
+    border-bottom 5px solid currentColor
     content ''
     display block
     margin 0.25em auto 0.5em ($spacing--quarter * -1)
-    opacity 0.75
+    opacity 0.5
 
   &[href]:hover
     transform scale(1.05)
@@ -80,6 +80,15 @@
   opacity 0.75
   letter-spacing 0.2em
   text-transform uppercase
+
+.lockup--primary
+  .lockup__kicker:after
+    border-color $color--primary
+    opacity 0.75
+
+.lockup--borderless
+  .lockup__kicker:after
+    border 0
 
 .lockup--reverse
   .lockup__kicker

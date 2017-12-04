@@ -49,7 +49,7 @@ class EventTemplate extends Component {
           <meta name="description" content={description} />
         </Helmet>
         {data.event.isCurrent && [
-          <Lockup key="lockup" center kicker={kicker}>
+          <Lockup key="lockup" primary center kicker={kicker}>
             <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
           </Lockup>,
           <Card key="card" cutout className="text-center">
@@ -82,7 +82,7 @@ class EventTemplate extends Component {
           </ButtonGroup>
         ]}
         {data.event.isPast && [
-          <Lockup key="lockup" center kicker={kicker} />,
+          <Lockup key="lockup" primary center kicker={kicker} />,
           <Card key="card" cutout className="text-center">
             <Lockup center heading={data.event.name} />
             <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
@@ -112,7 +112,7 @@ class EventTemplate extends Component {
           </TabContainer>
         ]}
         {data.event.isFuture && [
-          <Lockup key="lockup" center kicker={kicker} />,
+          <Lockup key="lockup" primary center kicker={kicker} />,
           <FutureEvent key="event" event={data.event} />,
           <ButtonGroup key="button">
             <Button href="/#enroll">Enroll your clan today</Button>

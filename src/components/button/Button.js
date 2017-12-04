@@ -6,10 +6,10 @@ import classNames from 'classnames'
 import './Button.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')
+const baseClassName = 'button'
 
 const Button = (props) => {
   const { children, className, href, target, type, size } = props
-  const baseClassName = 'button'
   const commonAttributes = {
     className: classNames(
       baseClassName,
@@ -69,4 +69,21 @@ Button.propTypes = {
   size: PropTypes.oneOf([ 'small' ])
 }
 
-export default Button
+const ButtonGroup = ({ children }) => {
+  if (!children) return null
+
+  return (
+    <div className={`${baseClassName}-group`}>
+      {children}
+    </div>
+  )
+}
+
+ButtonGroup.propTypes = {
+  children: PropTypes.node
+}
+
+export {
+  Button,
+  ButtonGroup
+}

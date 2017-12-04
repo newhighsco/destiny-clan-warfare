@@ -7,7 +7,7 @@ import Avatar from '../components/avatar/Avatar'
 import { Lockup } from '../components/lockup/Lockup'
 import { MedalList } from '../components/medal/Medal'
 import { StatList } from '../components/stat/Stat'
-import Button from '../components/button/Button'
+import { Button } from '../components/button/Button'
 import { TagList } from '../components/tag/Tag'
 
 const moment = require('moment')

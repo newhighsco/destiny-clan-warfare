@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import identity from 'netlify-identity-widget'
 import HoldingPage from '../components/holding-page/HoldingPage'
 import { Logo } from '../components/logo/Logo'
-import Button from '../components/button/Button'
+import { Button, ButtonGroup } from '../components/button/Button'
 
 import '../stylus/index.styl'
 

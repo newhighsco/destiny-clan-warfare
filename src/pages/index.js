@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
-import Button from '../components/button/Button'
+import { Button, ButtonGroup } from '../components/button/Button'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import { ModifierList } from '../components/modifier/Modifier'
@@ -55,9 +55,9 @@ class IndexPage extends Component {
                   </Tab>
                 }
               </TabContainer>,
-              <div className="button-group">
+              <ButtonGroup>
                 <Button href={node.path}>View full leaderboard</Button>
-              </div>
+              </ButtonGroup>
             ])
           })
         ]}
@@ -82,9 +82,9 @@ class IndexPage extends Component {
                     <Leaderboard data={leaderboard} />
                   </Tab>
                 </TabContainer>,
-                <div className="button-group">
+                <ButtonGroup>
                   <Button href={node.path}>View full results</Button>
-                </div>
+                </ButtonGroup>
               ]
             ])
           })

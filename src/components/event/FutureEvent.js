@@ -4,7 +4,7 @@ import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import RelativeDate from '../relative-date/RelativeDate'
 import { ModifierList } from '../modifier/Modifier'
-import Button from '../button/Button'
+import { Button } from '../button/Button'
 
 const constants = require('../../utils/constants')
 

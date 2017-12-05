@@ -9,11 +9,12 @@ const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'button'
 
 const Button = (props) => {
-  const { children, className, href, target, type, size } = props
+  const { children, className, href, target, type, size, solid } = props
   const commonAttributes = {
     className: classNames(
       baseClassName,
       size && `${baseClassName}--${size}`,
+      solid && `${baseClassName}--solid`,
       className
     )
   }
@@ -66,7 +67,8 @@ Button.propTypes = {
   href: PropTypes.string,
   target: PropTypes.string,
   type: PropTypes.oneOf([ 'button', 'reset', 'submit' ]),
-  size: PropTypes.oneOf([ 'small' ])
+  size: PropTypes.oneOf([ 'small' ]),
+  solid: PropTypes.bool
 }
 
 const ButtonGroup = ({ children }) => {

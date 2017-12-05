@@ -62,8 +62,9 @@ class IndexPage extends Component {
           })
         ]}
         {pastEvents.length > 0 && [
-          <Advert key="advert" />,
-          <Lockup key="kicker" center primary element="h1" kicker={`${constants.kicker.past}${pastEvents.length > 1 ? 's' : ''}`} />,
+          currentEvents.length > 0 &&
+            <Advert key="advert" />,
+          <Lockup key="kicker" center primary element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
             const leaderboard = node.results.filter(({ score }) => score > 0)
 
@@ -90,8 +91,9 @@ class IndexPage extends Component {
           })
         ]}
         {futureEvents.length > 0 && [
-          <Advert key="advert" />,
-          <Lockup key="kicker" center primary element="h1" kicker={constants.kicker.future} />,
+          pastEvents.length > 0 &&
+            <Advert key="advert" />,
+          <Lockup key="kicker" center primary element="h1" kicker={`Next event${futureEvents.length > 1 ? 's' : ''}`} />,
           futureEvents.map(({ node }) => {
             return (
               <FutureEvent event={node} element="h2" />

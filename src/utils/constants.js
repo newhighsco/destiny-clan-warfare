@@ -24,7 +24,7 @@ const constants = {
   kicker: {
     current: 'Current event',
     past: 'Past event',
-    future: 'Coming soon'
+    future: 'Upcoming event'
   }
 }
 

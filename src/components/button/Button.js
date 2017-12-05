@@ -9,7 +9,7 @@ const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'button'
 
 const Button = (props) => {
-  const { children, className, href, target, type, size, solid } = props
+  const { children, className, href, target, type, size, solid, ...remainingProps } = props
   const commonAttributes = {
     className: classNames(
       baseClassName,
@@ -22,7 +22,7 @@ const Button = (props) => {
   if (!href) {
     return (
       <button
-        {...props}
+        {...remainingProps}
         {...commonAttributes}
         type={type}
       >
@@ -34,7 +34,7 @@ const Button = (props) => {
   if (absoluteUrl(href)) {
     return (
       <a
-        {...props}
+        {...remainingProps}
         {...commonAttributes}
         type={null}
         href={href}
@@ -48,7 +48,7 @@ const Button = (props) => {
 
   return (
     <Link
-      {...props}
+      {...remainingProps}
       {...commonAttributes}
       to={href}
     >

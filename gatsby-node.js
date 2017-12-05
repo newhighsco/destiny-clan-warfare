@@ -443,6 +443,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         const eventPath = event.node.path
+        var currentEventPath = '/'
 
         createPage({
           path: eventPath,
@@ -454,19 +455,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
 
         if (event.node.isCurrent) {
-          const currentEventRedirects = [
-            urlBuilder.currentEventRootUrl,
-            urlBuilder.currentEventRootUrl.replace(/\/$/, '')
-          ]
-
-          currentEventRedirects.forEach(fromPath => {
-            createRedirect({
-              fromPath: fromPath,
-              toPath: eventPath,
-              isPermanent: true,
-              redirectInBrowser: true
-            })
-          })
+          if (currentEventPath === '/') currentEventPath = eventPath
 
           Promise.all(result.data.allClan.edges.map(async (clan) => {
             createPage({
@@ -504,6 +493,20 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             redirectInBrowser: true
           })
         }
+
+        const currentEventRedirects = [
+          urlBuilder.currentEventRootUrl,
+          urlBuilder.currentEventRootUrl.replace(/\/$/, '')
+        ]
+
+        currentEventRedirects.forEach(fromPath => {
+          createRedirect({
+            fromPath: fromPath,
+            toPath: currentEventPath,
+            isPermanent: true,
+            redirectInBrowser: true
+          })
+        })
       }))
     })
 

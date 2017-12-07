@@ -57,7 +57,7 @@ ClanTemplate.propTypes = {
 export default ClanTemplate
 
 export const pageQuery = graphql`
-  query ClanTemplateQuery($id: String!) {
+  query ClanTemplateQuery($id: String!, $clanId: String!) {
     clan(id: { eq: $id }) {
       id
       name
@@ -74,7 +74,7 @@ export const pageQuery = graphql`
       }
       ...clanMedalsFragment
     }
-    allMember(filter: { clanId: { eq: $id } }, sort: { fields: [ nameSortable ] }) {
+    allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ nameSortable ] }) {
       edges {
         node {
           path

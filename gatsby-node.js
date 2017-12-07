@@ -191,7 +191,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       updatedDate: updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
-      clanId: `${member.groupId}`,
+      clanId: `#${member.groupId}`,
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
       name: member.name,
@@ -424,7 +424,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           layout: `content`,
           component: path.resolve(`./src/templates/clan.js`),
           context: {
-            id: clan.node.id
+            id: clan.node.id,
+            clanId: `#${clan.node.id}`
           }
         })
       }))
@@ -469,7 +470,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
           Promise.all(result.data.allMember.edges.map(async (member) => {
             createPage({
-              path: urlBuilder.eventUrl(event.node.path, member.node.clanId, member.node.id),
+              path: urlBuilder.eventUrl(event.node.path, member.node.clanId.substring(1), member.node.id),
               layout: `content`,
               component: path.resolve(`./src/templates/event-member.js`),
               context: {

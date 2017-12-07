@@ -38,23 +38,27 @@ class Enrollment extends Component {
   }
 
   handleEnroll (e) {
-    e.preventDefault()
+    const { active } = this.state
 
-    const id = e.target.dataset.id
+    if (active) {
+      e.preventDefault()
 
-    if (id) {
-      this.setState({ selectedGroup: id }, () => {
-        this.refs.form.submit()
-      })
+      const id = e.target.dataset.id
+
+      if (id) {
+        this.setState({ selectedGroup: id }, () => {
+          this.refs.form.submit()
+        })
+      }
     }
   }
 
   handleSearch (e) {
-    e.preventDefault()
-
     const { active, groups } = this.state
 
     if (active) {
+      e.preventDefault()
+
       const name = e.target.value.trim()
 
       if (name.length === 0) {

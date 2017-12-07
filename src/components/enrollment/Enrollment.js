@@ -40,9 +40,13 @@ class Enrollment extends Component {
   handleEnroll (e) {
     e.preventDefault()
 
-    this.setState({ selectedGroup: e.target.dataset.id }, () => {
-      this.refs.form.submit()
-    })
+    const id = e.target.dataset.id
+
+    if (id) {
+      this.setState({ selectedGroup: id }, () => {
+        this.refs.form.submit()
+      })
+    }
   }
 
   handleSearch (e) {
@@ -87,7 +91,7 @@ class Enrollment extends Component {
     const name = active ? 'clanName' : 'clanId'
 
     return (
-      <form ref="form" id="enroll" className={baseClassName} action={action} method="post">
+      <form ref="form" id="enroll" className={baseClassName} action={action} method="post" onSubmit={this.handleEnroll}>
         <input type="hidden" name="redirectUrl" value={redirectUrl} />
         {selectedGroup &&
           <input type="hidden" name="clanId" value={selectedGroup} />

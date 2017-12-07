@@ -1,7 +1,9 @@
+const constants = require('./constants')
+
 const clanRootUrl = '/clans/'
 const currentEventRootUrl = '/current/'
 const eventRootUrl = '/events/'
-const pgrcRootUrl = 'http://destinytracker.com/d2/pgcr/'
+const pgrcRootUrl = `${constants.bungie.baseUrl}en/PGCR/`
 const profileRootUrl = '/members/'
 
 module.exports = {

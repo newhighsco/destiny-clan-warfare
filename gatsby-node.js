@@ -11,6 +11,7 @@ const api = axios.create({
 })
 
 var frontmatterEdges
+var currentEvent
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
@@ -20,7 +21,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var members = []
   var histories = []
   var events = []
-  var currentEvent
   const casingOptions = { deep: true }
   const updatedDate = new Date()
 
@@ -443,7 +443,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         const eventPath = event.node.path
-        var currentEventPath = '/'
 
         createPage({
           path: eventPath,
@@ -455,8 +454,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
 
         if (event.node.isCurrent) {
-          if (currentEventPath === '/') currentEventPath = eventPath
-
           Promise.all(result.data.allClan.edges.map(async (clan) => {
             createPage({
               path: urlBuilder.eventUrl(event.node.path, clan.node.id),
@@ -493,21 +490,21 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             redirectInBrowser: true
           })
         }
-
-        const currentEventRedirects = [
-          urlBuilder.currentEventRootUrl,
-          urlBuilder.currentEventRootUrl.replace(/\/$/, '')
-        ]
-
-        currentEventRedirects.forEach(fromPath => {
-          createRedirect({
-            fromPath: fromPath,
-            toPath: currentEventPath,
-            isPermanent: true,
-            redirectInBrowser: true
-          })
-        })
       }))
+
+      const currentEventRedirects = [
+        urlBuilder.currentEventRootUrl,
+        urlBuilder.currentEventRootUrl.replace(/\/$/, '')
+      ]
+
+      currentEventRedirects.forEach(fromPath => {
+        createRedirect({
+          fromPath: fromPath,
+          toPath: currentEvent ? urlBuilder.eventUrl(currentEvent.eventId) : '/',
+          isPermanent: true,
+          redirectInBrowser: true
+        })
+      })
     })
 
     resolve()

@@ -17,7 +17,7 @@ const possessive = require('../utils/possessive')
 class EventMemberTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.member.history.filter(({ game }) => game.path.length)
+    const leaderboard = data.member.history.filter(({ game }) => game.path.length && game.type)
 
     return (
       <PageContainer>

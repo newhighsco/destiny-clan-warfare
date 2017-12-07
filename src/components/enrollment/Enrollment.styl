@@ -1,2 +1,49 @@
 .enrollment
-  //
+  padding-top $spacing--default
+  position relative
+
+.enrollment__field
+  margin-top $spacing--default
+  position relative
+  z-index 2
+
+.enrollment__clans
+  box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
+  position absolute
+  left 0
+  right 0
+  z-index 1
+
+  > li
+    background $color--nightrider
+    border-top 1px solid $color--nero
+
+    &:nth-child(even)
+      background $color--eclipse
+
+.enrollment__clan
+  display block
+  padding $spacing--half $spacing--default !important // @stylint ignore
+  position relative
+  text-align left
+  width 100%
+
+  &:after
+    content 'Enroll'
+    color $color--silver
+    position absolute
+    top $spacing--half
+    right $spacing--default
+    text-transform uppercase
+
+  &[href]:after
+    content 'View'
+
+  &:hover
+  &:focus
+  &:active
+    background $color--white-smoke
+    color $color--black !important // @stylint ignore
+
+    &:after
+      color $color--terracotta

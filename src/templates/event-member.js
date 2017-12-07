@@ -33,7 +33,7 @@ class EventMemberTemplate extends Component {
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
           <TagList tags={data.member.tags} className="card__tags" />
-          <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId)} heading={data.member.name} />
+          <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1))} heading={data.member.name} />
           <StatList stats={data.member.leaderboard} />
         </Card>
         <Leaderboard cutout data={leaderboard} />

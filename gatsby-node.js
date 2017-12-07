@@ -7,8 +7,7 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 
 const api = axios.create({
-  baseURL: 'https://destinyclanwarfare.azurewebsites.net/api/',
-  timeout: 60000
+  baseURL: constants.server.apiUrl
 })
 
 var frontmatterEdges

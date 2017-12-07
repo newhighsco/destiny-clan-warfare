@@ -1,3 +1,6 @@
+const apiBaseUrl = 'https://destinyclanwarfare.azurewebsites.net/'
+const bungieBaseUrl = 'https://www.bungie.net/'
+
 const constants = {
   blank: '-',
   dateFormat: 'YYYY-MM-DD',
@@ -25,6 +28,14 @@ const constants = {
     current: 'Current event',
     past: 'Past event',
     future: 'Upcoming event'
+  },
+  server: {
+    baseUrl: apiBaseUrl,
+    apiUrl: `${apiBaseUrl}api/`
+  },
+  bungie: {
+    baseUrl: bungieBaseUrl,
+    apiUrl: `${bungieBaseUrl}Platform/`
   }
 }
 

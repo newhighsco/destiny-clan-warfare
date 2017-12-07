@@ -109,7 +109,7 @@ class Leaderboard extends Component {
                   showNameTags &&
                     <TagList key="tags" tags={item.tags} className="leaderboard__tags" />,
                   showClanTag &&
-                    <Link key="claTag" to={urlBuilder.clanUrl(item.clanId)} className="leaderboard__clan-tag">
+                    <Link key="claTag" to={urlBuilder.clanUrl(item.clanId.substring(1))} className="leaderboard__clan-tag">
                       {item.clan.tag}
                     </Link>
                 ]}

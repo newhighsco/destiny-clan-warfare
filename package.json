@@ -47,6 +47,7 @@
     "netlify-identity-widget": "^1.2.0",
     "number-to-words": "^1.2.3",
     "pascal-case": "^2.0.1",
+    "query-string": "^5.0.1",
     "responsive-grid": "^1.1.0",
     "sentence-case": "^2.1.1",
     "slugg": "^1.2.1",

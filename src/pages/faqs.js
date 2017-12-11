@@ -12,11 +12,9 @@ class FaqsPage extends Component {
           <title>FAQs</title>
           <meta name="description" content="Frequently asked questions about Destiny Clan Warfare" />
         </Helmet>
-        <Card className="text-center">
+        <Card>
           <Lockup primary center kicker="Frequently asked" heading="Questions" />
-          <div className="temp">
-            <p>FAQs</p>
-          </div>
+          <p>FAQs</p>
         </Card>
       </PageContainer>
     )

@@ -60,10 +60,12 @@ class Tooltip extends Component {
         <button
           type="button"
           className="text-button tooltip__trigger"
-          onClick={this.state.isActive ? this.hideTooltip : this.showTooltip}
-          {...enableHover && {
+          {...enableHover ? {
             onMouseOver: this.showTooltip,
-            onMouseOut: this.hideTooltip
+            onMouseOut: this.hideTooltip,
+            onTouchEnd: this.state.isActive ? this.hideTooltip : this.showTooltip
+          } : {
+            onClick: this.state.isActive ? this.hideTooltip : this.showTooltip
           }}
           >
           {children}

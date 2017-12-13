@@ -78,6 +78,8 @@ class Enrollment extends Component {
             }
 
             this.setState({ groups: groups })
+          } else {
+            console.log(data)
           }
         })
         .catch(err => console.log(err))

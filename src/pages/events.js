@@ -52,7 +52,7 @@ export const data = {
 
 export const pageQuery = graphql`
   query EventsPageQuery {
-    allEvent(sort: { fields: [ startDate ], order: DESC }) {
+    allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
       edges {
         node {
           path

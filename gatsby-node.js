@@ -114,6 +114,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           score: parseInt(Math.round(item.totalScore))
         }
       }),
+      leaderboardVisible: clanLeaderboard.length > 0,
       medals: clan.medalUnlocks.map(medal => parseMedal(medal)),
       parent: null,
       children: [],
@@ -205,7 +206,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       }),
       medals: member.medalUnlocks.map(medal => parseMedal(medal)),
       totals: totals,
+      totalsVisible: totals.score > Number.NEGATIVE_INFINITY,
       leaderboard: leaderboard,
+      leaderboardVisible: leaderboard.games > 0,
       history: history.map(item => {
         return {
           game: {
@@ -233,6 +236,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   }
 
   for (var event of events) {
+    var hasResults = false
+
     const parseClans = (rawClans, eventId) => {
       if (!rawClans) return []
 
@@ -266,6 +271,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     const parseResults = (division, leaderboard, results) => {
       if (leaderboard && leaderboard.length) {
+        hasResults = true
+
         results.push({
           ...leaderboard[0],
           division: division,
@@ -344,6 +351,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       isPast: isPast,
       isFuture: isFuture,
       isCurrent: isCurrent,
+      visible: event.expired ? hasResults : true,
       modifiers: event.modifiers,
       leaderboards: {
         large: largeLeaderboard,
@@ -377,6 +385,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               node {
                 id
                 path
+                leaderboardVisible
               }
             }
           }
@@ -386,6 +395,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                 id
                 path
                 clanId
+                totalsVisible
+                leaderboardVisible
               }
             }
           }
@@ -395,6 +406,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                 id
                 path
                 isCurrent
+                visible
               }
             }
           }
@@ -431,64 +443,72 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       }))
 
       Promise.all(result.data.allMember.edges.map(async (member) => {
-        createPage({
-          path: member.node.path,
-          layout: `content`,
-          component: path.resolve(`./src/templates/member.js`),
-          context: {
-            id: member.node.id
-          }
-        })
+        if (member.node.totalsVisible) {
+          createPage({
+            path: member.node.path,
+            layout: `content`,
+            component: path.resolve(`./src/templates/member.js`),
+            context: {
+              id: member.node.id
+            }
+          })
+        }
       }))
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
-        const eventPath = event.node.path
+        if (event.node.visible) {
+          const eventPath = event.node.path
 
-        createPage({
-          path: eventPath,
-          layout: `content`,
-          component: path.resolve(`./src/templates/event.js`),
-          context: {
-            id: event.node.id
+          createPage({
+            path: eventPath,
+            layout: `content`,
+            component: path.resolve(`./src/templates/event.js`),
+            context: {
+              id: event.node.id
+            }
+          })
+
+          if (event.node.isCurrent) {
+            Promise.all(result.data.allClan.edges.map(async (clan) => {
+              if (clan.node.leaderboardVisible) {
+                createPage({
+                  path: urlBuilder.eventUrl(event.node.path, clan.node.id),
+                  layout: `content`,
+                  component: path.resolve(`./src/templates/event-clan.js`),
+                  context: {
+                    id: clan.node.id
+                  }
+                })
+              }
+            }))
+
+            Promise.all(result.data.allMember.edges.map(async (member) => {
+              if (member.node.leaderboardVisible) {
+                createPage({
+                  path: urlBuilder.eventUrl(event.node.path, member.node.clanId.substring(1), member.node.id),
+                  layout: `content`,
+                  component: path.resolve(`./src/templates/event-member.js`),
+                  context: {
+                    id: member.node.id
+                  }
+                })
+              }
+            }))
+          } else {
+            createRedirect({
+              fromPath: urlBuilder.eventUrl(eventPath, ':clan'),
+              toPath: eventPath,
+              isPermanent: true,
+              redirectInBrowser: true
+            })
+
+            createRedirect({
+              fromPath: urlBuilder.eventUrl(eventPath, ':clan/:profile'),
+              toPath: eventPath,
+              isPermanent: true,
+              redirectInBrowser: true
+            })
           }
-        })
-
-        if (event.node.isCurrent) {
-          Promise.all(result.data.allClan.edges.map(async (clan) => {
-            createPage({
-              path: urlBuilder.eventUrl(event.node.path, clan.node.id),
-              layout: `content`,
-              component: path.resolve(`./src/templates/event-clan.js`),
-              context: {
-                id: clan.node.id
-              }
-            })
-          }))
-
-          Promise.all(result.data.allMember.edges.map(async (member) => {
-            createPage({
-              path: urlBuilder.eventUrl(event.node.path, member.node.clanId.substring(1), member.node.id),
-              layout: `content`,
-              component: path.resolve(`./src/templates/event-member.js`),
-              context: {
-                id: member.node.id
-              }
-            })
-          }))
-        } else {
-          createRedirect({
-            fromPath: urlBuilder.eventUrl(eventPath, ':clan'),
-            toPath: eventPath,
-            isPermanent: true,
-            redirectInBrowser: true
-          })
-
-          createRedirect({
-            fromPath: urlBuilder.eventUrl(eventPath, ':clan/:profile'),
-            toPath: eventPath,
-            isPermanent: true,
-            redirectInBrowser: true
-          })
         }
       }))
 

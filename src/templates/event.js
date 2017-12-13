@@ -90,8 +90,8 @@ class EventTemplate extends Component {
               <p>{data.event.description}</p>
             }
             <ModifierList modifiers={data.event.modifiers} />
-            <MedalList key="clanMedals" medals={clanMedals} />,
-            <MedalList key="memberMedals" medals={memberMedals} />
+            <MedalList medals={clanMedals} />
+            <MedalList medals={memberMedals} />
           </Card>,
           <TabContainer key="tabs" cutout>
             {largeLeaderboard.length > 0 &&

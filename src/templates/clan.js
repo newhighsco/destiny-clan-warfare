@@ -21,7 +21,7 @@ class ClanTemplate extends Component {
       const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)
 
       return {
-        path: node.path,
+        path: lastPlayedDate > emptyDate ? node.path : null,
         name: node.name,
         icon: node.icon,
         tags: node.tags,

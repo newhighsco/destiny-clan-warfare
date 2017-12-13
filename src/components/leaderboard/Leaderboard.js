@@ -103,13 +103,19 @@ class Leaderboard extends Component {
                 {showNames && [
                   showMedals &&
                     <Medal key="medal" {...item.medal} size="small" align="left" className="leaderboard__medal" />,
-                  <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
-                    {item.name}
-                  </Link>,
+                  item.path ? (
+                    <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <div key="name" className="leaderboard__name leaderboard__link">
+                      {item.name}
+                    </div>
+                  ),
                   showNameTags &&
                     <TagList key="tags" tags={item.tags} className="leaderboard__tags" />,
                   showClanTag &&
-                    <Link key="claTag" to={urlBuilder.clanUrl(item.clanId.substring(1))} className="leaderboard__clan-tag">
+                    <Link key="clanTag" to={urlBuilder.clanUrl(item.clanId.substring(1))} className="leaderboard__clan-tag">
                       {item.clan.tag}
                     </Link>
                 ]}

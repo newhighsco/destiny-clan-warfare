@@ -38,7 +38,7 @@ export const data = {
 
 export const pageQuery = graphql`
   query MembersPageQuery {
-    allMember(sort: { fields: [ clanSortable, nameSortable ] }) {
+    allMember(sort: { fields: [ clanSortable, nameSortable ] }, filter: { totalsVisible: { eq: true } }) {
       edges {
         node {
           path

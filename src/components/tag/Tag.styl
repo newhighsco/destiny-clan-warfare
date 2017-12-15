@@ -1,19 +1,21 @@
 .tag
-  background $color--black
+  background $color--primary
   border-radius $spacing--default
   color $color--white
+  display inline-block
   font-size x-small
   font-weight bold
   line-height 1
-  padding ($spacing--quarter / 2) $spacing--quarter
   text-align center
+
+  &:before
+    display block
+    content attr(data-label)
+    padding ($spacing--quarter / 2) $spacing--quarter
 
 .tag--beta-tester
   background $color--lemon
   color $color--black
-
-  &:before
-    content 'Beta'
 
 .tag-list
   .tag

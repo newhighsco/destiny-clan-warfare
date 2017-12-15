@@ -27,8 +27,15 @@
   margin-top -1em
   position relative
 
+  > li
+    display block !important // @stylint ignore
+
+    & + li
+      margin-top $spacing--quarter
+
   .tag
     font-size rem(14)
+    margin 0 !important // @stylint ignore
     padding $spacing--quarter $spacing--half
 
 .card--cutout

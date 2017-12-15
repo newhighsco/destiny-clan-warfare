@@ -3,25 +3,12 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
+import IconSvgs from './icons'
 
 import './Modifier.styl'
 
 const pascalCase = require('pascal-case')
-const path = require('path')
 
-const requireSvgs = (req) => {
-  var svgs = {}
-
-  req.keys().forEach(key => {
-    const filename = pascalCase(path.basename(key, '.svg'))
-    svgs[filename] = req(key)
-  })
-
-  return svgs
-}
-
-const reqIconSvgs = require.context('./icons', false, /\.svg$/)
-const IconSvgs = requireSvgs(reqIconSvgs)
 const baseClassName = 'modifier'
 
 const Modifier = ({ name, description, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {

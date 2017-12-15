@@ -90,9 +90,7 @@ TabContainer.propTypes = {
   cutout: PropTypes.bool
 }
 
-const components = {
+export {
   Tab,
   TabContainer
 }
-
-export default components

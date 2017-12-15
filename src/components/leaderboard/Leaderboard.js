@@ -52,7 +52,7 @@ class Leaderboard extends Component {
     const showGameDetails = keys.indexOf('game') !== -1
     const showModifiers = keys.indexOf('modifiers') !== -1
     const showMedals = keys.indexOf('medal') !== -1
-    const blackListedKeys = [
+    const filteredKeys = [
       'id',
       'icon',
       'color',
@@ -72,7 +72,7 @@ class Leaderboard extends Component {
     }
 
     keys = keys.reduce((filtered, key) => {
-      if (blackListedKeys.indexOf(key) === -1) {
+      if (filteredKeys.indexOf(key) === -1) {
         filtered.push(key)
       }
 

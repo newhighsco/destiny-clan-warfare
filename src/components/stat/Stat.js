@@ -43,12 +43,12 @@ const StatList = ({ stats }) => {
   if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
-  const blackListedKeys = [
+  const filteredKeys = [
     'id'
   ]
 
   keys = keys.reduce((filtered, key) => {
-    if (blackListedKeys.indexOf(key) === -1) {
+    if (filteredKeys.indexOf(key) === -1) {
       filtered.push(key)
     }
 

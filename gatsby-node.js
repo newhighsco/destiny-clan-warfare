@@ -1,3 +1,4 @@
+require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
 const path = require(`path`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
@@ -10,8 +11,16 @@ const api = axios.create({
   baseURL: constants.server.apiUrl
 })
 
+const bungie = axios.create({
+  baseURL: constants.bungie.apiUrl,
+  headers: {
+    'X-API-Key': process.env.BUNGIE_API_KEY
+  }
+})
+
 var frontmatterEdges
 var currentEvent
+var bungieStatus
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
@@ -23,6 +32,15 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var events = []
   const casingOptions = { deep: true }
   const updatedDate = new Date()
+
+  await bungie(`/Destiny2/Milestones`)
+    .then(({ data }) => {
+      bungieStatus = {
+        code: data.ErrorCode,
+        status: data.ErrorStatus
+      }
+    })
+    .catch(err => console.log(err))
 
   await api(`Clan/GetAllClans`)
     .then(({ data }) => {
@@ -77,6 +95,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       id: `${clan.groupId}`,
       updatedDate: updatedDate,
       currentEventId: currentEvent.eventId,
+      bungieStatus: bungieStatus,
       path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
       nameSortable: clan.name.toUpperCase(),
@@ -191,6 +210,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       id: member.profileIdStr,
       updatedDate: updatedDate,
       currentEventId: currentEvent.eventId,
+      bungieStatus: bungieStatus,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `#${member.groupId}`,
       clan: clan,
@@ -343,6 +363,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     createNode({
       id: `Event ${event.eventId}`,
       updatedDate: updatedDate,
+      bungieStatus: bungieStatus,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',

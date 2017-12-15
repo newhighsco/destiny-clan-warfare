@@ -1,0 +1,27 @@
+.bungie-status
+  border 2px solid $color--error
+  font-size rem(14)
+  letter-spacing 0.1em
+  padding $spacing--half $spacing--default $spacing--half $spacing--double
+  position relative
+  text-align center
+  text-transform uppercase
+
+  &:before
+    content '\24D8'
+    display inline-block
+    font-size rem(22)
+    line-height 0
+    margin-right 0.2em
+    vertical-align middle
+
+  &:after
+    background $color--error
+    content ''
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+    opacity 0.5
+    z-index -1

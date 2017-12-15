@@ -4,28 +4,14 @@ import classNames from 'classnames'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
+import BackgroundSvgs from './background'
+import ForegroundSvgs from './foreground'
 import HighlightSvg from './highlight.svg'
 
 import './Medal.styl'
 
 const pascalCase = require('pascal-case')
-const path = require('path')
 
-const requireSvgs = (req) => {
-  var svgs = {}
-
-  req.keys().forEach(key => {
-    const filename = pascalCase(path.basename(key, '.svg'))
-    svgs[filename] = req(key)
-  })
-
-  return svgs
-}
-
-const reqBackgroundSvgs = require.context('./background', false, /\.svg$/)
-const reqForegroundSvgs = require.context('./foreground', false, /\.svg$/)
-const BackgroundSvgs = requireSvgs(reqBackgroundSvgs)
-const ForegroundSvgs = requireSvgs(reqForegroundSvgs)
 const baseClassName = 'medal'
 
 const Medal = ({ name, description, label, tier, count, size, align, className }) => {

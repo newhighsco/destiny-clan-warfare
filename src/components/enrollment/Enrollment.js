@@ -34,7 +34,9 @@ class Enrollment extends Component {
   }
 
   componentDidMount () {
-    this.setState({ active: true })
+    const { status } = this.props
+
+    this.setState({ active: status.code !== constants.bungie.disabledStatusCode })
   }
 
   handleEnroll (e) {
@@ -144,7 +146,8 @@ class Enrollment extends Component {
 }
 
 Enrollment.propTypes = {
-  clans: PropTypes.array.isRequired
+  status: PropTypes.object,
+  clans: PropTypes.array
 }
 
 export default Enrollment

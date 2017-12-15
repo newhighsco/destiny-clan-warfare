@@ -9,11 +9,23 @@ const slugify = require('slugg')
 const baseClassName = 'tag'
 
 const Tag = ({ name, description }) => {
+  const allowedTags = [
+    { name: 'Beta Tester', label: 'Beta' },
+    { name: 'Creator', label: 'Creator' }
+  ]
+
+  const allowed = allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
+
+  if (!allowed) return null
+
   return (
-    <div className={classNames(
-      baseClassName,
-      `${baseClassName}--${slugify(name)}`
-    )} />
+    <div
+      className={classNames(
+        baseClassName,
+        `${baseClassName}--${slugify(allowed.name)}`
+      )}
+      data-label={allowed.label}
+    />
   )
 }
 

@@ -20,7 +20,6 @@ const bungie = axios.create({
 
 var frontmatterEdges
 var currentEvent
-var bungieStatus
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
@@ -35,10 +34,17 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   await bungie(`/Destiny2/Milestones`)
     .then(({ data }) => {
-      bungieStatus = {
+      createNode({
+        id: `Bungie API status`,
         code: data.ErrorCode,
-        status: data.ErrorStatus
-      }
+        status: data.ErrorStatus,
+        parent: null,
+        children: [],
+        internal: {
+          type: `BungieStatus`,
+          contentDigest: createContentDigest(data)
+        }
+      })
     })
     .catch(err => console.log(err))
 
@@ -95,7 +101,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       id: `${clan.groupId}`,
       updatedDate: updatedDate,
       currentEventId: currentEvent.eventId,
-      bungieStatus: bungieStatus,
       path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
       nameSortable: clan.name.toUpperCase(),
@@ -210,7 +215,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       id: member.profileIdStr,
       updatedDate: updatedDate,
       currentEventId: currentEvent.eventId,
-      bungieStatus: bungieStatus,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `#${member.groupId}`,
       clan: clan,
@@ -363,7 +367,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     createNode({
       id: `Event ${event.eventId}`,
       updatedDate: updatedDate,
-      bungieStatus: bungieStatus,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',

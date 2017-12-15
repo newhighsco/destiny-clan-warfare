@@ -23,7 +23,7 @@ class IndexPage extends Component {
 
     return (
       <PageContainer>
-        <Enrollment clans={data.allClan.edges.map(({ node }) => node)} />
+        <Enrollment status={data.bungieStatus} clans={data.allClan.edges.map(({ node }) => node)} />
         {currentEvents.length > 0 && [
           <Lockup key="kicker" primary center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
             <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
@@ -120,6 +120,10 @@ export const data = {
 
 export const pageQuery = graphql`
   query IndexPageQuery {
+    bungieStatus {
+      code
+      status
+    }
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {

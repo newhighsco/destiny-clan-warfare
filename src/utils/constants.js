@@ -35,7 +35,8 @@ const constants = {
   },
   bungie: {
     baseUrl: bungieBaseUrl,
-    apiUrl: `${bungieBaseUrl}Platform/`
+    apiUrl: `${bungieBaseUrl}Platform/`,
+    disabledStatusCode: 5
   }
 }
 

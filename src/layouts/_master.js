@@ -40,7 +40,7 @@ class MasterLayout extends Component {
   render () {
     const { children, data } = this.props
     const { user, enableIdentity } = this.state
-    const { title, name, description } = data.site.siteMetadata
+    const { title, name, description, handle, siteUrl } = data.site.siteMetadata
 
     return (
       <div className="site-container">
@@ -50,11 +50,14 @@ class MasterLayout extends Component {
         >
           <html lang="en" />
           <meta name="description" content={description} />
-          <meta name="og:type" content="website" />
-          <meta name="og:site_name" content={name} />
-          <meta name="og:title" content={title} />
-          <meta name="og:description" content={description} />
-          <meta name="og:image" content={ogImage} />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content={name} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={ogImage} />
+          <meta name="twitter:domain" content={siteUrl} />
+          <meta name="twitter:site" content={handle} />
+          <meta name="twitter:creator" content={handle} />
         </Helmet>
         {(enableIdentity && !user) ? (
           <HoldingPage>

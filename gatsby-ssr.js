@@ -9,7 +9,7 @@ exports.onRenderBody = ({ setHeadComponents, pathname = `/` }) => {
   const updatedDate = moment.utc().format()
 
   setHeadComponents([
-    <meta name="og:url" key="ogUrl" content={url} />,
-    <meta name="og:updated_time" key="ogUpdatedTime" content={updatedDate} />
+    <meta property="og:url" key="ogUrl" content={url} />,
+    <meta property="og:updated_time" key="ogUpdatedTime" content={updatedDate} />
   ])
 }

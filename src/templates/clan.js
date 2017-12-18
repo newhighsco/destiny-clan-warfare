@@ -38,8 +38,8 @@ class ClanTemplate extends Component {
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
-          <meta name="og:title" content={title} />
-          <meta name="og:description" content={description} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
         </Helmet>
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />

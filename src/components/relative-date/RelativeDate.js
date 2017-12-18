@@ -1,22 +1,36 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 const moment = require('moment')
 
-const RelativeDate = ({ date, label }) => {
-  const value = moment.utc(date)
-  const title = value.format('YYYY-MM-DD HH:mm [UTC]')
-  const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ')
-  const humanReadable = [ label, label && ' ', value.fromNow() ]
+class RelativeDate extends Component {
+  constructor (props) {
+    super(props)
 
-  return (
-    <time
-      dateTime={machineReadable}
-      title={title}
-    >
-      {humanReadable}
-    </time>
-  )
+    this.state = { active: false }
+  }
+
+  componentDidMount () {
+    this.setState({ active: true })
+  }
+
+  render () {
+    const { date, label } = this.props
+    const { active } = this.state
+    const value = moment.utc(date)
+    const title = value.format('YYYY-MM-DD HH:mm [UTC]')
+    const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ')
+    const humanReadable = [ label, label && ' ', (active ? value.fromNow() : title) ]
+
+    return (
+      <time
+        dateTime={machineReadable}
+        title={title}
+      >
+        {humanReadable}
+      </time>
+    )
+  }
 }
 
 RelativeDate.propTypes = {

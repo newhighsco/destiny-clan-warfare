@@ -32,7 +32,7 @@ class EventTemplate extends Component {
       '@context': 'http://schema.org',
       '@type': 'Event',
       url: url,
-      name: data.event.name,
+      name: `${constants.name} - ${data.event.name}`,
       description: data.event.description,
       startDate: moment(data.event.startDate).format(),
       endDate: moment(data.event.endDate).format(),

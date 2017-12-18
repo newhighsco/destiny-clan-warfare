@@ -11,7 +11,9 @@ import RelativeDate from '../components/relative-date/RelativeDate'
 import { MedalList } from '../components/medal/Medal'
 import FutureEvent from '../components/event/FutureEvent'
 import { Button, ButtonGroup } from '../components/button/Button'
+import SchemaImage from '../images/favicon-1200x1200.png'
 
+const moment = require('moment')
 const constants = require('../utils/constants')
 const medalBuilder = require('../utils/medal-builder')
 
@@ -25,6 +27,23 @@ class EventTemplate extends Component {
       : (data.event.isPast
         ? `The results of past ${data.event.name} Destiny Clan Warfare event`
         : `Preview of upcoming ${data.event.name} Destiny Clan Warfare event`)
+    const url = `${process.env.SITE_URL}${data.event.path}`
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'Event',
+      url: url,
+      name: data.event.name,
+      description: data.event.description,
+      startDate: moment(data.event.startDate).format(),
+      endDate: moment(data.event.endDate).format(),
+      image: SchemaImage,
+      location: {
+        '@type': 'Place',
+        name: 'Destiny Clan Warfare',
+        sameAs: process.env.SITE_URL,
+        address: url
+      }
+    }
     var largeLeaderboard = data.event.leaderboards.large
     var mediumLeaderboard = data.event.leaderboards.medium
     var smallLeaderboard = data.event.leaderboards.small
@@ -50,6 +69,7 @@ class EventTemplate extends Component {
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         {data.event.isCurrent && [
           <Lockup key="lockup" primary center kicker={kicker}>
@@ -136,6 +156,7 @@ export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
     event(id: { eq: $id }) {
       updatedDate
+      path
       name
       description
       startDate

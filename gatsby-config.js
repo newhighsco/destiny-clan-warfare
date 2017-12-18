@@ -9,7 +9,8 @@ module.exports = {
     siteUrl: process.env.SITE_URL,
     name: `Destiny Clan Warfare`,
     title: `Destiny Clan Warfare - Band together, Guardians`,
-    description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
+    description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`,
+    handle: `@destinyclanwar`
   },
   plugins: [
     {

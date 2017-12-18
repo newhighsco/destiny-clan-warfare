@@ -15,8 +15,8 @@ class NotFoundPage extends Component {
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
-          <meta name="og:title" content={title} />
-          <meta name="og:description" content={description} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
         </Helmet>
         <Link to="/">
           <Logo />

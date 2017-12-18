@@ -2,6 +2,7 @@ const apiBaseUrl = 'https://destinyclanwarfare.azurewebsites.net/'
 const bungieBaseUrl = 'https://www.bungie.net/'
 
 const constants = {
+  name: 'Destiny Clan Warfare',
   blank: '-',
   dateFormat: 'YYYY-MM-DD',
   division: {

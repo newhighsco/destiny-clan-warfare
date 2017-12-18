@@ -5,10 +5,12 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Prose from '../components/prose/Prose'
 
+const constants = require('../utils/constants')
+
 class FaqsPage extends Component {
   render () {
     const title = 'FAQs'
-    const description = 'Frequently asked questions about Destiny Clan Warfare'
+    const description = `Frequently asked questions about ${constants.name}`
 
     return (
       <PageContainer>
@@ -21,11 +23,11 @@ class FaqsPage extends Component {
         <Card>
           <Lockup primary center kicker="Frequently asked" heading="Questions" />
           <Prose>
-            <h2>What is Destiny Clan Warfare?</h2>
-            <p>Destiny Clan Warfare is a website designed to be a clan vs clan weekly competition across a variety of game types with bonus point modifiers to keep it new and exciting each week.</p>
-            <h2>How do you earn points in Destiny Clan Warfare?</h2>
+            <h2>What is {constants.name}?</h2>
+            <p>{constants.name} is a website designed to be a clan vs clan weekly competition across a variety of game types with bonus point modifiers to keep it new and exciting each week.</p>
+            <h2>How do you earn points in {constants.name}?</h2>
             <p>Once your clan has been enrolled, you will automatically be tracked and added. You have nothing more to do.</p>
-            <h2>How many points do you earn in Destiny Clan Warfare?</h2>
+            <h2>How many points do you earn in {constants.name}?</h2>
             <p>Unless stated otherwise, each event will be made up of the following points:</p>
             <ul>
               <li>100 points per kill</li>
@@ -33,7 +35,7 @@ class FaqsPage extends Component {
               <li>-50 points per death</li>
             </ul>
             <p>You will also earn 2 sets of bonus points and a total score modifier which will vary each event. The active bonus & modifier will clearly be visible on the homepage.</p>
-            <h2>How do I enrol into Destiny Clan Warfare?</h2>
+            <h2>How do I enrol into {constants.name}?</h2>
             <p>At the top of the home page, you will be able to search for, and enroll, your clan. Please allow 60-90 minutes for you clan and clan members to start appearing on the leaderboards.</p>
             <p>Please note - there is a limit on clan participation at this time so if we are full, please check back each week as we accept more clans.</p>
             <h2>What if my clan is only small, I’ll never win anything?</h2>

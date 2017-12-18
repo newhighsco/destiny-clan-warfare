@@ -19,6 +19,7 @@ class EventTemplate extends Component {
   render () {
     const { data } = this.props
     const kicker = data.event.isCurrent ? constants.kicker.current : (data.event.isPast ? constants.kicker.past : constants.kicker.future)
+    const title = `${data.event.name} | ${kicker}`
     const description = data.event.isCurrent
       ? `The divisional leaderboards for the current Destiny Clan Warfare event`
       : (data.event.isPast
@@ -45,8 +46,10 @@ class EventTemplate extends Component {
     return (
       <PageContainer>
         <Helmet>
-          <title>{`${data.event.name} | ${kicker}`}</title>
+          <title>{title}</title>
           <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         {data.event.isCurrent && [
           <Lockup key="lockup" primary center kicker={kicker}>

@@ -30,12 +30,16 @@ class ClanTemplate extends Component {
       }
     })
     const medals = data.clan.medals.sort((a, b) => { return a.tier - b.tier })
+    const title = `${data.clan.name} | Clans`
+    const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
       <PageContainer>
         <Helmet>
-          <title>{`${data.clan.name} | Clans`}</title>
-          <meta name="description" content={`${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`} />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />

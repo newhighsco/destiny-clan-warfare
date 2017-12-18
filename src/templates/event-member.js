@@ -18,12 +18,16 @@ class EventMemberTemplate extends Component {
   render () {
     const { data } = this.props
     const leaderboard = data.member.history.filter(({ game }) => game.path.length && game.type)
+    const title = `${data.member.name} | ${constants.kicker.current}`
+    const description = `${possessive(data.member.name)} stats and match history in the current Destiny Clan Warfare event`
 
     return (
       <PageContainer>
         <Helmet>
-          <title>{`${data.member.name} | ${constants.kicker.current}`}</title>
-          <meta name="description" content={`${possessive(data.member.name)} stats and match history in the current Destiny Clan Warfare event`} />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.member.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.member.updatedDate} />

@@ -7,11 +7,16 @@ import Prose from '../components/prose/Prose'
 
 class FaqsPage extends Component {
   render () {
+    const title = 'FAQs'
+    const description = 'Frequently asked questions about Destiny Clan Warfare'
+
     return (
       <PageContainer>
         <Helmet>
-          <title>FAQs</title>
-          <meta name="description" content="Frequently asked questions about Destiny Clan Warfare" />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Card>
           <Lockup primary center kicker="Frequently asked" heading="Questions" />

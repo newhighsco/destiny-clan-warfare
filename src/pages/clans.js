@@ -10,12 +10,16 @@ class ClansPage extends Component {
   render () {
     const { data } = this.props
     const leaderboard = data.allClan.edges.map(edge => edge.node)
+    const title = 'Clans'
+    const description = 'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 
     return (
       <PageContainer>
         <Helmet>
-          <title>Clans</title>
-          <meta name="description" content="All clans battling their way to the top of the Destiny 2 clan leaderboard" />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Card cutout className="text-center">
           <Lockup primary center kicker="All" heading="Clans" />

@@ -1,2 +1,0 @@
-Sitemap: https://destinyclanwarfare.com/sitemap.xml
-User-agent: *

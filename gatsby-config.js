@@ -1,10 +1,11 @@
+require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
 const path = require('path')
 const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://destinyclanwarfare.com`,
+    siteUrl: process.env.SITE_URL,
     name: `Destiny Clan Warfare`,
     title: `Destiny Clan Warfare - Band together, Guardians`,
     description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`
@@ -36,7 +37,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
-        siteUrl: `https://destinyclanwarfare.com`
+        siteUrl: process.env.SITE_URL
       }
     },
     `gatsby-plugin-sitemap`,

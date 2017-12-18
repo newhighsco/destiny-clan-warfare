@@ -1,5 +1,6 @@
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
 const path = require(`path`)
+const fs = require(`fs`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
 const constants = require('./src/utils/constants')
@@ -570,5 +571,35 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
     createPage(page)
 
     resolve()
+  })
+}
+
+exports.onPostBuild = async ({ graphql }) => {
+  return new Promise((resolve, reject) => {
+    graphql(
+      `
+        {
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+        }
+      `
+    )
+    .then(result => {
+      if (result.errors) {
+        reject(result.errors)
+      }
+
+      const robots = [
+        `Sitemap: ${result.data.site.siteMetadata.siteUrl}/sitemap.xml`,
+        'User-agent: *'
+      ]
+
+      fs.writeFileSync('./public/robots.txt', robots.join('\n'))
+
+      resolve()
+    })
   })
 }

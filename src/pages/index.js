@@ -27,7 +27,7 @@ class IndexPage extends Component {
       '@type': 'Organization',
       name: constants.name,
       url: process.env.SITE_URL,
-      logo: LogoImage,
+      logo: `${process.env.SITE_URL}${LogoImage}`,
       sameAs: [
         'https://twitter.com/destinyclanwar'
       ]

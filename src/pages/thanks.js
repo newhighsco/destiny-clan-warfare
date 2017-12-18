@@ -7,6 +7,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import { Button } from '../components/button/Button'
 
 const queryString = require('query-string')
+const constants = require('../utils/constants')
 
 class ThanksPage extends Component {
   render () {

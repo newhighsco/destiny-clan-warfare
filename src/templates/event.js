@@ -36,7 +36,7 @@ class EventTemplate extends Component {
       description: data.event.description,
       startDate: moment(data.event.startDate).format(),
       endDate: moment(data.event.endDate).format(),
-      image: SchemaImage,
+      image: `${process.env.SITE_URL}${SchemaImage}`,
       location: {
         '@type': 'Place',
         name: constants.name,

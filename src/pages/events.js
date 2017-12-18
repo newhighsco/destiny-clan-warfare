@@ -24,12 +24,16 @@ class EventsPage extends Component {
         modifiers: edge.node.modifiers
       }
     })
+    const title = 'Events'
+    const description = 'All Destiny Clan Warfare events to date'
 
     return (
       <PageContainer>
         <Helmet>
-          <title>Events</title>
-          <meta name="description" content="All Destiny Clan Warfare events to date" />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Card cutout className="text-center">
           <Lockup primary center kicker="All" heading="Events" />

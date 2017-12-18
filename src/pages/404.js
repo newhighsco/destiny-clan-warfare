@@ -6,12 +6,17 @@ import { Logo } from '../components/logo/Logo'
 
 class NotFoundPage extends Component {
   render () {
+    const title = 'Page not found'
+    const description = 'Sorry, this page could not be found'
+
     return (
       <HoldingPage>
         <Helmet>
-          <title>Page not found</title>
-          <meta name="description" content="Sorry, this page could not be found" />
+          <title>{title}</title>
+          <meta name="description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Link to="/">
           <Logo />

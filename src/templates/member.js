@@ -26,12 +26,16 @@ class MemberTemplate extends Component {
       ...totals,
       lastPlayed: lastPlayedDate
     }
+    const title = `${data.member.name} | Members`
+    const description = `${possessive(data.member.name)} progress in the war against other clans in Destiny 2`
 
     return (
       <PageContainer>
         <Helmet>
-          <title>{`${data.member.name} | Members`}</title>
-          <meta name="description" content={`${possessive(data.member.name)} progress in the war against other clans in Destiny 2`} />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
         </Helmet>
         <Card cutout className="text-center">
           {data.member.icon &&

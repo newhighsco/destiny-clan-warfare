@@ -15,12 +15,15 @@ class ThanksPage extends Component {
     const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
     const message = query.message || ''
     const title = success ? 'Thanks for enrolling' : 'Enrollment failed'
+    const description = 'Thanks for enrolling your clan in Destiny Clan Warfare'
 
     return (
       <PageContainer>
         <Helmet>
           <title>{title}</title>
-          <meta name="description" content="Thanks for enrolling your clan in Destiny Clan Warfare" />
+          <meta name="description" content={description} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
         </Helmet>
         <Card className="text-center">

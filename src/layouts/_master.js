@@ -5,6 +5,7 @@ import identity from 'netlify-identity-widget'
 import HoldingPage from '../components/holding-page/HoldingPage'
 import { Logo } from '../components/logo/Logo'
 import { Button, ButtonGroup } from '../components/button/Button'
+import ogImage from '../images/favicon-1200x1200.png'
 
 import '../stylus/index.styl'
 
@@ -39,15 +40,21 @@ class MasterLayout extends Component {
   render () {
     const { children, data } = this.props
     const { user, enableIdentity } = this.state
+    const { title, name, description } = data.site.siteMetadata
 
     return (
       <div className="site-container">
         <Helmet
-          defaultTitle={data.site.siteMetadata.title}
-          titleTemplate={`%s | ${data.site.siteMetadata.name}`}
+          defaultTitle={title}
+          titleTemplate={`%s | ${name}`}
         >
           <html lang="en" />
-          <meta name="description" content={data.site.siteMetadata.description} />
+          <meta name="description" content={description} />
+          <meta name="og:type" content="website" />
+          <meta name="og:site_name" content={name} />
+          <meta name="og:title" content={title} />
+          <meta name="og:description" content={description} />
+          <meta name="og:image" content={ogImage} />
         </Helmet>
         {(enableIdentity && !user) ? (
           <HoldingPage>

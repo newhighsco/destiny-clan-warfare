@@ -55,6 +55,7 @@ class MasterLayout extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <meta property="og:image" content={ogImage} />
+          <meta name="twitter:card" content="summary" />
           <meta name="twitter:domain" content={siteUrl} />
           <meta name="twitter:site" content={handle} />
           <meta name="twitter:creator" content={handle} />

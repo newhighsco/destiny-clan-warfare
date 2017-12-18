@@ -19,7 +19,37 @@ class EventMemberTemplate extends Component {
     const { data } = this.props
     const leaderboard = data.member.history.filter(({ game }) => game.path.length && game.type)
     const title = `${data.member.name} | ${constants.kicker.current}`
-    const description = `${possessive(data.member.name)} stats and match history in the current Destiny Clan Warfare event`
+    const description = `${possessive(data.member.name)} stats and match history in the current ${constants.name} event`
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId)}`,
+            name: constants.kicker.current
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1))}`,
+            name: data.member.clan.name
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1), data.member.id)}`,
+            name: data.member.name
+          }
+        }
+      ]
+    }
 
     return (
       <PageContainer>
@@ -28,6 +58,7 @@ class EventMemberTemplate extends Component {
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.member.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.member.updatedDate} />

@@ -19,7 +19,29 @@ class EventClanTemplate extends Component {
     const { data } = this.props
     const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
     const title = `${data.clan.name} | ${constants.kicker.current}`
-    const description = `${possessive(data.clan.name)} clan standings in the current Destiny Clan Warfare event`
+    const description = `${possessive(data.clan.name)} clan standings in the current ${constants.name} event`
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.clan.currentEventId)}`,
+            name: constants.kicker.current
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.clan.currentEventId, data.clan.id.substring(1))}`,
+            name: data.clan.name
+          }
+        }
+      ]
+    }
     var stats
 
     if (leaderboard.length) {
@@ -43,6 +65,7 @@ class EventClanTemplate extends Component {
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
@@ -67,6 +90,7 @@ export default EventClanTemplate
 export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
+      path
       id
       updatedDate
       currentEventId

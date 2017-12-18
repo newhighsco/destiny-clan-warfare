@@ -23,10 +23,10 @@ class EventTemplate extends Component {
     const kicker = data.event.isCurrent ? constants.kicker.current : (data.event.isPast ? constants.kicker.past : constants.kicker.future)
     const title = `${data.event.name} | ${kicker}`
     const description = data.event.isCurrent
-      ? `The divisional leaderboards for the current Destiny Clan Warfare event`
+      ? `The divisional leaderboards for the current ${constants.name} event`
       : (data.event.isPast
-        ? `The results of past ${data.event.name} Destiny Clan Warfare event`
-        : `Preview of upcoming ${data.event.name} Destiny Clan Warfare event`)
+        ? `The results of past ${data.event.name} ${constants.name} event`
+        : `Preview of upcoming ${data.event.name} ${constants.name} event`)
     const url = `${process.env.SITE_URL}${data.event.path}`
     const schema = {
       '@context': 'http://schema.org',
@@ -39,7 +39,7 @@ class EventTemplate extends Component {
       image: SchemaImage,
       location: {
         '@type': 'Place',
-        name: 'Destiny Clan Warfare',
+        name: constants.name,
         sameAs: process.env.SITE_URL,
         address: url
       }

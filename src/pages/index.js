@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import { Button, ButtonGroup } from '../components/button/Button'
 import Card from '../components/card/Card'
@@ -11,6 +12,7 @@ import RelativeDate from '../components/relative-date/RelativeDate'
 import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
 import FutureEvent from '../components/event/FutureEvent'
+import LogoImage from '../images/avatar-512x512.jpg'
 
 const constants = require('../utils/constants')
 
@@ -20,9 +22,22 @@ class IndexPage extends Component {
     const currentEvents = data.allEvent.edges.filter(({ node }) => node.isCurrent)
     const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast).slice(0, 1)
     const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture).reverse().slice(0, 1)
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'Organization',
+      name: constants.name,
+      url: process.env.SITE_URL,
+      logo: LogoImage,
+      sameAs: [
+        'https://twitter.com/destinyclanwar'
+      ]
+    }
 
     return (
       <PageContainer>
+        <Helmet>
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
+        </Helmet>
         <Enrollment status={data.bungieStatus} clans={data.allClan.edges.map(({ node }) => node)} />
         {currentEvents.length > 0 && [
           <Lockup key="kicker" primary center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>

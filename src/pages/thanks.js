@@ -15,7 +15,7 @@ class ThanksPage extends Component {
     const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
     const message = query.message || ''
     const title = success ? 'Thanks for enrolling' : 'Enrollment failed'
-    const description = 'Thanks for enrolling your clan in Destiny Clan Warfare'
+    const description = `Thanks for enrolling your clan in ${constants.name}`
 
     return (
       <PageContainer>

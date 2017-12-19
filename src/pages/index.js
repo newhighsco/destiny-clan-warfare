@@ -25,7 +25,7 @@ class IndexPage extends Component {
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',
-      name: constants.name,
+      name: constants.meta.name,
       url: process.env.SITE_URL,
       logo: `${process.env.SITE_URL}${LogoImage}`,
       sameAs: [

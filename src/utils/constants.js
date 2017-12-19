@@ -2,7 +2,14 @@ const apiBaseUrl = 'https://destinyclanwarfare.azurewebsites.net/'
 const bungieBaseUrl = 'https://www.bungie.net/'
 
 const constants = {
-  name: 'Destiny Clan Warfare',
+  meta: {
+    name: 'Destiny Clan Warfare',
+    shortName: 'D2 Clan Wars',
+    title: 'Destiny Clan Warfare - Band together, Guardians',
+    description: 'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard',
+    handle: '@destinyclanwar',
+    themeColor: '#404040'
+  },
   blank: '-',
   dateFormat: 'YYYY-MM-DD',
   division: {

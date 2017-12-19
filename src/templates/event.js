@@ -23,23 +23,23 @@ class EventTemplate extends Component {
     const kicker = data.event.isCurrent ? constants.kicker.current : (data.event.isPast ? constants.kicker.past : constants.kicker.future)
     const title = `${data.event.name} | ${kicker}`
     const description = data.event.isCurrent
-      ? `The divisional leaderboards for the current ${constants.name} event`
+      ? `The divisional leaderboards for the current ${constants.meta.name} event`
       : (data.event.isPast
-        ? `The results of past ${data.event.name} ${constants.name} event`
-        : `Preview of upcoming ${data.event.name} ${constants.name} event`)
+        ? `The results of past ${data.event.name} ${constants.meta.name} event`
+        : `Preview of upcoming ${data.event.name} ${constants.meta.name} event`)
     const url = `${process.env.SITE_URL}${data.event.path}`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Event',
       url: url,
-      name: `${constants.name} - ${data.event.name}`,
+      name: `${constants.meta.name} - ${data.event.name}`,
       description: data.event.description,
       startDate: moment(data.event.startDate).format(),
       endDate: moment(data.event.endDate).format(),
       image: `${process.env.SITE_URL}${SchemaImage}`,
       location: {
         '@type': 'Place',
-        name: constants.name,
+        name: constants.meta.name,
         sameAs: process.env.SITE_URL,
         address: url
       }

@@ -7,7 +7,9 @@ const constants = require('./src/utils/constants')
 
 module.exports = {
   siteMetadata: {
-    siteUrl: process.env.SITE_URL
+    siteUrl: process.env.SITE_URL,
+    title: constants.meta.title,
+    description: constants.meta.description
   },
   plugins: [
     {
@@ -77,6 +79,46 @@ module.exports = {
       resolve: `gatsby-plugin-sentry`,
       options: {
         dsn: `https://d16928953a68480ca15b7377fef94cd7@sentry.io/249072`
+      }
+    },
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        feeds: [
+          {
+            serialize: ({ query: { allEvent } }) => {
+              return allEvent.edges.map(({ node }) => {
+                const url = `${process.env.SITE_URL}${node.path}`
+                const kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
+
+                return {
+                  title: `${node.name} - ${kicker}`,
+                  description: node.description,
+                  url: url,
+                  guid: url,
+                  date: node.startDate
+                }
+              })
+            },
+            query: `
+              {
+                allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
+                  edges {
+                    node {
+                      path
+                      name
+                      description
+                      startDate
+                      isCurrent
+                      isPast
+                    }
+                  }
+                }
+              }
+            `,
+            output: `/events.xml`
+          }
+        ]
       }
     },
     // Keep this at the end

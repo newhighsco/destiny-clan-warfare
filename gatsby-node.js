@@ -38,8 +38,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     .then(({ data }) => {
       createNode({
         id: `Bungie API status`,
+        updatedDate: updatedDate,
         code: data.ErrorCode,
-        status: data.ErrorStatus,
+        message: data.ErrorStatus,
         parent: null,
         children: [],
         internal: {
@@ -575,32 +576,11 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
   })
 }
 
-exports.onPostBuild = async ({ graphql }) => {
-  return new Promise((resolve, reject) => {
-    graphql(
-      `
-        {
-          site {
-            siteMetadata {
-              siteUrl
-            }
-          }
-        }
-      `
-    )
-    .then(result => {
-      if (result.errors) {
-        reject(result.errors)
-      }
+exports.onPostBuild = () => {
+  const robots = [
+    `Sitemap: ${process.env.SITE_URL}/sitemap.xml`,
+    'User-agent: *'
+  ]
 
-      const robots = [
-        `Sitemap: ${result.data.site.siteMetadata.siteUrl}/sitemap.xml`,
-        'User-agent: *'
-      ]
-
-      fs.writeFileSync('./public/robots.txt', robots.join('\n'))
-
-      resolve()
-    })
-  })
+  fs.writeFileSync('./public/robots.txt', robots.join('\n'))
 }

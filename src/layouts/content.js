@@ -29,18 +29,8 @@ export default ContentLayout
 
 export const pageQuery = graphql`
   query ContentLayoutQuery {
-    site {
-      siteMetadata {
-        siteUrl
-        name
-        title
-        description
-        handle
-      }
-    }
     bungieStatus {
       code
-      status
     }
   }
 `

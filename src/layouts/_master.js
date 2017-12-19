@@ -9,6 +9,8 @@ import ogImage from '../images/favicon-1200x1200.png'
 
 import '../stylus/index.styl'
 
+const constants = require('../utils/constants')
+
 class MasterLayout extends Component {
   constructor (props) {
     super(props)
@@ -38,9 +40,9 @@ class MasterLayout extends Component {
   }
 
   render () {
-    const { children, data } = this.props
+    const { children } = this.props
     const { user, enableIdentity } = this.state
-    const { title, name, description, handle, siteUrl } = data.site.siteMetadata
+    const { title, name, description, handle } = constants.meta
 
     return (
       <div className="site-container">
@@ -56,7 +58,7 @@ class MasterLayout extends Component {
           <meta property="og:description" content={description} />
           <meta property="og:image" content={`${process.env.SITE_URL}${ogImage}`} />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:domain" content={siteUrl} />
+          <meta name="twitter:domain" content={process.env.SITE_URL} />
           <meta name="twitter:site" content={handle} />
           <meta name="twitter:creator" content={handle} />
         </Helmet>
@@ -76,8 +78,7 @@ class MasterLayout extends Component {
 }
 
 MasterLayout.propTypes = {
-  children: PropTypes.node,
-  data: PropTypes.object
+  children: PropTypes.node
 }
 
 export default MasterLayout

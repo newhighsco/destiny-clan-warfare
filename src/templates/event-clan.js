@@ -19,7 +19,7 @@ class EventClanTemplate extends Component {
     const { data } = this.props
     const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
     const title = `${data.clan.name} | ${constants.kicker.current}`
-    const description = `${possessive(data.clan.name)} clan standings in the current ${constants.name} event`
+    const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',

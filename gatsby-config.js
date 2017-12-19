@@ -7,11 +7,7 @@ const constants = require('./src/utils/constants')
 
 module.exports = {
   siteMetadata: {
-    siteUrl: process.env.SITE_URL,
-    name: constants.name,
-    title: `${constants.name} - Band together, Guardians`,
-    description: `Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard`,
-    handle: `@destinyclanwar`
+    siteUrl: process.env.SITE_URL
   },
   plugins: [
     {
@@ -47,11 +43,11 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: constants.name,
-        short_name: `D2 Clan Wars`,
+        name: constants.meta.name,
+        short_name: constants.meta.shortName,
         start_url: `/`,
-        background_color: `#404040`,
-        theme_color: `#404040`,
+        background_color: constants.meta.themeColor,
+        theme_color: constants.meta.themeColor,
         display: `minimal-ui`,
         icons: [
           {

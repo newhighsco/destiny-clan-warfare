@@ -96,8 +96,8 @@ module.exports = {
               return allEvents.map(({ node }) => {
                 let kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
 
-                if (node.path === previousEvent.path) kicker = constants.kicker.previous
-                if (node.path === nextEvent.path) kicker = constants.kicker.next
+                if (previousEvent && node.path === previousEvent.path) kicker = constants.kicker.previous
+                if (nextEvent && node.path === nextEvent.path) kicker = constants.kicker.next
 
                 const url = `${process.env.SITE_URL}${node.path}`
                 const description = node.description

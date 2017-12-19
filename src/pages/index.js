@@ -137,7 +137,6 @@ export const pageQuery = graphql`
   query IndexPageQuery {
     bungieStatus {
       code
-      status
     }
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {

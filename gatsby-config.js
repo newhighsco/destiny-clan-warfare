@@ -90,13 +90,20 @@ module.exports = {
               return allEvent.edges.map(({ node }) => {
                 const url = `${process.env.SITE_URL}${node.path}`
                 const kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
+                const description = node.description
+                const content = `${kicker} ${url} ${description}`
 
                 return {
                   title: `${node.name} - ${kicker}`,
-                  description: node.description,
+                  description: description,
                   url: url,
                   guid: url,
-                  date: node.startDate
+                  date: node.startDate,
+                  custom_elements: [
+                    {
+                      'content:encoded': content
+                    }
+                  ]
                 }
               })
             },

@@ -35,7 +35,9 @@ const constants = {
   kicker: {
     current: 'Current event',
     past: 'Past event',
-    future: 'Upcoming event'
+    future: 'Upcoming event',
+    previous: 'Previous event',
+    next: 'Next event'
   },
   server: {
     baseUrl: apiBaseUrl,

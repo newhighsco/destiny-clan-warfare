@@ -87,9 +87,19 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { allEvent } }) => {
-              return allEvent.edges.map(({ node }) => {
+              const allEvents = allEvent.edges
+              const pastEvents = allEvents.filter(({ node }) => node.isPast)
+              const futureEvents = allEvents.filter(({ node }) => node.isFuture)
+              const previousEvent = pastEvents[0]
+              const nextEvent = futureEvents[0]
+
+              return allEvents.map(({ node }) => {
+                let kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
+
+                if (node.path === previousEvent.path) kicker = constants.kicker.previous
+                if (node.path === nextEvent.path) kicker = constants.kicker.next
+
                 const url = `${process.env.SITE_URL}${node.path}`
-                const kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
                 const description = node.description
                 const content = `${kicker} ${url} ${description}`
 

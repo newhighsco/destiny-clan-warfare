@@ -79,7 +79,7 @@ class IndexPage extends Component {
         {pastEvents.length > 0 && [
           currentEvents.length > 0 &&
             <Advert key="advert" />,
-          <Lockup key="kicker" center primary element="h1" kicker={`Previous event${pastEvents.length > 1 ? 's' : ''}`} />,
+          <Lockup key="kicker" center primary element="h1" kicker={`${constants.kicker.previous}${pastEvents.length > 1 ? 's' : ''}`} />,
           pastEvents.map(({ node }) => {
             const leaderboard = node.results.filter(({ score }) => score > 0)
 
@@ -108,7 +108,7 @@ class IndexPage extends Component {
         {futureEvents.length > 0 && [
           pastEvents.length > 0 &&
             <Advert key="advert" />,
-          <Lockup key="kicker" center primary element="h1" kicker={`Next event${futureEvents.length > 1 ? 's' : ''}`} />,
+          <Lockup key="kicker" center primary element="h1" kicker={`${constants.kicker.next}${futureEvents.length > 1 ? 's' : ''}`} />,
           futureEvents.map(({ node }) => {
             return (
               <FutureEvent event={node} element="h2" />

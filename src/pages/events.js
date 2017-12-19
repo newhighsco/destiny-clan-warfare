@@ -12,11 +12,11 @@ class EventsPage extends Component {
   render () {
     const { data } = this.props
     const leaderboard = data.allEvent.edges.map(edge => {
-      const mapSuffix = edge.node.isCurrent ? constants.kicker.current : (edge.node.isPast ? '' : constants.kicker.future)
+      const typeSuffix = edge.node.isCurrent ? constants.kicker.current : (edge.node.isPast ? '' : constants.kicker.future)
       return {
         game: {
           path: edge.node.path,
-          type: `${edge.node.name}${mapSuffix.length > 0 ? (` - ${mapSuffix}`) : ''}`,
+          type: `${edge.node.name}${typeSuffix.length > 0 ? ` - ${typeSuffix}` : ''}`,
           map: edge.node.isCurrent ? constants.relativeDate.current : (edge.node.isPast ? constants.relativeDate.past : constants.relativeDate.future),
           mapSeparator: ' ',
           date: edge.node.isCurrent ? edge.node.endDate : (edge.node.isPast) ? edge.node.endDate : edge.node.startDate

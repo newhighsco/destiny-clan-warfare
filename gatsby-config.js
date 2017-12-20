@@ -90,14 +90,14 @@ module.exports = {
               const allEvents = allEvent.edges
               const pastEvents = allEvents.filter(({ node }) => node.isPast)
               const futureEvents = allEvents.filter(({ node }) => node.isFuture)
-              const previousEvent = pastEvents[0]
-              const nextEvent = futureEvents[0]
+              const previousEvent = pastEvents.length > 0 ? pastEvents[0].node : null
+              const nextEvent = futureEvents.length > 0 ? futureEvents[0].node : null
 
               return allEvents.map(({ node }) => {
                 let kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
 
-                if (node.path === previousEvent.path) kicker = constants.kicker.previous
-                if (node.path === nextEvent.path) kicker = constants.kicker.next
+                if (previousEvent && node.path === previousEvent.path) kicker = constants.kicker.previous
+                if (nextEvent && node.path === nextEvent.path) kicker = constants.kicker.next
 
                 const url = `${process.env.SITE_URL}${node.path}`
                 const description = node.description
@@ -128,6 +128,7 @@ module.exports = {
                       startDate
                       isCurrent
                       isPast
+                      isFuture
                     }
                   }
                 }

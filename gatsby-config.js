@@ -4,6 +4,7 @@ const path = require('path')
 const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const constants = require('./src/utils/constants')
+const feedBuilder = require('./src/utils/feed-builder')
 
 module.exports = {
   siteMetadata: {
@@ -84,57 +85,55 @@ module.exports = {
     {
       resolve: `gatsby-plugin-feed`,
       options: {
-        feeds: [
+        query: `
           {
-            serialize: ({ query: { allEvent } }) => {
-              const allEvents = allEvent.edges
-              const pastEvents = allEvents.filter(({ node }) => node.isPast)
-              const futureEvents = allEvents.filter(({ node }) => node.isFuture)
-              const previousEvent = pastEvents.length > 0 ? pastEvents[0].node : null
-              const nextEvent = futureEvents.length > 0 ? futureEvents[0].node : null
-
-              return allEvents.map(({ node }) => {
-                let kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
-
-                if (previousEvent && node.path === previousEvent.path) kicker = constants.kicker.previous
-                if (nextEvent && node.path === nextEvent.path) kicker = constants.kicker.next
-
-                const url = `${process.env.SITE_URL}${node.path}`
-                const description = node.description
-                const content = `${kicker} ${url} ${description}`
-
-                return {
-                  title: `${node.name} - ${kicker}`,
-                  description: description,
-                  url: url,
-                  guid: url,
-                  date: node.startDate,
-                  custom_elements: [
-                    {
-                      'content:encoded': content
-                    }
-                  ]
-                }
-              })
-            },
-            query: `
-              {
-                allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
-                  edges {
-                    node {
-                      path
-                      name
-                      description
-                      startDate
-                      isCurrent
-                      isPast
-                      isFuture
-                    }
-                  }
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+            allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
+              edges {
+                node {
+                  path
+                  name
+                  description
+                  startDate
+                  isCurrent
+                  isPast
+                  isFuture
                 }
               }
-            `,
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent),
             output: `/events.xml`
+          },
+          {
+            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.current),
+            output: `/events--current.xml`
+          },
+          {
+            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.past),
+            output: `/events--past.xml`
+          },
+          {
+            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.future),
+            output: `/events--future.xml`
+          },
+          {
+            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.previous),
+            output: `/events--previous.xml`
+          },
+          {
+            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.next),
+            output: `/events--next.xml`
           }
         ]
       }

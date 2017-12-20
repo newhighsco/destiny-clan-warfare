@@ -1,10 +1,12 @@
 require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
 
 const path = require('path')
+const autoprefixer = require('autoprefixer')
 const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const constants = require('./src/utils/constants')
 const feedBuilder = require('./src/utils/feed-builder')
+const poststylus = require('poststylus')
 
 module.exports = {
   siteMetadata: {
@@ -27,7 +29,8 @@ module.exports = {
       options: {
         use: [
           stylusMixins(),
-          responsiveGrid()
+          responsiveGrid(),
+          poststylus([ autoprefixer ])
         ],
         import: [
           `~stylus-mixins/index.styl`,

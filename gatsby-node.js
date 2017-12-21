@@ -265,14 +265,14 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   for (var event of events) {
     var hasResults = false
 
-    const parseClans = (rawClans, eventId) => {
+    const parseClans = (rawClans, eventId, isCurrent) => {
       if (!rawClans) return []
 
       return rawClans.map((rawClan, i) => {
         const clan = clans.find(clan => clan.groupId === (rawClan.clanId || rawClan.id))
 
         return {
-          path: eventId ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId),
+          path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
           name: clan.name,
           color: clan.backgroundcolor,
           foreground: {
@@ -354,13 +354,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         })
         .catch(err => console.log(err))
 
-      largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId)
-      mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId)
-      smallLeaderboard = parseClans(currentLeaderboard.smallLeaderboard, event.eventId)
+      largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId, true)
+      mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId, true)
+      smallLeaderboard = parseClans(currentLeaderboard.smallLeaderboard, event.eventId, true)
     } else {
-      largeLeaderboard = parseClans(event.result.large)
-      mediumLeaderboard = parseClans(event.result.medium)
-      smallLeaderboard = parseClans(event.result.small)
+      largeLeaderboard = parseClans(event.result.large, event.eventId)
+      mediumLeaderboard = parseClans(event.result.medium, event.eventId)
+      smallLeaderboard = parseClans(event.result.small, event.eventId)
 
       parseResults(constants.division.large, largeLeaderboard, results)
       parseResults(constants.division.medium, mediumLeaderboard, results)
@@ -523,18 +523,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               }
             }))
           } else {
-            const eventHash = `/${constants.prefix.hash}event--${eventId.substring(constants.prefix.event.length).trim()}`
+            const eventHash = eventId.substring(constants.prefix.event.length).trim()
 
             createRedirect({
               fromPath: urlBuilder.eventUrl(eventPath, ':clan'),
-              toPath: urlBuilder.clanUrl(`:clan${eventHash}`),
+              toPath: urlBuilder.clanUrl(':clan', eventHash),
               isPermanent: true,
               redirectInBrowser: true
             })
 
             createRedirect({
               fromPath: urlBuilder.eventUrl(eventPath, ':clan/:profile'),
-              toPath: urlBuilder.profileUrl(`:profile${eventHash}`),
+              toPath: urlBuilder.profileUrl(':profile', eventHash),
               isPermanent: true,
               redirectInBrowser: true
             })

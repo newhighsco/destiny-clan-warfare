@@ -6,11 +6,15 @@ const eventRootUrl = '/events/'
 const pgrcRootUrl = `${constants.bungie.baseUrl}en/PGCR/`
 const profileRootUrl = '/members/'
 
+const eventHash = (eventId) => {
+  return eventId ? `${constants.prefix.hash}${eventId}/` : ''
+}
+
 module.exports = {
   clanRootUrl,
 
-  clanUrl: (clanId) => {
-    return `${clanRootUrl}${clanId}/`
+  clanUrl: (clanId, eventId) => {
+    return `${clanRootUrl}${clanId}/${eventHash(eventId)}`
   },
 
   currentEventRootUrl,
@@ -32,7 +36,7 @@ module.exports = {
 
   profileRootUrl,
 
-  profileUrl: (profileId) => {
-    return `${profileRootUrl}${profileId}/`
+  profileUrl: (profileId, eventId) => {
+    return `${profileRootUrl}${profileId}/${eventHash(eventId)}`
   }
 }

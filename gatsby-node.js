@@ -219,7 +219,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       updatedDate: updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
-      clanId: `#${member.groupId}`,
+      clanId: `${constants.prefix.hash}${member.groupId}`,
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
       name: member.name,
@@ -283,7 +283,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
             color: clan.emblemcolor2,
             icon: clan.backgroundicon
           },
-          rank: `#${i + 1}`,
+          rank: `${constants.prefix.hash}${i + 1}`,
           size: rawClan.size || 0,
           active: rawClan.active || 0,
           games: rawClan.gamesPlayed,
@@ -368,7 +368,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
 
     createNode({
-      id: `Event ${event.eventId}`,
+      id: `${constants.prefix.event} ${event.eventId}`,
       updatedDate: updatedDate,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
@@ -393,7 +393,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       parent: null,
       children: [],
       internal: {
-        type: `Event`,
+        type: constants.prefix.event,
         contentDigest: createContentDigest(event)
       }
     })
@@ -464,7 +464,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           component: path.resolve(`./src/templates/clan.js`),
           context: {
             id: clan.node.id,
-            clanId: `#${clan.node.id}`
+            clanId: `${constants.prefix.hash}${clan.node.id}`
           }
         })
       }))
@@ -485,13 +485,14 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         if (event.node.visible) {
           const eventPath = event.node.path
+          const eventId = event.node.id
 
           createPage({
             path: eventPath,
             layout: `content`,
             component: path.resolve(`./src/templates/event.js`),
             context: {
-              id: event.node.id
+              id: eventId
             }
           })
 
@@ -499,7 +500,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             Promise.all(result.data.allClan.edges.map(async (clan) => {
               if (clan.node.leaderboardVisible) {
                 createPage({
-                  path: urlBuilder.eventUrl(event.node.path, clan.node.id),
+                  path: urlBuilder.eventUrl(eventPath, clan.node.id),
                   layout: `content`,
                   component: path.resolve(`./src/templates/event-clan.js`),
                   context: {
@@ -512,7 +513,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             Promise.all(result.data.allMember.edges.map(async (member) => {
               if (member.node.leaderboardVisible) {
                 createPage({
-                  path: urlBuilder.eventUrl(event.node.path, member.node.clanId.substring(1), member.node.id),
+                  path: urlBuilder.eventUrl(eventPath, member.node.clanId.substring(constants.prefix.hash.length), member.node.id),
                   layout: `content`,
                   component: path.resolve(`./src/templates/event-member.js`),
                   context: {
@@ -522,16 +523,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               }
             }))
           } else {
+            const eventHash = `/${constants.prefix.hash}event--${eventId.substring(constants.prefix.event.length).trim()}`
+
             createRedirect({
               fromPath: urlBuilder.eventUrl(eventPath, ':clan'),
-              toPath: eventPath,
+              toPath: urlBuilder.clanUrl(`:clan${eventHash}`),
               isPermanent: true,
               redirectInBrowser: true
             })
 
             createRedirect({
               fromPath: urlBuilder.eventUrl(eventPath, ':clan/:profile'),
-              toPath: eventPath,
+              toPath: urlBuilder.profileUrl(`:profile${eventHash}`),
               isPermanent: true,
               redirectInBrowser: true
             })

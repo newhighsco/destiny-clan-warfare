@@ -42,7 +42,7 @@ class MemberTemplate extends Component {
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
           <TagList tags={data.member.tags} className="card__tags" />
-          <Lockup primary center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.clanUrl(data.member.clanId.substring(1))} heading={data.member.name} />
+          <Lockup primary center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.clanUrl(data.member.clanId.substring(constants.prefix.hash.length))} heading={data.member.name} />
           <Button href={`${constants.bungie.baseUrl}en/Profile/${data.member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
           {lastPlayedDate > emptyDate &&

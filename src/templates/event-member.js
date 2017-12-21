@@ -36,7 +36,7 @@ class EventMemberTemplate extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1))}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(constants.prefix.hash.length))}`,
             name: data.member.clan.name
           }
         },
@@ -44,7 +44,7 @@ class EventMemberTemplate extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1), data.member.id)}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(constants.prefix.hash.length), data.member.id)}`,
             name: data.member.name
           }
         }
@@ -68,7 +68,7 @@ class EventMemberTemplate extends Component {
             <Avatar className="card__avatar" icon={data.member.icon} />
           }
           <TagList tags={data.member.tags} className="card__tags" />
-          <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1))} heading={data.member.name} />
+          <Lockup center reverse kicker={data.member.clan.name} kickerHref={urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(constants.prefix.hash.length))} heading={data.member.name} />
           <StatList stats={data.member.leaderboard} />
         </Card>
         <Leaderboard cutout data={leaderboard} />

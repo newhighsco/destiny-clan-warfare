@@ -25,7 +25,7 @@ module.exports = (allEvent, kicker) => {
 
     const url = `${process.env.GATSBY_SITE_URL}${node.path}`
     const description = node.description
-    const content = `${kicker} ${url} ${description}`
+    const content = `${kicker}: ${url} - ${description}`
 
     allowedEvents.push({
       title: `${node.name} - ${kicker}`,

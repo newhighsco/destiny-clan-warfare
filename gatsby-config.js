@@ -1,4 +1,4 @@
-require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
+require('dotenv').config()
 
 const path = require('path')
 const autoprefixer = require('autoprefixer')
@@ -10,7 +10,7 @@ const poststylus = require('poststylus')
 
 module.exports = {
   siteMetadata: {
-    siteUrl: process.env.SITE_URL,
+    siteUrl: process.env.GATSBY_SITE_URL,
     title: constants.meta.title,
     description: constants.meta.description
   },
@@ -42,7 +42,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
-        siteUrl: process.env.SITE_URL
+        siteUrl: process.env.GATSBY_SITE_URL
       }
     },
     `gatsby-plugin-sitemap`,

@@ -1,4 +1,4 @@
-require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
+require('dotenv').config()
 
 const path = require(`path`)
 const fs = require(`fs`)
@@ -16,7 +16,7 @@ const api = axios.create({
 const bungie = axios.create({
   baseURL: constants.bungie.apiUrl,
   headers: {
-    'X-API-Key': process.env.BUNGIE_API_KEY
+    'X-API-Key': process.env.GATSBY_BUNGIE_API_KEY
   }
 })
 
@@ -578,7 +578,7 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 
 exports.onPostBuild = () => {
   const robots = [
-    `Sitemap: ${process.env.SITE_URL}/sitemap.xml`,
+    `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
     'User-agent: *'
   ]
 

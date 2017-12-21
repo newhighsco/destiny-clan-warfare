@@ -10,11 +10,11 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel start:gatsby",
-    "start:gatsby": "gatsby develop",
+    "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop",
     "start:storybook": "start-storybook -s ./static -p 8001",
     "build": "npm-run-all build:patch build:gatsby",
     "build:patch": "sed -i -e 's/if(c\\.initial) return;/if(!c||c.initial) return;/g' ./node_modules/extract-text-webpack-plugin/index.js",
-    "build:gatsby": "gatsby build",
+    "build:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby build",
     "build:storybook": "build-storybook -s ./static -o ./public/.storybook",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",

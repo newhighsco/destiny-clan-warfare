@@ -20,6 +20,5 @@ node_modules
 npm-debug.log
 .cache/
 public/
-.env*
 .eslintcache
 yarn-error.log

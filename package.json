@@ -1,7 +1,7 @@
 {
   "name": "destiny-clan-warfare",
   "description": "Destiny Clan Warfare",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Avalanche UK <admins@avaclanche.uk>",
   "license": "ISC",
   "engines": {
@@ -9,7 +9,7 @@
     "yarn": "^1.2.1"
   },
   "scripts": {
-    "start": "npm-run-all --parallel start:*",
+    "start": "npm-run-all --parallel start:gatsby",
     "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop",
     "start:storybook": "start-storybook -s ./static -p 8001",
     "build": "npm-run-all build:patch build:gatsby",

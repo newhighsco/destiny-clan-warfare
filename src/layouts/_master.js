@@ -30,6 +30,8 @@ class MasterLayout extends Component {
   }
 
   componentDidMount () {
+    console.log(process.env)
+
     this.setState({ enableIdentity: JSON.parse(process.env.ENABLE_IDENTITY) })
     identity.init()
   }

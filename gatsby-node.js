@@ -551,7 +551,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         createRedirect({
           fromPath: fromPath,
           toPath: currentEvent ? urlBuilder.eventUrl(currentEvent.eventId) : '/',
-          isPermanent: true,
+          isPermanent: false,
           redirectInBrowser: true
         })
       })

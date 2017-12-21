@@ -1,6 +1,6 @@
 import React from 'react'
 
-require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
+require('dotenv').config()
 
 const moment = require('moment')
 

@@ -1,5 +1,5 @@
 [context.beta.environment]
-  GATSBY_ENABLE_SITE = "false"
+  GATSBY_ENABLE_SITE = "true"
   GATSBY_ENABLE_IDENTITY = "true"
   GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"

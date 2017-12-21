@@ -17,6 +17,7 @@ class MasterLayout extends Component {
 
     this.state = {
       user: identity.currentUser(),
+      enableSite: JSON.parse(process.env.GATSBY_ENABLE_SITE),
       enableIdentity: false
     }
 
@@ -41,7 +42,7 @@ class MasterLayout extends Component {
 
   render () {
     const { children } = this.props
-    const { user, enableIdentity } = this.state
+    const { user, enableSite, enableIdentity } = this.state
     const { title, name, description, handle } = constants.meta
 
     return (
@@ -62,15 +63,21 @@ class MasterLayout extends Component {
           <meta name="twitter:site" content={handle} />
           <meta name="twitter:creator" content={handle} />
         </Helmet>
-        {(enableIdentity && !user) ? (
+        {enableSite ? (
+          (enableIdentity && !user) ? (
+            <HoldingPage>
+              <Logo />
+              <ButtonGroup>
+                <Button onClick={this.handleLogin}>Log in to view</Button>
+              </ButtonGroup>
+            </HoldingPage>
+          ) : (
+            children
+          )
+        ) : (
           <HoldingPage>
             <Logo />
-            <ButtonGroup>
-              <Button onClick={this.handleLogin}>Log in to view</Button>
-            </ButtonGroup>
           </HoldingPage>
-        ) : (
-          children
         )}
       </div>
     )

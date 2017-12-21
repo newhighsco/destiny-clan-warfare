@@ -28,7 +28,7 @@ class EventMemberTemplate extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId)}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId)}`,
             name: constants.kicker.current
           }
         },
@@ -36,7 +36,7 @@ class EventMemberTemplate extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1))}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1))}`,
             name: data.member.clan.name
           }
         },
@@ -44,7 +44,7 @@ class EventMemberTemplate extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1), data.member.id)}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.member.currentEventId, data.member.clanId.substring(1), data.member.id)}`,
             name: data.member.name
           }
         }

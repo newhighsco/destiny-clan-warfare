@@ -31,7 +31,7 @@ class MasterLayout extends Component {
 
   componentDidMount () {
     console.log(process.env)
-    this.setState({ enableIdentity: JSON.parse(process.env.ENABLE_IDENTITY) })
+    this.setState({ enableIdentity: JSON.parse(process.env.GATSBY_ENABLE_IDENTITY) })
     identity.init()
   }
 
@@ -57,9 +57,9 @@ class MasterLayout extends Component {
           <meta property="og:site_name" content={name} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          <meta property="og:image" content={`${process.env.SITE_URL}${ogImage}`} />
+          <meta property="og:image" content={`${process.env.GATSBY_SITE_URL}${ogImage}`} />
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:domain" content={process.env.SITE_URL} />
+          <meta name="twitter:domain" content={process.env.GATSBY_SITE_URL} />
           <meta name="twitter:site" content={handle} />
           <meta name="twitter:creator" content={handle} />
         </Helmet>

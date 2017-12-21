@@ -1,11 +1,11 @@
 import React from 'react'
 
-require('dotenv').config({ path: `./.env.${process.env.NODE_ENV || 'development'}` })
+require('dotenv').config()
 
 const moment = require('moment')
 
 exports.onRenderBody = ({ setHeadComponents, pathname = `/` }) => {
-  const url = `${process.env.SITE_URL}${pathname}`
+  const url = `${process.env.GATSBY_SITE_URL}${pathname}`
   const updatedDate = moment.utc().format()
 
   setHeadComponents([

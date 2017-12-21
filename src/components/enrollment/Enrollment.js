@@ -10,11 +10,11 @@ import './Enrollment.styl'
 const axios = require(`axios`)
 const constants = require('../../utils/constants')
 const action = `${constants.server.baseUrl}Home/AddClan/`
-const redirectUrl = `${process.env.SITE_URL}/thanks`
+const redirectUrl = `${process.env.GATSBY_SITE_URL}/thanks`
 const bungie = axios.create({
   baseURL: constants.bungie.apiUrl,
   headers: {
-    'X-API-Key': process.env.BUNGIE_API_KEY
+    'X-API-Key': process.env.GATSBY_BUNGIE_API_KEY
   }
 })
 

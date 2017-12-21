@@ -24,8 +24,6 @@ var frontmatterEdges
 var currentEvent
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
-  console.log(process.env)
-
   const { createNode } = boundActionCreators
 
   var clans = []

@@ -1,5 +1,5 @@
 import React from 'react'
-import { setAddon, configure, addDecorator } from '@storybook/react'
+import { configure, addDecorator } from '@storybook/react'
 import { setOptions } from '@storybook/addon-options'
 
 import '../src/stylus/index.styl'

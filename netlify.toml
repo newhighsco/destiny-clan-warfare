@@ -1,2 +1,2 @@
-[context.beta]
+[context.beta.environment]
   NODE_ENV = "beta"

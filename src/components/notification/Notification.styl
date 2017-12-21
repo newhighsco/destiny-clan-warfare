@@ -1,0 +1,58 @@
+.notification
+  border 2px solid $color--silver
+  font-size rem(14)
+  letter-spacing 0.1em
+  padding $spacing--half $spacing--default $spacing--half $spacing--double
+  position relative
+  text-align center
+  text-transform uppercase
+
+  &:before
+    content '\24D8'
+    display inline-block
+    font-size rem(22)
+    line-height 0
+    margin-right 0.2em
+    position relative
+    vertical-align middle
+    z-index 2
+
+  &:after
+    background $color--silver
+    content ''
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+    opacity 0.5
+    z-index 1
+
+.notification__inner
+  display inline-block
+  position relative
+  z-index 2
+
+.notification--error
+  border-color $color--error
+
+  &:after
+    background $color--error
+
+.notification--notice
+  border-color $color--notice
+
+  &:after
+    background $color--notice
+
+.notification--success
+  border-color $color--success
+
+  &:after
+    background $color--success
+
+.notification--warning
+  border-color $color--warning
+
+  &:after
+    background $color--warning

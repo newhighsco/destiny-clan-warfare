@@ -9,6 +9,7 @@ import { MedalList } from '../components/medal/Medal'
 import { StatList } from '../components/stat/Stat'
 import { Button } from '../components/button/Button'
 import { TagList } from '../components/tag/Tag'
+import Notification from '../components/notification/Notification'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -48,6 +49,7 @@ class MemberTemplate extends Component {
           {lastPlayedDate > emptyDate &&
             <StatList stats={stats} />
           }
+          <Notification>Past event statistics coming soon</Notification>
         </Card>
       </PageContainer>
     )

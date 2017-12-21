@@ -8,6 +8,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import { MedalList } from '../components/medal/Medal'
 import { Button } from '../components/button/Button'
+import Notification from '../components/notification/Notification'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -47,6 +48,7 @@ class ClanTemplate extends Component {
           <p key="description" dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
           <Button key="button" href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
           <MedalList key="medals" medals={medals} />
+          <Notification>Past event statistics coming soon</Notification>
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
       </PageContainer>

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import './Status.styl'
+import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
 
@@ -10,9 +9,9 @@ const Status = ({ status }) => {
 
   return (
     <div className="content-center content-gutter">
-      <div className="bungie-status">
+      <Notification state="error">
         The Bungie API is currently offline for maintenance.
-      </div>
+      </Notification>
     </div>
   )
 }

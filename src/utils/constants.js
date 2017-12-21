@@ -47,6 +47,10 @@ const constants = {
     baseUrl: bungieBaseUrl,
     apiUrl: `${bungieBaseUrl}Platform/`,
     disabledStatusCode: 5
+  },
+  prefix: {
+    event: 'Event',
+    hash: '#'
   }
 }
 

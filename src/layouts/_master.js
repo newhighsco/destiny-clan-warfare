@@ -10,6 +10,8 @@ import ogImage from '../images/favicon-1200x1200.png'
 import '../stylus/index.styl'
 
 const constants = require('../utils/constants')
+const enableIdentity = JSON.parse(process.env.GATSBY_ENABLE_IDENTITY)
+const enableIdentityLogin = JSON.parse(process.env.GATSBY_ENABLE_IDENTITY_LOGIN)
 
 class MasterLayout extends Component {
   constructor (props) {
@@ -17,8 +19,8 @@ class MasterLayout extends Component {
 
     this.state = {
       user: identity.currentUser(),
-      enableSite: JSON.parse(process.env.GATSBY_ENABLE_SITE),
-      enableIdentity: false
+      enableIdentity: false,
+      enableIdentityLogin: enableIdentityLogin
     }
 
     identity.on('login', (user) => {
@@ -31,8 +33,10 @@ class MasterLayout extends Component {
   }
 
   componentDidMount () {
-    this.setState({ enableIdentity: JSON.parse(process.env.GATSBY_ENABLE_IDENTITY) })
+    this.setState({ enableIdentity: enableIdentity })
     identity.init()
+
+    if (!enableIdentityLogin) identity.logout()
   }
 
   handleLogin (e) {
@@ -42,7 +46,7 @@ class MasterLayout extends Component {
 
   render () {
     const { children } = this.props
-    const { user, enableSite, enableIdentity } = this.state
+    const { user, enableIdentity, enableIdentityLogin } = this.state
     const { title, name, description, handle } = constants.meta
 
     return (
@@ -63,21 +67,17 @@ class MasterLayout extends Component {
           <meta name="twitter:site" content={handle} />
           <meta name="twitter:creator" content={handle} />
         </Helmet>
-        {enableSite ? (
-          (enableIdentity && !user) ? (
-            <HoldingPage>
-              <Logo />
+        {(enableIdentity && !user) ? (
+          <HoldingPage>
+            <Logo />
+            {enableIdentityLogin &&
               <ButtonGroup>
                 <Button onClick={this.handleLogin}>Log in to view</Button>
               </ButtonGroup>
-            </HoldingPage>
-          ) : (
-            children
-          )
-        ) : (
-          <HoldingPage>
-            <Logo />
+            }
           </HoldingPage>
+        ) : (
+          children
         )}
       </div>
     )

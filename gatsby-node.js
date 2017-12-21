@@ -577,10 +577,13 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 }
 
 exports.onPostBuild = () => {
+  const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
     'User-agent: *'
   ]
+
+  if (disallowRobots) robots.push('Disallow: /')
 
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
 }

@@ -4,12 +4,12 @@
 
 [context.beta]
   [context.beta.environment]
-    ENABLE_IDENTITY = true
+    ENABLE_IDENTITY = "true"
     BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
     SITE_URL = "https://beta.destinyclanwarfare.com"
 
 [context.production]
   [context.production.environment]
-    ENABLE_IDENTITY = false
+    ENABLE_IDENTITY = "false"
     BUNGIE_API_KEY = "e44a1c455b634479aa069be92838857d"
     SITE_URL = "https://destinyclanwarfare.com"

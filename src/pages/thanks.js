@@ -33,10 +33,12 @@ class ThanksPage extends Component {
             <p key="prose">Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>,
             <Button key="button" href="/current">View current leaderboard</Button>
           ]) : ([
-            <Lockup key="lockup" primary center kicker="Enrollment failed" heading="Please try again" />,
-            message &&
-              <p key="prose">{message}</p>,
-            <Button key="button" href="/#enroll">Enroll your clan today</Button>
+            <Lockup key="lockup" primary center kicker="Enrollment failed" heading="Please try again later" />,
+            message ? (
+              <p key="prose">{message}</p>
+            ) : (
+              <Button key="button" href="/#enroll">Enroll your clan today</Button>
+            )
           ])}
         </Card>
       </PageContainer>

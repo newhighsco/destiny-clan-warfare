@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
 import { Button, ButtonGroup } from '../button/Button'
+import Notification from '../notification/Notification'
 
 import './Enrollment.styl'
 
@@ -36,7 +37,7 @@ class Enrollment extends Component {
   componentDidMount () {
     const { status } = this.props
 
-    this.setState({ active: status.code !== constants.bungie.disabledStatusCode })
+    this.setState({ active: status.bungiCode !== constants.bungie.disabledStatusCode })
   }
 
   handleEnroll (e) {
@@ -92,14 +93,23 @@ class Enrollment extends Component {
   }
 
   render () {
-    const { clans } = this.props
+    const { status, clans } = this.props
     const { active, groups, selectedGroup } = this.state
+    const id = 'enroll'
     const baseClassName = 'enrollment'
     const placeholder = active ? 'Enter clan name' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
+    if (!status.enrollmentOpen) {
+      return (
+        <div id={id} className={baseClassName}>
+          <Notification>Enrollment for new clans is currently closed. Please try again later today.</Notification>
+        </div>
+      )
+    }
+
     return (
-      <form ref="form" id="enroll" className={baseClassName} action={action} method="post" onSubmit={this.handleEnroll}>
+      <form ref="form" id={id} className={baseClassName} action={action} method="post" onSubmit={this.handleEnroll}>
         <input type="hidden" name="redirectUrl" value={redirectUrl} />
         {selectedGroup &&
           <input type="hidden" name="clanId" value={selectedGroup} />

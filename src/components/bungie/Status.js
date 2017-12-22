@@ -4,8 +4,8 @@ import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
 
-const Status = ({ status }) => {
-  if (status.code !== constants.bungie.disabledStatusCode) return null
+const Status = ({ code }) => {
+  if (code !== constants.bungie.disabledStatusCode) return null
 
   return (
     <div className="content-center content-gutter">
@@ -17,7 +17,7 @@ const Status = ({ status }) => {
 }
 
 Status.propTypes = {
-  status: PropTypes.object
+  code: PropTypes.number
 }
 
 export default Status

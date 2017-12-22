@@ -16,7 +16,7 @@ module.exports = (allEvent, kicker) => {
   ]
 
   allEvents.map(({ node }) => {
-    let kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
+    var kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
 
     if (previousEvent && node.path === previousEvent.path) kicker = constants.kicker.previous
     if (nextEvent && node.path === nextEvent.path) kicker = constants.kicker.next

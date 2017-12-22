@@ -38,7 +38,7 @@ class IndexPage extends Component {
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Enrollment status={data.bungieStatus} clans={data.allClan.edges.map(({ node }) => node)} />
+        <Enrollment status={data.apiStatus} clans={data.allClan.edges.map(({ node }) => node)} />
         {currentEvents.length > 0 && [
           <Lockup key="kicker" primary center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
             <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
@@ -135,8 +135,9 @@ export const data = {
 
 export const pageQuery = graphql`
   query IndexPageQuery {
-    bungieStatus {
-      code
+    apiStatus {
+      enrollmentOpen
+      bungieCode
     }
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {

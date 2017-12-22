@@ -23,6 +23,7 @@ const bungie = axios.create({
 
 var frontmatterEdges
 var currentEvent
+var enrollmentOpen = false
 const updatedDate = new Date()
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
@@ -35,17 +36,24 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var events = []
   const casingOptions = { deep: true }
 
+  await api(`Clan/AcceptingNewClans`)
+    .then(({ data }) => {
+      enrollmentOpen = data
+    })
+    .catch(err => console.log(err))
+
   await bungie(`/Destiny2/Milestones`)
     .then(({ data }) => {
       createNode({
-        id: `Bungie API status`,
+        id: `API status`,
         updatedDate: updatedDate,
-        code: data.ErrorCode,
-        message: data.ErrorStatus,
+        enrollmentOpen: enrollmentOpen,
+        bungieCode: data.ErrorCode,
+        bungieMessage: data.ErrorStatus,
         parent: null,
         children: [],
         internal: {
-          type: `BungieStatus`,
+          type: `ApiStatus`,
           contentDigest: createContentDigest(data)
         }
       })

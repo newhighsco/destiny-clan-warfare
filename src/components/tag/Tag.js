@@ -4,14 +4,13 @@ import classNames from 'classnames'
 
 import './Tag.styl'
 
-const slugify = require('slugg')
-
 const baseClassName = 'tag'
 
 const Tag = ({ name, description }) => {
   const allowedTags = [
-    { name: 'Beta Tester', label: 'Beta' },
-    { name: 'Creator', label: 'Creator' }
+    { name: 'Beta Tester', tier: 3, label: 'Beta' },
+    { name: 'Creator', tier: 1, label: 'Creator' },
+    { name: 'Insider', tier: 2, label: 'Insider' }
   ]
 
   const allowed = allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
@@ -22,7 +21,7 @@ const Tag = ({ name, description }) => {
     <div
       className={classNames(
         baseClassName,
-        `${baseClassName}--${slugify(allowed.name)}`
+        allowed.tier && `${baseClassName}--tier-${allowed.tier}`
       )}
       data-label={allowed.label}
     />

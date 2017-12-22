@@ -12,7 +12,7 @@ class ContentLayout extends Component {
     return (
       <MasterLayout {...this.props}>
         <Header />
-        <BungieStatus status={data.bungieStatus} />
+        <BungieStatus bungieCode={data.apiStatus.bungieCode} />
         {children()}
         <Footer />
       </MasterLayout>
@@ -29,8 +29,8 @@ export default ContentLayout
 
 export const pageQuery = graphql`
   query ContentLayoutQuery {
-    bungieStatus {
-      code
+    apiStatus {
+      bungieCode
     }
   }
 `

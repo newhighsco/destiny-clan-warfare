@@ -1,19 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
+import Link from 'gatsby-link'
 import Helmet from 'react-helmet'
-import HoldingPage from '../components/HoldingPage/HoldingPage'
-import Logo from '../components/Logo/Logo'
+import HoldingPage from '../components/holding-page/HoldingPage'
+import { Logo } from '../components/logo/Logo'
 
-const NotFoundPage = () => (
-  <HoldingPage>
-    <Helmet
-      meta={[
-        { name: 'robots', content: 'noindex,nofollow' }
-      ]}
-    />
-    <div className="content-center content-gutter">
-      <Logo />
-    </div>
-  </HoldingPage>
-)
+class NotFoundPage extends Component {
+  render () {
+    const title = 'Page not found'
+    const description = 'Sorry, this page could not be found'
+
+    return (
+      <HoldingPage>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="robots" content="noindex,nofollow" />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+        </Helmet>
+        <Link to="/">
+          <Logo />
+        </Link>
+      </HoldingPage>
+    )
+  }
+}
 
 export default NotFoundPage

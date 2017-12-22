@@ -1,51 +1,55 @@
-import React from 'react'
-import HoldingPage from '../components/HoldingPage/HoldingPage'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import Logo from '../components/Logo/Logo'
-import PatreonSvg from '../images/patreon.svg'
-import DiscordSvg from '../images/discord.svg'
-import AvalancheUkSvg from '../images/avalanche-uk.svg'
+import PageContainer from '../components/page-container/PageContainer'
+import Card from '../components/card/Card'
+import { Lockup } from '../components/lockup/Lockup'
+import { Button } from '../components/button/Button'
 
-const IndexPage = () => (
-  <HoldingPage>
-    <Helmet
-      meta={[
-        { name: 'robots', content: 'noindex,nofollow' }
-      ]}
-    />
-    <div className="content-center content-gutter">
-      <Logo medium />
-      <div className="panel">
-        <h2 className="panel__title text-center">Thanks! We'll be in touch as soon as we're ready to launch</h2>
-      </div>
-      <div className="content-center content-center--narrow">
-        <div className="grid">
-          <div className="grid__item tablet-one-half">
-            <a className="panel text-center" href="https://www.patreon.com/destinyclanwarfare" target="_blank" rel="noopener">
-              <h2 className="panel__title">Become a Patron and gain exclusive access to the beta</h2>
-              <PatreonSvg className="panel__icon" />
-            </a>
-          </div>
-          <div className="grid__item tablet-one-half">
-            <a className="panel text-center" href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener">
-              <h2 className="panel__title">Join our Discord server to stay up-to-date with developments</h2>
-              <DiscordSvg className="panel__icon" />
-            </a>
-          </div>
-        </div>
-        <div className="credit">
-          <a className="credit__link" href="https://avaclanche.uk" target="_blank" rel="noopener">
-            <AvalancheUkSvg className="credit__logo" />
-            <div className="credit__details">
-              <small>Proudly brought to you by</small>
-              <br />
-              <small>the Guardians at Avalanche UK</small>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </HoldingPage>
-)
+const queryString = require('query-string')
+const constants = require('../utils/constants')
 
-export default IndexPage
+class ThanksPage extends Component {
+  render () {
+    const { location } = this.props
+    const query = queryString.parse(location.search)
+    const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
+    const message = query.message || ''
+    const title = success ? 'Thanks for enrolling' : 'Enrollment failed'
+    const description = `Thanks for enrolling your clan in ${constants.meta.name}`
+
+    return (
+      <PageContainer>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta name="robots" content="noindex,nofollow" />
+        </Helmet>
+        <Card className="text-center">
+          {success ? ([
+            <Lockup key="lockup" primary center kicker="Thanks for" heading="Enrolling" />,
+            <p key="prose">Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>,
+            <Button key="button" href="/current">View current leaderboard</Button>
+          ]) : ([
+            <Lockup key="lockup" primary center kicker="Enrollment failed" heading="Please try again" />,
+            message &&
+              <p key="prose">{message}</p>,
+            <Button key="button" href="/#enroll">Enroll your clan today</Button>
+          ])}
+        </Card>
+      </PageContainer>
+    )
+  }
+}
+
+ThanksPage.propTypes = {
+  location: PropTypes.object
+}
+
+export default ThanksPage
+
+export const data = {
+  layout: 'content'
+}

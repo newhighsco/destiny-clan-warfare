@@ -1,0 +1,80 @@
+.header
+  margin-bottom $spacing--double
+  padding $spacing--default 0
+  position relative
+
+  +width-min($mq--tablet)
+    margin-bottom $spacing--treble
+    padding $spacing--double 0
+
+  &:after
+    background url('../../images/header.jpg')
+    background-position 50% 0
+    background-repeat no-repeat
+    background-size cover
+    content ''
+    position absolute
+    top 0
+    height rem(300)
+    left 0
+    right 0
+    z-index -1
+
+    +width-min($mq--tablet)
+      height rem(350)
+
+.header__container
+  position relative
+  z-index 2
+
+.header__logo-link
+  display inline-block
+  vertical-align middle
+  margin-bottom ($spacing--double * -1)
+
+  +width-min($mq--tablet)
+    margin-bottom ($spacing--quadruple * -1)
+
+  &:hover
+    transform scale(1.05)
+
+  &:active
+  &:focus
+    transform scale(1)
+
+.header__logo-lockup.logo-lockup
+  +width-min($mq--desktop)
+    font-size rem(40)
+
+.header__list
+  position relative
+  text-align right
+  z-index 2
+
+  +width-min($mq--tablet)
+    margin-top $spacing--default
+    margin-bottom ($spacing--default * -1)
+
+.header__item
+  & + &
+    margin-left $spacing--half
+
+    +width-min($mq--tablet)
+      margin-left $spacing--default
+
+.header__link
+  display block
+  opacity 0.75
+
+  &:hover
+    opacity 1
+    transform scale(1.2)
+
+  &:active
+  &:focus
+    transform scale(1)
+
+.header__icon
+  fill $color--white
+  width rem(20)
+  height rem(20)

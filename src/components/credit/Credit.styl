@@ -1,0 +1,37 @@
+.credit
+  display table
+  line-height 1.1
+  margin auto
+  white-space nowrap
+
+  +width-min($mq--tablet)
+    display inline-block
+
+.credit__link
+  display inline-block
+  text-align left
+
+  &:hover
+    text-decoration none
+
+    .credit__icon
+      opacity 1
+      transform scale(1.1)
+
+  &:focus
+  &:active
+    .credit__logo
+      transform scale(1)
+
+.credit__icon.icon
+  display inline-block
+  fill $color--white
+  opacity 0.75
+  vertical-align text-bottom
+  width rem(50)
+  height rem(38)
+
+.credit__details
+  color rgba($color--white, 0.75)
+  display inline-block
+  margin-left $spacing--quarter

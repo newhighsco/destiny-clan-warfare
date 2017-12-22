@@ -55,7 +55,6 @@
     "query-string": "^5.0.1",
     "responsive-grid": "^1.1.0",
     "sentence-case": "^2.1.1",
-    "slugg": "^1.2.1",
     "stylus-mixins": "^0.4.0",
     "svgo": "^1.0.3",
     "uuid": "^3.1.0",

@@ -1,0 +1,31 @@
+//
+// CONTROL
+// =======
+// Used to markup and style all form controls: inputs, textareas, selects etc.
+//
+
+$control--text
+  display block
+  width 100%
+  padding $spacing--half $spacing--default
+  border 0
+  height rem(64)
+  font-family inherit
+  font-size inherit
+  background-color $color--white
+  border-radius 0
+  opacity 0.9
+
+  &:focus
+    opacity 1
+    outline 0
+
+.control--text
+  @extend $control--text
+  -webkit-appearance none
+
+  &[disabled]
+  &.is-disabled
+    opacity 0.75
+    pointer-events none
+    user-select none

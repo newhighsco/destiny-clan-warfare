@@ -1,66 +1,187 @@
-import React from 'react'
-import HoldingPage from '../components/HoldingPage/HoldingPage'
-import Logo from '../components/Logo/Logo'
-import PatreonSvg from '../images/patreon.svg'
-import DiscordSvg from '../images/discord.svg'
-import AvalancheUkSvg from '../images/avalanche-uk.svg'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Helmet from 'react-helmet'
+import PageContainer from '../components/page-container/PageContainer'
+import { Button, ButtonGroup } from '../components/button/Button'
+import Card from '../components/card/Card'
+import { Lockup } from '../components/lockup/Lockup'
+import { ModifierList } from '../components/modifier/Modifier'
+import { TabContainer, Tab } from '../components/tab/Tab'
+import Leaderboard from '../components/leaderboard/Leaderboard'
+import RelativeDate from '../components/relative-date/RelativeDate'
+import Advert from '../components/advert/Advert'
+import Enrollment from '../components/enrollment/Enrollment'
+import FutureEvent from '../components/event/FutureEvent'
+import LogoImage from '../images/avatar-512x512.jpg'
 
-const IndexPage = () => (
-  <HoldingPage>
-    <div className="content-center content-gutter">
-      <Logo medium />
-      <form className="panel" name="pre-launch" action="thanks" data-netlify="true" method="post">
-        <h2 className="panel__title text-center">Sign up to be notified when we launch</h2>
-        <div className="content-center content-center--narrow">
-          <div className="field" id="field--email">
-            <div className="field__question">
-              <label htmlFor="control--email">Email</label>
-            </div>
-            <div className="field__answer">
-              <input type="email" className="control control--text" name="email" id="control--email" />
-            </div>
-          </div>
-          <div className="field" id="field--twitter">
-            <div className="field__question">
-              <label htmlFor="control--twitter">Twitter</label>
-            </div>
-            <div className="field__answer">
-              <input type="text" className="control control--text" name="twitter" id="control--twitter" />
-            </div>
-          </div>
-          <div className="text-center">
-            <button className="button" type="submit">Submit</button>
-          </div>
-        </div>
-      </form>
-      <div className="content-center content-center--narrow">
-        <div className="grid">
-          <div className="grid__item tablet-one-half">
-            <a className="panel text-center" href="https://www.patreon.com/destinyclanwarfare" target="_blank" rel="noopener">
-              <h2 className="panel__title">Become a Patron and gain exclusive access to the beta</h2>
-              <PatreonSvg className="panel__icon" />
-            </a>
-          </div>
-          <div className="grid__item tablet-one-half">
-            <a className="panel text-center" href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener">
-              <h2 className="panel__title">Join our Discord server to stay up-to-date with developments</h2>
-              <DiscordSvg className="panel__icon" />
-            </a>
-          </div>
-        </div>
-        <div className="credit">
-          <a className="credit__link" href="https://avaclanche.uk" target="_blank" rel="noopener">
-            <AvalancheUkSvg className="credit__logo" />
-            <div className="credit__details">
-              <small>Proudly brought to you by</small>
-              <br />
-              <small>the Guardians at Avalanche UK</small>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </HoldingPage>
-)
+const constants = require('../utils/constants')
+
+class IndexPage extends Component {
+  render () {
+    const { data } = this.props
+    const currentEvents = data.allEvent.edges.filter(({ node }) => node.isCurrent)
+    const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast).slice(0, 1)
+    const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture).reverse().slice(0, 1)
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'Organization',
+      name: constants.meta.name,
+      url: process.env.GATSBY_SITE_URL,
+      logo: `${process.env.GATSBY_SITE_URL}${LogoImage}`,
+      sameAs: [
+        'https://twitter.com/destinyclanwar'
+      ]
+    }
+
+    return (
+      <PageContainer>
+        <Helmet>
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
+        </Helmet>
+        <Enrollment status={data.bungieStatus} clans={data.allClan.edges.map(({ node }) => node)} />
+        {currentEvents.length > 0 && [
+          <Lockup key="kicker" primary center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
+            <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
+          </Lockup>,
+          currentEvents.map(({ node }) => {
+            return ([
+              <Card key={node.id} cutout className="text-center">
+                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                <RelativeDate label={constants.relativeDate.current} date={node.endDate} />
+                {node.description &&
+                  <p>{node.description}</p>
+                }
+                <ModifierList modifiers={node.modifiers} />
+              </Card>,
+              <TabContainer cutout>
+                {node.leaderboards.large.length > 0 &&
+                  <Tab name={constants.division.large}>
+                    <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
+                  </Tab>
+                }
+                {node.leaderboards.medium.length > 0 &&
+                  <Tab name={constants.division.medium}>
+                    <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
+                  </Tab>
+                }
+                {node.leaderboards.small.length > 0 &&
+                  <Tab name={constants.division.small}>
+                    <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
+                  </Tab>
+                }
+              </TabContainer>,
+              <ButtonGroup>
+                <Button href={node.path}>View full leaderboard</Button>
+              </ButtonGroup>
+            ])
+          })
+        ]}
+        {pastEvents.length > 0 && [
+          currentEvents.length > 0 &&
+            <Advert key="advert" />,
+          <Lockup key="kicker" center primary element="h1" kicker={`${constants.kicker.previous}${pastEvents.length > 1 ? 's' : ''}`} />,
+          pastEvents.map(({ node }) => {
+            const leaderboard = node.results.filter(({ score }) => score > 0)
+
+            return ([
+              <Card key={node.id} cutout className="text-center">
+                <Lockup center element="h2" headingHref={node.path} heading={node.name} />
+                <RelativeDate label={constants.relativeDate.past} date={node.endDate} />
+                {node.description &&
+                  <p>{node.description}</p>
+                }
+                <ModifierList modifiers={node.modifiers} />
+              </Card>,
+              leaderboard.length > 0 && [
+                <TabContainer cutout>
+                  <Tab name="Winners">
+                    <Leaderboard data={leaderboard} />
+                  </Tab>
+                </TabContainer>,
+                <ButtonGroup>
+                  <Button href={node.path}>View full results</Button>
+                </ButtonGroup>
+              ]
+            ])
+          })
+        ]}
+        {futureEvents.length > 0 && [
+          pastEvents.length > 0 &&
+            <Advert key="advert" />,
+          <Lockup key="kicker" center primary element="h1" kicker={`${constants.kicker.next}${futureEvents.length > 1 ? 's' : ''}`} />,
+          futureEvents.map(({ node }) => {
+            return (
+              <FutureEvent event={node} element="h2" />
+            )
+          }),
+          <ButtonGroup key="button">
+            <Button href="/#enroll">Enroll your clan today</Button>
+          </ButtonGroup>
+        ]}
+      </PageContainer>
+    )
+  }
+}
+
+IndexPage.propTypes = {
+  data: PropTypes.object
+}
 
 export default IndexPage
+
+export const data = {
+  layout: 'content'
+}
+
+export const pageQuery = graphql`
+  query IndexPageQuery {
+    bungieStatus {
+      code
+    }
+    allClan(sort: { fields: [ nameSortable ] }) {
+      edges {
+        node {
+          path
+          id
+        }
+      }
+    }
+    allEvent(sort: { fields: [ startDate ], order: DESC }) {
+      edges {
+        node {
+          updatedDate
+          path
+          name
+          description
+          startDate
+          endDate
+          isCurrent
+          isPast
+          isFuture
+          ...leaderboardFragment
+          results {
+            path
+            name
+            color
+            foreground {
+              color
+              icon
+            }
+            background {
+              color
+              icon
+            }
+            division
+            score
+            medal {
+              tier
+              name
+              description
+            }
+          }
+          ...modifiersFragment
+        }
+      }
+    }
+  }
+`

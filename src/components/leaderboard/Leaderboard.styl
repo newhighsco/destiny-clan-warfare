@@ -1,0 +1,268 @@
+.leaderboard
+  position relative
+
+.leaderboard--cutout
+  margin-top ($spacing--default * -1) !important // @stylint ignore
+  margin-left $spacing--half
+  margin-right $spacing--half
+
+  +width-min($mq--tablet)
+    margin-top ($spacing--double * -1) !important // @stylint ignore
+    margin-left $spacing--default
+    margin-right $spacing--default
+
+  +width-min($mq--desktop)
+    margin-left $spacing--double
+    margin-right $spacing--double
+
+.leaderboard__row
+  display block
+  line-height 1.2
+  margin-bottom 1px
+  position relative
+  z-index 1
+
+  &[data-result]
+    &:before
+      content ''
+      position absolute
+      top 0
+      left -2px
+      bottom 0
+      width 2px
+
+  &[data-result=win]:before
+    background $color--success
+
+  &[data-result=loss]:before
+    background $color--error
+
+  &:nth-of-type(even)
+    .leaderboard__header
+    .leaderboard__body
+      background $color--eclipse
+
+    +width-min($mq--tablet--landscape)
+      background $color--eclipse
+
+  &:hover
+    z-index 2
+
+    .leaderboard__header
+      background $color--white-smoke
+      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      color $color--black
+      z-index 2
+
+    .leaderboard__icon
+      transform scale(1.25)
+
+    .leaderboard__body:first-child
+      background $color--white-smoke
+      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      color $color--black
+
+    +width-min($mq--tablet--landscape)
+      background $color--white-smoke
+      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      color $color--black
+
+  +width-min($mq--tablet--landscape)
+    background $color--nightrider
+
+.leaderboard__header
+  background $color--nightrider
+  border-bottom 1px solid $color--nero
+  position relative
+  position sticky
+  top 0
+  white-space nowrap
+  z-index 1
+
+  +width-min($mq--tablet--landscape)
+    background none !important // @stylint ignore
+    box-shadow none !important // @stylint ignore
+    border-bottom 0
+    display inline-block
+    position static
+    vertical-align middle
+    width 35%
+
+    &:last-child
+      width 100%
+
+.leaderboard__body
+  background $color--nightrider
+  margin-left rem(48)
+
+  &:first-child
+    margin-left 0
+    width 100%
+
+  +width-min($mq--tablet)
+    margin-left rem(60)
+
+  +width-min($mq--tablet--landscape)
+    background none !important // @stylint ignore
+    display inline-block
+    margin-left 0
+    vertical-align middle
+    width 65%
+
+.leaderboard__icon
+  display inline-block
+  vertical-align middle
+  height rem(48)
+  width rem(48)
+
+  +width-min($mq--tablet)
+    height rem(60)
+    width rem(60)
+
+  +width-min($mq--desktop)
+    height rem(75)
+    width rem(75)
+
+.leaderboard__link
+  display inline-block
+
+  &:after
+    content ''
+    display block
+    border-bottom 1px solid transparent
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+      border-color $color--terracotta
+
+.leaderboard__medal
+  display none
+
+  +width-min($mq--tablet)
+    display inline-block
+    padding $spacing--half $spacing--default
+    padding-right 0
+
+    svg
+      filter drop-shadow(0 0 1px rgba($color--silver, 0.5))
+
+.leaderboard__name
+  display inline-block
+  vertical-align middle
+  padding $spacing--half $spacing--default
+
+  +width-min($mq--tablet)
+    padding $spacing--default
+
+.leaderboard__tags
+  display inline-block
+  margin-left ($spacing--default * -1)
+  margin-top ($spacing--quarter * -1)
+
+.leaderboard__clan-tag
+  color $color--silver
+  display none
+  line-height rem(48)
+  padding 0 $spacing--default
+  position absolute
+  top 0
+  right 0
+
+  &:before
+    content '['
+
+  &:after
+    content ']'
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+    &:before
+      color $color--terracotta
+
+  +width-min($mq--tablet)
+    display block
+    line-height rem(60)
+
+  +width-min($mq--desktop)
+    line-height rem(75)
+
+.leaderboard__stats
+  display flex
+  flex-wrap wrap
+  align-items center
+  padding $spacing--half
+
+  +width-min($mq--tablet--landscape)
+    justify-content flex-end
+    padding 0
+    text-align right
+
+.leaderboard__stat
+  display inline-block
+  flex 1 1 0
+  max-width 33.333%
+  padding 0 $spacing--half $spacing--half
+  position relative
+  text-align left
+  white-space nowrap
+
+  +width-min($mq--tablet--landscape)
+    max-height rem(60)
+    padding $spacing--default $spacing--default $spacing--default 0
+    text-align right
+
+  &[data-prefix]:before
+    content attr(data-prefix)
+    color $color--silver
+    display block
+    font-size x-small
+    text-transform uppercase
+
+    +width-min($mq--tablet--landscape)
+      position relative
+      margin-top rem(-12)
+
+  &[data-suffix]:after
+    content attr(data-suffix)
+    color $color--silver
+    display block
+    font-size smaller
+
+.leaderboard__stat--game
+  flex auto
+  max-width none
+  text-align left
+  width 100%
+
+  +width-min($mq--tablet--landscape)
+    padding $spacing--half $spacing--default
+    width 35%
+
+.leaderboard__stat--modifiers
+  flex auto
+  max-width none
+  padding 0
+  text-align right
+  width 100%
+
+  +width-min($mq--tablet--landscape)
+    max-height none
+    padding $spacing--half
+    width 65%
+
+.leaderboard__external
+  display inline-block
+  fill currentColor
+  margin-left $spacing--quarter
+  vertical-align bottom
+  width rem(20)
+  height rem(20)
+
+  &:first-child
+    margin-left 0
+
+  a[href]:hover &
+    fill $color--terracotta
+    transform scale(1.25)

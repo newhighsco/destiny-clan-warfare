@@ -1,38 +1,21 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
+import MasterLayout from './_master'
 
-import '../stylus/index.styl'
+class IndexLayout extends Component {
+  render () {
+    const { children } = this.props
 
-const TemplateWrapper = ({ children, data }) => (
-  <div className="site-container">
-    <Helmet
-      title={data.site.siteMetadata.title}
-      meta={[
-        { name: 'description', content: data.site.siteMetadata.description }
-      ]}
-      htmlAttributes={
-        { lang: 'en' }
-      }
-    />
-    {children()}
-  </div>
-)
-
-TemplateWrapper.propTypes = {
-  children: PropTypes.func,
-  data: PropTypes.object
+    return (
+      <MasterLayout {...this.props}>
+        {children()}
+      </MasterLayout>
+    )
+  }
 }
 
-export default TemplateWrapper
+IndexLayout.propTypes = {
+  children: PropTypes.func
+}
 
-export const query = graphql`
-  query templateWrapperQuery {
-    site {
-      siteMetadata {
-        title
-        description
-      }
-    }
-  }
-`
+export default IndexLayout

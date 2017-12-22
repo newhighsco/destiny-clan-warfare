@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-let stylesStr
+var stylesStr
 if (process.env.NODE_ENV === `production`) {
   try {
     stylesStr = require(`!raw-loader!../public/styles.css`)
@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === `production`) {
 
 class Html extends Component {
   render () {
-    let css
+    var css
     if (process.env.NODE_ENV === `production`) {
       css = (
         <style
@@ -28,7 +28,7 @@ class Html extends Component {
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta
             name="viewport"
-            content="initial-scale=1"
+            content="width=device-width, initial-scale=1"
           />
           {this.props.headComponents}
           {css}
@@ -41,6 +41,7 @@ class Html extends Component {
             dangerouslySetInnerHTML={{ __html: this.props.body }}
           />
           {this.props.postBodyComponents}
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
         </body>
       </html>
     )

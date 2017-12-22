@@ -1,0 +1,54 @@
+.footer
+  border-top 1px solid $color--eclipse
+  margin-top $spacing--double
+  padding $spacing--quadruple 0 $spacing--default
+  position relative
+
+  +width-min($mq--tablet)
+    margin-top $spacing--treble
+    padding-top $spacing--treble
+
+  +width-min($mq--tablet--landscape)
+    padding-top $spacing--default
+
+.footer__list
+  color $color--silver
+  padding $spacing--default 0
+  text-align center
+  text-transform uppercase
+
+  +width-min($mq--tablet)
+    text-align right
+
+.footer__item
+  margin 0 $spacing--half !important // @stylint ignore
+
+  +width-min($mq--tablet)
+    margin 0 !important // @stylint ignore
+
+    & + &
+      margin-left $spacing--default !important // @stylint ignore
+
+.footer__link
+  display block
+  font-size smaller
+  letter-spacing 0.4em
+
+  &:after
+    content ''
+    display block
+    border-bottom 1px solid transparent
+    margin-right 0.4em
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+      border-color $color--terracotta
+
+.footer__logo.logo-icon
+  fill $color--silver
+  margin auto
+  position absolute
+  left 0
+  right 0
+  top ($spacing--double * -1)

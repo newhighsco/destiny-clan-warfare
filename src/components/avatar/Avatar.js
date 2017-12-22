@@ -5,7 +5,10 @@ import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 
 import './Avatar.styl'
 
+const uuidv4 = require('uuid/v4')
+const uuidv5 = require('uuid/v5')
 const hexToRgb = require('./lib/hex-to-rgb')
+const constants = require('../../utils/constants')
 const createContentDigest = require('../../utils/create-content-digest')
 const online = require('../../utils/online')
 
@@ -16,14 +19,16 @@ const AvatarLayer = (layer) => {
   const r = hex.r / 255
   const g = hex.g / 255
   const b = hex.b / 255
+  const uuid = uuidv4()
   const contentDigest = createContentDigest(layer)
+  const id = uuidv5(contentDigest, uuid)
 
   return (
     <svg className="avatar__layer" viewBox="0 0 512 512">
-      <filter id={contentDigest} x="0" y="0" width="100%" height="100%">
+      <filter id={id} x="0" y="0" width="100%" height="100%">
         <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
       </filter>
-      <image width="100%" height="100%" filter={`url(#${contentDigest})`} xlinkHref={layer.icon} />
+      <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={layer.icon} />
     </svg>
   )
 }

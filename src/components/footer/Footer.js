@@ -11,7 +11,7 @@ const Footer = () => {
   const date = new Date()
   const links = [
     { href: urlBuilder.currentEventRootUrl, text: 'Current' },
-    { href: '/faqs', text: 'FAQs' }
+    { href: '/faqs/', text: 'FAQs' }
   ]
 
   return (

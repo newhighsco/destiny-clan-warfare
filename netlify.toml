@@ -1,4 +1,4 @@
-[context.beta.environment]
+[environment]
   GATSBY_ENABLE_IDENTITY = "true"
   GATSBY_ENABLE_IDENTITY_LOGIN = "false"
   GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"

@@ -4,6 +4,7 @@ const path = require(`path`)
 const fs = require(`fs`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
+const moment = require('moment')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -22,6 +23,7 @@ const bungie = axios.create({
 
 var frontmatterEdges
 var currentEvent
+const updatedDate = new Date()
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
@@ -32,7 +34,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var histories = []
   var events = []
   const casingOptions = { deep: true }
-  const updatedDate = new Date()
 
   await bungie(`/Destiny2/Milestones`)
     .then(({ data }) => {
@@ -582,6 +583,7 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 exports.onPostBuild = () => {
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
+    `# Last updated: ${moment.utc(updatedDate).fromNow()}`,
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
     'User-agent: *'
   ]

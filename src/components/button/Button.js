@@ -71,18 +71,22 @@ Button.propTypes = {
   solid: PropTypes.bool
 }
 
-const ButtonGroup = ({ children }) => {
+const ButtonGroup = ({ children, className }) => {
   if (!children) return null
 
   return (
-    <div className={`${baseClassName}-group`}>
+    <div className={classNames(
+      `${baseClassName}-group`,
+      className
+    )}>
       {children}
     </div>
   )
 }
 
 ButtonGroup.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  className: PropTypes.string
 }
 
 export {

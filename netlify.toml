@@ -6,7 +6,14 @@
   GATSBY_DISALLOW_ROBOTS = "true"
 
 [context.deploy-preview.environment]
-  GATSBY_ENABLE_IDENTITY = "true"
+  GATSBY_ENABLE_IDENTITY = "false"
+  GATSBY_ENABLE_IDENTITY_LOGIN = "false"
+  GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
+  GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"
+  GATSBY_DISALLOW_ROBOTS = "true"
+
+[context.branch-deploy.environment]
+  GATSBY_ENABLE_IDENTITY = "false"
   GATSBY_ENABLE_IDENTITY_LOGIN = "false"
   GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"

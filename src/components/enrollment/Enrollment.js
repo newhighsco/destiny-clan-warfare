@@ -37,7 +37,7 @@ class Enrollment extends Component {
   componentDidMount () {
     const { status } = this.props
 
-    this.setState({ active: status.bungiCode !== constants.bungie.disabledStatusCode })
+    this.setState({ active: status.bungieCode !== constants.bungie.disabledStatusCode })
   }
 
   handleEnroll (e) {
@@ -121,35 +121,34 @@ class Enrollment extends Component {
           <div className={classNames('field__answer', `${baseClassName}__field`)}>
             <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
           </div>
-          {groups.length > 0 &&
-            <ul className={classNames('list--unstyled', `${baseClassName}__clans`)}>
-              {groups.map((group, i) => {
-                const clan = clans.find(clan => clan.id === group.groupId)
-
-                return (
-                  <li key={i}>
-                    {clan ? (
-                      <Link to={clan.path} className={`${baseClassName}__clan`}>
-                        {group.name}
-                      </Link>
-                    ) : (
-                      <button onClick={this.handleEnroll} data-id={group.groupId} className={classNames('text-button', `${baseClassName}__clan`)}>
-                        {group.name}
-                      </button>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          }
         </div>
-        <ButtonGroup>
-          {active ? (
-            <br />
-          ) : (
-            <Button solid type="submit">Enroll clan</Button>
-          )}
+        <ButtonGroup className={active ? 'is-vhidden' : null}>
+          <Button solid type="submit">Enroll clan</Button>
         </ButtonGroup>
+        {groups.length > 0 &&
+          <ul className={classNames('list--unstyled', `${baseClassName}__clans`)}>
+            {groups.map((group, i) => {
+              const clan = clans.find(clan => clan.id === group.groupId)
+
+              return (
+                <li key={i}>
+                  {clan ? (
+                    <Link to={clan.path} className={`${baseClassName}__clan`}>
+                      {group.name}
+                    </Link>
+                  ) : (
+                    <button onClick={this.handleEnroll} data-id={group.groupId} className={classNames('text-button', `${baseClassName}__clan`)}>
+                      {group.name}
+                    </button>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        }
+        {active &&
+          <br />
+        }
       </form>
     )
   }

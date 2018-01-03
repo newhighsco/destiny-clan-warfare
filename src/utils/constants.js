@@ -50,7 +50,9 @@ const constants = {
   },
   prefix: {
     event: 'Event',
-    hash: '#'
+    hash: '#',
+    positive: '+',
+    multiply: 'x'
   }
 }
 

@@ -8,12 +8,19 @@ import IconSvgs from './icons'
 import './Modifier.styl'
 
 const pascalCase = require('pascal-case')
+const constants = require('../../utils/constants')
 
 const baseClassName = 'modifier'
 
 const Modifier = ({ name, description, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
   const iconKey = pascalCase(name || '')
   const IconSvg = IconSvgs.hasOwnProperty(iconKey) ? IconSvgs[iconKey] : null
+  const bonus = scoringModifier ? scoringBonus : multiplierBonus
+  var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
+
+  if (bonus <= 0) prefix = ''
+
+  const label = `${prefix}${bonus}`
 
   return (
     <Tooltip heading={name} text={description} align={align} enableHover>
@@ -22,16 +29,12 @@ const Modifier = ({ name, description, scoringModifier, scoringBonus, multiplier
         size && `${baseClassName}--${size}`
       )}>
         {IconSvg ? (
-          <Icon className={`${baseClassName}__icon`} a11yText={name}>
+          <Icon className={`${baseClassName}__icon`} a11yText={label}>
             <IconSvg />
           </Icon>
         ) : (
           <div className={`${baseClassName}__label`}>
-            {scoringModifier ? (
-              `+${scoringBonus}`
-            ) : (
-              `x${multiplierBonus}`
-            )}
+            {label}
           </div>
         )}
       </div>

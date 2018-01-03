@@ -71,7 +71,7 @@ class IndexPage extends Component {
                 }
               </TabContainer>,
               <ButtonGroup>
-                <Button href={node.path}>View full leaderboard</Button>
+                <Button href={`${node.path}#leaderboard`}>View full leaderboard</Button>
               </ButtonGroup>
             ])
           })
@@ -99,7 +99,7 @@ class IndexPage extends Component {
                   </Tab>
                 </TabContainer>,
                 <ButtonGroup>
-                  <Button href={node.path}>View full results</Button>
+                  <Button href={`${node.path}#results`}>View full results</Button>
                 </ButtonGroup>
               ]
             ])

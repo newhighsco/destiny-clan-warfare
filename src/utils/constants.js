@@ -52,7 +52,8 @@ const constants = {
     event: 'Event',
     hash: '#',
     positive: '+',
-    multiply: 'x'
+    multiply: 'x',
+    percent: '%'
   }
 }
 

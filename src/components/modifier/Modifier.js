@@ -15,12 +15,18 @@ const baseClassName = 'modifier'
 const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
   const iconKey = pascalCase(name || '')
   const IconSvg = IconSvgs.hasOwnProperty(iconKey) ? IconSvgs[iconKey] : null
-  const bonus = scoringModifier ? scoringBonus : multiplierBonus
+  var bonus = scoringModifier ? scoringBonus : multiplierBonus
   var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
+  var suffix = ''
 
   if (bonus <= 0) prefix = ''
+  if (!scoringModifier && bonus < 1) {
+    prefix = ''
+    bonus *= 100
+    suffix = constants.prefix.percent
+  }
 
-  const label = `${prefix}${bonus}`
+  const label = `${prefix}${bonus}${suffix}`
   const tooltip = [ description ]
 
   if (creator && creator.name) tooltip.push(`<br />Created by: ${creator.name}`)

@@ -49,10 +49,12 @@ const constants = {
     disabledStatusCode: 5
   },
   prefix: {
+    modifier: 'Modifier',
     event: 'Event',
     hash: '#',
     positive: '+',
-    multiply: 'x'
+    multiply: 'x',
+    percent: '%'
   }
 }
 

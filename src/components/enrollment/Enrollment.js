@@ -70,19 +70,21 @@ class Enrollment extends Component {
           selectedGroup: null
         })
       } else if (name !== this.state.name) {
-        bungie(`GroupV2/Name/${name}/1/`)
+        const groupType = 1
+        const isNumeric = !isNaN(name)
+        const endpoint = isNumeric ? `/GroupV2/${name}/` : `GroupV2/Name/${name}/${groupType}/`
+
+        bungie(endpoint)
         .then(({ data }) => {
           if (data.Response && data.Response.detail) {
             const detail = data.Response.detail
             const group = groups.find(({ groupId }) => groupId === detail.groupId)
 
-            if (!group) {
+            if (!group && detail.groupType === groupType) {
               groups.push(detail)
             }
 
             this.setState({ groups: groups })
-          } else {
-            console.log(data)
           }
         })
         .catch(err => console.log(err))
@@ -97,7 +99,7 @@ class Enrollment extends Component {
     const { active, groups, selectedGroup } = this.state
     const id = 'enroll'
     const baseClassName = 'enrollment'
-    const placeholder = active ? 'Enter clan name' : 'Enter Bungie.net group ID'
+    const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
     if (!status.enrollmentOpen) {

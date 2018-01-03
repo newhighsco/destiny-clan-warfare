@@ -33,19 +33,21 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
 
   return (
     <Tooltip heading={name} text={tooltip.join('')} align={align} enableHover>
-      <div className={classNames(
-        baseClassName,
-        size && `${baseClassName}--${size}`
-      )}>
-        {IconSvg ? (
-          <Icon className={`${baseClassName}__icon`} a11yText={label}>
+      <div
+        className={classNames(
+          baseClassName,
+          size && `${baseClassName}--${size}`
+        )}
+        data-key={iconKey}
+      >
+        <Icon className={`${baseClassName}__icon`}>
+          {IconSvg &&
             <IconSvg />
-          </Icon>
-        ) : (
+          }
           <div className={`${baseClassName}__label`}>
             {label}
           </div>
-        )}
+        </Icon>
       </div>
     </Tooltip>
   )

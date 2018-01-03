@@ -5,12 +5,12 @@
   font-size rem(45)
   fill currentColor
   display block
-  overflow hidden
   height 1em
   line-height 1em
+  position relative
   width 1em
   text-align center
-  vertical-align middle
+  vertical-align top
 
   &:hover
     transform scale(1.1)
@@ -23,6 +23,18 @@
   font-size 0.333em
   vertical-align top
 
+  svg + &
+    background $color--primary
+    border-radius $spacing--default
+    font-size x-small
+    line-height 1
+    min-width 2em
+    padding $spacing--quarter
+    position absolute
+    bottom 0
+    right -0.5em
+    text-align center
+
 .modifier__icon
   display block
   width 1em
@@ -30,6 +42,9 @@
 
 .modifier--small
   font-size rem(30)
+
+  svg + .modifier__label
+    display none
 
 .modifier-list
   position relative

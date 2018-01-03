@@ -23,7 +23,7 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   const label = `${prefix}${bonus}`
   const tooltip = [ description ]
 
-  if (creator.name) tooltip.push(`<br />Created by: ${creator.name}`)
+  if (creator && creator.name) tooltip.push(`<br />Created by: ${creator.name}`)
 
   return (
     <Tooltip heading={name} text={tooltip.join('')} align={align} enableHover>

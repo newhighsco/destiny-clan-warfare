@@ -12,7 +12,7 @@ const constants = require('../../utils/constants')
 
 const baseClassName = 'modifier'
 
-const Modifier = ({ name, description, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
+const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
   const iconKey = pascalCase(name || '')
   const IconSvg = IconSvgs.hasOwnProperty(iconKey) ? IconSvgs[iconKey] : null
   const bonus = scoringModifier ? scoringBonus : multiplierBonus
@@ -21,9 +21,12 @@ const Modifier = ({ name, description, scoringModifier, scoringBonus, multiplier
   if (bonus <= 0) prefix = ''
 
   const label = `${prefix}${bonus}`
+  const tooltip = [ description ]
+
+  if (creator.name) tooltip.push(`<br />Created by: ${creator.name}`)
 
   return (
-    <Tooltip heading={name} text={description} align={align} enableHover>
+    <Tooltip heading={name} text={tooltip.join('')} align={align} enableHover>
       <div className={classNames(
         baseClassName,
         size && `${baseClassName}--${size}`
@@ -45,6 +48,7 @@ const Modifier = ({ name, description, scoringModifier, scoringBonus, multiplier
 Modifier.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
+  creator: PropTypes.object,
   scoringModifier: PropTypes.bool,
   scoringBonus: PropTypes.number,
   multiplierBonus: PropTypes.number,
@@ -91,6 +95,9 @@ export const componentFragment = graphql`
       scoringBonus
       multiplierModifier
       multiplierBonus
+      creator {
+        name
+      }
     }
   }
 `

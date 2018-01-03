@@ -95,6 +95,19 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
   }
 
+  const parseModifier = (modifier) => {
+    const member = members.find(member => member.profileIdStr === modifier.createdBy)
+    const creator = {
+      id: member ? member.profileIdStr : '',
+      name: member ? member.name : ''
+    }
+
+    return {
+      ...modifier,
+      creator: creator
+    }
+  }
+
   for (var clan of clans) {
     var clanLeaderboard = []
 
@@ -388,7 +401,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       isFuture: isFuture,
       isCurrent: isCurrent,
       visible: event.expired ? hasResults : true,
-      modifiers: event.modifiers,
+      modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
       leaderboards: {
         large: largeLeaderboard,
         medium: mediumLeaderboard,

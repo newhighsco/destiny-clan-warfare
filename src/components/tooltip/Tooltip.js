@@ -87,7 +87,10 @@ class Tooltip extends Component {
             <span className="tooltip__heading">{heading}</span>
           }
           {text &&
-            <span className="tooltip__text">{text}</span>
+            <span
+              className="tooltip__text"
+              dangerouslySetInnerHTML={{ __html: text }}
+            />
           }
         </span>
         {this.state.isActive && clickOutsideToClose && !enableHover &&

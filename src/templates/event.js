@@ -83,7 +83,7 @@ class EventTemplate extends Component {
             }
             <ModifierList modifiers={data.event.modifiers} />
           </Card>,
-          <TabContainer key="tabs" cutout>
+          <TabContainer key="tabs" id="leaderboard" cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
                 <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
@@ -116,7 +116,7 @@ class EventTemplate extends Component {
             <MedalList medals={clanMedals} />
             <MedalList medals={memberMedals} />
           </Card>,
-          <TabContainer key="tabs" cutout>
+          <TabContainer key="tabs" id="results" cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
                 <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />

@@ -34,6 +34,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var members = []
   var histories = []
   var events = []
+  var modifiers = []
   const casingOptions = { deep: true }
 
   await api(`Clan/AcceptingNewClans`)
@@ -85,16 +86,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
-  const parseMedal = (medal) => {
-    return {
-      tier: medal.medalTier || 1,
-      name: medal.name,
-      description: medal.description,
-      count: medal.count || null,
-      label: medal.awardedTo || null
-    }
-  }
-
   const parseModifier = (modifier) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
     const creator = {
@@ -105,6 +96,22 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     return {
       ...modifier,
       creator: creator
+    }
+  }
+
+  await api(`Component/GetAllModifiers`)
+    .then(({ data }) => {
+      modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
+    })
+    .catch(err => console.log(err))
+
+  const parseMedal = (medal) => {
+    return {
+      tier: medal.medalTier || 1,
+      name: medal.name,
+      description: medal.description,
+      count: medal.count || null,
+      label: medal.awardedTo || null
     }
   }
 
@@ -417,6 +424,25 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       internal: {
         type: constants.prefix.event,
         contentDigest: createContentDigest(event)
+      }
+    })
+  }
+
+  for (var modifier of modifiers) {
+    createNode({
+      id: `${constants.prefix.modifier} ${modifier.id}`,
+      name: modifier.name,
+      description: modifier.description,
+      creator: modifier.creator,
+      scoringModifier: modifier.scoringModifier,
+      multiplierModifier: modifier.multiplierModifier,
+      scoringBonus: modifier.scoringBonus,
+      multiplierBonus: modifier.multiplierBonus,
+      parent: null,
+      children: [],
+      internal: {
+        type: constants.prefix.modifier,
+        contentDigest: createContentDigest(modifier)
       }
     })
   }

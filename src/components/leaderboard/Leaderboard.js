@@ -115,9 +115,12 @@ class Leaderboard extends Component {
                   showNameTags &&
                     <TagList key="tags" tags={item.tags} className="leaderboard__tags" />,
                   showClanTag &&
-                    <Link key="clanTag" to={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))} className="leaderboard__clan-tag">
-                      {item.clan.tag}
-                    </Link>
+                    <Link
+                      key="clanTag"
+                      to={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}
+                      className="leaderboard__clan-tag"
+                      dangerouslySetInnerHTML={{ __html: item.clan.tag }}
+                    />
                 ]}
               </div>
             }

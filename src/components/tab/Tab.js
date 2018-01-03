@@ -41,7 +41,7 @@ class TabContainer extends Component {
   }
 
   render () {
-    const { children, cutout } = this.props
+    const { id, children, cutout } = this.props
     const { active, activeIndex } = this.state
     const baseClassName = 'tab-container'
     var visibleChildren = []
@@ -53,7 +53,7 @@ class TabContainer extends Component {
     if (!visibleChildren.length) return null
 
     return (
-      <div className={classNames(baseClassName, cutout && `${baseClassName}--cutout`)}>
+      <div id={id} className={classNames(baseClassName, cutout && `${baseClassName}--cutout`)}>
         {active &&
           <ul className="list--inline tab-navigation">
             {visibleChildren.map((child, i) => {
@@ -86,6 +86,7 @@ class TabContainer extends Component {
 }
 
 TabContainer.propTypes = {
+  id: PropTypes.string,
   children: PropTypes.node,
   cutout: PropTypes.bool
 }

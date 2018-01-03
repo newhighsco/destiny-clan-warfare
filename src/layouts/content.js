@@ -12,7 +12,7 @@ class ContentLayout extends Component {
     return (
       <MasterLayout {...this.props}>
         <Header />
-        <BungieStatus bungieCode={data.apiStatus.bungieCode} />
+        <BungieStatus code={data.apiStatus.bungieCode} />
         {children()}
         <Footer />
       </MasterLayout>

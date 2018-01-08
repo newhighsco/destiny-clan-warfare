@@ -539,7 +539,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               if (member.node.leaderboardVisible) {
                 createPage({
                   path: urlBuilder.eventUrl(eventPath, member.node.clanId.substring(constants.prefix.hash.length), member.node.id),
-                  layout: `content`,
                   component: path.resolve(`./src/templates/event-member.js`),
                   context: {
                     id: member.node.id

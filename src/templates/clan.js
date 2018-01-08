@@ -83,7 +83,6 @@ export const pageQuery = graphql`
     allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ nameSortable ] }) {
       edges {
         node {
-          path
           name
           icon
           tags {

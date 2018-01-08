@@ -17,7 +17,7 @@ const possessive = require('../utils/possessive')
 class EventMemberTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.member.history.filter(({ game }) => game.path.length && game.type)
+    const leaderboard = data.member.history.filter(({ game }) => game.path.length && game.type).slice(0, 25)
     const title = `${data.member.name} | ${constants.kicker.current}`
     const description = `${possessive(data.member.name)} stats and match history in the current ${constants.meta.name} event`
     const schema = {

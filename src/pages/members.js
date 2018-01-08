@@ -45,7 +45,6 @@ export const pageQuery = graphql`
     allMember(sort: { fields: [ clanSortable, nameSortable ] }, filter: { totalsVisible: { eq: true } }) {
       edges {
         node {
-          path
           name
           clanId
           clan {

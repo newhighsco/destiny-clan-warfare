@@ -4,7 +4,6 @@ const path = require(`path`)
 const fs = require(`fs`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
-const moment = require('moment')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -607,7 +606,6 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 exports.onPostBuild = () => {
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
-    `# Last updated: ${moment.utc(updatedDate).fromNow()}`,
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
     'User-agent: *'
   ]

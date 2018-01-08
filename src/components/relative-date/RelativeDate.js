@@ -15,7 +15,7 @@ class RelativeDate extends Component {
   }
 
   render () {
-    const { date, label } = this.props
+    const { hidden, date, label } = this.props
     const { active } = this.state
     const value = moment.utc(date)
     const title = value.format('YYYY-MM-DD HH:mm [UTC]')
@@ -26,6 +26,7 @@ class RelativeDate extends Component {
       <time
         dateTime={machineReadable}
         title={title}
+        className={hidden && 'is-vhidden'}
       >
         {humanReadable}
       </time>
@@ -34,6 +35,7 @@ class RelativeDate extends Component {
 }
 
 RelativeDate.propTypes = {
+  hidden: PropTypes.bool,
   date: PropTypes.string,
   label: PropTypes.string
 }

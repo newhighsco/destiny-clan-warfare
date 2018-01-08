@@ -59,7 +59,7 @@ class EventClanTemplate extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -89,6 +89,9 @@ export default EventClanTemplate
 
 export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
+    apiStatus {
+      bungieCode
+    }
     clan(id: { eq: $id }) {
       path
       id

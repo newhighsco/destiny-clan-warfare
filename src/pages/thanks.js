@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -11,7 +11,7 @@ const constants = require('../utils/constants')
 
 class ThanksPage extends Component {
   render () {
-    const { location } = this.props
+    const { data, location } = this.props
     const query = queryString.parse(location.search)
     const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
     const message = query.message || ''
@@ -19,7 +19,7 @@ class ThanksPage extends Component {
     const description = `Thanks for enrolling your clan in ${constants.meta.name}`
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -28,18 +28,22 @@ class ThanksPage extends Component {
           <meta name="robots" content="noindex,nofollow" />
         </Helmet>
         <Card className="text-center">
-          {success ? ([
-            <Lockup key="lockup" primary center kicker="Thanks for" heading="Enrolling" />,
-            <p key="prose">Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>,
-            <Button key="button" href="/current">View current leaderboard</Button>
-          ]) : ([
-            <Lockup key="lockup" primary center kicker="Enrollment failed" heading="Please try again later" />,
-            message ? (
-              <p key="prose">{message}</p>
-            ) : (
-              <Button key="button" href="/#enroll">Enroll your clan today</Button>
-            )
-          ])}
+          {success ? (
+            <Fragment>
+              <Lockup primary center kicker="Thanks for" heading="Enrolling" />
+              <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>
+              <Button href="/current">View current leaderboard</Button>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Lockup primary center kicker="Enrollment failed" heading="Please try again later" />
+              {message ? (
+                <p>{message}</p>
+              ) : (
+                <Button href="/#enroll">Enroll your clan today</Button>
+              )}
+            </Fragment>
+          )}
         </Card>
       </PageContainer>
     )
@@ -47,11 +51,16 @@ class ThanksPage extends Component {
 }
 
 ThanksPage.propTypes = {
+  data: PropTypes.object,
   location: PropTypes.object
 }
 
 export default ThanksPage
 
-export const data = {
-  layout: 'content'
-}
+export const pageQuery = graphql`
+  query ThanksPageQuery {
+    apiStatus {
+      bungieCode
+    }
+  }
+`

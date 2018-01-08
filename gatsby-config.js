@@ -15,14 +15,7 @@ module.exports = {
     description: constants.meta.description
   },
   plugins: [
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `pages`,
-        path: `${__dirname}/src/pages/`
-      }
-    },
-    `gatsby-transformer-javascript-static-exports`,
+    `gatsby-plugin-react-next`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-stylus`,

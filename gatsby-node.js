@@ -21,7 +21,6 @@ const bungie = axios.create({
   }
 })
 
-var frontmatterEdges
 var currentEvent
 var enrollmentOpen = false
 const updatedDate = new Date()
@@ -485,16 +484,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               }
             }
           }
-          allJsFrontmatter {
-            edges {
-              node {
-                fileAbsolutePath
-                data {
-                  layout
-                }
-              }
-            }
-          }
         }
       `
     )
@@ -503,12 +492,9 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         reject(result.errors)
       }
 
-      frontmatterEdges = result.data.allJsFrontmatter.edges
-
       Promise.all(result.data.allClan.edges.map(async (clan) => {
         createPage({
           path: clan.node.path,
-          layout: `content`,
           component: path.resolve(`./src/templates/clan.js`),
           context: {
             id: clan.node.id,
@@ -537,7 +523,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
           createPage({
             path: eventPath,
-            layout: `content`,
             component: path.resolve(`./src/templates/event.js`),
             context: {
               id: eventId
@@ -549,7 +534,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               if (clan.node.leaderboardVisible) {
                 createPage({
                   path: urlBuilder.eventUrl(eventPath, clan.node.id),
-                  layout: `content`,
                   component: path.resolve(`./src/templates/event-clan.js`),
                   context: {
                     id: clan.node.id
@@ -612,13 +596,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 exports.onCreatePage = async ({ page, boundActionCreators }) => {
   const { createPage } = boundActionCreators
 
-  return new Promise((resolve, reject) => {
-    if (frontmatterEdges) {
-      var frontmatter = frontmatterEdges.find(edge => edge.node.fileAbsolutePath === page.component)
-
-      if (frontmatter) {
-        page.layout = frontmatter.node.data.layout || 'index'
-      }
     }
 
     createPage(page)

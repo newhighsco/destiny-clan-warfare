@@ -25,6 +25,13 @@ var currentEvent
 var enrollmentOpen = false
 const updatedDate = new Date()
 
+exports.modifyWebpackConfig = ({ config, stage }) => {
+  if (stage === 'build-javascript') {
+    // turn off source-maps
+    config.merge({ devtool: false })
+  }
+}
+
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 

@@ -596,7 +596,7 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 
     if (page.path.match(`${urlBuilder.profileRootUrl}`)) {
       page.matchPath = urlBuilder.profileUrl(':path')
-    createPage(page)
+      createPage(page)
     }
 
     resolve()

@@ -517,18 +517,18 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
       }))
 
-      Promise.all(result.data.allMember.edges.map(async (member) => {
-        if (member.node.totalsVisible) {
-          createPage({
-            path: member.node.path,
-            layout: `content`,
-            component: path.resolve(`./src/templates/member.js`),
-            context: {
-              id: member.node.id
-            }
-          })
-        }
-      }))
+      // Promise.all(result.data.allMember.edges.map(async (member) => {
+      //   if (member.node.totalsVisible) {
+      //     createPage({
+      //       path: member.node.path,
+      //       layout: `content`,
+      //       component: path.resolve(`./src/templates/member.js`),
+      //       context: {
+      //         id: member.node.id
+      //       }
+      //     })
+      //   }
+      // }))
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         if (event.node.visible) {

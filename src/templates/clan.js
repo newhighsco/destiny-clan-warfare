@@ -30,12 +30,12 @@ class ClanTemplate extends Component {
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
-    const medals = data.clan.medals.sort((a, b) => { return a.tier - b.tier })
+    const medals = data.clan.medals.sort((a, b) => { return b.tier - a.tier })
     const title = `${data.clan.name} | Clans`
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -45,9 +45,9 @@ class ClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <p key="description" dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
-          <Button key="button" href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
-          <MedalList key="medals" medals={medals} />
+          <p dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
+          <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
+          <MedalList medals={medals} />
           <Notification>Past event statistics coming soon</Notification>
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
@@ -64,6 +64,9 @@ export default ClanTemplate
 
 export const pageQuery = graphql`
   query ClanTemplateQuery($id: String!, $clanId: String!) {
+    apiStatus {
+      bungieCode
+    }
     clan(id: { eq: $id }) {
       id
       name
@@ -83,6 +86,7 @@ export const pageQuery = graphql`
     allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ nameSortable ] }) {
       edges {
         node {
+          path
           name
           icon
           tags {

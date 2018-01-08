@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import classNames from 'classnames'
@@ -100,28 +100,32 @@ class Leaderboard extends Component {
                 {showIcons &&
                   <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
                 }
-                {showNames && [
-                  showMedals &&
-                    <Medal key="medal" {...item.medal} size="small" align="left" className="leaderboard__medal" />,
-                  item.path ? (
-                    <Link key="name" to={item.path} className="leaderboard__name leaderboard__link">
-                      {item.name}
-                    </Link>
-                  ) : (
-                    <div key="name" className="leaderboard__name leaderboard__link">
-                      {item.name}
-                    </div>
-                  ),
-                  showNameTags &&
-                    <TagList key="tags" tags={item.tags} className="leaderboard__tags" />,
-                  showClanTag &&
-                    <Link
-                      key="clanTag"
-                      to={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}
-                      className="leaderboard__clan-tag"
-                      dangerouslySetInnerHTML={{ __html: item.clan.tag }}
-                    />
-                ]}
+                {showNames &&
+                  <Fragment>
+                    { showMedals &&
+                      <Medal {...item.medal} size="small" align="left" className="leaderboard__medal" />
+                    }
+                    {item.path ? (
+                      <Link to={item.path} className="leaderboard__name leaderboard__link">
+                        {item.name}
+                      </Link>
+                    ) : (
+                      <div className="leaderboard__name leaderboard__link">
+                        {item.name}
+                      </div>
+                    )}
+                    {showNameTags &&
+                      <TagList tags={item.tags} className="leaderboard__tags" />
+                    }
+                    {showClanTag &&
+                      <Link
+                        to={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}
+                        className="leaderboard__clan-tag"
+                        dangerouslySetInnerHTML={{ __html: item.clan.tag }}
+                      />
+                    }
+                  </Fragment>
+                }
               </div>
             }
             {(keys.length > 0 || showGameDetails) &&

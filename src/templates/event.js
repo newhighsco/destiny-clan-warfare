@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -63,7 +63,7 @@ class EventTemplate extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -71,76 +71,82 @@ class EventTemplate extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        {data.event.isCurrent && [
-          <Lockup key="lockup" primary center kicker={kicker}>
-            <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
-          </Lockup>,
-          <Card key="card" cutout className="text-center">
-            <Lockup center heading={data.event.name} />
-            <RelativeDate label={constants.relativeDate.current} date={data.event.endDate} />
-            {data.event.description &&
-              <p>{data.event.description}</p>
-            }
-            <ModifierList modifiers={data.event.modifiers} />
-          </Card>,
-          <TabContainer key="tabs" id="leaderboard" cutout>
-            {largeLeaderboard.length > 0 &&
-              <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {mediumLeaderboard.length > 0 &&
-              <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {smallLeaderboard.length > 0 &&
-              <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-          </TabContainer>,
-          <ButtonGroup key="button">
-            <Button href="/#enroll">Enroll your clan today</Button>
-          </ButtonGroup>
-        ]}
-        {data.event.isPast && [
-          <Lockup key="lockup" primary center kicker={kicker} />,
-          <Card key="card" cutout className="text-center">
-            <Lockup center heading={data.event.name} />
-            <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
-            {data.event.description &&
-              <p>{data.event.description}</p>
-            }
-            <ModifierList modifiers={data.event.modifiers} />
-            <MedalList medals={clanMedals} />
-            <MedalList medals={memberMedals} />
-          </Card>,
-          <TabContainer key="tabs" id="results" cutout>
-            {largeLeaderboard.length > 0 &&
-              <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {mediumLeaderboard.length > 0 &&
-              <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {smallLeaderboard.length > 0 &&
-              <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-          </TabContainer>
-        ]}
-        {data.event.isFuture && [
-          <Lockup key="lockup" primary center kicker={kicker} />,
-          <FutureEvent key="event" event={data.event} />,
-          <ButtonGroup key="button">
-            <Button href="/#enroll">Enroll your clan today</Button>
-          </ButtonGroup>
-        ]}
+        {data.event.isCurrent &&
+          <Fragment>
+            <Lockup primary center kicker={kicker}>
+              <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
+            </Lockup>
+            <Card cutout className="text-center">
+              <Lockup center heading={data.event.name} />
+              <RelativeDate label={constants.relativeDate.current} date={data.event.endDate} />
+              {data.event.description &&
+                <p>{data.event.description}</p>
+              }
+              <ModifierList modifiers={data.event.modifiers} />
+            </Card>
+            <TabContainer id="leaderboard" cutout>
+              {largeLeaderboard.length > 0 &&
+                <Tab name={constants.division.large}>
+                  <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
+                </Tab>
+              }
+              {mediumLeaderboard.length > 0 &&
+                <Tab name={constants.division.medium}>
+                  <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
+                </Tab>
+              }
+              {smallLeaderboard.length > 0 &&
+                <Tab name={constants.division.small}>
+                  <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
+                </Tab>
+              }
+            </TabContainer>
+            <ButtonGroup>
+              <Button href="/#enroll">Enroll your clan today</Button>
+            </ButtonGroup>
+          </Fragment>
+        }
+        {data.event.isPast &&
+          <Fragment>
+            <Lockup primary center kicker={kicker} />
+            <Card cutout className="text-center">
+              <Lockup center heading={data.event.name} />
+              <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
+              {data.event.description &&
+                <p>{data.event.description}</p>
+              }
+              <ModifierList modifiers={data.event.modifiers} />
+              <MedalList medals={clanMedals} />
+              <MedalList medals={memberMedals} />
+            </Card>
+            <TabContainer id="results" cutout>
+              {largeLeaderboard.length > 0 &&
+                <Tab name={constants.division.large}>
+                  <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
+                </Tab>
+              }
+              {mediumLeaderboard.length > 0 &&
+                <Tab name={constants.division.medium}>
+                  <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
+                </Tab>
+              }
+              {smallLeaderboard.length > 0 &&
+                <Tab name={constants.division.small}>
+                  <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
+                </Tab>
+              }
+            </TabContainer>
+          </Fragment>
+        }
+        {data.event.isFuture &&
+          <Fragment>
+            <Lockup primary center kicker={kicker} />
+            <FutureEvent event={data.event} />
+            <ButtonGroup>
+              <Button href="/#enroll">Enroll your clan today</Button>
+            </ButtonGroup>
+          </Fragment>
+        }
       </PageContainer>
     )
   }
@@ -154,6 +160,9 @@ export default EventTemplate
 
 export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
+    apiStatus {
+      bungieCode
+    }
     event(id: { eq: $id }) {
       updatedDate
       path

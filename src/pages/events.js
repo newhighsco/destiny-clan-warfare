@@ -28,7 +28,7 @@ class EventsPage extends Component {
     const description = `All ${constants.meta.name} events to date`
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -50,12 +50,11 @@ EventsPage.propTypes = {
 
 export default EventsPage
 
-export const data = {
-  layout: 'content'
-}
-
 export const pageQuery = graphql`
   query EventsPageQuery {
+    apiStatus {
+      bungieCode
+    }
     allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
       edges {
         node {

@@ -10,7 +10,7 @@ import './PageContainer.styl'
 const PageContainer = ({ children, status }) => (
   <Fragment>
     <Header />
-    <BungieStatus code={status.bungieCode} />
+    <BungieStatus code={status && status.bungieCode} />
     <main id="content" className="page-container" role="main">
       <div className="page-container__inner content-center content-gutter">
         {children}

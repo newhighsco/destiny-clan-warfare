@@ -52,7 +52,7 @@ class EventMemberTemplate extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -85,6 +85,9 @@ export default EventMemberTemplate
 
 export const pageQuery = graphql`
   query EventMemberTemplateQuery($id: String!) {
+    apiStatus {
+      bungieCode
+    }
     member(id: { eq: $id }) {
       id
       updatedDate

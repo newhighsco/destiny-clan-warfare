@@ -14,7 +14,7 @@ class ClansPage extends Component {
     const description = 'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -36,12 +36,11 @@ ClansPage.propTypes = {
 
 export default ClansPage
 
-export const data = {
-  layout: 'content'
-}
-
 export const pageQuery = graphql`
   query ClansPageQuery {
+    apiStatus {
+      bungieCode
+    }
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {

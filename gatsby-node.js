@@ -4,7 +4,6 @@ const path = require(`path`)
 const fs = require(`fs`)
 const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
-const moment = require('moment')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -21,10 +20,16 @@ const bungie = axios.create({
   }
 })
 
-var frontmatterEdges
 var currentEvent
 var enrollmentOpen = false
 const updatedDate = new Date()
+
+exports.modifyWebpackConfig = ({ config, stage }) => {
+  if (stage === 'build-javascript') {
+    // turn off source-maps
+    config.merge({ devtool: false })
+  }
+}
 
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
@@ -224,6 +229,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
 
     var totals = {
+      games: Number.NEGATIVE_INFINITY,
       wins: Number.NEGATIVE_INFINITY,
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
@@ -234,6 +240,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     if (member.currentScore && member.currentScore.lastSeen) {
       totals = {
+        games: member.currentScore.gamesPlayed,
         wins: member.currentScore.gamesWon,
         kills: member.currentScore.kills,
         assists: member.currentScore.assists,
@@ -262,7 +269,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       }),
       medals: member.medalUnlocks.map(medal => parseMedal(medal)),
       totals: totals,
-      totalsVisible: totals.score > Number.NEGATIVE_INFINITY,
+      totalsVisible: totals.games > 0,
+      totalsSortable: totals.lastPlayed,
       leaderboard: leaderboard,
       leaderboardVisible: leaderboard.games > 0,
       history: history.map(item => {
@@ -407,6 +415,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       isPast: isPast,
       isFuture: isFuture,
       isCurrent: isCurrent,
+      isCalculated: event.calculated,
       visible: event.expired ? hasResults : true,
       modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
       leaderboards: {
@@ -485,16 +494,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               }
             }
           }
-          allJsFrontmatter {
-            edges {
-              node {
-                fileAbsolutePath
-                data {
-                  layout
-                }
-              }
-            }
-          }
         }
       `
     )
@@ -503,12 +502,9 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         reject(result.errors)
       }
 
-      frontmatterEdges = result.data.allJsFrontmatter.edges
-
       Promise.all(result.data.allClan.edges.map(async (clan) => {
         createPage({
           path: clan.node.path,
-          layout: `content`,
           component: path.resolve(`./src/templates/clan.js`),
           context: {
             id: clan.node.id,
@@ -517,19 +513,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         })
       }))
 
-      // Promise.all(result.data.allMember.edges.map(async (member) => {
-      //   if (member.node.totalsVisible) {
-      //     createPage({
-      //       path: member.node.path,
-      //       layout: `content`,
-      //       component: path.resolve(`./src/templates/member.js`),
-      //       context: {
-      //         id: member.node.id
-      //       }
-      //     })
-      //   }
-      // }))
-
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         if (event.node.visible) {
           const eventPath = event.node.path
@@ -537,7 +520,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
           createPage({
             path: eventPath,
-            layout: `content`,
             component: path.resolve(`./src/templates/event.js`),
             context: {
               id: eventId
@@ -549,7 +531,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               if (clan.node.leaderboardVisible) {
                 createPage({
                   path: urlBuilder.eventUrl(eventPath, clan.node.id),
-                  layout: `content`,
                   component: path.resolve(`./src/templates/event-clan.js`),
                   context: {
                     id: clan.node.id
@@ -562,7 +543,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
               if (member.node.leaderboardVisible) {
                 createPage({
                   path: urlBuilder.eventUrl(eventPath, member.node.clanId.substring(constants.prefix.hash.length), member.node.id),
-                  layout: `content`,
                   component: path.resolve(`./src/templates/event-member.js`),
                   context: {
                     id: member.node.id
@@ -612,16 +592,15 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 exports.onCreatePage = async ({ page, boundActionCreators }) => {
   const { createPage } = boundActionCreators
 
-  return new Promise((resolve, reject) => {
-    if (frontmatterEdges) {
-      var frontmatter = frontmatterEdges.find(edge => edge.node.fileAbsolutePath === page.component)
-
-      if (frontmatter) {
-        page.layout = frontmatter.node.data.layout || 'index'
-      }
+  return new Promise(resolve => {
+    if (page.matchPath || page.path.match(/dev-404-page/)) {
+      resolve()
     }
 
-    createPage(page)
+    if (page.path.match(`${urlBuilder.profileRootUrl}`)) {
+      page.matchPath = urlBuilder.profileUrl(':path')
+      createPage(page)
+    }
 
     resolve()
   })
@@ -630,7 +609,6 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 exports.onPostBuild = () => {
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
-    `# Last updated: ${moment.utc(updatedDate).fromNow()}`,
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
     'User-agent: *'
   ]

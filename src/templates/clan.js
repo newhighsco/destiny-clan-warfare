@@ -13,6 +13,7 @@ import Notification from '../components/notification/Notification'
 const moment = require('moment')
 const constants = require('../utils/constants')
 const possessive = require('../utils/possessive')
+const medalBuilder = require('../utils/medal-builder')
 
 class ClanTemplate extends Component {
   render () {
@@ -20,22 +21,27 @@ class ClanTemplate extends Component {
     const leaderboard = data.allMember.edges.map(({ node }) => {
       const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
       const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)
+      const hasPlayed = node.totals.games > 0
 
       return {
-        path: lastPlayedDate > emptyDate ? node.path : null,
+        path: hasPlayed ? node.path : null,
         name: node.name,
         icon: node.icon,
         tags: node.tags,
-        ...node.totals,
+        wins: hasPlayed ? node.totals.wins : null,
+        kills: hasPlayed ? node.totals.kills : null,
+        deaths: hasPlayed ? node.totals.deaths : null,
+        assists: hasPlayed ? node.totals.assists : null,
+        score: hasPlayed ? node.totals.score : null,
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
-    const medals = data.clan.medals.sort((a, b) => { return a.tier - b.tier })
+    const medals = data.clan.medals.sort((a, b) => medalBuilder.sort(a, b))
     const title = `${data.clan.name} | Clans`
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -45,9 +51,9 @@ class ClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <p key="description" dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
-          <Button key="button" href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
-          <MedalList key="medals" medals={medals} />
+          <p dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
+          <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
+          <MedalList medals={medals} />
           <Notification>Past event statistics coming soon</Notification>
         </Card>
         <Leaderboard cutout data={leaderboard} sortBy="score" descending />
@@ -64,6 +70,9 @@ export default ClanTemplate
 
 export const pageQuery = graphql`
   query ClanTemplateQuery($id: String!, $clanId: String!) {
+    apiStatus {
+      bungieCode
+    }
     clan(id: { eq: $id }) {
       id
       name
@@ -80,15 +89,17 @@ export const pageQuery = graphql`
       }
       ...clanMedalsFragment
     }
-    allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ nameSortable ] }) {
+    allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ totalsSortable, nameSortable ] }) {
       edges {
         node {
+          path
           name
           icon
           tags {
             name
           }
           totals {
+            games
             wins
             kills
             deaths

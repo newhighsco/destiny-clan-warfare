@@ -21,13 +21,18 @@ class ClanTemplate extends Component {
     const leaderboard = data.allMember.edges.map(({ node }) => {
       const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
       const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)
+      const hasPlayed = node.totals.games > 0
 
       return {
-        path: lastPlayedDate > emptyDate ? node.path : null,
+        path: hasPlayed ? node.path : null,
         name: node.name,
         icon: node.icon,
         tags: node.tags,
-        ...node.totals,
+        wins: hasPlayed ? node.totals.wins : null,
+        kills: hasPlayed ? node.totals.kills : null,
+        deaths: hasPlayed ? node.totals.deaths : null,
+        assists: hasPlayed ? node.totals.assists : null,
+        score: hasPlayed ? node.totals.score : null,
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
@@ -84,7 +89,7 @@ export const pageQuery = graphql`
       }
       ...clanMedalsFragment
     }
-    allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ nameSortable ] }) {
+    allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ totalsSortable, nameSortable ] }) {
       edges {
         node {
           path
@@ -94,6 +99,7 @@ export const pageQuery = graphql`
             name
           }
           totals {
+            games
             wins
             kills
             deaths

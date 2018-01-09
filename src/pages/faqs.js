@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
+import RelativeDate from '../components/relative-date/RelativeDate'
 import Prose from '../components/prose/Prose'
 
 const constants = require('../utils/constants')
 
 class FaqsPage extends Component {
   render () {
+    const { data } = this.props
     const title = 'FAQs'
     const description = `Frequently asked questions about ${constants.meta.name}`
 
     return (
-      <PageContainer>
+      <PageContainer status={data.apiStatus}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -21,7 +24,9 @@ class FaqsPage extends Component {
           <meta property="og:description" content={description} />
         </Helmet>
         <Card>
-          <Lockup primary center kicker="Frequently asked" heading="Questions" />
+          <Lockup primary center kicker="Frequently asked" heading="Questions">
+            <RelativeDate hidden label={constants.relativeDate.updated} date={data.apiStatus.updatedDate} />
+          </Lockup>
           <Prose>
             <h2>What is {constants.meta.name}?</h2>
             <p>{constants.meta.name} is a website designed to be a clan vs clan weekly competition across a variety of game types with bonus point modifiers to keep it new and exciting each week.</p>
@@ -53,8 +58,17 @@ class FaqsPage extends Component {
   }
 }
 
+FaqsPage.propTypes = {
+  data: PropTypes.object
+}
+
 export default FaqsPage
 
-export const data = {
-  layout: 'content'
-}
+export const pageQuery = graphql`
+  query FaqsPageQuery {
+    apiStatus {
+      bungieCode
+      updatedDate
+    }
+  }
+`

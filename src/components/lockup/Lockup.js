@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -29,15 +29,19 @@ const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, bor
 
   return (
     <span {...commonAttributes}>
-      {reverse ? ([
-        <Heading key="heading" />,
-        <Kicker key="kicker" />,
-        <Content key="content" />
-      ]) : ([
-        <Kicker key="kicker" />,
-        <Heading key="heading" />,
-        <Content key="content" />
-      ])}
+      {reverse ? (
+        <Fragment>
+          <Heading />
+          <Kicker />
+          <Content />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Kicker />
+          <Heading />
+          <Content />
+        </Fragment>
+      )}
     </span>
   )
 }

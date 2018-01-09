@@ -229,6 +229,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
 
     var totals = {
+      games: Number.NEGATIVE_INFINITY,
       wins: Number.NEGATIVE_INFINITY,
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
@@ -239,6 +240,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     if (member.currentScore && member.currentScore.lastSeen) {
       totals = {
+        games: member.currentScore.gamesPlayed,
         wins: member.currentScore.gamesWon,
         kills: member.currentScore.kills,
         assists: member.currentScore.assists,
@@ -267,7 +269,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       }),
       medals: member.medalUnlocks.map(medal => parseMedal(medal)),
       totals: totals,
-      totalsVisible: totals.score > Number.NEGATIVE_INFINITY,
+      totalsVisible: totals.games > 0,
+      totalsSortable: totals.lastPlayed,
       leaderboard: leaderboard,
       leaderboardVisible: leaderboard.games > 0,
       history: history.map(item => {

@@ -15,12 +15,13 @@ const moment = require('moment')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/possessive')
+const medalBuilder = require('../../utils/medal-builder')
 
 class Member extends Component {
   render () {
     const { member, status } = this.props
     const totals = member.totals
-    const medals = member.medals.sort((a, b) => { return b.tier - a.tier })
+    const medals = member.medals.sort((a, b) => medalBuilder.sort(a, b))
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
     const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
     const stats = {

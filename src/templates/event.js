@@ -52,10 +52,10 @@ class EventTemplate extends Component {
     var leaderboardColumns = null
     var memberMedals = data.event.medals.members ? data.event.medals.members
       .filter(({ tier }) => tier > 1)
-      .sort((a, b) => { return a.tier - b.tier }) : []
+      .sort((a, b) => medalBuilder.sort(a, b)) : []
     var clanMedals = data.event.medals.clans ? data.event.medals.clans
       .filter(({ tier }) => tier > 1)
-      .sort((a, b) => { return a.tier - b.tier }) : []
+      .sort((a, b) => medalBuilder.sort(a, b)) : []
 
     if (data.event.isPast) {
       largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)
@@ -125,23 +125,23 @@ class EventTemplate extends Component {
               }
             </Card>
             {isCalculated &&
-            <TabContainer id="results" cutout>
-              {largeLeaderboard.length > 0 &&
-                <Tab name={constants.division.large}>
-                  <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-                </Tab>
-              }
-              {mediumLeaderboard.length > 0 &&
-                <Tab name={constants.division.medium}>
-                  <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-                </Tab>
-              }
-              {smallLeaderboard.length > 0 &&
-                <Tab name={constants.division.small}>
-                  <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-                </Tab>
-              }
-            </TabContainer>
+              <TabContainer id="results" cutout>
+                {largeLeaderboard.length > 0 &&
+                  <Tab name={constants.division.large}>
+                    <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
+                  </Tab>
+                }
+                {mediumLeaderboard.length > 0 &&
+                  <Tab name={constants.division.medium}>
+                    <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
+                  </Tab>
+                }
+                {smallLeaderboard.length > 0 &&
+                  <Tab name={constants.division.small}>
+                    <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
+                  </Tab>
+                }
+              </TabContainer>
             }
           </Fragment>
         }

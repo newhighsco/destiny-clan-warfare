@@ -4,11 +4,11 @@ import classNames from 'classnames'
 
 import './Notification.styl'
 
-const Notification = ({ children, state }) => {
+const Notification = ({ children, state, id }) => {
   const baseClassName = 'notification'
 
   return (
-    <div className={classNames(baseClassName, state && `${baseClassName}--${state}`)}>
+    <div id={id} className={classNames(baseClassName, state && `${baseClassName}--${state}`)}>
       <div className={`${baseClassName}__inner`}>
         {children}
       </div>
@@ -18,7 +18,8 @@ const Notification = ({ children, state }) => {
 
 Notification.propTypes = {
   children: PropTypes.node,
-  state: PropTypes.oneOf([ 'warning', 'error', 'success', 'notice' ])
+  state: PropTypes.oneOf([ 'warning', 'error', 'success', 'notice' ]),
+  id: PropTypes.string
 }
 
 export default Notification

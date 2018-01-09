@@ -12,6 +12,7 @@ import { MedalList } from '../components/medal/Medal'
 import FutureEvent from '../components/event/FutureEvent'
 import { Button, ButtonGroup } from '../components/button/Button'
 import SchemaImage from '../images/favicon-1200x1200.png'
+import Notification from '../components/notification/Notification'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -20,6 +21,7 @@ const medalBuilder = require('../utils/medal-builder')
 class EventTemplate extends Component {
   render () {
     const { data } = this.props
+    const isCalculated = data.event.isCalculated
     const kicker = data.event.isCurrent ? constants.kicker.current : (data.event.isPast ? constants.kicker.past : constants.kicker.future)
     const title = `${data.event.name} | ${kicker}`
     const description = data.event.isCurrent
@@ -118,7 +120,11 @@ class EventTemplate extends Component {
               <ModifierList modifiers={data.event.modifiers} />
               <MedalList medals={clanMedals} />
               <MedalList medals={memberMedals} />
+              {!isCalculated &&
+                <Notification id="results">Results for this event are being calculated. Please check back later.</Notification>
+              }
             </Card>
+            {isCalculated &&
             <TabContainer id="results" cutout>
               {largeLeaderboard.length > 0 &&
                 <Tab name={constants.division.large}>
@@ -136,6 +142,7 @@ class EventTemplate extends Component {
                 </Tab>
               }
             </TabContainer>
+            }
           </Fragment>
         }
         {data.event.isFuture &&
@@ -173,6 +180,7 @@ export const pageQuery = graphql`
       isCurrent
       isPast
       isFuture
+      isCalculated
       ...leaderboardFragment
       results {
         path

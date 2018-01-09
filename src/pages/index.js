@@ -13,6 +13,7 @@ import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
 import FutureEvent from '../components/event/FutureEvent'
 import LogoImage from '../images/avatar-512x512.jpg'
+import Notification from '../components/notification/Notification'
 
 const constants = require('../utils/constants')
 
@@ -87,7 +88,8 @@ class IndexPage extends Component {
             }
             <Lockup center primary element="h1" kicker={`${constants.kicker.previous}${pastEvents.length > 1 ? 's' : ''}`} />
             {pastEvents.map(({ node }) => {
-              const leaderboard = node.results.filter(({ score }) => score > 0)
+              const isCalculated = node.isCalculated
+              const leaderboard = isCalculated ? node.results.filter(({ score }) => score > 0) : []
 
               return (
                 <Fragment key={node.id}>
@@ -98,8 +100,11 @@ class IndexPage extends Component {
                       <p>{node.description}</p>
                     }
                     <ModifierList modifiers={node.modifiers} />
+                    {!isCalculated &&
+                      <Notification>Results for this event are being calculated. Please check back later.</Notification>
+                    }
                   </Card>
-                  {leaderboard.length > 0 &&
+                  {isCalculated &&
                     <Fragment>
                       <TabContainer cutout>
                         <Tab name="Winners">
@@ -170,6 +175,7 @@ export const pageQuery = graphql`
           isCurrent
           isPast
           isFuture
+          isCalculated
           ...leaderboardFragment
           results {
             path

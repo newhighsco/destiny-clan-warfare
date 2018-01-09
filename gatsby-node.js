@@ -412,6 +412,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       isPast: isPast,
       isFuture: isFuture,
       isCurrent: isCurrent,
+      isCalculated: event.calculated,
       visible: event.expired ? hasResults : true,
       modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
       leaderboards: {

@@ -75,7 +75,7 @@ class EventClanTemplate extends Component {
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           <StatList stats={stats} />
         </Card>
-        <Leaderboard cutout data={leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
       </PageContainer>
     )
   }

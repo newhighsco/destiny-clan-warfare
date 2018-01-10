@@ -55,7 +55,7 @@ class ClanTemplate extends Component {
           <MedalList medals={medals} />
           <Notification>Past event statistics coming soon</Notification>
         </Card>
-        <Leaderboard cutout data={leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
       </PageContainer>
     )
   }

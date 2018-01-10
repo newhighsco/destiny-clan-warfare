@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import MultiSort from 'multi-sort'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import BackgroundSvgs from './background'
 import ForegroundSvgs from './foreground'
 import HighlightSvg from './highlight.svg'
-import MultiSort from 'multi-sort'
 
 import './Medal.styl'
 

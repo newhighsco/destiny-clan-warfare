@@ -74,7 +74,8 @@ const MedalList = ({ medals, size, align }) => {
 
   medals = MultiSort(medals, {
     tier: 'DESC',
-    name: 'ASC'
+    name: 'ASC',
+    label: 'ASC'
   })
 
   return (

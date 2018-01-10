@@ -40,6 +40,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var histories = []
   var events = []
   var modifiers = []
+  var medals = []
   const casingOptions = { deep: true }
 
   await api(`Clan/AcceptingNewClans`)
@@ -110,8 +111,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
-  const parseMedal = (medal) => {
+  const parseMedal = (medal, type) => {
     return {
+      id: medal.id || medal.unlockId,
+      type: type,
       tier: medal.medalTier || 1,
       name: medal.name,
       description: medal.description,
@@ -119,6 +122,18 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       label: medal.awardedTo || null
     }
   }
+
+  await api(`Component/GetAllMedals`)
+    .then(({ data }) => {
+      medals = medals.concat(data.map(item => parseMedal(camelcaseKeys(item, casingOptions), constants.prefix.profile)))
+    })
+    .catch(err => console.log(err))
+
+  await api(`Component/GetAllClanMedals`)
+    .then(({ data }) => {
+      medals = medals.concat(data.map(item => parseMedal(camelcaseKeys(item, casingOptions), constants.prefix.clan)))
+    })
+    .catch(err => console.log(err))
 
   for (var clan of clans) {
     var clanLeaderboard = []
@@ -176,7 +191,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         }
       }),
       leaderboardVisible: clanLeaderboard.length > 0,
-      medals: clan.medalUnlocks.map(medal => parseMedal(medal)),
+      medals: clan.medalUnlocks.map(medal => parseMedal(medal, constants.prefix.clan)),
       parent: null,
       children: [],
       internal: {
@@ -267,7 +282,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           description: bonus.description || ''
         }
       }),
-      medals: member.medalUnlocks.map(medal => parseMedal(medal)),
+      medals: member.medalUnlocks.map(medal => parseMedal(medal, constants.prefix.profile)),
       totals: totals,
       totalsVisible: totals.games > 0,
       totalsSortable: totals.lastPlayed,
@@ -425,8 +440,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       },
       results: results,
       medals: {
-        clans: event.clanMedals ? event.clanMedals.map(medal => parseMedal(medal)) : [],
-        members: event.clanMemberMedals ? event.clanMemberMedals.map(medal => parseMedal(medal)) : []
+        clans: event.clanMedals ? event.clanMedals.map(medal => parseMedal(medal, constants.prefix.clan)) : [],
+        members: event.clanMemberMedals ? event.clanMemberMedals.map(medal => parseMedal(medal, constants.prefix.profile)) : []
       },
       parent: null,
       children: [],
@@ -452,6 +467,20 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       internal: {
         type: constants.prefix.modifier,
         contentDigest: createContentDigest(modifier)
+      }
+    })
+  }
+
+  for (var medal of medals) {
+    createNode({
+      ...medal,
+      id: `${constants.prefix.medal} ${medal.type}${medal.id}`,
+      nameSortable: medal.name.toUpperCase(),
+      parent: null,
+      children: [],
+      internal: {
+        type: constants.prefix.medal,
+        contentDigest: createContentDigest(medal)
       }
     })
   }

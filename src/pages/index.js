@@ -89,7 +89,19 @@ class IndexPage extends Component {
             <Lockup center primary element="h1" kicker={`${constants.kicker.previous}${pastEvents.length > 1 ? 's' : ''}`} />
             {pastEvents.map(({ node }) => {
               const isCalculated = node.isCalculated
-              const leaderboard = isCalculated ? node.results.filter(({ score }) => score > 0) : []
+              const winnersMedal = data.medal
+              const leaderboard = isCalculated
+                ? node.results
+                  .filter(({ score }) => score > 0)
+                  .sort((a, b) => b.score - a.score)
+                  .map((item, i) => {
+                    if (i === 0) {
+                      item.medal = winnersMedal
+                      item.medal.tier = 3
+                    }
+                    return item
+                  })
+                : []
 
               return (
                 <Fragment key={node.id}>
@@ -108,7 +120,7 @@ class IndexPage extends Component {
                     <Fragment>
                       <TabContainer cutout>
                         <Tab name="Winners">
-                          <Leaderboard data={leaderboard} />
+                          <Leaderboard data={leaderboard} sorting={{ division: 'ASC' }} />
                         </Tab>
                       </TabContainer>
                       <ButtonGroup>
@@ -200,6 +212,11 @@ export const pageQuery = graphql`
           ...modifiersFragment
         }
       }
+    }
+    medal(nameSortable: { eq: "THE BEST OF THE BEST" }) {
+      tier
+      name
+      description
     }
   }
 `

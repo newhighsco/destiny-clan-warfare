@@ -49,6 +49,9 @@ const constants = {
     disabledStatusCode: 5
   },
   prefix: {
+    clan: 'Clan',
+    profile: 'Member',
+    medal: 'Medal',
     modifier: 'Modifier',
     event: 'Event',
     hash: '#',

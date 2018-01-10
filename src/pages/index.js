@@ -108,7 +108,7 @@ class IndexPage extends Component {
                     <Fragment>
                       <TabContainer cutout>
                         <Tab name="Winners">
-                          <Leaderboard data={leaderboard} />
+                          <Leaderboard data={leaderboard} sorting={{ division: 'ASC' }} />
                         </Tab>
                       </TabContainer>
                       <ButtonGroup>

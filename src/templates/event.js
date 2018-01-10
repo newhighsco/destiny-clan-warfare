@@ -50,12 +50,8 @@ class EventTemplate extends Component {
     var mediumLeaderboard = data.event.leaderboards.medium
     var smallLeaderboard = data.event.leaderboards.small
     var leaderboardColumns = null
-    var memberMedals = data.event.medals.members ? data.event.medals.members
-      .filter(({ tier }) => tier > 1)
-      .sort((a, b) => medalBuilder.sort(a, b)) : []
-    var clanMedals = data.event.medals.clans ? data.event.medals.clans
-      .filter(({ tier }) => tier > 1)
-      .sort((a, b) => medalBuilder.sort(a, b)) : []
+    var memberMedals = data.event.medals.members ? data.event.medals.members.filter(({ tier }) => tier > 1) : []
+    var clanMedals = data.event.medals.clans ? data.event.medals.clans.filter(({ tier }) => tier > 1) : []
 
     if (data.event.isPast) {
       largeLeaderboard = medalBuilder.embellishLeaderboard(largeLeaderboard, constants.division.large)

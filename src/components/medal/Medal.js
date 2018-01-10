@@ -7,6 +7,7 @@ import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import BackgroundSvgs from './background'
 import ForegroundSvgs from './foreground'
 import HighlightSvg from './highlight.svg'
+import MultiSort from 'multi-sort'
 
 import './Medal.styl'
 
@@ -70,6 +71,11 @@ Medal.propTypes = {
 
 const MedalList = ({ medals, size, align }) => {
   if (!medals || medals.length < 1) return null
+
+  medals = MultiSort(medals, {
+    tier: 'DESC',
+    name: 'ASC'
+  })
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>

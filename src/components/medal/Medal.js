@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import MultiSort from 'multi-sort'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
@@ -70,6 +71,12 @@ Medal.propTypes = {
 
 const MedalList = ({ medals, size, align }) => {
   if (!medals || medals.length < 1) return null
+
+  medals = MultiSort(medals, {
+    tier: 'DESC',
+    name: 'ASC',
+    label: 'ASC'
+  })
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>

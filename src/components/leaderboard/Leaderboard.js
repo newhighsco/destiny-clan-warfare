@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import classNames from 'classnames'
+import MultiSort from 'multi-sort'
 import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
@@ -21,8 +22,7 @@ class Leaderboard extends Component {
     super(props)
 
     this.state = {
-      sortBy: this.props.sortBy,
-      descending: this.props.descending
+      sorting: this.props.sorting
     }
 
     this.handleSort = this.handleSort.bind(this)
@@ -32,17 +32,17 @@ class Leaderboard extends Component {
     e.preventDefault()
 
     this.setState({
-      sortBy: e.target.dataset.sortby,
-      descending: e.target.dataset.descending ? !JSON.parse(e.target.dataset.descending) : true
+      sorting: e.target.dataset.sorting
     })
   }
 
   render () {
-    const { data, columns, cutout, className } = this.props
-    const { sortBy, descending } = this.state
+    var { data } = this.props
+    const { columns, cutout, className } = this.props
+    const { sorting } = this.state
     const baseClassName = 'leaderboard'
 
-    if (!data || data.length <= 0) return (null)
+    if (!data || data.length <= 0) return null
 
     var keys = columns || Object.keys(data[0])
     const showIcons = (keys.indexOf('icon') !== -1 || keys.indexOf('foreground') !== -1 || keys.indexOf('background') !== -1)
@@ -79,16 +79,8 @@ class Leaderboard extends Component {
       return filtered
     }, [])
 
-    if (sortBy) {
-      const direction = descending ? -1 : 1
-
-      data.sort((a, b) => {
-        var x = a[sortBy]; var y = b[sortBy]
-        if (x === y) return 0
-        if (x === null) return (-1 * direction)
-        if (y === null) return (1 * direction)
-        return ((x < y) ? (-1 * direction) : ((x > y) ? (1 * direction) : 0))
-      })
+    if (sorting) {
+      data = MultiSort(data, sorting)
     }
 
     return (
@@ -177,8 +169,7 @@ Leaderboard.defaultProps = {
 Leaderboard.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.array,
-  sortBy: PropTypes.string,
-  descending: PropTypes.bool,
+  sorting: PropTypes.object,
   cutout: PropTypes.bool,
   className: PropTypes.string
 }

@@ -13,7 +13,6 @@ import Notification from '../components/notification/Notification'
 const moment = require('moment')
 const constants = require('../utils/constants')
 const possessive = require('../utils/possessive')
-const medalBuilder = require('../utils/medal-builder')
 
 class ClanTemplate extends Component {
   render () {
@@ -36,7 +35,7 @@ class ClanTemplate extends Component {
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
-    const medals = data.clan.medals.sort((a, b) => medalBuilder.sort(a, b))
+    const medals = data.clan.medals
     const title = `${data.clan.name} | Clans`
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
@@ -56,7 +55,7 @@ class ClanTemplate extends Component {
           <MedalList medals={medals} />
           <Notification>Past event statistics coming soon</Notification>
         </Card>
-        <Leaderboard cutout data={leaderboard} sortBy="score" descending />
+        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
       </PageContainer>
     )
   }

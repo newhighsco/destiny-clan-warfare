@@ -41,10 +41,7 @@ const embellishLeaderboard = (leaderboard, division) => {
   })
 }
 
-const sort = (a, b) => { return b.tier - a.tier }
-
 module.exports = {
   build,
-  embellishLeaderboard,
-  sort
+  embellishLeaderboard
 }

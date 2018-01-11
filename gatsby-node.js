@@ -567,18 +567,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                 })
               }
             }))
-
-            Promise.all(result.data.allMember.edges.map(async (member) => {
-              if (member.node.leaderboardVisible) {
-                createPage({
-                  path: urlBuilder.eventUrl(eventPath, member.node.clanId.substring(constants.prefix.hash.length), member.node.id),
-                  component: path.resolve(`./src/templates/event-member.js`),
-                  context: {
-                    id: member.node.id
-                  }
-                })
-              }
-            }))
           } else {
             const eventHash = eventId.substring(constants.prefix.event.length).trim()
 
@@ -628,6 +616,11 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 
     if (page.path.match(`${urlBuilder.profileRootUrl}`)) {
       page.matchPath = urlBuilder.profileUrl(':path')
+      createPage(page)
+    }
+
+    if (page.path.match(`${urlBuilder.eventRootUrl}`)) {
+      page.matchPath = urlBuilder.eventUrl(':path')
       createPage(page)
     }
 

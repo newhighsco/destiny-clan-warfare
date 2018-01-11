@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
+import EventMember from '../components/event/EventMember'
 
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 class EventsPage extends Component {
   render () {
-    const { data } = this.props
+    const { data, location } = this.props
     const leaderboard = data.allEvent.edges.map(edge => {
       const typeSuffix = edge.node.isCurrent ? constants.kicker.current : (edge.node.isPast ? '' : constants.kicker.future)
       return {
@@ -28,24 +31,51 @@ class EventsPage extends Component {
     const description = `All ${constants.meta.name} events to date`
 
     return (
-      <PageContainer status={data.apiStatus}>
-        <Helmet>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-        </Helmet>
-        <Card cutout className="text-center">
-          <Lockup primary center kicker="All" heading="Events" />
-        </Card>
-        <Leaderboard cutout data={leaderboard} />
-      </PageContainer>
+      <Switch>
+        <Route
+          exact
+          path="/events"
+          render={() => (
+            <PageContainer status={data.apiStatus}>
+              <Helmet>
+                <title>{title}</title>
+                <meta name="description" content={description} />
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+              </Helmet>
+              <Card cutout className="text-center">
+                <Lockup primary center kicker="All" heading="Events" />
+              </Card>
+              <Leaderboard cutout data={leaderboard} />
+            </PageContainer>
+          )}
+        />
+        <Route
+          location={location}
+          path="/events/:eventId/:clanId/:memberId"
+          render={props => {
+            const { match } = props
+            const member = data.allMember.edges.find(({ node }) => node.id === match.params.memberId)
+
+            if (!member) {
+              return (
+                <Redirect to={urlBuilder.eventUrl(match.params.eventId, match.params.clanId)} />
+              )
+            }
+
+            return (
+              <EventMember member={member ? member.node : null} status={data.apiStatus} />
+            )
+          }}
+        />
+      </Switch>
     )
   }
 }
 
 EventsPage.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default EventsPage
@@ -65,6 +95,47 @@ export const pageQuery = graphql`
           isCurrent
           isPast
           ...modifiersFragment
+        }
+      }
+    }
+    allMember {
+      edges {
+        node {
+          id
+          updatedDate
+          currentEventId
+          name
+          icon
+          tags {
+            name
+          }
+          clanId
+          clan {
+            name
+          }
+          leaderboard {
+            games
+            wins
+            kills
+            deaths
+            assists
+            score
+          }
+          history {
+            game {
+              path
+              isExternal
+              result
+              type
+              map
+              mapSeparator
+              date
+            }
+            kills
+            deaths
+            assists
+            score
+          }
         }
       }
     }

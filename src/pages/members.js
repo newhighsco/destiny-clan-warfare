@@ -46,7 +46,7 @@ class MembersPage extends Component {
         />
         <Route
           location={location}
-          path="/members/:id?"
+          path="/members/:id"
           render={props => {
             const { match } = props
             const member = data.allMember.edges.find(({ node }) => node.id === match.params.id)

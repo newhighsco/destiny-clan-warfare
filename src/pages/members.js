@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -7,6 +7,8 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Member from '../components/member/Member'
+
+const urlBuilder = require('../utils/url-builder')
 
 class MembersPage extends Component {
   render () {
@@ -44,10 +46,16 @@ class MembersPage extends Component {
         />
         <Route
           location={location}
-          path="/members/:id?"
+          path="/members/:id"
           render={props => {
             const { match } = props
             const member = data.allMember.edges.find(({ node }) => node.id === match.params.id)
+
+            if (!member) {
+              return (
+                <Redirect to={urlBuilder.profileRootUrl} />
+              )
+            }
 
             return (
               <Member member={member ? member.node : null} status={data.apiStatus} />

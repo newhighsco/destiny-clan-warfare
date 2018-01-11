@@ -97,7 +97,6 @@ class IndexPage extends Component {
                   .map((item, i) => {
                     if (i === 0) {
                       item.medal = winnersMedal
-                      item.medal.tier = 3
                     }
                     return item
                   })

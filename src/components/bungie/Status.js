@@ -1,19 +1,42 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
+const bungie = require('../../utils/bungie-helper')
 
-const Status = ({ code }) => {
-  if (code !== constants.bungie.disabledStatusCode) return null
+class Status extends Component {
+  constructor (props) {
+    super(props)
 
-  return (
-    <div className="content-center content-gutter">
-      <Notification state="error">
-        The Bungie API is currently offline for maintenance.
-      </Notification>
-    </div>
-  )
+    const { code } = this.props
+
+    this.state = {
+      active: code === constants.bungie.disabledStatusCode
+    }
+  }
+
+  componentDidMount () {
+    bungie(`/Destiny2/Milestones/`)
+      .then(({ data }) => {
+        this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
+      })
+      .catch(err => console.log(err))
+  }
+
+  render () {
+    const { active } = this.state
+
+    if (!active) return null
+
+    return (
+      <div className="content-center content-gutter">
+        <Notification state="error">
+          The Bungie API is currently offline for maintenance.
+        </Notification>
+      </div>
+    )
+  }
 }
 
 Status.propTypes = {

@@ -293,7 +293,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           game: {
             path: item.pgcrId ? urlBuilder.pgcrUrl(item.pgcrId) : '',
             isExternal: true,
-            result: item.pgcrId ? (item.gameWon ? constants.result.win : constants.result.loss) : '',
+            result: item.pgcrId ? (item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : '')) : '',
             type: item.gameType,
             map: item.map,
             mapSeparator: item.map ? ' - ' : '',

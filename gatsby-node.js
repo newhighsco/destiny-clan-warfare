@@ -115,7 +115,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     return {
       id: medal.id || medal.unlockId,
       type: type,
-      tier: medal.medalTier || 1,
+      tier: medal.tier || medal.medalTier || 1,
       name: medal.name,
       description: medal.description,
       count: medal.count || null,

@@ -7,6 +7,7 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import EventMember from '../components/event/EventMember'
+import NotFoundPage from './404'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -27,6 +28,7 @@ class EventsPage extends Component {
         modifiers: edge.node.modifiers
       }
     })
+    const currentEvent = data.allEvent.edges.find(({ node }) => node.isCurrent)
     const title = 'Events'
     const description = `All ${constants.meta.name} events to date`
 
@@ -34,7 +36,7 @@ class EventsPage extends Component {
       <Switch>
         <Route
           exact
-          path="/events"
+          path={urlBuilder.eventRootUrl}
           render={() => (
             <PageContainer status={data.apiStatus}>
               <Helmet>
@@ -52,14 +54,14 @@ class EventsPage extends Component {
         />
         <Route
           location={location}
-          path="/events/:eventId/:clanId/:memberId"
+          path={urlBuilder.eventUrl(currentEvent.node.path, ':clan/:profile')}
           render={props => {
             const { match } = props
-            const member = data.allMember.edges.find(({ node }) => node.id === match.params.memberId)
+            const member = data.allMember.edges.find(({ node }) => node.id === match.params.profile)
 
             if (!member) {
               return (
-                <Redirect to={urlBuilder.eventUrl(match.params.eventId, match.params.clanId)} />
+                <NotFoundPage />
               )
             }
 
@@ -68,6 +70,31 @@ class EventsPage extends Component {
             )
           }}
         />
+        <Route
+          location={location}
+          path={urlBuilder.eventUrl(':event', ':clan', ':profile')}
+          render={props => {
+            const { match } = props
+            const url = urlBuilder.profileUrl(match.params.profile, match.params.event)
+
+            return (
+              <Redirect to={url} />
+            )
+          }}
+        />
+        <Route
+          location={location}
+          path={urlBuilder.eventUrl(':event', ':clan')}
+          render={props => {
+            const { match } = props
+            const url = urlBuilder.clanUrl(match.params.clan, match.params.event)
+
+            return (
+              <Redirect to={url} />
+            )
+          }}
+        />
+        <Route component={NotFoundPage} status={404} />
       </Switch>
     )
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -7,6 +7,7 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import Member from '../components/member/Member'
+import NotFoundPage from './404'
 
 const urlBuilder = require('../utils/url-builder')
 
@@ -28,7 +29,7 @@ class MembersPage extends Component {
       <Switch>
         <Route
           exact
-          path="/members"
+          path={urlBuilder.profileRootUrl}
           render={() => (
             <PageContainer status={data.apiStatus}>
               <Helmet>
@@ -46,14 +47,14 @@ class MembersPage extends Component {
         />
         <Route
           location={location}
-          path="/members/:id"
+          path={urlBuilder.profileUrl(':profile')}
           render={props => {
             const { match } = props
-            const member = data.allMember.edges.find(({ node }) => node.id === match.params.id)
+            const member = data.allMember.edges.find(({ node }) => node.id === match.params.profile)
 
             if (!member) {
               return (
-                <Redirect to={urlBuilder.profileRootUrl} />
+                <NotFoundPage />
               )
             }
 
@@ -62,6 +63,7 @@ class MembersPage extends Component {
             )
           }}
         />
+        <Route component={NotFoundPage} status={404} />
       </Switch>
     )
   }

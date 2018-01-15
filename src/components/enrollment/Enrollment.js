@@ -32,11 +32,11 @@ class Enrollment extends Component {
   }
 
   componentDidMount () {
-    // api(`Clan/AcceptingNewClans`)
-    //   .then(({ data }) => {
-    //     this.setState({ active: data })
-    //   })
-    //   .catch(err => console.log(err))
+    api(`Clan/AcceptingNewClans`)
+      .then(({ data }) => {
+        this.setState({ active: data })
+      })
+      .catch(err => console.log(err))
   }
 
   handleEnroll (e) {

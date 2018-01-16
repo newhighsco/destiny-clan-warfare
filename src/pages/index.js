@@ -104,7 +104,7 @@ class IndexPage extends Component {
 
               return (
                 <Fragment key={node.id}>
-                  <Card cutout className="text-center">
+                  <Card cutout={isCalculated} className="text-center">
                     <Lockup center element="h2" headingHref={node.path} heading={node.name} />
                     <RelativeDate label={constants.relativeDate.past} date={node.endDate} />
                     {node.description &&

@@ -8,23 +8,19 @@ import Notification from '../notification/Notification'
 
 import './Enrollment.styl'
 
-const axios = require(`axios`)
 const constants = require('../../utils/constants')
+const bungie = require('../../utils/bungie-helper')
 const action = `${constants.server.baseUrl}Home/AddClan/`
 const redirectUrl = `${process.env.GATSBY_SITE_URL}/thanks`
-const bungie = axios.create({
-  baseURL: constants.bungie.apiUrl,
-  headers: {
-    'X-API-Key': process.env.GATSBY_BUNGIE_API_KEY
-  }
-})
 
 class Enrollment extends Component {
   constructor (props) {
     super(props)
 
+    const { status } = this.props
+
     this.state = {
-      active: false,
+      active: status.bungieCode !== constants.bungie.disabledStatusCode,
       name: '',
       groups: [],
       selectedGroup: null
@@ -32,12 +28,6 @@ class Enrollment extends Component {
 
     this.handleEnroll = this.handleEnroll.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
-  }
-
-  componentDidMount () {
-    const { status } = this.props
-
-    this.setState({ active: status.bungieCode !== constants.bungie.disabledStatusCode })
   }
 
   handleEnroll (e) {
@@ -72,22 +62,22 @@ class Enrollment extends Component {
       } else if (name !== this.state.name) {
         const groupType = 1
         const isNumeric = !isNaN(name)
-        const endpoint = isNumeric ? `/GroupV2/${name}/` : `GroupV2/Name/${name}/${groupType}/`
+        const endpoint = isNumeric ? `GroupV2/${name}/` : `GroupV2/Name/${name}/${groupType}/`
 
         bungie(endpoint)
-        .then(({ data }) => {
-          if (data.Response && data.Response.detail) {
-            const detail = data.Response.detail
-            const group = groups.find(({ groupId }) => groupId === detail.groupId)
+          .then(({ data }) => {
+            if (data.Response && data.Response.detail) {
+              const detail = data.Response.detail
+              const group = groups.find(({ groupId }) => groupId === detail.groupId)
 
-            if (!group && detail.groupType === groupType) {
-              groups.push(detail)
+              if (!group && detail.groupType === groupType) {
+                groups.push(detail)
+              }
+
+              this.setState({ groups: groups })
             }
-
-            this.setState({ groups: groups })
-          }
-        })
-        .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
 
         this.setState({ name: name })
       }

@@ -52,24 +52,26 @@ class EventsPage extends Component {
             </PageContainer>
           )}
         />
-        <Route
-          location={location}
-          path={urlBuilder.eventUrl(currentEvent.node.path, ':clan/:profile')}
-          render={props => {
-            const { match } = props
-            const member = data.allMember.edges.find(({ node }) => node.id === match.params.profile)
+        {currentEvent &&
+          <Route
+            location={location}
+            path={urlBuilder.eventUrl(currentEvent.node.path, ':clan/:profile')}
+            render={props => {
+              const { match } = props
+              const member = data.allMember.edges.find(({ node }) => node.id === match.params.profile)
 
-            if (!member) {
+              if (!member) {
+                return (
+                  <NotFoundPage />
+                )
+              }
+
               return (
-                <NotFoundPage />
+                <EventMember member={member ? member.node : null} status={data.apiStatus} />
               )
-            }
-
-            return (
-              <EventMember member={member ? member.node : null} status={data.apiStatus} />
-            )
-          }}
-        />
+            }}
+          />
+        }
         <Route
           location={location}
           path={urlBuilder.eventUrl(':event', ':clan', ':profile')}

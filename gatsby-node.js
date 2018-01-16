@@ -2,23 +2,13 @@ require('dotenv').config()
 
 const path = require(`path`)
 const fs = require(`fs`)
-const axios = require(`axios`)
 const camelcaseKeys = require(`camelcase-keys`)
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
-
-const api = axios.create({
-  baseURL: constants.server.apiUrl
-})
-
-const bungie = axios.create({
-  baseURL: constants.bungie.apiUrl,
-  headers: {
-    'X-API-Key': process.env.GATSBY_BUNGIE_API_KEY
-  }
-})
+const api = require('./src/utils/api-helper')
+const bungie = require('./src/utils/bungie-helper')
 
 var currentEvent
 var enrollmentOpen = false
@@ -293,7 +283,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           game: {
             path: item.pgcrId ? urlBuilder.pgcrUrl(item.pgcrId) : '',
             isExternal: true,
-            result: item.pgcrId ? (item.gameWon ? constants.result.win : constants.result.loss) : '',
+            result: item.pgcrId ? (item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : '')) : '',
             type: item.gameType,
             map: item.map,
             mapSeparator: item.map ? ' - ' : '',

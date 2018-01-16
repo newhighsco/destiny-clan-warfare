@@ -134,6 +134,13 @@ module.exports = {
         ]
       }
     },
+    {
+      resolve: `gatsby-plugin-nprogress`,
+      options: {
+        color: `#fff`,
+        showSpinner: true
+      }
+    },
     // Keep this at the end
     `gatsby-plugin-netlify`
   ]

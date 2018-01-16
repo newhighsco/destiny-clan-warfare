@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
-import IconSvgs from './icons'
+import Icons from './icons'
 
 import './Modifier.styl'
 
@@ -14,7 +14,9 @@ const baseClassName = 'modifier'
 
 const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
   const iconKey = pascalCase(name || '')
-  const IconSvg = IconSvgs.hasOwnProperty(iconKey) ? IconSvgs[iconKey] : null
+  const icon = Icons.hasOwnProperty(iconKey) ? Icons[iconKey] : null
+  const IconSvg = icon ? icon.svg : null
+  const designer = icon ? icon.designer : null
   var bonus = scoringModifier ? scoringBonus : multiplierBonus
   var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
   var suffix = ''
@@ -27,12 +29,13 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   }
 
   const label = `${prefix}${bonus}${suffix}`
-  const tooltip = [ description ]
+  const tooltip = [ description, '' ]
 
-  if (creator && creator.name) tooltip.push(`<br />Created by: ${creator.name}`)
+  if (creator && creator.name) tooltip.push(`<strong>Creator:<strong> ${creator.name}`)
+  if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
   return (
-    <Tooltip heading={name} text={tooltip.join('')} align={align} enableHover>
+    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover>
       <div
         className={classNames(
           baseClassName,

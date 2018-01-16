@@ -107,7 +107,7 @@ class EventTemplate extends Component {
         {data.event.isPast &&
           <Fragment>
             <Lockup primary center kicker={kicker} />
-            <Card cutout className="text-center">
+            <Card cutout={isCalculated} className="text-center">
               <Lockup center heading={data.event.name} />
               <RelativeDate label={constants.relativeDate.past} date={data.event.endDate} />
               {data.event.description &&

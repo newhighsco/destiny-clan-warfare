@@ -9,6 +9,7 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 const api = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
+const linkify = require('linkify-urls')
 
 var currentEvent
 var enrollmentOpen = false
@@ -32,6 +33,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var modifiers = []
   var medals = []
   const casingOptions = { deep: true }
+  const linkifyOptions = { attributes: { target: '_blank' } }
 
   await api(`Clan/AcceptingNewClans`)
     .then(({ data }) => {
@@ -148,7 +150,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       nameSortable: clan.name.toUpperCase(),
       tag: clan.tag,
       motto: clan.motto,
-      description: clan.description,
+      description: linkify(clan.description, linkifyOptions).split(/\r?\n/g).join('<br />'),
       color: clan.backgroundcolor,
       foreground: {
         color: clan.emblemcolor1,

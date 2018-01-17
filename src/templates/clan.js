@@ -9,6 +9,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import { MedalList } from '../components/medal/Medal'
 import { Button } from '../components/button/Button'
 import Notification from '../components/notification/Notification'
+import Prose from '../components/prose/Prose'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -50,7 +51,11 @@ class ClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <p dangerouslySetInnerHTML={{ __html: data.clan.description.replace(/(?:\r\n|\r|\n)/g, '<br />') }} />
+          {data.clan.description &&
+            <Prose>
+              <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
+            </Prose>
+          }
           <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
           <MedalList medals={medals} />
           <Notification>Past event statistics coming soon</Notification>

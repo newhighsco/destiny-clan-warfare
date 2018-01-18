@@ -130,7 +130,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   for (var clan of clans) {
     var clanLeaderboard = []
 
-    await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
+    await api(`Leaderboard/GetClanLeaderboardV2?clanId=${clan.groupId}`)
       .then(({ data }) => {
         clanLeaderboard = data.map(item => camelcaseKeys(item, casingOptions))
 
@@ -161,7 +161,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         icon: clan.backgroundicon
       },
       leaderboard: clanLeaderboard.map(item => {
-        const member = members.find(member => member.profileIdStr === item.memberShipIdStr)
+        const member = members.find(member => member.profileIdStr === item.idStr)
 
         return {
           path: urlBuilder.eventUrl(currentEvent.eventId, member.groupId, member.profileIdStr),
@@ -213,7 +213,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     var memberLeaderboard = leaderboards
       .find(({ id }) => id === member.groupId)
       .leaderboard
-      .find(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr)
+      .find(({ idStr }) => idStr === member.profileIdStr)
 
     var leaderboard = {
       games: Number.NEGATIVE_INFINITY,

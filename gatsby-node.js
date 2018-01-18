@@ -146,7 +146,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   for (var clan of clans) {
     var clanLeaderboard = []
 
-    await api(`Leaderboard/GetClanLeaderboardV2?clanId=${clan.groupId}`)
+    await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
       .then(({ data }) => {
         clanLeaderboard = data.map(item => camelcaseKeys(item, casingOptions))
 

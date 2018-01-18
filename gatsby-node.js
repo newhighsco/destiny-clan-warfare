@@ -103,27 +103,43 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
-  const parseMedal = (medal, type) => {
-    return {
-      id: medal.id || medal.unlockId,
-      type: type,
-      tier: medal.tier || medal.medalTier || 1,
-      name: medal.name,
-      description: medal.description,
-      count: medal.count || null,
-      label: medal.awardedTo || null
+  const parseMedals = (input, type) => {
+    const output = []
+    const parseMedal = (medal, type) => {
+      return {
+        id: medal.id || medal.medalId || medal.unlockId,
+        type: type,
+        tier: medal.tier || medal.medalTier || 1,
+        name: medal.name,
+        description: medal.description,
+        count: medal.count || null,
+        label: [ medal.awardedTo ] || []
+      }
     }
+
+    input.map(medal => {
+      const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
+      const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
+
+      if (existing) {
+        existing.label = existing.label.concat(parsed.label)
+      } else {
+        output.push(parsed)
+      }
+    })
+
+    return output
   }
 
   await api(`Component/GetAllMedals`)
     .then(({ data }) => {
-      medals = medals.concat(data.map(item => parseMedal(camelcaseKeys(item, casingOptions), constants.prefix.profile)))
+      medals = medals.concat(parseMedals(data, constants.prefix.profile))
     })
     .catch(err => console.log(err))
 
   await api(`Component/GetAllClanMedals`)
     .then(({ data }) => {
-      medals = medals.concat(data.map(item => parseMedal(camelcaseKeys(item, casingOptions), constants.prefix.clan)))
+      medals = medals.concat(parseMedals(data, constants.prefix.clan))
     })
     .catch(err => console.log(err))
 
@@ -183,7 +199,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         }
       }),
       leaderboardVisible: clanLeaderboard.length > 0,
-      medals: clan.medalUnlocks.map(medal => parseMedal(medal, constants.prefix.clan)),
+      medals: parseMedals(clan.medalUnlocks, constants.prefix.clan),
       parent: null,
       children: [],
       internal: {
@@ -274,7 +290,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           description: bonus.description || ''
         }
       }),
-      medals: member.medalUnlocks.map(medal => parseMedal(medal, constants.prefix.profile)),
+      medals: parseMedals(member.medalUnlocks, constants.prefix.profile),
       totals: totals,
       totalsVisible: totals.games > 0,
       totalsSortable: totals.lastPlayed,
@@ -432,8 +448,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       },
       results: results,
       medals: {
-        clans: event.clanMedals ? event.clanMedals.map(medal => parseMedal(medal, constants.prefix.clan)) : [],
-        members: event.clanMemberMedals ? event.clanMemberMedals.map(medal => parseMedal(medal, constants.prefix.profile)) : []
+        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan) : [],
+        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile) : []
       },
       parent: null,
       children: [],

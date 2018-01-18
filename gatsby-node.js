@@ -9,6 +9,7 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 const api = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
+const linkify = require('linkify-urls')
 
 var currentEvent
 var enrollmentOpen = false
@@ -32,6 +33,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var modifiers = []
   var medals = []
   const casingOptions = { deep: true }
+  const linkifyOptions = { attributes: { target: '_blank' } }
 
   await api(`Clan/AcceptingNewClans`)
     .then(({ data }) => {
@@ -101,34 +103,50 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
-  const parseMedal = (medal, type) => {
-    return {
-      id: medal.id || medal.unlockId,
-      type: type,
-      tier: medal.tier || medal.medalTier || 1,
-      name: medal.name,
-      description: medal.description,
-      count: medal.count || null,
-      label: medal.awardedTo || null
+  const parseMedals = (input, type) => {
+    const output = []
+    const parseMedal = (medal, type) => {
+      return {
+        id: medal.id || medal.medalId || medal.unlockId,
+        type: type,
+        tier: medal.tier || medal.medalTier || 1,
+        name: medal.name,
+        description: medal.description,
+        count: medal.count || null,
+        label: [ medal.awardedTo ] || []
+      }
     }
+
+    input.map(medal => {
+      const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
+      const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
+
+      if (existing) {
+        existing.label = existing.label.concat(parsed.label)
+      } else {
+        output.push(parsed)
+      }
+    })
+
+    return output
   }
 
   await api(`Component/GetAllMedals`)
     .then(({ data }) => {
-      medals = medals.concat(data.map(item => parseMedal(camelcaseKeys(item, casingOptions), constants.prefix.profile)))
+      medals = medals.concat(parseMedals(data, constants.prefix.profile))
     })
     .catch(err => console.log(err))
 
   await api(`Component/GetAllClanMedals`)
     .then(({ data }) => {
-      medals = medals.concat(data.map(item => parseMedal(camelcaseKeys(item, casingOptions), constants.prefix.clan)))
+      medals = medals.concat(parseMedals(data, constants.prefix.clan))
     })
     .catch(err => console.log(err))
 
   for (var clan of clans) {
     var clanLeaderboard = []
 
-    await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
+    await api(`Leaderboard/GetClanLeaderboardV2?clanId=${clan.groupId}`)
       .then(({ data }) => {
         clanLeaderboard = data.map(item => camelcaseKeys(item, casingOptions))
 
@@ -148,7 +166,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       nameSortable: clan.name.toUpperCase(),
       tag: clan.tag,
       motto: clan.motto,
-      description: clan.description,
+      description: linkify(clan.description, linkifyOptions).split(/\r?\n/g).join('<br />'),
       color: clan.backgroundcolor,
       foreground: {
         color: clan.emblemcolor1,
@@ -159,7 +177,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         icon: clan.backgroundicon
       },
       leaderboard: clanLeaderboard.map(item => {
-        const member = members.find(member => member.profileIdStr === item.memberShipIdStr)
+        const member = members.find(member => member.profileIdStr === item.idStr)
 
         return {
           path: urlBuilder.eventUrl(currentEvent.eventId, member.groupId, member.profileIdStr),
@@ -181,7 +199,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         }
       }),
       leaderboardVisible: clanLeaderboard.length > 0,
-      medals: clan.medalUnlocks.map(medal => parseMedal(medal, constants.prefix.clan)),
+      medals: parseMedals(clan.medalUnlocks, constants.prefix.clan),
       parent: null,
       children: [],
       internal: {
@@ -211,7 +229,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     var memberLeaderboard = leaderboards
       .find(({ id }) => id === member.groupId)
       .leaderboard
-      .find(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr)
+      .find(({ idStr }) => idStr === member.profileIdStr)
 
     var leaderboard = {
       games: Number.NEGATIVE_INFINITY,
@@ -272,7 +290,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           description: bonus.description || ''
         }
       }),
-      medals: member.medalUnlocks.map(medal => parseMedal(medal, constants.prefix.profile)),
+      medals: parseMedals(member.medalUnlocks, constants.prefix.profile),
       totals: totals,
       totalsVisible: totals.games > 0,
       totalsSortable: totals.lastPlayed,
@@ -430,8 +448,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       },
       results: results,
       medals: {
-        clans: event.clanMedals ? event.clanMedals.map(medal => parseMedal(medal, constants.prefix.clan)) : [],
-        members: event.clanMemberMedals ? event.clanMemberMedals.map(medal => parseMedal(medal, constants.prefix.profile)) : []
+        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan) : [],
+        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile) : []
       },
       parent: null,
       children: [],

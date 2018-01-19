@@ -157,6 +157,21 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       })
       .catch(err => console.log(err))
 
+    const parseBonuses = (item) => {
+      const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
+
+      return bonuses.map(bonus => {
+        const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
+        if (modifier) {
+          modifier.count = bonus.bonusPoints
+
+          return modifier
+        }
+
+        return null
+      })
+    }
+
     createNode({
       id: `${clan.groupId}`,
       updatedDate: updatedDate,
@@ -195,6 +210,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
+          modifiers: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore))
         }
       }),

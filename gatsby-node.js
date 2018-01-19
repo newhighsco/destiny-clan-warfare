@@ -93,6 +93,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     return {
       ...modifier,
+      shortName: modifier.shortName || modifier.name.split(' ')[0],
       creator: creator
     }
   }
@@ -163,9 +164,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       return bonuses.map(bonus => {
         const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
         if (modifier) {
-          modifier.count = bonus.bonusPoints
-
-          return modifier
+          return {
+            ...modifier,
+            count: bonus.bonusPoints
+          }
         }
 
         return null

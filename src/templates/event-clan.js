@@ -122,6 +122,9 @@ export const pageQuery = graphql`
         deaths
         assists
         score
+        modifiers {
+          name
+        }
       }
     }
   }

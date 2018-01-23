@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://destinyclanwarfare.azurewebsites.net/'
+const apiBaseUrl = 'https://mb-dcw-test.azurewebsites.net/'
 const bungieBaseUrl = 'https://www.bungie.net/'
 
 const constants = {

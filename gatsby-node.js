@@ -144,6 +144,22 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => console.log(err))
 
+  const parseBonuses = (item) => {
+    const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
+
+    return bonuses.filter(bonus => bonus).map(bonus => {
+      const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
+      if (modifier) {
+        return {
+          ...modifier,
+          count: bonus.bonusPoints
+        }
+      }
+
+      return null
+    })
+  }
+
   for (var clan of clans) {
     var clanLeaderboard = []
 
@@ -157,22 +173,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         })
       })
       .catch(err => console.log(err))
-
-    const parseBonuses = (item) => {
-      const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
-
-      return bonuses.map(bonus => {
-        const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
-        if (modifier) {
-          return {
-            ...modifier,
-            count: bonus.bonusPoints
-          }
-        }
-
-        return null
-      })
-    }
 
     createNode({
       id: `${clan.groupId}`,
@@ -255,7 +255,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
-      score: Number.NEGATIVE_INFINITY
+      score: Number.NEGATIVE_INFINITY,
+      modifiers: []
     }
 
     if (memberLeaderboard) {
@@ -265,7 +266,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         kills: memberLeaderboard.kills,
         assists: memberLeaderboard.assists,
         deaths: memberLeaderboard.deaths,
-        score: parseInt(Math.round(memberLeaderboard.totalScore))
+        score: parseInt(Math.round(memberLeaderboard.totalScore)),
+        modifiers: parseBonuses(memberLeaderboard)
       }
     }
 
@@ -328,7 +330,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          score: parseInt(Math.round(item.totalScore))
+          score: parseInt(Math.round(item.totalScore)),
+          modifiers: parseBonuses(item)
         }
       }),
       parent: null,

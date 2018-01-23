@@ -50,6 +50,7 @@ class EventMember extends Component {
         }
       ]
     }
+    const { modifiers, ...stats } = member.leaderboard
 
     return (
       <PageContainer status={status}>
@@ -69,7 +70,7 @@ class EventMember extends Component {
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup center reverse kicker={member.clan.name} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
-          <StatList stats={member.leaderboard} />
+          <StatList stats={stats} />
         </Card>
         <Leaderboard cutout data={leaderboard} />
       </PageContainer>

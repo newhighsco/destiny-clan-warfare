@@ -149,6 +149,11 @@ export const pageQuery = graphql`
             deaths
             assists
             score
+            modifiers {
+              shortName
+              count
+              scoringModifier
+            }
           }
           history {
             game {
@@ -164,6 +169,11 @@ export const pageQuery = graphql`
             deaths
             assists
             score
+            modifiers {
+              shortName
+              count
+              scoringModifier
+            }
           }
         }
       }

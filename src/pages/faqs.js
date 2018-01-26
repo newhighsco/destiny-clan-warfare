@@ -41,7 +41,7 @@ class FaqsPage extends Component {
             </ul>
             <p>You will also earn 2 sets of bonus points and a total score modifier which will vary each event. The active bonus & modifier will clearly be visible on the homepage.</p>
             <h2>How do I enrol into {constants.meta.name}?</h2>
-            <p>At the top of the home page, you will be able to search for, and enroll, your clan. Please allow 60-90 minutes for you clan and clan members to start appearing on the leaderboards.</p>
+            <p>At the top of the home page, you will be able to search for, and enroll, your clan. Please allow 60-90 minutes for you clan and clan members to start appearing on the leaderboards. Your clan will not appear on the leaderboards until a clan member has scored some points against the current event.</p>
             <p>We will lock your clan member list in place for the duration of the event. A snapshot will be taken when the event starts and any amendments to your roster will not be taken into account until the next event starts.</p>
             <p>Please note - there is a limit on clan participation at this time so if we are full, please check back each week as we accept more clans.</p>
             <h2>What if my clan is only small, I’ll never win anything?</h2>

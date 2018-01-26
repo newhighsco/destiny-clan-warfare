@@ -57,7 +57,9 @@ const constants = {
     hash: '#',
     positive: '+',
     multiply: 'x',
-    percent: '%'
+    percent: '%',
+    most: 'most',
+    highest: 'highest'
   }
 }
 

@@ -60,6 +60,8 @@ class EventTemplate extends Component {
       leaderboardColumns = [ 'color', 'foreground', 'background', 'name', 'medal', 'rank', 'score' ]
     }
 
+    const hasLeaderboards = largeLeaderboard.length > 0 || mediumLeaderboard.length > 0 || smallLeaderboard.length > 0
+
     return (
       <PageContainer status={data.apiStatus}>
         <Helmet>
@@ -74,31 +76,36 @@ class EventTemplate extends Component {
             <Lockup primary center kicker={kicker}>
               <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
             </Lockup>
-            <Card cutout className="text-center">
+            <Card cutout={hasLeaderboards} className="text-center">
               <Lockup center heading={data.event.name} />
               <RelativeDate label={constants.relativeDate.current} date={data.event.endDate} />
               {data.event.description &&
                 <p>{data.event.description}</p>
               }
               <ModifierList modifiers={data.event.modifiers} />
+              {!hasLeaderboards &&
+                <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
+              }
             </Card>
-            <TabContainer id="leaderboard" cutout>
-              {largeLeaderboard.length > 0 &&
-                <Tab name={constants.division.large}>
-                  <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-                </Tab>
-              }
-              {mediumLeaderboard.length > 0 &&
-                <Tab name={constants.division.medium}>
-                  <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-                </Tab>
-              }
-              {smallLeaderboard.length > 0 &&
-                <Tab name={constants.division.small}>
-                  <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-                </Tab>
-              }
-            </TabContainer>
+            {hasLeaderboards &&
+              <TabContainer id="leaderboard" cutout>
+                {largeLeaderboard.length > 0 &&
+                  <Tab name={constants.division.large}>
+                    <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
+                  </Tab>
+                }
+                {mediumLeaderboard.length > 0 &&
+                  <Tab name={constants.division.medium}>
+                    <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
+                  </Tab>
+                }
+                {smallLeaderboard.length > 0 &&
+                  <Tab name={constants.division.small}>
+                    <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
+                  </Tab>
+                }
+              </TabContainer>
+            }
             <ButtonGroup>
               <Button href="/#enroll">Enroll your clan today</Button>
             </ButtonGroup>
@@ -145,9 +152,6 @@ class EventTemplate extends Component {
           <Fragment>
             <Lockup primary center kicker={kicker} />
             <FutureEvent event={data.event} />
-            <ButtonGroup>
-              <Button href="/#enroll">Enroll your clan today</Button>
-            </ButtonGroup>
           </Fragment>
         }
       </PageContainer>

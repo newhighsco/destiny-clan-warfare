@@ -50,7 +50,7 @@ class EventMember extends Component {
         }
       ]
     }
-    const { modifiers, ...stats } = member.leaderboard
+    const stats = member.leaderboard
 
     return (
       <PageContainer status={status}>

@@ -256,7 +256,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
       score: Number.NEGATIVE_INFINITY,
-      modifiers: []
+      bonuses: []
     }
 
     if (memberLeaderboard) {
@@ -267,7 +267,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         assists: memberLeaderboard.assists,
         deaths: memberLeaderboard.deaths,
         score: parseInt(Math.round(memberLeaderboard.totalScore)),
-        modifiers: parseBonuses(memberLeaderboard)
+        bonuses: parseBonuses(memberLeaderboard)
       }
     }
 
@@ -331,7 +331,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           assists: item.assists,
           deaths: item.deaths,
           score: parseInt(Math.round(item.totalScore)),
-          modifiers: parseBonuses(item)
+          bonuses: parseBonuses(item)
         }
       }),
       parent: null,

@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react'
+import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import { Button } from '../components/button/Button'
+import Prose from '../components/prose/Prose'
 
 const queryString = require('query-string')
 const constants = require('../utils/constants')
@@ -31,14 +33,19 @@ class ThanksPage extends Component {
           {success ? (
             <Fragment>
               <Lockup primary center kicker="Thanks for" heading="Enrolling" />
-              <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>
+              <Prose>
+                <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>
+                <p>Why not take a look over our <Link to="/faqs">Frequently Asked Questions</Link> while you wait</p>
+              </Prose>
               <Button href="/current">View current leaderboard</Button>
             </Fragment>
           ) : (
             <Fragment>
               <Lockup primary center kicker="Enrollment failed" heading="Please try again later" />
               {message ? (
-                <p>{message}</p>
+                <Prose>
+                  <p>{message}</p>
+                </Prose>
               ) : (
                 <Button href="/#enroll">Enroll your clan today</Button>
               )}

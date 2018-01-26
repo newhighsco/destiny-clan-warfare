@@ -11,6 +11,7 @@ import StrikeDeathPenalty from './strike-death-penalty.svg'
 import TelestoFesto from './telesto-festo.svg'
 import VarietyIsTheSpiceOfLife from './variety-is-the-spice-of-life.svg'
 import WinnerWinnerChickenDinner from './winner-winner-chicken-dinner.svg'
+import ZoneCaptured from './zone-captured.svg'
 
 const svgs = {
   AntiMeta: { svg: AntiMeta, designer: 'TMD' },
@@ -25,7 +26,8 @@ const svgs = {
   StrikeDeathPenalty: { svg: StrikeDeathPenalty, designer: 'Robert Bjurshagen' },
   TelestoFesto: { svg: TelestoFesto, designer: 'Casper Jensen' },
   VarietyIsTheSpiceOfLife: { svg: VarietyIsTheSpiceOfLife, designer: 'Xela Ub' },
-  WinnerWinnerChickenDinner: { svg: WinnerWinnerChickenDinner, designer: 'Artem Kovyazin' }
+  WinnerWinnerChickenDinner: { svg: WinnerWinnerChickenDinner, designer: 'Artem Kovyazin' },
+  ZoneCaptured: { svg: ZoneCaptured }
 }
 
 export default svgs

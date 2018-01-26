@@ -25,7 +25,7 @@ class EventsPage extends Component {
           mapSeparator: ' ',
           date: edge.node.isCurrent ? edge.node.endDate : (edge.node.isPast) ? edge.node.endDate : edge.node.startDate
         },
-        modifiers: edge.node.modifiers
+        bonuses: edge.node.bonuses
       }
     })
     const currentEvent = data.allEvent.edges.find(({ node }) => node.isCurrent)
@@ -148,12 +148,11 @@ export const pageQuery = graphql`
             kills
             deaths
             assists
-            score
-            modifiers {
+            bonuses {
               shortName
               count
-              scoringModifier
             }
+            score
           }
           history {
             game {
@@ -168,12 +167,11 @@ export const pageQuery = graphql`
             kills
             deaths
             assists
-            score
-            modifiers {
+            bonuses {
               shortName
               count
-              scoringModifier
             }
+            score
           }
         }
       }

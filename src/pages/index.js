@@ -46,36 +46,44 @@ class IndexPage extends Component {
               <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
             </Lockup>
             {currentEvents.map(({ node }) => {
+              const hasLeaderboards = node.leaderboards.large.length > 0 || node.leaderboards.medium.length > 0 || node.leaderboards.small.length > 0
               return (
                 <Fragment key={node.id}>
-                  <Card cutout className="text-center">
+                  <Card cutout={hasLeaderboards} className="text-center">
                     <Lockup center element="h2" headingHref={node.path} heading={node.name} />
                     <RelativeDate label={constants.relativeDate.current} date={node.endDate} />
                     {node.description &&
                       <p>{node.description}</p>
                     }
                     <ModifierList modifiers={node.modifiers} />
+                    {!hasLeaderboards &&
+                      <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
+                    }
                   </Card>
-                  <TabContainer cutout>
-                    {node.leaderboards.large.length > 0 &&
-                      <Tab name={constants.division.large}>
-                        <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
-                      </Tab>
-                    }
-                    {node.leaderboards.medium.length > 0 &&
-                      <Tab name={constants.division.medium}>
-                        <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
-                      </Tab>
-                    }
-                    {node.leaderboards.small.length > 0 &&
-                      <Tab name={constants.division.small}>
-                        <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
-                      </Tab>
-                    }
-                  </TabContainer>
-                  <ButtonGroup>
-                    <Button href={`${node.path}#leaderboard`}>View full leaderboard</Button>
-                  </ButtonGroup>
+                  {hasLeaderboards &&
+                    <Fragment>
+                      <TabContainer cutout>
+                        {node.leaderboards.large.length > 0 &&
+                          <Tab name={constants.division.large}>
+                            <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
+                          </Tab>
+                        }
+                        {node.leaderboards.medium.length > 0 &&
+                          <Tab name={constants.division.medium}>
+                            <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
+                          </Tab>
+                        }
+                        {node.leaderboards.small.length > 0 &&
+                          <Tab name={constants.division.small}>
+                            <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
+                          </Tab>
+                        }
+                      </TabContainer>
+                      <ButtonGroup>
+                        <Button href={`${node.path}#leaderboard`}>View full leaderboard</Button>
+                      </ButtonGroup>
+                    </Fragment>
+                  }
                 </Fragment>
               )
             })}
@@ -104,7 +112,7 @@ class IndexPage extends Component {
 
               return (
                 <Fragment key={node.id}>
-                  <Card cutout className="text-center">
+                  <Card cutout={isCalculated} className="text-center">
                     <Lockup center element="h2" headingHref={node.path} heading={node.name} />
                     <RelativeDate label={constants.relativeDate.past} date={node.endDate} />
                     {node.description &&
@@ -144,7 +152,7 @@ class IndexPage extends Component {
               )
             })}
             <ButtonGroup>
-              <Button href="/#enroll">Enroll your clan today</Button>
+              <Button href="/events">View all events</Button>
             </ButtonGroup>
           </Fragment>
         }

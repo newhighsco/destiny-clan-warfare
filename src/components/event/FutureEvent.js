@@ -4,6 +4,7 @@ import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import RelativeDate from '../relative-date/RelativeDate'
 import { ModifierList } from '../modifier/Modifier'
+import { Button } from '../button/Button'
 
 const constants = require('../../utils/constants')
 
@@ -16,6 +17,7 @@ const FutureEvent = ({ event, element }) => {
         <p>{event.description}</p>
       }
       <ModifierList modifiers={event.modifiers} />
+      <Button href="/#enroll">Enroll your clan today</Button>
     </Card>
   )
 }

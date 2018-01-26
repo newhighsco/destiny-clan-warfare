@@ -1,7 +1,7 @@
 {
   "name": "destiny-clan-warfare",
   "description": "Destiny Clan Warfare",
-  "version": "1.2.1",
+  "version": "1.2.7",
   "author": "Avalanche UK <admins@avaclanche.uk>",
   "license": "ISC",
   "engines": {
@@ -38,12 +38,14 @@
     "gatsby-plugin-google-analytics": "^1.0.11",
     "gatsby-plugin-manifest": "^1.0.8",
     "gatsby-plugin-netlify": "^1.0.6",
+    "gatsby-plugin-nprogress": "^1.0.10",
     "gatsby-plugin-offline": "^1.0.10",
     "gatsby-plugin-react-helmet": "^1.0.8",
     "gatsby-plugin-react-next": "^1.0.7",
     "gatsby-plugin-sentry": "^0.0.2",
     "gatsby-plugin-sitemap": "^1.2.5",
     "gatsby-plugin-stylus": "^1.1.10",
+    "linkify-urls": "^1.4.0",
     "moment": "^2.19.2",
     "multi-sort": "^1.0.1",
     "netlify-identity-widget": "^1.2.0",

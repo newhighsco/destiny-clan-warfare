@@ -40,9 +40,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
           </ResponsiveMedia>
         </Icon>
         {label &&
-          <div className={`${baseClassName}__label`}>
-            {label}
-          </div>
+          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: label.join(', ') }} />
         }
         {count > 1 &&
           <div className={classNames(`${baseClassName}__count`, 'foreground')}>

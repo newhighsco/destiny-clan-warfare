@@ -6,7 +6,6 @@ import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
-const kda = require('../../utils/kda')
 const baseClassName = 'stat'
 
 const Stat = ({ label, stat }) => {
@@ -44,24 +43,11 @@ const StatList = ({ stats }) => {
   if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
-  var filteredKeys = [
+  const filteredKeys = [
     'id'
   ]
-  const kdaKeys = [
-    'kills',
-    'deaths',
-    'assists'
-  ]
-  const kdaKey = 'kda'
 
-  if (keys.filter(key => kdaKeys.indexOf(key) !== -1).length === kdaKeys.length) {
-    const index = keys.indexOf(kdaKeys[0])
-
-    keys.splice(index, kdaKeys.length, kdaKey)
-    stats[kdaKey] = kda(stats)
-  }
-
-  keys = Array.from(new Set(keys)).reduce((filtered, key) => {
+  keys = keys.reduce((filtered, key) => {
     if (filteredKeys.indexOf(key) === -1) {
       filtered.push(key)
     }

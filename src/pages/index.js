@@ -152,7 +152,7 @@ class IndexPage extends Component {
               )
             })}
             <ButtonGroup>
-              <Button href="/#enroll">Enroll your clan today</Button>
+              <Button href="/events">View all events</Button>
             </ButtonGroup>
           </Fragment>
         }

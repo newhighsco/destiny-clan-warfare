@@ -212,7 +212,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          modifiers: parseBonuses(item),
+          bonuses: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore))
         }
       }),

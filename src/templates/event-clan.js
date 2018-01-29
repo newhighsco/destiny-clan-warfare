@@ -16,28 +16,8 @@ const possessive = require('../utils/possessive')
 
 class EventClanTemplate extends Component {
   render () {
-    var bonuses = []
     const { data } = this.props
-    const leaderboard = data.clan.leaderboard
-      .filter(({ games }) => games > 0)
-      .map(item => {
-        item.modifiers.map(modifier => {
-          const label = modifier.shortName
-
-          if (modifier.scoringModifier) {
-            item[label] = modifier.count
-
-            if (bonuses.indexOf(label) === -1) bonuses.push(label)
-          }
-        })
-
-        const { modifiers, score, ...columns } = item
-
-        return {
-          ...columns,
-          score
-        }
-      })
+    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
     const title = `${data.clan.name} | ${constants.kicker.current}`
     const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {
@@ -62,13 +42,12 @@ class EventClanTemplate extends Component {
         }
       ]
     }
+
     const columns = [
       'games',
       'wins',
-      'kills',
-      'deaths',
-      'assists',
-      ...bonuses,
+      'kda',
+      'bonuses',
       'score'
     ]
     const stats = {}
@@ -76,25 +55,31 @@ class EventClanTemplate extends Component {
     if (leaderboard.length) {
       columns.map(column => {
         var top = leaderboard.reduce((a, b) => (a[column] > b[column]) ? a : b)
-        var keyPrefix = constants.prefix.most
         var key = column
         var stat = (top) => top[column]
 
-        if (column === 'kills') {
+        if (column === 'kda') {
           top = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
-          key = 'KDA'
           stat = (top) => kda(top)
         }
 
-        if (column.match(/(assists|deaths)/)) {
+        if (column === 'bonuses') {
+          const bonusCount = (item, key) => {
+            return item.bonuses.find(bonus => bonus.shortName === key).count
+          }
+          const bonusesKeys = leaderboard[0].bonuses.filter(({ count }) => count !== null).map(bonus => bonus.shortName)
+
+          bonusesKeys.map(key => {
+            top = leaderboard.reduce((a, b) => (bonusCount(a, key) > bonusCount(b, key)) ? a : b)
+            stat = (top) => bonusCount(top, key)
+
+            if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+          })
+
           top = null
         }
 
-        if (column.match(/(kills|score)/)) {
-          keyPrefix = constants.prefix.highest
-        }
-
-        if (top) stats[`${keyPrefix} ${key}`] = { stat: `${stat(top)}`, label: top.name }
+        if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
       })
     }
 
@@ -113,9 +98,9 @@ class EventClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <StatList stats={stats} />
+          <StatList top stats={stats} />
         </Card>
-        <Leaderboard cutout data={leaderboard} columns={[ 'icon', 'name', 'path', ...columns ]} sorting={{ score: 'DESC' }} />
+        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
       </PageContainer>
     )
   }
@@ -161,12 +146,11 @@ export const pageQuery = graphql`
         kills
         deaths
         assists
-        score
-        modifiers {
+        bonuses {
           shortName
           count
-          scoringModifier
         }
+        score
       }
     }
   }

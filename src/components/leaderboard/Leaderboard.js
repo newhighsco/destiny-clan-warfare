@@ -52,6 +52,7 @@ class Leaderboard extends Component {
     const showGameDetails = keys.indexOf('game') !== -1
     const showModifiers = keys.indexOf('modifiers') !== -1
     const showMedals = keys.indexOf('medal') !== -1
+    const showBonuses = keys.indexOf('bonuses') !== -1
     const filteredKeys = [
       'id',
       'icon',
@@ -145,6 +146,14 @@ class Leaderboard extends Component {
                     </div>
                   }
                   {keys.map((key, i) => {
+                    if (showBonuses && key === 'bonuses') {
+                      return item.bonuses.filter(({ count }) => count !== null).map((bonus, i) => {
+                        return (
+                          <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonus.shortName.toLowerCase()}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
+                        )
+                      })
+                    }
+
                     const value = item[key] !== null ? `${item[key]}` : constants.blank
 
                     return (

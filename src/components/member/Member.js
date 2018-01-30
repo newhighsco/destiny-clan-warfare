@@ -38,7 +38,7 @@ class Member extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Helmet>
-        <Card cutout className="text-center">
+        <Card className="text-center">
           {member.icon &&
             <Avatar className="card__avatar" icon={member.icon} />
           }

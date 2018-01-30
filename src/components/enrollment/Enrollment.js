@@ -11,6 +11,7 @@ import './Enrollment.styl'
 const constants = require('../../utils/constants')
 const api = require('../../utils/api-helper')
 const bungie = require('../../utils/bungie-helper')
+const httpExceptionHandler = require(`../../utils/http-exception-handler`)
 const action = `${constants.server.baseUrl}Home/AddClan/`
 const redirectUrl = `${process.env.GATSBY_SITE_URL}/thanks`
 
@@ -86,7 +87,7 @@ class Enrollment extends Component {
               this.setState({ groups: groups })
             }
           })
-          .catch(err => console.log(err))
+          .catch(err => httpExceptionHandler(err))
 
         this.setState({ name: name })
       }
@@ -104,7 +105,7 @@ class Enrollment extends Component {
     if (!status.enrollmentOpen) {
       return (
         <div id={id} className={baseClassName}>
-          <Notification>Enrollment for new clans is currently closed. Please try again later today.</Notification>
+          <Notification>Enrollment for new clans is currently closed.</Notification>
         </div>
       )
     }

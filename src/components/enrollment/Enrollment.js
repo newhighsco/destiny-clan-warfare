@@ -37,7 +37,7 @@ class Enrollment extends Component {
       .then(({ data }) => {
         this.setState({ active: data })
       })
-      .catch(err => console.log(err))
+      .catch(err => httpExceptionHandler(err))
   }
 
   handleEnroll (e) {

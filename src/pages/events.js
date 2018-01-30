@@ -25,7 +25,7 @@ class EventsPage extends Component {
           mapSeparator: ' ',
           date: edge.node.isCurrent ? edge.node.endDate : (edge.node.isPast) ? edge.node.endDate : edge.node.startDate
         },
-        bonuses: edge.node.bonuses
+        modifiers: edge.node.modifiers
       }
     })
     const currentEvent = data.allEvent.edges.find(({ node }) => node.isCurrent)

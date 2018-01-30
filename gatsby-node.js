@@ -147,7 +147,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const parseBonuses = (item) => {
     const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
 
-    return bonuses.filter(bonus => bonus).map(bonus => {
+    return bonuses.filter(bonus => bonus && bonus.count !== null).map(bonus => {
       const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
       if (modifier) {
         return {

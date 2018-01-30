@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../page-container/PageContainer'
@@ -22,13 +22,16 @@ class Member extends Component {
     const totals = member.totals
     const medals = member.medals
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
-    const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
+    const lastPlayedDate = moment.utc(totals ? totals.lastPlayed : emptyDate).format(constants.dateFormat)
     const stats = {
       ...totals,
       lastPlayed: lastPlayedDate
     }
     const title = `${member.name} | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
+    const kicker = member.clan ? member.clan.name : null
+    const kickerHref = member.clanId ? urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length)) : null
+    const canonicalUrl = `${process.env.GATSBY_SITE_URL}${member.path}`
 
     return (
       <PageContainer status={status}>
@@ -37,19 +40,24 @@ class Member extends Component {
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <link rel="canonical" href={canonicalUrl} />
         </Helmet>
         <Card className="text-center">
           {member.icon &&
             <Avatar className="card__avatar" icon={member.icon} />
           }
           <TagList tags={member.tags} className="card__tags" />
-          <Lockup primary center reverse kicker={member.clan.name} kickerHref={urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
-          <Button href={`${constants.bungie.baseUrl}en/Profile/${member.id}`} target="_blank">View profile</Button>
+          <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
+          {member.id &&
+            <Button href={`${constants.bungie.baseUrl}en/Profile/${member.id}`} target="_blank">View profile</Button>
+          }
           <MedalList medals={medals} />
           {lastPlayedDate > emptyDate &&
-            <StatList stats={stats} />
+            <Fragment>
+              <StatList stats={stats} />
+              <Notification>Past event statistics coming soon</Notification>
+            </Fragment>
           }
-          <Notification>Past event statistics coming soon</Notification>
         </Card>
       </PageContainer>
     )

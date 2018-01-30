@@ -25,6 +25,7 @@ exports.modifyWebpackConfig = ({ config, stage }) => {
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 
+  var apiStatus = { enrollmentOpen: false, bungieStatus: { errorCode: constants.bungie.disabledStatusCode } }
   var clans = []
   var leaderboards = []
   var members = []
@@ -37,25 +38,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   await api(`Clan/AcceptingNewClans`)
     .then(({ data }) => {
-      enrollmentOpen = data
+      apiStatus.enrollmentOpen = data
     })
     .catch(err => httpExceptionHandler(err))
 
   await bungie(`/Destiny2/Milestones`)
     .then(({ data }) => {
-      createNode({
-        id: `API status`,
-        updatedDate: updatedDate,
-        enrollmentOpen: enrollmentOpen,
-        bungieCode: data.ErrorCode,
-        bungieMessage: data.ErrorStatus,
-        parent: null,
-        children: [],
-        internal: {
-          type: `ApiStatus`,
-          contentDigest: createContentDigest(data)
-        }
-      })
+      apiStatus.bungieStatus = camelcaseKeys(data, casingOptions)
     })
     .catch(err => httpExceptionHandler(err))
 
@@ -142,6 +131,19 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       medals = medals.concat(parseMedals(data, constants.prefix.clan))
     })
     .catch(err => httpExceptionHandler(err))
+
+  createNode({
+    id: `API status`,
+    updatedDate: updatedDate,
+    enrollmentOpen: apiStatus.enrollmentOpen,
+    bungieCode: apiStatus.bungieStatus.errorCode,
+    parent: null,
+    children: [],
+    internal: {
+      type: `ApiStatus`,
+      contentDigest: createContentDigest(apiStatus)
+    }
+  })
 
   for (var clan of clans) {
     var clanLeaderboard = []

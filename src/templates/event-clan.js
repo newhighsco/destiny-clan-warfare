@@ -42,20 +42,45 @@ class EventClanTemplate extends Component {
         }
       ]
     }
-    var stats
+
+    const columns = [
+      'games',
+      'wins',
+      'kda',
+      'bonuses',
+      'score'
+    ]
+    const stats = {}
 
     if (leaderboard.length) {
-      const topGames = leaderboard.reduce((a, b) => (a.games > b.games) ? a : b)
-      const topWins = leaderboard.reduce((a, b) => (a.wins > b.wins) ? a : b)
-      const topKDA = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
-      const topScore = leaderboard.reduce((a, b) => (a.score > b.score) ? a : b)
+      columns.map(column => {
+        var top = leaderboard.reduce((a, b) => (a[column] > b[column]) ? a : b)
+        var key = column
+        var stat = (top) => top[column]
 
-      stats = {
-        mostGames: topGames ? { stat: `${topGames.games}`, label: topGames.name } : null,
-        mostWins: topWins ? { stat: `${topWins.wins}`, label: topWins.name } : null,
-        highestKDA: topKDA ? { stat: `${kda(topKDA)}`, label: topKDA.name } : null,
-        highestScore: topScore ? { stat: `${topScore.score}`, label: topScore.name } : null
-      }
+        if (column === 'kda') {
+          top = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
+          stat = (top) => kda(top)
+        }
+
+        if (column === 'bonuses') {
+          const bonusCount = (item, key) => {
+            return item.bonuses.find(bonus => bonus.shortName === key).count
+          }
+          const bonusesKeys = leaderboard[0].bonuses.map(bonus => bonus.shortName)
+
+          bonusesKeys.map(key => {
+            top = leaderboard.reduce((a, b) => (bonusCount(a, key) > bonusCount(b, key)) ? a : b)
+            stat = (top) => bonusCount(top, key)
+
+            if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+          })
+
+          top = null
+        }
+
+        if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+      })
     }
 
     return (
@@ -73,7 +98,7 @@ class EventClanTemplate extends Component {
         <Card cutout className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <StatList stats={stats} />
+          <StatList top stats={stats} />
         </Card>
         <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
       </PageContainer>
@@ -121,6 +146,10 @@ export const pageQuery = graphql`
         kills
         deaths
         assists
+        bonuses {
+          shortName
+          count
+        }
         score
       }
     }

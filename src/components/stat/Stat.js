@@ -6,9 +6,10 @@ import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
+const kda = require('../../utils/kda')
 const baseClassName = 'stat'
 
-const Stat = ({ label, stat }) => {
+const Stat = ({ label, prefix, stat }) => {
   var value = stat
   var valueLabel
 
@@ -20,6 +21,9 @@ const Stat = ({ label, stat }) => {
   return (
     <div className={`${baseClassName}`}>
       <div className={`${baseClassName}__label`}>
+        {prefix &&
+          <span>{prefix} </span>
+        }
         {label}
       </div>
       <div className={`${baseClassName}__value`}>
@@ -36,18 +40,44 @@ const Stat = ({ label, stat }) => {
 
 Stat.propTypes = {
   label: PropTypes.string,
+  prefix: PropTypes.string,
   stat: PropTypes.oneOfType([ PropTypes.string, PropTypes.number, PropTypes.object ])
 }
 
-const StatList = ({ stats }) => {
+const StatList = ({ stats, top }) => {
   if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
-  const filteredKeys = [
+  var filteredKeys = [
     'id'
   ]
+  const kdaKeys = [
+    'kills',
+    'deaths',
+    'assists'
+  ]
+  const kdaKey = 'kda'
+  const bonusesKey = 'bonuses'
 
-  keys = keys.reduce((filtered, key) => {
+  if (keys.filter(key => kdaKeys.indexOf(key) !== -1).length === kdaKeys.length) {
+    const index = keys.indexOf(kdaKeys[0])
+
+    keys.splice(index, kdaKeys.length, kdaKey)
+    stats[kdaKey] = kda(stats)
+  }
+
+  const bonusesIndex = keys.indexOf(bonusesKey)
+  if (bonusesIndex !== -1) {
+    const bonusesKeys = stats[bonusesKey].map(({ shortName }) => shortName && keys.indexOf(shortName.toLowerCase() === -1))
+
+    keys.splice(bonusesIndex, 1, ...bonusesKeys)
+
+    bonusesKeys.map(key => {
+      stats[key] = stats[bonusesKey].find(({ shortName }) => shortName === key).count
+    })
+  }
+
+  keys = Array.from(new Set(keys)).reduce((filtered, key) => {
     if (filteredKeys.indexOf(key) === -1) {
       filtered.push(key)
     }
@@ -60,10 +90,19 @@ const StatList = ({ stats }) => {
       {keys.map((key, i) => {
         const label = sentenceCase(key)
         const stat = stats[key] !== null ? stats[key] : constants.blank
+        var prefix
+
+        if (top) {
+          prefix = constants.prefix.most
+
+          if (key.match(/(kda|score)/)) {
+            prefix = constants.prefix.highest
+          }
+        }
 
         return (
           <li key={i}>
-            <Stat label={label} stat={stat} />
+            <Stat label={label} stat={stat} prefix={prefix} />
           </li>
         )
       })}
@@ -72,7 +111,8 @@ const StatList = ({ stats }) => {
 }
 
 StatList.propTypes = {
-  stats: PropTypes.object
+  stats: PropTypes.object,
+  top: PropTypes.bool
 }
 
 export {

@@ -147,7 +147,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   const parseBonuses = (item) => {
     const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
 
-    return bonuses.filter(bonus => bonus && bonus.count !== null).map(bonus => {
+    return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
       const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
       if (modifier) {
         return {
@@ -240,7 +240,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
       score: Number.NEGATIVE_INFINITY,
-      bonuses: []
+      bonusPoints1: { modifierId: 1, bonusPoints: Number.NEGATIVE_INFINITY }
     }
 
     if (history.length === 0) history = [ emptyHistory ]

@@ -9,10 +9,10 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 const api = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
+const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
 
 var currentEvent
-var enrollmentOpen = false
 const updatedDate = new Date()
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
@@ -25,6 +25,7 @@ exports.modifyWebpackConfig = ({ config, stage }) => {
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 
+  var apiStatus = { enrollmentOpen: false, bungieStatus: { errorCode: constants.bungie.disabledStatusCode } }
   var clans = []
   var leaderboards = []
   var members = []
@@ -37,52 +38,40 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   await api(`Clan/AcceptingNewClans`)
     .then(({ data }) => {
-      enrollmentOpen = data
+      apiStatus.enrollmentOpen = data
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await bungie(`/Destiny2/Milestones`)
     .then(({ data }) => {
-      createNode({
-        id: `API status`,
-        updatedDate: updatedDate,
-        enrollmentOpen: enrollmentOpen,
-        bungieCode: data.ErrorCode,
-        bungieMessage: data.ErrorStatus,
-        parent: null,
-        children: [],
-        internal: {
-          type: `ApiStatus`,
-          contentDigest: createContentDigest(data)
-        }
-      })
+      apiStatus.bungieStatus = camelcaseKeys(data, casingOptions)
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Clan/GetAllClans`)
     .then(({ data }) => {
       clans = data.map(item => camelcaseKeys(item, casingOptions))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Clan/GetAllMembers`)
     .then(({ data }) => {
       members = data.map(item => camelcaseKeys(item, casingOptions))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Leaderboard/GetAllPlayersHistory`)
     .then(({ data }) => {
       histories = data.map(item => camelcaseKeys(item, casingOptions))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Event/GetAllEvents`)
     .then(({ data }) => {
       events = data.map(item => camelcaseKeys(item, casingOptions))
       currentEvent = events.find(event => event.eventTense === constants.tense.current)
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   const parseModifier = (modifier) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
@@ -102,7 +91,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     .then(({ data }) => {
       modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   const parseMedals = (input, type) => {
     const output = []
@@ -136,13 +125,26 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     .then(({ data }) => {
       medals = medals.concat(parseMedals(data, constants.prefix.profile))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Component/GetAllClanMedals`)
     .then(({ data }) => {
       medals = medals.concat(parseMedals(data, constants.prefix.clan))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
+
+  createNode({
+    id: `API status`,
+    updatedDate: updatedDate,
+    enrollmentOpen: apiStatus.enrollmentOpen,
+    bungieCode: apiStatus.bungieStatus.errorCode,
+    parent: null,
+    children: [],
+    internal: {
+      type: `ApiStatus`,
+      contentDigest: createContentDigest(apiStatus)
+    }
+  })
 
   const parseBonuses = (item) => {
     const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
@@ -172,7 +174,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           leaderboard: clanLeaderboard
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => httpExceptionHandler(err))
 
     createNode({
       id: `${clan.groupId}`,
@@ -434,7 +436,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         .then(({ data }) => {
           currentLeaderboard = camelcaseKeys(data, casingOptions)
         })
-        .catch(err => console.log(err))
+        .catch(err => httpExceptionHandler(err))
 
       largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId, true)
       mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId, true)
@@ -658,7 +660,7 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
   })
 }
 
-exports.onPostBuild = () => {
+exports.onPostBuild = ({ graphql }) => {
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
@@ -668,4 +670,44 @@ exports.onPostBuild = () => {
   if (disallowRobots) robots.push('Disallow: /')
 
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
+
+  return new Promise((resolve, reject) => {
+    graphql(
+      `
+        {
+          allMember {
+            edges {
+              node {
+                path
+                name
+                totalsVisible
+              }
+            }
+          }
+        }
+      `
+    )
+    .then(result => {
+      if (result.errors) {
+        reject(result.errors)
+      }
+
+      var html = fs.readFileSync('./src/member.html', 'utf-8')
+
+      Promise.all(result.data.allMember.edges.map(async (member) => {
+        if (member.node.totalsVisible) {
+          const directory = `./public${member.node.path}`
+          html = html
+            .replace(/%NAME%/g, member.node.name)
+            .replace(/%PATH%/g, member.node.path)
+            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+
+          fs.mkdirSync(directory)
+          fs.writeFileSync(`${directory}index.html`, html)
+        }
+      }))
+    })
+
+    resolve()
+  })
 }

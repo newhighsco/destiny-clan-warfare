@@ -639,7 +639,6 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
 }
 
 exports.onPostBuild = ({ graphql }) => {
-  var memberHtml = fs.readFileSync('./public/member/index.html', 'utf-8')
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
@@ -671,15 +670,14 @@ exports.onPostBuild = ({ graphql }) => {
         reject(result.errors)
       }
 
+      const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
+
       Promise.all(result.data.allMember.edges.map(async (member) => {
         if (member.node.totalsVisible) {
           const directory = `./public${member.node.path}`
-          memberHtml = memberHtml
-            .replace(/%NAME%/g, member.node.name)
-            .replace(/%PATH%/g, member.name.path)
 
           fs.mkdirSync(directory)
-          fs.writeFileSync(`${directory}index.html`, memberHtml)
+          fs.writeFileSync(`${directory}index.html`, memberHtml.replace(/%NAME%/g, member.node.name).replace(/%PATH%/g, member.name.path))
         }
       }))
     })

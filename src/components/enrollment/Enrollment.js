@@ -96,7 +96,7 @@ class Enrollment extends Component {
     if (!status.enrollmentOpen) {
       return (
         <div id={id} className={baseClassName}>
-          <Notification>Enrollment for new clans is currently closed. Please try again later today.</Notification>
+          <Notification>Enrollment for new clans is currently closed.</Notification>
         </div>
       )
     }

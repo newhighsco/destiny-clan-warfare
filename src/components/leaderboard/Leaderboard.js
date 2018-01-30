@@ -147,7 +147,7 @@ class Leaderboard extends Component {
                   }
                   {keys.map((key, i) => {
                     if (showBonuses && key === 'bonuses') {
-                      return item.bonuses.filter(({ count }) => count !== null).map((bonus, i) => {
+                      return item.bonuses.map((bonus, i) => {
                         return (
                           <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonus.shortName.toLowerCase()}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
                         )

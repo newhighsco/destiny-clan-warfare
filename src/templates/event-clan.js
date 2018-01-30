@@ -67,7 +67,7 @@ class EventClanTemplate extends Component {
           const bonusCount = (item, key) => {
             return item.bonuses.find(bonus => bonus.shortName === key).count
           }
-          const bonusesKeys = leaderboard[0].bonuses.filter(({ count }) => count !== null).map(bonus => bonus.shortName)
+          const bonusesKeys = leaderboard[0].bonuses.map(bonus => bonus.shortName)
 
           bonusesKeys.map(key => {
             top = leaderboard.reduce((a, b) => (bonusCount(a, key) > bonusCount(b, key)) ? a : b)

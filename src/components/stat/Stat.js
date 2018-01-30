@@ -68,7 +68,7 @@ const StatList = ({ stats, top }) => {
 
   const bonusesIndex = keys.indexOf(bonusesKey)
   if (bonusesIndex !== -1) {
-    const bonusesKeys = stats[bonusesKey].filter(({ count }) => count !== null).map(bonus => bonus.shortName)
+    const bonusesKeys = stats[bonusesKey].map(bonus => bonus.shortName)
 
     keys.splice(bonusesIndex, 1, ...bonusesKeys)
 

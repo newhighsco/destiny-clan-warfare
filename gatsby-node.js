@@ -692,12 +692,12 @@ exports.onPostBuild = ({ graphql }) => {
         reject(result.errors)
       }
 
-      var html = fs.readFileSync('./src/member.html', 'utf-8')
+      var memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
 
       Promise.all(result.data.allMember.edges.map(async (member) => {
         if (member.node.totalsVisible) {
           const directory = `./public${member.node.path}`
-          html = html
+          const html = memberHtml
             .replace(/%NAME%/g, member.node.name)
             .replace(/%PATH%/g, member.node.path)
             .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)

@@ -148,8 +148,12 @@ class Leaderboard extends Component {
                   {keys.map((key, i) => {
                     if (showBonuses && key === 'bonuses') {
                       return item.bonuses.map((bonus, i) => {
+                        const bonusKey = bonus.shortName.toLowerCase()
+
+                        if (keys.indexOf(bonusKey) !== -1) return null
+
                         return (
-                          <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonus.shortName.toLowerCase()}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
+                          <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonusKey}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
                         )
                       })
                     }

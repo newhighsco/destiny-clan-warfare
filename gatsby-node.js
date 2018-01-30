@@ -677,7 +677,7 @@ exports.onPostBuild = ({ graphql }) => {
           const directory = `./public${member.node.path}`
 
           fs.mkdirSync(directory)
-          fs.writeFileSync(`${directory}index.html`, memberHtml.replace(/%NAME%/g, member.node.name).replace(/%PATH%/g, member.name.path))
+          fs.writeFileSync(`${directory}index.html`, memberHtml.replace(/%NAME%/g, member.node.name).replace(/%PATH%/g, member.node.path))
         }
       }))
     })

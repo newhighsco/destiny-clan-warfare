@@ -239,7 +239,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
-      score: Number.NEGATIVE_INFINITY
+      score: Number.NEGATIVE_INFINITY,
+      bonuses: []
     }
 
     if (history.length === 0) history = [ emptyHistory ]

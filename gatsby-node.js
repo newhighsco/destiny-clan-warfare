@@ -9,10 +9,10 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 const api = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
+const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
 
 var currentEvent
-var enrollmentOpen = false
 const updatedDate = new Date()
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
@@ -39,7 +39,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     .then(({ data }) => {
       enrollmentOpen = data
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await bungie(`/Destiny2/Milestones`)
     .then(({ data }) => {
@@ -57,32 +57,32 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         }
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Clan/GetAllClans`)
     .then(({ data }) => {
       clans = data.map(item => camelcaseKeys(item, casingOptions))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Clan/GetAllMembers`)
     .then(({ data }) => {
       members = data.map(item => camelcaseKeys(item, casingOptions))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Leaderboard/GetAllPlayersHistory`)
     .then(({ data }) => {
       histories = data.map(item => camelcaseKeys(item, casingOptions))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Event/GetAllEvents`)
     .then(({ data }) => {
       events = data.map(item => camelcaseKeys(item, casingOptions))
       currentEvent = events.find(event => event.eventTense === constants.tense.current)
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   const parseModifier = (modifier) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
@@ -101,7 +101,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     .then(({ data }) => {
       modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   const parseMedals = (input, type) => {
     const output = []
@@ -135,13 +135,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     .then(({ data }) => {
       medals = medals.concat(parseMedals(data, constants.prefix.profile))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Component/GetAllClanMedals`)
     .then(({ data }) => {
       medals = medals.concat(parseMedals(data, constants.prefix.clan))
     })
-    .catch(err => console.log(err))
+    .catch(err => httpExceptionHandler(err))
 
   for (var clan of clans) {
     var clanLeaderboard = []
@@ -155,7 +155,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           leaderboard: clanLeaderboard
         })
       })
-      .catch(err => console.log(err))
+      .catch(err => httpExceptionHandler(err))
 
     createNode({
       id: `${clan.groupId}`,
@@ -412,7 +412,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         .then(({ data }) => {
           currentLeaderboard = camelcaseKeys(data, casingOptions)
         })
-        .catch(err => console.log(err))
+        .catch(err => httpExceptionHandler(err))
 
       largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId, true)
       mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId, true)

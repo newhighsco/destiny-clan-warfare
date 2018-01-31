@@ -100,7 +100,6 @@ class IndexPage extends Component {
               const winnersMedal = data.medal
               const leaderboard = isCalculated
                 ? node.results
-                  .filter(({ score }) => score > 0)
                   .sort((a, b) => b.score - a.score)
                   .map((item, i) => {
                     if (i === 0) {

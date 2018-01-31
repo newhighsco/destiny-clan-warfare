@@ -93,7 +93,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  const parseMedals = (input, type) => {
+  const parseMedals = (input, type, minimumTier) => {
+    minimumTier = minimumTier || 0
     const output = []
     const parseMedal = (medal, type) => {
       return {
@@ -110,6 +111,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     input.map(medal => {
       const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
       const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
+
+      if (parsed.tier <= minimumTier) return
 
       if (existing) {
         existing.label = existing.label.concat(parsed.label)
@@ -195,7 +198,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: clanLeaderboard.map(item => {
+      leaderboard: clanLeaderboard.filter(({ gamesPlayed }) => gamesPlayed > 0).map(item => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 
         return {
@@ -321,12 +324,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       totalsSortable: totals.lastPlayed,
       leaderboard: leaderboard,
       leaderboardVisible: leaderboard.games > 0,
-      history: history.map(item => {
+      history: history.filter(item => item.pgcrId && item.gameType).map(item => {
         return {
           game: {
-            path: item.pgcrId ? urlBuilder.pgcrUrl(item.pgcrId) : '',
+            path: urlBuilder.pgcrUrl(item.pgcrId),
             isExternal: true,
-            result: item.pgcrId ? (item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : '')) : '',
+            result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
             type: item.gameType,
             map: item.map,
             mapSeparator: item.map ? ' - ' : '',
@@ -472,10 +475,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         medium: mediumLeaderboard,
         small: smallLeaderboard
       },
-      results: results,
+      results: results.filter(({ score }) => score > 0),
       medals: {
-        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan) : [],
-        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile) : []
+        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
+        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
       },
       parent: null,
       children: [],

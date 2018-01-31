@@ -695,13 +695,14 @@ exports.onPostBuild = ({ graphql }) => {
         }
 
         if (currentEvent && member.node.leaderboardVisible) {
-          const path = urlBuilder.eventUrl(currentEvent.eventId, member.node.clanId, member.node.id)
+          const clanId = member.node.clanId.substring(constants.prefix.hash.length)
+          const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
           const directory = `./public${path}`
           const html = eventMemberHtml
             .replace(/%NAME%/g, member.node.name)
             .replace(/%PATH%/g, path)
             .replace(/%CLAN_NAME%/g, member.node.clanName)
-            .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, member.node.clanId))
+            .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, clanId))
             .replace(/%EVENT_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId))
             .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
 

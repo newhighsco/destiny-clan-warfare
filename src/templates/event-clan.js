@@ -18,7 +18,7 @@ const possessive = require('../utils/possessive')
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
+    const leaderboard = data.clan.leaderboard
     const title = `${data.clan.name} | ${constants.kicker.current}`
     const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {
@@ -106,7 +106,12 @@ class EventClanTemplate extends Component {
           }
         </Card>
         {hasLeaderboard &&
-          <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
+          <Leaderboard
+            cutout
+            data={leaderboard}
+            columns={[ 'path', 'name', 'icon', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            sorting={{ score: 'DESC' }}
+          />
         }
       </PageContainer>
     )

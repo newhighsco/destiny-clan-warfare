@@ -36,6 +36,7 @@ class ClanTemplate extends Component {
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
+    const hasLeaderboard = leaderboard.length > 0
     const medals = data.clan.medals
     const title = `${data.clan.name} | Clans`
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
@@ -48,7 +49,7 @@ class ClanTemplate extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Helmet>
-        <Card cutout className="text-center">
+        <Card cutout={hasLeaderboard} className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
           {data.clan.description &&
@@ -59,8 +60,13 @@ class ClanTemplate extends Component {
           <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
           <MedalList medals={medals} />
           <Notification>Past event statistics coming soon</Notification>
+          {!hasLeaderboard &&
+            <Notification>Clan roster is being calculated. Please check back later.</Notification>
+          }
         </Card>
-        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
+        {hasLeaderboard &&
+          <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
+        }
       </PageContainer>
     )
   }

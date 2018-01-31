@@ -68,13 +68,15 @@ const StatList = ({ stats, top }) => {
 
   const bonusesIndex = keys.indexOf(bonusesKey)
   if (bonusesIndex !== -1) {
-    const bonusesKeys = stats[bonusesKey].map(({ shortName }) => shortName && keys.indexOf(shortName.toLowerCase() === -1))
+    const bonusesKeys = stats[bonusesKey].map(bonus => {
+      const key = bonus.shortName
+
+      if (keys.indexOf(key.toLowerCase()) !== -1) return null
+      stats[key] = bonus.count
+      return key
+    })
 
     keys.splice(bonusesIndex, 1, ...bonusesKeys)
-
-    bonusesKeys.map(key => {
-      stats[key] = stats[bonusesKey].find(({ shortName }) => shortName === key).count
-    })
   }
 
   keys = Array.from(new Set(keys)).reduce((filtered, key) => {

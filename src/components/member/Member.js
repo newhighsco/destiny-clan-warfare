@@ -22,16 +22,37 @@ class Member extends Component {
     const totals = member.totals
     const medals = member.medals
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
-    const lastPlayedDate = moment.utc(totals ? totals.lastPlayed : emptyDate).format(constants.dateFormat)
+    const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
     const stats = {
       ...totals,
       lastPlayed: lastPlayedDate
     }
     const title = `${member.name} | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
-    const kicker = member.clan ? member.clan.name : null
-    const kickerHref = member.clanId ? urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length)) : null
-    const canonicalUrl = `${process.env.GATSBY_SITE_URL}${member.path}`
+    const kicker = member.clan.name
+    const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@id': `${process.env.GATSBY_SITE_URL}${kickerHref}`,
+            name: member.clan.name
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@id': `${process.env.GATSBY_SITE_URL}${member.path}`,
+            name: member.name
+          }
+        }
+      ]
+    }
 
     return (
       <PageContainer status={status}>
@@ -40,7 +61,7 @@ class Member extends Component {
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          <link rel="canonical" href={canonicalUrl} />
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Card className="text-center">
           {member.icon &&
@@ -48,9 +69,7 @@ class Member extends Component {
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
-          {member.id &&
-            <Button href={`${constants.bungie.baseUrl}en/Profile/${member.id}`} target="_blank">View profile</Button>
-          }
+          <Button href={`${constants.bungie.baseUrl}en/Profile/${member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
           {lastPlayedDate > emptyDate &&
             <Fragment>

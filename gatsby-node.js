@@ -82,6 +82,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     return {
       ...modifier,
+      shortName: modifier.shortName || modifier.name.split(' ')[0],
       creator: creator
     }
   }
@@ -145,6 +146,22 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
   })
 
+  const parseBonuses = (item) => {
+    const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
+
+    return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
+      const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
+      if (modifier) {
+        return {
+          ...modifier,
+          count: bonus.bonusPoints
+        }
+      }
+
+      return null
+    })
+  }
+
   for (var clan of clans) {
     var clanLeaderboard = []
 
@@ -197,6 +214,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
+          bonuses: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore))
         }
       }),
@@ -223,7 +241,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
-      score: Number.NEGATIVE_INFINITY
+      score: Number.NEGATIVE_INFINITY,
+      bonusPoints1: { modifierId: 1, bonusPoints: Number.NEGATIVE_INFINITY }
     }
 
     if (history.length === 0) history = [ emptyHistory ]
@@ -239,7 +258,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
-      score: Number.NEGATIVE_INFINITY
+      score: Number.NEGATIVE_INFINITY,
+      bonuses: []
     }
 
     if (memberLeaderboard) {
@@ -249,7 +269,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         kills: memberLeaderboard.kills,
         assists: memberLeaderboard.assists,
         deaths: memberLeaderboard.deaths,
-        score: parseInt(Math.round(memberLeaderboard.totalScore))
+        score: parseInt(Math.round(memberLeaderboard.totalScore)),
+        bonuses: parseBonuses(memberLeaderboard)
       }
     }
 
@@ -281,6 +302,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
+      clanName: clan.name,
+      clanPath: urlBuilder.clanUrl(member.groupId),
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
       name: member.name,
@@ -312,7 +335,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          score: parseInt(Math.round(item.totalScore))
+          score: parseInt(Math.round(item.totalScore)),
+          bonuses: parseBonuses(item)
         }
       }),
       parent: null,
@@ -656,9 +680,14 @@ exports.onPostBuild = ({ graphql }) => {
           allMember {
             edges {
               node {
+                id
                 path
                 name
+                clanId
+                clanName
+                clanPath
                 totalsVisible
+                leaderboardVisible
               }
             }
           }
@@ -670,7 +699,8 @@ exports.onPostBuild = ({ graphql }) => {
         reject(result.errors)
       }
 
-      var memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
+      const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
+      const eventMemberHtml = fs.readFileSync('./src/event-member.html', 'utf-8')
 
       Promise.all(result.data.allMember.edges.map(async (member) => {
         if (member.node.totalsVisible) {
@@ -678,6 +708,24 @@ exports.onPostBuild = ({ graphql }) => {
           const html = memberHtml
             .replace(/%NAME%/g, member.node.name)
             .replace(/%PATH%/g, member.node.path)
+            .replace(/%CLAN_NAME%/g, member.node.clanName)
+            .replace(/%CLAN_PATH%/g, member.node.clanPath)
+            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+
+          fs.mkdirSync(directory)
+          fs.writeFileSync(`${directory}index.html`, html)
+        }
+
+        if (currentEvent && member.node.leaderboardVisible) {
+          const clanId = member.node.clanId.substring(constants.prefix.hash.length)
+          const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
+          const directory = `./public${path}`
+          const html = eventMemberHtml
+            .replace(/%NAME%/g, member.node.name)
+            .replace(/%PATH%/g, path)
+            .replace(/%CLAN_NAME%/g, member.node.clanName)
+            .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, clanId))
+            .replace(/%EVENT_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId))
             .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
 
           fs.mkdirSync(directory)

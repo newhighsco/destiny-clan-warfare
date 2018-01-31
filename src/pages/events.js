@@ -148,6 +148,10 @@ export const pageQuery = graphql`
             kills
             deaths
             assists
+            bonuses {
+              shortName
+              count
+            }
             score
           }
           history {
@@ -163,6 +167,10 @@ export const pageQuery = graphql`
             kills
             deaths
             assists
+            bonuses {
+              shortName
+              count
+            }
             score
           }
         }

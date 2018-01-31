@@ -8,7 +8,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
-import Notification from '../notification/Notification'
+import Notification from '../components/notification/Notification'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')

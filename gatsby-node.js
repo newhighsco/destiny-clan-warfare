@@ -281,6 +281,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
+      clanName: clan.name,
+      clanPath: urlBuilder.clanUrl(member.groupId),
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
       name: member.name,
@@ -659,6 +661,8 @@ exports.onPostBuild = ({ graphql }) => {
                 path
                 name
                 totalsVisible
+                clanName
+                clanPath
               }
             }
           }
@@ -678,6 +682,8 @@ exports.onPostBuild = ({ graphql }) => {
           const html = memberHtml
             .replace(/%NAME%/g, member.node.name)
             .replace(/%PATH%/g, member.node.path)
+            .replace(/%CLAN_NAME%/g, member.node.clanName)
+            .replace(/%CLAN_PATH%/g, member.node.clanPath)
             .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
 
           fs.mkdirSync(directory)

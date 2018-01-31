@@ -106,7 +106,12 @@ class EventClanTemplate extends Component {
           }
         </Card>
         {hasLeaderboard &&
-          <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
+          <Leaderboard
+            cutout
+            data={leaderboard}
+            columns={[ 'path', 'name', 'icon', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            sorting={{ score: 'DESC' }}
+          />
         }
       </PageContainer>
     )

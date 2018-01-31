@@ -44,7 +44,7 @@ class EventClanTemplate extends Component {
       ]
     }
     var stats
-    const hasLeaderboard = leaderboard.length
+    const hasLeaderboard = leaderboard.length > 0
 
     if (hasLeaderboard) {
       const topGames = leaderboard.reduce((a, b) => (a.games > b.games) ? a : b)

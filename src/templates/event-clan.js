@@ -8,6 +8,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
+import Notification from '../notification/Notification'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -43,8 +44,9 @@ class EventClanTemplate extends Component {
       ]
     }
     var stats
+    const hasLeaderboard = leaderboard.length
 
-    if (leaderboard.length) {
+    if (hasLeaderboard) {
       const topGames = leaderboard.reduce((a, b) => (a.games > b.games) ? a : b)
       const topWins = leaderboard.reduce((a, b) => (a.wins > b.wins) ? a : b)
       const topKDA = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
@@ -70,12 +72,17 @@ class EventClanTemplate extends Component {
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
         </Lockup>
-        <Card cutout className="text-center">
+        <Card cutout={hasLeaderboard} className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           <StatList stats={stats} />
+          {!hasLeaderboard &&
+            <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
+          }
         </Card>
-        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
+        {hasLeaderboard &&
+          <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
+        }
       </PageContainer>
     )
   }

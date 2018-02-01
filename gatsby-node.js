@@ -41,9 +41,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   await api(`Leaderboard/GetLastTrackedGame`)
     .then(({ data }) => {
-      console.log(999, data)
       apiStatus.updatedDate = new Date(data.DatePlayed)
-      console.log(888, apiStatus.updatedDate)
     })
     .catch(err => httpExceptionHandler(err))
 

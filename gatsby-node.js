@@ -13,7 +13,6 @@ const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
 
 var currentEvent
-const updatedDate = new Date()
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
   if (stage === 'build-javascript') {
@@ -25,7 +24,11 @@ exports.modifyWebpackConfig = ({ config, stage }) => {
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 
-  var apiStatus = { enrollmentOpen: false, bungieStatus: { errorCode: constants.bungie.disabledStatusCode } }
+  var apiStatus = {
+    enrollmentOpen: false,
+    bungieStatus: { errorCode: constants.bungie.disabledStatusCode },
+    updatedDate: new Date()
+  }
   var clans = []
   var leaderboards = []
   var members = []
@@ -35,6 +38,14 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var medals = []
   const casingOptions = { deep: true }
   const linkifyOptions = { attributes: { target: '_blank' } }
+
+  await api(`Leaderboard/GetLastTrackedGame`)
+    .then(({ data }) => {
+      console.log(999, data)
+      apiStatus.updatedDate = new Date(data.DatePlayed)
+      console.log(888, apiStatus.updatedDate)
+    })
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Clan/AcceptingNewClans`)
     .then(({ data }) => {
@@ -138,7 +149,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   createNode({
     id: `API status`,
-    updatedDate: updatedDate,
+    updatedDate: apiStatus.updatedDate,
     enrollmentOpen: apiStatus.enrollmentOpen,
     bungieCode: apiStatus.bungieStatus.errorCode,
     parent: null,
@@ -181,7 +192,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${clan.groupId}`,
-      updatedDate: updatedDate,
+      updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
@@ -301,7 +312,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: member.profileIdStr,
-      updatedDate: updatedDate,
+      updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
@@ -429,7 +440,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     var mediumLeaderboard = []
     var smallLeaderboard = []
 
-    if (isCurrent && endDate < updatedDate) {
+    if (isCurrent && endDate < apiStatus.updatedDate) {
       isCurrent = false
       isPast = true
     }
@@ -458,7 +469,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${constants.prefix.event} ${event.eventId}`,
-      updatedDate: updatedDate,
+      updatedDate: apiStatus.updatedDate,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',

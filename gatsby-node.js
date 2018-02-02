@@ -41,9 +41,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   await api(`Leaderboard/GetLastTrackedGame`)
     .then(({ data }) => {
-      console.log(999, data)
       apiStatus.updatedDate = new Date(data.DatePlayed)
-      console.log(888, apiStatus.updatedDate)
     })
     .catch(err => httpExceptionHandler(err))
 
@@ -465,6 +463,17 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       parseResults(constants.division.large, largeLeaderboard, results)
       parseResults(constants.division.medium, mediumLeaderboard, results)
       parseResults(constants.division.small, smallLeaderboard, results)
+
+      const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
+
+      results
+        .sort((a, b) => b.score - a.score)
+        .map((item, i) => {
+          if (i === 0) {
+            item.medal = winnersMedal
+          }
+          return item
+        })
     }
 
     createNode({
@@ -523,7 +532,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     createNode({
       ...medal,
       id: `${constants.prefix.medal} ${medal.type}${medal.id}`,
-      nameSortable: medal.name.toUpperCase(),
       parent: null,
       children: [],
       internal: {

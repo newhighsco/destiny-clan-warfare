@@ -19,7 +19,8 @@ const constants = {
   },
   result: {
     win: 'win',
-    loss: 'loss'
+    loss: 'loss',
+    winnersMedal: 'The Best of the Best'
   },
   tense: {
     current: 'Current',

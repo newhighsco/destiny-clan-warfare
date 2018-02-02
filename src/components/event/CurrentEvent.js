@@ -21,7 +21,7 @@ const CurrentEvent = ({ event, element, summary }) => {
   if (summary) {
     largeLeaderboard = largeLeaderboard.slice(0, summaryCount)
     mediumLeaderboard = mediumLeaderboard.slice(0, summaryCount)
-    smallLeaderboard = mediumLeaderboard.slice(0, summaryCount)
+    smallLeaderboard = smallLeaderboard.slice(0, summaryCount)
   }
 
   return (

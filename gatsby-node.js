@@ -389,7 +389,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: rawClan.kills,
           assists: rawClan.assists,
           deaths: rawClan.deaths,
-          score: parseInt(Math.round(rawClan.score || rawClan.totalScore))
+          score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0))
         }
       })
     }

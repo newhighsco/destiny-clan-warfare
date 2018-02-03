@@ -10,6 +10,13 @@ if (process.env.NODE_ENV === `production`) {
   }
 }
 
+var modernizrStr
+try {
+  modernizrStr = require(`!raw-loader!../public/modernizr.js`)
+} catch (e) {
+  console.log(e)
+}
+
 class Html extends Component {
   render () {
     var css
@@ -21,6 +28,11 @@ class Html extends Component {
         />
       )
     }
+    var modernizr = (
+      <script
+        dangerouslySetInnerHTML={{ __html: modernizrStr }}
+      />
+    )
     return (
       <html {...this.props.htmlAttributes}>
         <head>
@@ -32,6 +44,7 @@ class Html extends Component {
           />
           {this.props.headComponents}
           {css}
+          {modernizr}
         </head>
         <body {...this.props.bodyAttributes}>
           {this.props.preBodyComponents}

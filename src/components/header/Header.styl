@@ -8,17 +8,21 @@
     padding $spacing--double 0
 
   &:after
-    background url('../../images/header.jpg')
+    background url('./header.jpg')
     background-position 50% 0
     background-repeat no-repeat
     background-size cover
     content ''
+    filter blur(rem(2))
     position absolute
     top 0
     height rem(300)
     left 0
     right 0
     z-index -1
+
+    .webp &
+      background-image url('./header.webp')
 
     +width-min($mq--tablet)
       height rem(350)

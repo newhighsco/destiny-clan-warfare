@@ -336,7 +336,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       totalsSortable: totals.lastPlayed,
       leaderboard: leaderboard,
       leaderboardVisible: leaderboard.games > 0,
-      history: history.filter(item => item.pgcrId && item.gameType).map(item => {
+      history: history.map(item => {
         return {
           game: {
             path: urlBuilder.pgcrUrl(item.pgcrId),

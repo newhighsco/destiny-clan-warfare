@@ -695,67 +695,71 @@ exports.onPostBuild = ({ graphql }) => {
 
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
 
-  return new Promise((resolve, reject) => {
-    graphql(
-      `
-        {
-          allMember {
-            edges {
-              node {
-                id
-                path
-                name
-                clanId
-                clanName
-                clanPath
-                totalsVisible
-                leaderboardVisible
+  const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
+
+  if (enableProfilePages) {
+    return new Promise((resolve, reject) => {
+      graphql(
+        `
+          {
+            allMember {
+              edges {
+                node {
+                  id
+                  path
+                  name
+                  clanId
+                  clanName
+                  clanPath
+                  totalsVisible
+                  leaderboardVisible
+                }
               }
             }
           }
-        }
-      `
-    )
-    .then(result => {
-      if (result.errors) {
-        reject(result.errors)
-      }
-
-      const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
-      const eventMemberHtml = fs.readFileSync('./src/event-member.html', 'utf-8')
-
-      Promise.all(result.data.allMember.edges.map(async (member) => {
-        if (member.node.totalsVisible) {
-          const directory = `./public${member.node.path}`
-          const html = memberHtml
-            .replace(/%NAME%/g, member.node.name)
-            .replace(/%PATH%/g, member.node.path)
-            .replace(/%CLAN_NAME%/g, member.node.clanName)
-            .replace(/%CLAN_PATH%/g, member.node.clanPath)
-            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
-
-          fs.mkdirSync(directory)
-          fs.writeFileSync(`${directory}index.html`, html)
+        `
+      )
+      .then(result => {
+        if (result.errors) {
+          reject(result.errors)
         }
 
-        if (currentEvent && member.node.leaderboardVisible) {
-          const clanId = member.node.clanId.substring(constants.prefix.hash.length)
-          const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
-          const directory = `./public${path}`
-          const html = eventMemberHtml
-            .replace(/%NAME%/g, member.node.name)
-            .replace(/%PATH%/g, path)
-            .replace(/%CLAN_NAME%/g, member.node.clanName)
-            .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, clanId))
-            .replace(/%EVENT_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId))
-            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+        const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
+        const eventMemberHtml = fs.readFileSync('./src/event-member.html', 'utf-8')
 
-          fs.mkdirSync(directory)
-          fs.writeFileSync(`${directory}index.html`, html)
-        }
-      }))
+        Promise.all(result.data.allMember.edges.map(async (member) => {
+          if (member.node.totalsVisible) {
+            const directory = `./public${member.node.path}`
+            const html = memberHtml
+              .replace(/%NAME%/g, member.node.name)
+              .replace(/%PATH%/g, member.node.path)
+              .replace(/%CLAN_NAME%/g, member.node.clanName)
+              .replace(/%CLAN_PATH%/g, member.node.clanPath)
+              .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+
+            fs.mkdirSync(directory)
+            fs.writeFileSync(`${directory}index.html`, html)
+          }
+
+          if (currentEvent && member.node.leaderboardVisible) {
+            const clanId = member.node.clanId.substring(constants.prefix.hash.length)
+            const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
+            const directory = `./public${path}`
+            const html = eventMemberHtml
+              .replace(/%NAME%/g, member.node.name)
+              .replace(/%PATH%/g, path)
+              .replace(/%CLAN_NAME%/g, member.node.clanName)
+              .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, clanId))
+              .replace(/%EVENT_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId))
+              .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+
+            fs.mkdirSync(directory)
+            fs.writeFileSync(`${directory}index.html`, html)
+          }
+        }))
+      })
+
+      resolve()
     })
-
-    resolve()
-  })
+  }
 }

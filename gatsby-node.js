@@ -12,6 +12,7 @@ const bungie = require('./src/utils/bungie-helper')
 const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
 
+const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
 var currentEvent
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
@@ -69,11 +70,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  await api(`Leaderboard/GetAllPlayersHistory`)
-    .then(({ data }) => {
-      histories = data.map(item => camelcaseKeys(item, casingOptions))
-    })
-    .catch(err => httpExceptionHandler(err))
+  if (enableProfilePages) {
+    await api(`Leaderboard/GetAllPlayersHistory`)
+      .then(({ data }) => {
+        histories = data.map(item => camelcaseKeys(item, casingOptions))
+      })
+      .catch(err => httpExceptionHandler(err))
+  }
 
   await api(`Event/GetAllEvents`)
     .then(({ data }) => {
@@ -694,8 +697,6 @@ exports.onPostBuild = ({ graphql }) => {
   if (disallowRobots) robots.push('Disallow: /')
 
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
-
-  const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
 
   if (enableProfilePages) {
     return new Promise((resolve, reject) => {

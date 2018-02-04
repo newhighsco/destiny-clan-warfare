@@ -6,7 +6,7 @@ import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import EventMember from '../components/event/EventMember'
+import EventMember from '../components/member/EventMember'
 import NotFoundPage from './404'
 
 const constants = require('../utils/constants')
@@ -148,6 +148,10 @@ export const pageQuery = graphql`
             kills
             deaths
             assists
+            bonuses {
+              shortName
+              count
+            }
             score
           }
           history {
@@ -163,6 +167,10 @@ export const pageQuery = graphql`
             kills
             deaths
             assists
+            bonuses {
+              shortName
+              count
+            }
             score
           }
         }

@@ -1,0 +1,10 @@
+{
+  "classPrefix": "",
+  "options": [
+    "setClasses",
+    "testProp"
+  ],
+  "feature-detects": [
+    "img/webp"
+  ]
+}

@@ -73,12 +73,6 @@ module.exports = {
       }
     },
     {
-      resolve: `gatsby-plugin-sentry`,
-      options: {
-        dsn: `https://d16928953a68480ca15b7377fef94cd7@sentry.io/249072`
-      }
-    },
-    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `

@@ -9,6 +9,7 @@ import Leaderboard from '../leaderboard/Leaderboard'
 import RelativeDate from '../relative-date/RelativeDate'
 import { StatList } from '../stat/Stat'
 import { TagList } from '../tag/Tag'
+import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -18,6 +19,8 @@ class EventMember extends Component {
   render () {
     const { member, status } = this.props
     const leaderboard = member.history.filter(({ game }) => game.path.length && game.type)
+    const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
+    const hasLeaderboard = leaderboard.length > 0
     const title = `${member.name} | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
     const schema = {
@@ -63,15 +66,26 @@ class EventMember extends Component {
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={member.updatedDate} />
         </Lockup>
-        <Card cutout className="text-center">
+        <Card cutout={hasLeaderboard} className="text-center">
           {member.icon &&
             <Avatar className="card__avatar" icon={member.icon} />
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup center reverse kicker={member.clan.name} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
           <StatList stats={member.leaderboard} />
+          {!hasLeaderboard &&
+            <Notification>
+              {enableMatchHistory ? (
+                `Match history is being calculated. Please check back later.`
+              ) : (
+                `Match history is currently disabled.`
+              )}
+            </Notification>
+          }
         </Card>
-        <Leaderboard cutout data={leaderboard} />
+        {hasLeaderboard &&
+          <Leaderboard cutout data={leaderboard} />
+        }
       </PageContainer>
     )
   }

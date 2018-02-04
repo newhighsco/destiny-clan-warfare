@@ -3,26 +3,23 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import { Button, ButtonGroup } from '../components/button/Button'
-import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
-import { ModifierList } from '../components/modifier/Modifier'
-import { TabContainer, Tab } from '../components/tab/Tab'
-import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
+import CurrentEvent from '../components/event/CurrentEvent'
+import PreviousEvent from '../components/event/PreviousEvent'
 import FutureEvent from '../components/event/FutureEvent'
 import LogoImage from '../images/avatar-512x512.jpg'
-import Notification from '../components/notification/Notification'
 
 const constants = require('../utils/constants')
 
 class IndexPage extends Component {
   render () {
     const { data } = this.props
-    const currentEvents = data.allEvent.edges.filter(({ node }) => node.isCurrent)
-    const pastEvents = data.allEvent.edges.filter(({ node }) => node.isPast).slice(0, 1)
-    const futureEvents = data.allEvent.edges.filter(({ node }) => node.isFuture).reverse().slice(0, 1)
+    const currentEvent = data.currentEvents.edges.length > 0 ? data.currentEvents.edges[0].node : null
+    const previousEvent = data.pastEvents.edges.length > 0 ? data.pastEvents.edges[0].node : null
+    const nextEvent = data.futureEvents.edges.length > 0 ? data.futureEvents.edges[0].node : null
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',
@@ -40,122 +37,51 @@ class IndexPage extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Enrollment status={data.apiStatus} clans={data.allClan.edges.map(({ node }) => node)} />
-        {currentEvents.length > 0 &&
+        {currentEvent ? (
           <Fragment>
-            <Lockup primary center element="h1" kicker={`${constants.kicker.current}${currentEvents.length > 1 ? 's' : ''}`}>
-              <RelativeDate label={constants.relativeDate.updated} date={currentEvents[0].node.updatedDate} />
+            <Lockup primary center element="h1" kicker={constants.kicker.current}>
+              <RelativeDate label={constants.relativeDate.updated} date={currentEvent.updatedDate} />
             </Lockup>
-            {currentEvents.map(({ node }) => {
-              const hasLeaderboards = node.leaderboards.large.length > 0 || node.leaderboards.medium.length > 0 || node.leaderboards.small.length > 0
-              return (
-                <Fragment key={node.id}>
-                  <Card cutout={hasLeaderboards} className="text-center">
-                    <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                    <RelativeDate label={constants.relativeDate.current} date={node.endDate} />
-                    {node.description &&
-                      <p>{node.description}</p>
-                    }
-                    <ModifierList modifiers={node.modifiers} />
-                    {!hasLeaderboards &&
-                      <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
-                    }
-                  </Card>
-                  {hasLeaderboards &&
-                    <Fragment>
-                      <TabContainer cutout>
-                        {node.leaderboards.large.length > 0 &&
-                          <Tab name={constants.division.large}>
-                            <Leaderboard data={node.leaderboards.large.slice(0, 3)} />
-                          </Tab>
-                        }
-                        {node.leaderboards.medium.length > 0 &&
-                          <Tab name={constants.division.medium}>
-                            <Leaderboard data={node.leaderboards.medium.slice(0, 3)} />
-                          </Tab>
-                        }
-                        {node.leaderboards.small.length > 0 &&
-                          <Tab name={constants.division.small}>
-                            <Leaderboard data={node.leaderboards.small.slice(0, 3)} />
-                          </Tab>
-                        }
-                      </TabContainer>
-                      <ButtonGroup>
-                        <Button href={`${node.path}#leaderboard`}>View full leaderboard</Button>
-                      </ButtonGroup>
-                    </Fragment>
-                  }
-                </Fragment>
-              )
-            })}
-          </Fragment>
-        }
-        {pastEvents.length > 0 &&
-          <Fragment>
-            {currentEvents.length > 0 &&
-              <Advert />
+            <CurrentEvent event={currentEvent} element="h2" summary />
+            {previousEvent &&
+              <Fragment>
+                <Advert />
+                <Lockup center primary element="h1" kicker={constants.kicker.previous} />
+                <PreviousEvent event={previousEvent} element="h2" summary />
+              </Fragment>
             }
-            <Lockup center primary element="h1" kicker={`${constants.kicker.previous}${pastEvents.length > 1 ? 's' : ''}`} />
-            {pastEvents.map(({ node }) => {
-              const isCalculated = node.isCalculated
-              const winnersMedal = data.medal
-              const leaderboard = isCalculated
-                ? node.results
-                  .filter(({ score }) => score > 0)
-                  .sort((a, b) => b.score - a.score)
-                  .map((item, i) => {
-                    if (i === 0) {
-                      item.medal = winnersMedal
-                    }
-                    return item
-                  })
-                : []
-
-              return (
-                <Fragment key={node.id}>
-                  <Card cutout={isCalculated} className="text-center">
-                    <Lockup center element="h2" headingHref={node.path} heading={node.name} />
-                    <RelativeDate label={constants.relativeDate.past} date={node.endDate} />
-                    {node.description &&
-                      <p>{node.description}</p>
-                    }
-                    <ModifierList modifiers={node.modifiers} />
-                    {!isCalculated &&
-                      <Notification>Results for this event are being calculated. Please check back later.</Notification>
-                    }
-                  </Card>
-                  {isCalculated &&
-                    <Fragment>
-                      <TabContainer cutout>
-                        <Tab name="Winners">
-                          <Leaderboard data={leaderboard} sorting={{ division: 'ASC' }} />
-                        </Tab>
-                      </TabContainer>
-                      <ButtonGroup>
-                        <Button href={`${node.path}#results`}>View full results</Button>
-                      </ButtonGroup>
-                    </Fragment>
-                  }
-                </Fragment>
-              )
-            })}
-          </Fragment>
-        }
-        {futureEvents.length > 0 &&
-          <Fragment>
-            {pastEvents.length > 0 &&
-              <Advert />
+            {nextEvent &&
+              <Fragment>
+                {previousEvent &&
+                  <Advert />
+                }
+                <Lockup center primary element="h1" kicker={constants.kicker.next} />
+                <FutureEvent event={nextEvent} element="h2" summary />
+              </Fragment>
             }
-            <Lockup center primary element="h1" kicker={`${constants.kicker.next}${futureEvents.length > 1 ? 's' : ''}`} />
-            {futureEvents.map(({ node }) => {
-              return (
-                <FutureEvent key={node.id} event={node} element="h2" />
-              )
-            })}
-            <ButtonGroup>
-              <Button href="/events">View all events</Button>
-            </ButtonGroup>
           </Fragment>
-        }
+        ) : (
+          <Fragment>
+            {nextEvent &&
+              <Fragment>
+                <Lockup center primary element="h1" kicker={constants.kicker.next} />
+                <FutureEvent event={nextEvent} element="h2" summary />
+              </Fragment>
+            }
+            {previousEvent &&
+              <Fragment>
+                {nextEvent &&
+                  <Advert />
+                }
+                <Lockup center primary element="h1" kicker={constants.kicker.previous} />
+                <PreviousEvent event={previousEvent} element="h2" summary />
+              </Fragment>
+            }
+          </Fragment>
+        )}
+        <ButtonGroup>
+          <Button href="/events">View all events</Button>
+        </ButtonGroup>
       </PageContainer>
     )
   }
@@ -181,49 +107,26 @@ export const pageQuery = graphql`
         }
       }
     }
-    allEvent(sort: { fields: [ startDate ], order: DESC }) {
+    currentEvents: allEvent(filter: { isCurrent: { eq: true } }, sort: { fields: [startDate], order: ASC }, limit: 1) {
       edges {
         node {
-          id
-          updatedDate
-          path
-          name
-          description
-          startDate
-          endDate
-          isCurrent
-          isPast
-          isFuture
-          isCalculated
-          ...leaderboardFragment
-          results {
-            path
-            name
-            color
-            foreground {
-              color
-              icon
-            }
-            background {
-              color
-              icon
-            }
-            division
-            score
-            medal {
-              tier
-              name
-              description
-            }
-          }
-          ...modifiersFragment
+          ...currentEventFragment
         }
       }
     }
-    medal(nameSortable: { eq: "THE BEST OF THE BEST" }) {
-      tier
-      name
-      description
+    pastEvents: allEvent(filter: { isPast: { eq: true } }, sort: { fields: [startDate], order: DESC }, limit: 1) {
+      edges {
+        node {
+          ...previousEventFragment
+        }
+      }
+    }
+    futureEvents: allEvent(filter: { isFuture: { eq: true } }, sort: { fields: [startDate], order: ASC }, limit: 1) {
+      edges {
+        node {
+          ...futureEventFragment
+        }
+      }
     }
   }
 `

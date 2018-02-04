@@ -12,8 +12,9 @@ const bungie = require('./src/utils/bungie-helper')
 const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
 
+const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
+const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
 var currentEvent
-const updatedDate = new Date()
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
   if (stage === 'build-javascript') {
@@ -25,7 +26,11 @@ exports.modifyWebpackConfig = ({ config, stage }) => {
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 
-  var apiStatus = { enrollmentOpen: false, bungieStatus: { errorCode: constants.bungie.disabledStatusCode } }
+  var apiStatus = {
+    enrollmentOpen: false,
+    bungieStatus: { errorCode: constants.bungie.disabledStatusCode },
+    updatedDate: new Date()
+  }
   var clans = []
   var leaderboards = []
   var members = []
@@ -35,6 +40,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var medals = []
   const casingOptions = { deep: true }
   const linkifyOptions = { attributes: { target: '_blank' } }
+
+  await api(`Leaderboard/GetLastTrackedGame`)
+    .then(({ data }) => {
+      if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
+    })
+    .catch(err => httpExceptionHandler(err))
 
   await api(`Clan/AcceptingNewClans`)
     .then(({ data }) => {
@@ -60,11 +71,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  await api(`Leaderboard/GetAllPlayersHistory`)
-    .then(({ data }) => {
-      histories = data.map(item => camelcaseKeys(item, casingOptions))
-    })
-    .catch(err => httpExceptionHandler(err))
+  if (enableMatchHistory) {
+    await api(`Leaderboard/GetAllPlayersHistory`)
+      .then(({ data }) => {
+        histories = data.map(item => camelcaseKeys(item, casingOptions))
+      })
+      .catch(err => httpExceptionHandler(err))
+  }
 
   await api(`Event/GetAllEvents`)
     .then(({ data }) => {
@@ -82,6 +95,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     return {
       ...modifier,
+      shortName: modifier.shortName || modifier.name.split(' ')[0],
       creator: creator
     }
   }
@@ -92,7 +106,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  const parseMedals = (input, type) => {
+  const parseMedals = (input, type, minimumTier) => {
+    minimumTier = minimumTier || 0
     const output = []
     const parseMedal = (medal, type) => {
       return {
@@ -109,6 +124,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     input.map(medal => {
       const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
       const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
+
+      if (parsed.tier <= minimumTier) return
 
       if (existing) {
         existing.label = existing.label.concat(parsed.label)
@@ -134,7 +151,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   createNode({
     id: `API status`,
-    updatedDate: updatedDate,
+    updatedDate: apiStatus.updatedDate,
     enrollmentOpen: apiStatus.enrollmentOpen,
     bungieCode: apiStatus.bungieStatus.errorCode,
     parent: null,
@@ -144,6 +161,22 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       contentDigest: createContentDigest(apiStatus)
     }
   })
+
+  const parseBonuses = (item) => {
+    const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
+
+    return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
+      const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
+      if (modifier) {
+        return {
+          ...modifier,
+          count: bonus.bonusPoints
+        }
+      }
+
+      return null
+    })
+  }
 
   for (var clan of clans) {
     var clanLeaderboard = []
@@ -161,7 +194,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${clan.groupId}`,
-      updatedDate: updatedDate,
+      updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
       name: clan.name,
@@ -178,7 +211,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: clanLeaderboard.map(item => {
+      leaderboard: clanLeaderboard.filter(({ gamesPlayed }) => gamesPlayed > 0).map(item => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 
         return {
@@ -197,6 +230,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
+          bonuses: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore))
         }
       }),
@@ -223,7 +257,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
-      score: Number.NEGATIVE_INFINITY
+      score: Number.NEGATIVE_INFINITY,
+      bonusPoints1: { modifierId: 1, bonusPoints: Number.NEGATIVE_INFINITY }
     }
 
     if (history.length === 0) history = [ emptyHistory ]
@@ -239,7 +274,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       kills: Number.NEGATIVE_INFINITY,
       assists: Number.NEGATIVE_INFINITY,
       deaths: Number.NEGATIVE_INFINITY,
-      score: Number.NEGATIVE_INFINITY
+      score: Number.NEGATIVE_INFINITY,
+      bonuses: []
     }
 
     if (memberLeaderboard) {
@@ -249,7 +285,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         kills: memberLeaderboard.kills,
         assists: memberLeaderboard.assists,
         deaths: memberLeaderboard.deaths,
-        score: parseInt(Math.round(memberLeaderboard.totalScore))
+        score: parseInt(Math.round(memberLeaderboard.totalScore)),
+        bonuses: parseBonuses(memberLeaderboard)
       }
     }
 
@@ -277,10 +314,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: member.profileIdStr,
-      updatedDate: updatedDate,
+      updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
+      clanName: clan.name,
+      clanPath: urlBuilder.clanUrl(member.groupId),
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
       name: member.name,
@@ -301,9 +340,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       history: history.map(item => {
         return {
           game: {
-            path: item.pgcrId ? urlBuilder.pgcrUrl(item.pgcrId) : '',
+            path: urlBuilder.pgcrUrl(item.pgcrId),
             isExternal: true,
-            result: item.pgcrId ? (item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : '')) : '',
+            result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
             type: item.gameType,
             map: item.map,
             mapSeparator: item.map ? ' - ' : '',
@@ -312,7 +351,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          score: parseInt(Math.round(item.totalScore))
+          score: parseInt(Math.round(item.totalScore)),
+          bonuses: parseBonuses(item)
         }
       }),
       parent: null,
@@ -353,7 +393,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           kills: rawClan.kills,
           assists: rawClan.assists,
           deaths: rawClan.deaths,
-          score: parseInt(Math.round(rawClan.score || rawClan.totalScore))
+          score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0))
         }
       })
     }
@@ -402,7 +442,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     var mediumLeaderboard = []
     var smallLeaderboard = []
 
-    if (isCurrent && endDate < updatedDate) {
+    if (isCurrent && endDate < apiStatus.updatedDate) {
       isCurrent = false
       isPast = true
     }
@@ -427,11 +467,22 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       parseResults(constants.division.large, largeLeaderboard, results)
       parseResults(constants.division.medium, mediumLeaderboard, results)
       parseResults(constants.division.small, smallLeaderboard, results)
+
+      const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
+
+      results
+        .sort((a, b) => b.score - a.score)
+        .map((item, i) => {
+          if (i === 0) {
+            item.medal = winnersMedal
+          }
+          return item
+        })
     }
 
     createNode({
       id: `${constants.prefix.event} ${event.eventId}`,
-      updatedDate: updatedDate,
+      updatedDate: apiStatus.updatedDate,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',
@@ -448,10 +499,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         medium: mediumLeaderboard,
         small: smallLeaderboard
       },
-      results: results,
+      results: results.filter(({ score }) => score > 0),
       medals: {
-        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan) : [],
-        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile) : []
+        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
+        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
       },
       parent: null,
       children: [],
@@ -485,7 +536,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     createNode({
       ...medal,
       id: `${constants.prefix.medal} ${medal.type}${medal.id}`,
-      nameSortable: medal.name.toUpperCase(),
       parent: null,
       children: [],
       internal: {
@@ -649,43 +699,69 @@ exports.onPostBuild = ({ graphql }) => {
 
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
 
-  return new Promise((resolve, reject) => {
-    graphql(
-      `
-        {
-          allMember {
-            edges {
-              node {
-                path
-                name
-                totalsVisible
+  if (enableProfilePages) {
+    return new Promise((resolve, reject) => {
+      graphql(
+        `
+          {
+            allMember {
+              edges {
+                node {
+                  id
+                  path
+                  name
+                  clanId
+                  clanName
+                  clanPath
+                  totalsVisible
+                  leaderboardVisible
+                }
               }
             }
           }
+        `
+      )
+      .then(result => {
+        if (result.errors) {
+          reject(result.errors)
         }
-      `
-    )
-    .then(result => {
-      if (result.errors) {
-        reject(result.errors)
-      }
 
-      var memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
+        const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
+        const eventMemberHtml = fs.readFileSync('./src/event-member.html', 'utf-8')
 
-      Promise.all(result.data.allMember.edges.map(async (member) => {
-        if (member.node.totalsVisible) {
-          const directory = `./public${member.node.path}`
-          const html = memberHtml
-            .replace(/%NAME%/g, member.node.name)
-            .replace(/%PATH%/g, member.node.path)
-            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+        Promise.all(result.data.allMember.edges.map(async (member) => {
+          if (member.node.totalsVisible) {
+            const directory = `./public${member.node.path}`
+            const html = memberHtml
+              .replace(/%NAME%/g, member.node.name)
+              .replace(/%PATH%/g, member.node.path)
+              .replace(/%CLAN_NAME%/g, member.node.clanName)
+              .replace(/%CLAN_PATH%/g, member.node.clanPath)
+              .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
 
-          fs.mkdirSync(directory)
-          fs.writeFileSync(`${directory}index.html`, html)
-        }
-      }))
+            fs.mkdirSync(directory)
+            fs.writeFileSync(`${directory}index.html`, html)
+          }
+
+          if (currentEvent && member.node.leaderboardVisible) {
+            const clanId = member.node.clanId.substring(constants.prefix.hash.length)
+            const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
+            const directory = `./public${path}`
+            const html = eventMemberHtml
+              .replace(/%NAME%/g, member.node.name)
+              .replace(/%PATH%/g, path)
+              .replace(/%CLAN_NAME%/g, member.node.clanName)
+              .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, clanId))
+              .replace(/%EVENT_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId))
+              .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+
+            fs.mkdirSync(directory)
+            fs.writeFileSync(`${directory}index.html`, html)
+          }
+        }))
+      })
+
+      resolve()
     })
-
-    resolve()
-  })
+  }
 }

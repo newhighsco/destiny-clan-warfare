@@ -60,6 +60,7 @@ class Tooltip extends Component {
         <button
           type="button"
           className="text-button tooltip__trigger"
+          aria-label="Open tooltip"
           {...enableHover ? {
             onMouseOver: this.showTooltip,
             onMouseOut: this.hideTooltip,

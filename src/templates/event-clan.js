@@ -8,6 +8,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
+import Notification from '../components/notification/Notification'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -17,7 +18,7 @@ const possessive = require('../utils/possessive')
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
+    const leaderboard = data.clan.leaderboard
     const title = `${data.clan.name} | ${constants.kicker.current}`
     const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {
@@ -42,20 +43,46 @@ class EventClanTemplate extends Component {
         }
       ]
     }
-    var stats
 
-    if (leaderboard.length) {
-      const topGames = leaderboard.reduce((a, b) => (a.games > b.games) ? a : b)
-      const topWins = leaderboard.reduce((a, b) => (a.wins > b.wins) ? a : b)
-      const topKDA = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
-      const topScore = leaderboard.reduce((a, b) => (a.score > b.score) ? a : b)
+    const columns = [
+      'games',
+      'wins',
+      'kda',
+      'bonuses',
+      'score'
+    ]
+    const stats = {}
+    const hasLeaderboard = leaderboard.length > 0
 
-      stats = {
-        mostGames: topGames ? { stat: `${topGames.games}`, label: topGames.name } : null,
-        mostWins: topWins ? { stat: `${topWins.wins}`, label: topWins.name } : null,
-        highestKDA: topKDA ? { stat: `${kda(topKDA)}`, label: topKDA.name } : null,
-        highestScore: topScore ? { stat: `${topScore.score}`, label: topScore.name } : null
-      }
+    if (hasLeaderboard) {
+      columns.map(column => {
+        var top = leaderboard.reduce((a, b) => (a[column] > b[column]) ? a : b)
+        var key = column
+        var stat = (top) => top[column]
+
+        if (column === 'kda') {
+          top = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
+          stat = (top) => kda(top)
+        }
+
+        if (column === 'bonuses') {
+          const bonusCount = (item, key) => {
+            return item.bonuses.find(bonus => bonus.shortName === key).count
+          }
+          const bonusesKeys = leaderboard[0].bonuses.map(bonus => bonus.shortName)
+
+          bonusesKeys.map(key => {
+            top = leaderboard.reduce((a, b) => (bonusCount(a, key) > bonusCount(b, key)) ? a : b)
+            stat = (top) => bonusCount(top, key)
+
+            if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+          })
+
+          top = null
+        }
+
+        if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+      })
     }
 
     return (
@@ -70,12 +97,22 @@ class EventClanTemplate extends Component {
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
         </Lockup>
-        <Card cutout className="text-center">
+        <Card cutout={hasLeaderboard} className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           <StatList stats={stats} />
+          {!hasLeaderboard &&
+            <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
+          }
         </Card>
-        <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC' }} />
+        {hasLeaderboard &&
+          <Leaderboard
+            cutout
+            data={leaderboard}
+            columns={[ 'path', 'name', 'icon', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            sorting={{ score: 'DESC' }}
+          />
+        }
       </PageContainer>
     )
   }
@@ -121,6 +158,10 @@ export const pageQuery = graphql`
         kills
         deaths
         assists
+        bonuses {
+          shortName
+          count
+        }
         score
       }
     }

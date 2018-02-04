@@ -74,7 +74,7 @@ class Member extends Component {
           {lastPlayedDate > emptyDate &&
             <Fragment>
               <StatList stats={stats} />
-              <Notification>Past event statistics coming soon</Notification>
+              <Notification>Past event statistics coming soon.</Notification>
             </Fragment>
           }
         </Card>

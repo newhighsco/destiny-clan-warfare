@@ -59,7 +59,7 @@ class ClanTemplate extends Component {
           }
           <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
           <MedalList medals={medals} />
-          <Notification>Past event statistics coming soon</Notification>
+          <Notification>Past event statistics coming soon.</Notification>
           {!hasLeaderboard &&
             <Notification>Clan roster is being calculated. Please check back later.</Notification>
           }

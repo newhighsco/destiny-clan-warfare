@@ -19,6 +19,7 @@ class EventMember extends Component {
   render () {
     const { member, status } = this.props
     const leaderboard = member.history.filter(({ game }) => game.path.length && game.type)
+    const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
     const hasLeaderboard = leaderboard.length > 0
     const title = `${member.name} | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
@@ -73,7 +74,13 @@ class EventMember extends Component {
           <Lockup center reverse kicker={member.clan.name} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
           <StatList stats={member.leaderboard} />
           {!hasLeaderboard &&
-            <Notification>Match history is being calculated. Please check back later.</Notification>
+            <Notification>
+              {enableMatchHistory ? (
+                `Match history is being calculated. Please check back later.`
+              ) : (
+                `Match history is currently disabled.`
+              )}
+            </Notification>
           }
         </Card>
         {hasLeaderboard &&

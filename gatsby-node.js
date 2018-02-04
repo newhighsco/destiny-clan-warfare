@@ -13,6 +13,7 @@ const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
 
 const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
+const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
 var currentEvent
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
@@ -70,7 +71,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  if (enableProfilePages) {
+  if (enableMatchHistory) {
     await api(`Leaderboard/GetAllPlayersHistory`)
       .then(({ data }) => {
         histories = data.map(item => camelcaseKeys(item, casingOptions))

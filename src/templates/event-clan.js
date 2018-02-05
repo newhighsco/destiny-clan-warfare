@@ -109,7 +109,7 @@ class EventClanTemplate extends Component {
           <Leaderboard
             cutout
             data={leaderboard}
-            columns={[ 'path', 'name', 'icon', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            columns={[ 'path', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
             sorting={{ score: 'DESC' }}
           />
         }

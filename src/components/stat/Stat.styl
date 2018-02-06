@@ -43,3 +43,25 @@
 
     +width-min($mq--tablet)
       margin $spacing--half $spacing--default
+
+.stat-history
+  text-align center
+
+.stat-history--cutout
+  margin-top ($spacing--default * -1) !important // @stylint ignore
+  margin-left $spacing--half
+  margin-right $spacing--half
+
+  +width-min($mq--tablet)
+    margin-top ($spacing--double * -1) !important // @stylint ignore
+    margin-left $spacing--default
+    margin-right $spacing--default
+
+  +width-min($mq--desktop)
+    margin-left $spacing--double
+    margin-right $spacing--double
+
+.stat-history__card
+  background $color--nightrider
+  box-shadow none
+  color $color--white

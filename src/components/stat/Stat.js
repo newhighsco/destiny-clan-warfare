@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import Card from '../card/Card'
 
 import './Stat.styl'
 
@@ -117,7 +118,32 @@ StatList.propTypes = {
   top: PropTypes.bool
 }
 
+const StatHistory = ({ events, cutout }) => {
+  if (!events || events.length < 1) return null
+  const className = `${baseClassName}-history`
+
+  return (
+    <div className={classNames(className, cutout && `${className}--cutout`)}>
+      <div className="grid">
+        {events.map((event, i) => {
+          return (
+            <div key={i} id={i} className="grid__item one-half">
+              <Card className={`${className}__card`}>{i}</Card>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+StatHistory.propTypes = {
+  events: PropTypes.array,
+  cutout: PropTypes.bool
+}
+
 export {
   Stat,
-  StatList
+  StatList,
+  StatHistory
 }

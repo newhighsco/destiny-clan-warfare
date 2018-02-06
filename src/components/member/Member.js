@@ -54,8 +54,9 @@ class Member extends Component {
       ]
     }
     const events = [
-      {},
-      {}
+      { id: 16, name: 'Some event' },
+      { id: 15, name: 'Another event with a longer title that wraps over new lines' },
+      { id: 17, name: 'Another event' }
     ]
     const hasEvents = events.length > 0
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Card from '../card/Card'
 
 import './Stat.styl'
 
@@ -124,11 +123,14 @@ const StatHistory = ({ events, cutout }) => {
 
   return (
     <div className={classNames(className, cutout && `${className}--cutout`)}>
-      <div className="grid">
+      <div className="grid grid--flex grid--gutter-pixel">
         {events.map((event, i) => {
           return (
-            <div key={i} id={i} className="grid__item one-half">
-              <Card className={`${className}__card`}>{i}</Card>
+            <div key={i} className="grid__item tablet-one-half">
+              <a id={event.id} className="is-vhidden">{event.name}</a>
+              <div className={`${className}__card`}>
+                {event.name}
+              </div>
             </div>
           )
         })}

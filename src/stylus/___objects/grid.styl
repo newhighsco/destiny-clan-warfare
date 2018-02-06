@@ -27,6 +27,7 @@ grid-widths('', 2)
 //
 
 grid-gutter-modifier('gutterless', 0)
+grid-gutter-modifier('gutter-pixel', 1px)
 grid-gutter-modifier('gutter-double', $spacing--double)
 
 grid-reverse()
@@ -38,3 +39,7 @@ grid-reverse()
 .grid--bottomed
   > .grid__item
     vertical-align bottom
+
+.grid--flex
+  display flex
+  flex-wrap wrap

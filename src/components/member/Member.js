@@ -6,7 +6,7 @@ import Card from '../card/Card'
 import Avatar from '../avatar/Avatar'
 import { Lockup } from '../lockup/Lockup'
 import { MedalList } from '../medal/Medal'
-import { StatList } from '../stat/Stat'
+import { StatList, StatHistory } from '../stat/Stat'
 import { Button } from '../button/Button'
 import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
@@ -53,6 +53,11 @@ class Member extends Component {
         }
       ]
     }
+    const events = [
+      {},
+      {}
+    ]
+    const hasEvents = events.length > 0
 
     return (
       <PageContainer status={status}>
@@ -63,7 +68,7 @@ class Member extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Card className="text-center">
+        <Card cutout={hasEvents} className="text-center">
           {member.icon &&
             <Avatar className="card__avatar" icon={member.icon} />
           }
@@ -74,10 +79,15 @@ class Member extends Component {
           {lastPlayedDate > emptyDate &&
             <Fragment>
               <StatList stats={stats} />
-              <Notification>Past event statistics coming soon.</Notification>
+              {!hasEvents &&
+                <Notification>Past event statistics coming soon.</Notification>
+              }
             </Fragment>
           }
         </Card>
+        {hasEvents &&
+          <StatHistory cutout events={events} />
+        }
       </PageContainer>
     )
   }

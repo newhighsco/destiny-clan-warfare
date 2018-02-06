@@ -9,6 +9,7 @@ import Notification from '../notification/Notification'
 import './Enrollment.styl'
 
 const constants = require('../../utils/constants')
+const api = require('../../utils/api-helper').proxy
 const bungie = require('../../utils/bungie-helper')
 const httpExceptionHandler = require(`../../utils/http-exception-handler`)
 const action = `${constants.server.baseUrl}Home/AddClan/`
@@ -29,6 +30,14 @@ class Enrollment extends Component {
 
     this.handleEnroll = this.handleEnroll.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
+  }
+
+  componentDidMount () {
+    api(`Clan/AcceptingNewClans`)
+      .then(({ data }) => {
+        this.setState({ active: data })
+      })
+      .catch(err => httpExceptionHandler(err))
   }
 
   handleEnroll (e) {

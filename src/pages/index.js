@@ -17,9 +17,9 @@ const constants = require('../utils/constants')
 class IndexPage extends Component {
   render () {
     const { data } = this.props
-    const currentEvent = data.currentEvents.edges.length > 0 ? data.currentEvents.edges[0].node : null
-    const previousEvent = data.pastEvents.edges.length > 0 ? data.pastEvents.edges[0].node : null
-    const nextEvent = data.futureEvents.edges.length > 0 ? data.futureEvents.edges[0].node : null
+    const currentEvent = data.currentEvents ? data.currentEvents.edges[0].node : null
+    const previousEvent = data.pastEvents ? data.pastEvents.edges[0].node : null
+    const nextEvent = data.futureEvents ? data.futureEvents.edges[0].node : null
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',

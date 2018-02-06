@@ -16,6 +16,7 @@ class Advert extends Component {
   componentDidMount () {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({})
+      document.body.classList.add('has-advert')
       this.setState({ active: true })
     } catch (e) {
       this.setState({ active: false })

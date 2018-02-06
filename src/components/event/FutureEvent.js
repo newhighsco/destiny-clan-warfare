@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
@@ -6,18 +6,43 @@ import RelativeDate from '../relative-date/RelativeDate'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
 
-const FutureEvent = ({ event, element, summary }) => {
-  return (
-    <Card center>
-      <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-      <RelativeDate start={event.startDate} end={event.endDate} />
-      {event.description &&
-        <p>{event.description}</p>
-      }
-      <ModifierList modifiers={event.modifiers} />
-      <Button href="/#enroll">Enroll your clan today</Button>
-    </Card>
-  )
+class FutureEvent extends Component {
+  constructor (props) {
+    super(props)
+
+    const { status } = this.props
+
+    this.state = {
+      enrollmentOpen: status.enrollmentOpen
+    }
+  }
+
+  componentDidMount () {
+    const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
+
+    this.setState({ enrollmentOpen: enrollmentOpen })
+  }
+
+  render () {
+    const { event, element, summary } = this.props
+    const { enrollmentOpen } = this.state
+
+    console.log(this.state)
+
+    return (
+      <Card center>
+        <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
+        <RelativeDate start={event.startDate} end={event.endDate} />
+        {event.description &&
+          <p>{event.description}</p>
+        }
+        <ModifierList modifiers={event.modifiers} />
+        {enrollmentOpen &&
+          <Button href="/#enroll">Enroll your clan today</Button>
+        }
+      </Card>
+    )
+  }
 }
 
 FutureEvent.defaultProps = {
@@ -26,6 +51,7 @@ FutureEvent.defaultProps = {
 
 FutureEvent.propTypes = {
   event: PropTypes.object,
+  status: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }
@@ -36,6 +62,7 @@ export const componentFragment = graphql`
   fragment futureEventFragment on Event {
     path
     name
+    description
     startDate
     endDate
     ...modifiersFragment

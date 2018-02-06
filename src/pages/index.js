@@ -42,7 +42,7 @@ class IndexPage extends Component {
             <Lockup primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate updated={currentEvent.updatedDate} />
             </Lockup>
-            <CurrentEvent event={currentEvent} element="h2" summary />
+            <CurrentEvent event={currentEvent} status={data.apiStatus} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
@@ -56,7 +56,7 @@ class IndexPage extends Component {
                   <Advert />
                 }
                 <Lockup center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} element="h2" summary />
+                <FutureEvent event={nextEvent} status={data.apiStatus} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -65,7 +65,7 @@ class IndexPage extends Component {
             {nextEvent &&
               <Fragment>
                 <Lockup center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} element="h2" summary />
+                <FutureEvent event={nextEvent} status={data.apiStatus} element="h2" summary />
               </Fragment>
             }
             {previousEvent &&

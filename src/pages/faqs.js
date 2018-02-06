@@ -24,9 +24,7 @@ class FaqsPage extends Component {
           <meta property="og:description" content={description} />
         </Helmet>
         <Card>
-          <Lockup primary center kicker="Frequently asked" heading="Questions">
-            <RelativeDate hidden label={constants.relativeDate.updated} date={data.apiStatus.updatedDate} />
-          </Lockup>
+          <Lockup primary center kicker="Frequently asked" heading="Questions" />
           <Prose>
             <h2>What is {constants.meta.name}?</h2>
             <p>{constants.meta.name} is a website designed to be a clan vs clan weekly competition across a variety of game types with bonus point modifiers to keep it new and exciting each week.</p>

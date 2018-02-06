@@ -6,13 +6,11 @@ import RelativeDate from '../relative-date/RelativeDate'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
 
-const constants = require('../../utils/constants')
-
 const FutureEvent = ({ event, element, summary }) => {
   return (
     <Card className="text-center">
       <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-      <RelativeDate label={constants.relativeDate.future} date={event.startDate} />
+      <RelativeDate start={event.startDate} end={event.endDate} />
       {event.description &&
         <p>{event.description}</p>
       }
@@ -39,6 +37,7 @@ export const componentFragment = graphql`
     path
     name
     startDate
+    endDate
     ...modifiersFragment
   }
 `

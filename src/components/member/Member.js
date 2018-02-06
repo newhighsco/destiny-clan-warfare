@@ -63,7 +63,7 @@ class Member extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Card className="text-center">
+        <Card center>
           {member.icon &&
             <Avatar className="card__avatar" icon={member.icon} />
           }

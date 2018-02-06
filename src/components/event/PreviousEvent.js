@@ -27,7 +27,7 @@ const PreviousEvent = ({ event, element, summary }) => {
 
   return (
     <Fragment>
-      <Card cutout={isCalculated} className="text-center">
+      <Card cutout={isCalculated} center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <RelativeDate start={event.startDate} end={event.endDate} />
         {event.description &&

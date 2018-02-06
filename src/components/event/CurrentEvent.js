@@ -26,7 +26,7 @@ const CurrentEvent = ({ event, element, summary }) => {
 
   return (
     <Fragment>
-      <Card cutout={hasLeaderboards} className="text-center">
+      <Card cutout={hasLeaderboards} center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <RelativeDate start={event.startDate} end={event.endDate} />
         {event.description &&

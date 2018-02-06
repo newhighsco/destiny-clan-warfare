@@ -21,7 +21,7 @@ class ClansPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Helmet>
-        <Card cutout className="text-center">
+        <Card cutout center>
           <Lockup primary center kicker="All" heading="Clans" />
         </Card>
         <Leaderboard cutout data={leaderboard} />

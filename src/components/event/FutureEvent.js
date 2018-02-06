@@ -8,7 +8,7 @@ import { Button } from '../button/Button'
 
 const FutureEvent = ({ event, element, summary }) => {
   return (
-    <Card className="text-center">
+    <Card center>
       <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
       <RelativeDate start={event.startDate} end={event.endDate} />
       {event.description &&

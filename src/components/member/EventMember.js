@@ -66,7 +66,7 @@ class EventMember extends Component {
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
           <RelativeDate updated={member.updatedDate} />
         </Lockup>
-        <Card cutout={hasLeaderboard} className="text-center">
+        <Card cutout={hasLeaderboard} center>
           {member.icon &&
             <Avatar className="card__avatar" icon={member.icon} />
           }

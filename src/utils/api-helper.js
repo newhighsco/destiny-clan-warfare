@@ -5,4 +5,11 @@ const api = axios.create({
   baseURL: constants.server.apiUrl
 })
 
-module.exports = api
+const proxy = axios.create({
+  baseURL: `${constants.server.proxyUrl}${constants.server.apiUrl}`
+})
+
+module.exports = {
+  api,
+  proxy
+}

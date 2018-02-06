@@ -42,7 +42,8 @@ const constants = {
   },
   server: {
     baseUrl: apiBaseUrl,
-    apiUrl: `${apiBaseUrl}api/`
+    apiUrl: `${apiBaseUrl}api/`,
+    proxyUrl: 'http://proxy.destinyclanwarfare.com/'
   },
   bungie: {
     baseUrl: bungieBaseUrl,

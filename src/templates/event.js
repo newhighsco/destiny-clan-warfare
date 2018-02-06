@@ -54,7 +54,7 @@ class EventTemplate extends Component {
             <Lockup primary center kicker={kicker}>
               <RelativeDate updated={data.event.updatedDate} />
             </Lockup>
-            <CurrentEvent event={data.event} />
+            <CurrentEvent event={data.event} status={data.apiStatus} />
           </Fragment>
         }
         {data.event.isPast &&
@@ -66,7 +66,7 @@ class EventTemplate extends Component {
         {data.event.isFuture &&
           <Fragment>
             <Lockup primary center kicker={kicker} />
-            <FutureEvent event={data.event} />
+            <FutureEvent event={data.event} status={data.apiStatus} />
           </Fragment>
         }
       </PageContainer>
@@ -83,6 +83,7 @@ export default EventTemplate
 export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
     apiStatus {
+      enrollmentOpen
       bungieCode
     }
     event(id: { eq: $id }) {

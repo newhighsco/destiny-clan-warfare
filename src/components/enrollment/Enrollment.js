@@ -35,6 +35,7 @@ class Enrollment extends Component {
   componentDidMount () {
     api(`Clan/AcceptingNewClans`)
       .then(({ data }) => {
+        localStorage.setItem('enrollmentOpen', data)
         this.setState({ active: data })
       })
       .catch(err => httpExceptionHandler(err))

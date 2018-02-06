@@ -5,7 +5,7 @@ import { Lockup } from '../lockup/Lockup'
 import RelativeDate from '../relative-date/RelativeDate'
 import { ModifierList } from '../modifier/Modifier'
 import { MedalList } from '../medal/Medal'
-import { Button, ButtonGroup } from '../button/Button'
+import { Button } from '../button/Button'
 import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
@@ -44,9 +44,7 @@ const PreviousEvent = ({ event, element, summary }) => {
           <Notification>Results for this event are being calculated. Please check back later.</Notification>
         }
         {isCalculated && summary &&
-          <ButtonGroup>
-            <Button href={`${event.path}#results`}>View full results</Button>
-          </ButtonGroup>
+          <Button href={`${event.path}#results`}>View full results</Button>
         }
       </Card>
       {isCalculated &&

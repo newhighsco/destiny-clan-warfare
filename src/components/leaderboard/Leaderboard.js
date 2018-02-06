@@ -158,7 +158,9 @@ class Leaderboard extends Component {
                       })
                     }
 
-                    const value = item[key] !== null ? `${item[key]}` : constants.blank
+                    var value = item[key] !== null ? `${item[key]}` : constants.blank
+
+                    if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
 
                     return (
                       <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>

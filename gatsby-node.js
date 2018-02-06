@@ -211,7 +211,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: clanLeaderboard.filter(({ gamesPlayed }) => gamesPlayed > 0).map(item => {
+      leaderboard: clanLeaderboard.map(item => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 
         return {

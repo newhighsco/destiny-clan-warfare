@@ -38,7 +38,7 @@ class MembersPage extends Component {
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
               </Helmet>
-              <Card cutout className="text-center">
+              <Card cutout center>
                 <Lockup primary center kicker="All" heading="Members" />
               </Card>
               <Leaderboard cutout data={leaderboard} columns={columns} />

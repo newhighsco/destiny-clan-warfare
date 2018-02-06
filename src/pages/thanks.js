@@ -29,7 +29,7 @@ class ThanksPage extends Component {
           <meta property="og:description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
         </Helmet>
-        <Card className="text-center">
+        <Card center>
           {success ? (
             <Fragment>
               <Lockup primary center kicker="Thanks for" heading="Enrolling" />

@@ -97,7 +97,7 @@ class EventClanTemplate extends Component {
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
           <RelativeDate updated={data.clan.updatedDate} />
         </Lockup>
-        <Card cutout={hasLeaderboard} className="text-center">
+        <Card cutout={hasLeaderboard} center>
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
           <StatList stats={stats} />

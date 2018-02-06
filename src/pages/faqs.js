@@ -4,7 +4,6 @@ import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
-import RelativeDate from '../components/relative-date/RelativeDate'
 import Prose from '../components/prose/Prose'
 
 const constants = require('../utils/constants')

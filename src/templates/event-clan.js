@@ -56,7 +56,7 @@ class EventClanTemplate extends Component {
 
     if (hasLeaderboard) {
       columns.map(column => {
-        var top = leaderboard.reduce((a, b) => (a[column] > b[column]) ? a : b)
+        var top = leaderboard.reduce((a, b) => (parseInt(a[column]) > parseInt(b[column])) ? a : b)
         var key = column
         var stat = (top) => top[column]
 

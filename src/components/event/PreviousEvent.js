@@ -18,11 +18,13 @@ const PreviousEvent = ({ event, element, summary }) => {
   var largeLeaderboard = []
   var mediumLeaderboard = []
   var smallLeaderboard = []
+  var leaderboardColumns
 
   if (!summary && isCalculated) {
     largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
     mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
     smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
+    leaderboardColumns = [ 'color', 'foreground', 'background', 'name', 'medal', 'rank', 'score' ]
   }
 
   return (
@@ -58,17 +60,17 @@ const PreviousEvent = ({ event, element, summary }) => {
           <TabContainer cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} />
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {mediumLeaderboard.length > 0 &&
               <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} />
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {smallLeaderboard.length > 0 &&
               <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} />
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
           </TabContainer>

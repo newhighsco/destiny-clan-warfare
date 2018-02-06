@@ -59,7 +59,7 @@ Medal.defaultProps = {
 Medal.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.array,
   tier: PropTypes.number,
   count: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),

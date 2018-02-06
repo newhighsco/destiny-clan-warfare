@@ -43,7 +43,7 @@ const constants = {
   server: {
     baseUrl: apiBaseUrl,
     apiUrl: `${apiBaseUrl}api/`,
-    proxyUrl: 'http://proxy.destinyclanwarfare.com/'
+    proxyUrl: 'https://clanwarfare-proxy.herokuapp.com/'
   },
   bungie: {
     baseUrl: bungieBaseUrl,

@@ -9,7 +9,7 @@ import Notification from '../notification/Notification'
 import './Enrollment.styl'
 
 const constants = require('../../utils/constants')
-const api = require('../../utils/api-helper')
+const api = require('../../utils/api-helper').proxy
 const bungie = require('../../utils/bungie-helper')
 const httpExceptionHandler = require(`../../utils/http-exception-handler`)
 const action = `${constants.server.baseUrl}Home/AddClan/`

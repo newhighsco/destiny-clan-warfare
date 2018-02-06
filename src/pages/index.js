@@ -40,7 +40,7 @@ class IndexPage extends Component {
         {currentEvent ? (
           <Fragment>
             <Lockup primary center element="h1" kicker={constants.kicker.current}>
-              <RelativeDate label={constants.relativeDate.updated} date={currentEvent.updatedDate} />
+              <RelativeDate updated={currentEvent.updatedDate} />
             </Lockup>
             <CurrentEvent event={currentEvent} element="h2" summary />
             {previousEvent &&

@@ -29,7 +29,7 @@ const PreviousEvent = ({ event, element, summary }) => {
     <Fragment>
       <Card cutout={isCalculated} className="text-center">
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-        <RelativeDate label={constants.relativeDate.past} date={event.endDate} />
+        <RelativeDate start={event.startDate} end={event.endDate} />
         {event.description &&
           <p>{event.description}</p>
         }
@@ -97,6 +97,7 @@ export const componentFragment = graphql`
     path
     name
     description
+    startDate
     endDate
     isCalculated
     results {

@@ -52,7 +52,7 @@ class EventTemplate extends Component {
         {data.event.isCurrent &&
           <Fragment>
             <Lockup primary center kicker={kicker}>
-              <RelativeDate label={constants.relativeDate.updated} date={data.event.updatedDate} />
+              <RelativeDate updated={data.event.updatedDate} />
             </Lockup>
             <CurrentEvent event={data.event} />
           </Fragment>

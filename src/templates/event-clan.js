@@ -95,7 +95,7 @@ class EventClanTemplate extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
-          <RelativeDate label={constants.relativeDate.updated} date={data.clan.updatedDate} />
+          <RelativeDate updated={data.clan.updatedDate} />
         </Lockup>
         <Card cutout={hasLeaderboard} className="text-center">
           <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />

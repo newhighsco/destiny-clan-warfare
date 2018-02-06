@@ -64,7 +64,7 @@ class EventMember extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
-          <RelativeDate label={constants.relativeDate.updated} date={member.updatedDate} />
+          <RelativeDate updated={member.updatedDate} />
         </Lockup>
         <Card cutout={hasLeaderboard} className="text-center">
           {member.icon &&

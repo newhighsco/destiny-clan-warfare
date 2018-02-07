@@ -22,7 +22,7 @@ class Enrollment extends Component {
     const { status } = this.props
 
     this.state = {
-      active: status.bungieCode !== constants.bungie.disabledStatusCode,
+      active: status.enrollmentOpen && status.bungieCode !== constants.bungie.disabledStatusCode,
       name: '',
       groups: [],
       selectedGroup: null

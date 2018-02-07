@@ -96,14 +96,14 @@ class Enrollment extends Component {
   }
 
   render () {
-    const { status, clans } = this.props
+    const { clans } = this.props
     const { active, groups, selectedGroup } = this.state
     const id = 'enroll'
     const baseClassName = 'enrollment'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
-    if (!status.enrollmentOpen) {
+    if (!active) {
       return (
         <div id={id}>
           <Notification>Enrollment for new clans is currently closed.</Notification>

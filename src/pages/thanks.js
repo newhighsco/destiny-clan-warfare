@@ -17,8 +17,10 @@ class ThanksPage extends Component {
     const query = queryString.parse(location.search)
     const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
     const message = query.message || ''
-    const title = success ? 'Thanks for enrolling' : 'Enrollment failed'
-    const description = `Thanks for enrolling your clan in ${constants.meta.name}`
+    const successful = success || (!success && message === constants.enrollment.existing)
+    const closed = !success && message === constants.enrollment.closed
+    const title = successful ? 'Thanks for enrolling' : (closed ? 'Enrollment closed' : 'Enrollment failed')
+    const description = `Clan enrollment for ${constants.meta.name}`
 
     return (
       <PageContainer status={data.apiStatus}>
@@ -30,26 +32,37 @@ class ThanksPage extends Component {
           <meta name="robots" content="noindex,nofollow" />
         </Helmet>
         <Card center>
-          {success ? (
+          {successful ? (
             <Fragment>
-              <Lockup primary center kicker="Thanks for" heading="Enrolling" />
+              <Lockup primary center kicker="Thanks for" heading="enrolling" />
               <Prose>
-                <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards</p>
-                <p>Why not take a look over our <Link to="/faqs">Frequently Asked Questions</Link> while you wait</p>
+                <p>Great news, your clan is enrolled and ready to go in the current {constants.meta.name} event!</p>
+                <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards.</p>
+                <p>Why not take a look over our <Link to="/faqs">Frequently Asked Questions</Link> while you wait.</p>
               </Prose>
               <Button href="/current">View current leaderboard</Button>
             </Fragment>
           ) : (
-            <Fragment>
-              <Lockup primary center kicker="Enrollment failed" heading="Please try again later" />
-              {message ? (
+            closed ? (
+              <Fragment>
+                <Lockup primary center kicker={title} heading="Sorry we're full" />
                 <Prose>
-                  <p>{message}</p>
+                  <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
+                  <p>You can <a href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener noreferrer">follow us on Twitter</a>, or <a href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
                 </Prose>
-              ) : (
+                <Button href="/">Return to the homepage</Button>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <Lockup primary center kicker={title} heading="Please try again" />
+                {message &&
+                  <Prose>
+                    <p>{message}</p>
+                  </Prose>
+                }
                 <Button href="/#enroll">Enroll your clan today</Button>
-              )}
-            </Fragment>
+              </Fragment>
+            )
           )}
         </Card>
       </PageContainer>

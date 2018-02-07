@@ -62,6 +62,10 @@ const constants = {
     percent: '%',
     most: 'most',
     highest: 'highest'
+  },
+  enrollment: {
+    existing: 'Clan already exists',
+    closed: 'Not accepting new clans at this time.'
   }
 }
 

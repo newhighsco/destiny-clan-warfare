@@ -99,13 +99,16 @@ class Leaderboard extends Component {
                       <Medal {...item.medal} size="small" align="left" className="leaderboard__medal" />
                     }
                     {item.path ? (
-                      <Link to={item.path} className="leaderboard__name leaderboard__link">
-                        {item.name}
-                      </Link>
+                      <Link
+                        to={item.path}
+                        className="leaderboard__name leaderboard__link"
+                        dangerouslySetInnerHTML={{ __html: item.name }}
+                      />
                     ) : (
-                      <div className="leaderboard__name leaderboard__link">
-                        {item.name}
-                      </div>
+                      <div
+                        className="leaderboard__name leaderboard__link"
+                        dangerouslySetInnerHTML={{ __html: item.name }}
+                      />
                     )}
                     {showNameTags &&
                       <TagList tags={item.tags} className="leaderboard__tags" />

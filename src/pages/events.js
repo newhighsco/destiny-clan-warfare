@@ -139,9 +139,7 @@ export const pageQuery = graphql`
             name
           }
           clanId
-          clan {
-            name
-          }
+          clanName
           leaderboard {
             games
             wins

@@ -18,10 +18,14 @@
 .medal__label
   font-size small
   line-height 1
+  max-height 4em
   overflow hidden
-  padding-top $spacing--quarter
+  margin-top $spacing--quarter
   text-overflow ellipsis
   width rem(120)
+  display -webkit-box
+  -webkit-line-clamp 4
+  -webkit-box-orient vertical
 
 .medal__count
   background currentColor

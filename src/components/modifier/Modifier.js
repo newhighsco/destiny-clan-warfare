@@ -31,7 +31,7 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   const label = `${prefix}${bonus}${suffix}`
   const tooltip = [ description, '' ]
 
-  if (creator && creator.name) tooltip.push(`<strong>Creator:<strong> ${creator.name}`)
+  if (creator && creator.name) tooltip.push(`<strong>Creator:</strong> ${creator.name}`)
   if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
   return (

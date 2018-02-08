@@ -62,6 +62,7 @@ module.exports = {
         ]
       }
     },
+    `gatsby-plugin-remove-serviceworker`,
     `@jacobmischka/gatsby-plugin-react-svg`,
     {
       resolve: `gatsby-plugin-google-analytics`,

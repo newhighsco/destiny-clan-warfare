@@ -13,8 +13,8 @@ const Header = () => {
   const links = [
     { href: 'https://twitter.com/destinyclanwar', text: 'Follow us on Twitter', icon: TwitterSvg },
     { href: 'http://discord.destinyclanwarfare.com', text: 'Join our Discord server', icon: DiscordSvg },
-    { href: 'https://www.patreon.com/destinyclanwarfare', text: 'Become a Patron', icon: PatreonSvg },
-    { href: 'https://www.paypal.me/destinyclanwarfare', text: 'Donate via PayPal', icon: PayPalSvg }
+    { href: 'https://www.patreon.com/destinyclanwarfare', text: 'Become a Patron via Patreon', icon: PatreonSvg },
+    { href: 'https://www.paypal.me/destinyclanwarfare', text: 'Make a donation via PayPal', icon: PayPalSvg }
   ]
 
   return (

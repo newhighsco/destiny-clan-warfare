@@ -62,8 +62,6 @@ module.exports = {
         ]
       }
     },
-    // Keep this after gatsby-plugin-manifest
-    `gatsby-plugin-offline`,
     `@jacobmischka/gatsby-plugin-react-svg`,
     {
       resolve: `gatsby-plugin-google-analytics`,

@@ -33,8 +33,6 @@
     font-size rem(50)
 
 .stat-list
-  text-align center
-
   > li
     vertical-align top
 
@@ -43,28 +41,3 @@
 
     +width-min($mq--tablet)
       margin $spacing--half $spacing--default
-
-.stat-history
-  background $color--nero
-  text-align center
-
-.stat-history--cutout
-  margin-top ($spacing--default * -1) !important // @stylint ignore
-  margin-left $spacing--half
-  margin-right $spacing--half
-
-  +width-min($mq--tablet)
-    margin-top ($spacing--double * -1) !important // @stylint ignore
-    margin-left $spacing--default
-    margin-right $spacing--default
-
-  +width-min($mq--desktop)
-    margin-left $spacing--double
-    margin-right $spacing--double
-
-.stat-history__card
-  background $color--nightrider
-  border-bottom 1px solid $color--nero
-  color $color--white
-  height 100%
-  padding 20px

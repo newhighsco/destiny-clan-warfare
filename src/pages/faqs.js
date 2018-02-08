@@ -79,7 +79,6 @@ export const pageQuery = graphql`
   query FaqsPageQuery {
     apiStatus {
       bungieCode
-      updatedDate
     }
   }
 `

@@ -27,7 +27,7 @@ class SupportUsPage extends Component {
           <meta property="og:description" content={description} />
         </Helmet>
         <Lockup primary center element="h1" kicker="Support us" />
-        <div className="grid grid--flex">
+        <div className="grid grid--flex grid--stacked">
           <div className="grid__item tablet-landscape-one-half">
             <Card center>
               <Avatar cutout>

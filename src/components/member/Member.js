@@ -24,6 +24,9 @@ class Member extends Component {
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
     const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
     const stats = {
+      events: 'TBC',
+      highestClanRank: 'TBC',
+      highestEventRank: 'TBC',
       ...totals,
       lastPlayed: lastPlayedDate
     }
@@ -75,7 +78,7 @@ class Member extends Component {
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
-          <Button href={`${constants.bungie.baseUrl}en/Profile/${member.id}`} target="_blank">View profile</Button>
+          <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
           {lastPlayedDate > emptyDate &&
             <Fragment>

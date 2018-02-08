@@ -68,7 +68,7 @@ class EventMember extends Component {
         </Lockup>
         <Card cutout={hasLeaderboard} center>
           {member.icon &&
-            <Avatar className="card__avatar" icon={member.icon} />
+            <Avatar cutout outline icon={member.icon} />
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />

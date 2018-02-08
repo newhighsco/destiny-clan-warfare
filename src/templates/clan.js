@@ -50,7 +50,7 @@ class ClanTemplate extends Component {
           <meta property="og:description" content={description} />
         </Helmet>
         <Card cutout={hasLeaderboard} center>
-          <Avatar className="card__avatar" color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
+          <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
           {data.clan.description &&
             <Prose>

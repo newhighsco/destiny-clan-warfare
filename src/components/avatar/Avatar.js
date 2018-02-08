@@ -35,34 +35,40 @@ const AvatarLayer = (layer) => {
 }
 
 const Avatar = (props) => {
-  const { icon, color, foreground, background, className } = props
-  const inline = icon && typeof icon === 'function'
+  const { icon, color, foreground, background, className, children, cutout, outline } = props
+  const classes = classNames(
+    baseClassName,
+    children && `${baseClassName}--inline`,
+    cutout && `${baseClassName}--cutout`,
+    outline && `${baseClassName}--outline`,
+    className
+  )
 
   if (!online) return null
 
   return (
-    <div className={classNames(baseClassName, className)} style={color && { backgroundColor: color }}>
+    <div className={classes} style={color && { backgroundColor: color }}>
       {icon &&
         <ResponsiveMedia className={`${baseClassName}__layer`} ratio="1:1">
-          {inline ? (
-            icon()
-          ) : (
-            <img src={icon} alt="" />
-          )}
+          <img src={icon} alt="" />
         </ResponsiveMedia>
       }
       {background && AvatarLayer(background)}
       {foreground && AvatarLayer(foreground)}
+      {children}
     </div>
   )
 }
 
 Avatar.propTypes = {
-  icon: PropTypes.oneOfType([ PropTypes.string, PropTypes.func ]),
+  icon: PropTypes.string,
   color: PropTypes.string,
   foreground: PropTypes.object,
   background: PropTypes.object,
-  className: PropTypes.string
+  className: PropTypes.string,
+  cutout: PropTypes.bool,
+  outline: PropTypes.bool,
+  children: PropTypes.node
 }
 
 export default Avatar

@@ -44,7 +44,7 @@ class FaqsPage extends Component {
             <p>We will lock your clan member list in place for the duration of the event. A snapshot will be taken when the event starts and any amendments to your roster will not be taken into account until the next event starts.</p>
             <p>Please note - there is a limit on clan participation at this time so if we are full, please check back each week as we accept more clans.</p>
             <h2>When will enrollment be open again?</h2>
-            <p><a href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
+            <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
             <h2>Will I have to enroll my clan for every events?</h2>
             <p>No. Once you are enrolled, you will automatically be entered into all future events. Just score some points, and you'll appear on the leaderboards.</p>
             <a id="size" />
@@ -61,7 +61,7 @@ class FaqsPage extends Component {
             <p>We have some concerns regarding Raid based events. We believe that engagement will probably be low due to the requirement for a fireteam of six. One of our core pillars for {constants.meta.name} is that any clan member can get to contribute, even if they don't have the time to team up with others.</p>
             <p>Additionally, only completed activities contribute towards the score of our events, and as we are currently unable to identify individual raid encounters, this means that to score any points what so ever a much large commitment of time is required compared to other events.</p>
             <p>A further potential contentious issue is that the Castellum of the Leviathan provides and infinite number of enemies, and because kills are one of the cornerstones of our scoring system, this is likely to give rise to farming this area and then moving onto Callus for the completion.</p>
-            <p>We will however keep considering the idea, and are open to <a href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">suggestions via Discord</a>.</p>
+            <p>We will however keep considering the idea, and are open to <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">suggestions via Discord</a>.</p>
           </Prose>
         </Card>
       </PageContainer>

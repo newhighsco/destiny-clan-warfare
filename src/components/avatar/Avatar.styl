@@ -8,3 +8,18 @@
 
   & + &
     margin-top -100%
+
+.avatar--cutout
+  margin ($spacing--treble * -1) auto 0
+  width rem(75)
+  height rem(75)
+
+  +width-min($mq--tablet)
+    width rem(96)
+    height rem(96)
+
+.avatar--inline
+  background none
+
+.avatar--outline
+  outline 2px solid $color--white

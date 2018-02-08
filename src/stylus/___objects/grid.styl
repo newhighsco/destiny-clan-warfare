@@ -22,12 +22,15 @@ grid-widths('', 2)
 +width-min($mq--tablet)
   grid-widths('tablet', 2)
 
++width-min($mq--tablet--landscape)
+  grid-widths('tablet-landscape', 2)
+
 //
 // GRID MODIFIERS
 //
 
 grid-gutter-modifier('gutterless', 0)
-grid-gutter-modifier('gutter-double', $spacing--double)
+grid-gutter-modifier('gutter-quadruple', $spacing--quadruple)
 
 grid-reverse()
 
@@ -38,3 +41,10 @@ grid-reverse()
 .grid--bottomed
   > .grid__item
     vertical-align bottom
+
+.grid--flex
+  display flex
+  flex-wrap wrap
+
+  > .grid__item
+    margin-bottom $spacing--half

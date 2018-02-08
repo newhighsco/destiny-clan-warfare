@@ -5,20 +5,18 @@ import Credit from '../credit/Credit'
 
 import './Footer.styl'
 
-const urlBuilder = require('../../utils/url-builder')
-
 const Footer = () => {
   const date = new Date()
   const links = [
-    { href: urlBuilder.currentEventRootUrl, text: 'Current' },
-    { href: '/faqs/', text: 'FAQs' }
+    { href: '/faqs/', text: 'FAQs' },
+    { href: '/support-us/', text: 'Support us' }
   ]
 
   return (
     <footer className="footer" role="contentinfo">
       <LogoIcon size="small" className="footer__logo" />
       <div className="content-center content-gutter">
-        <div className="grid grid--reverse grid--middled grid--gutter-double">
+        <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
           <div className="grid__item tablet-one-half">
             <ul className="list--inline footer__list">
               {links.map((link, i) => {

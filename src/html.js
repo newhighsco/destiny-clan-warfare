@@ -56,10 +56,14 @@ class Html extends Component {
           {this.props.postBodyComponents}
           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
           <script>
-            if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-              window.navigator.serviceWorker.getRegistrations().then(registrations => {
-                registrations.forEach(r => r.unregister())
-              })
+            try {
+              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+                window.navigator.serviceWorker.getRegistrations().then(registrations => {
+                  registrations.forEach(r => r.unregister())
+                })
+              }
+            } catch (e) {
+              console.log(e)
             }
           </script>
         </body>

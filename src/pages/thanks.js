@@ -48,7 +48,7 @@ class ThanksPage extends Component {
                 <Lockup primary center kicker={title} heading="Sorry we're full" />
                 <Prose>
                   <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
-                  <p>You can <a href="https://twitter.com/destinyclanwar" target="_blank" rel="noopener noreferrer">follow us on Twitter</a>, or <a href="http://discord.destinyclanwarfare.com" target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
+                  <p>You can <a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
                 </Prose>
                 <Button href="/">Return to the homepage</Button>
               </Fragment>

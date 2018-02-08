@@ -9,12 +9,14 @@ import TwitterSvg from '../../images/twitter.svg'
 
 import './Header.styl'
 
+const constants = require('../../utils/constants')
+
 const Header = () => {
   const links = [
-    { href: 'https://twitter.com/destinyclanwar', text: 'Follow us on Twitter', icon: TwitterSvg },
-    { href: 'http://discord.destinyclanwarfare.com', text: 'Join our Discord server', icon: DiscordSvg },
-    { href: 'https://www.patreon.com/destinyclanwarfare', text: 'Become a Patron via Patreon', icon: PatreonSvg },
-    { href: 'https://www.paypal.me/destinyclanwarfare', text: 'Make a donation via PayPal', icon: PayPalSvg }
+    { href: constants.social.twitter, text: 'Follow us on Twitter', icon: TwitterSvg },
+    { href: constants.social.discord, text: 'Join our Discord server', icon: DiscordSvg },
+    { href: constants.social.patreon, text: 'Become a Patron via Patreon', icon: PatreonSvg },
+    { href: constants.social.patreon, text: 'Make a donation via PayPal', icon: PayPalSvg }
   ]
 
   return (

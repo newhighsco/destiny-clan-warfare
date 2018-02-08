@@ -27,7 +27,7 @@ class IndexPage extends Component {
       url: process.env.GATSBY_SITE_URL,
       logo: `${process.env.GATSBY_SITE_URL}${LogoImage}`,
       sameAs: [
-        'https://twitter.com/destinyclanwar'
+        constants.social.twitter
       ]
     }
 

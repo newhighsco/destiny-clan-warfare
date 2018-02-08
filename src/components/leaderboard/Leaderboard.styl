@@ -1,20 +1,6 @@
 .leaderboard
   position relative
 
-.leaderboard--cutout
-  margin-top ($spacing--default * -1) !important // @stylint ignore
-  margin-left $spacing--half
-  margin-right $spacing--half
-
-  +width-min($mq--tablet)
-    margin-top ($spacing--double * -1) !important // @stylint ignore
-    margin-left $spacing--default
-    margin-right $spacing--default
-
-  +width-min($mq--desktop)
-    margin-left $spacing--double
-    margin-right $spacing--double
-
 .leaderboard__row
   display block
   line-height 1.2
@@ -30,6 +16,9 @@
       left -2px
       bottom 0
       width 2px
+
+  &[data-result=true]:before
+    background $color--silver
 
   &[data-result=win]:before
     background $color--success
@@ -240,6 +229,18 @@
     padding $spacing--half $spacing--default
     width 35%
 
+.leaderboard__stat--medals
+  flex auto
+  max-width none
+  padding 0
+  text-align right
+  width 100%
+
+  +width-min($mq--tablet--landscape)
+    max-height none
+    padding $spacing--half
+    width 65%
+
 .leaderboard__stat--modifiers
   flex auto
   max-width none
@@ -266,3 +267,54 @@
   a[href]:hover &
     fill $color--terracotta
     transform scale(1.25)
+
+.leaderboard--cutout
+  margin-top ($spacing--default * -1) !important // @stylint ignore
+  margin-left $spacing--half
+  margin-right $spacing--half
+
+  +width-min($mq--tablet)
+    margin-top ($spacing--double * -1) !important // @stylint ignore
+    margin-left $spacing--default
+    margin-right $spacing--default
+
+  +width-min($mq--desktop)
+    margin-left $spacing--double
+    margin-right $spacing--double
+
+.leaderboard--history
+  display flex
+  flex-wrap wrap
+
+  .leaderboard__row
+    width 100%
+
+  .leaderboard__stat--game
+  .leaderboard__stat--medals
+    text-align left
+    white-space normal
+
+  +width-min($mq--tablet--landscape)
+    .leaderboard__row
+      display inline-block
+      width 50%
+
+    .leaderboard__body
+      height 100%
+
+    .leaderboard__stats
+      padding $spacing--half
+
+    .leaderboard__stat
+      padding 0 $spacing--half $spacing--half
+
+      &[data-prefix]:before
+        margin-top 0
+
+    .leaderboard__stat--medals
+      padding 0
+
+    .leaderboard__stat--game
+    .leaderboard__stat--medals
+      max-height 100%
+      width 100%

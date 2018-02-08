@@ -45,7 +45,7 @@ class EventsPage extends Component {
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
               </Helmet>
-              <Card cutout className="text-center">
+              <Card cutout center>
                 <Lockup primary center kicker="All" heading="Events" />
               </Card>
               <Leaderboard cutout data={leaderboard} />
@@ -139,9 +139,7 @@ export const pageQuery = graphql`
             name
           }
           clanId
-          clan {
-            name
-          }
+          clanName
           leaderboard {
             games
             wins

@@ -1,6 +1,7 @@
 import AntiMeta from './anti-meta.svg'
 import BandTogether from './band-together.svg'
 import Bullseye from './bullseye.svg'
+import CrimsonDoubleDown from './crimson-double-down.svg'
 import DoubleDown from './double-down.svg'
 import FlawlessStriker from './flawless-striker.svg'
 import LukeSkywalkerSPadawan from './luke-skywalker-s-padawan.svg'
@@ -17,6 +18,7 @@ const svgs = {
   AntiMeta: { svg: AntiMeta, designer: 'TMD' },
   BandTogether: { svg: BandTogether, designer: 'Gabriel Vogel' },
   Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
+  CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
   LukeSkywalkerSPadawan: { svg: LukeSkywalkerSPadawan, designer: 'Colour Block' },

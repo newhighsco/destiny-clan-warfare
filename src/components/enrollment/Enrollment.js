@@ -22,7 +22,7 @@ class Enrollment extends Component {
     const { status } = this.props
 
     this.state = {
-      active: status.bungieCode !== constants.bungie.disabledStatusCode,
+      active: status.enrollmentOpen && status.bungieCode !== constants.bungie.disabledStatusCode,
       name: '',
       groups: [],
       selectedGroup: null
@@ -35,6 +35,7 @@ class Enrollment extends Component {
   componentDidMount () {
     api(`Clan/AcceptingNewClans`)
       .then(({ data }) => {
+        localStorage.setItem('enrollmentOpen', data)
         this.setState({ active: data })
       })
       .catch(err => httpExceptionHandler(err))
@@ -95,14 +96,14 @@ class Enrollment extends Component {
   }
 
   render () {
-    const { status, clans } = this.props
+    const { clans } = this.props
     const { active, groups, selectedGroup } = this.state
     const id = 'enroll'
     const baseClassName = 'enrollment'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
-    if (!status.enrollmentOpen) {
+    if (!active) {
       return (
         <div id={id}>
           <Notification>Enrollment for new clans is currently closed.</Notification>

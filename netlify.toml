@@ -14,7 +14,7 @@
   GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"
   GATSBY_DISALLOW_ROBOTS = "true"
   GATSBY_ENABLE_PROFILE_PAGES = "true"
-  GATSBY_ENABLE_MATCH_HISTORY = "false"
+  GATSBY_ENABLE_MATCH_HISTORY = "true"
 
 [context.production.environment]
   GATSBY_ENABLE_IDENTITY = "false"
@@ -23,4 +23,4 @@
   GATSBY_SITE_URL = "https://destinyclanwarfare.com"
   GATSBY_DISALLOW_ROBOTS = "false"
   GATSBY_ENABLE_PROFILE_PAGES = "true"
-  GATSBY_ENABLE_MATCH_HISTORY = "false"
+  GATSBY_ENABLE_MATCH_HISTORY = "true"

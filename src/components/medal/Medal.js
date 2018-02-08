@@ -20,11 +20,14 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
   const foregroundKey = pascalCase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
   const ForegroundSvg = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
+  const tooltip = [ description, '' ]
+
+  if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${label.sort().join(', ')}`)
 
   if (!BackgroundSvg) return null
 
   return (
-    <Tooltip heading={name} text={description} className={className} align={align} enableHover>
+    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover>
       <div className={classNames(
         baseClassName,
         `${baseClassName}--tier-${tier}`,
@@ -40,7 +43,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
           </ResponsiveMedia>
         </Icon>
         {label &&
-          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: label.join(', ') }} />
+          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: label.sort().join(', ') }} />
         }
         {count > 1 &&
           <div className={classNames(`${baseClassName}__count`, 'foreground')}>
@@ -59,7 +62,7 @@ Medal.defaultProps = {
 Medal.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.array,
   tier: PropTypes.number,
   count: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),

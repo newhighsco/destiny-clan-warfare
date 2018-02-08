@@ -5,7 +5,7 @@ import { Lockup } from '../lockup/Lockup'
 import RelativeDate from '../relative-date/RelativeDate'
 import { ModifierList } from '../modifier/Modifier'
 import { MedalList } from '../medal/Medal'
-import { Button, ButtonGroup } from '../button/Button'
+import { Button } from '../button/Button'
 import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
@@ -18,16 +18,18 @@ const PreviousEvent = ({ event, element, summary }) => {
   var largeLeaderboard = []
   var mediumLeaderboard = []
   var smallLeaderboard = []
+  var leaderboardColumns
 
   if (!summary && isCalculated) {
     largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
     mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
     smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
+    leaderboardColumns = [ 'color', 'foreground', 'background', 'name', 'medal', 'rank', 'score' ]
   }
 
   return (
     <Fragment>
-      <Card cutout={isCalculated} className="text-center">
+      <Card cutout={isCalculated} center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <RelativeDate start={event.startDate} end={event.endDate} />
         {event.description &&
@@ -44,9 +46,7 @@ const PreviousEvent = ({ event, element, summary }) => {
           <Notification>Results for this event are being calculated. Please check back later.</Notification>
         }
         {isCalculated && summary &&
-          <ButtonGroup>
-            <Button href={`${event.path}#results`}>View full results</Button>
-          </ButtonGroup>
+          <Button href={`${event.path}#results`}>View full results</Button>
         }
       </Card>
       {isCalculated &&
@@ -60,17 +60,17 @@ const PreviousEvent = ({ event, element, summary }) => {
           <TabContainer cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} />
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {mediumLeaderboard.length > 0 &&
               <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} />
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {smallLeaderboard.length > 0 &&
               <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} />
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
           </TabContainer>

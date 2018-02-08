@@ -2,6 +2,7 @@
   background $color--white-smoke
   box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
   color $color--nero
+  height 100%
   padding $spacing--double $spacing--default
 
   > * + *
@@ -12,16 +13,6 @@
 
   +width-min($mq--tablet)
     padding $spacing--double
-
-.card__avatar
-  margin ($spacing--treble * -1) auto 0
-  outline 2px solid $color--white
-  width rem(75)
-  height rem(75)
-
-  +width-min($mq--tablet)
-    width rem(96)
-    height rem(96)
 
 .card__tags
   margin-top -1em

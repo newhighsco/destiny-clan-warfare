@@ -11,6 +11,7 @@ const api = require('./src/utils/api-helper').api
 const bungie = require('./src/utils/bungie-helper')
 const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
 const linkify = require('linkify-urls')
+const decode = require('./src/utils/html-entities').decode
 
 const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
 const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
@@ -90,7 +91,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
     const creator = {
       id: member ? member.profileIdStr : '',
-      name: member ? member.name : ''
+      name: member ? decode(member.name) : ''
     }
 
     return {
@@ -197,10 +198,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
-      name: clan.name,
+      name: decode(clan.name),
       nameSortable: clan.name.toUpperCase(),
-      tag: clan.tag,
-      motto: clan.motto,
+      tag: decode(clan.tag),
+      motto: decode(clan.motto),
       description: linkify(clan.description, linkifyOptions).split(/\r?\n/g).join('<br />'),
       color: clan.backgroundcolor,
       foreground: {
@@ -211,13 +212,13 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: clanLeaderboard.filter(({ gamesPlayed }) => gamesPlayed > 0).map(item => {
+      leaderboard: clanLeaderboard.map(item => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 
         return {
           path: urlBuilder.eventUrl(currentEvent.eventId, member.groupId, member.profileIdStr),
           id: member.profileIdStr,
-          name: member.name,
+          name: decode(member.name),
           icon: member.icon,
           tags: member.bonusUnlocks.map(bonus => {
             return {
@@ -318,11 +319,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
-      clanName: clan.name,
+      clanName: decode(clan.name),
       clanPath: urlBuilder.clanUrl(member.groupId),
       clan: clan,
       clanSortable: clan.tag.toUpperCase(),
-      name: member.name,
+      name: decode(member.name),
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
       tags: member.bonusUnlocks.map(bonus => {
@@ -375,7 +376,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
-          name: clan.name,
+          name: decode(clan.name),
           color: clan.backgroundcolor,
           foreground: {
             color: clan.emblemcolor1,
@@ -726,8 +727,8 @@ exports.onPostBuild = ({ graphql }) => {
           reject(result.errors)
         }
 
-        const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
-        const eventMemberHtml = fs.readFileSync('./src/event-member.html', 'utf-8')
+        const memberHtml = fs.readFileSync('./src/html/member.html', 'utf-8')
+        const eventMemberHtml = fs.readFileSync('./src/html/event-member.html', 'utf-8')
 
         Promise.all(result.data.allMember.edges.map(async (member) => {
           if (member.node.totalsVisible) {

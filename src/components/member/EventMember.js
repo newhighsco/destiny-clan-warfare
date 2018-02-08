@@ -40,7 +40,7 @@ class EventMember extends Component {
           position: 2,
           item: {
             '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))}`,
-            name: member.clan.name
+            name: member.clanName
           }
         },
         {
@@ -66,12 +66,12 @@ class EventMember extends Component {
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
           <RelativeDate updated={member.updatedDate} />
         </Lockup>
-        <Card cutout={hasLeaderboard} className="text-center">
+        <Card cutout={hasLeaderboard} center>
           {member.icon &&
-            <Avatar className="card__avatar" icon={member.icon} />
+            <Avatar cutout outline icon={member.icon} />
           }
           <TagList tags={member.tags} className="card__tags" />
-          <Lockup center reverse kicker={member.clan.name} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+          <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
           <StatList stats={member.leaderboard} />
           {!hasLeaderboard &&
             <Notification>

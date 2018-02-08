@@ -17,9 +17,9 @@ const constants = require('../utils/constants')
 class IndexPage extends Component {
   render () {
     const { data } = this.props
-    const currentEvent = data.currentEvents.edges.length > 0 ? data.currentEvents.edges[0].node : null
-    const previousEvent = data.pastEvents.edges.length > 0 ? data.pastEvents.edges[0].node : null
-    const nextEvent = data.futureEvents.edges.length > 0 ? data.futureEvents.edges[0].node : null
+    const currentEvent = data.currentEvents ? data.currentEvents.edges[0].node : null
+    const previousEvent = data.pastEvents ? data.pastEvents.edges[0].node : null
+    const nextEvent = data.futureEvents ? data.futureEvents.edges[0].node : null
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',
@@ -27,7 +27,7 @@ class IndexPage extends Component {
       url: process.env.GATSBY_SITE_URL,
       logo: `${process.env.GATSBY_SITE_URL}${LogoImage}`,
       sameAs: [
-        'https://twitter.com/destinyclanwar'
+        constants.social.twitter
       ]
     }
 
@@ -42,7 +42,7 @@ class IndexPage extends Component {
             <Lockup primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate updated={currentEvent.updatedDate} />
             </Lockup>
-            <CurrentEvent event={currentEvent} element="h2" summary />
+            <CurrentEvent event={currentEvent} status={data.apiStatus} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
@@ -56,7 +56,7 @@ class IndexPage extends Component {
                   <Advert />
                 }
                 <Lockup center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} element="h2" summary />
+                <FutureEvent event={nextEvent} status={data.apiStatus} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -65,7 +65,7 @@ class IndexPage extends Component {
             {nextEvent &&
               <Fragment>
                 <Lockup center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} element="h2" summary />
+                <FutureEvent event={nextEvent} status={data.apiStatus} element="h2" summary />
               </Fragment>
             }
             {previousEvent &&

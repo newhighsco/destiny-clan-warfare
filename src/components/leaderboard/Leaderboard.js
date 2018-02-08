@@ -6,7 +6,7 @@ import MultiSort from 'multi-sort'
 import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
-import { Medal } from '../medal/Medal'
+import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
 import ExternalSvg from '../../images/external.svg'
 
@@ -51,7 +51,8 @@ class Leaderboard extends Component {
     const showNameTags = keys.indexOf('tags') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
     const showModifiers = keys.indexOf('modifiers') !== -1
-    const showMedals = keys.indexOf('medal') !== -1
+    const showMedal = keys.indexOf('medal') !== -1
+    const showMedals = keys.indexOf('medals') !== -1
     const showBonuses = keys.indexOf('bonuses') !== -1
     const filteredKeys = [
       'id',
@@ -66,6 +67,7 @@ class Leaderboard extends Component {
       'game',
       'modifiers',
       'medal',
+      'medals',
       'tags'
     ]
     const relativeDate = (date) => {
@@ -87,7 +89,7 @@ class Leaderboard extends Component {
     return (
       <div className={classNames(baseClassName, className, cutout && `${baseClassName}--cutout`)}>
         {data.map((item, i) => (
-          <div key={i} className="leaderboard__row" data-result={showGameDetails && item.game.result}>
+          <div key={i} id={item.id} className="leaderboard__row" data-result={showGameDetails && item.game.result}>
             {(showIcons || showNames) &&
               <div className="leaderboard__header">
                 {showIcons &&
@@ -95,7 +97,7 @@ class Leaderboard extends Component {
                 }
                 {showNames &&
                   <Fragment>
-                    { showMedals &&
+                    { showMedal &&
                       <Medal {...item.medal} size="small" align="left" className="leaderboard__medal" />
                     }
                     {item.path ? (
@@ -128,7 +130,7 @@ class Leaderboard extends Component {
               <div className="leaderboard__body">
                 <div className="leaderboard__stats">
                   {showGameDetails &&
-                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
+                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map}${item.game.mapSeparator || ''}` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
                       {item.game.isExternal ? (
                         <a href={item.game.path} target="_blank" rel="noopener noreferrer">
                           <span>{item.game.type}</span>
@@ -141,6 +143,11 @@ class Leaderboard extends Component {
                           {item.game.type}
                         </Link>
                       )}
+                    </div>
+                  }
+                  {showMedals &&
+                    <div className="leaderboard__stat leaderboard__stat--medals">
+                      <MedalList size="x-small" align="left" medals={item.medals} />
                     </div>
                   }
                   {showModifiers &&

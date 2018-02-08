@@ -96,7 +96,7 @@ MedalList.defaultProps = {
 
 MedalList.propTypes = {
   medals: PropTypes.array,
-  size: PropTypes.oneOf([ 'small' ]),
+  size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ])
 }
 

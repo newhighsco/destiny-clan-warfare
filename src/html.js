@@ -55,17 +55,7 @@ class Html extends Component {
           />
           {this.props.postBodyComponents}
           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
-          <script>
-            try {
-              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-                window.navigator.serviceWorker.getRegistrations().then(registrations => {
-                  registrations.forEach(r => r.unregister())
-                })
-              }
-            } catch (e) {
-              console.log(e)
-            }
-          </script>
+          <script src="/disable-sw.js" />
         </body>
       </html>
     )

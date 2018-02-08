@@ -11,6 +11,7 @@ const hexToRgb = require('./lib/hex-to-rgb')
 const constants = require('../../utils/constants')
 const createContentDigest = require('../../utils/create-content-digest')
 const online = require('../../utils/online')
+const baseClassName = 'avatar'
 
 const AvatarLayer = (layer) => {
   if (!layer.color || !layer.icon) return null
@@ -24,7 +25,7 @@ const AvatarLayer = (layer) => {
   const id = uuidv5(contentDigest, uuid)
 
   return (
-    <svg className="avatar__layer" viewBox="0 0 512 512">
+    <svg className={`${baseClassName}__layer`} viewBox="0 0 512 512">
       <filter id={id} x="0" y="0" width="100%" height="100%">
         <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
       </filter>
@@ -35,14 +36,19 @@ const AvatarLayer = (layer) => {
 
 const Avatar = (props) => {
   const { icon, color, foreground, background, className } = props
+  const inline = icon && typeof icon === 'function'
 
   if (!online) return null
 
   return (
-    <div className={classNames('avatar', className)} style={color && { backgroundColor: color }}>
+    <div className={classNames(baseClassName, className)} style={color && { backgroundColor: color }}>
       {icon &&
-        <ResponsiveMedia className="avatar__layer" ratio="1:1">
-          <img src={icon} alt="" />
+        <ResponsiveMedia className={`${baseClassName}__layer`} ratio="1:1">
+          {inline ? (
+            icon()
+          ) : (
+            <img src={icon} alt="" />
+          )}
         </ResponsiveMedia>
       }
       {background && AvatarLayer(background)}
@@ -52,7 +58,7 @@ const Avatar = (props) => {
 }
 
 Avatar.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([ PropTypes.string, PropTypes.func ]),
   color: PropTypes.string,
   foreground: PropTypes.object,
   background: PropTypes.object,

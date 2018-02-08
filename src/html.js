@@ -55,7 +55,6 @@ class Html extends Component {
           />
           {this.props.postBodyComponents}
           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
-          <script src="/disable-sw.js" />
         </body>
       </html>
     )

@@ -4,22 +4,30 @@ import classNames from 'classnames'
 
 import './Card.styl'
 
-const Card = ({ cutout, children, className }) => {
+const Card = ({ cutout, center, children, className }) => {
   const baseClassName = 'card'
+  const classes = classNames(
+    baseClassName,
+    className,
+    cutout && `${baseClassName}--cutout`,
+    center && 'text-center'
+  )
 
   return (
-    <div className={classNames(baseClassName, className, cutout && `${baseClassName}--cutout`)}>
+    <div className={classes}>
       {children}
     </div>
   )
 }
 
 Card.defaultProps = {
-  cutout: false
+  cutout: false,
+  center: false
 }
 
 Card.propTypes = {
   cutout: PropTypes.bool,
+  center: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string
 }

@@ -7,7 +7,7 @@
     margin-bottom $spacing--treble
     padding $spacing--double 0
 
-  &:after
+  &:before
     background url('./header.jpg')
     background-position 50% 0
     background-repeat no-repeat
@@ -19,13 +19,26 @@
     height rem(300)
     left 0
     right 0
-    z-index -1
+    z-index -2
 
     .webp &
       background-image url('./header.webp')
 
     +width-min($mq--tablet)
       height rem(350)
+
+  &:after
+    content ''
+    background $color--nero
+    position absolute
+    top rem(299)
+    height rem(5)
+    left 0
+    right 0
+    z-index -1
+
+    +width-min($mq--tablet)
+      top rem(349)
 
 .header__container
   position relative

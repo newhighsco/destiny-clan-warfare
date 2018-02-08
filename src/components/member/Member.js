@@ -69,9 +69,9 @@ class Member extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Card cutout={hasEvents} className="text-center">
+        <Card cutout={hasEvents} center>
           {member.icon &&
-            <Avatar className="card__avatar" icon={member.icon} />
+            <Avatar cutout outline icon={member.icon} />
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />

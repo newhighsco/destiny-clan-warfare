@@ -117,35 +117,7 @@ StatList.propTypes = {
   top: PropTypes.bool
 }
 
-const StatHistory = ({ events, cutout }) => {
-  if (!events || events.length < 1) return null
-  const className = `${baseClassName}-history`
-
-  return (
-    <div className={classNames(className, cutout && `${className}--cutout`)}>
-      <div className="grid grid--flex grid--gutter-pixel">
-        {events.map((event, i) => {
-          return (
-            <div key={i} className="grid__item tablet-one-half">
-              <a id={event.id} className="is-vhidden">{event.name}</a>
-              <div className={`${className}__card`}>
-                {event.name}
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-StatHistory.propTypes = {
-  events: PropTypes.array,
-  cutout: PropTypes.bool
-}
-
 export {
   Stat,
-  StatList,
-  StatHistory
+  StatList
 }

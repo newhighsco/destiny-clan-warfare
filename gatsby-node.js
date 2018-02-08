@@ -727,8 +727,8 @@ exports.onPostBuild = ({ graphql }) => {
           reject(result.errors)
         }
 
-        const memberHtml = fs.readFileSync('./src/member.html', 'utf-8')
-        const eventMemberHtml = fs.readFileSync('./src/event-member.html', 'utf-8')
+        const memberHtml = fs.readFileSync('./src/html/member.html', 'utf-8')
+        const eventMemberHtml = fs.readFileSync('./src/html/event-member.html', 'utf-8')
 
         Promise.all(result.data.allMember.edges.map(async (member) => {
           if (member.node.totalsVisible) {

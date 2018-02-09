@@ -321,7 +321,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       clanId: `${constants.prefix.hash}${member.groupId}`,
       clanName: decode(clan.name),
       clanPath: urlBuilder.clanUrl(member.groupId),
-      clan: clan,
+      clanTag: clan.tag,
       clanSortable: clan.tag.toUpperCase(),
       name: decode(member.name),
       nameSortable: member.name.toUpperCase(),
@@ -727,34 +727,37 @@ exports.onPostBuild = ({ graphql }) => {
           reject(result.errors)
         }
 
-        const memberHtml = fs.readFileSync('./src/html/member.html', 'utf-8')
-        const eventMemberHtml = fs.readFileSync('./src/html/event-member.html', 'utf-8')
+        const memberHtml = fs.readFileSync('./public/member/index.html', 'utf-8')
+        const eventMemberHtml = fs.readFileSync('./public/event-member/index.html', 'utf-8')
 
         Promise.all(result.data.allMember.edges.map(async (member) => {
+          const clanId = member.node.clanId.substring(constants.prefix.hash.length)
+
           if (member.node.totalsVisible) {
             const directory = `./public${member.node.path}`
             const html = memberHtml
-              .replace(/%NAME%/g, member.node.name)
-              .replace(/%PATH%/g, member.node.path)
+              .replace(/%MEMBER_ID%/g, member.node.id)
+              .replace(/%MEMBER_NAME%/g, member.node.name)
+              .replace(/%CLAN_ID%/g, clanId)
               .replace(/%CLAN_NAME%/g, member.node.clanName)
-              .replace(/%CLAN_PATH%/g, member.node.clanPath)
-              .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+              .replace(/\/member\//g, member.node.path)
+              .replace(/noindex,nofollow/g, 'index,follow')
 
             fs.mkdirSync(directory)
             fs.writeFileSync(`${directory}index.html`, html)
           }
 
           if (currentEvent && member.node.leaderboardVisible) {
-            const clanId = member.node.clanId.substring(constants.prefix.hash.length)
             const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
             const directory = `./public${path}`
             const html = eventMemberHtml
-              .replace(/%NAME%/g, member.node.name)
-              .replace(/%PATH%/g, path)
+              .replace(/%MEMBER_ID%/g, member.node.id)
+              .replace(/%MEMBER_NAME%/g, member.node.name)
+              .replace(/%CLAN_ID%/g, clanId)
               .replace(/%CLAN_NAME%/g, member.node.clanName)
-              .replace(/%CLAN_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId, clanId))
-              .replace(/%EVENT_PATH%/g, urlBuilder.eventUrl(currentEvent.eventId))
-              .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+              .replace(/%EVENT_ID%/g, currentEvent.eventId)
+              .replace(/\/event-member\//g, path)
+              .replace(/noindex,nofollow/g, 'index,follow')
 
             fs.mkdirSync(directory)
             fs.writeFileSync(`${directory}index.html`, html)

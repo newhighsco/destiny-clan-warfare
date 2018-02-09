@@ -18,18 +18,18 @@ const possessive = require('../../utils/possessive')
 
 class Member extends Component {
   render () {
-    const { member, status } = this.props
+    const { member, status, disallowRobots } = this.props
     const totals = member.totals
     const medals = member.medals
     const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
-    const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
+    const lastPlayedDate = moment.utc(totals ? totals.lastPlayed : emptyDate).format(constants.dateFormat)
     const stats = {
       ...totals,
       lastPlayed: lastPlayedDate
     }
     const title = `${member.name} | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
-    const kicker = member.clan.name
+    const kicker = member.clanName
     const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))
     const schema = {
       '@context': 'http://schema.org',
@@ -40,7 +40,7 @@ class Member extends Component {
           position: 1,
           item: {
             '@id': `${process.env.GATSBY_SITE_URL}${kickerHref}`,
-            name: member.clan.name
+            name: member.clanName
           }
         },
         {
@@ -55,29 +55,38 @@ class Member extends Component {
     }
 
     return (
-      <PageContainer status={status}>
+      <PageContainer status={status} advert={!disallowRobots}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          {disallowRobots &&
+            <meta name="robots" content="noindex,nofollow" />
+          }
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Card center>
-          {member.icon &&
-            <Avatar cutout outline icon={member.icon} />
-          }
-          <TagList tags={member.tags} className="card__tags" />
-          <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
-          <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
-          <MedalList medals={medals} />
-          {lastPlayedDate > emptyDate &&
-            <Fragment>
-              <StatList stats={stats} />
-              <Notification>Past event statistics coming soon.</Notification>
-            </Fragment>
-          }
-        </Card>
+        {disallowRobots ? (
+          <Card center>
+            <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
+          </Card>
+        ) : (
+          <Card center>
+            {member.icon &&
+              <Avatar cutout outline icon={member.icon} />
+            }
+            <TagList tags={member.tags} className="card__tags" />
+            <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
+            <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
+            <MedalList medals={medals} />
+            {lastPlayedDate > emptyDate &&
+              <Fragment>
+                <StatList stats={stats} />
+                <Notification>Past event statistics coming soon.</Notification>
+              </Fragment>
+            }
+          </Card>
+        )}
       </PageContainer>
     )
   }
@@ -85,7 +94,8 @@ class Member extends Component {
 
 Member.propTypes = {
   member: PropTypes.object,
-  status: PropTypes.object
+  status: PropTypes.object,
+  disallowRobots: PropTypes.bool
 }
 
 export default Member

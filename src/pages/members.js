@@ -20,7 +20,8 @@ class MembersPage extends Component {
       'name',
       'icon',
       'tags',
-      'clan'
+      'clanId',
+      'clanTag'
     ]
     const title = 'Members'
     const description = 'All clan members waging war against other clans in Destiny 2'
@@ -88,10 +89,8 @@ export const pageQuery = graphql`
           id
           name
           clanId
-          clan {
-            tag
-            name
-          }
+          clanName
+          clanTag
           icon
           tags {
             name

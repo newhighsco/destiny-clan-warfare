@@ -140,6 +140,7 @@ export const pageQuery = graphql`
           }
           clanId
           clanName
+          clanTag
           leaderboard {
             games
             wins

@@ -7,6 +7,7 @@ import FlawlessStriker from './flawless-striker.svg'
 import LukeSkywalkerSPadawan from './luke-skywalker-s-padawan.svg'
 import Merciless from './merciless.svg'
 import NiceThrow from './nice-throw.svg'
+import PewPewPew from './pew-pew-pew.svg'
 import RockyBalboaSTrainee from './rocky-balboa-s-trainee.svg'
 import StrikeDeathPenalty from './strike-death-penalty.svg'
 import TelestoFesto from './telesto-festo.svg'
@@ -24,6 +25,7 @@ const svgs = {
   LukeSkywalkerSPadawan: { svg: LukeSkywalkerSPadawan, designer: 'Colour Block' },
   Merciless: { svg: Merciless, designer: 'Optimus Prime' },
   NiceThrow: { svg: NiceThrow, designer: 'Hea Poh Lin' },
+  PewPewPew: { svg: PewPewPew, designer: 'Nikol Kokešová' },
   RockyBalboaSTrainee: { svg: RockyBalboaSTrainee, designer: 'miza bin' },
   StrikeDeathPenalty: { svg: StrikeDeathPenalty, designer: 'Robert Bjurshagen' },
   TelestoFesto: { svg: TelestoFesto, designer: 'Casper Jensen' },

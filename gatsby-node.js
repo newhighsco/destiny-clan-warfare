@@ -89,9 +89,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   const parseModifier = (modifier) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
+    const clan = member ? clans.find(clan => clan.groupId === member.groupId) : null
+
     const creator = {
       id: member ? member.profileIdStr : '',
-      name: member ? decode(member.name) : ''
+      name: member ? decode(member.name) : '',
+      clanTag: clan ? decode(clan.tag) : ''
     }
 
     return {

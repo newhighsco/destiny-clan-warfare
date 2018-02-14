@@ -31,7 +31,7 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   const label = `${prefix}${bonus}${suffix}`
   const tooltip = [ description, '' ]
 
-  if (creator && creator.name) tooltip.push(`<strong>Creator:</strong> ${creator.name}`)
+  if (creator && creator.name) tooltip.push(`<strong>Creator:</strong> ${creator.name}${creator.clanTag ? ` [${creator.clanTag}]` : ''}`)
   if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
   return (
@@ -108,6 +108,7 @@ export const componentFragment = graphql`
       multiplierBonus
       creator {
         name
+        clanTag
       }
     }
   }

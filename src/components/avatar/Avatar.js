@@ -47,7 +47,7 @@ const Avatar = (props) => {
   if (!online) return null
 
   return (
-    <div className={classes} style={color && hexHelper.isHex(color) && { backgroundColor: color }}>
+    <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
       {icon &&
         <ResponsiveMedia className={`${baseClassName}__layer`} ratio="1:1">
           <img src={icon} alt="" />

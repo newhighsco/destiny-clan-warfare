@@ -7,7 +7,7 @@ import './Avatar.styl'
 
 const uuidv4 = require('uuid/v4')
 const uuidv5 = require('uuid/v5')
-const hexToRgb = require('./lib/hex-to-rgb')
+const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
 const createContentDigest = require('../../utils/create-content-digest')
 const online = require('../../utils/online')
@@ -16,7 +16,7 @@ const baseClassName = 'avatar'
 const AvatarLayer = (layer) => {
   if (!layer.color || !layer.icon) return null
 
-  const hex = hexToRgb(layer.color)
+  const hex = hexHelper.hexToRgb(layer.color)
   const r = hex.r / 255
   const g = hex.g / 255
   const b = hex.b / 255
@@ -47,7 +47,7 @@ const Avatar = (props) => {
   if (!online) return null
 
   return (
-    <div className={classes} style={color && { backgroundColor: color }}>
+    <div className={classes} style={color && hexHelper.isHex(color) && { backgroundColor: color }}>
       {icon &&
         <ResponsiveMedia className={`${baseClassName}__layer`} ratio="1:1">
           <img src={icon} alt="" />

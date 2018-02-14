@@ -321,7 +321,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       clanId: `${constants.prefix.hash}${member.groupId}`,
       clanName: decode(clan.name),
       clanPath: urlBuilder.clanUrl(member.groupId),
-      clanTag: clan.tag,
+      clanTag: decode(clan.tag),
       clanSortable: clan.tag.toUpperCase(),
       name: decode(member.name),
       nameSortable: member.name.toUpperCase(),

@@ -11,7 +11,8 @@ class MemberPage extends Component {
       id: '%MEMBER_ID%',
       name: '%MEMBER_NAME%',
       clanId: `${constants.prefix.hash}%CLAN_ID%`,
-      clanName: '%CLAN_NAME%'
+      clanName: '%CLAN_NAME%',
+      clanTag: '%CLAN_TAG%'
     }
 
     return (

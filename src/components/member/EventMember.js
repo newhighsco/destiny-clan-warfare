@@ -21,7 +21,7 @@ class EventMember extends Component {
     const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null
     const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
     const hasLeaderboard = leaderboard && leaderboard.length > 0
-    const title = `${member.name} | ${constants.kicker.current}`
+    const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
     const schema = {
       '@context': 'http://schema.org',

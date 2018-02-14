@@ -719,6 +719,7 @@ exports.onPostBuild = ({ graphql }) => {
                   name
                   clanId
                   clanName
+                  clanTag
                   clanPath
                   totalsVisible
                   leaderboardVisible
@@ -746,6 +747,7 @@ exports.onPostBuild = ({ graphql }) => {
               .replace(/%MEMBER_NAME%/g, member.node.name)
               .replace(/%CLAN_ID%/g, clanId)
               .replace(/%CLAN_NAME%/g, member.node.clanName)
+              .replace(/%CLAN_TAG%/g, member.node.clanTag)
               .replace(/\/member\//g, member.node.path)
               .replace(/noindex,nofollow/g, 'index,follow')
 
@@ -761,6 +763,7 @@ exports.onPostBuild = ({ graphql }) => {
               .replace(/%MEMBER_NAME%/g, member.node.name)
               .replace(/%CLAN_ID%/g, clanId)
               .replace(/%CLAN_NAME%/g, member.node.clanName)
+              .replace(/%CLAN_TAG%/g, member.node.clanTag)
               .replace(/%EVENT_ID%/g, currentEvent.eventId)
               .replace(/\/event-member\//g, path)
               .replace(/noindex,nofollow/g, 'index,follow')

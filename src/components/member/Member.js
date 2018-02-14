@@ -27,7 +27,7 @@ class Member extends Component {
       ...totals,
       lastPlayed: lastPlayedDate
     }
-    const title = `${member.name} | Members`
+    const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName
     const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))

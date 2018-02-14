@@ -12,6 +12,7 @@ class EventMemberPage extends Component {
       name: '%MEMBER_NAME%',
       clanId: `${constants.prefix.hash}%CLAN_ID%`,
       clanName: '%CLAN_NAME%',
+      clanTag: '%CLAN_TAG%',
       currentEventId: '%EVENT_ID%'
     }
 

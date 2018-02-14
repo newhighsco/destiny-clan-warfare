@@ -215,6 +215,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       leaderboard: clanLeaderboard.map(item => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 
+        if (!member) throw new Error(`Cannot find member: ${item.idStr}`)
+
         return {
           path: urlBuilder.eventUrl(currentEvent.eventId, member.groupId, member.profileIdStr),
           id: member.profileIdStr,
@@ -373,6 +375,8 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
       return rawClans.map((rawClan, i) => {
         const clan = clans.find(clan => clan.groupId === (rawClan.clanId || rawClan.id))
+
+        if (!member) throw new Error(`Cannot find clan: ${rawClan.clanId || rawClan.id}`)
 
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),

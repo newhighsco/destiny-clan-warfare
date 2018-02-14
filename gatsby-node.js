@@ -485,6 +485,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
           return item
         })
     }
+    }
 
     createNode({
       id: `${constants.prefix.event} ${event.eventId}`,

@@ -476,15 +476,15 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
 
       if (winnersMedal) {
-      results
-        .sort((a, b) => b.score - a.score)
-        .map((item, i) => {
-          if (i === 0) {
-            item.medal = winnersMedal
-          }
-          return item
-        })
-    }
+        results
+          .sort((a, b) => b.score - a.score)
+          .map((item, i) => {
+            if (i === 0) {
+              item.medal = winnersMedal
+            }
+            return item
+          })
+      }
     }
 
     createNode({

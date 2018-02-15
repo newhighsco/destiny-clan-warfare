@@ -18,9 +18,8 @@ const possessive = require('../../utils/possessive')
 class Member extends Component {
   render () {
     const { member, status, disallowRobots } = this.props
-    const totals = member.totals
     const medals = member.medals
-    const { lastPlayed, ...stats } = totals
+    const { lastPlayed, ...stats } = member.total || {}
     const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName

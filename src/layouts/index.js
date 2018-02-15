@@ -7,7 +7,6 @@ import { Logo } from '../components/logo/Logo'
 import { Button, ButtonGroup } from '../components/button/Button'
 import ogImage from '../images/favicon-1200x1200.png'
 
-import '../../public/modernizr'
 import '../stylus/index.styl'
 
 const constants = require('../utils/constants')

@@ -9,11 +9,9 @@
     "yarn": "^1.2.1"
   },
   "scripts": {
-    "start": "npm-run-all --parallel start:modernizr start:gatsby",
-    "start:modernizr": "npm run build:modernizr",
+    "start": "npm-run-all --parallel start:gatsby",
     "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop",
-    "build": "npm-run-all build:modernizr build:patch build:gatsby",
-    "build:modernizr": "modernizr -c ./modernizr.json -d ./public/modernizr.js -u",
+    "build": "npm-run-all build:patch build:gatsby",
     "build:patch": "sed -i -e 's/if(c\\.initial) return;/if(!c||c.initial) return;/g' ./node_modules/extract-text-webpack-plugin/index.js",
     "build:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby build",
     "clean": "rm -rf .cache && rm -rf public",
@@ -50,7 +48,6 @@
     "gatsby-plugin-sitemap": "^1.2.5",
     "gatsby-plugin-stylus": "^1.1.10",
     "linkify-urls": "^1.4.0",
-    "modernizr": "^3.5.0",
     "moment": "^2.19.2",
     "multi-sort": "^1.0.1",
     "netlify-identity-widget": "^1.2.0",

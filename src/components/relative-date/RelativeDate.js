@@ -16,29 +16,31 @@ class RelativeDate extends Component {
   }
 
   render () {
-    const { start, end, updated } = this.props
+    const { start, end, updated, className } = this.props
+    var { label } = this.props
     const { active } = this.state
     const currentDate = moment.utc()
     const startDate = moment.utc(start)
     const endDate = moment.utc(end)
     const updatedDate = moment.utc(updated)
 
-    var value = currentDate
-    var label
+    var value
 
     if (updated) {
       value = updatedDate
-      label = constants.relativeDate.updated
+      label = label || constants.relativeDate.updated
     } else if (startDate < currentDate && endDate > currentDate) {
       value = endDate
-      label = constants.relativeDate.current
+      label = label || constants.relativeDate.current
     } else if (startDate > currentDate) {
       value = startDate
-      label = constants.relativeDate.future
+      label = label || constants.relativeDate.future
     } else if (endDate < currentDate) {
       value = endDate
-      label = constants.relativeDate.past
+      label = label || constants.relativeDate.past
     }
+
+    if (!value) return null
 
     const title = value.format('YYYY-MM-DD HH:mm [UTC]')
     const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ')
@@ -48,6 +50,7 @@ class RelativeDate extends Component {
       <time
         dateTime={machineReadable}
         title={title}
+        className={className}
       >
         {humanReadable}
       </time>
@@ -58,7 +61,9 @@ class RelativeDate extends Component {
 RelativeDate.propTypes = {
   start: PropTypes.string,
   end: PropTypes.string,
-  updated: PropTypes.string
+  updated: PropTypes.string,
+  label: PropTypes.string,
+  className: PropTypes.string
 }
 
 export default RelativeDate

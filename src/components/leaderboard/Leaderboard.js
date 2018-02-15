@@ -8,11 +8,11 @@ import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
+import RelativeDate from '../relative-date/RelativeDate'
 import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
 
-const moment = require('moment')
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -68,9 +68,6 @@ class Leaderboard extends Component {
       'medal',
       'tags'
     ]
-    const relativeDate = (date) => {
-      return moment.utc(date).fromNow()
-    }
 
     keys = keys.reduce((filtered, key) => {
       if (filteredKeys.indexOf(key) === -1) {
@@ -128,7 +125,7 @@ class Leaderboard extends Component {
               <div className="leaderboard__body">
                 <div className="leaderboard__stats">
                   {showGameDetails &&
-                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
+                    <div className="leaderboard__stat leaderboard__stat--game">
                       {item.game.isExternal ? (
                         <a href={item.game.path} target="_blank" rel="noopener noreferrer">
                           <span>{item.game.type}</span>
@@ -141,6 +138,7 @@ class Leaderboard extends Component {
                           {item.game.type}
                         </Link>
                       )}
+                      <RelativeDate className="leaderboard__stat-suffix" updated={item.game.date} label={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}`} />
                     </div>
                   }
                   {showModifiers &&

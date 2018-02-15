@@ -1,24 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-var stylesStr
-if (process.env.NODE_ENV === `production`) {
-  try {
-    stylesStr = require(`!raw-loader!../public/styles.css`)
-  } catch (e) {
-    console.log(e)
-  }
-}
-
 class Html extends Component {
   render () {
     var css
     if (process.env.NODE_ENV === `production`) {
       css = (
-        <style
-          id="gatsby-inlined-css"
-          dangerouslySetInnerHTML={{ __html: stylesStr }}
-        />
+        <link rel="stylesheet" href="../public/styles.css" />
       )
     }
     return (
@@ -28,7 +16,7 @@ class Html extends Component {
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1"
+            content="width=device-width,initial-scale=1"
           />
           {this.props.headComponents}
           {css}

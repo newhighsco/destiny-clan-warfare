@@ -13,8 +13,8 @@
   GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"
   GATSBY_DISALLOW_ROBOTS = "true"
-  GATSBY_ENABLE_PROFILE_PAGES = "true"
-  GATSBY_ENABLE_MATCH_HISTORY = "true"
+  GATSBY_ENABLE_PROFILE_PAGES = "false"
+  GATSBY_ENABLE_MATCH_HISTORY = "false"
 
 [context.production.environment]
   GATSBY_ENABLE_IDENTITY = "false"

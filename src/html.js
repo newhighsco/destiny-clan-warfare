@@ -6,7 +6,7 @@ class Html extends Component {
     var css
     if (process.env.NODE_ENV === `production`) {
       css = (
-        <link rel="stylesheet" href="../public/styles.css" />
+        <link rel="stylesheet" href="/styles.css" />
       )
     }
     return (

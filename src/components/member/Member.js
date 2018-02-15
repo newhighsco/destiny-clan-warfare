@@ -19,7 +19,7 @@ class Member extends Component {
   render () {
     const { member, status, disallowRobots } = this.props
     const medals = member.medals
-    const { lastPlayed, ...stats } = member.total || {}
+    const { lastPlayed, ...stats } = member.totals || {}
     const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName

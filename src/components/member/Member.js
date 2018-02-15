@@ -17,7 +17,7 @@ const possessive = require('../../utils/possessive')
 
 class Member extends Component {
   render () {
-    const { member, status, disallowRobots } = this.props
+    const { member, disallowRobots } = this.props
     const medals = member.medals
     const { lastPlayed, ...stats } = member.totals || {}
     const title = `${member.name} [${member.clanTag}] | Members`
@@ -48,7 +48,7 @@ class Member extends Component {
     }
 
     return (
-      <PageContainer status={status} advert={!disallowRobots}>
+      <PageContainer advert={!disallowRobots}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -83,7 +83,6 @@ class Member extends Component {
 
 Member.propTypes = {
   member: PropTypes.object,
-  status: PropTypes.object,
   disallowRobots: PropTypes.bool
 }
 

@@ -7,10 +7,10 @@ import BungieStatus from '../bungie/Status'
 
 import './PageContainer.styl'
 
-const PageContainer = ({ children, status, advert }) => (
+const PageContainer = ({ children, advert }) => (
   <Fragment>
     <Header />
-    <BungieStatus code={status && status.bungieCode} />
+    <BungieStatus />
     <main id="content" className="page-container" role="main">
       <div className="page-container__inner content-center content-gutter">
         {children}
@@ -29,7 +29,6 @@ PageContainer.defaultProps = {
 
 PageContainer.propTypes = {
   children: PropTypes.node,
-  status: PropTypes.object,
   advert: PropTypes.bool
 }
 

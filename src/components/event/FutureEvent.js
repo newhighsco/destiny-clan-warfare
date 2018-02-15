@@ -10,10 +10,8 @@ class FutureEvent extends Component {
   constructor (props) {
     super(props)
 
-    const { status } = this.props
-
     this.state = {
-      enrollmentOpen: status.enrollmentOpen
+      enrollmentOpen: false
     }
   }
 
@@ -49,7 +47,6 @@ FutureEvent.defaultProps = {
 
 FutureEvent.propTypes = {
   event: PropTypes.object,
-  status: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }

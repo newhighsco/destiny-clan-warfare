@@ -1,24 +1,21 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
 const bungie = require('../../utils/bungie-helper')
-const httpExceptionHandler = require(`../../utils/http-exception-handler`)
+const httpExceptionHandler = require('../../utils/http-exception-handler')
 
 class Status extends Component {
   constructor (props) {
     super(props)
 
-    const { code } = this.props
-
     this.state = {
-      active: code === constants.bungie.disabledStatusCode
+      active: false
     }
   }
 
   componentDidMount () {
-    bungie(`/Destiny2/Milestones/`)
+    bungie(`/Destiny2/Manifest/`)
       .then(({ data }) => {
         this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
       })
@@ -38,10 +35,6 @@ class Status extends Component {
       </div>
     )
   }
-}
-
-Status.propTypes = {
-  code: PropTypes.number
 }
 
 export default Status

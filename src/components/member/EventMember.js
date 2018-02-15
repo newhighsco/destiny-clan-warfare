@@ -17,7 +17,7 @@ const possessive = require('../../utils/possessive')
 
 class EventMember extends Component {
   render () {
-    const { member, status, disallowRobots } = this.props
+    const { member, disallowRobots } = this.props
     const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null
     const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
     const hasLeaderboard = leaderboard && leaderboard.length > 0
@@ -55,7 +55,7 @@ class EventMember extends Component {
     }
 
     return (
-      <PageContainer status={status} advert={!disallowRobots}>
+      <PageContainer advert={!disallowRobots}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -67,7 +67,7 @@ class EventMember extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
-          <RelativeDate updated={member.updatedDate} />
+          <RelativeDate status />
         </Lockup>
         {disallowRobots ? (
           <Card center cutout>
@@ -104,7 +104,6 @@ class EventMember extends Component {
 
 EventMember.propTypes = {
   member: PropTypes.object,
-  status: PropTypes.object,
   disallowRobots: PropTypes.bool
 }
 

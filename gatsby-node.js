@@ -17,13 +17,6 @@ const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
 const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
 var currentEvent
 
-exports.modifyWebpackConfig = ({ config, stage }) => {
-  if (stage === 'build-javascript') {
-    // turn off source-maps
-    config.merge({ devtool: false })
-  }
-}
-
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 

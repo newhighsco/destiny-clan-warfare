@@ -2,7 +2,8 @@ const axios = require(`axios`)
 const constants = require('./constants')
 
 const api = axios.create({
-  baseURL: constants.server.apiUrl
+  baseURL: constants.server.apiUrl,
+  timeout: 60000
 })
 
 const proxy = axios.create({

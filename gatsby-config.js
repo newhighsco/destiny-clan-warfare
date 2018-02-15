@@ -117,6 +117,7 @@ module.exports = {
         showSpinner: true
       }
     },
+    `gatsby-plugin-no-sourcemaps`,
     // Keep this at the end
     `gatsby-plugin-netlify`
   ]

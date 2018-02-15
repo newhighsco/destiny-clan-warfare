@@ -4444,6 +4444,10 @@ gatsby-plugin-netlify@^1.0.6:
     lodash "^4.17.4"
     webpack-assets-manifest "^1.0.0"
 
+gatsby-plugin-no-sourcemaps@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-no-sourcemaps/-/gatsby-plugin-no-sourcemaps-1.0.3.tgz#fa36403c56b58f1cc83991f4a82a4fd95956da0c"
+
 gatsby-plugin-nprogress@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-nprogress/-/gatsby-plugin-nprogress-1.0.10.tgz#6154c5b59e1b05f0ee4e4b9c162da03f6aa741ed"

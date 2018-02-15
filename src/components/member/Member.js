@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../page-container/PageContainer'
@@ -11,7 +11,6 @@ import { Button } from '../button/Button'
 import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
 
-const moment = require('moment')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/possessive')
@@ -21,12 +20,7 @@ class Member extends Component {
     const { member, status, disallowRobots } = this.props
     const totals = member.totals
     const medals = member.medals
-    const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
-    const lastPlayedDate = moment.utc(totals ? totals.lastPlayed : emptyDate).format(constants.dateFormat)
-    const stats = {
-      ...totals,
-      lastPlayed: lastPlayedDate
-    }
+    const { lastPlayed, ...stats } = totals
     const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName
@@ -79,12 +73,8 @@ class Member extends Component {
             <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
             <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
             <MedalList medals={medals} />
-            {lastPlayedDate > emptyDate &&
-              <Fragment>
-                <StatList stats={stats} />
-                <Notification>Past event statistics coming soon.</Notification>
-              </Fragment>
-            }
+            <StatList stats={stats} />
+            <Notification>Past event statistics coming soon.</Notification>
           </Card>
         )}
       </PageContainer>

@@ -3,7 +3,6 @@ import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
 const bungie = require('../../utils/bungie-helper')
-const httpExceptionHandler = require('../../utils/http-exception-handler')
 
 class Status extends Component {
   constructor (props) {
@@ -19,7 +18,7 @@ class Status extends Component {
       .then(({ data }) => {
         this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
       })
-      .catch(err => httpExceptionHandler(err))
+      .catch(err => console.log(err))
   }
 
   render () {

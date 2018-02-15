@@ -9,7 +9,6 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 const api = require('./src/utils/api-helper').api
 const bungie = require('./src/utils/bungie-helper')
-const httpExceptionHandler = require('./src/utils/http-exception-handler')
 const linkify = require('linkify-urls')
 const decode = require('./src/utils/html-entities').decode
 
@@ -17,7 +16,7 @@ const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
 const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
 var currentEvent
 
-exports.sourceNodes = async ({ boundActionCreators }) => {
+exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   const { createNode } = boundActionCreators
 
   var apiStatus = {
@@ -32,53 +31,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
   var events = []
   var modifiers = []
   var medals = []
+  var currentLeaderboard
   const casingOptions = { deep: true }
   const linkifyOptions = { attributes: { target: '_blank' } }
-
-  await api(`Leaderboard/GetLastTrackedGame`)
-    .then(({ data }) => {
-      if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
-    })
-    .catch(err => httpExceptionHandler(err))
-
-  await api(`Clan/AcceptingNewClans`)
-    .then(({ data }) => {
-      apiStatus.enrollmentOpen = data
-    })
-    .catch(err => httpExceptionHandler(err))
-
-  await bungie(`/Destiny2/Manifest`)
-    .then(({ data }) => {
-      if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
-    })
-    .catch(err => httpExceptionHandler(err))
-
-  await api(`Clan/GetAllClans`)
-    .then(({ data }) => {
-      clans = data.map(item => camelcaseKeys(item, casingOptions))
-    })
-    .catch(err => httpExceptionHandler(err))
-
-  await api(`Clan/GetAllMembers`)
-    .then(({ data }) => {
-      members = data.map(item => camelcaseKeys(item, casingOptions))
-    })
-    .catch(err => httpExceptionHandler(err))
-
-  if (enableMatchHistory) {
-    await api(`Leaderboard/GetAllPlayersHistory`)
-      .then(({ data }) => {
-        histories = data.map(item => camelcaseKeys(item, casingOptions))
-      })
-      .catch(err => httpExceptionHandler(err))
-  }
-
-  await api(`Event/GetAllEvents`)
-    .then(({ data }) => {
-      events = data.map(item => camelcaseKeys(item, casingOptions))
-      currentEvent = events.find(event => event.eventTense === constants.tense.current)
-    })
-    .catch(err => httpExceptionHandler(err))
 
   const parseModifier = (modifier) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
@@ -96,12 +51,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       creator: creator
     }
   }
-
-  await api(`Component/GetAllModifiers`)
-    .then(({ data }) => {
-      modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
-    })
-    .catch(err => httpExceptionHandler(err))
 
   const parseMedals = (input, type, minimumTier) => {
     minimumTier = minimumTier || 0
@@ -134,17 +83,101 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     return output
   }
 
-  await api(`Component/GetAllMedals`)
-    .then(({ data }) => {
-      medals = medals.concat(parseMedals(data, constants.prefix.profile))
-    })
-    .catch(err => httpExceptionHandler(err))
+  const sources = [
+    api(`Leaderboard/GetLastTrackedGame`)
+      .then(({ data }) => {
+        if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Clan/AcceptingNewClans`)
+      .then(({ data }) => {
+        apiStatus.enrollmentOpen = data
+      })
+      .catch(err => reporter.error(err)),
+    bungie(`/Destiny2/Manifest`)
+      .then(({ data }) => {
+        if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
+      })
+      .catch(err => reporter.error(err)),
+    api(`Clan/GetAllClans`)
+      .then(({ data }) => {
+        clans = data.map(item => camelcaseKeys(item, casingOptions))
+        reporter.info(`fetched clans - ${clans.length}`)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Clan/GetAllMembers`)
+      .then(({ data }) => {
+        members = data.map(item => camelcaseKeys(item, casingOptions))
+        reporter.info(`fetched members - ${members.length}`)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Event/GetAllEvents`)
+      .then(({ data }) => {
+        events = data.map(item => camelcaseKeys(item, casingOptions))
+        currentEvent = events.find(event => event.eventTense === constants.tense.current)
+        reporter.info(`fetched events - ${events.length}`)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Component/GetAllModifiers`)
+      .then(({ data }) => {
+        modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
+        reporter.info(`fetched modifiers - ${modifiers.length}`)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Component/GetAllMedals`)
+      .then(({ data }) => {
+        medals = medals.concat(parseMedals(data, constants.prefix.profile))
+        reporter.info(`fetched member medals - ${data.length}`)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Component/GetAllClanMedals`)
+      .then(({ data }) => {
+        medals = medals.concat(parseMedals(data, constants.prefix.clan))
+        reporter.info(`fetched clan medals - ${data.length}`)
+      })
+      .catch(err => reporter.error(err)),
+    api(`Leaderboard/GetLeaderboard`)
+      .then(({ data }) => {
+        currentLeaderboard = camelcaseKeys(data, casingOptions)
+        reporter.info(`fetched event leaderboard`)
+      })
+      .catch(err => reporter.error(err))
+  ]
 
-  await api(`Component/GetAllClanMedals`)
-    .then(({ data }) => {
-      medals = medals.concat(parseMedals(data, constants.prefix.clan))
-    })
-    .catch(err => httpExceptionHandler(err))
+  if (enableMatchHistory) {
+    sources.push(api(`Leaderboard/GetAllPlayersHistory`)
+      .then(({ data }) => {
+        histories = data.map(item => camelcaseKeys(item, casingOptions))
+        reporter.info(`fetched match history - ${histories.length}`)
+      })
+      .catch(err => reporter.error(err))
+    )
+  }
+
+  await Promise.all(sources)
+
+  var leaderboardCount = 0
+
+  await Promise.all(clans.map(clan => {
+    return api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
+      .then(({ data }) => {
+        leaderboards.push({
+          id: clan.groupId,
+          leaderboard: data.map(item => camelcaseKeys(item, casingOptions))
+        })
+        leaderboardCount++
+      })
+      .catch(err => {
+        leaderboards.push({
+          id: clan.groupId,
+          leaderboard: []
+        })
+
+        reporter.error(err)
+      })
+  }))
+
+  reporter.info(`fetched clan leaderboards - ${leaderboardCount}`)
 
   fs.writeFileSync('./public/api-status.json', JSON.stringify(apiStatus))
 
@@ -164,21 +197,10 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
   }
 
-  for (var clan of clans) {
-    var clanLeaderboard = []
+  await Promise.all(clans.map(clan => {
+    var clanLeaderboard = leaderboards.find(leaderboard => leaderboard.id === clan.groupId).leaderboard
 
-    await api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
-      .then(({ data }) => {
-        clanLeaderboard = data.map(item => camelcaseKeys(item, casingOptions))
-
-        leaderboards.push({
-          id: clan.groupId,
-          leaderboard: clanLeaderboard
-        })
-      })
-      .catch(err => httpExceptionHandler(err))
-
-    createNode({
+    return createNode({
       id: `${clan.groupId}`,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
@@ -230,9 +252,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(clan)
       }
     })
-  }
+  }))
 
-  for (var member of members) {
+  reporter.info('created clan nodes')
+
+  await Promise.all(members.map(member => {
     const clan = clans.find(clan => clan.groupId === member.groupId)
     var history = histories.filter(history => history.memberShipIdStr === member.profileIdStr)
 
@@ -299,7 +323,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       }
     }
 
-    createNode({
+    return createNode({
       id: member.profileIdStr,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
@@ -348,9 +372,11 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(member)
       }
     })
-  }
+  }))
 
-  for (var event of events) {
+  reporter.info('created member nodes')
+
+  await Promise.all(events.map(event => {
     var hasResults = false
 
     const parseClans = (rawClans, eventId, isCurrent) => {
@@ -359,7 +385,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       return rawClans.map((rawClan, i) => {
         const clan = clans.find(clan => clan.groupId === (rawClan.clanId || rawClan.id))
 
-        if (!member) throw new Error(`Cannot find clan: ${rawClan.clanId || rawClan.id}`)
+        if (!clan) throw new Error(`Cannot find clan: ${rawClan.clanId || rawClan.id}`)
 
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
@@ -436,14 +462,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
 
     if (isCurrent) {
-      var currentLeaderboard
-
-      await api(`Leaderboard/GetLeaderboard`)
-        .then(({ data }) => {
-          currentLeaderboard = camelcaseKeys(data, casingOptions)
-        })
-        .catch(err => httpExceptionHandler(err))
-
       largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId, true)
       mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId, true)
       smallLeaderboard = parseClans(currentLeaderboard.smallLeaderboard, event.eventId, true)
@@ -470,7 +488,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
       }
     }
 
-    createNode({
+    return createNode({
       id: `${constants.prefix.event} ${event.eventId}`,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
@@ -500,10 +518,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(event)
       }
     })
-  }
+  }))
 
-  for (var modifier of modifiers) {
-    createNode({
+  reporter.info('created event nodes')
+
+  await Promise.all(modifiers.map(modifier => {
+    return createNode({
       id: `${constants.prefix.modifier} ${modifier.id}`,
       name: modifier.name,
       description: modifier.description,
@@ -519,10 +539,12 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(modifier)
       }
     })
-  }
+  }))
 
-  for (var medal of medals) {
-    createNode({
+  reporter.info('created modifier nodes')
+
+  await Promise.all(medals.map(medal => {
+    return createNode({
       ...medal,
       id: `${constants.prefix.medal} ${medal.type}${medal.id}`,
       parent: null,
@@ -532,7 +554,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
         contentDigest: createContentDigest(medal)
       }
     })
-  }
+  }))
+
+  reporter.info('created medal nodes')
 }
 
 exports.createPages = ({ graphql, boundActionCreators }) => {

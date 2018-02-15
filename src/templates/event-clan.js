@@ -86,7 +86,7 @@ class EventClanTemplate extends Component {
     }
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -95,7 +95,7 @@ class EventClanTemplate extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
-          <RelativeDate updated={data.clan.updatedDate} />
+          <RelativeDate status />
         </Lockup>
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
@@ -126,13 +126,9 @@ export default EventClanTemplate
 
 export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
-    apiStatus {
-      bungieCode
-    }
     clan(id: { eq: $id }) {
       path
       id
-      updatedDate
       currentEventId
       name
       motto

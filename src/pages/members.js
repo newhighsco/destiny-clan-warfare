@@ -32,7 +32,7 @@ class MembersPage extends Component {
           exact
           path={urlBuilder.profileRootUrl}
           render={() => (
-            <PageContainer status={data.apiStatus}>
+            <PageContainer>
               <Helmet>
                 <title>{title}</title>
                 <meta name="description" content={description} />
@@ -60,7 +60,7 @@ class MembersPage extends Component {
             }
 
             return (
-              <Member member={member ? member.node : null} status={data.apiStatus} />
+              <Member member={member ? member.node : null} />
             )
           }}
         />
@@ -79,9 +79,6 @@ export default MembersPage
 
 export const pageQuery = graphql`
   query MembersPageQuery {
-    apiStatus {
-      bungieCode
-    }
     allMember(sort: { fields: [ clanSortable, nameSortable ] }, filter: { totalsVisible: { eq: true } }) {
       edges {
         node {

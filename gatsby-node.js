@@ -9,7 +9,7 @@ const urlBuilder = require('./src/utils/url-builder')
 const createContentDigest = require('./src/utils/create-content-digest')
 const api = require('./src/utils/api-helper').api
 const bungie = require('./src/utils/bungie-helper')
-const httpExceptionHandler = require(`./src/utils/http-exception-handler`)
+const httpExceptionHandler = require('./src/utils/http-exception-handler')
 const linkify = require('linkify-urls')
 const decode = require('./src/utils/html-entities').decode
 
@@ -22,7 +22,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
   var apiStatus = {
     enrollmentOpen: false,
-    bungieStatus: { errorCode: constants.bungie.disabledStatusCode },
+    bungieStatus: constants.bungie.disabledStatusCode,
     updatedDate: new Date()
   }
   var clans = []
@@ -47,9 +47,9 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  await bungie(`/Destiny2/Milestones`)
+  await bungie(`/Destiny2/Manifest`)
     .then(({ data }) => {
-      apiStatus.bungieStatus = camelcaseKeys(data, casingOptions)
+      if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
     })
     .catch(err => httpExceptionHandler(err))
 
@@ -146,18 +146,7 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     })
     .catch(err => httpExceptionHandler(err))
 
-  createNode({
-    id: `API status`,
-    updatedDate: apiStatus.updatedDate,
-    enrollmentOpen: apiStatus.enrollmentOpen,
-    bungieCode: apiStatus.bungieStatus.errorCode,
-    parent: null,
-    children: [],
-    internal: {
-      type: `ApiStatus`,
-      contentDigest: createContentDigest(apiStatus)
-    }
-  })
+  fs.writeFileSync('./public/api-status.json', JSON.stringify(apiStatus))
 
   const parseBonuses = (item) => {
     const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
@@ -191,7 +180,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${clan.groupId}`,
-      updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
       name: decode(clan.name),
@@ -313,7 +301,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: member.profileIdStr,
-      updatedDate: apiStatus.updatedDate,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
@@ -485,7 +472,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
 
     createNode({
       id: `${constants.prefix.event} ${event.eventId}`,
-      updatedDate: apiStatus.updatedDate,
       path: urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',

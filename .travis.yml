@@ -7,4 +7,4 @@ cache:
   directories:
     - node_modules
 after_success:
-  - yarn deploy
+  - test $TRAVIS_BRANCH = "master" && yarn deploy

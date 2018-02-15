@@ -739,11 +739,11 @@ exports.onPostBuild = ({ graphql }) => {
           if (member.node.totalsVisible) {
             const directory = `./public${member.node.path}`
             const html = memberHtml
-              .replace(/%MEMBER_ID%/g, member.node.id)
-              .replace(/%MEMBER_NAME%/g, member.node.name)
-              .replace(/%CLAN_ID%/g, clanId)
-              .replace(/%CLAN_NAME%/g, member.node.clanName)
-              .replace(/%CLAN_TAG%/g, member.node.clanTag)
+              .replace(/@MEMBER_ID@/g, member.node.id)
+              .replace(/@MEMBER_NAME@/g, member.node.name)
+              .replace(/@CLAN_ID@/g, clanId)
+              .replace(/@CLAN_NAME@/g, member.node.clanName)
+              .replace(/@CLAN_TAG@/g, member.node.clanTag)
               .replace(/\/member\//g, member.node.path)
               .replace(/noindex,nofollow/g, 'index,follow')
 
@@ -755,12 +755,12 @@ exports.onPostBuild = ({ graphql }) => {
             const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
             const directory = `./public${path}`
             const html = eventMemberHtml
-              .replace(/%MEMBER_ID%/g, member.node.id)
-              .replace(/%MEMBER_NAME%/g, member.node.name)
-              .replace(/%CLAN_ID%/g, clanId)
-              .replace(/%CLAN_NAME%/g, member.node.clanName)
-              .replace(/%CLAN_TAG%/g, member.node.clanTag)
-              .replace(/%EVENT_ID%/g, currentEvent.eventId)
+              .replace(/@MEMBER_ID@/g, member.node.id)
+              .replace(/@MEMBER_NAME@/g, member.node.name)
+              .replace(/@CLAN_ID@/g, clanId)
+              .replace(/@CLAN_NAME@/g, member.node.clanName)
+              .replace(/@CLAN_TAG@/g, member.node.clanTag)
+              .replace(/@EVENT_ID@/g, currentEvent.eventId)
               .replace(/\/event-member\//g, path)
               .replace(/noindex,nofollow/g, 'index,follow')
 

@@ -47,6 +47,7 @@ class EventClanTemplate extends Component {
     const columns = [
       'games',
       'wins',
+      'kd',
       'kda',
       'bonuses',
       'score'
@@ -59,6 +60,11 @@ class EventClanTemplate extends Component {
         var top = leaderboard.reduce((a, b) => (parseInt(a[column]) > parseInt(b[column])) ? a : b)
         var key = column
         var stat = (top) => top[column]
+
+        if (column === 'kd') {
+          top = leaderboard.reduce((a, b) => (kda(a, true) > kda(b, true)) ? a : b)
+          stat = (top) => kda(top, true)
+        }
 
         if (column === 'kda') {
           top = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)

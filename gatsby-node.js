@@ -82,102 +82,191 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     return output
   }
-
   const sources = [
-    api(`Leaderboard/GetLastTrackedGame`)
-      .then(({ data }) => {
-        if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Clan/AcceptingNewClans`)
-      .then(({ data }) => {
-        apiStatus.enrollmentOpen = data
-      })
-      .catch(err => reporter.error(err)),
-    bungie(`/Destiny2/Manifest`)
-      .then(({ data }) => {
-        if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
-      })
-      .catch(err => reporter.error(err)),
-    api(`Clan/GetAllClans`)
-      .then(({ data }) => {
-        clans = data.map(item => camelcaseKeys(item, casingOptions))
-        reporter.info(`fetched clans - ${clans.length}`)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Clan/GetAllMembers`)
-      .then(({ data }) => {
-        members = data.map(item => camelcaseKeys(item, casingOptions))
-        reporter.info(`fetched members - ${members.length}`)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Event/GetAllEvents`)
-      .then(({ data }) => {
-        events = data.map(item => camelcaseKeys(item, casingOptions))
-        currentEvent = events.find(event => event.eventTense === constants.tense.current)
-        reporter.info(`fetched events - ${events.length}`)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Component/GetAllModifiers`)
-      .then(({ data }) => {
-        modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
-        reporter.info(`fetched modifiers - ${modifiers.length}`)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Component/GetAllMedals`)
-      .then(({ data }) => {
-        medals = medals.concat(parseMedals(data, constants.prefix.profile))
-        reporter.info(`fetched member medals - ${data.length}`)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Component/GetAllClanMedals`)
-      .then(({ data }) => {
-        medals = medals.concat(parseMedals(data, constants.prefix.clan))
-        reporter.info(`fetched clan medals - ${data.length}`)
-      })
-      .catch(err => reporter.error(err)),
-    api(`Leaderboard/GetLeaderboard`)
-      .then(({ data }) => {
-        currentLeaderboard = camelcaseKeys(data, casingOptions)
-        reporter.info(`fetched event leaderboard`)
-      })
-      .catch(err => reporter.error(err))
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch last tracked game`)
+      activity.start()
+
+      api(`Leaderboard/GetLastTrackedGame`)
+        .then(({ data }) => {
+          if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch enrollment status`)
+      activity.start()
+
+      api(`Clan/AcceptingNewClans`)
+        .then(({ data }) => {
+          apiStatus.enrollmentOpen = data
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch bungie api status`)
+      activity.start()
+
+      bungie(`/Destiny2/Manifest`)
+        .then(({ data }) => {
+          if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch clans`)
+      activity.start()
+
+      api(`Clan/GetAllClans`)
+        .then(({ data }) => {
+          clans = data.map(item => camelcaseKeys(item, casingOptions))
+          activity.end()
+          resolve()
+        })
+        .catch(err => reporter.error(err))
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch members`)
+      activity.start()
+
+      api(`Clan/GetAllMembers`)
+        .then(({ data }) => {
+          members = data.map(item => camelcaseKeys(item, casingOptions))
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch events`)
+      activity.start()
+
+      api(`Event/GetAllEvents`)
+        .then(({ data }) => {
+          events = data.map(item => camelcaseKeys(item, casingOptions))
+          currentEvent = events.find(event => event.eventTense === constants.tense.current)
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch modifiers`)
+      activity.start()
+
+      api(`Component/GetAllModifiers`)
+        .then(({ data }) => {
+          modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch member medals`)
+      activity.start()
+
+      api(`Component/GetAllMedals`)
+        .then(({ data }) => {
+          medals = medals.concat(parseMedals(data, constants.prefix.profile))
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch clan medals`)
+      activity.start()
+
+      api(`Component/GetAllClanMedals`)
+        .then(({ data }) => {
+          medals = medals.concat(parseMedals(data, constants.prefix.clan))
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch event leaderboard`)
+      activity.start()
+
+      api(`Leaderboard/GetLeaderboard`)
+        .then(({ data }) => {
+          currentLeaderboard = camelcaseKeys(data, casingOptions)
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch clan leaderboard`)
+      activity.start()
+
+      api(`Leaderboard/GetClanLeaderboard`)
+        .then(({ data }) => {
+          leaderboards = camelcaseKeys(data, casingOptions)
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    })
   ]
 
   if (enableMatchHistory) {
-    sources.push(api(`Leaderboard/GetAllPlayersHistory`)
-      .then(({ data }) => {
-        histories = data.map(item => camelcaseKeys(item, casingOptions))
-        reporter.info(`fetched match history - ${histories.length}`)
-      })
-      .catch(err => reporter.error(err))
-    )
+    sources.push(new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch match history`)
+      activity.start()
+
+      api(`Leaderboard/GetAllPlayersHistory`)
+        .then(({ data }) => {
+          histories = data.map(item => camelcaseKeys(item, casingOptions))
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }))
   }
 
   await Promise.all(sources)
-
-  var leaderboardCount = 0
-
-  await Promise.all(clans.map(clan => {
-    return api(`Leaderboard/GetClanLeaderboard?clanId=${clan.groupId}`)
-      .then(({ data }) => {
-        leaderboards.push({
-          id: clan.groupId,
-          leaderboard: data.map(item => camelcaseKeys(item, casingOptions))
-        })
-        leaderboardCount++
-      })
-      .catch(err => {
-        leaderboards.push({
-          id: clan.groupId,
-          leaderboard: []
-        })
-
-        reporter.error(err)
-      })
-  }))
-
-  reporter.info(`fetched clan leaderboards - ${leaderboardCount}`)
 
   fs.writeFileSync('./public/api-status.json', JSON.stringify(apiStatus))
 
@@ -197,8 +286,11 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     })
   }
 
+  var activity = reporter.activityTimer(`create clan nodes`)
+  activity.start()
+
   await Promise.all(clans.map(clan => {
-    var clanLeaderboard = leaderboards.find(leaderboard => leaderboard.id === clan.groupId).leaderboard
+    var clanLeaderboard = leaderboards.filter(item => item.clanId === clan.groupId)
 
     return createNode({
       id: `${clan.groupId}`,
@@ -254,7 +346,10 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     })
   }))
 
-  reporter.info('created clan nodes')
+  activity.end()
+
+  activity = reporter.activityTimer(`create member nodes`)
+  activity.start()
 
   await Promise.all(members.map(member => {
     const clan = clans.find(clan => clan.groupId === member.groupId)
@@ -274,10 +369,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     if (history.length === 0) history = [ emptyHistory ]
 
-    var memberLeaderboard = leaderboards
-      .find(({ id }) => id === member.groupId)
-      .leaderboard
-      .find(({ idStr }) => idStr === member.profileIdStr)
+    var memberLeaderboard = leaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
     var leaderboard = {
       games: Number.NEGATIVE_INFINITY,
@@ -374,7 +466,10 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     })
   }))
 
-  reporter.info('created member nodes')
+  activity.end()
+
+  activity = reporter.activityTimer(`create event nodes`)
+  activity.start()
 
   await Promise.all(events.map(event => {
     var hasResults = false
@@ -520,46 +615,10 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     })
   }))
 
-  reporter.info('created event nodes')
-
-  await Promise.all(modifiers.map(modifier => {
-    return createNode({
-      id: `${constants.prefix.modifier} ${modifier.id}`,
-      name: modifier.name,
-      description: modifier.description,
-      creator: modifier.creator,
-      scoringModifier: modifier.scoringModifier,
-      multiplierModifier: modifier.multiplierModifier,
-      scoringBonus: modifier.scoringBonus,
-      multiplierBonus: modifier.multiplierBonus,
-      parent: null,
-      children: [],
-      internal: {
-        type: constants.prefix.modifier,
-        contentDigest: createContentDigest(modifier)
-      }
-    })
-  }))
-
-  reporter.info('created modifier nodes')
-
-  await Promise.all(medals.map(medal => {
-    return createNode({
-      ...medal,
-      id: `${constants.prefix.medal} ${medal.type}${medal.id}`,
-      parent: null,
-      children: [],
-      internal: {
-        type: constants.prefix.medal,
-        contentDigest: createContentDigest(medal)
-      }
-    })
-  }))
-
-  reporter.info('created medal nodes')
+  activity.end()
 }
 
-exports.createPages = ({ graphql, boundActionCreators }) => {
+exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
   const { createPage, createRedirect } = boundActionCreators
 
   return new Promise((resolve, reject) => {
@@ -604,6 +663,9 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         reject(result.errors)
       }
 
+      var activity = reporter.activityTimer(`create clan pages`)
+      activity.start()
+
       Promise.all(result.data.allClan.edges.map(async (clan) => {
         createPage({
           path: clan.node.path,
@@ -614,6 +676,11 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           }
         })
       }))
+
+      activity.end()
+
+      activity = reporter.activityTimer(`create event pages and redirects`)
+      activity.start()
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         if (event.node.visible) {
@@ -629,6 +696,9 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           })
 
           if (event.node.isCurrent) {
+            const curentEventActivity = reporter.activityTimer(`create current event pages and redirects`)
+            curentEventActivity.start()
+
             Promise.all(result.data.allClan.edges.map(async (clan) => {
               if (clan.node.leaderboardVisible) {
                 createPage({
@@ -640,6 +710,22 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                 })
               }
             }))
+
+            const currentEventRedirects = [
+              urlBuilder.currentEventRootUrl,
+              urlBuilder.currentEventRootUrl.replace(/\/$/, '')
+            ]
+
+            currentEventRedirects.forEach(fromPath => {
+              createRedirect({
+                fromPath: fromPath,
+                toPath: currentEvent ? urlBuilder.eventUrl(currentEvent.eventId) : '/',
+                isPermanent: false,
+                redirectInBrowser: true
+              })
+            })
+
+            curentEventActivity.end()
           } else {
             const eventHash = eventId.substring(constants.prefix.event.length).trim()
 
@@ -660,19 +746,7 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         }
       }))
 
-      const currentEventRedirects = [
-        urlBuilder.currentEventRootUrl,
-        urlBuilder.currentEventRootUrl.replace(/\/$/, '')
-      ]
-
-      currentEventRedirects.forEach(fromPath => {
-        createRedirect({
-          fromPath: fromPath,
-          toPath: currentEvent ? urlBuilder.eventUrl(currentEvent.eventId) : '/',
-          isPermanent: false,
-          redirectInBrowser: true
-        })
-      })
+      activity.end()
     })
 
     resolve()
@@ -701,7 +775,7 @@ exports.onCreatePage = async ({ page, boundActionCreators }) => {
   })
 }
 
-exports.onPostBuild = ({ graphql }) => {
+exports.onPostBuild = ({ graphql, reporter }) => {
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [
     `Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`,
@@ -713,6 +787,9 @@ exports.onPostBuild = ({ graphql }) => {
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
 
   if (enableProfilePages) {
+    var activity = reporter.activityTimer(`build profile pages`)
+    activity.start()
+
     return new Promise((resolve, reject) => {
       graphql(
         `
@@ -780,6 +857,7 @@ exports.onPostBuild = ({ graphql }) => {
         }))
       })
 
+      activity.end()
       resolve()
     })
   }

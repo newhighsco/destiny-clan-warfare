@@ -817,39 +817,37 @@ exports.onPostBuild = ({ graphql, reporter }) => {
           reject(result.errors)
         }
 
-        const memberHtml = fs.readFileSync('./public/member/index.html', 'utf-8')
-        const eventMemberHtml = fs.readFileSync('./public/event-member/index.html', 'utf-8')
+        const memberHtml = fs.readFileSync('./src/html/member.html', 'utf-8')
+        const eventMemberHtml = fs.readFileSync('./src/html/event-member.html', 'utf-8')
+        const htmlReplace = (html, member, eventPath, clanPath, memberPath) => {
+          return html
+            .replace(/%MEMBER_ID%/g, member.id)
+            .replace(/%MEMBER_NAME%/g, member.name)
+            .replace(/%MEMBER_PATH%/g, memberPath || member.path)
+            .replace(/%CLAN_NAME%/g, member.clanName)
+            .replace(/%CLAN_PATH%/g, clanPath || member.clanPath)
+            .replace(/%CLAN_TAG%/g, member.clanTag)
+            .replace(/%EVENT_PATH%/g, eventPath || '')
+            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
+        }
 
-        Promise.all(result.data.allMember.edges.map(async (member) => {
-          const clanId = member.node.clanId.substring(constants.prefix.hash.length)
+        Promise.all(result.data.allMember.edges.map(async ({ node }) => {
+          const clanId = node.clanId.substring(constants.prefix.hash.length)
 
-          if (member.node.totalsVisible) {
-            const directory = `./public${member.node.path}`
-            const html = memberHtml
-              .replace(/@MEMBER_ID@/g, member.node.id)
-              .replace(/@MEMBER_NAME@/g, member.node.name)
-              .replace(/@CLAN_ID@/g, clanId)
-              .replace(/@CLAN_NAME@/g, member.node.clanName)
-              .replace(/@CLAN_TAG@/g, member.node.clanTag)
-              .replace(/\/member\//g, member.node.path)
-              .replace(/noindex,nofollow/g, 'index,follow')
+          if (node.totalsVisible) {
+            const directory = `./public${node.path}`
+            const html = htmlReplace(memberHtml, node)
 
             fs.mkdirSync(directory)
             fs.writeFileSync(`${directory}index.html`, html)
           }
 
-          if (currentEvent && member.node.leaderboardVisible) {
-            const path = urlBuilder.eventUrl(currentEvent.eventId, clanId, member.node.id)
+          if (currentEvent && node.leaderboardVisible) {
+            const eventPath = urlBuilder.eventUrl(currentEvent.eventId)
+            const clanPath = urlBuilder.eventUrl(eventPath, clanId)
+            const path = urlBuilder.eventUrl(eventPath, clanId, node.id)
             const directory = `./public${path}`
-            const html = eventMemberHtml
-              .replace(/@MEMBER_ID@/g, member.node.id)
-              .replace(/@MEMBER_NAME@/g, member.node.name)
-              .replace(/@CLAN_ID@/g, clanId)
-              .replace(/@CLAN_NAME@/g, member.node.clanName)
-              .replace(/@CLAN_TAG@/g, member.node.clanTag)
-              .replace(/@EVENT_ID@/g, currentEvent.eventId)
-              .replace(/\/event-member\//g, path)
-              .replace(/noindex,nofollow/g, 'index,follow')
+            const html = htmlReplace(eventMemberHtml, node, eventPath, clanPath, path)
 
             fs.mkdirSync(directory)
             fs.writeFileSync(`${directory}index.html`, html)

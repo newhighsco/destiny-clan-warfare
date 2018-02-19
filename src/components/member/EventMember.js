@@ -17,7 +17,7 @@ const possessive = require('../../utils/possessive')
 
 class EventMember extends Component {
   render () {
-    const { member, disallowRobots } = this.props
+    const { member } = this.props
     const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null
     const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
     const hasLeaderboard = leaderboard && leaderboard.length > 0
@@ -55,47 +55,39 @@ class EventMember extends Component {
     }
 
     return (
-      <PageContainer advert={!disallowRobots}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          {disallowRobots &&
-            <meta name="robots" content="noindex,nofollow" />
-          }
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
           <RelativeDate status />
         </Lockup>
-        {disallowRobots ? (
-          <Card center cutout>
-            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
-          </Card>
-        ) : (
-          <Fragment>
-            <Card cutout={hasLeaderboard} center>
-              {member.icon &&
-                <Avatar cutout outline icon={member.icon} />
-              }
-              <TagList tags={member.tags} className="card__tags" />
-              <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
-              <StatList stats={member.leaderboard} />
-              {!hasLeaderboard &&
-                <Notification>
-                  {enableMatchHistory ? (
-                    `Match history is being calculated. Please check back later.`
-                  ) : (
-                    `Match history is currently disabled.`
-                  )}
-                </Notification>
-              }
-            </Card>
-            {hasLeaderboard &&
-              <Leaderboard cutout data={leaderboard} />
+        <Fragment>
+          <Card cutout={hasLeaderboard} center>
+            {member.icon &&
+              <Avatar cutout outline icon={member.icon} />
             }
-          </Fragment>
+            <TagList tags={member.tags} className="card__tags" />
+            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <StatList stats={member.leaderboard} />
+            {!hasLeaderboard &&
+              <Notification>
+                {enableMatchHistory ? (
+                  `Match history is being calculated. Please check back later.`
+                ) : (
+                  `Match history is currently disabled.`
+                )}
+              </Notification>
+            }
+          </Card>
+          {hasLeaderboard &&
+            <Leaderboard cutout data={leaderboard} />
+          }
+        </Fragment>
         )}
       </PageContainer>
     )
@@ -103,8 +95,7 @@ class EventMember extends Component {
 }
 
 EventMember.propTypes = {
-  member: PropTypes.object,
-  disallowRobots: PropTypes.bool
+  member: PropTypes.object
 }
 
 export default EventMember

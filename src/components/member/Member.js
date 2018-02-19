@@ -17,7 +17,7 @@ const possessive = require('../../utils/possessive')
 
 class Member extends Component {
   render () {
-    const { member, disallowRobots } = this.props
+    const { member } = this.props
     const medals = member.medals
     const { lastPlayed, ...stats } = member.totals || {}
     const title = `${member.name} [${member.clanTag}] | Members`
@@ -48,33 +48,25 @@ class Member extends Component {
     }
 
     return (
-      <PageContainer advert={!disallowRobots}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          {disallowRobots &&
-            <meta name="robots" content="noindex,nofollow" />
-          }
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        {disallowRobots ? (
-          <Card center>
-            <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
-          </Card>
-        ) : (
-          <Card center>
-            {member.icon &&
-              <Avatar cutout outline icon={member.icon} />
-            }
-            <TagList tags={member.tags} className="card__tags" />
-            <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
-            <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
-            <MedalList medals={medals} />
-            <StatList stats={stats} />
-            <Notification>Past event statistics coming soon.</Notification>
-          </Card>
+        <Card center>
+          {member.icon &&
+            <Avatar cutout outline icon={member.icon} />
+          }
+          <TagList tags={member.tags} className="card__tags" />
+          <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
+          <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
+          <MedalList medals={medals} />
+          <StatList stats={stats} />
+          <Notification>Past event statistics coming soon.</Notification>
+        </Card>
         )}
       </PageContainer>
     )
@@ -82,8 +74,7 @@ class Member extends Component {
 }
 
 Member.propTypes = {
-  member: PropTypes.object,
-  disallowRobots: PropTypes.bool
+  member: PropTypes.object
 }
 
 export default Member

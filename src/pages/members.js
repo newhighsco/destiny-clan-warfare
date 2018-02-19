@@ -20,6 +20,7 @@ class MembersPage extends Component {
       'id',
       'path',
       'name',
+      'icon',
       'tags',
       'clanId',
       'clanTag'

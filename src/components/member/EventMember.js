@@ -88,7 +88,6 @@ class EventMember extends Component {
             <Leaderboard cutout data={leaderboard} />
           }
         </Fragment>
-        )}
       </PageContainer>
     )
   }

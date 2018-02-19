@@ -67,7 +67,6 @@ class Member extends Component {
           <StatList stats={stats} />
           <Notification>Past event statistics coming soon.</Notification>
         </Card>
-        )}
       </PageContainer>
     )
   }

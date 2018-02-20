@@ -45,6 +45,15 @@
     &:not(:last-child):after
       content ',\00a0'
 
+  .list-comma__divider
+    display block
+
+    &:not(:first-child)
+      margin-top 1em
+
+    &:after
+      content '' !important // @stylint ignore
+
 .list--counter
   counter-reset list-counter
 

@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
+import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
-import Leaderboard from '../components/leaderboard/Leaderboard'
+import Prose from '../components/prose/Prose'
+import ClanTag from '../components/clan-tag/ClanTag'
 import Member from '../components/member/Member'
 import NotFoundPage from './404'
 
@@ -14,18 +16,10 @@ const urlBuilder = require('../utils/url-builder')
 class MembersPage extends Component {
   render () {
     const { data, location } = this.props
-    const leaderboard = data.allMember.edges.map(edge => edge.node)
-    const columns = [
-      'id',
-      'path',
-      'name',
-      'icon',
-      'tags',
-      'clanId',
-      'clanTag'
-    ]
     const title = 'Members'
     const description = 'All clan members waging war against other clans in Destiny 2'
+    const members = data.allMember.edges
+    var currentClanId
 
     return (
       <Switch>
@@ -41,10 +35,35 @@ class MembersPage extends Component {
                   <meta property="og:title" content={title} />
                   <meta property="og:description" content={description} />
                 </Helmet>
-                <Card cutout center>
+                <Card>
                   <Lockup primary center kicker="All" heading="Members" />
+                  <Prose>
+                    <ul className="list--unstyled list--comma">
+                      {members.map(({ node }) => {
+                        var showDivider = false
+                        if (node.clanId !== currentClanId) {
+                          currentClanId = node.clanId
+                          showDivider = true
+                        }
+
+                        return (
+                          <Fragment key={node.id}>
+                            {showDivider &&
+                              <li className="list-comma__divider">
+                                <h2>
+                                  <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath}>{node.clanName}</Link>
+                                </h2>
+                              </li>
+                            }
+                            <li>
+                              <Link to={node.path}>{node.name}</Link>
+                            </li>
+                          </Fragment>
+                        )
+                      })}
+                    </ul>
+                  </Prose>
                 </Card>
-                <Leaderboard cutout data={leaderboard} columns={columns} />
               </PageContainer>
             )
           }}
@@ -54,7 +73,7 @@ class MembersPage extends Component {
           path={urlBuilder.profileUrl(':profile')}
           render={props => {
             const { match } = props
-            const member = data.allMember.edges.find(({ node }) => node.id === match.params.profile)
+            const member = members.find(({ node }) => node.id === match.params.profile)
 
             if (!member) {
               return (
@@ -91,6 +110,7 @@ export const pageQuery = graphql`
           clanId
           clanName
           clanTag
+          clanPath
           icon
           tags {
             name

@@ -423,7 +423,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       clanName: decode(clan.name),
       clanPath: urlBuilder.clanUrl(member.groupId),
       clanTag: decode(clan.tag),
-      clanSortable: clan.tag.toUpperCase(),
+      clanSortable: clan.name.toUpperCase(),
       name: decode(member.name),
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,

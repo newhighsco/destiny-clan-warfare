@@ -69,7 +69,10 @@ class ClanTemplate extends Component {
           <TabContainer cutout>
             {previousLeaderboard.length > 0 &&
               <Tab id={previousLeaderboard[0].eventId} name="Last event">
-                <Leaderboard data={previousLeaderboard} sorting={{ score: 'DESC' }} />
+                <Leaderboard
+                  data={previousLeaderboard}
+                  columns={[ 'path', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+                  sorting={{ score: 'DESC' }} />
               </Tab>
             }
             {totals.length > 0 &&

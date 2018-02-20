@@ -24,13 +24,15 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     updatedDate: new Date()
   }
   var clans = []
-  var leaderboards = []
+  var currentMemberLeaderboards = []
+  var previousMemberLeaderboards = []
   var members = []
   var histories = []
   var events = []
   var modifiers = []
   var medals = []
-  var currentLeaderboard
+  var currentEventLeaderboard
+  var previousEventId
   const casingOptions = { deep: true }
   const linkifyOptions = { attributes: { target: '_blank' } }
 
@@ -221,7 +223,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
       api(`Leaderboard/GetLeaderboard`)
         .then(({ data }) => {
-          currentLeaderboard = camelcaseKeys(data, casingOptions)
+          currentEventLeaderboard = camelcaseKeys(data, casingOptions)
           activity.end()
           resolve()
         })
@@ -231,12 +233,28 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         })
     }),
     new Promise((resolve, reject) => {
-      const activity = reporter.activityTimer(`fetch clan leaderboard`)
+      const activity = reporter.activityTimer(`fetch current clan leaderboard`)
       activity.start()
 
       api(`Leaderboard/GetClanLeaderboard`)
         .then(({ data }) => {
-          leaderboards = camelcaseKeys(data, casingOptions)
+          currentMemberLeaderboards = camelcaseKeys(data, casingOptions)
+          activity.end()
+          resolve()
+        })
+        .catch(err => {
+          reporter.error(err)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
+      const activity = reporter.activityTimer(`fetch previous clan leaderboard`)
+      activity.start()
+
+      api(`Leaderboard/GetPreviousClanLeaderboard`)
+        .then(({ data }) => {
+          previousMemberLeaderboards = camelcaseKeys(data[0].LeaderboardList, casingOptions)
+          previousEventId = data[0].EventId
           activity.end()
           resolve()
         })
@@ -289,7 +307,40 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   activity.start()
 
   await Promise.all(clans.map(clan => {
-    var clanLeaderboard = leaderboards.filter(item => item.clanId === clan.groupId)
+    var currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+    var previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+
+    const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
+      return leaderboard.map(item => {
+        const member = members.find(member => member.profileIdStr === item.idStr)
+
+        if (!member) {
+          reporter.error(`Cannot find member: ${item.idStr}`)
+          return null
+        }
+
+        return {
+          path: isCurrent ? urlBuilder.eventUrl(eventId, member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
+          id: member.profileIdStr,
+          name: decode(member.name),
+          icon: member.icon,
+          tags: member.bonusUnlocks.map(bonus => {
+            return {
+              name: bonus.name || '',
+              description: bonus.description || ''
+            }
+          }),
+          games: item.gamesPlayed,
+          wins: item.gamesWon,
+          kills: item.kills,
+          assists: item.assists,
+          deaths: item.deaths,
+          bonuses: parseBonuses(item),
+          score: parseInt(Math.round(item.totalScore)),
+          eventId: eventId
+        }
+      })
+    }
 
     return createNode({
       id: `${clan.groupId}`,
@@ -309,32 +360,9 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         color: clan.emblemcolor2,
         icon: clan.backgroundicon
       },
-      leaderboard: clanLeaderboard.map(item => {
-        const member = members.find(member => member.profileIdStr === item.idStr)
-
-        if (!member) throw new Error(`Cannot find member: ${item.idStr}`)
-
-        return {
-          path: urlBuilder.eventUrl(currentEvent.eventId, member.groupId, member.profileIdStr),
-          id: member.profileIdStr,
-          name: decode(member.name),
-          icon: member.icon,
-          tags: member.bonusUnlocks.map(bonus => {
-            return {
-              name: bonus.name || '',
-              description: bonus.description || ''
-            }
-          }),
-          games: item.gamesPlayed,
-          wins: item.gamesWon,
-          kills: item.kills,
-          assists: item.assists,
-          deaths: item.deaths,
-          bonuses: parseBonuses(item),
-          score: parseInt(Math.round(item.totalScore))
-        }
-      }),
-      leaderboardVisible: clanLeaderboard.length > 0,
+      leaderboard: parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true),
+      leaderboardVisible: currentClanLeaderboard.length > 0,
+      previousLeaderboard: parseClanLeaderboard(previousClanLeaderboard, previousEventId),
       medals: parseMedals(clan.medalUnlocks, constants.prefix.clan),
       parent: null,
       children: [],
@@ -369,7 +397,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     if (history.length === 0) history = [ emptyHistory ]
 
-    var memberLeaderboard = leaderboards.find(({ idStr }) => idStr === member.profileIdStr)
+    var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
     var leaderboard = {
       games: Number.NEGATIVE_INFINITY,
@@ -480,7 +508,10 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       return rawClans.map((rawClan, i) => {
         const clan = clans.find(clan => clan.groupId === (rawClan.clanId || rawClan.id))
 
-        if (!clan) throw new Error(`Cannot find clan: ${rawClan.clanId || rawClan.id}`)
+        if (!clan) {
+          reporter.error(`Cannot find clan: ${rawClan.clanId || rawClan.id}`)
+          return null
+        }
 
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
@@ -557,9 +588,9 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     }
 
     if (isCurrent) {
-      largeLeaderboard = parseClans(currentLeaderboard.largeLeaderboard, event.eventId, true)
-      mediumLeaderboard = parseClans(currentLeaderboard.mediumLeaderboard, event.eventId, true)
-      smallLeaderboard = parseClans(currentLeaderboard.smallLeaderboard, event.eventId, true)
+      largeLeaderboard = parseClans(currentEventLeaderboard.largeLeaderboard, event.eventId, true)
+      mediumLeaderboard = parseClans(currentEventLeaderboard.mediumLeaderboard, event.eventId, true)
+      smallLeaderboard = parseClans(currentEventLeaderboard.smallLeaderboard, event.eventId, true)
     } else {
       largeLeaderboard = parseClans(event.result.large, event.eventId)
       mediumLeaderboard = parseClans(event.result.medium, event.eventId)

@@ -10,6 +10,7 @@ import { MedalList } from '../components/medal/Medal'
 import { Button } from '../components/button/Button'
 import Notification from '../components/notification/Notification'
 import Prose from '../components/prose/Prose'
+import { TabContainer, Tab } from '../components/tab/Tab'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -18,7 +19,8 @@ const possessive = require('../utils/possessive')
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.allMember.edges.map(({ node }) => {
+    const previousLeaderboard = data.clan.previousLeaderboard.filter(item => item && item.games > 0)
+    const totals = data.allMember.edges.map(({ node }) => {
       const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
       const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)
       const hasPlayed = node.totals.games > 0
@@ -36,7 +38,7 @@ class ClanTemplate extends Component {
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
       }
     })
-    const hasLeaderboard = leaderboard.length > 0
+    const hasLeaderboards = previousLeaderboard.length > 0 || totals.length > 0
     const medals = data.clan.medals
     const title = `${data.clan.name} | Clans`
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
@@ -49,7 +51,7 @@ class ClanTemplate extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Helmet>
-        <Card cutout={hasLeaderboard} center>
+        <Card cutout={hasLeaderboards} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
           {data.clan.description &&
@@ -59,13 +61,23 @@ class ClanTemplate extends Component {
           }
           <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
           <MedalList medals={medals} />
-          <Notification>Past event statistics coming soon.</Notification>
-          {!hasLeaderboard &&
+          {!hasLeaderboards &&
             <Notification>Clan roster is being calculated. Please check back later.</Notification>
           }
         </Card>
-        {hasLeaderboard &&
-          <Leaderboard cutout data={leaderboard} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
+        {hasLeaderboards &&
+          <TabContainer cutout>
+            {previousLeaderboard.length > 0 &&
+              <Tab id={previousLeaderboard[0].eventId} name="Last event">
+                <Leaderboard data={previousLeaderboard} sorting={{ score: 'DESC' }} />
+              </Tab>
+            }
+            {totals.length > 0 &&
+              <Tab name="Overall">
+                <Leaderboard data={totals} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
+              </Tab>
+            }
+          </TabContainer>
         }
       </PageContainer>
     )
@@ -93,6 +105,26 @@ export const pageQuery = graphql`
       background {
         color
         icon
+      }
+      previousLeaderboard {
+        id
+        path
+        name
+        icon
+        tags {
+          name
+        }
+        games
+        wins
+        kills
+        deaths
+        assists
+        bonuses {
+          shortName
+          count
+        }
+        score
+        eventId
       }
       ...clanMedalsFragment
     }

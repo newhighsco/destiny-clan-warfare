@@ -57,7 +57,7 @@ const PreviousEvent = ({ event, element, summary }) => {
             </Tab>
           </TabContainer>
         ) : (
-          <TabContainer cutout>
+          <TabContainer id="results" cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
                 <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />

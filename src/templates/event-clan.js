@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -18,14 +17,7 @@ const possessive = require('../utils/possessive')
 
 class EventClanTemplate extends Component {
   render () {
-    const { data, location } = this.props
-    const member = data.clan.leaderboard.find(({ id }) => id === location.hash.substring(constants.prefix.hash.length))
-
-    if (member) {
-      return (
-        <Redirect to={member.path} />
-      )
-    }
+    const { data } = this.props
 
     const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
     const title = `${data.clan.name} | ${constants.kicker.current}`
@@ -134,8 +126,7 @@ class EventClanTemplate extends Component {
 }
 
 EventClanTemplate.propTypes = {
-  data: PropTypes.object,
-  location: PropTypes.object
+  data: PropTypes.object
 }
 
 export default EventClanTemplate

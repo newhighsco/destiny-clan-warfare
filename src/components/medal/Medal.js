@@ -70,7 +70,7 @@ Medal.propTypes = {
   className: PropTypes.string
 }
 
-const MedalList = ({ medals, size, align }) => {
+const MedalList = ({ medals, size, align, center }) => {
   if (!medals || medals.length < 1) return null
 
   medals = MultiSort(medals, {
@@ -80,7 +80,7 @@ const MedalList = ({ medals, size, align }) => {
   })
 
   return (
-    <ul className={classNames('list--inline', `${baseClassName}-list`)}>
+    <ul className={classNames('list--inline', `${baseClassName}-list`, center && 'text-center')}>
       {medals.map((medal, i) => (
         <li key={i}>
           <Medal {...medal} size={size} align={align} />
@@ -97,7 +97,8 @@ MedalList.defaultProps = {
 MedalList.propTypes = {
   medals: PropTypes.array,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
-  align: PropTypes.oneOf([ 'left', 'right', 'center' ])
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  center: PropTypes.bool
 }
 
 export {

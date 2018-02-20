@@ -1,0 +1,16 @@
+.clan-tag
+  &:hover
+  &:focus
+    text-decoration none
+
+  &:before
+    content '['
+
+  &:after
+    content ']'
+
+  &[href]:focus
+  &[href]:hover
+    &:after
+    &:before
+      color $color--terracotta

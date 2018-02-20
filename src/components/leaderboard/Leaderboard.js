@@ -8,6 +8,7 @@ import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
+import ClanTag from '../clan-tag/ClanTag'
 import RelativeDate from '../relative-date/RelativeDate'
 import ExternalSvg from '../../images/external.svg'
 
@@ -111,11 +112,7 @@ class Leaderboard extends Component {
                       <TagList tags={item.tags} className="leaderboard__tags" />
                     }
                     {showClanTag &&
-                      <Link
-                        to={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}
-                        className="leaderboard__clan-tag"
-                        dangerouslySetInnerHTML={{ __html: item.clanTag }}
-                      />
+                      <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}>{item.clanTag}</ClanTag>
                     }
                   </Fragment>
                 }

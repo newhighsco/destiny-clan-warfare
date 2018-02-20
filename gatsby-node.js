@@ -12,7 +12,6 @@ const bungie = require('./src/utils/bungie-helper')
 const linkify = require('linkify-urls')
 const decode = require('./src/utils/html-entities').decode
 
-const enableProfilePages = JSON.parse(process.env.GATSBY_ENABLE_PROFILE_PAGES)
 const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
 var currentEvent
 
@@ -786,78 +785,4 @@ exports.onPostBuild = ({ graphql, reporter }) => {
   if (disallowRobots) robots.push('Disallow: /')
 
   fs.writeFileSync('./public/robots.txt', robots.join('\n'))
-
-  if (enableProfilePages) {
-    var activity = reporter.activityTimer(`build profile pages`)
-    activity.start()
-
-    return new Promise((resolve, reject) => {
-      graphql(
-        `
-          {
-            allMember {
-              edges {
-                node {
-                  id
-                  path
-                  name
-                  clanId
-                  clanName
-                  clanTag
-                  clanPath
-                  totalsVisible
-                  leaderboardVisible
-                }
-              }
-            }
-          }
-        `
-      )
-      .then(result => {
-        if (result.errors) {
-          reject(result.errors)
-        }
-
-        const memberHtml = fs.readFileSync('./src/html/member.html', 'utf-8')
-        const eventMemberHtml = fs.readFileSync('./src/html/event-member.html', 'utf-8')
-        const htmlReplace = (html, member, eventPath, clanPath, memberPath) => {
-          return html
-            .replace(/%MEMBER_ID%/g, member.id)
-            .replace(/%MEMBER_NAME%/g, member.name)
-            .replace(/%MEMBER_PATH%/g, memberPath || member.path)
-            .replace(/%CLAN_NAME%/g, member.clanName)
-            .replace(/%CLAN_PATH%/g, clanPath || member.clanPath)
-            .replace(/%CLAN_TAG%/g, member.clanTag)
-            .replace(/%EVENT_PATH%/g, eventPath || '')
-            .replace(/%SITE_URL%/g, process.env.GATSBY_SITE_URL)
-        }
-
-        Promise.all(result.data.allMember.edges.map(async ({ node }) => {
-          const clanId = node.clanId.substring(constants.prefix.hash.length)
-
-          if (node.totalsVisible) {
-            const directory = `./public${node.path}`
-            const html = htmlReplace(memberHtml, node)
-
-            fs.mkdirSync(directory)
-            fs.writeFileSync(`${directory}index.html`, html)
-          }
-
-          if (currentEvent && node.leaderboardVisible) {
-            const eventPath = urlBuilder.eventUrl(currentEvent.eventId)
-            const clanPath = urlBuilder.eventUrl(eventPath, clanId)
-            const path = urlBuilder.eventUrl(eventPath, clanId, node.id)
-            const directory = `./public${path}`
-            const html = htmlReplace(eventMemberHtml, node, eventPath, clanPath, path)
-
-            fs.mkdirSync(directory)
-            fs.writeFileSync(`${directory}index.html`, html)
-          }
-        }))
-      })
-
-      activity.end()
-      resolve()
-    })
-  }
 }

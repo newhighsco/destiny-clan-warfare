@@ -69,7 +69,8 @@ class Leaderboard extends Component {
       'modifiers',
       'medal',
       'medals',
-      'tags'
+      'tags',
+      'eventId'
     ]
 
     keys = keys.reduce((filtered, key) => {

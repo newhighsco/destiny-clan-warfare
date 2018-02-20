@@ -7,7 +7,7 @@ const pgrcRootUrl = 'https://destinytracker.com/d2/pgcr/'
 const profileRootUrl = '/members/'
 
 const eventHash = (eventId) => {
-  return eventId ? `${constants.prefix.hash}${eventId}/` : ''
+  return eventId ? `${constants.prefix.hash}${eventId}` : ''
 }
 
 module.exports = {

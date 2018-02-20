@@ -5,7 +5,7 @@ import { Button } from '../button/Button'
 
 import './Tab.styl'
 
-const Tab = ({ children, name }) => {
+const Tab = ({ children, name, id }) => {
   return (
     <div className="tab">
       {children}
@@ -15,7 +15,8 @@ const Tab = ({ children, name }) => {
 
 Tab.propTypes = {
   children: PropTypes.node,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string
 }
 
 class TabContainer extends Component {
@@ -58,7 +59,7 @@ class TabContainer extends Component {
           <ul className="list--inline tab-navigation">
             {visibleChildren.map((child, i) => {
               return (
-                <li key={i} className="tab-navigation__item">
+                <li key={i} id={child.props.id} className="tab-navigation__item">
                   <Button onClick={this.handleToggle} className={classNames('tab-button', activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
                 </li>
               )

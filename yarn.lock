@@ -1498,7 +1498,7 @@ bin-version@^1.0.0:
   dependencies:
     find-versions "^1.0.0"
 
-bin-wrapper@^3.0.0, bin-wrapper@^3.0.1:
+bin-wrapper@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/bin-wrapper/-/bin-wrapper-3.0.2.tgz#67d3306262e4b1a5f2f88ee23464f6a655677aeb"
   dependencies:
@@ -2250,10 +2250,6 @@ commander@^2.8.1:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.0.tgz#7b25325963e6aace20d3a9285b09379b0c2208b5"
 
-commander@^2.9.0:
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
-
 commander@~2.8.1:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.8.1.tgz#06be367febfda0c330aa1e2a072d3dc9762425d4"
@@ -2746,14 +2742,6 @@ currently-unhandled@^0.4.1:
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
   dependencies:
     array-find-index "^1.0.1"
-
-cwebp-bin@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/cwebp-bin/-/cwebp-bin-3.2.0.tgz#ae02df453d8c15341b1d8d499a5226bcf3bf4a6f"
-  dependencies:
-    bin-build "^2.0.0"
-    bin-wrapper "^3.0.1"
-    logalot "^2.0.0"
 
 cycle@1.0.x:
   version "1.0.3"
@@ -3980,7 +3968,7 @@ file-loader@^0.9.0:
   dependencies:
     loader-utils "~0.2.5"
 
-file-type@^3.0.0, file-type@^3.1.0:
+file-type@^3.1.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-3.9.0.tgz#257a078384d1db8087bc449d107d52a52672b9e9"
 
@@ -5405,13 +5393,6 @@ ieee754@^1.1.4:
 ignore@^3.0.11, ignore@^3.2.0:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
-
-image-type@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/image-type/-/image-type-2.1.0.tgz#976f2388176447dca0d23317c275ba4875a35d02"
-  dependencies:
-    file-type "^3.0.0"
-    meow "^3.3.0"
 
 imagemin-cli@^3.0.0:
   version "3.0.0"
@@ -8946,13 +8927,6 @@ read-cache@^1.0.0:
   dependencies:
     pify "^2.3.0"
 
-read-chunk@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/read-chunk/-/read-chunk-2.1.0.tgz#6a04c0928005ed9d42e1a6ac5600e19cbc7ff655"
-  dependencies:
-    pify "^3.0.0"
-    safe-buffer "^5.1.1"
-
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"
@@ -11300,16 +11274,6 @@ wcwidth@^1.0.0:
   resolved "https://registry.yarnpkg.com/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"
   dependencies:
     defaults "^1.0.3"
-
-webp-converter-cli@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/webp-converter-cli/-/webp-converter-cli-0.0.5.tgz#55c4fc0124159f557f41389b3ba945b93ebaa160"
-  dependencies:
-    chalk "^1.1.3"
-    commander "^2.9.0"
-    cwebp-bin "^3.2.0"
-    image-type "^2.1.0"
-    read-chunk "^2.0.0"
 
 webpack-assets-manifest@^1.0.0:
   version "1.0.0"

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -10,7 +10,6 @@ import Member from '../components/member/Member'
 import NotFoundPage from './404'
 
 const urlBuilder = require('../utils/url-builder')
-const constants = require('../utils/constants')
 
 class MembersPage extends Component {
   render () {
@@ -34,15 +33,6 @@ class MembersPage extends Component {
           exact
           path={urlBuilder.profileRootUrl}
           render={props => {
-            const { location } = props
-            const member = data.allMember.edges.find(({ node }) => node.id === location.hash.substring(constants.prefix.hash.length))
-
-            if (member) {
-              return (
-                <Redirect to={member.node.path} />
-              )
-            }
-
             return (
               <PageContainer>
                 <Helmet>

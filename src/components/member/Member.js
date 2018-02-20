@@ -21,13 +21,7 @@ class Member extends Component {
   render () {
     const { member } = this.props
     const medals = member.medals
-    const { lastPlayed, ...totals } = member.totals || {}
-    const stats = {
-      events: 'TBC',
-      highestRank: 'TBC',
-      highestOverallRank: 'TBC',
-      ...totals
-    }
+    const { lastPlayed, ...stats } = member.totals || {}
     const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName
@@ -54,12 +48,13 @@ class Member extends Component {
         }
       ]
     }
-    const events = [
-      { id: 16, game: { result: true, path: '/16', type: 'Iron Banner', map: 'Ended 4 days ago' }, medals: medals.slice(1, 2), rank: 7, overall: 140, games: 10, wins: 2, kda: 7.1, bonus1: 10, bonus2: 12, score: 2000000 },
-      { id: 15, game: { result: true, path: '/15', type: 'Competitive Midweek', map: 'Ended 10 days ago' }, medals: medals.slice(1, 3), rank: 1, overall: 1, games: 102, wins: 72, kda: 107.1, bonus1: 30, bonus2: 5, score: 2000 },
-      { id: 22, game: { result: true, path: '/22', type: '24 Hour Strike Race', map: 'Ended 40 days ago' }, medals: medals, rank: 72, overall: 4000, games: 120, wins: 24, kda: 700.1, bonus1: 100, bonus2: 1, score: 50500 }
-    ]
-    const hasEvents = events.length > 0
+    const pastEvents = member.pastEvents || []
+    // const pastEvents = [
+    //   { id: 16, game: { result: true, path: '/16', type: 'Iron Banner', map: 'Ended 4 days ago' }, medals: medals.slice(1, 2), rank: 7, overall: 140, games: 10, wins: 2, kda: 7.1, bonus1: 10, bonus2: 12, score: 2000000 },
+    //   { id: 15, game: { result: true, path: '/15', type: 'Competitive Midweek', map: 'Ended 10 days ago' }, medals: medals.slice(1, 3), rank: 1, overall: 1, games: 102, wins: 72, kda: 107.1, bonus1: 30, bonus2: 5, score: 2000 },
+    //   { id: 22, game: { result: true, path: '/22', type: '24 Hour Strike Race', map: 'Ended 40 days ago' }, medals: medals, rank: 72, overall: 4000, games: 120, wins: 24, kda: 700.1, bonus1: 100, bonus2: 1, score: 50500 }
+    // ]
+    const hasPastEvents = pastEvents.length > 0
 
     return (
       <PageContainer>
@@ -70,7 +65,7 @@ class Member extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Card cutout={hasEvents} center>
+        <Card cutout={hasPastEvents} center>
           {member.icon &&
             <Avatar cutout outline icon={member.icon} />
           }
@@ -79,14 +74,14 @@ class Member extends Component {
           <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
           <StatList stats={stats} />
-          {!hasEvents &&
+          {!hasPastEvents &&
             <Notification>Past event statistics coming soon.</Notification>
           }
         </Card>
-        {hasEvents &&
+        {hasPastEvents &&
           <TabContainer cutout>
             <Tab name="Events">
-              <Leaderboard data={events} className="leaderboard--history" />
+              <Leaderboard data={pastEvents} className="leaderboard--history" />
             </Tab>
           </TabContainer>
         }

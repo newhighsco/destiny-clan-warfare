@@ -11,7 +11,7 @@ import './Enrollment.styl'
 const constants = require('../../utils/constants')
 const api = require('../../utils/api-helper').proxy
 const bungie = require('../../utils/bungie-helper')
-const httpExceptionHandler = require(`../../utils/http-exception-handler`)
+const apiStatus = require('../../utils/api-status')
 const action = `${constants.server.baseUrl}Home/AddClan/`
 const redirectUrl = `${process.env.GATSBY_SITE_URL}/thanks`
 
@@ -19,10 +19,10 @@ class Enrollment extends Component {
   constructor (props) {
     super(props)
 
-    const { status } = this.props
+    const status = apiStatus()
 
     this.state = {
-      active: status.enrollmentOpen && status.bungieCode !== constants.bungie.disabledStatusCode,
+      active: status.enrollmentOpen && status.bungieStatus !== constants.bungie.disabledStatusCode,
       name: '',
       groups: [],
       selectedGroup: null
@@ -38,7 +38,7 @@ class Enrollment extends Component {
         localStorage.setItem('enrollmentOpen', data)
         this.setState({ active: data })
       })
-      .catch(err => httpExceptionHandler(err))
+      .catch(err => console.log(err))
   }
 
   handleEnroll (e) {
@@ -88,7 +88,7 @@ class Enrollment extends Component {
               this.setState({ groups: groups })
             }
           })
-          .catch(err => httpExceptionHandler(err))
+          .catch(err => console.log(err))
 
         this.setState({ name: name })
       }
@@ -158,7 +158,6 @@ class Enrollment extends Component {
 }
 
 Enrollment.propTypes = {
-  status: PropTypes.object,
   clans: PropTypes.array
 }
 

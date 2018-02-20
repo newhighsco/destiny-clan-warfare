@@ -15,10 +15,8 @@ class CurrentEvent extends Component {
   constructor (props) {
     super(props)
 
-    const { status } = this.props
-
     this.state = {
-      enrollmentOpen: status.enrollmentOpen
+      enrollmentOpen: false
     }
   }
 
@@ -92,7 +90,6 @@ CurrentEvent.defaultProps = {
 
 CurrentEvent.propTypes = {
   event: PropTypes.object,
-  status: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }
@@ -101,7 +98,6 @@ export default CurrentEvent
 
 export const componentFragment = graphql`
   fragment currentEventFragment on Event {
-    updatedDate
     path
     name
     description

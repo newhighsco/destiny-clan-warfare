@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -14,12 +13,11 @@ const constants = require('../utils/constants')
 
 class SupportUsPage extends Component {
   render () {
-    const { data } = this.props
     const title = 'Support us'
     const description = `Ways to support ${constants.meta.name}`
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -60,16 +58,4 @@ class SupportUsPage extends Component {
   }
 }
 
-SupportUsPage.propTypes = {
-  data: PropTypes.object
-}
-
 export default SupportUsPage
-
-export const pageQuery = graphql`
-  query SupportUsPageQuery {
-    apiStatus {
-      bungieCode
-    }
-  }
-`

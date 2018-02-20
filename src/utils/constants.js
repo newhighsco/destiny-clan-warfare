@@ -48,7 +48,8 @@ const constants = {
   bungie: {
     baseUrl: bungieBaseUrl,
     apiUrl: `${bungieBaseUrl}Platform/`,
-    disabledStatusCode: 5
+    disabledStatusCode: 5,
+    iconUrl: `${bungieBaseUrl}img/profile/avatars/default_avatar.gif`
   },
   prefix: {
     clan: 'Clan',

@@ -16,7 +16,7 @@ const Header = () => {
     { href: constants.social.twitter, text: 'Follow us on Twitter', icon: TwitterSvg },
     { href: constants.social.discord, text: 'Join our Discord server', icon: DiscordSvg },
     { href: constants.social.patreon, text: 'Become a Patron via Patreon', icon: PatreonSvg },
-    { href: constants.social.patreon, text: 'Make a donation via PayPal', icon: PayPalSvg }
+    { href: constants.social.paypal, text: 'Make a donation via PayPal', icon: PayPalSvg }
   ]
 
   return (

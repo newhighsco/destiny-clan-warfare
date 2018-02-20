@@ -67,8 +67,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: `UA-109161360-1`,
-        anonymize: false
+        trackingId: `UA-109161360-1`
       }
     },
     {
@@ -107,22 +106,6 @@ module.exports = {
           {
             serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.current),
             output: `/events--current.xml`
-          },
-          {
-            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.past),
-            output: `/events--past.xml`
-          },
-          {
-            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.future),
-            output: `/events--future.xml`
-          },
-          {
-            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.previous),
-            output: `/events--previous.xml`
-          },
-          {
-            serialize: ({ query: { site, allEvent } }) => feedBuilder(allEvent, constants.kicker.next),
-            output: `/events--next.xml`
           }
         ]
       }
@@ -134,6 +117,7 @@ module.exports = {
         showSpinner: true
       }
     },
+    `gatsby-plugin-no-sourcemaps`,
     // Keep this at the end
     `gatsby-plugin-netlify`
   ]

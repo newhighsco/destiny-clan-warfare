@@ -41,7 +41,7 @@ class EventTemplate extends Component {
     }
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -52,9 +52,9 @@ class EventTemplate extends Component {
         {data.event.isCurrent &&
           <Fragment>
             <Lockup primary center kicker={kicker}>
-              <RelativeDate updated={data.event.updatedDate} />
+              <RelativeDate status />
             </Lockup>
-            <CurrentEvent event={data.event} status={data.apiStatus} />
+            <CurrentEvent event={data.event} />
           </Fragment>
         }
         {data.event.isPast &&
@@ -66,7 +66,7 @@ class EventTemplate extends Component {
         {data.event.isFuture &&
           <Fragment>
             <Lockup primary center kicker={kicker} />
-            <FutureEvent event={data.event} status={data.apiStatus} />
+            <FutureEvent event={data.event} />
           </Fragment>
         }
       </PageContainer>
@@ -82,12 +82,7 @@ export default EventTemplate
 
 export const pageQuery = graphql`
   query EventTemplateQuery($id: String!) {
-    apiStatus {
-      enrollmentOpen
-      bungieCode
-    }
     event(id: { eq: $id }) {
-      updatedDate
       path
       name
       description

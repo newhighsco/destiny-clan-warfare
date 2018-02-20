@@ -56,13 +56,15 @@ const StatList = ({ stats, top }) => {
     'deaths',
     'assists'
   ]
+  const kdKey = 'kd'
   const kdaKey = 'kda'
   const bonusesKey = 'bonuses'
 
   if (keys.filter(key => kdaKeys.indexOf(key) !== -1).length === kdaKeys.length) {
     const index = keys.indexOf(kdaKeys[0])
 
-    keys.splice(index, kdaKeys.length, kdaKey)
+    keys.splice(index, kdaKeys.length, kdKey, kdaKey)
+    stats[kdKey] = kda(stats, true)
     stats[kdaKey] = kda(stats)
   }
 
@@ -97,7 +99,7 @@ const StatList = ({ stats, top }) => {
         if (top) {
           prefix = constants.prefix.most
 
-          if (key.match(/(kda|score)/)) {
+          if (key.match(/(kd|kda|score)/)) {
             prefix = constants.prefix.highest
           }
         }

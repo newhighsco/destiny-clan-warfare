@@ -8,11 +8,12 @@ import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
+import ClanTag from '../clan-tag/ClanTag'
+import RelativeDate from '../relative-date/RelativeDate'
 import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
 
-const moment = require('moment')
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -46,7 +47,7 @@ class Leaderboard extends Component {
 
     var keys = columns || Object.keys(data[0])
     const showIcons = (keys.indexOf('icon') !== -1 || keys.indexOf('foreground') !== -1 || keys.indexOf('background') !== -1)
-    const showClanTag = keys.indexOf('clan') !== -1
+    const showClanTag = keys.indexOf('clanTag') !== -1
     const showNames = keys.indexOf('name') !== -1
     const showNameTags = keys.indexOf('tags') !== -1
     const showGameDetails = keys.indexOf('game') !== -1
@@ -62,7 +63,7 @@ class Leaderboard extends Component {
       'background',
       'name',
       'clanId',
-      'clan',
+      'clanTag',
       'path',
       'game',
       'modifiers',
@@ -70,9 +71,6 @@ class Leaderboard extends Component {
       'medals',
       'tags'
     ]
-    const relativeDate = (date) => {
-      return moment.utc(date).fromNow()
-    }
 
     keys = keys.reduce((filtered, key) => {
       if (filteredKeys.indexOf(key) === -1) {
@@ -116,11 +114,7 @@ class Leaderboard extends Component {
                       <TagList tags={item.tags} className="leaderboard__tags" />
                     }
                     {showClanTag &&
-                      <Link
-                        to={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}
-                        className="leaderboard__clan-tag"
-                        dangerouslySetInnerHTML={{ __html: item.clan.tag }}
-                      />
+                      <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}>{item.clanTag}</ClanTag>
                     }
                   </Fragment>
                 }
@@ -130,7 +124,7 @@ class Leaderboard extends Component {
               <div className="leaderboard__body">
                 <div className="leaderboard__stats">
                   {showGameDetails &&
-                    <div className="leaderboard__stat leaderboard__stat--game" data-suffix={`${item.game.map ? `${item.game.map}${item.game.mapSeparator || ''}` : ''}${item.game.date ? relativeDate(item.game.date) : ''}`}>
+                    <div className="leaderboard__stat leaderboard__stat--game">
                       {item.game.isExternal ? (
                         <a href={item.game.path} target="_blank" rel="noopener noreferrer">
                           <span>{item.game.type}</span>
@@ -143,6 +137,7 @@ class Leaderboard extends Component {
                           {item.game.type}
                         </Link>
                       )}
+                      <RelativeDate className="leaderboard__stat-suffix" updated={item.game.date} label={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}`} />
                     </div>
                   }
                   {showMedals &&

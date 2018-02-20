@@ -12,8 +12,23 @@ const queryString = require('query-string')
 const constants = require('../utils/constants')
 
 class ThanksPage extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      enrollmentOpen: false
+    }
+  }
+
+  componentDidMount () {
+    const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
+
+    this.setState({ enrollmentOpen: enrollmentOpen })
+  }
+
   render () {
-    const { data, location } = this.props
+    const { location } = this.props
+    const { enrollmentOpen } = this.state
     const query = queryString.parse(location.search)
     const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
     const message = query.message || ''
@@ -23,7 +38,7 @@ class ThanksPage extends Component {
     const description = `Clan enrollment for ${constants.meta.name}`
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -60,7 +75,9 @@ class ThanksPage extends Component {
                     <p>{message}</p>
                   </Prose>
                 }
-                <Button href="/#enroll">Enroll your clan today</Button>
+                {enrollmentOpen &&
+                  <Button href="/#enroll">Enroll your clan today</Button>
+                }
               </Fragment>
             )
           )}
@@ -71,16 +88,7 @@ class ThanksPage extends Component {
 }
 
 ThanksPage.propTypes = {
-  data: PropTypes.object,
   location: PropTypes.object
 }
 
 export default ThanksPage
-
-export const pageQuery = graphql`
-  query ThanksPageQuery {
-    apiStatus {
-      bungieCode
-    }
-  }
-`

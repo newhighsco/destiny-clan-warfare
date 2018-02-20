@@ -38,7 +38,7 @@ class EventsPage extends Component {
           exact
           path={urlBuilder.eventRootUrl}
           render={() => (
-            <PageContainer status={data.apiStatus}>
+            <PageContainer>
               <Helmet>
                 <title>{title}</title>
                 <meta name="description" content={description} />
@@ -67,7 +67,7 @@ class EventsPage extends Component {
               }
 
               return (
-                <EventMember member={member ? member.node : null} status={data.apiStatus} />
+                <EventMember member={member ? member.node : null} />
               )
             }}
           />
@@ -111,9 +111,6 @@ export default EventsPage
 
 export const pageQuery = graphql`
   query EventsPageQuery {
-    apiStatus {
-      bungieCode
-    }
     allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
       edges {
         node {
@@ -131,7 +128,6 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          updatedDate
           currentEventId
           name
           icon
@@ -140,6 +136,7 @@ export const pageQuery = graphql`
           }
           clanId
           clanName
+          clanTag
           leaderboard {
             games
             wins

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../page-container/PageContainer'
@@ -17,11 +17,11 @@ const possessive = require('../../utils/possessive')
 
 class EventMember extends Component {
   render () {
-    const { member, status } = this.props
-    const leaderboard = member.history.filter(({ game }) => game.path.length && game.type)
+    const { member } = this.props
+    const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null
     const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
-    const hasLeaderboard = leaderboard.length > 0
-    const title = `${member.name} | ${constants.kicker.current}`
+    const hasLeaderboard = leaderboard && leaderboard.length > 0
+    const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
     const schema = {
       '@context': 'http://schema.org',
@@ -55,7 +55,7 @@ class EventMember extends Component {
     }
 
     return (
-      <PageContainer status={status}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -64,36 +64,37 @@ class EventMember extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
-          <RelativeDate updated={member.updatedDate} />
+          <RelativeDate status />
         </Lockup>
-        <Card cutout={hasLeaderboard} center>
-          {member.icon &&
-            <Avatar cutout outline icon={member.icon} />
+        <Fragment>
+          <Card cutout={hasLeaderboard} center>
+            {member.icon &&
+              <Avatar cutout outline icon={member.icon} />
+            }
+            <TagList tags={member.tags} className="card__tags" />
+            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <StatList stats={member.leaderboard} />
+            {!hasLeaderboard &&
+              <Notification>
+                {enableMatchHistory ? (
+                  `Match history is being calculated. Please check back later.`
+                ) : (
+                  `Match history is currently disabled.`
+                )}
+              </Notification>
+            }
+          </Card>
+          {hasLeaderboard &&
+            <Leaderboard cutout data={leaderboard} />
           }
-          <TagList tags={member.tags} className="card__tags" />
-          <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
-          <StatList stats={member.leaderboard} />
-          {!hasLeaderboard &&
-            <Notification>
-              {enableMatchHistory ? (
-                `Match history is being calculated. Please check back later.`
-              ) : (
-                `Match history is currently disabled.`
-              )}
-            </Notification>
-          }
-        </Card>
-        {hasLeaderboard &&
-          <Leaderboard cutout data={leaderboard} />
-        }
+        </Fragment>
       </PageContainer>
     )
   }
 }
 
 EventMember.propTypes = {
-  member: PropTypes.object,
-  status: PropTypes.object
+  member: PropTypes.object
 }
 
 export default EventMember

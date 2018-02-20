@@ -18,6 +18,7 @@ const possessive = require('../utils/possessive')
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
+
     const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
     const title = `${data.clan.name} | ${constants.kicker.current}`
     const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
@@ -47,6 +48,7 @@ class EventClanTemplate extends Component {
     const columns = [
       'games',
       'wins',
+      'kd',
       'kda',
       'bonuses',
       'score'
@@ -59,6 +61,11 @@ class EventClanTemplate extends Component {
         var top = leaderboard.reduce((a, b) => (parseInt(a[column]) > parseInt(b[column])) ? a : b)
         var key = column
         var stat = (top) => top[column]
+
+        if (column === 'kd') {
+          top = leaderboard.reduce((a, b) => (kda(a, true) > kda(b, true)) ? a : b)
+          stat = (top) => kda(top, true)
+        }
 
         if (column === 'kda') {
           top = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
@@ -86,7 +93,7 @@ class EventClanTemplate extends Component {
     }
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -95,7 +102,7 @@ class EventClanTemplate extends Component {
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
-          <RelativeDate updated={data.clan.updatedDate} />
+          <RelativeDate status />
         </Lockup>
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
@@ -126,13 +133,9 @@ export default EventClanTemplate
 
 export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
-    apiStatus {
-      bungieCode
-    }
     clan(id: { eq: $id }) {
       path
       id
-      updatedDate
       currentEventId
       name
       motto

@@ -32,17 +32,17 @@ class IndexPage extends Component {
     }
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Enrollment status={data.apiStatus} clans={data.allClan.edges.map(({ node }) => node)} />
+        <Enrollment clans={data.allClan.edges.map(({ node }) => node)} />
         {currentEvent ? (
           <Fragment>
             <Lockup primary center element="h1" kicker={constants.kicker.current}>
-              <RelativeDate updated={currentEvent.updatedDate} />
+              <RelativeDate status />
             </Lockup>
-            <CurrentEvent event={currentEvent} status={data.apiStatus} element="h2" summary />
+            <CurrentEvent event={currentEvent} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
@@ -56,7 +56,7 @@ class IndexPage extends Component {
                   <Advert />
                 }
                 <Lockup center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} status={data.apiStatus} element="h2" summary />
+                <FutureEvent event={nextEvent} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -65,7 +65,7 @@ class IndexPage extends Component {
             {nextEvent &&
               <Fragment>
                 <Lockup center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} status={data.apiStatus} element="h2" summary />
+                <FutureEvent event={nextEvent} element="h2" summary />
               </Fragment>
             }
             {previousEvent &&
@@ -95,10 +95,6 @@ export default IndexPage
 
 export const pageQuery = graphql`
   query IndexPageQuery {
-    apiStatus {
-      enrollmentOpen
-      bungieCode
-    }
     allClan(sort: { fields: [ nameSortable ] }) {
       edges {
         node {

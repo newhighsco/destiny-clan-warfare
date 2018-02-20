@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../page-container/PageContainer'
@@ -13,28 +13,24 @@ import Notification from '../notification/Notification'
 import Leaderboard from '../leaderboard/Leaderboard'
 import { TabContainer, Tab } from '../tab/Tab'
 
-const moment = require('moment')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/possessive')
 
 class Member extends Component {
   render () {
-    const { member, status } = this.props
-    const totals = member.totals
+    const { member } = this.props
     const medals = member.medals
-    const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
-    const lastPlayedDate = moment.utc(totals.lastPlayed).format(constants.dateFormat)
+    const { lastPlayed, ...totals } = member.totals || {}
     const stats = {
       events: 'TBC',
       highestRank: 'TBC',
       highestOverallRank: 'TBC',
-      ...totals,
-      lastPlayed: lastPlayedDate
+      ...totals
     }
-    const title = `${member.name} | Members`
+    const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
-    const kicker = member.clan.name
+    const kicker = member.clanName
     const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))
     const schema = {
       '@context': 'http://schema.org',
@@ -45,7 +41,7 @@ class Member extends Component {
           position: 1,
           item: {
             '@id': `${process.env.GATSBY_SITE_URL}${kickerHref}`,
-            name: member.clan.name
+            name: member.clanName
           }
         },
         {
@@ -66,7 +62,7 @@ class Member extends Component {
     const hasEvents = events.length > 0
 
     return (
-      <PageContainer status={status}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -82,13 +78,9 @@ class Member extends Component {
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
           <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
-          {lastPlayedDate > emptyDate &&
-            <Fragment>
-              <StatList stats={stats} />
-              {!hasEvents &&
-                <Notification>Past event statistics coming soon.</Notification>
-              }
-            </Fragment>
+          <StatList stats={stats} />
+          {!hasEvents &&
+            <Notification>Past event statistics coming soon.</Notification>
           }
         </Card>
         {hasEvents &&
@@ -104,8 +96,7 @@ class Member extends Component {
 }
 
 Member.propTypes = {
-  member: PropTypes.object,
-  status: PropTypes.object
+  member: PropTypes.object
 }
 
 export default Member

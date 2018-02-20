@@ -42,7 +42,7 @@ class ClanTemplate extends Component {
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
-      <PageContainer status={data.apiStatus}>
+      <PageContainer>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -80,9 +80,6 @@ export default ClanTemplate
 
 export const pageQuery = graphql`
   query ClanTemplateQuery($id: String!, $clanId: String!) {
-    apiStatus {
-      bungieCode
-    }
     clan(id: { eq: $id }) {
       id
       name

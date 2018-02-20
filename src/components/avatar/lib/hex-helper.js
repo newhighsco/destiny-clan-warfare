@@ -1,5 +1,5 @@
 const hexToRgb = (hex) => {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  var result = isHex(hex)
 
   return result ? {
     r: parseInt(result[1], 16),
@@ -8,4 +8,11 @@ const hexToRgb = (hex) => {
   } : { r: 255, g: 255, b: 255 }
 }
 
-module.exports = hexToRgb
+const isHex = (hex) => {
+  return /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+}
+
+module.exports = {
+  hexToRgb,
+  isHex
+}

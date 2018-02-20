@@ -6,10 +6,17 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 
+const constants = require('../utils/constants')
+
 class ClansPage extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.allClan.edges.map(edge => edge.node)
+    const leaderboard = data.allClan.edges.map(({ node }) => {
+      return {
+        ...node,
+        clanId: `${constants.prefix.hash}${node.clanId}`
+      }
+    })
     const title = 'Clans'
     const description = 'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 
@@ -44,6 +51,8 @@ export const pageQuery = graphql`
           path
           name
           color
+          clanTag: tag
+          clanId: id
           foreground {
             color
             icon

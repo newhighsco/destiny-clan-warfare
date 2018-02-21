@@ -13,6 +13,7 @@ const linkify = require('linkify-urls')
 const decode = require('./src/utils/html-entities').decode
 
 const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
+const enablePreviousLeaderboards = JSON.parse(process.env.GATSBY_ENABLE_PREVIOUS_LEADERBOARDS)
 var currentEvent
 
 exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
@@ -95,7 +96,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch last tracked game', err)
           reject(err)
         })
     }),
@@ -110,7 +111,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch enrollment status', err)
           reject(err)
         })
     }),
@@ -125,7 +126,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch bungie api status', err)
           reject(err)
         })
     }),
@@ -139,7 +140,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           activity.end()
           resolve()
         })
-        .catch(err => reporter.error(err))
+        .catch(err => reporter.error('fetch clans', err))
     }),
     new Promise((resolve, reject) => {
       const activity = reporter.activityTimer(`fetch members`)
@@ -152,7 +153,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch members', err)
           reject(err)
         })
     }),
@@ -168,7 +169,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch events', err)
           reject(err)
         })
     }),
@@ -183,7 +184,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch modifiers', err)
           reject(err)
         })
     }),
@@ -198,7 +199,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch member medals', err)
           reject(err)
         })
     }),
@@ -213,7 +214,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch clan medals', err)
           reject(err)
         })
     }),
@@ -228,7 +229,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch event leaderboard', err)
           reject(err)
         })
     }),
@@ -243,11 +244,14 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch current clan leaderboard', err)
           reject(err)
         })
-    }),
-    new Promise((resolve, reject) => {
+    })
+  ]
+
+  if (enablePreviousLeaderboards) {
+    sources.push(new Promise((resolve, reject) => {
       const activity = reporter.activityTimer(`fetch previous clan leaderboard`)
       activity.start()
 
@@ -259,11 +263,13 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch previous clan leaderboard', err)
           reject(err)
         })
-    })
-  ]
+    }))
+  } else {
+    reporter.info('fetch previous clan leaderboard disabled')
+  }
 
   if (enableMatchHistory) {
     sources.push(new Promise((resolve, reject) => {
@@ -277,10 +283,12 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           resolve()
         })
         .catch(err => {
-          reporter.error(err)
+          reporter.error('fetch match history', err)
           reject(err)
         })
     }))
+  } else {
+    reporter.info('fetch match history disabled')
   }
 
   await Promise.all(sources)
@@ -311,6 +319,24 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     var previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
 
     const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
+      if (leaderboard.length === 0) {
+        return [ {
+          path: '',
+          id: '',
+          name: '',
+          icon: '',
+          tags: [ { name: '', description: '' } ],
+          games: Number.NEGATIVE_INFINITY,
+          wins: Number.NEGATIVE_INFINITY,
+          kills: Number.NEGATIVE_INFINITY,
+          assists: Number.NEGATIVE_INFINITY,
+          deaths: Number.NEGATIVE_INFINITY,
+          bonuses: [ { shortName: '', count: Number.NEGATIVE_INFINITY } ],
+          score: Number.NEGATIVE_INFINITY,
+          eventId: ''
+        } ]
+      }
+
       return leaderboard.map(item => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 

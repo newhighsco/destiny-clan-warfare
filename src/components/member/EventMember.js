@@ -10,6 +10,7 @@ import RelativeDate from '../relative-date/RelativeDate'
 import { StatList } from '../stat/Stat'
 import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
+import { TabContainer, Tab } from '../tab/Tab'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -85,7 +86,11 @@ class EventMember extends Component {
             }
           </Card>
           {hasLeaderboard &&
-            <Leaderboard cutout data={leaderboard} />
+            <TabContainer cutout>
+              <Tab name={`Last ${constants.matchHistoryLimit} games`}>
+                <Leaderboard data={leaderboard} />
+              </Tab>
+            </TabContainer>
           }
         </Fragment>
       </PageContainer>

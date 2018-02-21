@@ -406,7 +406,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
   await Promise.all(members.map(member => {
     const clan = clans.find(clan => clan.groupId === member.groupId)
-    const historyCount = 25
+    const historyCount = constants.matchHistoryLimit
     var history = histories.filter(history => history.memberShipIdStr === member.profileIdStr).slice(0, historyCount)
 
     const emptyHistory = {

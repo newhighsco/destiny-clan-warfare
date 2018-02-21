@@ -93,6 +93,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
           activity.end()
+          reporter.info(`last tracked game: ${apiStatus.updatedDate}`)
           resolve()
         })
         .catch(err => {
@@ -101,17 +102,18 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         })
     }),
     new Promise((resolve, reject) => {
-      const activity = reporter.activityTimer(`fetch enrollment status`)
+      const activity = reporter.activityTimer(`fetch enrollment open`)
       activity.start()
 
       api(`Clan/AcceptingNewClans`)
         .then(({ data }) => {
           apiStatus.enrollmentOpen = data
           activity.end()
+          reporter.info(`enrollment open: ${apiStatus.enrollmentOpen}`)
           resolve()
         })
         .catch(err => {
-          reporter.error('fetch enrollment status', err)
+          reporter.error('fetch enrollment open', err)
           reject(err)
         })
     }),
@@ -123,6 +125,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
           activity.end()
+          reporter.info(`bungie api status: ${apiStatus.bungieStatus}`)
           resolve()
         })
         .catch(err => {
@@ -138,6 +141,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           clans = data.map(item => camelcaseKeys(item, casingOptions))
           activity.end()
+          reporter.info(`clans: ${clans.length}`)
           resolve()
         })
         .catch(err => reporter.error('fetch clans', err))
@@ -150,6 +154,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           members = data.map(item => camelcaseKeys(item, casingOptions))
           activity.end()
+          reporter.info(`members: ${members.length}`)
           resolve()
         })
         .catch(err => {
@@ -166,6 +171,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           events = data.map(item => camelcaseKeys(item, casingOptions))
           currentEvent = events.find(event => event.eventTense === constants.tense.current)
           activity.end()
+          reporter.info(`events: ${events.length}`)
           resolve()
         })
         .catch(err => {
@@ -181,6 +187,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
           activity.end()
+          reporter.info(`modifiers: ${modifiers.length}`)
           resolve()
         })
         .catch(err => {
@@ -196,6 +203,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           medals = medals.concat(parseMedals(data, constants.prefix.profile))
           activity.end()
+          reporter.info(`member medals: ${data.length}`)
           resolve()
         })
         .catch(err => {
@@ -211,6 +219,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           medals = medals.concat(parseMedals(data, constants.prefix.clan))
           activity.end()
+          reporter.info(`clan medals: ${data.length}`)
           resolve()
         })
         .catch(err => {
@@ -226,6 +235,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           currentEventLeaderboard = camelcaseKeys(data, casingOptions)
           activity.end()
+          reporter.info(`event leaderboard: ${currentEventLeaderboard !== null}`)
           resolve()
         })
         .catch(err => {
@@ -241,6 +251,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           currentMemberLeaderboards = camelcaseKeys(data, casingOptions)
           activity.end()
+          reporter.info(`current clan leaderboard: ${currentMemberLeaderboards.length}`)
           resolve()
         })
         .catch(err => {
@@ -260,6 +271,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           previousMemberLeaderboards = camelcaseKeys(data[0].LeaderboardList, casingOptions)
           previousEventId = data[0].EventId
           activity.end()
+          reporter.info(`previous clan leaderboard: ${previousMemberLeaderboards.length}`)
           resolve()
         })
         .catch(err => {
@@ -280,6 +292,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         .then(({ data }) => {
           histories = data.map(item => camelcaseKeys(item, casingOptions))
           activity.end()
+          reporter.info(`match history: ${histories.length}`)
           resolve()
         })
         .catch(err => {
@@ -333,7 +346,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           deaths: Number.NEGATIVE_INFINITY,
           bonuses: [ { shortName: '', count: Number.NEGATIVE_INFINITY } ],
           score: Number.NEGATIVE_INFINITY,
-          eventId: ''
+          eventId: eventId
         } ]
       }
 
@@ -341,7 +354,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         const member = members.find(member => member.profileIdStr === item.idStr)
 
         if (!member) {
-          reporter.error(`Cannot find member: ${item.idStr}`)
+          if (isCurrent) reporter.error(`Cannot find member: ${item.idStr}`)
           return null
         }
 

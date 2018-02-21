@@ -73,7 +73,8 @@ const constants = {
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'
-  }
+  },
+  matchHistoryLimit: 25
 }
 
 module.exports = constants

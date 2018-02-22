@@ -14,7 +14,7 @@ const Stat = ({ label, prefix, stat }) => {
   var valueLabel
 
   if (typeof value === 'object') {
-    valueLabel = value.label
+    valueLabel = Array.isArray(value.label) ? value.label.sort() : [ value.label ]
     value = value.stat || constants.blank
   }
 
@@ -31,7 +31,7 @@ const Stat = ({ label, prefix, stat }) => {
       </div>
       {valueLabel &&
         <div className={classNames(`${baseClassName}__label`, `${baseClassName}__label--simple`)}>
-          {valueLabel}
+          {valueLabel.join(', ')}
         </div>
       }
     </div>

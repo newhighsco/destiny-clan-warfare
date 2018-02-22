@@ -53,6 +53,7 @@ class Tooltip extends Component {
       modifiers && modifiers.map(modifierClass => `tooltip--${modifierClass}`),
       className
     )
+
     return (
       <span
         className={TooltipClassNames}

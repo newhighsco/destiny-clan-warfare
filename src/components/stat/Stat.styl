@@ -20,9 +20,16 @@
 .stat__label--simple
   border 0
   font-size small
-  max-width rem(100)
-  padding $spacing--quarter 0 0
+  margin $spacing--quarter auto 0
+  max-height 1em
+  max-width rem(120)
+  overflow hidden
+  padding 0
+  text-overflow ellipsis
   text-transform none
+  display -webkit-box
+  -webkit-line-clamp 1
+  -webkit-box-orient vertical
 
 .stat__value
   font-size rem(40)

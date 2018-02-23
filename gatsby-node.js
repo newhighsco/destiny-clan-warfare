@@ -336,6 +336,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         return [ {
           path: '',
           id: '',
+          platform: constants.bungie.platformDefault,
           name: '',
           icon: '',
           tags: [ { name: '', description: '' } ],
@@ -361,6 +362,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
           id: member.profileIdStr,
+          platform: member.membershipType || constants.bungie.platformDefault,
           name: decode(member.name),
           icon: member.icon,
           tags: member.bonusUnlocks.map(bonus => {
@@ -484,6 +486,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     return createNode({
       id: member.profileIdStr,
+      platform: member.membershipType || constants.bungie.platformDefault,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,

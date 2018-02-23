@@ -13,7 +13,7 @@ import Notification from '../components/notification/Notification'
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 const kda = require('../utils/kda')
-const possessive = require('../utils/possessive')
+const possessive = require('../utils/grammar').possessive
 
 class EventClanTemplate extends Component {
   render () {

@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import Tooltip from '../tooltip/Tooltip'
 
 import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const kda = require('../../utils/kda')
+const sentence = require('../../utils/grammar').sentence
 const baseClassName = 'stat'
 
 const Stat = ({ label, prefix, stat }) => {
@@ -14,27 +16,30 @@ const Stat = ({ label, prefix, stat }) => {
   var valueLabel
 
   if (typeof value === 'object') {
-    valueLabel = Array.isArray(value.label) ? value.label.sort() : [ value.label ]
+    valueLabel = value.label
     value = value.stat || constants.blank
   }
 
   return (
-    <div className={`${baseClassName}`}>
-      <div className={`${baseClassName}__label`}>
-        {prefix &&
-          <span>{prefix} </span>
-        }
-        {label}
-      </div>
-      <div className={`${baseClassName}__value`}>
-        {value}
-      </div>
-      {valueLabel &&
-        <div className={classNames(`${baseClassName}__label`, `${baseClassName}__label--simple`)}>
-          {valueLabel.join(', ')}
+    <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} valign="bottom" enableHover>
+      <div className={`${baseClassName}`}>
+        <div className={`${baseClassName}__label`}>
+          {prefix &&
+            <span>{prefix} </span>
+          }
+          {label}
         </div>
-      }
-    </div>
+        <div className={`${baseClassName}__value`}>
+          {value}
+        </div>
+        {valueLabel &&
+          <div
+            className={classNames(`${baseClassName}__label`, `${baseClassName}__label--simple`)}
+            dangerouslySetInnerHTML={{ __html: sentence(valueLabel) }}
+          />
+        }
+      </div>
+    </Tooltip>
   )
 }
 

@@ -14,7 +14,7 @@ import { TabContainer, Tab } from '../tab/Tab'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
-const possessive = require('../../utils/possessive')
+const possessive = require('../../utils/grammar').possessive
 
 class EventMember extends Component {
   render () {

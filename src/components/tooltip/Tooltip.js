@@ -46,13 +46,13 @@ class Tooltip extends Component {
   }
 
   render () {
-    const { children, className, clickOutsideToClose, enableHover, modifiers, heading, text } = this.props
+    const { children, className, clickOutsideToClose, enableHover, heading, text } = this.props
     const TooltipClassNames = classNames(
       'tooltip',
       { 'is-active': this.state.isActive },
-      modifiers && modifiers.map(modifierClass => `tooltip--${modifierClass}`),
       className
     )
+    const hasContent = heading || text
 
     return (
       <span
@@ -60,7 +60,7 @@ class Tooltip extends Component {
         >
         <button
           type="button"
-          className="text-button tooltip__trigger"
+          className={classNames('text-button tooltip__trigger', hasContent && 'tooltip__trigger--enabled')}
           aria-label="Open tooltip"
           {...enableHover ? {
             onMouseOver: this.showTooltip,
@@ -77,7 +77,8 @@ class Tooltip extends Component {
             'tooltip__content',
             `tooltip__content--${this.state.align}`,
             `tooltip__content--${this.state.valign}`,
-            { 'is-vhidden': !this.state.isActive }
+            { 'is-vhidden': !this.state.isActive },
+            { 'is-hidden': !hasContent }
           )}
           {...this.state.isActive && {
             tabIndex: 0,
@@ -118,9 +119,8 @@ Tooltip.propTypes = {
   className: PropTypes.string,
   clickOutsideToClose: PropTypes.bool,
   enableHover: PropTypes.bool,
-  modifiers: PropTypes.arrayOf(PropTypes.string),
   heading: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   valign: PropTypes.oneOf([ 'top', 'bottom' ])
 }
 

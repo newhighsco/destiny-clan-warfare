@@ -14,7 +14,7 @@ import { TabContainer, Tab } from '../components/tab/Tab'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
-const possessive = require('../utils/possessive')
+const possessive = require('../utils/grammar').possessive
 
 class ClanTemplate extends Component {
   render () {

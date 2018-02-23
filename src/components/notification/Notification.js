@@ -19,7 +19,7 @@ const Notification = ({ children, state, id }) => {
 Notification.propTypes = {
   children: PropTypes.node,
   state: PropTypes.oneOf([ 'warning', 'error', 'success', 'notice' ]),
-  id: PropTypes.string
+  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
 }
 
 export default Notification

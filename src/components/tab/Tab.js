@@ -16,7 +16,7 @@ const Tab = ({ children, name, id }) => {
 Tab.propTypes = {
   children: PropTypes.node,
   name: PropTypes.string.isRequired,
-  id: PropTypes.string
+  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
 }
 
 class TabContainer extends Component {
@@ -87,7 +87,7 @@ class TabContainer extends Component {
 }
 
 TabContainer.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   children: PropTypes.node,
   cutout: PropTypes.bool
 }

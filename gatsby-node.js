@@ -86,22 +86,6 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   }
   const sources = [
     new Promise((resolve, reject) => {
-      const activity = reporter.activityTimer(`fetch last tracked game`)
-      activity.start()
-
-      api(`Leaderboard/GetLastTrackedGame`)
-        .then(({ data }) => {
-          if (data.DatePlayed) apiStatus.updatedDate = new Date(data.DatePlayed)
-          activity.end()
-          reporter.info(`last tracked game: ${apiStatus.updatedDate}`)
-          resolve()
-        })
-        .catch(err => {
-          reporter.error('fetch last tracked game', err)
-          reject(err)
-        })
-    }),
-    new Promise((resolve, reject) => {
       const activity = reporter.activityTimer(`fetch enrollment open`)
       activity.start()
 

@@ -312,15 +312,16 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   activity.start()
 
   await Promise.all(clans.map(clan => {
-    var currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
-    var previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+    const clanMembers = members.filter(member => member.groupId === clan.groupId)
+    const currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+    const previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
 
     const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
       if (leaderboard.length === 0) {
         return [ {
           path: '',
           id: '',
-          platform: constants.bungie.platformDefault,
+          platforms: [ constants.bungie.platformDefault ],
           name: '',
           icon: '',
           tags: [ { name: '', description: '' } ],
@@ -336,7 +337,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       }
 
       return leaderboard.map(item => {
-        const member = members.find(member => member.profileIdStr === item.idStr)
+        const member = clanMembers.find(member => member.profileIdStr === item.idStr)
 
         if (!member) {
           if (isCurrent) reporter.error(`Cannot find member: ${item.idStr}`)
@@ -346,7 +347,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
           id: member.profileIdStr,
-          platform: member.membershipType || constants.bungie.platformDefault,
+          platforms: [ member.membershipType || constants.bungie.platformDefault ],
           name: decode(member.name),
           icon: member.icon,
           tags: member.bonusUnlocks.map(bonus => {
@@ -470,7 +471,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     return createNode({
       id: member.profileIdStr,
-      platform: member.membershipType || constants.bungie.platformDefault,
+      platforms: [ member.membershipType || constants.bungie.platformDefault ],
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,

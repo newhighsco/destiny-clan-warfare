@@ -11,6 +11,7 @@ import { StatList } from '../stat/Stat'
 import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
 import { TabContainer, Tab } from '../tab/Tab'
+import { PlatformList } from '../platform/Platform'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -74,6 +75,7 @@ class EventMember extends Component {
             }
             <TagList tags={member.tags} className="card__tags" />
             <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <PlatformList platforms={member.platforms} />
             <StatList stats={member.leaderboard} />
             {!hasLeaderboard &&
               <Notification>

@@ -66,7 +66,7 @@ Medal.propTypes = {
   label: PropTypes.array,
   tier: PropTypes.number,
   count: PropTypes.number,
-  size: PropTypes.oneOf([ 'small' ]),
+  size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
   className: PropTypes.string
 }

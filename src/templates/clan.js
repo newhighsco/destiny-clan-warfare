@@ -27,6 +27,7 @@ class ClanTemplate extends Component {
 
       return {
         path: hasPlayed ? node.path : null,
+        platforms: node.platforms,
         name: node.name,
         icon: node.icon,
         tags: node.tags,
@@ -71,7 +72,7 @@ class ClanTemplate extends Component {
               <Tab id={previousLeaderboard[0].eventId} name="Last event">
                 <Leaderboard
                   data={previousLeaderboard}
-                  columns={[ 'path', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+                  columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
                   sorting={{ score: 'DESC' }} />
               </Tab>
             }
@@ -112,6 +113,7 @@ export const pageQuery = graphql`
       previousLeaderboard {
         id
         path
+        platforms
         name
         icon
         tags {
@@ -135,6 +137,7 @@ export const pageQuery = graphql`
       edges {
         node {
           path
+          platforms
           name
           icon
           tags {

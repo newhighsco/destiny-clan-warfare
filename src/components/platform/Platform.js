@@ -10,11 +10,11 @@ import './Platform.styl'
 
 const baseClassName = 'platform'
 
-const Platform = ({ type }) => {
+const Platform = ({ platform, size }) => {
   var Svg
   var name
 
-  switch (type) {
+  switch (platform) {
     case 1:
       Svg = XboxSvg
       name = 'Xbox Live'
@@ -32,7 +32,7 @@ const Platform = ({ type }) => {
   if (!Svg) return null
 
   return (
-    <div className={baseClassName} data-type={name}>
+    <div className={classNames(baseClassName, size && `${baseClassName}--${size}`)} data-platform={platform}>
       <Icon a11yText={name} className={`${baseClassName}__icon`}>
         <Svg />
       </Icon>
@@ -41,17 +41,18 @@ const Platform = ({ type }) => {
 }
 
 Platform.propTypes = {
-  type: PropTypes.number
+  platform: PropTypes.number,
+  size: PropTypes.oneOf([ 'small' ])
 }
 
-const PlatformList = ({ types, className }) => {
-  if (!types || types.length < 1) return null
+const PlatformList = ({ platforms, size, className }) => {
+  if (!platforms || platforms.length < 1) return null
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`, className)}>
-      {types.map((type, i) => (
+      {platforms.map((platform, i) => (
         <li key={i}>
-          <Platform type={type} />
+          <Platform platform={platform} size={size} />
         </li>
       ))}
     </ul>
@@ -59,7 +60,8 @@ const PlatformList = ({ types, className }) => {
 }
 
 PlatformList.propTypes = {
-  types: PropTypes.arrayOf(PropTypes.number),
+  platforms: PropTypes.arrayOf(PropTypes.number),
+  size: PropTypes.oneOf([ 'small' ]),
   className: PropTypes.string
 }
 

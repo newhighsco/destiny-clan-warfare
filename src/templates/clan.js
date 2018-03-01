@@ -11,6 +11,7 @@ import { Button } from '../components/button/Button'
 import Notification from '../components/notification/Notification'
 import Prose from '../components/prose/Prose'
 import { TabContainer, Tab } from '../components/tab/Tab'
+import { PlatformList } from '../components/platform/Platform'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -55,6 +56,7 @@ class ClanTemplate extends Component {
         <Card cutout={hasLeaderboards} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
+          <PlatformList platforms={data.clan.platforms} />
           {data.clan.description &&
             <Prose>
               <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
@@ -99,6 +101,7 @@ export const pageQuery = graphql`
     clan(id: { eq: $id }) {
       id
       name
+      platforms
       motto
       description
       color

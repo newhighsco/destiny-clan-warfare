@@ -95,6 +95,7 @@ export const pageQuery = graphql`
       ...leaderboardFragment
       results {
         path
+        platforms
         name
         color
         foreground {

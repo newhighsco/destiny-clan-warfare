@@ -36,6 +36,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   var previousEventId
   const casingOptions = { deep: true }
   const linkifyOptions = { attributes: { target: '_blank' } }
+  const clanPlatforms = []
 
   const parseModifier = (modifier) => {
     const member = members.find(member => member.profileIdStr === modifier.createdBy)
@@ -315,6 +316,13 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     const clanMembers = members.filter(member => member.groupId === clan.groupId)
     const currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
     const previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+    const platforms = clanMembers.reduce((platforms, member) => {
+      const platform = member.membershipType
+      if (platforms.indexOf(platform) === -1) platforms.push(platform)
+      return platforms
+    }, [])
+
+    clanPlatforms.push({ id: clan.groupId, platforms: platforms })
 
     const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
       if (leaderboard.length === 0) {
@@ -370,6 +378,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     return createNode({
       id: `${clan.groupId}`,
+      platforms: platforms,
       currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
       name: decode(clan.name),
@@ -533,15 +542,18 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       if (!rawClans) return []
 
       return rawClans.map((rawClan, i) => {
-        const clan = clans.find(clan => clan.groupId === (rawClan.clanId || rawClan.id))
+        const clanId = rawClan.clanId || rawClan.id
+        const clan = clans.find(clan => clan.groupId === clanId)
+        const platforms = clanPlatforms.find(({ id }) => id === clanId)
 
         if (!clan) {
-          reporter.error(`Cannot find clan: ${rawClan.clanId || rawClan.id}`)
+          reporter.error(`Cannot find clan: ${clanId}`)
           return null
         }
 
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
+          platforms: platforms ? platforms.platforms : [],
           name: decode(clan.name),
           color: clan.backgroundcolor,
           foreground: {
@@ -577,6 +589,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       } else {
         results.push({
           path: '',
+          platforms: [],
           name: '',
           color: '',
           foreground: { color: '', icon: '' },

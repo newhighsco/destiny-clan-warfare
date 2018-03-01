@@ -9,6 +9,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
 import Notification from '../components/notification/Notification'
+import { PlatformList } from '../components/platform/Platform'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -115,6 +116,7 @@ class EventClanTemplate extends Component {
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
+          <PlatformList platforms={data.clan.platforms} />
           <StatList stats={stats} top />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
@@ -143,6 +145,7 @@ export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
       path
+      platforms
       id
       currentEventId
       name

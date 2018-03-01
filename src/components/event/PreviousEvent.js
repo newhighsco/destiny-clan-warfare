@@ -24,7 +24,7 @@ const PreviousEvent = ({ event, element, summary }) => {
     largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
     mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
     smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
-    leaderboardColumns = [ 'color', 'foreground', 'background', 'name', 'medal', 'rank', 'score' ]
+    leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'medal', 'rank', 'score' ]
   }
 
   return (
@@ -102,6 +102,7 @@ export const componentFragment = graphql`
     isCalculated
     results {
       path
+      platforms
       name
       color
       foreground {
@@ -123,6 +124,7 @@ export const componentFragment = graphql`
     leaderboards {
       large {
         path
+        platforms
         name
         color
         foreground {
@@ -138,6 +140,7 @@ export const componentFragment = graphql`
       }
       medium {
         path
+        platforms
         name
         color
         foreground {
@@ -153,6 +156,7 @@ export const componentFragment = graphql`
       }
       small {
         path
+        platforms
         name
         color
         foreground {

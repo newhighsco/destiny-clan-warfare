@@ -208,6 +208,7 @@ export const componentFragment = graphql`
     leaderboards {
       large {
         path
+        platforms
         name
         color
         foreground {
@@ -225,6 +226,7 @@ export const componentFragment = graphql`
       }
       medium {
         path
+        platforms
         name
         color
         foreground {
@@ -242,6 +244,7 @@ export const componentFragment = graphql`
       }
       small {
         path
+        platforms
         name
         color
         foreground {

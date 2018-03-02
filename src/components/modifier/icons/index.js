@@ -25,7 +25,7 @@ const svgs = {
   AbuseOfPower: { svg: AbuseOfPower, designer: 'naim' },
   AntiMeta: { svg: AntiMeta, designer: 'TMD' },
   BandTogether: { svg: BandTogether, designer: 'Gabriel Vogel' },
-  BoyScout: { svg: BoyScout, designer: '' },
+  BoyScout: { svg: BoyScout, designer: 'AomAm' },
   Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },

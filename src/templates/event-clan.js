@@ -145,7 +145,11 @@ export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
       path
-      platforms
+      platforms {
+        id
+        size
+        active
+      }
       id
       currentEventId
       name
@@ -162,7 +166,11 @@ export const pageQuery = graphql`
       leaderboard {
         id
         path
-        platforms
+        platforms {
+          id
+          size
+          active
+        }
         name
         icon
         tags {

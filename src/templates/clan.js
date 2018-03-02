@@ -101,7 +101,11 @@ export const pageQuery = graphql`
     clan(id: { eq: $id }) {
       id
       name
-      platforms
+      platforms {
+        id
+        size
+        active
+      }
       motto
       description
       color
@@ -116,7 +120,11 @@ export const pageQuery = graphql`
       previousLeaderboard {
         id
         path
-        platforms
+        platforms {
+          id
+          size
+          active
+        }
         name
         icon
         tags {
@@ -140,7 +148,11 @@ export const pageQuery = graphql`
       edges {
         node {
           path
-          platforms
+          platforms {
+            id
+            size
+            active
+          }
           name
           icon
           tags {

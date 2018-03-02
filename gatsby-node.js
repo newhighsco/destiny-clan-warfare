@@ -317,8 +317,17 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     const currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
     const previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
     const platforms = clanMembers.reduce((platforms, member) => {
-      const platform = member.membershipType
-      if (platforms.indexOf(platform) === -1) platforms.push(platform)
+      const hasPlayed = member.currentScore ? member.currentScore.gamesPlayed > 0 : false
+      const id = member.membershipType
+      const existing = platforms.find(platform => platform.id === id)
+
+      if (existing) {
+        existing.size++
+        if (hasPlayed) existing.active++
+      } else {
+        platforms.push({ id: id, size: 1, active: hasPlayed ? 1 : 0 })
+      }
+
       return platforms
     }, [])
 
@@ -329,7 +338,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         return [ {
           path: '',
           id: '',
-          platforms: [ constants.bungie.platformDefault ],
+          platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
           name: '',
           icon: '',
           tags: [ { name: '', description: '' } ],
@@ -355,7 +364,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         return {
           path: isCurrent ? urlBuilder.eventUrl(eventId, member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
           id: member.profileIdStr,
-          platforms: [ member.membershipType || constants.bungie.platformDefault ],
+          platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
           name: decode(member.name),
           icon: member.icon,
           tags: member.bonusUnlocks.map(bonus => {
@@ -480,7 +489,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     return createNode({
       id: member.profileIdStr,
-      platforms: [ member.membershipType || constants.bungie.platformDefault ],
+      platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
       currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
@@ -589,7 +598,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       } else {
         results.push({
           path: '',
-          platforms: [],
+          platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
           name: '',
           color: '',
           foreground: { color: '', icon: '' },

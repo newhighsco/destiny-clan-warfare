@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel start:gatsby",
-    "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop",
+    "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop -p 9000",
     "build": "npm-run-all build:patch build:gatsby",
     "build:patch": "sed -i -e 's/if(c\\.initial) return;/if(!c||c.initial) return;/g' ./node_modules/extract-text-webpack-plugin/index.js",
     "build:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby build",

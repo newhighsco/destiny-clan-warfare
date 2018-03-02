@@ -129,7 +129,11 @@ export const pageQuery = graphql`
         node {
           id
           currentEventId
-          platforms
+          platforms {
+            id
+            size
+            active
+          }
           name
           icon
           tags {

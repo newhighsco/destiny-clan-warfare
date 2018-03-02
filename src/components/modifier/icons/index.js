@@ -1,6 +1,7 @@
 import AbuseOfPower from './abuse-of-power.svg'
 import AntiMeta from './anti-meta.svg'
 import BandTogether from './band-together.svg'
+import BoyScout from './boy-scout.svg'
 import Bullseye from './bullseye.svg'
 import CrimsonDoubleDown from './crimson-double-down.svg'
 import DoubleDown from './double-down.svg'
@@ -24,6 +25,7 @@ const svgs = {
   AbuseOfPower: { svg: AbuseOfPower, designer: 'naim' },
   AntiMeta: { svg: AntiMeta, designer: 'TMD' },
   BandTogether: { svg: BandTogether, designer: 'Gabriel Vogel' },
+  BoyScout: { svg: BoyScout, designer: '' },
   Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },

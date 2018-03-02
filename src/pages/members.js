@@ -106,7 +106,11 @@ export const pageQuery = graphql`
         node {
           path
           id
-          platforms
+          platforms {
+            id
+            size
+            active
+          }
           name
           clanId
           clanName

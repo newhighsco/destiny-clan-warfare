@@ -73,7 +73,7 @@ class Member extends Component {
           <TagList tags={member.tags} className="card__tags" />
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
           <PlatformList platforms={member.platforms} />
-          <Button href={`${constants.bungie.baseUrl}en/Profile/${member.platform}/${member.id}`} target="_blank">View profile</Button>
+          <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
           <StatList stats={stats} />
           {!hasPastEvents &&

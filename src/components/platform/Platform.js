@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import MultiSort from 'multi-sort'
 import Icon from '../icon/Icon'
 import BattlenetSvg from './icons/battlenet.svg'
 import PlaystationSvg from './icons/playstation.svg'
@@ -14,7 +15,7 @@ const Platform = ({ platform, size }) => {
   var Svg
   var name
 
-  switch (platform) {
+  switch (platform.id) {
     case 1:
       Svg = XboxSvg
       name = 'Xbox Live'
@@ -32,7 +33,7 @@ const Platform = ({ platform, size }) => {
   if (!Svg) return null
 
   return (
-    <div className={classNames(baseClassName, size && `${baseClassName}--${size}`)} data-platform={platform}>
+    <div className={classNames(baseClassName, size && `${baseClassName}--${size}`)}>
       <Icon a11yText={name} className={`${baseClassName}__icon`}>
         <Svg />
       </Icon>
@@ -47,6 +48,17 @@ Platform.propTypes = {
 
 const PlatformList = ({ platforms, size, className }) => {
   if (!platforms || platforms.length < 1) return null
+
+  platforms = MultiSort(platforms, {
+    size: 'DESC',
+    active: 'DESC',
+    id: 'ASC'
+  })
+
+  const totalSize = platforms.map(platform => platform.size).reduce((a, b) => a + b, 0)
+
+  platforms.map(platform => { platform.percentage = Math.round((platform.size / totalSize) * 100) })
+  platforms = platforms.filter(platform => platform.percentage >= 10)
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`, className)}>

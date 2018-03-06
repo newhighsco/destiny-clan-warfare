@@ -4,6 +4,7 @@
     "react"
   ],
   "plugins": [
+    "transform-object-rest-spread",
     [
       "inline-react-svg", {
         "svgo": {

@@ -47,6 +47,11 @@ module.exports = {
         // ignore gatsby-link's global `__loader` variable
         test: require.resolve('gatsby-link'),
         use: 'imports-loader?___loader=>{ enqueue: () => null }'
+      },
+      {
+        // ignore graphql exports in components
+        test: /\.js$/,
+        use: 'imports-loader?graphql=>(() => null)'
       }
     ]
   }

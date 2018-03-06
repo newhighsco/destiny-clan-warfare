@@ -55,36 +55,6 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     }
   }
 
-  const parseMedals = (input, type, minimumTier) => {
-    minimumTier = minimumTier || 0
-    const output = []
-    const parseMedal = (medal, type) => {
-      return {
-        id: medal.id || medal.medalId || medal.unlockId,
-        type: type,
-        tier: medal.tier || medal.medalTier || 1,
-        name: medal.name,
-        description: medal.description,
-        count: medal.count || null,
-        label: [ medal.awardedTo ] || []
-      }
-    }
-
-    input.map(medal => {
-      const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
-      const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
-
-      if (parsed.tier <= minimumTier) return
-
-      if (existing) {
-        existing.label = existing.label.concat(parsed.label)
-      } else {
-        output.push(parsed)
-      }
-    })
-
-    return output
-  }
   const sources = [
     new Promise((resolve, reject) => {
       const activity = reporter.activityTimer(`fetch enrollment open`)
@@ -186,7 +156,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
       api(`Component/GetAllMedals`)
         .then(({ data }) => {
-          medals = medals.concat(parseMedals(data, constants.prefix.profile))
+          medals = medals.concat(medalBuilder.parseMedals(data, constants.prefix.profile))
           activity.end()
           reporter.info(`member medals: ${data.length}`)
           resolve()
@@ -202,7 +172,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
       api(`Component/GetAllClanMedals`)
         .then(({ data }) => {
-          medals = medals.concat(parseMedals(data, constants.prefix.clan))
+          medals = medals.concat(medalBuilder.parseMedals(data, constants.prefix.clan))
           activity.end()
           reporter.info(`clan medals: ${data.length}`)
           resolve()
@@ -407,7 +377,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       leaderboard: parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true),
       leaderboardVisible: currentClanLeaderboard.length > 0,
       previousLeaderboard: parseClanLeaderboard(previousClanLeaderboard, previousEventId),
-      medals: parseMedals(clan.medalUnlocks, constants.prefix.clan),
+      medals: medalBuilder.parseMedals(clan.medalUnlocks, constants.prefix.clan),
       parent: null,
       children: [],
       internal: {
@@ -506,7 +476,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           description: bonus.description || ''
         }
       }),
-      medals: parseMedals(member.medalUnlocks, constants.prefix.profile),
+      medals: medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile),
       totals: totals,
       totalsVisible: totals.games > 0,
       totalsSortable: totals.lastPlayed,
@@ -682,8 +652,8 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       },
       results: results.filter(({ score }) => score > 0),
       medals: {
-        clans: event.clanMedals ? parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
-        members: event.clanMemberMedals ? parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
+        clans: event.clanMedals ? medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
+        members: event.clanMemberMedals ? medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
       },
       parent: null,
       children: [],

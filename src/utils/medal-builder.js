@@ -1,5 +1,6 @@
-var numberToWords = require('number-to-words')
-var sentenceCase = require('sentence-case')
+const numberToWords = require('number-to-words')
+const sentenceCase = require('sentence-case')
+const camelcaseKeys = require(`camelcase-keys`)
 
 const build = (rank, tier, division) => {
   var place
@@ -41,7 +42,40 @@ const embellishLeaderboard = (leaderboard, division) => {
   })
 }
 
+const parseMedals = (input, type, minimumTier) => {
+  minimumTier = minimumTier || 0
+  const casingOptions = { deep: true }
+  const output = []
+  const parseMedal = (medal, type) => {
+    return {
+      id: medal.id || medal.medalId || medal.unlockId,
+      type: type,
+      tier: medal.tier || medal.medalTier || 1,
+      name: medal.name,
+      description: medal.description,
+      count: medal.count || null,
+      label: [ medal.awardedTo ] || []
+    }
+  }
+
+  input.map(medal => {
+    const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
+    const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
+
+    if (parsed.tier <= minimumTier) return
+
+    if (existing) {
+      existing.label = existing.label.concat(parsed.label)
+    } else {
+      output.push(parsed)
+    }
+  })
+
+  return output
+}
+
 module.exports = {
   build,
-  embellishLeaderboard
+  embellishLeaderboard,
+  parseMedals
 }

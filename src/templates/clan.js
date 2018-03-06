@@ -11,10 +11,11 @@ import { Button } from '../components/button/Button'
 import Notification from '../components/notification/Notification'
 import Prose from '../components/prose/Prose'
 import { TabContainer, Tab } from '../components/tab/Tab'
+import { PlatformList } from '../components/platform/Platform'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
-const possessive = require('../utils/possessive')
+const possessive = require('../utils/grammar').possessive
 
 class ClanTemplate extends Component {
   render () {
@@ -27,6 +28,7 @@ class ClanTemplate extends Component {
 
       return {
         path: hasPlayed ? node.path : null,
+        platforms: node.platforms,
         name: node.name,
         icon: node.icon,
         tags: node.tags,
@@ -54,6 +56,7 @@ class ClanTemplate extends Component {
         <Card cutout={hasLeaderboards} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
+          <PlatformList platforms={data.clan.platforms} />
           {data.clan.description &&
             <Prose>
               <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
@@ -71,7 +74,7 @@ class ClanTemplate extends Component {
               <Tab id={previousLeaderboard[0].eventId} name="Last event">
                 <Leaderboard
                   data={previousLeaderboard}
-                  columns={[ 'path', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+                  columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
                   sorting={{ score: 'DESC' }} />
               </Tab>
             }
@@ -98,6 +101,11 @@ export const pageQuery = graphql`
     clan(id: { eq: $id }) {
       id
       name
+      platforms {
+        id
+        size
+        active
+      }
       motto
       description
       color
@@ -112,6 +120,11 @@ export const pageQuery = graphql`
       previousLeaderboard {
         id
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         icon
         tags {
@@ -135,6 +148,11 @@ export const pageQuery = graphql`
       edges {
         node {
           path
+          platforms {
+            id
+            size
+            active
+          }
           name
           icon
           tags {

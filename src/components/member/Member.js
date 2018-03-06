@@ -12,10 +12,11 @@ import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
 import Leaderboard from '../leaderboard/Leaderboard'
 import { TabContainer, Tab } from '../tab/Tab'
+import { PlatformList } from '../platform/Platform'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
-const possessive = require('../../utils/possessive')
+const possessive = require('../../utils/grammar').possessive
 
 class Member extends Component {
   render () {
@@ -70,7 +71,8 @@ class Member extends Component {
           }
           <TagList tags={member.tags} className="card__tags" />
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
-          <Button href={`${constants.bungie.baseUrl}en/Profile/-1/${member.id}`} target="_blank">View profile</Button>
+          <PlatformList platforms={member.platforms} />
+          <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
           <MedalList medals={medals} />
           <StatList stats={stats} />
           {!hasPastEvents &&

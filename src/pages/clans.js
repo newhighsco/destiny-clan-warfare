@@ -49,6 +49,11 @@ export const pageQuery = graphql`
       edges {
         node {
           path
+          platforms {
+            id
+            size
+            active
+          }
           name
           color
           clanTag: tag

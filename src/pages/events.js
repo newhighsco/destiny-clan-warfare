@@ -21,9 +21,8 @@ class EventsPage extends Component {
         game: {
           path: edge.node.path,
           type: `${edge.node.name}${typeSuffix.length > 0 ? ` - ${typeSuffix}` : ''}`,
-          map: edge.node.isCurrent ? constants.relativeDate.current : (edge.node.isPast ? constants.relativeDate.past : constants.relativeDate.future),
-          mapSeparator: ' ',
-          date: edge.node.isCurrent ? edge.node.endDate : (edge.node.isPast) ? edge.node.endDate : edge.node.startDate
+          startDate: edge.node.startDate,
+          endDate: edge.node.endDate
         },
         modifiers: edge.node.modifiers
       }
@@ -129,6 +128,11 @@ export const pageQuery = graphql`
         node {
           id
           currentEventId
+          platforms {
+            id
+            size
+            active
+          }
           name
           icon
           tags {
@@ -156,8 +160,7 @@ export const pageQuery = graphql`
               result
               type
               map
-              mapSeparator
-              date
+              endDate
             }
             kills
             deaths

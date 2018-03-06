@@ -24,7 +24,7 @@ const PreviousEvent = ({ event, element, summary }) => {
     largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
     mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
     smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
-    leaderboardColumns = [ 'color', 'foreground', 'background', 'name', 'medal', 'rank', 'score' ]
+    leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'medal', 'rank', 'score' ]
   }
 
   return (
@@ -36,10 +36,10 @@ const PreviousEvent = ({ event, element, summary }) => {
           <p>{event.description}</p>
         }
         <ModifierList modifiers={event.modifiers} />
-        {event.medals && event.medals.clans &&
+        {isCalculated && event.medals && event.medals.clans &&
           <MedalList medals={event.medals.clans} />
         }
-        {event.medals && event.medals.members &&
+        {isCalculated && event.medals && event.medals.members &&
           <MedalList medals={event.medals.members} />
         }
         {!isCalculated &&
@@ -102,6 +102,11 @@ export const componentFragment = graphql`
     isCalculated
     results {
       path
+      platforms {
+        id
+        size
+        active
+      }
       name
       color
       foreground {
@@ -123,6 +128,11 @@ export const componentFragment = graphql`
     leaderboards {
       large {
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         color
         foreground {
@@ -138,6 +148,11 @@ export const componentFragment = graphql`
       }
       medium {
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         color
         foreground {
@@ -153,6 +168,11 @@ export const componentFragment = graphql`
       }
       small {
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         color
         foreground {

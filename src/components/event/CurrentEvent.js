@@ -61,7 +61,7 @@ class CurrentEvent extends Component {
           }
         </Card>
         {hasLeaderboards &&
-          <TabContainer id={!summary && 'leaderboard'} cutout>
+          <TabContainer id={!summary ? 'leaderboard' : null} cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
                 <Leaderboard data={largeLeaderboard} />

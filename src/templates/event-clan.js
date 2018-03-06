@@ -9,11 +9,12 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
 import Notification from '../components/notification/Notification'
+import { PlatformList } from '../components/platform/Platform'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 const kda = require('../utils/kda')
-const possessive = require('../utils/possessive')
+const possessive = require('../utils/grammar').possessive
 
 class EventClanTemplate extends Component {
   render () {
@@ -57,38 +58,46 @@ class EventClanTemplate extends Component {
     const hasLeaderboard = leaderboard.length > 0
 
     if (hasLeaderboard) {
+      const reduce = (stat) => leaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
+      const add = (column, stat, top) => {
+        if (top) {
+          const value = stat(top)
+          const names = leaderboard.filter(row => stat(row) === value).map(row => row.name)
+
+          stats[column] = { stat: `${value}`, label: names }
+        }
+      }
+
       columns.map(column => {
-        var top = leaderboard.reduce((a, b) => (parseInt(a[column]) > parseInt(b[column])) ? a : b)
-        var key = column
-        var stat = (top) => top[column]
+        var stat = (row) => parseInt(row[column])
 
         if (column === 'kd') {
-          top = leaderboard.reduce((a, b) => (kda(a, true) > kda(b, true)) ? a : b)
-          stat = (top) => kda(top, true)
+          stat = (row) => kda(row, true)
         }
 
         if (column === 'kda') {
-          top = leaderboard.reduce((a, b) => (kda(a) > kda(b)) ? a : b)
-          stat = (top) => kda(top)
+          stat = (row) => kda(row)
         }
 
+        var top = reduce(stat)
+
         if (column === 'bonuses') {
-          const bonusCount = (item, key) => {
-            return item.bonuses.find(bonus => bonus.shortName === key).count
+          const bonusCount = (row, key) => {
+            return row.bonuses.find(bonus => bonus.shortName === key).count
           }
           const bonusesKeys = leaderboard[0].bonuses.map(bonus => bonus.shortName)
 
           bonusesKeys.map(key => {
-            top = leaderboard.reduce((a, b) => (bonusCount(a, key) > bonusCount(b, key)) ? a : b)
-            stat = (top) => bonusCount(top, key)
+            stat = (row) => bonusCount(row, key)
+            top = reduce(stat)
 
-            if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+            add(key, stat, top)
           })
 
           top = null
         }
 
-        if (top) stats[key] = { stat: `${stat(top)}`, label: top.name }
+        add(column, stat, top)
       })
     }
 
@@ -107,7 +116,8 @@ class EventClanTemplate extends Component {
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <StatList stats={stats} />
+          <PlatformList platforms={data.clan.platforms} />
+          <StatList stats={stats} top />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
           }
@@ -116,7 +126,7 @@ class EventClanTemplate extends Component {
           <Leaderboard
             cutout
             data={leaderboard}
-            columns={[ 'path', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
             sorting={{ score: 'DESC' }}
           />
         }
@@ -135,6 +145,11 @@ export const pageQuery = graphql`
   query EventClanTemplateQuery($id: String!) {
     clan(id: { eq: $id }) {
       path
+      platforms {
+        id
+        size
+        active
+      }
       id
       currentEventId
       name
@@ -151,6 +166,11 @@ export const pageQuery = graphql`
       leaderboard {
         id
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         icon
         tags {

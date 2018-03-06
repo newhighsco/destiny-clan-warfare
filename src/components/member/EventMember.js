@@ -10,10 +10,12 @@ import RelativeDate from '../relative-date/RelativeDate'
 import { StatList } from '../stat/Stat'
 import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
+import { TabContainer, Tab } from '../tab/Tab'
+import { PlatformList } from '../platform/Platform'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
-const possessive = require('../../utils/possessive')
+const possessive = require('../../utils/grammar').possessive
 
 class EventMember extends Component {
   render () {
@@ -73,6 +75,7 @@ class EventMember extends Component {
             }
             <TagList tags={member.tags} className="card__tags" />
             <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <PlatformList platforms={member.platforms} />
             <StatList stats={member.leaderboard} />
             {!hasLeaderboard &&
               <Notification>
@@ -85,7 +88,11 @@ class EventMember extends Component {
             }
           </Card>
           {hasLeaderboard &&
-            <Leaderboard cutout data={leaderboard} />
+            <TabContainer cutout>
+              <Tab name={`Last ${constants.matchHistoryLimit} games`}>
+                <Leaderboard data={leaderboard} />
+              </Tab>
+            </TabContainer>
           }
         </Fragment>
       </PageContainer>

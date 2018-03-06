@@ -9,6 +9,7 @@ import { ModifierList } from '../modifier/Modifier'
 import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
 import ClanTag from '../clan-tag/ClanTag'
+import { PlatformList } from '../platform/Platform'
 import RelativeDate from '../relative-date/RelativeDate'
 import ExternalSvg from '../../images/external.svg'
 
@@ -55,6 +56,7 @@ class Leaderboard extends Component {
     const showMedal = keys.indexOf('medal') !== -1
     const showMedals = keys.indexOf('medals') !== -1
     const showBonuses = keys.indexOf('bonuses') !== -1
+    const showPlatforms = keys.indexOf('platforms') !== -1
     const filteredKeys = [
       'id',
       'icon',
@@ -70,7 +72,8 @@ class Leaderboard extends Component {
       'medal',
       'medals',
       'tags',
-      'eventId'
+      'eventId',
+      'platforms'
     ]
 
     keys = keys.reduce((filtered, key) => {
@@ -98,6 +101,9 @@ class Leaderboard extends Component {
                   <Fragment>
                     { showMedal &&
                       <Medal {...item.medal} size="small" align="left" className="leaderboard__medal" />
+                    }
+                    { showPlatforms &&
+                      <PlatformList platforms={item.platforms} size="small" className="leaderboard__platforms" />
                     }
                     {item.path ? (
                       <Link
@@ -138,7 +144,7 @@ class Leaderboard extends Component {
                           {item.game.type}
                         </Link>
                       )}
-                      <RelativeDate className="leaderboard__stat-suffix" updated={item.game.date} label={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}`} />
+                      <RelativeDate className="leaderboard__stat-suffix" start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />
                     </div>
                   }
                   {showMedals &&
@@ -202,6 +208,11 @@ export const componentFragment = graphql`
     leaderboards {
       large {
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         color
         foreground {
@@ -219,6 +230,11 @@ export const componentFragment = graphql`
       }
       medium {
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         color
         foreground {
@@ -236,6 +252,11 @@ export const componentFragment = graphql`
       }
       small {
         path
+        platforms {
+          id
+          size
+          active
+        }
         name
         color
         foreground {

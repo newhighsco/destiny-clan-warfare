@@ -12,6 +12,7 @@ import HighlightSvg from './highlight.svg'
 import './Medal.styl'
 
 const pascalCase = require('pascal-case')
+const sentence = require('../../utils/grammar').sentence
 
 const baseClassName = 'medal'
 
@@ -22,7 +23,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
   const ForegroundSvg = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
   const tooltip = [ description, '' ]
 
-  if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${label.sort().join(', ')}`)
+  if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${sentence(label)}`)
 
   if (!BackgroundSvg) return null
 
@@ -43,7 +44,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
           </ResponsiveMedia>
         </Icon>
         {label &&
-          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: label.sort().join(', ') }} />
+          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: sentence(label) }} />
         }
         {count > 1 &&
           <div className={classNames(`${baseClassName}__count`, 'foreground')}>
@@ -65,7 +66,7 @@ Medal.propTypes = {
   label: PropTypes.array,
   tier: PropTypes.number,
   count: PropTypes.number,
-  size: PropTypes.oneOf([ 'small' ]),
+  size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
   className: PropTypes.string
 }

@@ -71,6 +71,7 @@
     "@storybook/react": "^3.3.14",
     "babel-loader": "7.1.1",
     "babel-plugin-inline-react-svg": "^0.5.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-jsx": "^4.0.1",

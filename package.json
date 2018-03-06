@@ -15,7 +15,7 @@
     "build": "npm-run-all build:patch build:gatsby",
     "build:patch": "sed -i -e 's/if(c\\.initial) return;/if(!c||c.initial) return;/g' ./node_modules/extract-text-webpack-plugin/index.js",
     "build:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby build",
-    "build:storybook": "build-storybook -c .storybook -s ./src -o ./public/storybook",
+    "build:storybook": "build-storybook -c .storybook -o ./public/storybook",
     "clean": "rm -rf .cache && rm -rf public",
     "optimize": "npm-run-all --parallel optimize:*",
     "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass",

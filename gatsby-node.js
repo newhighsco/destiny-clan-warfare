@@ -594,7 +594,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     const endDate = new Date(event.scoringEndTime)
     var isCurrent = event.eventTense === constants.tense.current
     var isPast = event.eventTense === constants.tense.past
-    const isFuture = event.eventTense === constants.tense.future
+    var isFuture = event.eventTense === constants.tense.future
     const results = []
     var largeLeaderboard = []
     var mediumLeaderboard = []
@@ -603,6 +603,11 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     if (isCurrent && endDate < apiStatus.updatedDate) {
       isCurrent = false
       isPast = true
+    }
+
+    if (isFuture && startDate < apiStatus.updatedDate) {
+      isCurrent = true
+      isFuture = false
     }
 
     if (isCurrent) {

@@ -144,7 +144,7 @@ class Leaderboard extends Component {
                           {item.game.type}
                         </Link>
                       )}
-                      <RelativeDate className="leaderboard__stat-suffix" updated={item.game.date} label={`${item.game.map ? `${item.game.map}${item.game.mapSeparator}` : ''}`} />
+                      <RelativeDate className="leaderboard__stat-suffix" start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />
                     </div>
                   }
                   {showMedals &&

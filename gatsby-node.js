@@ -520,8 +520,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
             result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
             type: item.gameType,
             map: item.map,
-            mapSeparator: item.map ? ' - ' : '',
-            date: new Date(item.datePlayed)
+            endDate: new Date(item.datePlayed)
           },
           kills: item.kills,
           assists: item.assists,

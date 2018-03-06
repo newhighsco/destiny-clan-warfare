@@ -17,9 +17,10 @@ class RelativeDate extends Component {
   }
 
   render () {
-    const { start, end, className, status } = this.props
-    var { label, updated } = this.props
+    const { status, start, end, className } = this.props
+    var { label } = this.props
     const { active } = this.state
+    var updated
 
     if (status) updated = apiStatus().updatedDate
 
@@ -46,7 +47,7 @@ class RelativeDate extends Component {
 
     if (!value) return null
 
-    const title = value.format('YYYY-MM-DD HH:mm [UTC]')
+    const title = value.format('HH:mm [UTC]')
     const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ')
     const humanReadable = [ label, label && ' ', (active ? value.fromNow() : title) ]
 
@@ -68,7 +69,6 @@ RelativeDate.propTypes = {
   status: PropTypes.bool,
   start: PropTypes.string,
   end: PropTypes.string,
-  updated: PropTypes.string,
   label: PropTypes.string,
   className: PropTypes.string
 }

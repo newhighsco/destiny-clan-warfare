@@ -36,10 +36,10 @@ const PreviousEvent = ({ event, element, summary }) => {
           <p>{event.description}</p>
         }
         <ModifierList modifiers={event.modifiers} />
-        {event.medals && event.medals.clans &&
+        {isCalculated && event.medals && event.medals.clans &&
           <MedalList medals={event.medals.clans} />
         }
-        {event.medals && event.medals.members &&
+        {isCalculated && event.medals && event.medals.members &&
           <MedalList medals={event.medals.members} />
         }
         {!isCalculated &&

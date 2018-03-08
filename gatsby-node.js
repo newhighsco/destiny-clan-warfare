@@ -245,7 +245,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
       api(`Leaderboard/GetAllPlayersHistory`)
         .then(({ data }) => {
-          histories = data.map(item => camelcaseKeys(item, casingOptions))
+          histories = data.Data.map(item => camelcaseKeys(item, casingOptions))
           activity.end()
           reporter.info(`match history: ${histories.length}`)
           resolve()

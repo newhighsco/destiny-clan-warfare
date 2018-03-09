@@ -282,6 +282,15 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   var activity = reporter.activityTimer(`create clan nodes`)
   activity.start()
 
+  const parseTags = (bonusUnlocks) => {
+    return bonusUnlocks.map(bonus => {
+      return {
+        name: bonus.name || '',
+        description: bonus.description || ''
+      }
+    })
+  }
+
   await Promise.all(clans.map(clan => {
     const clanMembers = members.filter(member => member.groupId === clan.groupId)
     const currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
@@ -337,12 +346,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
           name: decode(member.name),
           icon: member.icon,
-          tags: member.bonusUnlocks.map(bonus => {
-            return {
-              name: bonus.name || '',
-              description: bonus.description || ''
-            }
-          }),
+          tags: parseTags(member.bonusUnlocks),
           games: item.gamesPlayed,
           wins: item.gamesWon,
           kills: item.kills,
@@ -470,12 +474,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
       name: decode(member.name),
       nameSortable: member.name.toUpperCase(),
       icon: member.icon,
-      tags: member.bonusUnlocks.map(bonus => {
-        return {
-          name: bonus.name || '',
-          description: bonus.description || ''
-        }
-      }),
+      tags: parseTags(member.bonusUnlocks),
       medals: medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile),
       totals: totals,
       totalsVisible: totals.games > 0,

@@ -808,28 +808,6 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
   })
 }
 
-exports.onCreatePage = async ({ page, boundActionCreators }) => {
-  const { createPage } = boundActionCreators
-
-  return new Promise(resolve => {
-    if (page.matchPath || page.path.match(/dev-404-page/)) {
-      resolve()
-    }
-
-    if (page.path.match(`${urlBuilder.profileRootUrl}`)) {
-      page.matchPath = urlBuilder.profileUrl(':path')
-      createPage(page)
-    }
-
-    if (page.path.match(`${urlBuilder.eventRootUrl}`)) {
-      page.matchPath = urlBuilder.eventUrl(':path')
-      createPage(page)
-    }
-
-    resolve()
-  })
-}
-
 exports.onPostBuild = ({ graphql, reporter }) => {
   const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
   const robots = [

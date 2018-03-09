@@ -6,6 +6,7 @@ const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const constants = require('./src/utils/constants')
 const feedBuilder = require('./src/utils/feed-builder')
+const urlBuilder = require('./src/utils/urlBuilder')
 const poststylus = require('poststylus')
 
 module.exports = {
@@ -29,6 +30,15 @@ module.exports = {
           `~stylus-mixins/index.styl`,
           `~responsive-grid/index.styl`,
           path.resolve(__dirname, './src/stylus/_______settings/index.styl')
+        ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: {
+        prefixes: [
+          `${urlBuilder.currentEventRootUrl}*`,
+          `${urlBuilder.profileRootUrl}*`
         ]
       }
     },

@@ -1,7 +1,7 @@
 var apiStatus
 
 try {
-  apiStatus = require('../../public/api-status.json')
+  apiStatus = require.resolve('../../public/api-status.json')
 } catch (e) {
   apiStatus = {}
 }

@@ -354,7 +354,8 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           deaths: item.deaths,
           bonuses: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore)),
-          eventId: eventId
+          eventId: eventId,
+          updatedDate: new Date(member.lastchecked || 0)
         }
       })
     }
@@ -498,6 +499,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
           bonuses: parseBonuses(item)
         }
       }),
+      updatedDate: new Date(member.lastchecked || 0),
       parent: null,
       children: [],
       internal: {

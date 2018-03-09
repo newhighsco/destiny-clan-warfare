@@ -13,7 +13,7 @@ import { PlatformList } from '../components/platform/Platform'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
-const kda = require('../utils/kda')
+const statsHelper = require('../utils/stats-helper')
 const possessive = require('../utils/grammar').possessive
 
 class EventClanTemplate extends Component {
@@ -52,6 +52,7 @@ class EventClanTemplate extends Component {
       'kd',
       'kda',
       'bonuses',
+      'ppg',
       'score'
     ]
     const stats = {}
@@ -72,11 +73,15 @@ class EventClanTemplate extends Component {
         var stat = (row) => parseInt(row[column])
 
         if (column === 'kd') {
-          stat = (row) => kda(row, true)
+          stat = (row) => statsHelper.kd(row)
         }
 
         if (column === 'kda') {
-          stat = (row) => kda(row)
+          stat = (row) => statsHelper.kda(row)
+        }
+
+        if (column === 'ppg') {
+          stat = (row) => statsHelper.ppg(row)
         }
 
         var top = reduce(stat)

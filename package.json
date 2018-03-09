@@ -9,7 +9,7 @@
     "yarn": "^1.2.1"
   },
   "scripts": {
-    "start": "npm-run-all --parallel start:gatsby",
+    "start": "npm-run-all --parallel start:*",
     "start:gatsby": "node --max-old-space-size=8192 ./node_modules/.bin/gatsby develop -p 9000",
     "start:storybook": "start-storybook -p 9001 -c .storybook",
     "build": "npm-run-all build:patch build:gatsby",

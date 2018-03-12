@@ -39,14 +39,14 @@ class IndexPage extends Component {
         <Enrollment clans={data.allClan.edges.map(({ node }) => node)} />
         {currentEvent ? (
           <Fragment>
-            <Lockup primary center element="h1" kicker={constants.kicker.current}>
+            <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate status />
             </Lockup>
             <CurrentEvent event={currentEvent} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
-                <Lockup center primary element="h1" kicker={constants.kicker.previous} />
+                <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
                 <PreviousEvent event={previousEvent} element="h2" summary />
               </Fragment>
             }
@@ -55,7 +55,7 @@ class IndexPage extends Component {
                 {previousEvent &&
                   <Advert />
                 }
-                <Lockup center primary element="h1" kicker={constants.kicker.next} />
+                <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
                 <FutureEvent event={nextEvent} element="h2" summary />
               </Fragment>
             }
@@ -64,7 +64,7 @@ class IndexPage extends Component {
           <Fragment>
             {nextEvent &&
               <Fragment>
-                <Lockup center primary element="h1" kicker={constants.kicker.next} />
+                <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
                 <FutureEvent event={nextEvent} element="h2" summary />
               </Fragment>
             }
@@ -73,7 +73,7 @@ class IndexPage extends Component {
                 {nextEvent &&
                   <Advert />
                 }
-                <Lockup center primary element="h1" kicker={constants.kicker.previous} />
+                <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
                 <PreviousEvent event={previousEvent} element="h2" summary />
               </Fragment>
             }

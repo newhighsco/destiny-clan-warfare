@@ -749,6 +749,13 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
             const curentEventActivity = reporter.activityTimer(`create current event sub-pages`)
             curentEventActivity.start()
 
+            createRedirect({
+              fromPath: urlBuilder.eventUrl(event.node.id),
+              toPath: urlBuilder.currentEventUrl(),
+              isPermanent: false,
+              redirectInBrowser: true
+            })
+
             Promise.all(result.data.allClan.edges.map(async (clan) => {
               if (clan.node.leaderboardVisible) {
                 createPage({

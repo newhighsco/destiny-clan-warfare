@@ -4,7 +4,7 @@
   GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"
   GATSBY_DISALLOW_ROBOTS = "true"
-  GATSBY_ENABLE_MATCH_HISTORY = "true"
+  GATSBY_ENABLE_MATCH_HISTORY = "false"
   GATSBY_ENABLE_PREVIOUS_LEADERBOARDS = "true"
 
 [context.branch-deploy.environment]
@@ -13,7 +13,7 @@
   GATSBY_BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   GATSBY_SITE_URL = "https://beta.destinyclanwarfare.com"
   GATSBY_DISALLOW_ROBOTS = "true"
-  GATSBY_ENABLE_MATCH_HISTORY = "true"
+  GATSBY_ENABLE_MATCH_HISTORY = "false"
   GATSBY_ENABLE_PREVIOUS_LEADERBOARDS = "true"
 
 [context.production.environment]

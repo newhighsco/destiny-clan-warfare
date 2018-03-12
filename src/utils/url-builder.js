@@ -18,16 +18,18 @@ module.exports = {
   },
 
   currentEventRootUrl,
-  eventRootUrl,
 
-  eventUrl: (eventId, clanId, profileId) => {
-    const isExistingUrl = `${eventId}`.startsWith(eventRootUrl)
-    const rootUrl = isExistingUrl ? '' : eventRootUrl
-    const eventUrl = `${eventId}${isExistingUrl ? '' : '/'}`
+  currentEventUrl: (clanId, profileId) => {
     const clanUrl = clanId ? `${clanId}/` : ''
     const profileUrl = (clanId && profileId) ? `${profileId}/` : ''
 
-    return `${rootUrl}${eventUrl}${clanUrl}${profileUrl}`
+    return `${currentEventRootUrl}${clanUrl}${profileUrl}`
+  },
+
+  eventRootUrl,
+
+  eventUrl: (eventId) => {
+    return `${eventRootUrl}${eventId}`
   },
 
   pgcrUrl: (pgcrId) => {

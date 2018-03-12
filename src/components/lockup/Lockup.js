@@ -8,8 +8,9 @@ import './Lockup.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
-const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, element, children }) => {
+const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, id, element, children }) => {
   const commonAttributes = {
+    id: id,
     className: classNames(
       baseClassName
       , className
@@ -55,6 +56,7 @@ Lockup.propTypes = {
   center: PropTypes.bool,
   primary: PropTypes.bool,
   borderless: PropTypes.bool,
+  id: PropTypes.string,
   className: PropTypes.string,
   element: PropTypes.string,
   children: PropTypes.node

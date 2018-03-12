@@ -33,7 +33,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId)}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl()}`,
             name: constants.kicker.current
           }
         },
@@ -41,7 +41,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))}`,
             name: member.clanName
           }
         },
@@ -49,7 +49,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length), member.id)}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)}`,
             name: member.name
           }
         }
@@ -65,7 +65,7 @@ class EventMember extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
+        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
           <RelativeDate status />
         </Lockup>
         <Fragment>
@@ -74,7 +74,7 @@ class EventMember extends Component {
               <Avatar cutout outline icon={member.icon} />
             }
             <TagList tags={member.tags} className="card__tags" />
-            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
             <PlatformList platforms={member.platforms} />
             <StatList stats={member.leaderboard} />
             {!hasLeaderboard &&

@@ -341,7 +341,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         }
 
         return {
-          path: isCurrent ? urlBuilder.eventUrl(eventId, member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
+          path: isCurrent ? urlBuilder.currentEventUrl(member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
           id: member.profileIdStr,
           platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
           name: decode(member.name),
@@ -363,7 +363,6 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     return createNode({
       id: `${clan.groupId}`,
       platforms: platforms,
-      currentEventId: currentEvent.eventId,
       path: urlBuilder.clanUrl(clan.groupId),
       name: decode(clan.name),
       nameSortable: clan.name.toUpperCase(),
@@ -465,7 +464,6 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
     return createNode({
       id: member.profileIdStr,
       platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
-      currentEventId: currentEvent.eventId,
       path: urlBuilder.profileUrl(member.profileIdStr),
       clanId: `${constants.prefix.hash}${member.groupId}`,
       clanName: decode(clan.name),
@@ -531,7 +529,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
         }
 
         return {
-          path: isCurrent ? urlBuilder.eventUrl(eventId, clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
+          path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
           platforms: platforms ? platforms.platforms : [],
           name: decode(clan.name),
           color: clan.backgroundcolor,
@@ -640,7 +638,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
 
     return createNode({
       id: `${constants.prefix.event} ${event.eventId}`,
-      path: urlBuilder.eventUrl(event.eventId),
+      path: isCurrent ? urlBuilder.currentEventUrl() : urlBuilder.eventUrl(event.eventId),
       name: event.name,
       description: event.description || '',
       startDate: startDate,
@@ -734,72 +732,49 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
 
       activity.end()
 
-      activity = reporter.activityTimer(`create event pages and redirects`)
+      activity = reporter.activityTimer(`create event pages`)
       activity.start()
 
       Promise.all(result.data.allEvent.edges.map(async (event) => {
         if (event.node.visible) {
-          const eventPath = event.node.path
-          const eventId = event.node.id
-
           createPage({
-            path: eventPath,
+            path: event.node.path,
             component: path.resolve(`./src/templates/event.js`),
             context: {
-              id: eventId
+              id: event.node.id
             }
           })
 
           if (event.node.isCurrent) {
-            const curentEventActivity = reporter.activityTimer(`create current event pages and redirects`)
+            const curentEventActivity = reporter.activityTimer(`create current event sub-pages`)
             curentEventActivity.start()
 
             Promise.all(result.data.allClan.edges.map(async (clan) => {
               if (clan.node.leaderboardVisible) {
                 createPage({
-                  path: urlBuilder.eventUrl(eventPath, clan.node.id),
+                  path: urlBuilder.currentEventUrl(clan.node.id),
                   component: path.resolve(`./src/templates/event-clan.js`),
                   context: {
-                    id: clan.node.id
+                    id: clan.node.id,
+                    clanId: `${constants.prefix.hash}${clan.node.id}`
                   }
                 })
               }
             }))
 
-            const currentEventRedirects = [
-              urlBuilder.currentEventRootUrl,
-              urlBuilder.currentEventRootUrl.replace(/\/$/, '')
-            ]
-
-            currentEventRedirects.forEach(fromPath => {
-              createRedirect({
-                fromPath: fromPath,
-                toPath: currentEvent ? urlBuilder.eventUrl(currentEvent.eventId) : '/',
-                isPermanent: false,
-                redirectInBrowser: true
-              })
-            })
-
             curentEventActivity.end()
-          } else {
-            const eventHash = eventId.substring(constants.prefix.event.length).trim()
-
-            createRedirect({
-              fromPath: urlBuilder.eventUrl(eventPath, ':clan'),
-              toPath: urlBuilder.clanUrl(':clan', eventHash),
-              isPermanent: true,
-              redirectInBrowser: true
-            })
-
-            createRedirect({
-              fromPath: urlBuilder.eventUrl(eventPath, ':clan/:profile'),
-              toPath: urlBuilder.profileUrl(':profile', eventHash),
-              isPermanent: true,
-              redirectInBrowser: true
-            })
           }
         }
       }))
+
+      if (!currentEvent) {
+        createRedirect({
+          fromPath: urlBuilder.currentEventUrl(),
+          toPath: '/#next',
+          isPermanent: false,
+          redirectInBrowser: true
+        })
+      }
 
       activity.end()
     })

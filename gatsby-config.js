@@ -6,7 +6,7 @@ const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const constants = require('./src/utils/constants')
 const feedBuilder = require('./src/utils/feed-builder')
-const urlBuilder = require('./src/utils/urlBuilder')
+const urlBuilder = require('./src/utils/url-builder')
 const poststylus = require('poststylus')
 
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
       resolve: `gatsby-plugin-create-client-paths`,
       options: {
         prefixes: [
-          `${urlBuilder.currentEventRootUrl}*`,
+          `${urlBuilder.currentEventUrl('.*')}*`,
           `${urlBuilder.profileRootUrl}*`
         ]
       }

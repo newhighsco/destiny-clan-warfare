@@ -16,10 +16,7 @@ const urlBuilder = require('../utils/url-builder')
 class MembersPage extends Component {
   render () {
     const { data, location } = this.props
-    const title = 'Members'
-    const description = 'All clan members waging war against other clans in Destiny 2'
     const members = data.allMember.edges
-    var currentClanId
 
     return (
       <Switch>
@@ -27,6 +24,10 @@ class MembersPage extends Component {
           exact
           path={urlBuilder.profileRootUrl}
           render={props => {
+            const title = 'Members'
+            const description = 'All clan members waging war against other clans in Destiny 2'
+            var currentClanId
+
             return (
               <PageContainer>
                 <Helmet>

@@ -716,6 +716,8 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
         reject(result.errors)
       }
 
+      var hasCurrentEvent = false
+
       var activity = reporter.activityTimer(`create clan pages`)
       activity.start()
 
@@ -749,6 +751,8 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
             const curentEventActivity = reporter.activityTimer(`create current event sub-pages`)
             curentEventActivity.start()
 
+            hasCurrentEvent = true
+
             createRedirect({
               fromPath: urlBuilder.eventUrl(event.node.id),
               toPath: urlBuilder.currentEventUrl(),
@@ -774,7 +778,7 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
         }
       }))
 
-      if (!currentEvent) {
+      if (!hasCurrentEvent) {
         createRedirect({
           fromPath: urlBuilder.currentEventUrl(),
           toPath: '/#next',

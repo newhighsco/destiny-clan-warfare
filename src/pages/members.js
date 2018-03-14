@@ -16,7 +16,7 @@ const urlBuilder = require('../utils/url-builder')
 class MembersPage extends Component {
   render () {
     const { data, location } = this.props
-    const members = data.allMember.edges || []
+    const members = data.allMember ? data.allMember.edges : []
 
     return (
       <Switch>

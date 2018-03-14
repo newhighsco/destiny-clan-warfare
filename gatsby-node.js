@@ -785,6 +785,13 @@ exports.createPages = ({ graphql, boundActionCreators, reporter }) => {
           isPermanent: false,
           redirectInBrowser: true
         })
+
+        createRedirect({
+          fromPath: `${urlBuilder.currentEventUrl()}*`,
+          toPath: '/#next',
+          isPermanent: false,
+          redirectInBrowser: true
+        })
       }
 
       activity.end()

@@ -21,7 +21,7 @@ class ClanTemplate extends Component {
   render () {
     const { data } = this.props
     const previousLeaderboard = data.clan.previousLeaderboard.filter(item => item && item.games > 0)
-    const members = data.allMember.edges || []
+    const members = data.allMember ? data.allMember.edges : []
     const totals = members.map(({ node }) => {
       const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
       const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)

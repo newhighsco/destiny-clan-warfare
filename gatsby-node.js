@@ -33,7 +33,7 @@ exports.sourceNodes = async ({ boundActionCreators, reporter }) => {
   var modifiers = []
   var medals = []
   var currentEventLeaderboard
-  var previousEventId
+  var previousEventId = Number.NEGATIVE_INFINITY
   const casingOptions = { deep: true }
   const linkifyOptions = { attributes: { target: '_blank' } }
   const clanPlatforms = []

@@ -14,13 +14,11 @@ import FutureEvent from '../components/event/FutureEvent'
 import LogoImage from '../images/avatar-512x512.jpg'
 
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 class IndexPage extends Component {
   render () {
-    const { data } = this.props
-    const currentEvent = data.currentEvents ? data.currentEvents[0] : null
-    const previousEvent = data.pastEvents ? data.pastEvents[0] : null
-    const nextEvent = data.futureEvents ? data.futureEvents[0] : null
+    const { clans, currentEvent, previousEvent, nextEvent } = this.props
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',
@@ -37,7 +35,7 @@ class IndexPage extends Component {
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Enrollment clans={data.allClan} />
+        <Enrollment clans={clans} />
         {currentEvent ? (
           <Fragment>
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
@@ -81,7 +79,7 @@ class IndexPage extends Component {
           </Fragment>
         )}
         <ButtonGroup>
-          <Button href="/events/">View all events</Button>
+          <Button href={urlBuilder.eventRootUrl}>View all events</Button>
         </ButtonGroup>
       </PageContainer>
     )
@@ -89,7 +87,10 @@ class IndexPage extends Component {
 }
 
 IndexPage.propTypes = {
-  data: PropTypes.object
+  clans: PropTypes.array,
+  currentEvent: PropTypes.object,
+  previousEvent: PropTypes.object,
+  nextEvent: PropTypes.object
 }
 
 export default withRouteData(IndexPage)

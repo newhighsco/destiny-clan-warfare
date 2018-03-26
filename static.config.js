@@ -435,7 +435,7 @@ export default {
         assists: Number.NEGATIVE_INFINITY,
         deaths: Number.NEGATIVE_INFINITY,
         score: Number.NEGATIVE_INFINITY,
-        lastPlayed: new Date(0)
+        lastPlayed: moment.utc(new Date(0)).format(constants.format.machineReadable)
       }
 
       if (member.currentScore && member.currentScore.lastSeen) {
@@ -446,7 +446,7 @@ export default {
           assists: member.currentScore.assists,
           deaths: member.currentScore.deaths,
           score: parseInt(Math.round(member.currentScore.totalScore)),
-          lastPlayed: new Date(member.currentScore.lastSeen)
+          lastPlayed: moment.utc(member.currentScore.lastSeen).format(constants.format.machineReadable)
         }
       }
 
@@ -573,8 +573,8 @@ export default {
         }
       }
 
-      const startDate = new Date(event.startTime)
-      const endDate = new Date(event.scoringEndTime)
+      const startDate = moment.utc(event.startTime).format(constants.format.machineReadable)
+      const endDate = moment.utc(event.scoringEndTime).format(constants.format.machineReadable)
       var isCurrent = event.eventTense === constants.tense.current
       var isPast = event.eventTense === constants.tense.past
       var isFuture = event.eventTense === constants.tense.future
@@ -653,12 +653,10 @@ export default {
         path: '/',
         component: 'src/pages/index',
         getData: async () => ({
-          data: {
-            allClan: MultiSort(parsedClans, 'nameSortable', 'ASC'),
-            currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC'),
-            pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC'),
-            futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')
-          }
+          clans: MultiSort(parsedClans, 'nameSortable', 'ASC'),
+          currentEvent: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')[0],
+          previousEvent: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')[0],
+          nextEvent: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')[0]
         })
       },
       {

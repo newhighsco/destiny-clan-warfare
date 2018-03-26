@@ -11,7 +11,11 @@ const constants = {
     themeColor: '#404040'
   },
   blank: '-',
-  dateFormat: 'YYYY-MM-DD',
+  format: {
+    date: 'YYYY-MM-DD',
+    humanReadable: 'YYYY-MM-DD HH:mm [UTC]',
+    machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
+  },
   division: {
     large: 'Company',
     medium: 'Platoon',

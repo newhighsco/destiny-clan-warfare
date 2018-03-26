@@ -3,46 +3,27 @@ import PropTypes from 'prop-types'
 
 class Html extends Component {
   render () {
-    var css
-    if (process.env.NODE_ENV === `production`) {
-      css = (
-        <link rel="stylesheet" href="/styles.css" />
-      )
-    }
+    const { Html, Head, Body, children } = this.props
+
     return (
-      <html {...this.props.htmlAttributes}>
-        <head>
+      <Html lang="en">
+        <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-          <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1"
-          />
-          {this.props.headComponents}
-          {css}
-        </head>
-        <body {...this.props.bodyAttributes}>
-          {this.props.preBodyComponents}
-          <div
-            key={`body`}
-            id="___gatsby"
-            dangerouslySetInnerHTML={{ __html: this.props.body }}
-          />
-          {this.props.postBodyComponents}
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
-        </body>
-      </html>
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+        </Head>
+        <Body>{children}</Body>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
+      </Html>
     )
   }
 }
 
 Html.propTypes = {
-  htmlAttributes: PropTypes.object,
-  headComponents: PropTypes.node.isRequired,
-  bodyAttributes: PropTypes.object,
-  preBodyComponents: PropTypes.node.isRequired,
-  body: PropTypes.node.isRequired,
-  postBodyComponents: PropTypes.node.isRequired
+  Html: PropTypes.object,
+  Head: PropTypes.object,
+  Body: PropTypes.object,
+  children: PropTypes.node
 }
 
 export default Html

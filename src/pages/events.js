@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -11,16 +12,16 @@ const constants = require('../utils/constants')
 class EventsPage extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.allEvent.edges.map(edge => {
-      const typeSuffix = edge.node.isCurrent ? constants.kicker.current : (edge.node.isPast ? '' : constants.kicker.future)
+    const leaderboard = data.allEvent.map(event => {
+      const typeSuffix = event.isCurrent ? constants.kicker.current : (event.isPast ? '' : constants.kicker.future)
       return {
         game: {
-          path: edge.node.path,
-          type: `${edge.node.name}${typeSuffix.length > 0 ? ` - ${typeSuffix}` : ''}`,
-          startDate: edge.node.startDate,
-          endDate: edge.node.endDate
+          path: event.path,
+          type: `${event.name}${typeSuffix.length > 0 ? ` - ${typeSuffix}` : ''}`,
+          startDate: event.startDate,
+          endDate: event.endDate
         },
-        modifiers: edge.node.modifiers
+        modifiers: event.modifiers
       }
     })
     const title = 'Events'
@@ -47,22 +48,4 @@ EventsPage.propTypes = {
   data: PropTypes.object
 }
 
-export default EventsPage
-
-export const pageQuery = graphql`
-  query EventsPageQuery {
-    allEvent(sort: { fields: [ startDate ], order: DESC }, filter: { visible: { eq: true } }) {
-      edges {
-        node {
-          path
-          name
-          startDate
-          endDate
-          isCurrent
-          isPast
-          ...modifiersFragment
-        }
-      }
-    }
-  }
-`
+export default withRouteData(EventsPage)

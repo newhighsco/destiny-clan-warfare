@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import Link from 'gatsby-link'
+import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -10,6 +10,7 @@ import Prose from '../components/prose/Prose'
 
 const queryString = require('query-string')
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 class ThanksPage extends Component {
   constructor (props) {
@@ -53,9 +54,9 @@ class ThanksPage extends Component {
               <Prose>
                 <p>Great news, your clan is enrolled and ready to go in the current {constants.meta.name} event!</p>
                 <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards.</p>
-                <p>Why not take a look over our <Link to="/faqs">Frequently Asked Questions</Link> while you wait.</p>
+                <p>Why not take a look over our <Link to="/faqs/">Frequently Asked Questions</Link> while you wait.</p>
               </Prose>
-              <Button href="/current">View current leaderboard</Button>
+              <Button href={urlBuilder.currentEventRootUrl}>View current leaderboard</Button>
             </Fragment>
           ) : (
             closed ? (

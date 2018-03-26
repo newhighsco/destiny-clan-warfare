@@ -27,7 +27,6 @@ class MembersPage extends Component {
             const title = 'Members'
             const description = 'All clan members waging war against other clans in Destiny 2'
             var currentClanId
-            var clanCount = 0
 
             return (
               <PageContainer>
@@ -46,13 +45,12 @@ class MembersPage extends Component {
                         if (node.clanId !== currentClanId) {
                           currentClanId = node.clanId
                           showDivider = true
-                          clanCount++
                         }
 
                         return (
                           <Fragment key={node.id}>
                             {showDivider &&
-                              <li className="list-comma__divider" data-count={clanCount}>
+                              <li className="list-comma__divider">
                                 <h2>
                                   <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath}>{node.clanName}</Link>
                                 </h2>

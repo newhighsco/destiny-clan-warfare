@@ -20,9 +20,9 @@ class Html extends Component {
 }
 
 Html.propTypes = {
-  Html: PropTypes.object,
-  Head: PropTypes.object,
-  Body: PropTypes.object,
+  Html: PropTypes.func,
+  Head: PropTypes.func,
+  Body: PropTypes.func,
   children: PropTypes.node
 }
 

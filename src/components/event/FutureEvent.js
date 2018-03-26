@@ -52,14 +52,3 @@ FutureEvent.propTypes = {
 }
 
 export default FutureEvent
-
-export const componentFragment = graphql`
-  fragment futureEventFragment on Event {
-    path
-    name
-    description
-    startDate
-    endDate
-    ...modifiersFragment
-  }
-`

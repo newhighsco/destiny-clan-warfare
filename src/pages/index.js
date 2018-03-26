@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -17,9 +18,9 @@ const constants = require('../utils/constants')
 class IndexPage extends Component {
   render () {
     const { data } = this.props
-    const currentEvent = data.currentEvents ? data.currentEvents.edges[0].node : null
-    const previousEvent = data.pastEvents ? data.pastEvents.edges[0].node : null
-    const nextEvent = data.futureEvents ? data.futureEvents.edges[0].node : null
+    const currentEvent = data.currentEvents ? data.currentEvents[0] : null
+    const previousEvent = data.pastEvents ? data.pastEvents[0] : null
+    const nextEvent = data.futureEvents ? data.futureEvents[0] : null
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',
@@ -36,7 +37,7 @@ class IndexPage extends Component {
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>
-        <Enrollment clans={data.allClan.edges.map(({ node }) => node)} />
+        <Enrollment clans={data.allClan} />
         {currentEvent ? (
           <Fragment>
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
@@ -80,7 +81,7 @@ class IndexPage extends Component {
           </Fragment>
         )}
         <ButtonGroup>
-          <Button href="/events">View all events</Button>
+          <Button href="/events/">View all events</Button>
         </ButtonGroup>
       </PageContainer>
     )
@@ -91,38 +92,4 @@ IndexPage.propTypes = {
   data: PropTypes.object
 }
 
-export default IndexPage
-
-export const pageQuery = graphql`
-  query IndexPageQuery {
-    allClan(sort: { fields: [ nameSortable ] }) {
-      edges {
-        node {
-          path
-          id
-        }
-      }
-    }
-    currentEvents: allEvent(filter: { isCurrent: { eq: true } }, sort: { fields: [startDate], order: ASC }, limit: 1) {
-      edges {
-        node {
-          ...currentEventFragment
-        }
-      }
-    }
-    pastEvents: allEvent(filter: { isPast: { eq: true } }, sort: { fields: [startDate], order: DESC }, limit: 1) {
-      edges {
-        node {
-          ...previousEventFragment
-        }
-      }
-    }
-    futureEvents: allEvent(filter: { isFuture: { eq: true } }, sort: { fields: [startDate], order: ASC }, limit: 1) {
-      edges {
-        node {
-          ...futureEventFragment
-        }
-      }
-    }
-  }
-`
+export default withRouteData(IndexPage)

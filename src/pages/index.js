@@ -18,7 +18,10 @@ const urlBuilder = require('../utils/url-builder')
 
 class IndexPage extends Component {
   render () {
-    const { clans, currentEvent, previousEvent, nextEvent } = this.props
+    const { clans, currentEvents, pastEvents, futureEvents } = this.props
+    const currentEvent = currentEvents ? currentEvents[0] : null
+    const previousEvent = pastEvents ? pastEvents[0] : null
+    const nextEvent = futureEvents ? futureEvents[0] : null
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Organization',
@@ -88,9 +91,9 @@ class IndexPage extends Component {
 
 IndexPage.propTypes = {
   clans: PropTypes.array,
-  currentEvent: PropTypes.object,
-  previousEvent: PropTypes.object,
-  nextEvent: PropTypes.object
+  currentEvents: PropTypes.array,
+  pastEvents: PropTypes.array,
+  futureEvents: PropTypes.array
 }
 
 export default withRouteData(IndexPage)

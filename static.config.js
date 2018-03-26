@@ -654,9 +654,9 @@ export default {
         component: 'src/pages/index',
         getData: async () => ({
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC'),
-          currentEvent: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')[0],
-          previousEvent: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')[0],
-          nextEvent: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')[0]
+          currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC').slice(0, 1),
+          pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC').slice(0, 1),
+          futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC').slice(0, 1)
         })
       },
       {
@@ -702,32 +702,23 @@ export default {
           }
         }),
         children: parsedEvents.filter(({ visible }) => visible).map(event => ({
-          path: `/${event.id}/`,
+          path: event.isCurrent ? urlBuilder.currentEventRootUrl : `/${event.id}/`,
           component: 'src/templates/event',
           getData: async () => ({
             data: {
               event
             }
-          })
-        }))
-      },
-      {
-        path: urlBuilder.currentEventRootUrl,
-        component: 'src/templates/event',
-        getData: async () => ({
-          data: {
-            event: parsedEvents.find(({ isCurrent }) => isCurrent)
-          }
-        }),
-        children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
-          path: `/${clan.id}/`,
-          component: 'src/templates/event-clan',
-          getData: async () => ({
-            data: {
-              clan,
-              allMember: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
-            }
-          })
+          }),
+          children: event.isCurrent ? parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
+            path: `/${clan.id}/`,
+            component: 'src/templates/event-clan',
+            getData: async () => ({
+              data: {
+                clan,
+                allMember: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
+              }
+            })
+          })) : null
         }))
       },
       {

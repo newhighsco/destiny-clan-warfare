@@ -34,7 +34,7 @@ class IndexPage extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Helmet>

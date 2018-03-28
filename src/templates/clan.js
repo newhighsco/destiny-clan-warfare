@@ -48,7 +48,7 @@ class ClanTemplate extends Component {
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />

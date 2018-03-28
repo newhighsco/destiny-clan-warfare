@@ -27,6 +27,7 @@ class Member extends Component {
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName
     const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))
+    const canonical = member.path
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -43,7 +44,7 @@ class Member extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${member.path}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${canonical}`,
             name: member.name
           }
         }
@@ -58,7 +59,7 @@ class Member extends Component {
     const hasPastEvents = pastEvents.length > 0
 
     return (
-      <PageContainer>
+      <PageContainer canonical={canonical}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />

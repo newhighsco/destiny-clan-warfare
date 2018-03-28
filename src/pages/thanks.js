@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { withRouteData } from 'react-static'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
@@ -39,7 +40,7 @@ class ThanksPage extends Component {
     const description = `Clan enrollment for ${constants.meta.name}`
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -92,4 +93,4 @@ ThanksPage.propTypes = {
   location: PropTypes.object
 }
 
-export default ThanksPage
+export default withRouteData(ThanksPage)

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { withRouteData } from 'react-static'
-import { Link } from 'react-static'
+import { withRouteData, Link } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'

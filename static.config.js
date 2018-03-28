@@ -1,11 +1,12 @@
 import MultiSort from 'multi-sort'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import RSS from 'rss'
 import Html from './src/html'
 
 require('dotenv').config()
 
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 const camelcaseKeys = require('camelcase-keys')
 const moment = require('moment')
 const linkify = require('linkify-urls')
@@ -16,18 +17,20 @@ const poststylus = require('poststylus')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
+const feedBuilder = require('./src/utils/feed-builder')
 const api = require('./src/utils/api-helper').api
 const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
 
+const distPath = 'public'
 const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(process.env.GATSBY_ENABLE_PREVIOUS_LEADERBOARDS)
 var currentEvent
 
 export default {
   paths: {
-    dist: 'public',
-    devDist: 'public',
+    dist: distPath,
+    devDist: distPath,
     public: 'static'
   },
   devServer: {
@@ -267,7 +270,7 @@ export default {
 
     await Promise.all(sources)
 
-    fs.writeFileSync('./public/api-status.json', JSON.stringify(apiStatus))
+    await fs.writeFile(path.join(distPath, 'api-status.json'), JSON.stringify(apiStatus))
 
     const parseBonuses = (item) => {
       const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
@@ -648,6 +651,7 @@ export default {
 
     console.timeEnd(`create member nodes`)
 
+    const visibleEvents = MultiSort(parsedEvents.filter(({ visible }) => visible), 'startDate', 'DESC')
     const routes = [
       {
         path: '/',
@@ -708,7 +712,7 @@ export default {
         getData: async () => ({
           canonical: urlBuilder.eventRootUrl,
           data: {
-            allEvent: MultiSort(parsedEvents.filter(({ visible }) => visible), 'startDate', 'DESC')
+            allEvent: visibleEvents
           }
         }),
         children: parsedEvents.filter(({ visible }) => visible).map(event => ({
@@ -772,6 +776,23 @@ export default {
         }))
       })
     }
+
+    const feedOptions = {
+      title: constants.meta.title,
+      description: constants.meta.description,
+      site_url: process.env.GATSBY_SITE_URL
+    }
+    var feed = new RSS(feedOptions)
+
+    feedBuilder(visibleEvents).map(event => feed.item(event))
+
+    await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
+
+    feed = new RSS(feedOptions)
+
+    feedBuilder(visibleEvents, constants.kicker.current).map(event => feed.item(event))
+
+    await fs.writeFile(path.join(distPath, '/events--current.xml'), feed.xml())
 
     return routes
   },
@@ -838,6 +859,42 @@ export default {
     if (disallowRobots) robots.push('Disallow: /')
     robots.push(`Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`)
 
-    fs.writeFileSync('./public/robots.txt', robots.join('\n'))
+    await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
+
+    const redirects = [
+      { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
+      { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+    ]
+
+    if (currentEvent) {
+      redirects.push({ from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 301 })
+    } else {
+      redirects.push({ from: urlBuilder.currentEventRootUrl, to: '/#next', code: 301 })
+    }
+
+    await fs.writeFile(path.join(distPath, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
+
+    const manifest = {
+      name: constants.meta.name,
+      short_name: constants.meta.shortName,
+      start_url: `/`,
+      background_color: constants.meta.themeColor,
+      theme_color: constants.meta.themeColor,
+      display: `minimal-ui`,
+      icons: [
+        {
+          src: `/favicon-192x192.png`,
+          sizes: `192x192`,
+          type: `image/png`
+        },
+        {
+          src: `/favicon-512x512.png`,
+          sizes: `512x512`,
+          type: `image/png`
+        }
+      ]
+    }
+
+    await fs.writeFile(path.join(distPath, 'manifest.json'), JSON.stringify(manifest))
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -41,7 +42,7 @@ class EventTemplate extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -78,43 +79,4 @@ EventTemplate.propTypes = {
   data: PropTypes.object
 }
 
-export default EventTemplate
-
-export const pageQuery = graphql`
-  query EventTemplateQuery($id: String!) {
-    event(id: { eq: $id }) {
-      path
-      name
-      description
-      startDate
-      endDate
-      isCurrent
-      isPast
-      isFuture
-      isCalculated
-      ...leaderboardFragment
-      results {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        division
-        score
-      }
-      ...modifiersFragment
-      ...eventMedalsFragment
-    }
-  }
-`
+export default withRouteData(EventTemplate)

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
@@ -21,10 +22,10 @@ class ClanTemplate extends Component {
   render () {
     const { data } = this.props
     const previousLeaderboard = data.clan.previousLeaderboard.filter(item => item && item.games > 0)
-    const members = data.allMember ? data.allMember.edges : []
-    const totals = members.map(({ node }) => {
-      const emptyDate = moment.utc(new Date(0)).format(constants.dateFormat)
-      const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.dateFormat)
+    const members = data.allMember
+    const totals = members.map(node => {
+      const emptyDate = moment.utc(new Date(0)).format(constants.format.date)
+      const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.format.date)
       const hasPlayed = node.totals.games > 0
 
       return {
@@ -47,7 +48,7 @@ class ClanTemplate extends Component {
     const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -76,12 +77,14 @@ class ClanTemplate extends Component {
                 <Leaderboard
                   data={previousLeaderboard}
                   columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
-                  sorting={{ score: 'DESC' }} />
+                  sorting={{ score: 'DESC' }}
+                  prefetch={false}
+                />
               </Tab>
             }
             {totals.length > 0 &&
               <Tab name="Overall">
-                <Leaderboard data={totals} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
+                <Leaderboard data={totals} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} prefetch={false} />
               </Tab>
             }
           </TabContainer>
@@ -95,81 +98,4 @@ ClanTemplate.propTypes = {
   data: PropTypes.object
 }
 
-export default ClanTemplate
-
-export const pageQuery = graphql`
-  query ClanTemplateQuery($id: String!, $clanId: String!) {
-    clan(id: { eq: $id }) {
-      id
-      name
-      platforms {
-        id
-        size
-        active
-      }
-      motto
-      description
-      color
-      foreground {
-        color
-        icon
-      }
-      background {
-        color
-        icon
-      }
-      previousLeaderboard {
-        id
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        icon
-        tags {
-          name
-        }
-        games
-        wins
-        kills
-        deaths
-        assists
-        bonuses {
-          shortName
-          count
-        }
-        score
-        eventId
-      }
-      ...clanMedalsFragment
-    }
-    allMember(filter: { clanId: { eq: $clanId } }, sort: { fields: [ totalsSortable, nameSortable ] }) {
-      edges {
-        node {
-          path
-          platforms {
-            id
-            size
-            active
-          }
-          name
-          icon
-          tags {
-            name
-          }
-          totals {
-            games
-            wins
-            kills
-            deaths
-            assists
-            score
-            lastPlayed
-          }
-        }
-      }
-    }
-  }
-`
+export default withRouteData(ClanTemplate)

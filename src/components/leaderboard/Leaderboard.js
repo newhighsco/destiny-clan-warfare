@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Link from 'gatsby-link'
+import { Link } from 'react-static'
 import classNames from 'classnames'
 import MultiSort from 'multi-sort'
 import Avatar from '../avatar/Avatar'
@@ -40,7 +40,7 @@ class Leaderboard extends Component {
 
   render () {
     var { data } = this.props
-    const { columns, cutout, className } = this.props
+    const { columns, cutout, className, prefetch } = this.props
     const { sorting } = this.state
     const baseClassName = 'leaderboard'
 
@@ -108,6 +108,7 @@ class Leaderboard extends Component {
                     {item.path ? (
                       <Link
                         to={item.path}
+                        prefetch={prefetch}
                         className="leaderboard__name leaderboard__link"
                         dangerouslySetInnerHTML={{ __html: item.name }}
                       />
@@ -140,7 +141,7 @@ class Leaderboard extends Component {
                           </Icon>
                         </a>
                       ) : (
-                        <Link to={item.game.path} className="leaderboard__link">
+                        <Link to={item.game.path} prefetch={prefetch} className="leaderboard__link">
                           {item.game.type}
                         </Link>
                       )}
@@ -190,7 +191,8 @@ class Leaderboard extends Component {
 
 Leaderboard.defaultProps = {
   descending: false,
-  cutout: false
+  cutout: false,
+  prefetch: true
 }
 
 Leaderboard.propTypes = {
@@ -198,80 +200,8 @@ Leaderboard.propTypes = {
   columns: PropTypes.array,
   sorting: PropTypes.object,
   cutout: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
+  prefetch: PropTypes.bool
 }
 
 export default Leaderboard
-
-export const componentFragment = graphql`
-  fragment leaderboardFragment on Event {
-    leaderboards {
-      large {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        rank
-        score
-        active
-        size
-      }
-      medium {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        rank
-        score
-        active
-        size
-      }
-      small {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        rank
-        score
-        active
-        size
-      }
-    }
-  }
-`

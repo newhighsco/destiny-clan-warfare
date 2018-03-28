@@ -22,8 +22,9 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
   const ForegroundSvg = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
   const tooltip = [ description, '' ]
+  const labelSentence = sentence(label)
 
-  if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${sentence(label)}`)
+  if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${labelSentence}`)
 
   if (!BackgroundSvg) return null
 
@@ -43,8 +44,8 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
             <HighlightSvg className={classNames(`${baseClassName}__layer`, `${baseClassName}__highlight`)} />
           </ResponsiveMedia>
         </Icon>
-        {label &&
-          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: sentence(label) }} />
+        {labelSentence &&
+          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: labelSentence }} />
         }
         {count > 1 &&
           <div className={classNames(`${baseClassName}__count`, 'foreground')}>
@@ -106,34 +107,3 @@ export {
   Medal,
   MedalList
 }
-
-export const componentFragment = graphql`
-  fragment memberMedalsFragment on Member {
-    medals {
-      tier
-      name
-      description
-      count
-    }
-  }
-
-  fragment clanMedalsFragment on Clan {
-    medals {
-      tier
-      name
-      description
-      count
-    }
-  }
-
-  fragment eventMedalsFragment on Event {
-    medals {
-      clans {
-        tier
-        name
-        description
-        label
-      }
-    }
-  }
-`

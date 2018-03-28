@@ -828,5 +828,16 @@ export default {
 
     return config
   },
-  Document: Html
+  Document: Html,
+  onBuild: async () => {
+    const robots = [
+      'User-agent: *'
+    ]
+    const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
+
+    if (disallowRobots) robots.push('Disallow: /')
+    robots.push(`Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`)
+
+    fs.writeFileSync('./public/robots.txt', robots.join('\n'))
+  }
 }

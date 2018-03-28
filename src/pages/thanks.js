@@ -29,10 +29,10 @@ class ThanksPage extends Component {
   }
 
   render () {
-    const { location } = this.props
+    const { history: { location } } = this.props
     const { enrollmentOpen } = this.state
     const query = queryString.parse(location.search)
-    const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
+    const success = query.success ? JSON.parse(query.success.toLowerCase()) : false
     const message = query.message || ''
     const successful = success || (!success && message === constants.enrollment.existing)
     const closed = !success && message === constants.enrollment.closed
@@ -77,9 +77,11 @@ class ThanksPage extends Component {
                     <p>{message}</p>
                   </Prose>
                 }
-                {enrollmentOpen &&
+                {enrollmentOpen ? (
                   <Button href="/#enroll">Enroll your clan today</Button>
-                }
+                ) : (
+                  <Button href="/">Return to the homepage</Button>
+                )}
               </Fragment>
             )
           )}
@@ -90,7 +92,7 @@ class ThanksPage extends Component {
 }
 
 ThanksPage.propTypes = {
-  location: PropTypes.object
+  history: PropTypes.object
 }
 
 export default withRouteData(ThanksPage)

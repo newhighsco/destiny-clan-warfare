@@ -800,6 +800,8 @@ export default {
       }
     ])
 
+    if (stage !== 'dev') config.devtool = false
+
     config.entry = stage === 'dev'
       ? [ 'babel-polyfill', ...config.entry ]
       : [ 'babel-polyfill', config.entry ]

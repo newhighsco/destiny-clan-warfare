@@ -653,7 +653,12 @@ export default {
         path: '/',
         component: 'src/pages/index',
         getData: async () => ({
-          clans: MultiSort(parsedClans, 'nameSortable', 'ASC'),
+          clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => {
+            return {
+              path: clan.path,
+              id: clan.id
+            }
+          }),
           currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC').slice(0, 1),
           pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC').slice(0, 1),
           futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC').slice(0, 1)

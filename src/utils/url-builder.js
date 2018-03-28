@@ -29,7 +29,7 @@ module.exports = {
   eventRootUrl,
 
   eventUrl: (eventId) => {
-    return `${eventRootUrl}${eventId}`
+    return `${eventRootUrl}${eventId}/`
   },
 
   pgcrUrl: (pgcrId) => {

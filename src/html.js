@@ -1,48 +1,44 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+const constants = require('./utils/constants')
+
 class Html extends Component {
   render () {
-    var css
-    if (process.env.NODE_ENV === `production`) {
-      css = (
-        <link rel="stylesheet" href="/styles.css" />
-      )
-    }
+    const { Html, Head, Body, children } = this.props
+
     return (
-      <html {...this.props.htmlAttributes}>
-        <head>
+      <Html lang="en">
+        <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-          <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1"
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+          <link rel="alternate" type="application/rss+xml" href="/events.xml" />
+          <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content={constants.meta.themeColor} />
+        </Head>
+        <Body>
+          {children}
+        </Body>
+        {constants.meta.trackingId &&
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', '${constants.meta.trackingId}', 'auto');ga('send', 'pageview');`
+            }}
           />
-          {this.props.headComponents}
-          {css}
-        </head>
-        <body {...this.props.bodyAttributes}>
-          {this.props.preBodyComponents}
-          <div
-            key={`body`}
-            id="___gatsby"
-            dangerouslySetInnerHTML={{ __html: this.props.body }}
-          />
-          {this.props.postBodyComponents}
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
-        </body>
-      </html>
+        }
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
+      </Html>
     )
   }
 }
 
 Html.propTypes = {
-  htmlAttributes: PropTypes.object,
-  headComponents: PropTypes.node.isRequired,
-  bodyAttributes: PropTypes.object,
-  preBodyComponents: PropTypes.node.isRequired,
-  body: PropTypes.node.isRequired,
-  postBodyComponents: PropTypes.node.isRequired
+  Html: PropTypes.func,
+  Head: PropTypes.func,
+  Body: PropTypes.func,
+  children: PropTypes.node
 }
 
 export default Html

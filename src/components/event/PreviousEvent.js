@@ -18,13 +18,15 @@ const PreviousEvent = ({ event, element, summary }) => {
   var largeLeaderboard = []
   var mediumLeaderboard = []
   var smallLeaderboard = []
-  var leaderboardColumns
+  var leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'medal' ]
 
-  if (!summary && isCalculated) {
+  if (!summary) {
     largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
     mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
     smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
-    leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'medal', 'rank', 'score' ]
+    leaderboardColumns.push('rank', 'score')
+  } else {
+    leaderboardColumns.push('division', 'score')
   }
 
   return (
@@ -36,10 +38,10 @@ const PreviousEvent = ({ event, element, summary }) => {
           <p>{event.description}</p>
         }
         <ModifierList modifiers={event.modifiers} />
-        {isCalculated && event.medals && event.medals.clans &&
+        {!summary && isCalculated && event.medals && event.medals.clans &&
           <MedalList medals={event.medals.clans} />
         }
-        {isCalculated && event.medals && event.medals.members &&
+        {!summary && isCalculated && event.medals && event.medals.members &&
           <MedalList medals={event.medals.members} />
         }
         {!isCalculated &&
@@ -53,7 +55,7 @@ const PreviousEvent = ({ event, element, summary }) => {
         summary ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} />
+              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} columns={leaderboardColumns} />
             </Tab>
           </TabContainer>
         ) : (
@@ -91,102 +93,3 @@ PreviousEvent.propTypes = {
 }
 
 export default PreviousEvent
-
-export const componentFragment = graphql`
-  fragment previousEventFragment on Event {
-    path
-    name
-    description
-    startDate
-    endDate
-    isCalculated
-    results {
-      path
-      platforms {
-        id
-        size
-        active
-      }
-      name
-      color
-      foreground {
-        color
-        icon
-      }
-      background {
-        color
-        icon
-      }
-      division
-      score
-      medal {
-        tier
-        name
-        description
-      }
-    }
-    leaderboards {
-      large {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        rank
-        score
-      }
-      medium {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        rank
-        score
-      }
-      small {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        rank
-        score
-      }
-    }
-    ...modifiersFragment
-  }
-`

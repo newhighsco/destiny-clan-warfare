@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { Link } from 'react-static'
 import { LogoIcon } from '../logo/Logo'
 import Credit from '../credit/Credit'
 

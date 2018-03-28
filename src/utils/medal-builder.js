@@ -1,6 +1,5 @@
 const numberToWords = require('number-to-words')
 const sentenceCase = require('sentence-case')
-const camelcaseKeys = require(`camelcase-keys`)
 
 const build = (rank, tier, division) => {
   var place
@@ -44,7 +43,6 @@ const embellishLeaderboard = (leaderboard, division) => {
 
 const parseMedals = (input, type, minimumTier) => {
   minimumTier = minimumTier || 0
-  const casingOptions = { deep: true }
   const output = []
   const parseMedal = (medal, type) => {
     return {
@@ -59,7 +57,7 @@ const parseMedals = (input, type, minimumTier) => {
   }
 
   input.map(medal => {
-    const parsed = parseMedal(camelcaseKeys(medal, casingOptions), type)
+    const parsed = parseMedal(medal, type)
     const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
 
     if (parsed.tier <= minimumTier) return

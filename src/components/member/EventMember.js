@@ -25,6 +25,7 @@ class EventMember extends Component {
     const hasLeaderboard = leaderboard && leaderboard.length > 0
     const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
+    const canonical = urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -49,7 +50,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)}`,
+            '@id': `${process.env.GATSBY_SITE_URL}${canonical}`,
             name: member.name
           }
         }
@@ -57,7 +58,7 @@ class EventMember extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer canonical={canonical}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />

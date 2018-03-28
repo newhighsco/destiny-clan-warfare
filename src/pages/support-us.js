@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouteData } from 'react-static'
 import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -17,7 +18,7 @@ class SupportUsPage extends Component {
     const description = `Ways to support ${constants.meta.name}`
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -58,4 +59,4 @@ class SupportUsPage extends Component {
   }
 }
 
-export default SupportUsPage
+export default withRouteData(SupportUsPage)

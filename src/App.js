@@ -66,7 +66,7 @@ class App extends Component {
             <meta property="og:site_name" content={name} />
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
-            <meta property="og:image" content={`${process.env.GATSBY_SITE_URL}${ogImage}`} />
+            <meta property="og:image" content={ogImage} />
             <meta name="twitter:card" content="summary" />
             <meta name="twitter:domain" content={process.env.GATSBY_SITE_URL} />
             <meta name="twitter:site" content={handle} />

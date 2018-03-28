@@ -18,7 +18,7 @@ class MembersPage extends Component {
     var clanCount = 0
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />

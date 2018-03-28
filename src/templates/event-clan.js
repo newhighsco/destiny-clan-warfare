@@ -107,7 +107,7 @@ class EventClanTemplate extends Component {
     }
 
     return (
-      <PageContainer>
+      <PageContainer {...this.props}>
         <Helmet>
           <title>{title}</title>
           <meta name="description" content={description} />

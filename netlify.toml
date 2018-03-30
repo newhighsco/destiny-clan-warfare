@@ -8,8 +8,8 @@
   ENABLE_PREVIOUS_LEADERBOARDS = "true"
 
 [context.branch-deploy.environment]
-  ENABLE_IDENTITY = "true"
-  ENABLE_IDENTITY_LOGIN = "true"
+  ENABLE_IDENTITY = "false"
+  ENABLE_IDENTITY_LOGIN = "false"
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   SITE_URL = "https://beta.destinyclanwarfare.com"
   DISALLOW_ROBOTS = "true"

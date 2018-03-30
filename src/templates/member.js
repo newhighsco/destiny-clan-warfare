@@ -15,14 +15,16 @@ class MemberTemplate extends Component {
     }
   }
 
-  async componentDidMount () {
+  componentDidMount () {
     const { match } = this.props
     const memberId = match.params.member
-    const data = await prefetch(urlBuilder.profileRootUrl)
 
-    this.setState({
-      member: data.data.allMember.find(({ id }) => id === memberId)
-    })
+    prefetch(urlBuilder.profileRootUrl)
+      .then(({ data }) => {
+        this.setState({
+          member: data.allMember.find(({ id }) => id === memberId)
+        })
+      })
   }
 
   render () {

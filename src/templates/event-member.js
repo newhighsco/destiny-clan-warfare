@@ -19,11 +19,13 @@ class EventMemberTemplate extends Component {
     const { match } = this.props
     const clanId = match.params.clan
     const memberId = match.params.member
-    const data = await prefetch(urlBuilder.clanUrl(clanId))
 
-    this.setState({
-      member: data.data.allMember.find(({ id }) => id === memberId)
-    })
+    prefetch(urlBuilder.clanUrl(clanId))
+      .then(({ data }) => {
+        this.setState({
+          member: data.allMember.find(({ id }) => id === memberId)
+        })
+      })
   }
 
   render () {

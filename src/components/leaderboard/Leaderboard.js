@@ -201,7 +201,7 @@ Leaderboard.propTypes = {
   sorting: PropTypes.object,
   cutout: PropTypes.bool,
   className: PropTypes.string,
-  prefetch: PropTypes.bool
+  prefetch: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ])
 }
 
 export default Leaderboard

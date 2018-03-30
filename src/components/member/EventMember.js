@@ -21,7 +21,7 @@ class EventMember extends Component {
   render () {
     const { member } = this.props
     const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null
-    const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
+    const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
     const hasLeaderboard = leaderboard && leaderboard.length > 0
     const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
@@ -34,7 +34,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl()}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl()}`,
             name: constants.kicker.current
           }
         },
@@ -42,7 +42,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))}`,
             name: member.clanName
           }
         },
@@ -50,7 +50,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${canonical}`,
+            '@id': `${process.env.SITE_URL}${canonical}`,
             name: member.name
           }
         }

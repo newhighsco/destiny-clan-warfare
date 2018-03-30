@@ -31,7 +31,7 @@ class EventClanTemplate extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl()}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl()}`,
             name: constants.kicker.current
           }
         },
@@ -39,7 +39,7 @@ class EventClanTemplate extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.currentEventUrl(data.clan.id.substring(constants.prefix.hash.length))}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(data.clan.id.substring(constants.prefix.hash.length))}`,
             name: data.clan.name
           }
         }

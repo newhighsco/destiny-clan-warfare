@@ -26,8 +26,8 @@ class IndexPage extends Component {
       '@context': 'http://schema.org',
       '@type': 'Organization',
       name: constants.meta.name,
-      url: process.env.GATSBY_SITE_URL,
-      logo: `${process.env.GATSBY_SITE_URL}${LogoImage}`,
+      url: process.env.SITE_URL,
+      logo: `${process.env.SITE_URL}${LogoImage}`,
       sameAs: [
         constants.social.twitter
       ]

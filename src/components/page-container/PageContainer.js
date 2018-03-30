@@ -9,7 +9,7 @@ import BungieStatus from '../bungie/Status'
 import './PageContainer.styl'
 
 const PageContainer = ({ children, canonical }) => {
-  const canonicalUrl = `${process.env.GATSBY_SITE_URL}${canonical}`
+  const canonicalUrl = `${process.env.SITE_URL}${canonical}`
 
   return (
     <Fragment>

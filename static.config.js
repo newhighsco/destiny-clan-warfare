@@ -23,8 +23,8 @@ const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
 
 const distPath = 'public'
-const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
-const enablePreviousLeaderboards = JSON.parse(process.env.GATSBY_ENABLE_PREVIOUS_LEADERBOARDS)
+const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
+const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADERBOARDS)
 var currentEvent
 
 export default {
@@ -36,7 +36,7 @@ export default {
   devServer: {
     port: 9000
   },
-  siteRoot: process.env.GATSBY_SITE_URL,
+  siteRoot: process.env.SITE_URL,
   getSiteData: () => ({
     title: constants.meta.title
   }),
@@ -780,7 +780,7 @@ export default {
     const feedOptions = {
       title: constants.meta.title,
       description: constants.meta.description,
-      site_url: process.env.GATSBY_SITE_URL
+      site_url: process.env.SITE_URL
     }
     var feed = new RSS(feedOptions)
 
@@ -854,10 +854,10 @@ export default {
     const robots = [
       'User-agent: *'
     ]
-    const disallowRobots = JSON.parse(process.env.GATSBY_DISALLOW_ROBOTS)
+    const disallowRobots = JSON.parse(process.env.DISALLOW_ROBOTS)
 
     if (disallowRobots) robots.push('Disallow: /')
-    robots.push(`Sitemap: ${process.env.GATSBY_SITE_URL}/sitemap.xml`)
+    robots.push(`Sitemap: ${process.env.SITE_URL}/sitemap.xml`)
 
     await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
 

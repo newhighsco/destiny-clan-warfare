@@ -4,7 +4,7 @@ const constants = require('./constants')
 const bungie = axios.create({
   baseURL: constants.bungie.apiUrl,
   headers: {
-    'X-API-Key': process.env.GATSBY_BUNGIE_API_KEY
+    'X-API-Key': process.env.BUNGIE_API_KEY
   }
 })
 

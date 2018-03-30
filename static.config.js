@@ -14,6 +14,7 @@ const autoprefixer = require('autoprefixer')
 const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const poststylus = require('poststylus')
+const Visualizer = require('webpack-visualizer-plugin')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -846,6 +847,8 @@ export default {
         ]
       }
     ]
+
+    config.plugins.push(new Visualizer({ filename: 'webpack-stats.html' }))
 
     return config
   },

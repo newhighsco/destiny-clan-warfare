@@ -22,7 +22,7 @@ module.exports = (allEvents, kicker) => {
 
     if (allowedKickers.indexOf(kicker) === -1) return
 
-    const url = `${process.env.GATSBY_SITE_URL}${node.path}`
+    const url = `${process.env.SITE_URL}${node.path}`
     const description = node.description
     const content = `${kicker}: ${url} - ${description}`
 

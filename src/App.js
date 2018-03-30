@@ -14,8 +14,8 @@ import ogImage from './images/favicon-1200x1200.png'
 import './stylus/index.styl'
 
 const constants = require('./utils/constants')
-const enableIdentity = JSON.parse(process.env.GATSBY_ENABLE_IDENTITY)
-const enableIdentityLogin = JSON.parse(process.env.GATSBY_ENABLE_IDENTITY_LOGIN)
+const enableIdentity = JSON.parse(process.env.ENABLE_IDENTITY)
+const enableIdentityLogin = JSON.parse(process.env.ENABLE_IDENTITY_LOGIN)
 const urlBuilder = require('./utils/url-builder')
 
 class App extends Component {
@@ -68,7 +68,7 @@ class App extends Component {
             <meta property="og:description" content={description} />
             <meta property="og:image" content={ogImage} />
             <meta name="twitter:card" content="summary" />
-            <meta name="twitter:domain" content={process.env.GATSBY_SITE_URL} />
+            <meta name="twitter:domain" content={process.env.SITE_URL} />
             <meta name="twitter:site" content={handle} />
             <meta name="twitter:creator" content={handle} />
           </Helmet>

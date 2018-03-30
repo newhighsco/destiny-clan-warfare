@@ -13,7 +13,7 @@ const api = require('../../utils/api-helper').proxy
 const bungie = require('../../utils/bungie-helper')
 const apiStatus = require('../../utils/api-status')
 const action = `${constants.server.baseUrl}Home/AddClan/`
-const redirectUrl = `${process.env.GATSBY_SITE_URL}/thanks`
+const redirectUrl = `${process.env.SITE_URL}/thanks`
 
 class Enrollment extends Component {
   constructor (props) {

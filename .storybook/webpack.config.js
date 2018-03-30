@@ -5,12 +5,6 @@ const responsiveGrid = require('responsive-grid')
 const poststylus = require('poststylus')
 
 module.exports = {
-  resolve: {
-    alias: {
-      react: 'gatsby-plugin-react-next/node_modules/react',
-      'react-dom': 'gatsby-plugin-react-next/node_modules/react-dom'
-    }
-  },
   module: {
     rules: [
       {
@@ -42,16 +36,6 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif|eot|ttf|woff(2)?)$/,
         use: [ 'file-loader' ]
-      },
-      {
-        // ignore gatsby-link's global `__loader` variable
-        test: require.resolve('gatsby-link'),
-        use: 'imports-loader?___loader=>{ enqueue: () => null }'
-      },
-      {
-        // ignore graphql exports in components
-        test: /\.js$/,
-        use: 'imports-loader?graphql=>(() => null)'
       }
     ]
   }

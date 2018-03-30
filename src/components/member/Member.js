@@ -36,7 +36,7 @@ class Member extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${kickerHref}`,
+            '@id': `${process.env.SITE_URL}${kickerHref}`,
             name: member.clanName
           }
         },
@@ -44,7 +44,7 @@ class Member extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${canonical}`,
+            '@id': `${process.env.SITE_URL}${canonical}`,
             name: member.name
           }
         }

@@ -15,18 +15,18 @@ class EventMemberTemplate extends Component {
     }
   }
 
-  // componentDidMount () {
-  //   const { match } = this.props
-  //   const clanId = match.params.clan
-  //   const memberId = match.params.member
+  componentDidMount () {
+    const { match } = this.props
+    const clanId = match.params.clan
+    const memberId = match.params.member
 
-  //   prefetch(urlBuilder.clanUrl(clanId))
-  //     .then(({ data }) => {
-  //       this.setState({
-  //         member: data.allMember.find(({ id }) => id === memberId)
-  //       })
-  //     })
-  // }
+    prefetch(urlBuilder.clanUrl(clanId))
+      .then(({ data }) => {
+        this.setState({
+          member: data.allMember.find(({ id }) => id === memberId)
+        })
+      })
+  }
 
   render () {
     const { member } = this.state

@@ -78,13 +78,12 @@ class ClanTemplate extends Component {
                   data={previousLeaderboard}
                   columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
                   sorting={{ score: 'DESC' }}
-                  prefetch={false}
                 />
               </Tab>
             }
             {totals.length > 0 &&
               <Tab name="Overall">
-                <Leaderboard data={totals} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} prefetch={false} />
+                <Leaderboard data={totals} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} />
               </Tab>
             }
           </TabContainer>

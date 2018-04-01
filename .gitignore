@@ -19,5 +19,6 @@ Thumbs.db
 node_modules
 npm-debug.log
 public/
+.env*
 .eslintcache
 yarn-error.log

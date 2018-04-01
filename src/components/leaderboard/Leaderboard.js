@@ -40,7 +40,7 @@ class Leaderboard extends Component {
 
   render () {
     var { data } = this.props
-    const { columns, cutout, className, prefetch } = this.props
+    const { columns, cutout, className, prefetch, stateKey } = this.props
     const { sorting } = this.state
     const baseClassName = 'leaderboard'
 
@@ -90,100 +90,111 @@ class Leaderboard extends Component {
 
     return (
       <div className={classNames(baseClassName, className, cutout && `${baseClassName}--cutout`)}>
-        {data.map((item, i) => (
-          <div key={i} id={item.id} className="leaderboard__row" data-result={showGameDetails && item.game.result}>
-            {(showIcons || showNames) &&
-              <div className="leaderboard__header">
-                {showIcons &&
-                  <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
-                }
-                {showNames &&
-                  <Fragment>
-                    { showMedal &&
-                      <Medal {...item.medal} size="small" align="left" className="leaderboard__medal" />
-                    }
-                    { showPlatforms &&
-                      <PlatformList platforms={item.platforms} size="small" className="leaderboard__platforms" />
-                    }
-                    {item.path ? (
-                      <Link
-                        to={item.path}
-                        prefetch={prefetch}
-                        className="leaderboard__name leaderboard__link"
-                        dangerouslySetInnerHTML={{ __html: item.name }}
-                      />
-                    ) : (
-                      <div
-                        className="leaderboard__name leaderboard__link"
-                        dangerouslySetInnerHTML={{ __html: item.name }}
-                      />
-                    )}
-                    {showNameTags &&
-                      <TagList tags={item.tags} className="leaderboard__tags" />
-                    }
-                    {showClanTag &&
-                      <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}>{item.clanTag}</ClanTag>
-                    }
-                  </Fragment>
-                }
-              </div>
-            }
-            {(keys.length > 0 || showGameDetails) &&
-              <div className="leaderboard__body">
-                <div className="leaderboard__stats">
-                  {showGameDetails &&
-                    <div className="leaderboard__stat leaderboard__stat--game">
-                      {item.game.isExternal ? (
-                        <a href={item.game.path} target="_blank" rel="noopener noreferrer">
-                          <span>{item.game.type}</span>
-                          <Icon className="leaderboard__external" a11yText="View permalink">
-                            <ExternalSvg />
-                          </Icon>
-                        </a>
+        {data.map((item, i) => {
+          var state = {}
+
+          if (stateKey) {
+            state[stateKey] = item
+          }
+
+          return (
+            <div key={i} id={item.id} className="leaderboard__row" data-result={showGameDetails && item.game.result}>
+              {(showIcons || showNames) &&
+                <div className="leaderboard__header">
+                  {showIcons &&
+                    <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
+                  }
+                  {showNames &&
+                    <Fragment>
+                      { showMedal &&
+                        <Medal {...item.medal} size="small" align="left" className="leaderboard__medal" />
+                      }
+                      { showPlatforms &&
+                        <PlatformList platforms={item.platforms} size="small" className="leaderboard__platforms" />
+                      }
+                      {item.path ? (
+                        <Link
+                          to={{
+                            pathname: item.path,
+                            state: state
+                          }}
+                          prefetch={prefetch}
+                          className="leaderboard__name leaderboard__link"
+                          dangerouslySetInnerHTML={{ __html: item.name }}
+                        />
                       ) : (
-                        <Link to={item.game.path} prefetch={prefetch} className="leaderboard__link">
-                          {item.game.type}
-                        </Link>
+                        <div
+                          className="leaderboard__name leaderboard__link"
+                          dangerouslySetInnerHTML={{ __html: item.name }}
+                        />
                       )}
-                      <RelativeDate className="leaderboard__stat-suffix" start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />
-                    </div>
+                      {showNameTags &&
+                        <TagList tags={item.tags} className="leaderboard__tags" />
+                      }
+                      {showClanTag &&
+                        <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}>{item.clanTag}</ClanTag>
+                      }
+                    </Fragment>
                   }
-                  {showMedals &&
-                    <div className="leaderboard__stat leaderboard__stat--medals">
-                      <MedalList size="x-small" align="left" medals={item.medals} />
-                    </div>
-                  }
-                  {showModifiers &&
-                    <div className="leaderboard__stat leaderboard__stat--modifiers">
-                      <ModifierList size="small" align="right" modifiers={item.modifiers} />
-                    </div>
-                  }
-                  {keys.map((key, i) => {
-                    if (showBonuses && key === 'bonuses') {
-                      return item.bonuses.map((bonus, i) => {
-                        const bonusKey = bonus.shortName.toLowerCase()
-
-                        if (keys.indexOf(bonusKey) !== -1) return null
-
-                        return (
-                          <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonusKey}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
-                        )
-                      })
-                    }
-
-                    var value = item[key] !== null ? `${item[key]}` : constants.blank
-
-                    if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
-
-                    return (
-                      <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>
-                    )
-                  })}
                 </div>
-              </div>
-            }
-          </div>
-        ))}
+              }
+              {(keys.length > 0 || showGameDetails) &&
+                <div className="leaderboard__body">
+                  <div className="leaderboard__stats">
+                    {showGameDetails &&
+                      <div className="leaderboard__stat leaderboard__stat--game">
+                        {item.game.isExternal ? (
+                          <a href={item.game.path} target="_blank" rel="noopener noreferrer">
+                            <span>{item.game.type}</span>
+                            <Icon className="leaderboard__external" a11yText="View permalink">
+                              <ExternalSvg />
+                            </Icon>
+                          </a>
+                        ) : (
+                          <Link to={item.game.path} prefetch={prefetch} className="leaderboard__link">
+                            {item.game.type}
+                          </Link>
+                        )}
+                        <RelativeDate className="leaderboard__stat-suffix" start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />
+                      </div>
+                    }
+                    {showMedals &&
+                      <div className="leaderboard__stat leaderboard__stat--medals">
+                        <MedalList size="x-small" align="left" medals={item.medals} />
+                      </div>
+                    }
+                    {showModifiers &&
+                      <div className="leaderboard__stat leaderboard__stat--modifiers">
+                        <ModifierList size="small" align="right" modifiers={item.modifiers} />
+                      </div>
+                    }
+                    {keys.map((key, i) => {
+                      if (showBonuses && key === 'bonuses') {
+                        return item.bonuses.map((bonus, i) => {
+                          const bonusKey = bonus.shortName.toLowerCase()
+
+                          if (keys.indexOf(bonusKey) !== -1) return null
+
+                          return (
+                            <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonusKey}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
+                          )
+                        })
+                      }
+
+                      var value = item[key] !== null ? `${item[key]}` : constants.blank
+
+                      if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
+
+                      return (
+                        <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>
+                      )
+                    })}
+                  </div>
+                </div>
+              }
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -201,7 +212,8 @@ Leaderboard.propTypes = {
   sorting: PropTypes.object,
   cutout: PropTypes.bool,
   className: PropTypes.string,
-  prefetch: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ])
+  prefetch: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ]),
+  stateKey: PropTypes.string
 }
 
 export default Leaderboard

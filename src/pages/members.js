@@ -45,7 +45,7 @@ class MembersPage extends Component {
                       </li>
                     }
                     <li>
-                      <Link to={node.path}>{node.name}</Link>
+                      <Link to={node.path} prefetch={false}>{node.name}</Link>
                     </li>
                   </Fragment>
                 )

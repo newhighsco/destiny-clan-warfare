@@ -133,6 +133,8 @@ class EventClanTemplate extends Component {
             data={leaderboard}
             columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
             sorting={{ score: 'DESC' }}
+            prefetch={false}
+            stateKey="member"
           />
         }
       </PageContainer>

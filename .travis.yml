@@ -3,13 +3,7 @@ sudo: false
 node_js:
   - "8"
 env:
-  - ENABLE_IDENTITY=false
-  - ENABLE_IDENTITY_LOGIN=false
-  - BUNGIE_API_KEY=4405d43938494aefb9e6c8c09e9a146f
-  - SITE_URL=https://backup.destinyclanwarfare.com
-  - DISALLOW_ROBOTS=true
-  - ENABLE_MATCH_HISTORY=true
-  - ENABLE_PREVIOUS_LEADERBOARDS=true
+  - ENABLE_IDENTITY=false ENABLE_IDENTITY_LOGIN=false BUNGIE_API_KEY=4405d43938494aefb9e6c8c09e9a146f SITE_URL=https://backup.destinyclanwarfare.com DISALLOW_ROBOTS=true ENABLE_MATCH_HISTORY=true ENABLE_PREVIOUS_LEADERBOARDS=true
 cache:
   yarn: true
   directories:

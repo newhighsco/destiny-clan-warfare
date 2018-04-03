@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import { withRouteData, Link, Head } from 'react-static'
+import React, { Component } from 'react'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
-import Prose from '../components/prose/Prose'
-import ClanTag from '../components/clan-tag/ClanTag'
+import Leaderboard from '../components/leaderboard/Leaderboard'
 
 class MembersPage extends Component {
   render () {
@@ -13,6 +12,19 @@ class MembersPage extends Component {
     const title = 'Members'
     const description = 'All clan members waging war against other clans in Destiny 2'
     var currentClanId
+    const leaderboard = members.filter(member => {
+      if (member.clanId !== currentClanId) {
+        currentClanId = member.clanId
+        return true
+      }
+
+      return false
+    }).map(member => ({
+      name: member.clanName,
+      path: member.clanPath,
+      clanTag: member.clanTag,
+      clanId: member.clanId
+    }))
 
     return (
       <PageContainer>
@@ -22,30 +34,10 @@ class MembersPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Head>
-        <Card>
+        <Card cutout center>
           <Lockup primary center kicker="All" heading="Members" />
-          <Prose>
-            <ul className="list--unstyled list--comma">
-              {members.map(node => {
-                var showDivider = false
-                if (node.clanId !== currentClanId) {
-                  currentClanId = node.clanId
-                  showDivider = true
-                }
-
-                return (
-                  <Fragment key={node.id}>
-                    {showDivider &&
-                      <li>
-                        <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath} prefetch={false}>{node.clanName}</Link>
-                      </li>
-                    }
-                  </Fragment>
-                )
-              })}
-            </ul>
-          </Prose>
         </Card>
+        <Leaderboard cutout data={leaderboard} prefetch={false} multiColumn />
       </PageContainer>
     )
   }

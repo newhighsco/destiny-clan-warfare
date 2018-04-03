@@ -24,8 +24,9 @@ module.exports = (allEvents, kicker) => {
     if (allowedKickers.indexOf(kicker) === -1) return
 
     const url = `${process.env.SITE_URL}${urlBuilder.eventUrl(node.id)}`
+    const canonicalUrl = `${process.env.SITE_URL}${node.path}`
     const description = node.description
-    const content = `${kicker}: ${url} - ${description}`
+    const content = `${kicker}: ${canonicalUrl} - ${description}`
 
     allowedEvents.push({
       title: `${node.name} - ${kicker}`,

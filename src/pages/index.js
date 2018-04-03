@@ -33,7 +33,7 @@ class IndexPage extends Component {
     }
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Head>

@@ -23,7 +23,7 @@ class ClansPage extends Component {
     const leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'clanTag', 'clanId' ]
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />

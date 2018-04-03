@@ -41,7 +41,7 @@ class EventTemplate extends Component {
     }
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />

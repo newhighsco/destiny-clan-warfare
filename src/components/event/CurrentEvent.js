@@ -32,7 +32,7 @@ class CurrentEvent extends Component {
     var largeLeaderboard = event.leaderboards.large
     var mediumLeaderboard = event.leaderboards.medium
     var smallLeaderboard = event.leaderboards.small
-    const hasLeaderboards = largeLeaderboard.length > 0 || mediumLeaderboard.length > 0 || smallLeaderboard.length > 0
+    const hasLeaderboards = largeLeaderboard.length > 0 && mediumLeaderboard.length > 0 && smallLeaderboard.length > 0
     const summaryCount = 3
     var leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'rank', 'score', 'active', 'size' ]
 

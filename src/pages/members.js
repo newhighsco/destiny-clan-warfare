@@ -38,7 +38,7 @@ class MembersPage extends Component {
                   <Fragment key={node.id}>
                     {showDivider &&
                       <li>
-                        <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath}>{node.clanName}</Link>
+                        <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath} prefetch={false}>{node.clanName}</Link>
                       </li>
                     }
                   </Fragment>

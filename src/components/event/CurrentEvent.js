@@ -32,8 +32,9 @@ class CurrentEvent extends Component {
     var largeLeaderboard = event.leaderboards.large
     var mediumLeaderboard = event.leaderboards.medium
     var smallLeaderboard = event.leaderboards.small
-    const hasLeaderboards = largeLeaderboard.length > 0 || mediumLeaderboard.length > 0 || smallLeaderboard.length > 0
+    const hasLeaderboards = largeLeaderboard.length > 0 && mediumLeaderboard.length > 0 && smallLeaderboard.length > 0
     const summaryCount = 3
+    var leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'rank', 'score', 'active', 'size' ]
 
     if (summary) {
       largeLeaderboard = largeLeaderboard.slice(0, summaryCount)
@@ -64,17 +65,17 @@ class CurrentEvent extends Component {
           <TabContainer id={!summary ? 'leaderboard' : null} cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} />
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {mediumLeaderboard.length > 0 &&
               <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} />
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {smallLeaderboard.length > 0 &&
               <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} />
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
           </TabContainer>
@@ -95,15 +96,3 @@ CurrentEvent.propTypes = {
 }
 
 export default CurrentEvent
-
-export const componentFragment = graphql`
-  fragment currentEventFragment on Event {
-    path
-    name
-    description
-    startDate
-    endDate
-    ...leaderboardFragment
-    ...modifiersFragment
-  }
-`

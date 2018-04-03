@@ -20,7 +20,9 @@ class Tooltip extends Component {
   }
 
   componentDidUpdate () {
-    this.state.isActive
+    const { isActive } = this.state
+
+    isActive
       ? document.addEventListener('keydown', this.handleKeyDown)
       : document.removeEventListener('keydown', this.handleKeyDown)
   }
@@ -47,9 +49,10 @@ class Tooltip extends Component {
 
   render () {
     const { children, className, clickOutsideToClose, enableHover, heading, text } = this.props
+    const { isActive, align, valign } = this.state
     const TooltipClassNames = classNames(
       'tooltip',
-      { 'is-active': this.state.isActive },
+      { 'is-active': isActive },
       className
     )
     const hasContent = heading || text
@@ -65,9 +68,9 @@ class Tooltip extends Component {
           {...enableHover ? {
             onMouseOver: this.showTooltip,
             onMouseOut: this.hideTooltip,
-            onTouchEnd: this.state.isActive ? this.hideTooltip : this.showTooltip
+            onTouchEnd: isActive ? this.hideTooltip : this.showTooltip
           } : {
-            onClick: this.state.isActive ? this.hideTooltip : this.showTooltip
+            onClick: isActive ? this.hideTooltip : this.showTooltip
           }}
           >
           {children}
@@ -75,12 +78,12 @@ class Tooltip extends Component {
         <span
           className={classNames(
             'tooltip__content',
-            `tooltip__content--${this.state.align}`,
-            `tooltip__content--${this.state.valign}`,
-            { 'is-vhidden': !this.state.isActive },
+            `tooltip__content--${align}`,
+            `tooltip__content--${valign}`,
+            { 'is-vhidden': !isActive },
             { 'is-hidden': !hasContent }
           )}
-          {...this.state.isActive && {
+          {...isActive && {
             tabIndex: 0,
             onBlur: this.hideTooltip
           }}
@@ -96,7 +99,7 @@ class Tooltip extends Component {
             />
           }
         </span>
-        {this.state.isActive && clickOutsideToClose && !enableHover &&
+        {isActive && clickOutsideToClose && !enableHover &&
           <span
             className="tooltip__backdrop"
             onClick={this.hideTooltip}

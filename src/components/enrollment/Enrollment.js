@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Link from 'gatsby-link'
+import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
@@ -13,7 +13,7 @@ const api = require('../../utils/api-helper').proxy
 const bungie = require('../../utils/bungie-helper')
 const apiStatus = require('../../utils/api-status')
 const action = `${constants.server.baseUrl}Home/AddClan/`
-const redirectUrl = `${process.env.GATSBY_SITE_URL}/thanks`
+const redirectUrl = `${process.env.SITE_URL}/thanks`
 
 class Enrollment extends Component {
   constructor (props) {
@@ -22,7 +22,8 @@ class Enrollment extends Component {
     const status = apiStatus()
 
     this.state = {
-      active: status.enrollmentOpen && status.bungieStatus !== constants.bungie.disabledStatusCode,
+      active: false,
+      open: status.enrollmentOpen && status.bungieStatus !== constants.bungie.disabledStatusCode,
       name: '',
       groups: [],
       selectedGroup: null
@@ -33,10 +34,12 @@ class Enrollment extends Component {
   }
 
   componentDidMount () {
+    this.setState({ active: true })
+
     api(`Clan/AcceptingNewClans`)
       .then(({ data }) => {
         localStorage.setItem('enrollmentOpen', data)
-        this.setState({ active: data })
+        this.setState({ open: data })
       })
       .catch(err => console.log(err))
   }
@@ -97,19 +100,11 @@ class Enrollment extends Component {
 
   render () {
     const { clans } = this.props
-    const { active, groups, selectedGroup } = this.state
+    const { active, open, groups, selectedGroup } = this.state
     const id = 'enroll'
     const baseClassName = 'enrollment'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
-
-    if (!active) {
-      return (
-        <div id={id}>
-          <Notification>Enrollment for new clans is currently closed.</Notification>
-        </div>
-      )
-    }
 
     return (
       <form ref="form" id={id} className={baseClassName} action={action} method="post" onSubmit={this.handleEnroll}>
@@ -122,10 +117,14 @@ class Enrollment extends Component {
         </label>
         <div className="field" id="field--clan">
           <div className={classNames('field__answer', `${baseClassName}__field`)}>
-            <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
+            {open ? (
+              <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
+            ) : (
+              <Notification>Enrollment for new clans is currently closed.</Notification>
+            )}
           </div>
         </div>
-        <ButtonGroup className={active ? 'is-vhidden' : null}>
+        <ButtonGroup className={!open || active ? 'is-vhidden' : null}>
           <Button solid type="submit">Enroll clan</Button>
         </ButtonGroup>
         {groups.length > 0 &&
@@ -149,7 +148,7 @@ class Enrollment extends Component {
             })}
           </ul>
         }
-        {active &&
+        {(!open || active) &&
           <br />
         }
       </form>

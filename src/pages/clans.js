@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -10,64 +10,37 @@ const constants = require('../utils/constants')
 
 class ClansPage extends Component {
   render () {
-    const { data } = this.props
-    const leaderboard = data.allClan.edges.map(({ node }) => {
+    const { clans } = this.props
+    const leaderboard = clans.map(clan => {
       return {
-        ...node,
-        clanId: `${constants.prefix.hash}${node.clanId}`
+        ...clan,
+        clanTag: clan.tag,
+        clanId: `${constants.prefix.hash}${clan.id}`
       }
     })
     const title = 'Clans'
     const description = 'All clans battling their way to the top of the Destiny 2 clan leaderboard'
+    const leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'clanTag', 'clanId' ]
 
     return (
       <PageContainer>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-        </Helmet>
+        </Head>
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Clans" />
         </Card>
-        <Leaderboard cutout data={leaderboard} />
+        <Leaderboard cutout data={leaderboard} columns={leaderboardColumns} prefetch={false} />
       </PageContainer>
     )
   }
 }
 
 ClansPage.propTypes = {
-  data: PropTypes.object
+  clans: PropTypes.array
 }
 
-export default ClansPage
-
-export const pageQuery = graphql`
-  query ClansPageQuery {
-    allClan(sort: { fields: [ nameSortable ] }) {
-      edges {
-        node {
-          path
-          platforms {
-            id
-            size
-            active
-          }
-          name
-          color
-          clanTag: tag
-          clanId: id
-          foreground {
-            color
-            icon
-          }
-          background {
-            color
-            icon
-          }
-        }
-      }
-    }
-  }
-`
+export default withRouteData(ClansPage)

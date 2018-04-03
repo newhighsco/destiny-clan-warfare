@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
+import { Head } from 'react-static'
 import PageContainer from '../page-container/PageContainer'
 import Card from '../card/Card'
 import Avatar from '../avatar/Avatar'
@@ -21,10 +21,11 @@ class EventMember extends Component {
   render () {
     const { member } = this.props
     const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null
-    const enableMatchHistory = JSON.parse(process.env.GATSBY_ENABLE_MATCH_HISTORY)
+    const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
     const hasLeaderboard = leaderboard && leaderboard.length > 0
     const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
+    const canonicalUrl = `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)}`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -33,7 +34,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId)}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl()}`,
             name: constants.kicker.current
           }
         },
@@ -41,7 +42,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))}`,
             name: member.clanName
           }
         },
@@ -49,7 +50,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length), member.id)}`,
+            '@id': canonicalUrl,
             name: member.name
           }
         }
@@ -58,14 +59,16 @@ class EventMember extends Component {
 
     return (
       <PageContainer>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <link rel="canonical" href={canonicalUrl} />
+          <meta property="og:url" key="ogUrl" content={canonicalUrl} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Helmet>
-        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(member.currentEventId)}>
+        </Head>
+        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
           <RelativeDate status />
         </Lockup>
         <Fragment>
@@ -74,7 +77,7 @@ class EventMember extends Component {
               <Avatar cutout outline icon={member.icon} />
             }
             <TagList tags={member.tags} className="card__tags" />
-            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.eventUrl(member.currentEventId, member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
             <PlatformList platforms={member.platforms} />
             <StatList stats={member.leaderboard} />
             {!hasLeaderboard &&

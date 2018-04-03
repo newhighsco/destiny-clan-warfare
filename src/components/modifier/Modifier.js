@@ -95,21 +95,3 @@ export {
   Modifier,
   ModifierList
 }
-
-export const componentFragment = graphql`
-  fragment modifiersFragment on Event {
-    modifiers {
-      id
-      name
-      description
-      scoringModifier
-      scoringBonus
-      multiplierModifier
-      multiplierBonus
-      creator {
-        name
-        clanTag
-      }
-    }
-  }
-`

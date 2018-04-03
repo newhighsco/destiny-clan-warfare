@@ -8,10 +8,15 @@ const constants = {
     title: 'Destiny Clan Warfare - Band together, Guardians',
     description: 'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard',
     handle: '@destinyclanwar',
-    themeColor: '#404040'
+    themeColor: '#404040',
+    trackingId: 'UA-109161360-1'
   },
   blank: '-',
-  dateFormat: 'YYYY-MM-DD',
+  format: {
+    date: 'YYYY-MM-DD',
+    humanReadable: 'YYYY-MM-DD HH:mm [UTC]',
+    machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
+  },
   division: {
     large: 'Company',
     medium: 'Platoon',

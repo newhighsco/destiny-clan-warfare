@@ -6,8 +6,9 @@ import Tooltip from '../tooltip/Tooltip'
 import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
+const shortNumber = require('short-number')
 const constants = require('../../utils/constants')
-const kda = require('../../utils/kda')
+const statsHelper = require('../../utils/stats-helper')
 const sentence = require('../../utils/grammar').sentence
 const baseClassName = 'stat'
 
@@ -19,6 +20,8 @@ const Stat = ({ label, prefix, stat }) => {
     valueLabel = value.label
     value = value.stat || constants.blank
   }
+
+  value = isNaN(value) ? `${value}` : shortNumber(value)
 
   return (
     <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} valign="bottom" enableHover>
@@ -64,16 +67,29 @@ const StatList = ({ stats, top }) => {
   const kdKey = 'kd'
   const kdaKey = 'kda'
   const bonusesKey = 'bonuses'
+  const ppgKeys = [
+    'score',
+    'games'
+  ]
+  const ppgKey = 'ppg'
 
   if (keys.filter(key => kdaKeys.indexOf(key) !== -1).length === kdaKeys.length) {
     const index = keys.indexOf(kdaKeys[0])
 
     keys.splice(index, kdaKeys.length, kdKey, kdaKey)
-    stats[kdKey] = kda(stats, true)
-    stats[kdaKey] = kda(stats)
+    stats[kdKey] = statsHelper.kd(stats)
+    stats[kdaKey] = statsHelper.kda(stats)
+  }
+
+  if (keys.indexOf(ppgKey) === -1 && keys.filter(key => ppgKeys.indexOf(key) !== -1).length === ppgKeys.length) {
+    const index = keys.indexOf(ppgKeys[0])
+
+    keys.splice(index, 1, ppgKey, ppgKeys[0])
+    stats[ppgKey] = statsHelper.ppg(stats)
   }
 
   const bonusesIndex = keys.indexOf(bonusesKey)
+
   if (bonusesIndex !== -1) {
     const bonusesKeys = stats[bonusesKey].map(bonus => {
       const key = bonus.shortName
@@ -98,13 +114,16 @@ const StatList = ({ stats, top }) => {
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {keys.map((key, i) => {
         const label = sentenceCase(key)
-        const stat = stats[key] !== null ? stats[key] : constants.blank
+        // const stat = stats[key] !== null ? stats[key] : constants.blank
+        var stat = stats[key]
         var prefix
+
+        if (stat === null) stat = constants.blank
 
         if (top) {
           prefix = constants.prefix.most
 
-          if (key.match(/(kd|kda|score)/)) {
+          if (key.match(/(kd|kda|ppg|score)/)) {
             prefix = constants.prefix.highest
           }
         }

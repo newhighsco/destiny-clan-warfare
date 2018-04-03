@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Avatar from '../components/avatar/Avatar'
@@ -13,16 +13,20 @@ import { PlatformList } from '../components/platform/Platform'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
-const kda = require('../utils/kda')
+const statsHelper = require('../utils/stats-helper')
 const possessive = require('../utils/grammar').possessive
 
 class EventClanTemplate extends Component {
   render () {
-    const { data } = this.props
-
-    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
-    const title = `${data.clan.name} | ${constants.kicker.current}`
-    const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
+    const { clan, members } = this.props
+    const leaderboard = clan.leaderboard.filter(({ games }) => games > 0).map(node => {
+      return {
+        ...node,
+        member: members.find(({ id }) => id === node.id)
+      }
+    })
+    const title = `${clan.name} | ${constants.kicker.current}`
+    const description = `${possessive(clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -31,7 +35,7 @@ class EventClanTemplate extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.clan.currentEventId)}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl()}`,
             name: constants.kicker.current
           }
         },
@@ -39,8 +43,8 @@ class EventClanTemplate extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${urlBuilder.eventUrl(data.clan.currentEventId, data.clan.id.substring(constants.prefix.hash.length))}`,
-            name: data.clan.name
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(clan.id.substring(constants.prefix.hash.length))}`,
+            name: clan.name
           }
         }
       ]
@@ -52,6 +56,7 @@ class EventClanTemplate extends Component {
       'kd',
       'kda',
       'bonuses',
+      'ppg',
       'score'
     ]
     const stats = {}
@@ -64,7 +69,7 @@ class EventClanTemplate extends Component {
           const value = stat(top)
           const names = leaderboard.filter(row => stat(row) === value).map(row => row.name)
 
-          stats[column] = { stat: `${value}`, label: names }
+          stats[column] = { stat: value, label: names }
         }
       }
 
@@ -72,11 +77,15 @@ class EventClanTemplate extends Component {
         var stat = (row) => parseInt(row[column])
 
         if (column === 'kd') {
-          stat = (row) => kda(row, true)
+          stat = (row) => statsHelper.kd(row)
         }
 
         if (column === 'kda') {
-          stat = (row) => kda(row)
+          stat = (row) => statsHelper.kda(row)
+        }
+
+        if (column === 'ppg') {
+          stat = (row) => statsHelper.ppg(row)
         }
 
         var top = reduce(stat)
@@ -103,20 +112,20 @@ class EventClanTemplate extends Component {
 
     return (
       <PageContainer>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Helmet>
-        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.eventUrl(data.clan.currentEventId)}>
+        </Head>
+        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
           <RelativeDate status />
         </Lockup>
         <Card cutout={hasLeaderboard} center>
-          <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
-          <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <PlatformList platforms={data.clan.platforms} />
+          <Avatar cutout outline color={clan.color} foreground={clan.foreground} background={clan.background} />
+          <Lockup center reverse kicker={clan.motto} heading={clan.name} />
+          <PlatformList platforms={clan.platforms} />
           <StatList stats={stats} top />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
@@ -126,8 +135,10 @@ class EventClanTemplate extends Component {
           <Leaderboard
             cutout
             data={leaderboard}
-            columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'rank', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
             sorting={{ score: 'DESC' }}
+            prefetch={false}
+            stateKey="member"
           />
         }
       </PageContainer>
@@ -136,57 +147,8 @@ class EventClanTemplate extends Component {
 }
 
 EventClanTemplate.propTypes = {
-  data: PropTypes.object
+  clan: PropTypes.object,
+  members: PropTypes.array
 }
 
-export default EventClanTemplate
-
-export const pageQuery = graphql`
-  query EventClanTemplateQuery($id: String!) {
-    clan(id: { eq: $id }) {
-      path
-      platforms {
-        id
-        size
-        active
-      }
-      id
-      currentEventId
-      name
-      motto
-      color
-      foreground {
-        color
-        icon
-      }
-      background {
-        color
-        icon
-      }
-      leaderboard {
-        id
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        icon
-        tags {
-          name
-        }
-        games
-        wins
-        kills
-        deaths
-        assists
-        bonuses {
-          shortName
-          count
-        }
-        score
-      }
-    }
-  }
-`
+export default withRouteData(EventClanTemplate)

@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'gatsby-link'
+import { Link } from 'react-static'
 import { LogoLockup } from '../logo/Logo'
 import Icon from '../icon/Icon'
 import DiscordSvg from '../../images/discord.svg'

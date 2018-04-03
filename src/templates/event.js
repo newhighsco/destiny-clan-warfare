@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
@@ -14,59 +14,59 @@ const constants = require('../utils/constants')
 
 class EventTemplate extends Component {
   render () {
-    const { data } = this.props
-    const kicker = data.event.isCurrent ? constants.kicker.current : (data.event.isPast ? constants.kicker.past : constants.kicker.future)
-    const title = `${data.event.name} | ${kicker}`
-    const description = data.event.isCurrent
+    const { event } = this.props
+    const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? constants.kicker.past : constants.kicker.future)
+    const title = `${event.name} | ${kicker}`
+    const description = event.isCurrent
       ? `The divisional leaderboards for the current ${constants.meta.name} event`
-      : (data.event.isPast
-        ? `The results of past ${data.event.name} ${constants.meta.name} event`
-        : `Preview of upcoming ${data.event.name} ${constants.meta.name} event`)
-    const url = `${process.env.GATSBY_SITE_URL}${data.event.path}`
+      : (event.isPast
+        ? `The results of past ${event.name} ${constants.meta.name} event`
+        : `Preview of upcoming ${event.name} ${constants.meta.name} event`)
+    const url = `${process.env.SITE_URL}${event.path}`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'Event',
       url: url,
-      name: `${constants.meta.name} - ${data.event.name}`,
-      description: data.event.description,
-      startDate: moment(data.event.startDate).format(),
-      endDate: moment(data.event.endDate).format(),
-      image: `${process.env.GATSBY_SITE_URL}${SchemaImage}`,
+      name: `${constants.meta.name} - ${event.name}`,
+      description: event.description,
+      startDate: moment(event.startDate).format(),
+      endDate: moment(event.endDate).format(),
+      image: `${process.env.SITE_URL}${SchemaImage}`,
       location: {
         '@type': 'Place',
         name: constants.meta.name,
-        sameAs: process.env.GATSBY_SITE_URL,
+        sameAs: process.env.SITE_URL,
         address: url
       }
     }
 
     return (
       <PageContainer>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Helmet>
-        {data.event.isCurrent &&
+        </Head>
+        {event.isCurrent &&
           <Fragment>
             <Lockup primary center kicker={kicker}>
               <RelativeDate status />
             </Lockup>
-            <CurrentEvent event={data.event} />
+            <CurrentEvent event={event} />
           </Fragment>
         }
-        {data.event.isPast &&
+        {event.isPast &&
           <Fragment>
             <Lockup primary center kicker={kicker} />
-            <PreviousEvent event={data.event} />
+            <PreviousEvent event={event} />
           </Fragment>
         }
-        {data.event.isFuture &&
+        {event.isFuture &&
           <Fragment>
             <Lockup primary center kicker={kicker} />
-            <FutureEvent event={data.event} />
+            <FutureEvent event={event} />
           </Fragment>
         }
       </PageContainer>
@@ -75,46 +75,7 @@ class EventTemplate extends Component {
 }
 
 EventTemplate.propTypes = {
-  data: PropTypes.object
+  event: PropTypes.object
 }
 
-export default EventTemplate
-
-export const pageQuery = graphql`
-  query EventTemplateQuery($id: String!) {
-    event(id: { eq: $id }) {
-      path
-      name
-      description
-      startDate
-      endDate
-      isCurrent
-      isPast
-      isFuture
-      isCalculated
-      ...leaderboardFragment
-      results {
-        path
-        platforms {
-          id
-          size
-          active
-        }
-        name
-        color
-        foreground {
-          color
-          icon
-        }
-        background {
-          color
-          icon
-        }
-        division
-        score
-      }
-      ...modifiersFragment
-      ...eventMedalsFragment
-    }
-  }
-`
+export default withRouteData(EventTemplate)

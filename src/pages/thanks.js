@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import Link from 'gatsby-link'
+import { Link, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -10,6 +9,7 @@ import Prose from '../components/prose/Prose'
 
 const queryString = require('query-string')
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 class ThanksPage extends Component {
   constructor (props) {
@@ -27,10 +27,10 @@ class ThanksPage extends Component {
   }
 
   render () {
-    const { location } = this.props
+    const { history: { location } } = this.props
     const { enrollmentOpen } = this.state
     const query = queryString.parse(location.search)
-    const success = query.success ? JSON.parse(query.success.toLowerCase()) : true
+    const success = query.success ? JSON.parse(query.success.toLowerCase()) : false
     const message = query.message || ''
     const successful = success || (!success && message === constants.enrollment.existing)
     const closed = !success && message === constants.enrollment.closed
@@ -39,13 +39,13 @@ class ThanksPage extends Component {
 
     return (
       <PageContainer>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
-        </Helmet>
+        </Head>
         <Card center>
           {successful ? (
             <Fragment>
@@ -53,9 +53,9 @@ class ThanksPage extends Component {
               <Prose>
                 <p>Great news, your clan is enrolled and ready to go in the current {constants.meta.name} event!</p>
                 <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards.</p>
-                <p>Why not take a look over our <Link to="/faqs">Frequently Asked Questions</Link> while you wait.</p>
+                <p>Why not take a look over our <Link to="/faqs/">Frequently Asked Questions</Link> while you wait.</p>
               </Prose>
-              <Button href="/current">View current leaderboard</Button>
+              <Button href={urlBuilder.currentEventRootUrl}>View current leaderboard</Button>
             </Fragment>
           ) : (
             closed ? (
@@ -75,9 +75,11 @@ class ThanksPage extends Component {
                     <p>{message}</p>
                   </Prose>
                 }
-                {enrollmentOpen &&
+                {enrollmentOpen ? (
                   <Button href="/#enroll">Enroll your clan today</Button>
-                }
+                ) : (
+                  <Button href="/">Return to the homepage</Button>
+                )}
               </Fragment>
             )
           )}
@@ -88,7 +90,7 @@ class ThanksPage extends Component {
 }
 
 ThanksPage.propTypes = {
-  location: PropTypes.object
+  history: PropTypes.object
 }
 
 export default ThanksPage

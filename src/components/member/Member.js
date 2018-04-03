@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
+import { Head } from 'react-static'
 import PageContainer from '../page-container/PageContainer'
 import Card from '../card/Card'
 import Avatar from '../avatar/Avatar'
@@ -27,6 +27,7 @@ class Member extends Component {
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName
     const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))
+    const canonicalUrl = `${process.env.SITE_URL}${member.path}`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -35,7 +36,7 @@ class Member extends Component {
           '@type': 'ListItem',
           position: 1,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${kickerHref}`,
+            '@id': `${process.env.SITE_URL}${kickerHref}`,
             name: member.clanName
           }
         },
@@ -43,7 +44,7 @@ class Member extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.GATSBY_SITE_URL}${member.path}`,
+            '@id': canonicalUrl,
             name: member.name
           }
         }
@@ -58,13 +59,15 @@ class Member extends Component {
 
     return (
       <PageContainer>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <link rel="canonical" href={canonicalUrl} />
+          <meta property="og:url" key="ogUrl" content={canonicalUrl} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Helmet>
+        </Head>
         <Card cutout={hasPastEvents} center>
           {member.icon &&
             <Avatar cutout outline icon={member.icon} />
@@ -82,7 +85,7 @@ class Member extends Component {
         {hasPastEvents &&
           <TabContainer cutout>
             <Tab name="Events">
-              <Leaderboard data={pastEvents} className="leaderboard--history" />
+              <Leaderboard data={pastEvents} multiColumn />
             </Tab>
           </TabContainer>
         }

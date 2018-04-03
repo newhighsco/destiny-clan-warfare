@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Link from 'gatsby-link'
+import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
@@ -8,8 +8,9 @@ import './Lockup.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
-const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, element, children }) => {
+const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, id, element, children }) => {
   const commonAttributes = {
+    id: id,
     className: classNames(
       baseClassName
       , className
@@ -55,6 +56,7 @@ Lockup.propTypes = {
   center: PropTypes.bool,
   primary: PropTypes.bool,
   borderless: PropTypes.bool,
+  id: PropTypes.string,
   className: PropTypes.string,
   element: PropTypes.string,
   children: PropTypes.node

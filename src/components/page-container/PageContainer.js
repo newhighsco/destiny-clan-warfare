@@ -7,19 +7,21 @@ import BungieStatus from '../bungie/Status'
 
 import './PageContainer.styl'
 
-const PageContainer = ({ children }) => (
-  <Fragment>
-    <Header />
-    <BungieStatus />
-    <main id="content" className="page-container" role="main">
-      <div className="page-container__inner content-center content-gutter">
-        {children}
-        <Advert />
-      </div>
-    </main>
-    <Footer />
-  </Fragment>
-)
+const PageContainer = ({ children }) => {
+  return (
+    <Fragment>
+      <Header />
+      <BungieStatus />
+      <main id="content" className="page-container" role="main">
+        <div className="page-container__inner content-center content-gutter">
+          {children}
+          <Advert />
+        </div>
+      </main>
+      <Footer />
+    </Fragment>
+  )
+}
 
 PageContainer.propTypes = {
   children: PropTypes.node

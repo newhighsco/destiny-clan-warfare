@@ -42,7 +42,7 @@ const Platform = ({ platform, size }) => {
 }
 
 Platform.propTypes = {
-  platform: PropTypes.number,
+  platform: PropTypes.object,
   size: PropTypes.oneOf([ 'small' ])
 }
 
@@ -72,7 +72,7 @@ const PlatformList = ({ platforms, size, className }) => {
 }
 
 PlatformList.propTypes = {
-  platforms: PropTypes.arrayOf(PropTypes.number),
+  platforms: PropTypes.arrayOf(PropTypes.object),
   size: PropTypes.oneOf([ 'small' ]),
   className: PropTypes.string
 }

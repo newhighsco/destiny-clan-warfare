@@ -1,9 +1,9 @@
 const constants = require('./constants')
+const urlBuilder = require('./url-builder')
 
-module.exports = (allEvent, kicker) => {
-  const allEvents = allEvent.edges
-  const pastEvents = allEvents.filter(({ node }) => node.isPast)
-  const futureEvents = allEvents.filter(({ node }) => node.isFuture)
+module.exports = (allEvents, kicker) => {
+  const pastEvents = allEvents.filter(node => node.isPast)
+  const futureEvents = allEvents.filter(node => node.isFuture)
   const previousEvent = pastEvents.length > 0 ? pastEvents[0].node : null
   const nextEvent = futureEvents.length > 0 ? futureEvents[0].node : null
   const allowedEvents = []
@@ -15,7 +15,7 @@ module.exports = (allEvent, kicker) => {
     constants.kicker.next
   ]
 
-  allEvents.map(({ node }) => {
+  allEvents.map(node => {
     var kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
 
     if (previousEvent && node.path === previousEvent.path) kicker = constants.kicker.previous
@@ -23,9 +23,10 @@ module.exports = (allEvent, kicker) => {
 
     if (allowedKickers.indexOf(kicker) === -1) return
 
-    const url = `${process.env.GATSBY_SITE_URL}${node.path}`
+    const url = `${process.env.SITE_URL}${urlBuilder.eventUrl(node.id)}`
+    const canonicalUrl = `${process.env.SITE_URL}${node.path}`
     const description = node.description
-    const content = `${kicker}: ${url} - ${description}`
+    const content = `${kicker}: ${canonicalUrl} - ${description}`
 
     allowedEvents.push({
       title: `${node.name} - ${kicker}`,

@@ -47,8 +47,8 @@ class RelativeDate extends Component {
 
     if (!value) return null
 
-    const title = value.format('YYYY-MM-DD HH:mm [UTC]')
-    const machineReadable = value.format('YYYY-MM-DDTHH:mm:ssZ')
+    const title = value.format(constants.format.humanReadable)
+    const machineReadable = value.format(constants.format.machineReadable)
     const humanReadable = [ label, label && ' ', (active ? value.fromNow() : title) ]
 
     if (status) return (<Fragment>{active ? humanReadable : <br />}</Fragment>)

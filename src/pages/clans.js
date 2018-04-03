@@ -10,8 +10,8 @@ const constants = require('../utils/constants')
 
 class ClansPage extends Component {
   render () {
-    const { data } = this.props
-    const leaderboard = data.allClan.map(clan => {
+    const { clans } = this.props
+    const leaderboard = clans.map(clan => {
       return {
         ...clan,
         clanTag: clan.tag,
@@ -40,7 +40,7 @@ class ClansPage extends Component {
 }
 
 ClansPage.propTypes = {
-  data: PropTypes.object
+  clans: PropTypes.array
 }
 
 export default withRouteData(ClansPage)

@@ -10,8 +10,8 @@ const constants = require('../utils/constants')
 
 class EventsPage extends Component {
   render () {
-    const { data } = this.props
-    const leaderboard = data.allEvent.map(event => {
+    const { events } = this.props
+    const leaderboard = events.map(event => {
       const typeSuffix = event.isCurrent ? constants.kicker.current : (event.isPast ? '' : constants.kicker.future)
       return {
         game: {
@@ -44,7 +44,7 @@ class EventsPage extends Component {
 }
 
 EventsPage.propTypes = {
-  data: PropTypes.object
+  events: PropTypes.array
 }
 
 export default withRouteData(EventsPage)

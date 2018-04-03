@@ -657,7 +657,6 @@ export default {
         path: '/',
         component: 'src/pages/index',
         getData: async () => ({
-          canonical: '/',
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => ({
             path: clan.path,
             id: clan.id
@@ -671,14 +670,12 @@ export default {
         path: urlBuilder.clanRootUrl,
         component: 'src/pages/clans',
         getData: async () => ({
-          canonical: urlBuilder.clanRootUrl,
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
         }),
         children: parsedClans.map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/clan',
           getData: async () => ({
-            canonical: clan.path,
             clan,
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`), {
               totalsSortable: 'ASC',
@@ -691,7 +688,6 @@ export default {
         path: urlBuilder.profileRootUrl,
         component: 'src/pages/members',
         getData: async () => ({
-          canonical: urlBuilder.profileRootUrl,
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
@@ -715,7 +711,6 @@ export default {
         path: urlBuilder.eventRootUrl,
         component: 'src/pages/events',
         getData: async () => ({
-          canonical: urlBuilder.eventRootUrl,
           events: visibleEvents.map(event => ({
             path: event.path,
             name: event.name,
@@ -730,31 +725,21 @@ export default {
           path: `/${event.id}/`,
           component: 'src/templates/event',
           getData: async () => ({
-            canonical: event.path,
             event
           })
         }))
       },
       {
         path: '/faqs/',
-        component: 'src/pages/faqs',
-        getData: async () => ({
-          canonical: '/faqs/'
-        })
+        component: 'src/pages/faqs'
       },
       {
         path: '/support-us/',
-        component: 'src/pages/support-us',
-        getData: async () => ({
-          canonical: '/support-us/'
-        })
+        component: 'src/pages/support-us'
       },
       {
         path: '/thanks/',
-        component: 'src/pages/thanks',
-        getData: async () => ({
-          canonical: '/thanks/'
-        })
+        component: 'src/pages/thanks'
       },
       {
         is404: true,

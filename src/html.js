@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 const constants = require('./utils/constants')
 
 class Html extends Component {
   render () {
-    const { Html, Head, Body, children } = this.props
+    const { Html, Head, Body, children, routeInfo } = this.props
+    const canonicalPath = routeInfo && routeInfo.path !== '404' ? (routeInfo.path.match(/\/$/) ? routeInfo.path : `${routeInfo.path}/`) : null
+    const canonicalUrl = `${process.env.SITE_URL}${canonicalPath === '/' ? canonicalPath : `/${canonicalPath}`}`
 
     return (
       <Html lang="en">
@@ -17,6 +19,12 @@ class Html extends Component {
           <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
           <link rel="manifest" href="/manifest.json" />
           <meta name="theme-color" content={constants.meta.themeColor} />
+          {canonicalPath &&
+            <Fragment>
+              <link rel="canonical" href={canonicalUrl} />
+              <meta property="og:url" key="ogUrl" content={canonicalUrl} />
+            </Fragment>
+          }
         </Head>
         <Body>
           {children}
@@ -38,7 +46,8 @@ Html.propTypes = {
   Html: PropTypes.func,
   Head: PropTypes.func,
   Body: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
+  routeInfo: PropTypes.object
 }
 
 export default Html

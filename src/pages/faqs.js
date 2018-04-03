@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouteData, Head } from 'react-static'
+import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -13,7 +13,7 @@ class FaqsPage extends Component {
     const description = `Frequently asked questions about ${constants.meta.name}`
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -67,4 +67,4 @@ class FaqsPage extends Component {
   }
 }
 
-export default withRouteData(FaqsPage)
+export default FaqsPage

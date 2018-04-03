@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouteData, Head } from 'react-static'
+import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -17,7 +17,7 @@ class SupportUsPage extends Component {
     const description = `Ways to support ${constants.meta.name}`
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
@@ -58,4 +58,4 @@ class SupportUsPage extends Component {
   }
 }
 
-export default withRouteData(SupportUsPage)
+export default SupportUsPage

@@ -25,7 +25,7 @@ class EventMember extends Component {
     const hasLeaderboard = leaderboard && leaderboard.length > 0
     const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
-    const canonical = urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)
+    const canonicalUrl = `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)}`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -50,7 +50,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 3,
           item: {
-            '@id': `${process.env.SITE_URL}${canonical}`,
+            '@id': canonicalUrl,
             name: member.name
           }
         }
@@ -58,12 +58,14 @@ class EventMember extends Component {
     }
 
     return (
-      <PageContainer canonical={canonical}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <link rel="canonical" href={canonicalUrl} />
+          <meta property="og:url" key="ogUrl" content={canonicalUrl} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Head>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>

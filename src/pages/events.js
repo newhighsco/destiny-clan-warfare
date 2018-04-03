@@ -27,7 +27,7 @@ class EventsPage extends Component {
     const description = `All ${constants.meta.name} events to date`
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />

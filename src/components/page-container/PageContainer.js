@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { Head } from 'react-static'
 import PropTypes from 'prop-types'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
@@ -8,17 +7,9 @@ import BungieStatus from '../bungie/Status'
 
 import './PageContainer.styl'
 
-const PageContainer = ({ children, canonical }) => {
-  const canonicalUrl = `${process.env.SITE_URL}${canonical}`
-
+const PageContainer = ({ children }) => {
   return (
     <Fragment>
-      {canonical &&
-        <Head>
-          <link rel="canonical" href={canonicalUrl} />
-          <meta property="og:url" key="ogUrl" content={canonicalUrl} />
-        </Head>
-      }
       <Header />
       <BungieStatus />
       <main id="content" className="page-container" role="main">
@@ -33,8 +24,7 @@ const PageContainer = ({ children, canonical }) => {
 }
 
 PageContainer.propTypes = {
-  children: PropTypes.node,
-  canonical: PropTypes.string
+  children: PropTypes.node
 }
 
 export default PageContainer

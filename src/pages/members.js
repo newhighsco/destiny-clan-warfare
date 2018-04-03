@@ -15,7 +15,7 @@ class MembersPage extends Component {
     var currentClanId
 
     return (
-      <PageContainer {...this.props}>
+      <PageContainer>
         <Head>
           <title>{title}</title>
           <meta name="description" content={description} />

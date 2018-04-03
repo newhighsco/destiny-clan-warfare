@@ -37,15 +37,10 @@ class MembersPage extends Component {
                 return (
                   <Fragment key={node.id}>
                     {showDivider &&
-                      <li className="list-comma__divider">
-                        <h2>
-                          <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath}>{node.clanName}</Link>
-                        </h2>
+                      <li>
+                        <ClanTag href={node.clanPath}>{node.clanTag}</ClanTag> <Link to={node.clanPath}>{node.clanName}</Link>
                       </li>
                     }
-                    <li>
-                      <Link to={node.path} prefetch={false}>{node.name}</Link>
-                    </li>
                   </Fragment>
                 )
               })}

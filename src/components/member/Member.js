@@ -86,7 +86,7 @@ class Member extends Component {
         {hasPastEvents &&
           <TabContainer cutout>
             <Tab name="Events">
-              <Leaderboard data={pastEvents} className="leaderboard--history" />
+              <Leaderboard data={pastEvents} multiColumn />
             </Tab>
           </TabContainer>
         }

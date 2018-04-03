@@ -40,7 +40,7 @@ class Leaderboard extends Component {
 
   render () {
     var { data } = this.props
-    const { columns, cutout, className, prefetch, stateKey } = this.props
+    const { columns, cutout, multiColumn, className, prefetch, stateKey } = this.props
     const { sorting } = this.state
     const baseClassName = 'leaderboard'
 
@@ -91,7 +91,12 @@ class Leaderboard extends Component {
     }
 
     return (
-      <div className={classNames(baseClassName, className, cutout && `${baseClassName}--cutout`)}>
+      <div className={
+        classNames(baseClassName,
+        cutout && `${baseClassName}--cutout`,
+        multiColumn && `${baseClassName}--multi-column`,
+        className
+      )}>
         {data.map((item, i) => {
           var state = {}
 
@@ -213,6 +218,7 @@ Leaderboard.propTypes = {
   columns: PropTypes.array,
   sorting: PropTypes.object,
   cutout: PropTypes.bool,
+  multiColumn: PropTypes.bool,
   className: PropTypes.string,
   prefetch: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ]),
   stateKey: PropTypes.string

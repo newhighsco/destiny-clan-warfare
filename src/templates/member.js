@@ -25,9 +25,9 @@ class MemberTemplate extends Component {
       const memberId = match.params.member
 
       prefetch(urlBuilder.profileRootUrl)
-        .then(({ data }) => {
+        .then(({ members }) => {
           this.setState({
-            member: data.allMember.find(({ id }) => id === memberId)
+            member: members.find(({ id }) => id === memberId)
           })
         })
     }

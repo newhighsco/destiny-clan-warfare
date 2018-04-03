@@ -38,9 +38,6 @@ export default {
     port: 9000
   },
   siteRoot: process.env.SITE_URL,
-  getSiteData: () => ({
-    title: constants.meta.title
-  }),
   getRoutes: async () => {
     var apiStatus = {
       enrollmentOpen: false,
@@ -661,12 +658,10 @@ export default {
         component: 'src/pages/index',
         getData: async () => ({
           canonical: '/',
-          clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => {
-            return {
-              path: clan.path,
-              id: clan.id
-            }
-          }),
+          clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => ({
+            path: clan.path,
+            id: clan.id
+          })),
           currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC').slice(0, 1),
           pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC').slice(0, 1),
           futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC').slice(0, 1)
@@ -677,22 +672,18 @@ export default {
         component: 'src/pages/clans',
         getData: async () => ({
           canonical: urlBuilder.clanRootUrl,
-          data: {
-            allClan: MultiSort(parsedClans, 'nameSortable', 'ASC')
-          }
+          clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
         }),
         children: parsedClans.map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/clan',
           getData: async () => ({
             canonical: clan.path,
-            data: {
-              clan,
-              allMember: MultiSort(parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`), {
-                totalsSortable: 'ASC',
-                nameSortable: 'ASC'
-              })
-            }
+            clan,
+            members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`), {
+              totalsSortable: 'ASC',
+              nameSortable: 'ASC'
+            })
           })
         }))
       },
@@ -701,12 +692,23 @@ export default {
         component: 'src/pages/members',
         getData: async () => ({
           canonical: urlBuilder.profileRootUrl,
-          data: {
-            allMember: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
-              clanSortable: 'ASC',
-              nameSortable: 'ASC'
-            })
-          }
+          members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
+            clanSortable: 'ASC',
+            nameSortable: 'ASC'
+          }).map(member => ({
+            path: member.path,
+            id: member.id,
+            platforms: member.platforms,
+            name: member.name,
+            clanId: member.clanId,
+            clanName: member.clanName,
+            clanTag: member.clanTag,
+            clanPath: member.clanPath,
+            icon: member.icon,
+            tags: member.tags,
+            totals: member.totals,
+            medals: member.medals
+          }))
         })
       },
       {
@@ -714,18 +716,22 @@ export default {
         component: 'src/pages/events',
         getData: async () => ({
           canonical: urlBuilder.eventRootUrl,
-          data: {
-            allEvent: visibleEvents
-          }
+          events: visibleEvents.map(event => ({
+            path: event.path,
+            name: event.name,
+            startDate: event.startDate,
+            endDate: event.endDate,
+            isCurrent: event.isCurrent,
+            isPast: event.isPast,
+            modifiers: event.modifiers
+          }))
         }),
         children: parsedEvents.filter(({ visible }) => visible).map(event => ({
           path: `/${event.id}/`,
           component: 'src/templates/event',
           getData: async () => ({
             canonical: event.path,
-            data: {
-              event
-            }
+            event
           })
         }))
       },
@@ -762,19 +768,15 @@ export default {
         component: 'src/templates/event',
         getData: async () => ({
           canonical: urlBuilder.currentEventRootUrl,
-          data: {
-            event: parsedEvents.find(({ id }) => id === currentEvent.eventId)
-          }
+          event: parsedEvents.find(({ id }) => id === currentEvent.eventId)
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/event-clan',
           getData: async () => ({
             canonical: urlBuilder.currentEventUrl(clan.id),
-            data: {
-              clan,
-              allMember: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
-            }
+            clan,
+            members: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
           })
         }))
       })

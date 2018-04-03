@@ -18,16 +18,15 @@ const possessive = require('../utils/grammar').possessive
 
 class EventClanTemplate extends Component {
   render () {
-    const { data } = this.props
-    const members = data.allMember
-    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0).map(node => {
+    const { clan, members } = this.props
+    const leaderboard = clan.leaderboard.filter(({ games }) => games > 0).map(node => {
       return {
         ...node,
         member: members.find(({ id }) => id === node.id)
       }
     })
-    const title = `${data.clan.name} | ${constants.kicker.current}`
-    const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
+    const title = `${clan.name} | ${constants.kicker.current}`
+    const description = `${possessive(clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -44,8 +43,8 @@ class EventClanTemplate extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(data.clan.id.substring(constants.prefix.hash.length))}`,
-            name: data.clan.name
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(clan.id.substring(constants.prefix.hash.length))}`,
+            name: clan.name
           }
         }
       ]
@@ -124,9 +123,9 @@ class EventClanTemplate extends Component {
           <RelativeDate status />
         </Lockup>
         <Card cutout={hasLeaderboard} center>
-          <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
-          <Lockup center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <PlatformList platforms={data.clan.platforms} />
+          <Avatar cutout outline color={clan.color} foreground={clan.foreground} background={clan.background} />
+          <Lockup center reverse kicker={clan.motto} heading={clan.name} />
+          <PlatformList platforms={clan.platforms} />
           <StatList stats={stats} top />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
@@ -148,7 +147,8 @@ class EventClanTemplate extends Component {
 }
 
 EventClanTemplate.propTypes = {
-  data: PropTypes.object
+  clan: PropTypes.object,
+  members: PropTypes.array
 }
 
 export default withRouteData(EventClanTemplate)

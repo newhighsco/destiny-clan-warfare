@@ -19,9 +19,8 @@ const possessive = require('../utils/grammar').possessive
 
 class ClanTemplate extends Component {
   render () {
-    const { data } = this.props
-    const members = data.allMember
-    const previousLeaderboard = data.clan.previousLeaderboard.filter(item => item && item.games > 0).map(node => {
+    const { clan, members } = this.props
+    const previousLeaderboard = clan.previousLeaderboard.filter(item => item && item.games > 0).map(node => {
       return {
         ...node,
         member: members.find(({ id }) => id === node.id)
@@ -48,9 +47,9 @@ class ClanTemplate extends Component {
       }
     })
     const hasLeaderboards = previousLeaderboard.length > 0 || totals.length > 0
-    const medals = data.clan.medals
-    const title = `${data.clan.name} | Clans`
-    const description = `${possessive(data.clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
+    const medals = clan.medals
+    const title = `${clan.name} | Clans`
+    const description = `${possessive(clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
 
     return (
       <PageContainer {...this.props}>
@@ -61,15 +60,15 @@ class ClanTemplate extends Component {
           <meta property="og:description" content={description} />
         </Head>
         <Card cutout={hasLeaderboards} center>
-          <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
-          <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />
-          <PlatformList platforms={data.clan.platforms} />
-          {data.clan.description &&
+          <Avatar cutout outline color={clan.color} foreground={clan.foreground} background={clan.background} />
+          <Lockup primary center reverse kicker={clan.motto} heading={clan.name} />
+          <PlatformList platforms={clan.platforms} />
+          {clan.description &&
             <Prose>
-              <p dangerouslySetInnerHTML={{ __html: data.clan.description }} />
+              <p dangerouslySetInnerHTML={{ __html: clan.description }} />
             </Prose>
           }
-          <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${data.clan.id}`} target="_blank">Join clan</Button>
+          <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`} target="_blank">Join clan</Button>
           <MedalList medals={medals} />
           {!hasLeaderboards &&
             <Notification>Clan roster is being calculated. Please check back later.</Notification>
@@ -101,7 +100,8 @@ class ClanTemplate extends Component {
 }
 
 ClanTemplate.propTypes = {
-  data: PropTypes.object
+  clan: PropTypes.object,
+  members: PropTypes.array
 }
 
 export default withRouteData(ClanTemplate)

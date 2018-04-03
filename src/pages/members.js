@@ -9,8 +9,7 @@ import ClanTag from '../components/clan-tag/ClanTag'
 
 class MembersPage extends Component {
   render () {
-    const { data } = this.props
-    const members = data.allMember
+    const { members } = this.props
     const title = 'Members'
     const description = 'All clan members waging war against other clans in Destiny 2'
     var currentClanId
@@ -53,7 +52,7 @@ class MembersPage extends Component {
 }
 
 MembersPage.propTypes = {
-  data: PropTypes.object
+  members: PropTypes.array
 }
 
 export default withRouteData(MembersPage)

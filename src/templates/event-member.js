@@ -26,9 +26,9 @@ class EventMemberTemplate extends Component {
       const memberId = match.params.member
 
       prefetch(urlBuilder.clanUrl(clanId))
-        .then(({ data }) => {
+        .then(({ members }) => {
           this.setState({
-            member: data.allMember.find(({ id }) => id === memberId)
+            member: members.find(({ id }) => id === memberId)
           })
         })
     }

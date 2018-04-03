@@ -135,7 +135,7 @@ class EventClanTemplate extends Component {
           <Leaderboard
             cutout
             data={leaderboard}
-            columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+            columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'rank', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
             sorting={{ score: 'DESC' }}
             prefetch={false}
             stateKey="member"

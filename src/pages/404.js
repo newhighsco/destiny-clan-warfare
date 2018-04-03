@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-static'
-import Helmet from 'react-helmet'
+import { Link, Head } from 'react-static'
 import HoldingPage from '../components/holding-page/HoldingPage'
 import { Logo } from '../components/logo/Logo'
 
@@ -27,13 +26,13 @@ class NotFoundPage extends Component {
 
     return (
       <HoldingPage>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-        </Helmet>
+        </Head>
         <Link to="/">
           <Logo />
         </Link>

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Helmet from 'react-helmet'
+import { Head } from 'react-static'
 import PropTypes from 'prop-types'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
@@ -14,10 +14,10 @@ const PageContainer = ({ children, canonical }) => {
   return (
     <Fragment>
       {canonical &&
-        <Helmet>
+        <Head>
           <link rel="canonical" href={canonicalUrl} />
           <meta property="og:url" key="ogUrl" content={canonicalUrl} />
-        </Helmet>
+        </Head>
       }
       <Header />
       <BungieStatus />

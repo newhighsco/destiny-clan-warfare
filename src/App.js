@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Switch, Route } from 'react-static'
-import Helmet from 'react-helmet'
+import { Router, Switch, Route, Head } from 'react-static'
 import identity from 'netlify-identity-widget'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
@@ -56,7 +55,7 @@ class App extends Component {
     return (
       <Router>
         <div className="site-container">
-          <Helmet
+          <Head
             defaultTitle={title}
             titleTemplate={`%s | ${name}`}
           >
@@ -71,7 +70,7 @@ class App extends Component {
             <meta name="twitter:domain" content={process.env.SITE_URL} />
             <meta name="twitter:site" content={handle} />
             <meta name="twitter:creator" content={handle} />
-          </Helmet>
+          </Head>
           {(enableIdentity && !user) ? (
             <HoldingPage>
               <Logo />

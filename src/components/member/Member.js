@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
+import { Head } from 'react-static'
 import PageContainer from '../page-container/PageContainer'
 import Card from '../card/Card'
 import Avatar from '../avatar/Avatar'
@@ -60,13 +60,13 @@ class Member extends Component {
 
     return (
       <PageContainer canonical={canonical}>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Helmet>
+        </Head>
         <Card cutout={hasPastEvents} center>
           {member.icon &&
             <Avatar cutout outline icon={member.icon} />

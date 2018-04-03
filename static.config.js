@@ -867,8 +867,8 @@ export default {
     await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
 
     const redirects = [
-      { from: `${urlBuilder.profileRootUrl}:path`, to: urlBuilder.profileRootUrl, code: 200 },
-      { from: `${urlBuilder.currentEventUrl(':clan')}:path`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+      { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
+      { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
     ]
 
     if (currentEvent) {

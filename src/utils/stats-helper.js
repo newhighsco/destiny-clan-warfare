@@ -19,7 +19,7 @@ const kda = (stats, precision, excludeAssists) => {
 }
 
 const ppg = (stats, precision) => {
-  precision = precision || 2
+  precision = precision || 0
 
   const games = Math.max(stats.games, 1)
   const result = stats.score / games

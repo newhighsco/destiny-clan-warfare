@@ -69,7 +69,7 @@ class EventClanTemplate extends Component {
           const value = stat(top)
           const names = leaderboard.filter(row => stat(row) === value).map(row => row.name)
 
-          stats[column] = { stat: `${value}`, label: names }
+          stats[column] = { stat: value, label: names }
         }
       }
 

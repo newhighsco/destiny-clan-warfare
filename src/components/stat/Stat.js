@@ -6,6 +6,7 @@ import Tooltip from '../tooltip/Tooltip'
 import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
+const shortNumber = require('short-number')
 const constants = require('../../utils/constants')
 const statsHelper = require('../../utils/stats-helper')
 const sentence = require('../../utils/grammar').sentence
@@ -19,6 +20,8 @@ const Stat = ({ label, prefix, stat }) => {
     valueLabel = value.label
     value = value.stat || constants.blank
   }
+
+  value = isNaN(value) ? `${value}` : shortNumber(value)
 
   return (
     <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} valign="bottom" enableHover>
@@ -111,8 +114,11 @@ const StatList = ({ stats, top }) => {
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {keys.map((key, i) => {
         const label = sentenceCase(key)
-        const stat = stats[key] !== null ? stats[key] : constants.blank
+        // const stat = stats[key] !== null ? stats[key] : constants.blank
+        var stat = stats[key]
         var prefix
+
+        if (stat === null) stat = constants.blank
 
         if (top) {
           prefix = constants.prefix.most

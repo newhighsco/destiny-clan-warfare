@@ -142,6 +142,7 @@ export default {
         api(`Event/GetAllEvents`)
           .then(({ data }) => {
             events = data.map(item => camelcaseKeys(item, casingOptions))
+            currentEvent = events.find(event => event.eventTense === constants.tense.current)
             console.timeEnd(`fetch events`)
             console.log(`events: ${events.length}`)
             resolve()
@@ -288,165 +289,6 @@ export default {
         return null
       })
     }
-
-    console.time(`create event nodes`)
-
-    const parsedEvents = []
-
-    await Promise.all(events.map(event => {
-      var hasResults = false
-
-      const parseClans = (rawClans, eventId, isCurrent) => {
-        if (!rawClans) return []
-
-        return rawClans.map((rawClan, i) => {
-          const clanId = rawClan.clanId || rawClan.id
-          const clan = clans.find(clan => clan.groupId === clanId)
-          const platforms = clanPlatforms.find(({ id }) => id === clanId)
-
-          if (!clan) {
-            console.error(`Cannot find clan: ${clanId}`)
-            return null
-          }
-
-          return {
-            path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
-            platforms: platforms ? platforms.platforms : [],
-            name: decode(clan.name),
-            color: clan.backgroundcolor,
-            foreground: {
-              color: clan.emblemcolor1,
-              icon: clan.foregroundicon
-            },
-            background: {
-              color: clan.emblemcolor2,
-              icon: clan.backgroundicon
-            },
-            rank: `${constants.prefix.hash}${i + 1}`,
-            size: rawClan.size || 0,
-            active: rawClan.active || 0,
-            games: rawClan.gamesPlayed,
-            wins: rawClan.gamesWon,
-            kills: rawClan.kills,
-            assists: rawClan.assists,
-            deaths: rawClan.deaths,
-            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0))
-          }
-        })
-      }
-
-      const parseResults = (division, leaderboard, results) => {
-        if (leaderboard && leaderboard.length) {
-          hasResults = true
-
-          console.log(111, { ...leaderboard[0] })
-
-          results.push({
-            ...leaderboard[0],
-            division: division,
-            medal: medalBuilder.build(1, 2, division)
-          })
-        } else {
-          results.push({
-            path: '',
-            platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
-            name: '',
-            color: '',
-            foreground: { color: '', icon: '' },
-            background: { color: '', icon: '' },
-            rank: '',
-            size: Number.NEGATIVE_INFINITY,
-            games: Number.NEGATIVE_INFINITY,
-            wins: Number.NEGATIVE_INFINITY,
-            kills: Number.NEGATIVE_INFINITY,
-            assists: Number.NEGATIVE_INFINITY,
-            deaths: Number.NEGATIVE_INFINITY,
-            score: Number.NEGATIVE_INFINITY,
-            division: '',
-            medal: {
-              tier: Number.NEGATIVE_INFINITY,
-              name: '',
-              description: ''
-            }
-          })
-        }
-      }
-
-      const startDate = moment.utc(event.startTime).format(constants.format.machineReadable)
-      const endDate = moment.utc(event.scoringEndTime).format(constants.format.machineReadable)
-      var isCurrent = event.eventTense === constants.tense.current
-      var isPast = event.eventTense === constants.tense.past
-      var isFuture = event.eventTense === constants.tense.future
-      const results = []
-      var largeLeaderboard = []
-      var mediumLeaderboard = []
-      var smallLeaderboard = []
-
-      if (isCurrent && endDate < apiStatus.updatedDate) {
-        isCurrent = false
-        isPast = true
-      }
-
-      if (isFuture && startDate < apiStatus.updatedDate) {
-        isCurrent = true
-        isFuture = false
-      }
-
-      if (isCurrent) {
-        currentEvent = event
-        largeLeaderboard = parseClans(currentEventLeaderboard.largeLeaderboard, event.eventId, true)
-        mediumLeaderboard = parseClans(currentEventLeaderboard.mediumLeaderboard, event.eventId, true)
-        smallLeaderboard = parseClans(currentEventLeaderboard.smallLeaderboard, event.eventId, true)
-      } else {
-        largeLeaderboard = parseClans(event.result.large, event.eventId)
-        mediumLeaderboard = parseClans(event.result.medium, event.eventId)
-        smallLeaderboard = parseClans(event.result.small, event.eventId)
-
-        parseResults(constants.division.large, largeLeaderboard, results)
-        parseResults(constants.division.medium, mediumLeaderboard, results)
-        parseResults(constants.division.small, smallLeaderboard, results)
-
-        const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
-
-        if (winnersMedal) {
-          results
-            .sort((a, b) => b.score - a.score)
-            .map((item, i) => {
-              if (i === 0) {
-                item.medal = winnersMedal
-              }
-              return item
-            })
-        }
-      }
-
-      return parsedEvents.push({
-        id: event.eventId,
-        path: isCurrent ? urlBuilder.currentEventUrl() : urlBuilder.eventUrl(event.eventId),
-        name: event.name,
-        description: event.description || '',
-        startDate: moment.utc(startDate).format(constants.format.machineReadable),
-        endDate: moment.utc(endDate).format(constants.format.machineReadable),
-        isPast: isPast,
-        isFuture: isFuture,
-        isCurrent: isCurrent,
-        isCalculated: event.calculated,
-        visible: event.expired ? hasResults : true,
-        modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
-        leaderboards: {
-          large: largeLeaderboard,
-          medium: mediumLeaderboard,
-          small: smallLeaderboard
-        },
-        results: results.filter(({ score }) => score > 0),
-        medals: {
-          clans: event.clanMedals ? medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
-          members: event.clanMemberMedals ? medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
-        }
-      })
-    }))
-
-    console.timeEnd(`create event nodes`)
 
     console.time(`create clan nodes`)
 
@@ -653,6 +495,164 @@ export default {
     }))
 
     console.timeEnd(`create member nodes`)
+
+    console.time(`create event nodes`)
+
+    const parsedEvents = []
+
+    await Promise.all(events.map(event => {
+      var hasResults = false
+
+      const parseClans = (rawClans, eventId, isCurrent) => {
+        if (!rawClans) return []
+
+        return rawClans.map((rawClan, i) => {
+          const clanId = rawClan.clanId || rawClan.id
+          const clan = clans.find(clan => clan.groupId === clanId)
+          const platforms = clanPlatforms.find(({ id }) => id === clanId)
+
+          if (!clan) {
+            console.error(`Cannot find clan: ${clanId}`)
+            return null
+          }
+
+          return {
+            path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
+            platforms: platforms ? platforms.platforms : [],
+            name: decode(clan.name),
+            color: clan.backgroundcolor,
+            foreground: {
+              color: clan.emblemcolor1,
+              icon: clan.foregroundicon
+            },
+            background: {
+              color: clan.emblemcolor2,
+              icon: clan.backgroundicon
+            },
+            rank: `${constants.prefix.hash}${i + 1}`,
+            size: rawClan.size || 0,
+            active: rawClan.active || 0,
+            games: rawClan.gamesPlayed,
+            wins: rawClan.gamesWon,
+            kills: rawClan.kills,
+            assists: rawClan.assists,
+            deaths: rawClan.deaths,
+            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0))
+          }
+        })
+      }
+
+      const parseResults = (division, leaderboard, results) => {
+        if (leaderboard && leaderboard.length) {
+          hasResults = true
+
+          results.push({
+            ...leaderboard[0],
+            division: division,
+            medal: medalBuilder.build(1, 2, division)
+          })
+        } else {
+          results.push({
+            path: '',
+            platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
+            name: '',
+            color: '',
+            foreground: { color: '', icon: '' },
+            background: { color: '', icon: '' },
+            rank: '',
+            size: Number.NEGATIVE_INFINITY,
+            games: Number.NEGATIVE_INFINITY,
+            wins: Number.NEGATIVE_INFINITY,
+            kills: Number.NEGATIVE_INFINITY,
+            assists: Number.NEGATIVE_INFINITY,
+            deaths: Number.NEGATIVE_INFINITY,
+            score: Number.NEGATIVE_INFINITY,
+            division: '',
+            medal: {
+              tier: Number.NEGATIVE_INFINITY,
+              name: '',
+              description: ''
+            }
+          })
+        }
+      }
+
+      const startDate = moment.utc(event.startTime).format(constants.format.machineReadable)
+      const endDate = moment.utc(event.scoringEndTime).format(constants.format.machineReadable)
+      var isCurrent = event.eventTense === constants.tense.current
+      var isPast = event.eventTense === constants.tense.past
+      var isFuture = event.eventTense === constants.tense.future
+      const results = []
+      var largeLeaderboard = []
+      var mediumLeaderboard = []
+      var smallLeaderboard = []
+
+      if (isCurrent && endDate < apiStatus.updatedDate) {
+        currentEvent = null
+        isCurrent = false
+        isPast = true
+      }
+
+      if (isFuture && startDate < apiStatus.updatedDate) {
+        currentEvent = event
+        isCurrent = true
+        isFuture = false
+      }
+
+      if (isCurrent) {
+        largeLeaderboard = parseClans(currentEventLeaderboard.largeLeaderboard, event.eventId, true)
+        mediumLeaderboard = parseClans(currentEventLeaderboard.mediumLeaderboard, event.eventId, true)
+        smallLeaderboard = parseClans(currentEventLeaderboard.smallLeaderboard, event.eventId, true)
+      } else {
+        largeLeaderboard = parseClans(event.result.large, event.eventId)
+        mediumLeaderboard = parseClans(event.result.medium, event.eventId)
+        smallLeaderboard = parseClans(event.result.small, event.eventId)
+
+        parseResults(constants.division.large, largeLeaderboard, results)
+        parseResults(constants.division.medium, mediumLeaderboard, results)
+        parseResults(constants.division.small, smallLeaderboard, results)
+
+        const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
+
+        if (winnersMedal) {
+          results
+            .sort((a, b) => b.score - a.score)
+            .map((item, i) => {
+              if (i === 0) {
+                item.medal = winnersMedal
+              }
+              return item
+            })
+        }
+      }
+
+      return parsedEvents.push({
+        id: event.eventId,
+        path: isCurrent ? urlBuilder.currentEventUrl() : urlBuilder.eventUrl(event.eventId),
+        name: event.name,
+        description: event.description || '',
+        startDate: moment.utc(startDate).format(constants.format.machineReadable),
+        endDate: moment.utc(endDate).format(constants.format.machineReadable),
+        isPast: isPast,
+        isFuture: isFuture,
+        isCurrent: isCurrent,
+        isCalculated: event.calculated,
+        visible: event.expired ? hasResults : true,
+        modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
+        leaderboards: {
+          large: largeLeaderboard,
+          medium: mediumLeaderboard,
+          small: smallLeaderboard
+        },
+        results: results.filter(({ score }) => score > 0),
+        medals: {
+          clans: event.clanMedals ? medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
+          members: event.clanMemberMedals ? medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
+        }
+      })
+    }))
+
+    console.timeEnd(`create event nodes`)
 
     const visibleEvents = MultiSort(parsedEvents.filter(({ visible }) => visible), 'startDate', 'DESC')
     const routes = [

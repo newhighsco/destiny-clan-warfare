@@ -546,7 +546,7 @@ export default {
           color: clan.emblemcolor2,
           icon: clan.backgroundicon
         },
-        leaderboard: parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true),
+        leaderboard: currentEvent ? parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true) : [],
         leaderboardVisible: currentClanLeaderboard.length > 0,
         previousLeaderboard: parseClanLeaderboard(previousClanLeaderboard, previousEventId),
         medals: medalBuilder.parseMedals(clan.medalUnlocks, constants.prefix.clan)
@@ -864,10 +864,7 @@ export default {
 
     await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
 
-    const redirects = [
-      // { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
-      // { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
-    ]
+    const redirects = []
 
     if (currentEvent) {
       redirects.push({ from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 301 })

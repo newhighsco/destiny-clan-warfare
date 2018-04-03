@@ -16,6 +16,7 @@ import ExternalSvg from '../../images/external.svg'
 import './Leaderboard.styl'
 
 const sentenceCase = require('sentence-case')
+const shortNumber = require('short-number')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 
@@ -188,9 +189,11 @@ class Leaderboard extends Component {
                         })
                       }
 
-                      var value = item[key] !== null ? `${item[key]}` : constants.blank
+                      var value = item[key]
 
                       if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
+                      if (value === null) value = constants.blank
+                      value = isNaN(value) ? `${value}` : shortNumber(value)
 
                       return (
                         <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${key}`)} data-prefix={sentenceCase(key)}>{value}</div>

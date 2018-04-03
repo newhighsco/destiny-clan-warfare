@@ -50,6 +50,7 @@ class ClanTemplate extends Component {
     const medals = clan.medals
     const title = `${clan.name} | Clans`
     const description = `${possessive(clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
+    const leaderboardColumns = [ 'path', 'platforms', 'name', 'icon', 'tags', 'rank' ]
 
     return (
       <PageContainer>
@@ -80,7 +81,7 @@ class ClanTemplate extends Component {
               <Tab id={previousLeaderboard[0].eventId} name="Last event">
                 <Leaderboard
                   data={previousLeaderboard}
-                  columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
+                  columns={[ ...leaderboardColumns, 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
                   sorting={{ score: 'DESC' }}
                   prefetch={false}
                   stateKey="member"
@@ -89,7 +90,13 @@ class ClanTemplate extends Component {
             }
             {totals.length > 0 &&
               <Tab name="Overall">
-                <Leaderboard data={totals} sorting={{ score: 'DESC', lastPlayed: 'DESC' }} prefetch={false} stateKey="member" />
+                <Leaderboard
+                  data={totals}
+                  columns={[ ...leaderboardColumns, 'wins', 'kills', 'deaths', 'assists', 'score' ]}
+                  sorting={{ score: 'DESC', lastPlayed: 'DESC' }}
+                  prefetch={false}
+                  stateKey="member"
+                />
               </Tab>
             }
           </TabContainer>

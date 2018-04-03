@@ -526,7 +526,6 @@ export default {
               color: clan.emblemcolor2,
               icon: clan.backgroundicon
             },
-            rank: `${constants.prefix.hash}${i + 1}`,
             size: rawClan.size || 0,
             active: rawClan.active || 0,
             games: rawClan.gamesPlayed,

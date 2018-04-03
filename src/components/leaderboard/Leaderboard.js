@@ -99,6 +99,7 @@ class Leaderboard extends Component {
         className
       )}>
         {data.map((item, i) => {
+          const rank = `${constants.prefix.hash}${i + 1}`
           var state = {}
 
           if (stateKey) {
@@ -191,6 +192,7 @@ class Leaderboard extends Component {
 
                       var value = item[key]
 
+                      if (key === 'rank') value = rank
                       if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
                       if (value === null) value = constants.blank
                       value = isNaN(value) ? `${value}` : shortNumber(value)

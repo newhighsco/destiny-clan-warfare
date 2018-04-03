@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Router, Switch, Route, Head } from 'react-static'
+import { Router, Switch, Route, Head, onLoading } from 'react-static'
 import identity from 'netlify-identity-widget'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
+import NProgress from 'nprogress'
 import HoldingPage from './components/holding-page/HoldingPage'
 import { Logo } from './components/logo/Logo'
 import { Button, ButtonGroup } from './components/button/Button'
@@ -34,6 +35,16 @@ class App extends Component {
     identity.on('logout', () => this.setState({ user: null }))
 
     this.handleLogin = this.handleLogin.bind(this)
+  }
+
+  componentWillMount () {
+    this.unsubscribe = onLoading(loading => {
+      if (loading) {
+        NProgress.start()
+      } else {
+        NProgress.done()
+      }
+    })
   }
 
   componentDidMount () {

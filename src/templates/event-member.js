@@ -10,22 +10,28 @@ class EventMemberTemplate extends Component {
   constructor (props) {
     super()
 
+    const { location: { state } } = props
+
     this.state = {
-      member: null
+      member: state ? state.member : null
     }
   }
 
   componentDidMount () {
-    const { match } = this.props
-    const clanId = match.params.clan
-    const memberId = match.params.member
+    const { member } = this.state
 
-    prefetch(urlBuilder.clanUrl(clanId))
-      .then(({ data }) => {
-        this.setState({
-          member: data.allMember.find(({ id }) => id === memberId)
+    if (!member) {
+      const { match } = this.props
+      const clanId = match.params.clan
+      const memberId = match.params.member
+
+      prefetch(urlBuilder.clanUrl(clanId))
+        .then(({ data }) => {
+          this.setState({
+            member: data.allMember.find(({ id }) => id === memberId)
+          })
         })
-      })
+    }
   }
 
   render () {
@@ -44,7 +50,8 @@ class EventMemberTemplate extends Component {
 }
 
 EventMemberTemplate.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default EventMemberTemplate

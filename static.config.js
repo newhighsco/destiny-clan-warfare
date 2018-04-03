@@ -339,6 +339,8 @@ export default {
         if (leaderboard && leaderboard.length) {
           hasResults = true
 
+          console.log(111, { ...leaderboard[0] })
+
           results.push({
             ...leaderboard[0],
             division: division,

@@ -10,21 +10,27 @@ class MemberTemplate extends Component {
   constructor (props) {
     super()
 
+    const { location: { state } } = props
+
     this.state = {
-      member: null
+      member: state ? state.member : null
     }
   }
 
   componentDidMount () {
-    const { match } = this.props
-    const memberId = match.params.member
+    const { member } = this.state
 
-    prefetch(urlBuilder.profileRootUrl)
-      .then(({ data }) => {
-        this.setState({
-          member: data.allMember.find(({ id }) => id === memberId)
+    if (!member) {
+      const { match } = this.props
+      const memberId = match.params.member
+
+      prefetch(urlBuilder.profileRootUrl)
+        .then(({ data }) => {
+          this.setState({
+            member: data.allMember.find(({ id }) => id === memberId)
+          })
         })
-      })
+    }
   }
 
   render () {
@@ -43,7 +49,8 @@ class MemberTemplate extends Component {
 }
 
 MemberTemplate.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
+  location: PropTypes.object
 }
 
 export default MemberTemplate

@@ -19,7 +19,13 @@ const possessive = require('../utils/grammar').possessive
 class EventClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0)
+    const members = data.allMember
+    const leaderboard = data.clan.leaderboard.filter(({ games }) => games > 0).map(node => {
+      return {
+        ...node,
+        member: members.find(({ id }) => id === node.id)
+      }
+    })
     const title = `${data.clan.name} | ${constants.kicker.current}`
     const description = `${possessive(data.clan.name)} clan standings in the current ${constants.meta.name} event`
     const schema = {

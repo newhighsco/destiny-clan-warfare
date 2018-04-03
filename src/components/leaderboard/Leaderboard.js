@@ -76,6 +76,8 @@ class Leaderboard extends Component {
       'platforms'
     ]
 
+    if (stateKey) filteredKeys.push(stateKey)
+
     keys = keys.reduce((filtered, key) => {
       if (filteredKeys.indexOf(key) === -1) {
         filtered.push(key)
@@ -94,7 +96,7 @@ class Leaderboard extends Component {
           var state = {}
 
           if (stateKey) {
-            state[stateKey] = item
+            state[stateKey] = item[stateKey]
           }
 
           return (

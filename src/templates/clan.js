@@ -20,8 +20,13 @@ const possessive = require('../utils/grammar').possessive
 class ClanTemplate extends Component {
   render () {
     const { data } = this.props
-    const previousLeaderboard = data.clan.previousLeaderboard.filter(item => item && item.games > 0)
     const members = data.allMember
+    const previousLeaderboard = data.clan.previousLeaderboard.filter(item => item && item.games > 0).map(node => {
+      return {
+        ...node,
+        member: members.find(({ id }) => id === node.id)
+      }
+    })
     const totals = members.map(node => {
       const emptyDate = moment.utc(new Date(0)).format(constants.format.date)
       const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.format.date)
@@ -38,7 +43,8 @@ class ClanTemplate extends Component {
         deaths: hasPlayed ? node.totals.deaths : null,
         assists: hasPlayed ? node.totals.assists : null,
         score: hasPlayed ? node.totals.score : null,
-        lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank
+        lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank,
+        member: node
       }
     })
     const hasLeaderboards = previousLeaderboard.length > 0 || totals.length > 0

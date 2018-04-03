@@ -1,4 +1,5 @@
 const constants = require('./constants')
+const urlBuilder = require('./url-builder')
 
 module.exports = (allEvents, kicker) => {
   const pastEvents = allEvents.filter(node => node.isPast)
@@ -14,7 +15,7 @@ module.exports = (allEvents, kicker) => {
     constants.kicker.next
   ]
 
-  allEvents.map((node) => {
+  allEvents.map(node => {
     var kicker = node.isCurrent ? constants.kicker.current : (node.isPast ? constants.kicker.past : constants.kicker.future)
 
     if (previousEvent && node.path === previousEvent.path) kicker = constants.kicker.previous
@@ -22,7 +23,7 @@ module.exports = (allEvents, kicker) => {
 
     if (allowedKickers.indexOf(kicker) === -1) return
 
-    const url = `${process.env.SITE_URL}${node.path}`
+    const url = `${process.env.SITE_URL}${urlBuilder.eventUrl(node.id)}`
     const description = node.description
     const content = `${kicker}: ${url} - ${description}`
 

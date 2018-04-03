@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { withRouteData } from 'react-static'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
@@ -43,13 +42,13 @@ class EventTemplate extends Component {
 
     return (
       <PageContainer {...this.props}>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Helmet>
+        </Head>
         {data.event.isCurrent &&
           <Fragment>
             <Lockup primary center kicker={kicker}>

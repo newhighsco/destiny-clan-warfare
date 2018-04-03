@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { withRouteData, Link } from 'react-static'
+import { withRouteData, Link, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -40,13 +39,13 @@ class ThanksPage extends Component {
 
     return (
       <PageContainer {...this.props}>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
           <meta name="robots" content="noindex,nofollow" />
-        </Helmet>
+        </Head>
         <Card center>
           {successful ? (
             <Fragment>

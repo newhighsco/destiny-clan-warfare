@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { withRouteData } from 'react-static'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import Avatar from '../components/avatar/Avatar'
@@ -49,12 +48,12 @@ class ClanTemplate extends Component {
 
     return (
       <PageContainer {...this.props}>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-        </Helmet>
+        </Head>
         <Card cutout={hasLeaderboards} center>
           <Avatar cutout outline color={data.clan.color} foreground={data.clan.foreground} background={data.clan.background} />
           <Lockup primary center reverse kicker={data.clan.motto} heading={data.clan.name} />

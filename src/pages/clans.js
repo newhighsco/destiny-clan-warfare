@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { withRouteData } from 'react-static'
+import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -25,12 +24,12 @@ class ClansPage extends Component {
 
     return (
       <PageContainer {...this.props}>
-        <Helmet>
+        <Head>
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-        </Helmet>
+        </Head>
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Clans" />
         </Card>

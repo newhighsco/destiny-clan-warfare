@@ -884,6 +884,6 @@ export default {
       ]
     }
 
-    await fs.writeFile(path.join(distPath, 'manifest.json'), JSON.stringify(manifest))
+    await fs.writeFile(path.join(distPath, 'manifest.webmanifest'), JSON.stringify(manifest))
   }
 }

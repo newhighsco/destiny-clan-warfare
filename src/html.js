@@ -6,6 +6,7 @@ const constants = require('./utils/constants')
 class Html extends Component {
   render () {
     const { Html, Head, Body, children, routeInfo } = this.props
+    const { title, name, description, handle, themeColor } = constants.meta
     const canonicalPath = routeInfo && routeInfo.path !== '404' ? (routeInfo.path.match(/\/$/) ? routeInfo.path : `${routeInfo.path}/`) : null
     const canonicalUrl = `${process.env.SITE_URL}${canonicalPath === '/' ? canonicalPath : `/${canonicalPath}`}`
 
@@ -18,7 +19,16 @@ class Html extends Component {
           <link rel="alternate" type="application/rss+xml" href="/events.xml" />
           <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
           <link rel="manifest" href="/manifest.webmanifest" />
-          <meta name="theme-color" content={constants.meta.themeColor} />
+          <meta name="theme-color" content={themeColor} />
+          <meta name="description" content={description} />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content={name} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:domain" content={process.env.SITE_URL} />
+          <meta name="twitter:site" content={handle} />
+          <meta name="twitter:creator" content={handle} />
           {canonicalPath &&
             <Fragment>
               <link rel="canonical" href={canonicalUrl} />

@@ -9,7 +9,8 @@ import { Logo } from './components/logo/Logo'
 import { Button, ButtonGroup } from './components/button/Button'
 import Member from './templates/member'
 import EventMember from './templates/event-member'
-import ogImage from './images/favicon-1200x1200.png'
+import appleTouchIcon from './images/apple-touch-icon.png'
+import openGraphImage from './images/favicon-1200x1200.png'
 
 import './stylus/index.styl'
 
@@ -61,7 +62,7 @@ class App extends Component {
 
   render () {
     const { user, enableIdentity, enableIdentityLogin } = this.state
-    const { title, name, description, handle } = constants.meta
+    const { title, name } = constants.meta
 
     return (
       <Router>
@@ -70,17 +71,8 @@ class App extends Component {
             defaultTitle={title}
             titleTemplate={`%s | ${name}`}
           >
-            <html lang="en" />
-            <meta name="description" content={description} />
-            <meta property="og:type" content="website" />
-            <meta property="og:site_name" content={name} />
-            <meta property="og:title" content={title} />
-            <meta property="og:description" content={description} />
-            <meta property="og:image" content={ogImage} />
-            <meta name="twitter:card" content="summary" />
-            <meta name="twitter:domain" content={process.env.SITE_URL} />
-            <meta name="twitter:site" content={handle} />
-            <meta name="twitter:creator" content={handle} />
+            <link rel="apple-touch-icon" href={appleTouchIcon} />
+            <meta property="og:image" content={openGraphImage} />
           </Head>
           {(enableIdentity && !user) ? (
             <HoldingPage>

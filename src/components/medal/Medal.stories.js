@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { MedalList } from './Medal'
 
+const camelcaseKeys = require('camelcase-keys')
 const api = require('../../utils/api-helper').api
 const medalBuilder = require('../../utils/medal-builder')
 const constants = require('../../utils/constants')
@@ -17,9 +18,11 @@ class Loader extends Component {
   }
 
   componentDidMount () {
+    const casingOptions = { deep: true }
+
     api(this.props.url)
       .then(({ data }) => {
-        this.setState({ medals: medalBuilder.parseMedals(data, this.props.type) })
+        this.setState({ medals: medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), this.props.type) })
       })
   }
 

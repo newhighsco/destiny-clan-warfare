@@ -10,10 +10,7 @@ const fs = require('fs-extra')
 const camelcaseKeys = require('camelcase-keys')
 const moment = require('moment')
 const linkify = require('linkify-urls')
-const autoprefixer = require('autoprefixer')
-const stylusMixins = require('stylus-mixins')
-const responsiveGrid = require('responsive-grid')
-const poststylus = require('poststylus')
+const stylusLoaders = require('./src/utils/stylus-loaders')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -786,30 +783,6 @@ export default {
     return routes
   },
   webpack: (config, { defaultLoaders, stage }) => {
-    const stylusLoaders = () => ([
-      {
-        loader: require.resolve('css-loader'),
-        options: {
-          minimize: true
-        }
-      },
-      {
-        loader: require.resolve('stylus-loader'),
-        options: {
-          use: [
-            stylusMixins(),
-            responsiveGrid(),
-            poststylus([ autoprefixer ])
-          ],
-          import: [
-            `~stylus-mixins/index.styl`,
-            `~responsive-grid/index.styl`,
-            path.resolve(__dirname, './src/stylus/_______settings/index.styl')
-          ]
-        }
-      }
-    ])
-
     if (stage !== 'dev') config.devtool = false
 
     config.entry = stage === 'dev'

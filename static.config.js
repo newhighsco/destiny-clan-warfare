@@ -37,7 +37,7 @@ export default {
     port: 9000
   },
   siteRoot: process.env.SITE_URL,
-  bundleAnalyzer: true,
+  bundleAnalyzer: false,
   getRoutes: async () => {
     var apiStatus = {
       enrollmentOpen: false,

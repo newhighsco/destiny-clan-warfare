@@ -37,7 +37,7 @@ class EventsPage extends Component {
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Events" />
         </Card>
-        <Leaderboard cutout data={leaderboard} />
+        <Leaderboard cutout data={leaderboard} prefetch={false} />
       </PageContainer>
     )
   }

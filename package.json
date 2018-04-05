@@ -31,7 +31,7 @@
   "dependencies": {
     "autoprefixer": "^7.2.3",
     "autoprefixer-stylus": "^0.14.0",
-    "axios": "^0.17.0",
+    "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
     "camelcase-keys": "^4.1.0",
     "classnames": "^2.2.5",
@@ -51,7 +51,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router": "^4.2.0",
-    "react-static": "^5.6.1",
+    "react-static": "^5.7.1",
     "responsive-grid": "^1.1.0",
     "rss": "^1.2.2",
     "sentence-case": "^2.1.1",

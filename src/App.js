@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Switch, Route, Head, onLoading } from 'react-static'
+import { Router, Switch, Route, Head, Loading } from 'react-static'
 import identity from 'netlify-identity-widget'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
@@ -38,16 +38,6 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  componentWillMount () {
-    this.unsubscribe = onLoading(loading => {
-      if (loading) {
-        NProgress.start()
-      } else {
-        NProgress.done()
-      }
-    })
-  }
-
   componentDidMount () {
     this.setState({ enableIdentity: enableIdentity })
     identity.init()
@@ -67,6 +57,12 @@ class App extends Component {
     return (
       <Router>
         <div className="site-container">
+          <Loading
+            render={({ loading }) => {
+              loading ? NProgress.isStarted() || NProgress.start() : NProgress.done()
+              return null
+            }}
+          />
           <Head
             defaultTitle={title}
             titleTemplate={`%s | ${name}`}

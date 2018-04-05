@@ -34,14 +34,16 @@ class Enrollment extends Component {
   }
 
   componentDidMount () {
-    this.setState({ active: true })
+    if (this.refs.form) {
+      this.setState({ active: true })
 
-    api(`Clan/AcceptingNewClans`)
-      .then(({ data }) => {
-        localStorage.setItem('enrollmentOpen', data)
-        this.setState({ open: data })
-      })
-      .catch(err => console.log(err))
+      api(`Clan/AcceptingNewClans`)
+        .then(({ data }) => {
+          localStorage.setItem('enrollmentOpen', data)
+          this.setState({ open: data })
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   handleEnroll (e) {

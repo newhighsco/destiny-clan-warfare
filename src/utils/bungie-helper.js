@@ -1,4 +1,4 @@
-const axios = require(`axios`)
+const axios = require('axios')
 const constants = require('./constants')
 
 const bungie = axios.create({

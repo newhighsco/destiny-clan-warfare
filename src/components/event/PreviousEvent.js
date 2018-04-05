@@ -55,24 +55,24 @@ const PreviousEvent = ({ event, element, summary }) => {
         summary ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} columns={leaderboardColumns} />
+              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} columns={leaderboardColumns} prefetch={false} />
             </Tab>
           </TabContainer>
         ) : (
           <TabContainer id="results" cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} prefetch={false} />
               </Tab>
             }
             {mediumLeaderboard.length > 0 &&
               <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} prefetch={false} />
               </Tab>
             }
             {smallLeaderboard.length > 0 &&
               <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} prefetch={false} />
               </Tab>
             }
           </TabContainer>

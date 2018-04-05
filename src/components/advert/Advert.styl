@@ -1,8 +1,18 @@
 .advert
-  margin-top $spacing--double !important // @stylint ignore
+  margin-top 0 !important // @stylint ignore
   text-align center
+
+  .has-advert &
+    margin-top $spacing--double !important // @stylint ignore
 
 .adsbygoogle
   border 0
   display block
   overflow hidden
+
+.has-advert > div
+  display none !important // @stylint ignore
+
+  &#nprogress
+  &#root
+    display block !important // @stylint ignore

@@ -16,7 +16,7 @@ const sentence = require('../../utils/grammar').sentence
 
 const baseClassName = 'medal'
 
-const Medal = ({ name, description, label, tier, count, size, align, className }) => {
+const Medal = ({ name, description, label, tier, count, size, align, className, enableHover, tooltipActive }) => {
   const backgroundKey = `Tier${tier}`
   const foregroundKey = pascalCase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
@@ -29,7 +29,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
   if (!BackgroundSvg) return null
 
   return (
-    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover>
+    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} isActive={tooltipActive}>
       <div className={classNames(
         baseClassName,
         `${baseClassName}--tier-${tier}`,
@@ -58,7 +58,8 @@ const Medal = ({ name, description, label, tier, count, size, align, className }
 }
 
 Medal.defaultProps = {
-  tier: 1
+  tier: 1,
+  enableHover: true
 }
 
 Medal.propTypes = {
@@ -69,10 +70,12 @@ Medal.propTypes = {
   count: PropTypes.number,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
-  className: PropTypes.string
+  className: PropTypes.string,
+  enableHover: PropTypes.bool,
+  tooltipActive: PropTypes.bool
 }
 
-const MedalList = ({ medals, size, align, center }) => {
+const MedalList = ({ medals, size, align, center, enableHover, tooltipActive }) => {
   if (!medals || medals.length < 1) return null
 
   medals = MultiSort(medals, {
@@ -85,7 +88,7 @@ const MedalList = ({ medals, size, align, center }) => {
     <ul className={classNames('list--inline', `${baseClassName}-list`, center && 'text-center')}>
       {medals.map((medal, i) => (
         <li key={i}>
-          <Medal {...medal} size={size} align={align} />
+          <Medal {...medal} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
         </li>
       ))}
     </ul>
@@ -93,14 +96,17 @@ const MedalList = ({ medals, size, align, center }) => {
 }
 
 MedalList.defaultProps = {
-  align: 'center'
+  align: 'center',
+  enableHover: true
 }
 
 MedalList.propTypes = {
   medals: PropTypes.array,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
-  center: PropTypes.bool
+  center: PropTypes.bool,
+  enableHover: PropTypes.bool,
+  tooltipActive: PropTypes.bool
 }
 
 export {

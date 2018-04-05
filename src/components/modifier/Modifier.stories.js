@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import MultiSort from 'multi-sort'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
@@ -34,14 +35,14 @@ Loader.propTypes = {
 
 storiesOf('Modifiers', module)
   .addDecorator(story => (
-    <div className="storybook-modifiers">
+    <div className="storybook-tooltips-visible">
       {story()}
     </div>
   ))
   .add('All', () => (
     <Loader>
       {modifiers => (
-        <ModifierList modifiers={modifiers} />
+        <ModifierList modifiers={MultiSort(modifiers.map(modifier => ({ ...modifier, creator: { name: modifier.createdBy } })), { name: 'ASC' })} enableHover={false} tooltipActive />
       )}
     </Loader>
   ))

@@ -12,7 +12,7 @@ const constants = require('../../utils/constants')
 
 const baseClassName = 'modifier'
 
-const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
+const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, multiplierBonus, size, align, enableHover, tooltipActive }) => {
   const iconKey = pascalCase(name || '')
   const icon = Icons.hasOwnProperty(iconKey) ? Icons[iconKey] : null
   const IconSvg = icon ? icon.svg : null
@@ -35,7 +35,7 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
   return (
-    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover>
+    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover={enableHover} isActive={tooltipActive}>
       <div
         className={classNames(
           baseClassName,
@@ -56,6 +56,10 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   )
 }
 
+Modifier.defaultProps = {
+  enableHover: true
+}
+
 Modifier.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
@@ -64,17 +68,19 @@ Modifier.propTypes = {
   scoringBonus: PropTypes.number,
   multiplierBonus: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),
-  align: PropTypes.oneOf([ 'left', 'right', 'center' ])
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  enableHover: PropTypes.bool,
+  tooltipActive: PropTypes.bool
 }
 
-const ModifierList = ({ modifiers, size, align }) => {
+const ModifierList = ({ modifiers, size, align, enableHover, tooltipActive }) => {
   if (!modifiers || modifiers.length < 1) return null
 
   return (
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {modifiers.map((modifier, i) => (
         <li key={i}>
-          <Modifier {...modifier} size={size} align={align} />
+          <Modifier {...modifier} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
         </li>
       ))}
     </ul>
@@ -82,13 +88,16 @@ const ModifierList = ({ modifiers, size, align }) => {
 }
 
 ModifierList.defaultProps = {
-  align: 'center'
+  align: 'center',
+  enableHover: true
 }
 
 ModifierList.propTypes = {
   modifiers: PropTypes.array,
   size: PropTypes.oneOf([ 'small' ]),
-  align: PropTypes.oneOf([ 'left', 'right', 'center' ])
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  enableHover: PropTypes.bool,
+  tooltipActive: PropTypes.bool
 }
 
 export {

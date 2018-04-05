@@ -38,17 +38,17 @@ Loader.propTypes = {
 
 storiesOf('Medals', module)
   .addDecorator(story => (
-    <div style={{ margin: '120px 100px' }}>
+    <div className="storybook-tooltips-visible">
       {story()}
     </div>
   ))
   .add('Clan', () => (
     <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
-      {medals => <MedalList center medals={medals} />}
+      {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}
     </Loader>
   ))
   .add('Members', () => (
     <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
-      {medals => <MedalList center medals={medals} />}
+      {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}
     </Loader>
   ))

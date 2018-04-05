@@ -7,6 +7,7 @@ const camelcaseKeys = require('camelcase-keys')
 const api = require('../../utils/api-helper').api
 const medalBuilder = require('../../utils/medal-builder')
 const constants = require('../../utils/constants')
+const casingOptions = { deep: true }
 
 class Loader extends Component {
   constructor (props) {
@@ -18,8 +19,6 @@ class Loader extends Component {
   }
 
   componentDidMount () {
-    const casingOptions = { deep: true }
-
     api(this.props.url)
       .then(({ data }) => {
         this.setState({ medals: medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), this.props.type) })

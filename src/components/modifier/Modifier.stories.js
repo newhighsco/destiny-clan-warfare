@@ -4,8 +4,7 @@ import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
 const api = require('../../utils/api-helper').api
-const constants = require('../../utils/constants')
-const camelcaseKeys = require(`camelcase-keys`)
+const camelcaseKeys = require('camelcase-keys')
 const casingOptions = { deep: true }
 
 class Loader extends Component {
@@ -35,12 +34,14 @@ Loader.propTypes = {
 
 storiesOf('Modifiers', module)
   .addDecorator(story => (
-    <div className="text-center" style={{ margin: '120px 100px' }}>
+    <div className="storybook-modifiers">
       {story()}
     </div>
   ))
   .add('All', () => (
-    <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
-      {modifiers => <ModifierList modifiers={modifiers} />}
+    <Loader>
+      {modifiers => (
+        <ModifierList modifiers={modifiers} />
+      )}
     </Loader>
   ))

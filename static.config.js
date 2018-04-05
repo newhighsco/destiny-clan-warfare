@@ -652,7 +652,7 @@ export default {
       {
         path: '/',
         component: 'src/pages/index',
-        getData: async () => ({
+        getData: () => ({
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => ({
             path: clan.path,
             id: clan.id
@@ -665,13 +665,13 @@ export default {
       {
         path: urlBuilder.clanRootUrl,
         component: 'src/pages/clans',
-        getData: async () => ({
+        getData: () => ({
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
         }),
         children: parsedClans.map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/clan',
-          getData: async () => ({
+          getData: () => ({
             clan,
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`), {
               totalsSortable: 'ASC',
@@ -683,7 +683,7 @@ export default {
       {
         path: urlBuilder.profileRootUrl,
         component: 'src/pages/members',
-        getData: async () => ({
+        getData: () => ({
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
@@ -706,21 +706,13 @@ export default {
       {
         path: urlBuilder.eventRootUrl,
         component: 'src/pages/events',
-        getData: async () => ({
-          events: visibleEvents.map(event => ({
-            path: event.path,
-            name: event.name,
-            startDate: event.startDate,
-            endDate: event.endDate,
-            isCurrent: event.isCurrent,
-            isPast: event.isPast,
-            modifiers: event.modifiers
-          }))
+        getData: () => ({
+          events: visibleEvents.map(({ path, name, startDate, endDate, isCurrent, isPast, modifiers }) => ({ path, name, startDate, endDate, isCurrent, isPast, modifiers }))
         }),
         children: parsedEvents.filter(({ visible }) => visible).map(event => ({
           path: `/${event.id}/`,
           component: 'src/templates/event',
-          getData: async () => ({
+          getData: () => ({
             event
           })
         }))
@@ -747,13 +739,13 @@ export default {
       routes.push({
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
-        getData: async () => ({
+        getData: () => ({
           event: parsedEvents.find(({ id }) => id === currentEvent.eventId)
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/event-clan',
-          getData: async () => ({
+          getData: () => ({
             clan,
             members: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
           })

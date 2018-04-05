@@ -65,17 +65,17 @@ class CurrentEvent extends Component {
           <TabContainer id={!summary ? 'leaderboard' : null} cutout>
             {largeLeaderboard.length > 0 &&
               <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} prefetch={false} />
+                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {mediumLeaderboard.length > 0 &&
               <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} prefetch={false} />
+                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
             {smallLeaderboard.length > 0 &&
               <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} prefetch={false} />
+                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
               </Tab>
             }
           </TabContainer>

@@ -33,7 +33,7 @@ class ClansPage extends Component {
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Clans" />
         </Card>
-        <Leaderboard cutout data={leaderboard} columns={leaderboardColumns} prefetch={false} />
+        <Leaderboard cutout data={leaderboard} columns={leaderboardColumns} />
       </PageContainer>
     )
   }

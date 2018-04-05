@@ -6,9 +6,11 @@ import Bullseye from './bullseye.svg'
 import CrimsonDoubleDown from './crimson-double-down.svg'
 import DoubleDown from './double-down.svg'
 import FlawlessStriker from './flawless-striker.svg'
+import FragAndTag from './frag-and-tag.svg'
 import LukeSkywalkerSPadawan from './luke-skywalker-s-padawan.svg'
 import Merciless from './merciless.svg'
 import NiceThrow from './nice-throw.svg'
+import NotSoSuper from './not-so-super.svg'
 import Perfection from './perfection.svg'
 import PewPewPew from './pew-pew-pew.svg'
 import RaidMaster from './raid-master.svg'
@@ -30,9 +32,11 @@ const svgs = {
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
+  FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
   LukeSkywalkerSPadawan: { svg: LukeSkywalkerSPadawan, designer: 'Colour Block' },
   Merciless: { svg: Merciless, designer: 'Optimus Prime' },
   NiceThrow: { svg: NiceThrow, designer: 'Hea Poh Lin' },
+  NotSoSuper: { svg: NotSoSuper },
   Perfection: { svg: Perfection, designer: 'Montu Yadav' },
   PewPewPew: { svg: PewPewPew, designer: 'Nikol Kokešová' },
   RaidMaster: { svg: RaidMaster, designer: 'Robert Bjurshagen' },

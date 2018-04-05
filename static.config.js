@@ -748,14 +748,12 @@ export default {
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
         getData: async () => ({
-          canonical: urlBuilder.currentEventRootUrl,
           event: parsedEvents.find(({ id }) => id === currentEvent.eventId)
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/event-clan',
           getData: async () => ({
-            canonical: urlBuilder.currentEventUrl(clan.id),
             clan,
             members: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
           })

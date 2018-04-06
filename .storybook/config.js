@@ -23,7 +23,8 @@ addDecorator(story => (
 
 setOptions({
   name: constants.meta.name,
-  url: '/'
+  url: '/',
+  showAddonPanel: false
 })
 
 configure(loadStories, module)

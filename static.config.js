@@ -1,5 +1,6 @@
 import MultiSort from 'multi-sort'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
 import RSS from 'rss'
 import Html from './src/html'
 
@@ -20,6 +21,7 @@ const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
 
 const distPath = 'public'
+const extractCssChunks = true
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADERBOARDS)
 var currentEvent
@@ -35,6 +37,8 @@ export default {
   },
   siteRoot: process.env.SITE_URL,
   bundleAnalyzer: false,
+  extractCssChunks: extractCssChunks,
+  inlineCss: true,
   getRoutes: async () => {
     var apiStatus = {
       enrollmentOpen: false,
@@ -786,7 +790,7 @@ export default {
             test: /\.styl$/,
             use: stage === 'dev'
               ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : ExtractTextPlugin.extract({ use: stylusLoaders() })
+              : (extractCssChunks ? ExtractCssChunks : ExtractTextPlugin).extract({ use: stylusLoaders() })
           },
           {
             test: /\.svg$/,

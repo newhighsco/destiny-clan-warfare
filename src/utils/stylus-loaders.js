@@ -8,7 +8,9 @@ const stylusLoaders = () => ([
   {
     loader: require.resolve('css-loader'),
     options: {
-      minimize: true
+      minimize: true,
+      modules: true,
+      localIdentName: '[local]'
     }
   },
   {
@@ -20,8 +22,8 @@ const stylusLoaders = () => ([
         poststylus([ autoprefixer ])
       ],
       import: [
-        `~stylus-mixins/index.styl`,
-        `~responsive-grid/index.styl`,
+        '~stylus-mixins/index.styl',
+        '~responsive-grid/index.styl',
         path.resolve(__dirname, '../stylus/_______settings/index.styl')
       ]
     }

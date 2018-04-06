@@ -42,7 +42,7 @@ storiesOf('Modifiers', module)
   .add('All', () => (
     <Loader>
       {modifiers => (
-        <ModifierList modifiers={MultiSort(modifiers.map(modifier => ({ ...modifier, creator: { name: modifier.createdBy } })), { name: 'ASC' })} enableHover={false} tooltipActive />
+        <ModifierList modifiers={MultiSort(modifiers.map(modifier => ({ ...modifier, creator: modifier.createdBy, bonus: modifier.scoringBonus || modifier.multiplierBonus })), { name: 'ASC' })} enableHover={false} tooltipActive />
       )}
     </Loader>
   ))

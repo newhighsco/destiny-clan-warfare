@@ -63,7 +63,7 @@ export default {
       const { name, description, scoringModifier } = modifier
       const member = members.find(member => member.profileIdStr === modifier.createdBy)
       const clan = member ? clans.find(clan => clan.groupId === member.groupId) : null
-      const creator = member ? `${decode(member.name)} [${decode(clan.tag)}]` : null
+      const creator = member ? `${decode(member.name)}${clan ? ` [ ${decode(clan.tag)}]` : ''}` : null
 
       return {
         name,

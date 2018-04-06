@@ -67,6 +67,7 @@ class App extends Component {
             defaultTitle={title}
             titleTemplate={`%s | ${name}`}
           >
+            <meta property="og:title" content={title} />
             <meta name="description" content={description} />
             <meta property="og:description" content={description} />
             <link rel="apple-touch-icon" href={appleTouchIcon} />

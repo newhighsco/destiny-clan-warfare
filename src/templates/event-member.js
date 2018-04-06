@@ -8,9 +8,9 @@ const urlBuilder = require('../utils/url-builder')
 
 class EventMemberTemplate extends Component {
   constructor (props) {
-    super()
+    super(props)
 
-    const { location: { state } } = props
+    const { location: { state } } = this.props
 
     this.state = {
       member: state ? state.member : null

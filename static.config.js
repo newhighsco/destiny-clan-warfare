@@ -56,7 +56,7 @@ export default {
     var currentEventLeaderboard
     var previousEventId = Number.NEGATIVE_INFINITY
     const casingOptions = { deep: true }
-    const linkifyOptions = { attributes: { target: '_blank' } }
+    const linkifyOptions = { attributes: { target: '_blank', rel: 'noopener noreferrer' } }
     const clanPlatforms = []
 
     const parseModifier = (modifier) => {

@@ -8,7 +8,7 @@ class Tooltip extends Component {
   constructor (props) {
     super(props)
 
-    const { isActive } = props
+    const { isActive } = this.props
 
     this.state = {
       isActive: isActive,

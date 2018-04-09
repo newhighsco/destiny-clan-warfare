@@ -26,7 +26,7 @@ class Member extends Component {
     const title = `${member.name} [${member.clanTag}] | Members`
     const description = `${possessive(member.name)} progress in the war against other clans in Destiny 2`
     const kicker = member.clanName
-    const kickerHref = urlBuilder.clanUrl(member.clanId.substring(constants.prefix.hash.length))
+    const kickerHref = urlBuilder.clanUrl(member.clanId)
     const canonicalUrl = `${process.env.SITE_URL}${member.path}`
     const schema = {
       '@context': 'http://schema.org',

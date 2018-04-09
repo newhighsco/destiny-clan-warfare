@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -49,25 +49,19 @@ class EventTemplate extends Component {
           <meta property="og:description" content={description} />
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Head>
+        <Lockup primary center kicker={kicker}>
+          {event.isCurrent &&
+            <RelativeDate status />
+          }
+        </Lockup>
         {event.isCurrent &&
-          <Fragment>
-            <Lockup primary center kicker={kicker}>
-              <RelativeDate status />
-            </Lockup>
-            <CurrentEvent event={event} />
-          </Fragment>
+          <CurrentEvent event={event} />
         }
         {event.isPast &&
-          <Fragment>
-            <Lockup primary center kicker={kicker} />
-            <PreviousEvent event={event} />
-          </Fragment>
+          <PreviousEvent event={event} />
         }
         {event.isFuture &&
-          <Fragment>
-            <Lockup primary center kicker={kicker} />
-            <FutureEvent event={event} />
-          </Fragment>
+          <FutureEvent event={event} />
         }
       </PageContainer>
     )

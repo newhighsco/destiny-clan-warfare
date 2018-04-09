@@ -19,10 +19,11 @@ const possessive = require('../utils/grammar').possessive
 class EventClanTemplate extends Component {
   render () {
     const { clan, members } = this.props
-    const leaderboard = clan.leaderboard.filter(({ games }) => games > 0).map(node => {
+    const leaderboard = clan.leaderboard.filter(({ games }) => games > 0).map(member => {
       return {
-        ...node,
-        member: members.find(({ id }) => id === node.id)
+        rank: '',
+        ...member,
+        member: members.find(({ id }) => id === member.id)
       }
     })
     const title = `${clan.name} | ${constants.kicker.current}`
@@ -43,7 +44,7 @@ class EventClanTemplate extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(clan.id.substring(constants.prefix.hash.length))}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(clan.id)}`,
             name: clan.name
           }
         }
@@ -135,7 +136,6 @@ class EventClanTemplate extends Component {
           <Leaderboard
             cutout
             data={leaderboard}
-            columns={[ 'path', 'platforms', 'name', 'icon', 'tags', 'rank', 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
             sorting={{ score: 'DESC' }}
             prefetch={false}
             stateKey="member"

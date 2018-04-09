@@ -43,7 +43,8 @@ const constants = {
     past: 'Past event',
     future: 'Upcoming event',
     previous: 'Previous event',
-    next: 'Next event'
+    next: 'Next event',
+    last: 'Last event'
   },
   server: {
     baseUrl: apiBaseUrl,

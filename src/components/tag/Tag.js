@@ -6,7 +6,7 @@ import './Tag.styl'
 
 const baseClassName = 'tag'
 
-const Tag = ({ name, description }) => {
+const Tag = ({ name }) => {
   const allowedTags = [
     { name: 'Beta Tester', tier: 3, label: 'Beta' },
     { name: 'Creator', tier: 1, label: 'Creator' },
@@ -29,8 +29,7 @@ const Tag = ({ name, description }) => {
 }
 
 Tag.propTypes = {
-  name: PropTypes.string,
-  description: PropTypes.string
+  name: PropTypes.string
 }
 
 const TagList = ({ tags, className }) => {

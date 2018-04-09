@@ -10,24 +10,17 @@ import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 
-const constants = require('../../utils/constants')
 const medalBuilder = require('../../utils/medal-builder')
 
 const PreviousEvent = ({ event, element, summary }) => {
+  const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
+    name,
+    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, ...rest }) => ({
+      rank: '',
+      ...rest
+    }))
+  })) : []
   const isCalculated = event.isCalculated
-  var largeLeaderboard = []
-  var mediumLeaderboard = []
-  var smallLeaderboard = []
-  var leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'medal' ]
-
-  if (!summary) {
-    largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
-    mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
-    smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
-    leaderboardColumns.push('rank', 'score')
-  } else {
-    leaderboardColumns.push('division', 'score')
-  }
 
   return (
     <Fragment>
@@ -55,26 +48,18 @@ const PreviousEvent = ({ event, element, summary }) => {
         summary ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} columns={leaderboardColumns} />
+              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} />
             </Tab>
           </TabContainer>
         ) : (
           <TabContainer id="results" cutout>
-            {largeLeaderboard.length > 0 &&
-              <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {mediumLeaderboard.length > 0 &&
-              <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {smallLeaderboard.length > 0 &&
-              <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
+            {leaderboards.map(leaderboard => {
+              return (
+                <Tab key={leaderboard.name} name={leaderboard.name}>
+                  <Leaderboard data={leaderboard.data} />
+                </Tab>
+              )
+            })}
           </TabContainer>
         )
       }

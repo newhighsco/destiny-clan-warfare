@@ -74,7 +74,8 @@ class Leaderboard extends Component {
       'medals',
       'tags',
       'eventId',
-      'platforms'
+      'platforms',
+      'updatedDate'
     ]
 
     if (stateKey) filteredKeys.push(stateKey)
@@ -141,7 +142,7 @@ class Leaderboard extends Component {
                         <TagList tags={item.tags} className="leaderboard__tags" />
                       }
                       {showClanTag &&
-                        <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId.substring(constants.prefix.hash.length))}>{item.clanTag}</ClanTag>
+                        <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId)}>{item.clanTag}</ClanTag>
                       }
                     </Fragment>
                   }

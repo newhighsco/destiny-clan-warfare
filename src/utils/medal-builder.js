@@ -21,15 +21,15 @@ const build = (rank, tier, division) => {
 }
 
 const embellishLeaderboard = (leaderboard, division) => {
-  return leaderboard.map(item => {
+  return leaderboard.map((item, index) => {
     var medal = { tier: 0 }
 
-    switch (item.rank) {
-      case '#1':
+    switch (index) {
+      case 0:
         medal = build(1, 2, division)
         break
-      case '#2':
-      case '#3':
+      case 1:
+      case 2:
         medal = build('top 3', 1, division)
         break
     }
@@ -47,7 +47,7 @@ const parseMedals = (input, type, minimumTier) => {
   const parseMedal = (medal, type) => {
     return {
       id: medal.id || medal.medalId || medal.unlockId,
-      type: type,
+      type,
       tier: medal.tier || medal.medalTier || 1,
       name: medal.name,
       description: medal.description,

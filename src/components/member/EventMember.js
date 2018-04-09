@@ -25,7 +25,7 @@ class EventMember extends Component {
     const hasLeaderboard = leaderboard && leaderboard.length > 0
     const title = `${member.name} [${member.clanTag}] | ${constants.kicker.current}`
     const description = `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`
-    const canonicalUrl = `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length), member.id)}`
+    const canonicalUrl = `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId, member.id)}`
     const schema = {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
@@ -42,7 +42,7 @@ class EventMember extends Component {
           '@type': 'ListItem',
           position: 2,
           item: {
-            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))}`,
+            '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(member.clanId)}`,
             name: member.clanName
           }
         },
@@ -77,7 +77,7 @@ class EventMember extends Component {
               <Avatar cutout outline icon={member.icon} />
             }
             <TagList tags={member.tags} className="card__tags" />
-            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.currentEventUrl(member.clanId.substring(constants.prefix.hash.length))} heading={member.name} />
+            <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.currentEventUrl(member.clanId)} heading={member.name} />
             <PlatformList platforms={member.platforms} />
             <StatList stats={member.leaderboard} />
             {!hasLeaderboard &&

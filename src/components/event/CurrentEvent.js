@@ -9,8 +9,6 @@ import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 
-const constants = require('../../utils/constants')
-
 class CurrentEvent extends Component {
   constructor (props) {
     super(props)
@@ -29,18 +27,8 @@ class CurrentEvent extends Component {
   render () {
     const { event, element, summary } = this.props
     const { enrollmentOpen } = this.state
-    var largeLeaderboard = event.leaderboards.large
-    var mediumLeaderboard = event.leaderboards.medium
-    var smallLeaderboard = event.leaderboards.small
-    const hasLeaderboards = largeLeaderboard.length > 0 && mediumLeaderboard.length > 0 && smallLeaderboard.length > 0
-    const summaryCount = 3
-    var leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'rank', 'score', 'active', 'size' ]
-
-    if (summary) {
-      largeLeaderboard = largeLeaderboard.slice(0, summaryCount)
-      mediumLeaderboard = mediumLeaderboard.slice(0, summaryCount)
-      smallLeaderboard = smallLeaderboard.slice(0, summaryCount)
-    }
+    const leaderboards = event.leaderboards
+    const hasLeaderboards = leaderboards.length === 3
 
     return (
       <Fragment>
@@ -63,21 +51,13 @@ class CurrentEvent extends Component {
         </Card>
         {hasLeaderboards &&
           <TabContainer id={!summary ? 'leaderboard' : null} cutout>
-            {largeLeaderboard.length > 0 &&
-              <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {mediumLeaderboard.length > 0 &&
-              <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {smallLeaderboard.length > 0 &&
-              <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
+            {leaderboards.map(leaderboard => {
+              return (
+                <Tab key={leaderboard.name} name={leaderboard.name}>
+                  <Leaderboard data={leaderboard.data} />
+                </Tab>
+              )
+            })}
           </TabContainer>
         }
       </Fragment>

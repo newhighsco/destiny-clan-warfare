@@ -54,15 +54,15 @@ export default {
     var modifiers = []
     var medals = []
     var currentEventLeaderboard
-    var previousEventId = Number.NEGATIVE_INFINITY
+    var previousEventId
     const casingOptions = { deep: true }
     const linkifyOptions = { attributes: { target: '_blank', rel: 'noopener noreferrer' } }
     const clanPlatforms = []
 
     const parseModifier = (modifier) => {
       const { id, name, description, scoringModifier } = modifier
-      const member = members.find(member => member.profileIdStr === modifier.createdBy)
-      const clan = member ? clans.find(clan => clan.groupId === member.groupId) : null
+      const member = members.find(({ profileIdStr }) => profileIdStr === modifier.createdBy)
+      const clan = member ? clans.find(({ groupId }) => groupId === member.groupId) : null
       const creator = member ? `${decode(member.name)}${clan ? ` [${decode(clan.tag)}]` : ''}` : null
 
       return {
@@ -140,7 +140,7 @@ export default {
         api(`Event/GetAllEvents`)
           .then(({ data }) => {
             events = data.map(item => camelcaseKeys(item, casingOptions))
-            currentEvent = events.find(event => event.eventTense === constants.tense.current)
+            currentEvent = events.find(({ eventTense }) => eventTense === constants.tense.current)
             console.timeEnd(`fetch events`)
             console.log(`events: ${events.length}`)
             resolve()
@@ -276,10 +276,11 @@ export default {
       const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
 
       return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
-        const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
+        const modifier = modifiers.find(({ id }) => id === bonus.modifierId)
+
         if (modifier) {
           return {
-            ...modifier,
+            shortName: modifier.shortName,
             count: bonus.bonusPoints
           }
         }
@@ -293,34 +294,29 @@ export default {
     const parsedClans = []
 
     const parseTags = (bonusUnlocks) => {
-      return bonusUnlocks.map(bonus => {
-        return {
-          name: bonus.name || '',
-          description: bonus.description || ''
-        }
-      })
+      return bonusUnlocks.map(({ name }) => ({ name }))
     }
 
     await Promise.all(clans.map(clan => {
-      const clanMembers = members.filter(member => member.groupId === clan.groupId)
-      const currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
-      const previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+      const clanMembers = members.filter(({ groupId }) => groupId === clan.groupId)
+      const currentClanLeaderboard = currentMemberLeaderboards.filter(({ clanId }) => clanId === clan.groupId)
+      const previousClanLeaderboard = previousMemberLeaderboards.filter(({ clanId }) => clanId === clan.groupId)
       const platforms = clanMembers.reduce((platforms, member) => {
         const hasPlayed = member.currentScore ? member.currentScore.gamesPlayed > 0 : false
-        const id = member.membershipType
-        const existing = platforms.find(platform => platform.id === id)
+        const platformId = member.membershipType
+        const existing = platforms.find(({ id }) => id === platformId)
 
         if (existing) {
           existing.size++
           if (hasPlayed) existing.active++
         } else {
-          platforms.push({ id: id, size: 1, active: hasPlayed ? 1 : 0 })
+          platforms.push({ id: platformId, size: 1, active: hasPlayed ? 1 : 0 })
         }
 
         return platforms
       }, [])
 
-      clanPlatforms.push({ id: clan.groupId, platforms: platforms })
+      clanPlatforms.push({ id: clan.groupId, platforms })
 
       const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
         if (leaderboard.length === 0) {
@@ -343,7 +339,7 @@ export default {
         }
 
         return leaderboard.map(item => {
-          const member = clanMembers.find(member => member.profileIdStr === item.idStr)
+          const member = clanMembers.find(({ profileIdStr }) => profileIdStr === item.idStr)
 
           if (!member) {
             if (isCurrent) console.error(`Cannot find member: ${item.idStr}`)
@@ -372,7 +368,7 @@ export default {
 
       return parsedClans.push({
         id: `${clan.groupId}`,
-        platforms: platforms,
+        platforms,
         path: urlBuilder.clanUrl(clan.groupId),
         name: decode(clan.name),
         nameSortable: clan.name.toUpperCase(),
@@ -402,10 +398,9 @@ export default {
     const parsedMembers = []
 
     await Promise.all(members.map(member => {
-      const clan = clans.find(clan => clan.groupId === member.groupId)
+      const clan = clans.find(({ groupId }) => groupId === member.groupId)
       const historyCount = constants.matchHistoryLimit
-      var history = MultiSort(histories.filter(history => history.memberShipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
-
+      var history = MultiSort(histories.filter(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
@@ -456,7 +451,7 @@ export default {
         id: member.profileIdStr,
         platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
         path: urlBuilder.profileUrl(member.profileIdStr),
-        clanId: `${constants.prefix.hash}${member.groupId}`,
+        clanId: `${member.groupId}`,
         clanName: decode(clan.name),
         clanPath: urlBuilder.clanUrl(member.groupId),
         clanTag: decode(clan.tag),
@@ -466,28 +461,26 @@ export default {
         icon: member.icon,
         tags: parseTags(member.bonusUnlocks),
         medals: medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile),
-        totals: totals,
+        totals,
         totalsVisible: totals.games > 0,
         totalsSortable: totals.lastPlayed,
-        leaderboard: leaderboard,
+        leaderboard,
         leaderboardVisible: leaderboard.games > 0,
-        history: history.map(item => {
-          return {
-            game: {
-              path: urlBuilder.pgcrUrl(item.pgcrId),
-              isExternal: true,
-              result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
-              type: item.gameType,
-              map: item.map,
-              endDate: moment.utc(item.datePlayed).format(constants.format.machineReadable)
-            },
-            kills: item.kills,
-            assists: item.assists,
-            deaths: item.deaths,
-            bonuses: parseBonuses(item),
-            score: parseInt(Math.round(item.totalScore))
-          }
-        }),
+        history: history.map(item => ({
+          game: {
+            path: urlBuilder.pgcrUrl(item.pgcrId),
+            isExternal: true,
+            result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
+            type: item.gameType,
+            map: item.map,
+            endDate: moment.utc(item.datePlayed).format(constants.format.machineReadable)
+          },
+          kills: item.kills,
+          assists: item.assists,
+          deaths: item.deaths,
+          bonuses: parseBonuses(item),
+          score: parseInt(Math.round(item.totalScore))
+        })),
         updatedDate: moment.utc(member.lastchecked || 0).format(constants.format.machineReadable)
       })
     }))
@@ -506,7 +499,7 @@ export default {
 
         return rawClans.map((rawClan, i) => {
           const clanId = rawClan.clanId || rawClan.id
-          const clan = clans.find(clan => clan.groupId === clanId)
+          const clan = clans.find(({ groupId }) => groupId === clanId)
           const platforms = clanPlatforms.find(({ id }) => id === clanId)
 
           if (!clan) {
@@ -636,11 +629,11 @@ export default {
         isCalculated: event.calculated,
         visible: event.expired ? hasResults : true,
         modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
-        leaderboards: {
-          large: largeLeaderboard,
-          medium: mediumLeaderboard,
-          small: smallLeaderboard
-        },
+        leaderboards: [
+          { name: constants.division.large, data: largeLeaderboard },
+          { name: constants.division.medium, data: mediumLeaderboard },
+          { name: constants.division.small, data: smallLeaderboard }
+        ],
         results: results.filter(({ score }) => score > 0),
         medals: {
           clans: event.clanMedals ? medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
@@ -657,13 +650,17 @@ export default {
         path: '/',
         component: 'src/pages/index',
         getData: () => ({
-          clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => ({
-            path: clan.path,
-            id: clan.id
-          })),
-          currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC').slice(0, 1),
-          pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC').slice(0, 1),
-          futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC').slice(0, 1)
+          clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
+            .map(({ path, id }) => ({ path, id })),
+          currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
+            .slice(0, 1)
+            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) })),
+          pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
+            .slice(0, 1)
+            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ path, name, platforms, color, background, foreground, medal, division, score }) => ({ path, name, platforms, color, background, foreground, medal, division, score })) })),
+          futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')
+            .slice(0, 1)
+            .map(({ path, name, description, startDate, endDate, modifiers }) => ({ path, name, description, startDate, endDate, modifiers }))
         })
       },
       {
@@ -671,16 +668,17 @@ export default {
         component: 'src/pages/clans',
         getData: () => ({
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
+            .map(({ path, platforms, name, color, tag, id, foreground, background }) => ({ path, platforms, name, color, clanTag: tag, clanId: id, foreground, background }))
         }),
         children: parsedClans.map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/clan',
           getData: () => ({
-            clan,
-            members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`), {
+            clan: (({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard }) => ({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard }))(clan),
+            members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            })
+            }).map(({ path, platforms, name, icon, tags, totals }) => ({ path, platforms, name, icon, tags, totals }))
           })
         }))
       },
@@ -691,20 +689,7 @@ export default {
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
-          }).map(member => ({
-            path: member.path,
-            id: member.id,
-            platforms: member.platforms,
-            name: member.name,
-            clanId: member.clanId,
-            clanName: member.clanName,
-            clanTag: member.clanTag,
-            clanPath: member.clanPath,
-            icon: member.icon,
-            tags: member.tags,
-            totals: member.totals,
-            medals: member.medals
-          }))
+          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
         })
       },
       {
@@ -717,7 +702,7 @@ export default {
           path: `/${event.id}/`,
           component: 'src/templates/event',
           getData: () => ({
-            event
+            event: (({ path, name, description, startDate, endDate, isCurrent, isPast, isFuture, isCalculated, leaderboards, results, modifiers, medals }) => ({ path, name, description, startDate, endDate, isCurrent, isPast, isFuture, isCalculated, leaderboards, results, modifiers, medals }))(event)
           })
         }))
       },
@@ -744,14 +729,16 @@ export default {
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
         getData: () => ({
-          event: parsedEvents.find(({ id }) => id === currentEvent.eventId)
+          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/event-clan',
           getData: () => ({
-            clan,
-            members: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
+            clan: (({ path, platforms, id, name, motto, color, foreground, background, leaderboard }) => ({ path, platforms, id, name, motto, color, foreground, background, leaderboard }))(clan),
+            members: parsedMembers
+              .filter(({ clanId }) => clanId === clan.id)
+              .map(({ id, platforms, name, icon, tags, clanId, clanName, clanTag, leaderboard, history }) => ({ id, platforms, name, icon, tags, clanId, clanName, clanTag, leaderboard, history }))
           })
         }))
       })

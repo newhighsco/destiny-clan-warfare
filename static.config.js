@@ -11,6 +11,7 @@ const fs = require('fs-extra')
 const camelcaseKeys = require('camelcase-keys')
 const moment = require('moment')
 const linkify = require('linkify-urls')
+const webpack = require('webpack')
 const stylusLoaders = require('./src/utils/stylus-loaders')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
@@ -789,6 +790,8 @@ export default {
         ]
       }
     ]
+
+    config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
 
     return config
   },

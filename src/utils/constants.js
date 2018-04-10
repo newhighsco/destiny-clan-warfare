@@ -14,7 +14,7 @@ const constants = {
   blank: '-',
   format: {
     date: 'YYYY-MM-DD',
-    humanReadable: 'YYYY-MM-DD HH:mm [UTC]',
+    humanReadable: 'DD MMM HH:mm',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
   },
   division: {

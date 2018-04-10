@@ -25,6 +25,8 @@ class FutureEvent extends Component {
     const { event, element, summary } = this.props
     const { enrollmentOpen } = this.state
 
+    if (!event) return null
+
     return (
       <Card center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />

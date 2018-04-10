@@ -26,8 +26,9 @@ const Modifier = ({ name, description, creator, scoringModifier, bonus, size, al
   }
 
   const label = `${prefix}${bonus}${suffix}`
-  const tooltip = [ description, '' ]
+  const tooltip = []
 
+  if (description) tooltip.push(description, '')
   if (creator) tooltip.push(`<strong>Creator:</strong> ${creator}`)
   if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
@@ -44,9 +45,11 @@ const Modifier = ({ name, description, creator, scoringModifier, bonus, size, al
           {IconSvg &&
             <IconSvg />
           }
-          <div className={styles[`${baseClassName}__label`]}>
-            {label}
-          </div>
+          {bonus &&
+            <div className={styles[`${baseClassName}__label`]}>
+              {label}
+            </div>
+          }
         </Icon>
       </div>
     </Tooltip>

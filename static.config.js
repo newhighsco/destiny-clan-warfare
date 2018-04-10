@@ -678,7 +678,7 @@ export default {
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            }).map(({ path, platforms, name, icon, tags, totals }) => ({ path, platforms, name, icon, tags, totals }))
+            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
           })
         }))
       },

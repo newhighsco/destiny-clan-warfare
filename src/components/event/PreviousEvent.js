@@ -13,6 +13,8 @@ import Notification from '../notification/Notification'
 const medalBuilder = require('../../utils/medal-builder')
 
 const PreviousEvent = ({ event, element, summary }) => {
+  if (!event) return null
+
   const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
     name,
     data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, ...rest }) => ({

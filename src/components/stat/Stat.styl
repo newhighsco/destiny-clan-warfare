@@ -7,19 +7,16 @@
 .stat__label
   border-bottom 1px solid $color--silver
   display inline-block
-  font-size small
+  font-size rem(13)
   line-height 1
   text-transform uppercase
   overflow hidden
   padding 0 0 0.1em
   text-overflow ellipsis
 
-  +width-min($mq--tablet)
-    font-size smaller
-
 .stat__label--simple
   border 0
-  font-size small
+  font-size rem(13)
   margin $spacing--quarter auto 0
   max-height 1em
   max-width rem(120)
@@ -32,12 +29,15 @@
   -webkit-box-orient vertical
 
 .stat__value
-  font-size rem(40)
+  font-size 2.5em
   font-weight bold
   line-height 1
 
   +width-min($mq--tablet)
-    font-size rem(50)
+    font-size 3.125em
+
+.stat--small
+  font-size 0.85em
 
 .stat-list
   > li

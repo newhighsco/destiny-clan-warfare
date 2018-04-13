@@ -15,7 +15,7 @@ const countdown = duration => {
   const countdown = []
 
   if (days > 0) {
-    countdown.push(`${days} days`)
+    countdown.push(`${days} day${days > 1 ? 's' : ''}`)
   } else {
     if (hours > 0) countdown.push(`${hours}h`)
     countdown.push(`${Math.max(0, minutes)}m`)

@@ -1,32 +1,49 @@
 .timer
   display block
-  margin-bottom $spacing--double
   text-align center
 
 .timer__stat
   display block
-  margin-bottom $spacing--half
+  position relative
+  z-index 2
+
+.timer__progress
+  margin -1.5em auto 0
+  max-width $mq--mobile--landscape
+  position relative
+  width 100%
+  z-index 1
 
 .timer__date
   display inline-block
   font-size rem(12)
   letter-spacing 0.1em
   line-height 1.1
-  max-width rem(75)
+  text-align left
   text-transform uppercase
-  vertical-align middle
+  vertical-align top
+  width 50%
+
+  &:before
+    content attr(data-prefix)
+    display block
+    font-weight bold
+
+  & + &
+    text-align right
 
 .timer-progress
-  background $color--white
-  display inline-block
-  margin 0 $spacing--half
+  border 1px solid $color--silver
+  display block
+  margin $spacing--half auto
   height $spacing--default
-  vertical-align middle
-  width $mq--mobile--portrait
+  // padding 1px
 
 .timer-progress__value
   background $color--terracotta
   display block
   max-width 100%
   height 100%
+  opacity 0.75
+  transition width 0.1s
   width 0

@@ -31,7 +31,7 @@ class CurrentEvent extends Component {
     if (!event) return null
 
     const leaderboards = event.leaderboards ? event.leaderboards : []
-    const hasLeaderboards = leaderboards.length === 3
+    const hasLeaderboards = leaderboards.reduce((result, leaderboard) => (result = leaderboard.length > 0))
 
     return (
       <Fragment>

@@ -97,7 +97,7 @@ class Timer extends Component {
     const totalDuration = moment.duration(endDate.diff(startDate))
     const passedDuration = moment.duration(currentDate.diff(startDate))
     const remainingDuration = moment.duration(displayDate.diff(currentDate))
-    const passedPercentage = active ? Math.round(passedDuration.asMilliseconds() / totalDuration.asMilliseconds() * 100) : 0
+    const passedPercentage = active ? Math.floor(passedDuration.asMilliseconds() / totalDuration.asMilliseconds() * 100) : 0
     const stat = {
       stat: active ? countdown(remainingDuration) : humanReadableDate,
       label: active ? (showProgress ? null : humanReadable) : humanReadableTime
@@ -108,7 +108,7 @@ class Timer extends Component {
         <Stat label={label.join(' ')} stat={stat} className={styles[`${baseClassName}__stat`]} size="small" />
         {active && showProgress &&
           <div className={styles[`${baseClassName}__progress`]}>
-            <div className={styles[`${baseClassName}-progress`]}>
+            <div className={styles[`${baseClassName}-progress`]} data-value={passedPercentage}>
               <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
             </div>
             <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>

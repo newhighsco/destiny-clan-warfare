@@ -1,0 +1,49 @@
+.timer
+  display block
+  text-align center
+
+.timer__stat
+  display block
+  position relative
+  z-index 2
+
+.timer__progress
+  margin -1.5em auto 0
+  max-width $mq--mobile--landscape
+  position relative
+  width 100%
+  z-index 1
+
+.timer__date
+  display inline-block
+  font-size rem(12)
+  letter-spacing 0.1em
+  line-height 1.1
+  text-align left
+  text-transform uppercase
+  vertical-align top
+  width 50%
+
+  &:before
+    content attr(data-prefix)
+    display block
+    font-weight bold
+
+  & + &
+    text-align right
+
+.timer-progress
+  border 1px solid $color--silver
+  display block
+  margin $spacing--half auto
+  height $spacing--default
+  // padding 1px
+
+.timer-progress__value
+  background $color--terracotta
+  display block
+  max-width 100%
+  height 100%
+  opacity 0.75
+  transition width 0.1s
+  width 0

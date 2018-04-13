@@ -49,7 +49,7 @@ class RelativeDate extends Component {
 
     if (!value) return null
 
-    const title = value.format(constants.format.humanReadable).toUpperCase()
+    const title = value.format(constants.format.humanReadable)
     const machineReadable = value.format(constants.format.machineReadable)
     const humanReadable = [ label, label && ' ', (active ? value.fromNow() : title) ]
 

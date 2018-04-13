@@ -23,6 +23,8 @@ const Stat = ({ label, prefix, stat, size, className }) => {
 
   value = isNaN(value) ? `${value}` : shortNumber(value)
 
+  if (valueLabel && typeof valueLabel === 'string') valueLabel = [ valueLabel ]
+
   return (
     <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} className={className} valign="bottom" enableHover>
       <div className={classNames(

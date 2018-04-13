@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Stat } from '../stat/Stat'
 import styles from './Timer.styl'
@@ -17,67 +17,107 @@ const countdown = duration => {
   if (days > 0) {
     countdown.push(`${days} days`)
   } else {
-    if (hours > 0) countdown.push(`0${hours}`.slice(-2))
-    countdown.push(`0${Math.max(0, minutes)}`.slice(-2))
-    countdown.push(`0${Math.max(0, seconds)}`.slice(-2))
+    if (hours > 0) countdown.push(`${hours}h`)
+    countdown.push(`${Math.max(0, minutes)}m`)
+    countdown.push(`${Math.max(0, seconds)}s`)
   }
 
-  return countdown.join(':')
+  return countdown.join(' ')
 }
 
 class Timer extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { active: false }
-  }
-
-  componentDidMount () {
-    this.setState({ active: true })
-  }
-
-  render () {
+    var { active } = this.props
     const { start, end } = this.props
-    const { active } = this.state
     const currentDate = moment.utc()
     const startDate = moment.utc(start)
     const endDate = moment.utc(end)
-    const totalDuration = moment.duration(endDate.diff(startDate))
-    const passedDuration = moment.duration(currentDate.diff(startDate))
-    const remainingDuration = moment.duration(endDate.diff(currentDate))
-    const progress = active ? Math.round(passedDuration.asMilliseconds() / totalDuration.asMilliseconds() * 100) : 0
-    var humanReadableDate = endDate
-    var label
-    var labelSuffix = ''
+    var showProgress = false
+    var displayDate = endDate
+    var label = []
 
     if (startDate < currentDate && endDate > currentDate) {
-      label = constants.relativeDate.current
-      labelSuffix = ' in'
+      showProgress = true
+      label.push(constants.relativeDate.current)
     } else if (startDate > currentDate) {
-      label = constants.relativeDate.future
-      labelSuffix = ' in'
-      humanReadableDate = startDate
+      label.push(constants.relativeDate.future)
+      displayDate = startDate
     } else if (endDate < currentDate) {
-      label = constants.relativeDate.past
+      label.push(constants.relativeDate.past)
+      active = false
     }
 
-    const stat = active ? countdown(remainingDuration) : humanReadableDate.format(constants.format.humanReadable).toUpperCase()
+    this.state = {
+      active,
+      currentDate,
+      startDate,
+      endDate,
+      showProgress,
+      displayDate,
+      label,
+      interval: null
+    }
+
+    this.tick = this.tick.bind(this)
+  }
+
+  componentDidMount () {
+    const { active } = this.state
+
+    if (active === undefined) {
+      this.setState({
+        active: true,
+        interval: setInterval(this.tick, 1000)
+      })
+    }
+  }
+
+  componentWillUnmount () {
+    const { interval } = this.state
+
+    interval && clearInterval(interval)
+  }
+
+  tick () {
+    this.setState({
+      currentDate: moment.utc()
+    })
+  }
+
+  render () {
+    const { active, currentDate, startDate, endDate, showProgress, displayDate, label } = this.state
+
+    if (active && label.length <= 1) label.push(constants.prefix.relative)
+
+    const humanReadable = displayDate.format(constants.format.humanReadable)
+    const humanReadableDate = displayDate.format(constants.format.humanReadableDate)
+    const humanReadableTime = displayDate.format(constants.format.humanReadableTime)
+    const totalDuration = moment.duration(endDate.diff(startDate))
+    const passedDuration = moment.duration(currentDate.diff(startDate))
+    const remainingDuration = moment.duration(displayDate.diff(currentDate))
+    const passedPercentage = active ? Math.round(passedDuration.asMilliseconds() / totalDuration.asMilliseconds() * 100) : 0
+    const stat = {
+      stat: active ? countdown(remainingDuration) : humanReadableDate,
+      label: active ? (showProgress ? null : humanReadable) : humanReadableTime
+    }
 
     return (
       <div className={styles[baseClassName]}>
-        <Stat label={`${label}${active ? labelSuffix : ''}`} stat={stat} className={styles[`${baseClassName}__stat`]} size="small" />
-        {active &&
-          <Fragment>
-            <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.future}>
+        <Stat label={label.join(' ')} stat={stat} className={styles[`${baseClassName}__stat`]} size="small" />
+        {active && showProgress &&
+          <div className={styles[`${baseClassName}__progress`]}>
+            <div className={styles[`${baseClassName}-progress`]}>
+              <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
+            </div>
+            <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
               {startDate.format(constants.format.humanReadable)}
             </div>
-            <div className={styles[`${baseClassName}-progress`]}>
-              <span className={styles[`${baseClassName}-progress__value`]} style={{ width: `${progress}%` }} />
-            </div>
-            <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.current}>
+            <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
               {endDate.format(constants.format.humanReadable)}
             </div>
-          </Fragment>
+          </div>
         }
       </div>
     )
@@ -85,8 +125,9 @@ class Timer extends Component {
 }
 
 Timer.propTypes = {
-  start: PropTypes.date,
-  end: PropTypes.date
+  start: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
+  end: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
+  active: PropTypes.bool
 }
 
 export default Timer

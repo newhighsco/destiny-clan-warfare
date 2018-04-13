@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
-import RelativeDate from '../relative-date/RelativeDate'
+import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
 
@@ -30,7 +30,7 @@ class FutureEvent extends Component {
     return (
       <Card center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-        <RelativeDate start={event.startDate} end={event.endDate} />
+        <Timer start={event.startDate} end={event.endDate} />
         {event.description &&
           <p>{event.description}</p>
         }

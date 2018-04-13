@@ -12,7 +12,7 @@ const statsHelper = require('../../utils/stats-helper')
 const sentence = require('../../utils/grammar').sentence
 const baseClassName = 'stat'
 
-const Stat = ({ label, prefix, stat }) => {
+const Stat = ({ label, prefix, stat, size, className }) => {
   var value = stat
   var valueLabel
 
@@ -23,9 +23,14 @@ const Stat = ({ label, prefix, stat }) => {
 
   value = isNaN(value) ? `${value}` : shortNumber(value)
 
+  if (valueLabel && typeof valueLabel === 'string') valueLabel = [ valueLabel ]
+
   return (
-    <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} valign="bottom" enableHover>
-      <div className={`${baseClassName}`}>
+    <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} className={className} valign="bottom" enableHover>
+      <div className={classNames(
+        baseClassName,
+        size && `${baseClassName}--${size}`
+      )}>
         <div className={`${baseClassName}__label`}>
           {prefix &&
             <span>{prefix} </span>
@@ -49,10 +54,12 @@ const Stat = ({ label, prefix, stat }) => {
 Stat.propTypes = {
   label: PropTypes.string,
   prefix: PropTypes.string,
-  stat: PropTypes.oneOfType([ PropTypes.string, PropTypes.number, PropTypes.object ])
+  stat: PropTypes.oneOfType([ PropTypes.string, PropTypes.number, PropTypes.object ]),
+  size: PropTypes.oneOf([ 'small' ]),
+  className: PropTypes.string
 }
 
-const StatList = ({ stats, top }) => {
+const StatList = ({ stats, top, size }) => {
   if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
@@ -114,7 +121,6 @@ const StatList = ({ stats, top }) => {
     <ul className={classNames('list--inline', `${baseClassName}-list`)}>
       {keys.map((key, i) => {
         const label = sentenceCase(key)
-        // const stat = stats[key] !== null ? stats[key] : constants.blank
         var stat = stats[key]
         var prefix
 
@@ -130,7 +136,7 @@ const StatList = ({ stats, top }) => {
 
         return (
           <li key={i}>
-            <Stat label={label} stat={stat} prefix={prefix} />
+            <Stat label={label} stat={stat} prefix={prefix} size={size} />
           </li>
         )
       })}
@@ -140,7 +146,8 @@ const StatList = ({ stats, top }) => {
 
 StatList.propTypes = {
   stats: PropTypes.object,
-  top: PropTypes.bool
+  top: PropTypes.bool,
+  size: PropTypes.oneOf([ 'small' ])
 }
 
 export {

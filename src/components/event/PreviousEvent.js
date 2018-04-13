@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
-import RelativeDate from '../relative-date/RelativeDate'
+import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { MedalList } from '../medal/Medal'
 import { Button } from '../button/Button'
@@ -13,6 +13,8 @@ import Notification from '../notification/Notification'
 const medalBuilder = require('../../utils/medal-builder')
 
 const PreviousEvent = ({ event, element, summary }) => {
+  if (!event) return null
+
   const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
     name,
     data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, ...rest }) => ({
@@ -26,7 +28,7 @@ const PreviousEvent = ({ event, element, summary }) => {
     <Fragment>
       <Card cutout={isCalculated} center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-        <RelativeDate start={event.startDate} end={event.endDate} />
+        <Timer start={event.startDate} end={event.endDate} />
         {event.description &&
           <p>{event.description}</p>
         }

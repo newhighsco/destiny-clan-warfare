@@ -14,7 +14,9 @@ const constants = {
   blank: '-',
   format: {
     date: 'YYYY-MM-DD',
-    humanReadable: 'YYYY-MM-DD HH:mm [UTC]',
+    humanReadable: 'MMM DD HH:mm\xa0[UTC]',
+    humanReadableDate: 'MMM DD',
+    humanReadableTime: 'HH:mm [UTC]',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
   },
   division: {
@@ -35,6 +37,8 @@ const constants = {
   relativeDate: {
     updated: 'Updated',
     current: 'Ends',
+    currentStart: 'Start',
+    currentEnd: 'End',
     past: 'Ended',
     future: 'Starts'
   },
@@ -69,7 +73,8 @@ const constants = {
     multiply: 'x',
     percent: '%',
     most: 'most',
-    highest: 'highest'
+    highest: 'highest',
+    relative: 'in'
   },
   enrollment: {
     existing: 'Clan already exists',

@@ -11,9 +11,9 @@ class NotFoundPage extends Component {
   }
 
   componentDidMount () {
-    this.setState({
-      active: true
-    })
+    const { active } = this.state
+
+    if (!active) this.setState({ active: true })
   }
 
   render () {

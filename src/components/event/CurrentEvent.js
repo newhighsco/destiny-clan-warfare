@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
-import RelativeDate from '../relative-date/RelativeDate'
+import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
 import { TabContainer, Tab } from '../tab/Tab'
@@ -27,14 +27,17 @@ class CurrentEvent extends Component {
   render () {
     const { event, element, summary } = this.props
     const { enrollmentOpen } = this.state
-    const leaderboards = event.leaderboards
+
+    if (!event) return null
+
+    const leaderboards = event.leaderboards ? event.leaderboards : []
     const hasLeaderboards = leaderboards.length === 3
 
     return (
       <Fragment>
         <Card cutout={hasLeaderboards} center>
           <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-          <RelativeDate start={event.startDate} end={event.endDate} />
+          <Timer start={event.startDate} end={event.endDate} />
           {event.description &&
             <p>{event.description}</p>
           }

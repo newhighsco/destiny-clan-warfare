@@ -38,10 +38,6 @@
   margin $spacing--half auto
   height $spacing--default
   padding 1px
-  transition all 0.1s
-
-  &[data-value='100']
-    border-color $color--terracotta
 
 .timer-progress__value
   background $color--terracotta
@@ -49,8 +45,8 @@
   max-width 100%
   height 100%
   opacity 0.75
-  transition all 0.1s
+  transition all 0.5s
   width 0
 
   [data-value='100'] &
-    opacity 1
+    opacity 0.25

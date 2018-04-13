@@ -14,9 +14,9 @@ const constants = {
   blank: '-',
   format: {
     date: 'YYYY-MM-DD',
-    humanReadable: 'MMM DD HH:mm\xa0[UTC]',
+    humanReadable: 'MMM DD HH:mm\xa0z',
     humanReadableDate: 'MMM DD',
-    humanReadableTime: 'HH:mm [UTC]',
+    humanReadableTime: 'HH:mm z',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
   },
   division: {

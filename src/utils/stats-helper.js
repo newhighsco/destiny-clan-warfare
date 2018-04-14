@@ -27,8 +27,19 @@ const ppg = (stats, precision) => {
   return round(result, precision)
 }
 
+const percentage = (current, total, limit, precision) => {
+  precision = precision || 0
+
+  var result = (current / total) * 100
+
+  if (limit) result = Math.min(result, 100)
+
+  return round(result, precision)
+}
+
 module.exports = {
   kd,
   kda,
-  ppg
+  ppg,
+  percentage
 }

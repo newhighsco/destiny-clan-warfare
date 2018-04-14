@@ -25,7 +25,7 @@ class EventMemberTemplate extends Component {
       const clanId = match.params.clan
       const memberId = match.params.member
 
-      prefetch(urlBuilder.clanUrl(clanId))
+      prefetch(urlBuilder.currentEventUrl(clanId))
         .then(({ members }) => {
           this.setState({
             member: members.find(({ id }) => id === memberId)

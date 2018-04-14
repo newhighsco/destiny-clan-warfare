@@ -5,16 +5,17 @@ import styles from './Timer.styl'
 
 const moment = require('moment')
 const constants = require('../../utils/constants')
+const statsHelper = require('../../utils/stats-helper')
 const baseClassName = 'timer'
 
 const countdown = duration => {
   const days = duration.days()
-  const hours = duration.hours()
+  const hours = Math.floor(duration.asHours())
   const minutes = duration.minutes()
   const seconds = duration.seconds()
   const countdown = []
 
-  if (days > 0) {
+  if (days > 1) {
     countdown.push(`${days} day${days > 1 ? 's' : ''}`)
   } else {
     if (hours > 0) countdown.push(`${hours}h`)
@@ -97,7 +98,7 @@ class Timer extends Component {
     const totalDuration = moment.duration(endDate.diff(startDate))
     const passedDuration = moment.duration(currentDate.diff(startDate))
     const remainingDuration = moment.duration(displayDate.diff(currentDate))
-    const passedPercentage = active ? Math.floor(passedDuration.asMilliseconds() / totalDuration.asMilliseconds() * 100) : 0
+    const passedPercentage = active ? statsHelper.percentage(passedDuration.asMilliseconds(), totalDuration.asMilliseconds(), true, 2) : 0
     const stat = {
       stat: active ? countdown(remainingDuration) : humanReadableDate,
       label: active ? (showProgress ? null : humanReadable) : humanReadableTime

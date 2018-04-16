@@ -8,8 +8,7 @@ import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import BackgroundSvgs from './background'
 import ForegroundSvgs from './foreground'
 import HighlightSvg from './highlight.svg'
-
-import './Medal.styl'
+import styles from './Medal.styl'
 
 const pascalCase = require('pascal-case')
 const sentence = require('../../utils/grammar').sentence
@@ -20,35 +19,41 @@ const Medal = ({ name, description, label, tier, count, size, align, className, 
   const backgroundKey = `Tier${tier}`
   const foregroundKey = pascalCase(name || '')
   const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
-  const ForegroundSvg = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
+  const foreground = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
+  const ForegroundSvg = foreground ? foreground.svg : null
+  const designer = foreground ? foreground.designer : null
   const tooltip = [ description, '' ]
   const labelSentence = sentence(label)
 
+  if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
   if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${labelSentence}`)
 
   if (!BackgroundSvg) return null
 
   return (
     <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} isActive={tooltipActive}>
-      <div className={classNames(
-        baseClassName,
-        `${baseClassName}--tier-${tier}`,
-        size && `${baseClassName}--${size}`
-      )}>
-        <Icon className={`${baseClassName}__icon`}>
+      <div
+        className={classNames(
+          styles[baseClassName],
+          styles[`${baseClassName}--tier-${tier}`],
+          size && styles[`${baseClassName}--${size}`]
+        )}
+        data-key={foregroundKey}
+      >
+        <Icon className={styles[`${baseClassName}__icon`]}>
           <ResponsiveMedia ratio="124:129">
             <BackgroundSvg />
             {ForegroundSvg &&
-              <ForegroundSvg className={classNames(`${baseClassName}__layer`, 'foreground')} />
+              <ForegroundSvg className={classNames(styles[`${baseClassName}__layer`], 'foreground')} />
             }
-            <HighlightSvg className={classNames(`${baseClassName}__layer`, `${baseClassName}__highlight`)} />
+            <HighlightSvg className={classNames(styles[`${baseClassName}__layer`], styles[`${baseClassName}__highlight`])} />
           </ResponsiveMedia>
         </Icon>
         {labelSentence &&
-          <div className={`${baseClassName}__label`} dangerouslySetInnerHTML={{ __html: labelSentence }} />
+          <div className={styles[`${baseClassName}__label`]} dangerouslySetInnerHTML={{ __html: labelSentence }} />
         }
         {count > 1 &&
-          <div className={classNames(`${baseClassName}__count`, 'foreground')}>
+          <div className={classNames(styles[`${baseClassName}__count`], 'foreground')}>
             <span className="background">{count}</span>
           </div>
         }
@@ -85,7 +90,7 @@ const MedalList = ({ medals, size, align, center, enableHover, tooltipActive }) 
   })
 
   return (
-    <ul className={classNames('list--inline', `${baseClassName}-list`, center && 'text-center')}>
+    <ul className={classNames('list--inline', styles[`${baseClassName}-list`], center && 'text-center')}>
       {medals.map((medal, i) => (
         <li key={i}>
           <Medal {...medal} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />

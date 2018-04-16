@@ -13,3 +13,15 @@ body
   height calc(100% - 30px)
   padding 15px
   overflow scroll
+
+.storybook-tooltips-visible
+  .tooltip > *
+    vertical-align top
+
+  .tooltip__content
+    display inline-block
+    margin $spacing--half
+    position static
+
+  .tooltip__backdrop
+    display none

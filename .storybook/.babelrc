@@ -4,19 +4,6 @@
     "react"
   ],
   "plugins": [
-    "transform-object-rest-spread",
-    [
-      "inline-react-svg", {
-        "svgo": {
-          "plugins": [
-            { "cleanupIds": true },
-            { "collapseGroups": true },
-            { "removeStyleElement": true },
-            { "removeTitle": true },
-            { "removeXMLNS": true }
-          ]
-        }
-      }
-    ]
+    "transform-object-rest-spread"
   ]
 }

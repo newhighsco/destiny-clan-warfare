@@ -8,9 +8,9 @@ const urlBuilder = require('../utils/url-builder')
 
 class EventMemberTemplate extends Component {
   constructor (props) {
-    super()
+    super(props)
 
-    const { location: { state } } = props
+    const { location: { state } } = this.props
 
     this.state = {
       member: state ? state.member : null
@@ -25,7 +25,7 @@ class EventMemberTemplate extends Component {
       const clanId = match.params.clan
       const memberId = match.params.member
 
-      prefetch(urlBuilder.clanUrl(clanId))
+      prefetch(urlBuilder.currentEventUrl(clanId))
         .then(({ members }) => {
           this.setState({
             member: members.find(({ id }) => id === memberId)

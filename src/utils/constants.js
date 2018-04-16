@@ -14,7 +14,9 @@ const constants = {
   blank: '-',
   format: {
     date: 'YYYY-MM-DD',
-    humanReadable: 'YYYY-MM-DD HH:mm [UTC]',
+    humanReadable: 'MMM DD HH:mm\xa0z',
+    humanReadableDate: 'MMM DD',
+    humanReadableTime: 'HH:mm z',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
   },
   division: {
@@ -35,6 +37,8 @@ const constants = {
   relativeDate: {
     updated: 'Updated',
     current: 'Ends',
+    currentStart: 'Start',
+    currentEnd: 'End',
     past: 'Ended',
     future: 'Starts'
   },
@@ -43,7 +47,8 @@ const constants = {
     past: 'Past event',
     future: 'Upcoming event',
     previous: 'Previous event',
-    next: 'Next event'
+    next: 'Next event',
+    last: 'Last event'
   },
   server: {
     baseUrl: apiBaseUrl,
@@ -68,7 +73,8 @@ const constants = {
     multiply: 'x',
     percent: '%',
     most: 'most',
-    highest: 'highest'
+    highest: 'highest',
+    relative: 'in'
   },
   enrollment: {
     existing: 'Clan already exists',

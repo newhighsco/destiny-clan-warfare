@@ -5,15 +5,15 @@ import { Logo } from '../components/logo/Logo'
 
 class NotFoundPage extends Component {
   constructor (props) {
-    super()
+    super(props)
 
     this.state = { active: false }
   }
 
   componentDidMount () {
-    this.setState({
-      active: true
-    })
+    const { active } = this.state
+
+    if (!active) this.setState({ active: true })
   }
 
   render () {

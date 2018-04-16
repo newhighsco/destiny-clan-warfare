@@ -8,8 +8,10 @@ class Tooltip extends Component {
   constructor (props) {
     super(props)
 
+    const { isActive } = this.props
+
     this.state = {
-      isActive: false,
+      isActive: isActive,
       align: props.align,
       valign: props.valign
     }
@@ -124,7 +126,8 @@ Tooltip.propTypes = {
   enableHover: PropTypes.bool,
   heading: PropTypes.string,
   text: PropTypes.string,
-  valign: PropTypes.oneOf([ 'top', 'bottom' ])
+  valign: PropTypes.oneOf([ 'top', 'bottom' ]),
+  isActive: PropTypes.bool
 }
 
 export default Tooltip

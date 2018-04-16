@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
-import RelativeDate from '../relative-date/RelativeDate'
+import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { MedalList } from '../medal/Medal'
 import { Button } from '../button/Button'
@@ -10,30 +10,25 @@ import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 
-const constants = require('../../utils/constants')
 const medalBuilder = require('../../utils/medal-builder')
 
 const PreviousEvent = ({ event, element, summary }) => {
-  const isCalculated = event.isCalculated
-  var largeLeaderboard = []
-  var mediumLeaderboard = []
-  var smallLeaderboard = []
-  var leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'medal' ]
+  if (!event) return null
 
-  if (!summary) {
-    largeLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.large, constants.division.large)
-    mediumLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.medium, constants.division.medium)
-    smallLeaderboard = medalBuilder.embellishLeaderboard(event.leaderboards.small, constants.division.small)
-    leaderboardColumns.push('rank', 'score')
-  } else {
-    leaderboardColumns.push('division', 'score')
-  }
+  const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
+    name,
+    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, ...rest }) => ({
+      rank: '',
+      ...rest
+    }))
+  })) : []
+  const isCalculated = event.isCalculated
 
   return (
     <Fragment>
       <Card cutout={isCalculated} center>
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
-        <RelativeDate start={event.startDate} end={event.endDate} />
+        <Timer start={event.startDate} end={event.endDate} />
         {event.description &&
           <p>{event.description}</p>
         }
@@ -55,26 +50,18 @@ const PreviousEvent = ({ event, element, summary }) => {
         summary ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} columns={leaderboardColumns} />
+              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} />
             </Tab>
           </TabContainer>
         ) : (
           <TabContainer id="results" cutout>
-            {largeLeaderboard.length > 0 &&
-              <Tab name={constants.division.large}>
-                <Leaderboard data={largeLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {mediumLeaderboard.length > 0 &&
-              <Tab name={constants.division.medium}>
-                <Leaderboard data={mediumLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
-            {smallLeaderboard.length > 0 &&
-              <Tab name={constants.division.small}>
-                <Leaderboard data={smallLeaderboard} columns={leaderboardColumns} />
-              </Tab>
-            }
+            {leaderboards.map(leaderboard => {
+              return (
+                <Tab key={leaderboard.name} name={leaderboard.name}>
+                  <Leaderboard data={leaderboard.data} />
+                </Tab>
+              )
+            })}
           </TabContainer>
         )
       }

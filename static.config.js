@@ -1,5 +1,6 @@
 import MultiSort from 'multi-sort'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
 import RSS from 'rss'
 import Html from './src/html'
 
@@ -10,11 +11,8 @@ const fs = require('fs-extra')
 const camelcaseKeys = require('camelcase-keys')
 const moment = require('moment')
 const linkify = require('linkify-urls')
-const autoprefixer = require('autoprefixer')
-const stylusMixins = require('stylus-mixins')
-const responsiveGrid = require('responsive-grid')
-const poststylus = require('poststylus')
-const Visualizer = require('webpack-visualizer-plugin')
+const webpack = require('webpack')
+const stylusLoaders = require('./src/utils/stylus-loaders')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -24,6 +22,7 @@ const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
 
 const distPath = 'public'
+const extractCssChunks = true
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADERBOARDS)
 var currentEvent
@@ -38,6 +37,9 @@ export default {
     port: 9000
   },
   siteRoot: process.env.SITE_URL,
+  bundleAnalyzer: false,
+  extractCssChunks: extractCssChunks,
+  inlineCss: true,
   getRoutes: async () => {
     var apiStatus = {
       enrollmentOpen: false,
@@ -53,25 +55,25 @@ export default {
     var modifiers = []
     var medals = []
     var currentEventLeaderboard
-    var previousEventId = Number.NEGATIVE_INFINITY
+    var previousEventId
     const casingOptions = { deep: true }
-    const linkifyOptions = { attributes: { target: '_blank' } }
+    const linkifyOptions = { attributes: { target: '_blank', rel: 'noopener noreferrer' } }
     const clanPlatforms = []
 
     const parseModifier = (modifier) => {
-      const member = members.find(member => member.profileIdStr === modifier.createdBy)
-      const clan = member ? clans.find(clan => clan.groupId === member.groupId) : null
-
-      const creator = {
-        id: member ? member.profileIdStr : '',
-        name: member ? decode(member.name) : '',
-        clanTag: clan ? decode(clan.tag) : ''
-      }
+      const { id, name, description, scoringModifier } = modifier
+      const member = members.find(({ profileIdStr }) => profileIdStr === modifier.createdBy)
+      const clan = member ? clans.find(({ groupId }) => groupId === member.groupId) : null
+      const creator = member ? `${decode(member.name)}${clan ? ` [${decode(clan.tag)}]` : ''}` : null
 
       return {
-        ...modifier,
-        shortName: modifier.shortName || modifier.name.split(' ')[0],
-        creator: creator
+        id,
+        name,
+        description,
+        scoringModifier,
+        bonus: modifier.scoringBonus || modifier.multiplierBonus,
+        shortName: modifier.shortName || name.split(' ')[0],
+        creator
       }
     }
 
@@ -139,7 +141,7 @@ export default {
         api(`Event/GetAllEvents`)
           .then(({ data }) => {
             events = data.map(item => camelcaseKeys(item, casingOptions))
-            currentEvent = events.find(event => event.eventTense === constants.tense.current)
+            currentEvent = events.find(({ eventTense }) => eventTense === constants.tense.current)
             console.timeEnd(`fetch events`)
             console.log(`events: ${events.length}`)
             resolve()
@@ -275,10 +277,11 @@ export default {
       const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
 
       return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
-        const modifier = modifiers.find(modifier => modifier.id === bonus.modifierId)
+        const modifier = modifiers.find(({ id }) => id === bonus.modifierId)
+
         if (modifier) {
           return {
-            ...modifier,
+            shortName: modifier.shortName,
             count: bonus.bonusPoints
           }
         }
@@ -292,34 +295,29 @@ export default {
     const parsedClans = []
 
     const parseTags = (bonusUnlocks) => {
-      return bonusUnlocks.map(bonus => {
-        return {
-          name: bonus.name || '',
-          description: bonus.description || ''
-        }
-      })
+      return bonusUnlocks.map(({ name }) => ({ name }))
     }
 
     await Promise.all(clans.map(clan => {
-      const clanMembers = members.filter(member => member.groupId === clan.groupId)
-      const currentClanLeaderboard = currentMemberLeaderboards.filter(item => item.clanId === clan.groupId)
-      const previousClanLeaderboard = previousMemberLeaderboards.filter(item => item.clanId === clan.groupId)
+      const clanMembers = members.filter(({ groupId }) => groupId === clan.groupId)
+      const currentClanLeaderboard = currentMemberLeaderboards.filter(({ clanId }) => clanId === clan.groupId)
+      const previousClanLeaderboard = previousMemberLeaderboards.filter(({ clanId }) => clanId === clan.groupId)
       const platforms = clanMembers.reduce((platforms, member) => {
         const hasPlayed = member.currentScore ? member.currentScore.gamesPlayed > 0 : false
-        const id = member.membershipType
-        const existing = platforms.find(platform => platform.id === id)
+        const platformId = member.membershipType
+        const existing = platforms.find(({ id }) => id === platformId)
 
         if (existing) {
           existing.size++
           if (hasPlayed) existing.active++
         } else {
-          platforms.push({ id: id, size: 1, active: hasPlayed ? 1 : 0 })
+          platforms.push({ id: platformId, size: 1, active: hasPlayed ? 1 : 0 })
         }
 
         return platforms
       }, [])
 
-      clanPlatforms.push({ id: clan.groupId, platforms: platforms })
+      clanPlatforms.push({ id: clan.groupId, platforms })
 
       const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
         if (leaderboard.length === 0) {
@@ -342,7 +340,7 @@ export default {
         }
 
         return leaderboard.map(item => {
-          const member = clanMembers.find(member => member.profileIdStr === item.idStr)
+          const member = clanMembers.find(({ profileIdStr }) => profileIdStr === item.idStr)
 
           if (!member) {
             if (isCurrent) console.error(`Cannot find member: ${item.idStr}`)
@@ -371,7 +369,7 @@ export default {
 
       return parsedClans.push({
         id: `${clan.groupId}`,
-        platforms: platforms,
+        platforms,
         path: urlBuilder.clanUrl(clan.groupId),
         name: decode(clan.name),
         nameSortable: clan.name.toUpperCase(),
@@ -401,10 +399,9 @@ export default {
     const parsedMembers = []
 
     await Promise.all(members.map(member => {
-      const clan = clans.find(clan => clan.groupId === member.groupId)
+      const clan = clans.find(({ groupId }) => groupId === member.groupId)
       const historyCount = constants.matchHistoryLimit
-      var history = MultiSort(histories.filter(history => history.memberShipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
-
+      var history = MultiSort(histories.filter(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
@@ -455,7 +452,7 @@ export default {
         id: member.profileIdStr,
         platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
         path: urlBuilder.profileUrl(member.profileIdStr),
-        clanId: `${constants.prefix.hash}${member.groupId}`,
+        clanId: `${member.groupId}`,
         clanName: decode(clan.name),
         clanPath: urlBuilder.clanUrl(member.groupId),
         clanTag: decode(clan.tag),
@@ -465,28 +462,26 @@ export default {
         icon: member.icon,
         tags: parseTags(member.bonusUnlocks),
         medals: medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile),
-        totals: totals,
+        totals,
         totalsVisible: totals.games > 0,
         totalsSortable: totals.lastPlayed,
-        leaderboard: leaderboard,
+        leaderboard,
         leaderboardVisible: leaderboard.games > 0,
-        history: history.map(item => {
-          return {
-            game: {
-              path: urlBuilder.pgcrUrl(item.pgcrId),
-              isExternal: true,
-              result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
-              type: item.gameType,
-              map: item.map,
-              endDate: moment.utc(item.datePlayed).format(constants.format.machineReadable)
-            },
-            kills: item.kills,
-            assists: item.assists,
-            deaths: item.deaths,
-            bonuses: parseBonuses(item),
-            score: parseInt(Math.round(item.totalScore))
-          }
-        }),
+        history: history.map(item => ({
+          game: {
+            path: urlBuilder.pgcrUrl(item.pgcrId),
+            isExternal: true,
+            result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
+            type: item.gameType,
+            map: item.map,
+            endDate: moment.utc(item.datePlayed).format(constants.format.machineReadable)
+          },
+          kills: item.kills,
+          assists: item.assists,
+          deaths: item.deaths,
+          bonuses: parseBonuses(item),
+          score: parseInt(Math.round(item.totalScore))
+        })),
         updatedDate: moment.utc(member.lastchecked || 0).format(constants.format.machineReadable)
       })
     }))
@@ -505,7 +500,7 @@ export default {
 
         return rawClans.map((rawClan, i) => {
           const clanId = rawClan.clanId || rawClan.id
-          const clan = clans.find(clan => clan.groupId === clanId)
+          const clan = clans.find(({ groupId }) => groupId === clanId)
           const platforms = clanPlatforms.find(({ id }) => id === clanId)
 
           if (!clan) {
@@ -635,11 +630,11 @@ export default {
         isCalculated: event.calculated,
         visible: event.expired ? hasResults : true,
         modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
-        leaderboards: {
-          large: largeLeaderboard,
-          medium: mediumLeaderboard,
-          small: smallLeaderboard
-        },
+        leaderboards: [
+          { name: constants.division.large, data: largeLeaderboard },
+          { name: constants.division.medium, data: mediumLeaderboard },
+          { name: constants.division.small, data: smallLeaderboard }
+        ],
         results: results.filter(({ score }) => score > 0),
         medals: {
           clans: event.clanMedals ? medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
@@ -655,76 +650,60 @@ export default {
       {
         path: '/',
         component: 'src/pages/index',
-        getData: async () => ({
-          clans: MultiSort(parsedClans, 'nameSortable', 'ASC').map(clan => ({
-            path: clan.path,
-            id: clan.id
-          })),
-          currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC').slice(0, 1),
-          pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC').slice(0, 1),
-          futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC').slice(0, 1)
+        getData: () => ({
+          clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
+            .map(({ path, id }) => ({ path, id })),
+          currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
+            .slice(0, 1)
+            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) })),
+          pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
+            .slice(0, 1)
+            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ path, name, platforms, color, background, foreground, medal, division, score }) => ({ path, name, platforms, color, background, foreground, medal, division, score })) })),
+          futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')
+            .slice(0, 1)
+            .map(({ path, name, description, startDate, endDate, modifiers }) => ({ path, name, description, startDate, endDate, modifiers }))
         })
       },
       {
         path: urlBuilder.clanRootUrl,
         component: 'src/pages/clans',
-        getData: async () => ({
+        getData: () => ({
           clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
+            .map(({ path, platforms, name, color, tag, id, foreground, background }) => ({ path, platforms, name, color, clanTag: tag, clanId: id, foreground, background }))
         }),
         children: parsedClans.map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/clan',
-          getData: async () => ({
-            clan,
-            members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`), {
+          getData: () => ({
+            clan: (({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard }) => ({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard }))(clan),
+            members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            })
+            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
           })
         }))
       },
       {
         path: urlBuilder.profileRootUrl,
         component: 'src/pages/members',
-        getData: async () => ({
+        getData: () => ({
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
-          }).map(member => ({
-            path: member.path,
-            id: member.id,
-            platforms: member.platforms,
-            name: member.name,
-            clanId: member.clanId,
-            clanName: member.clanName,
-            clanTag: member.clanTag,
-            clanPath: member.clanPath,
-            icon: member.icon,
-            tags: member.tags,
-            totals: member.totals,
-            medals: member.medals
-          }))
+          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
         })
       },
       {
         path: urlBuilder.eventRootUrl,
         component: 'src/pages/events',
-        getData: async () => ({
-          events: visibleEvents.map(event => ({
-            path: event.path,
-            name: event.name,
-            startDate: event.startDate,
-            endDate: event.endDate,
-            isCurrent: event.isCurrent,
-            isPast: event.isPast,
-            modifiers: event.modifiers
-          }))
+        getData: () => ({
+          events: visibleEvents.map(({ path, name, startDate, endDate, isCurrent, isPast, modifiers }) => ({ path, name, startDate, endDate, isCurrent, isPast, modifiers }))
         }),
         children: parsedEvents.filter(({ visible }) => visible).map(event => ({
           path: `/${event.id}/`,
           component: 'src/templates/event',
-          getData: async () => ({
-            event
+          getData: () => ({
+            event: (({ path, name, description, startDate, endDate, isCurrent, isPast, isFuture, isCalculated, leaderboards, results, modifiers, medals }) => ({ path, name, description, startDate, endDate, isCurrent, isPast, isFuture, isCalculated, leaderboards, results, modifiers, medals }))(event)
           })
         }))
       },
@@ -750,17 +729,17 @@ export default {
       routes.push({
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
-        getData: async () => ({
-          canonical: urlBuilder.currentEventRootUrl,
-          event: parsedEvents.find(({ id }) => id === currentEvent.eventId)
+        getData: () => ({
+          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,
           component: 'src/templates/event-clan',
-          getData: async () => ({
-            canonical: urlBuilder.currentEventUrl(clan.id),
-            clan,
-            members: parsedMembers.filter(({ clanId }) => clanId === `${constants.prefix.hash}${clan.id}`)
+          getData: () => ({
+            clan: (({ path, platforms, id, name, motto, color, foreground, background, leaderboard }) => ({ path, platforms, id, name, motto, color, foreground, background, leaderboard }))(clan),
+            members: parsedMembers
+              .filter(({ clanId }) => clanId === clan.id)
+              .map(({ id, platforms, name, icon, tags, clanId, clanName, clanTag, leaderboard, history }) => ({ id, platforms, name, icon, tags, clanId, clanName, clanTag, leaderboard, history }))
           })
         }))
       })
@@ -786,30 +765,6 @@ export default {
     return routes
   },
   webpack: (config, { defaultLoaders, stage }) => {
-    const stylusLoaders = () => ([
-      {
-        loader: require.resolve('css-loader'),
-        options: {
-          minimize: true
-        }
-      },
-      {
-        loader: require.resolve('stylus-loader'),
-        options: {
-          use: [
-            stylusMixins(),
-            responsiveGrid(),
-            poststylus([ autoprefixer ])
-          ],
-          import: [
-            `~stylus-mixins/index.styl`,
-            `~responsive-grid/index.styl`,
-            path.resolve(__dirname, './src/stylus/_______settings/index.styl')
-          ]
-        }
-      }
-    ])
-
     if (stage !== 'dev') config.devtool = false
 
     config.entry = stage === 'dev'
@@ -823,7 +778,7 @@ export default {
             test: /\.styl$/,
             use: stage === 'dev'
               ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : ExtractTextPlugin.extract({ use: stylusLoaders() })
+              : (extractCssChunks ? ExtractCssChunks : ExtractTextPlugin).extract({ use: stylusLoaders() })
           },
           {
             test: /\.svg$/,
@@ -836,7 +791,7 @@ export default {
       }
     ]
 
-    config.plugins.push(new Visualizer({ filename: 'webpack-stats.html' }))
+    config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
 
     return config
   },
@@ -854,13 +809,15 @@ export default {
 
     const redirects = [
       { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
-      { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+      { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 },
+      { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
+      { from: urlBuilder.eventUrl(':event/:clan/:profile'), to: urlBuilder.profileUrl(':profile', ':event'), code: 301 }
     ]
 
     if (currentEvent) {
-      redirects.push({ from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 301 })
+      redirects.push({ from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 302 })
     } else {
-      redirects.push({ from: urlBuilder.currentEventRootUrl, to: '/#next', code: 301 })
+      redirects.push({ from: urlBuilder.currentEventRootUrl, to: '/#next', code: 302 })
     }
 
     await fs.writeFile(path.join(distPath, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
@@ -886,6 +843,6 @@ export default {
       ]
     }
 
-    await fs.writeFile(path.join(distPath, 'manifest.json'), JSON.stringify(manifest))
+    await fs.writeFile(path.join(distPath, 'manifest.webmanifest'), JSON.stringify(manifest))
   }
 }

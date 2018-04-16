@@ -20,37 +20,38 @@ const possessive = require('../utils/grammar').possessive
 class ClanTemplate extends Component {
   render () {
     const { clan, members } = this.props
-    const previousLeaderboard = clan.previousLeaderboard.filter(item => item && item.games > 0).map(node => {
+    const previousLeaderboard = clan.previousLeaderboard.filter(member => member && member.games > 0).map(member => {
       return {
-        ...node,
-        member: members.find(({ id }) => id === node.id)
+        rank: '',
+        ...member,
+        member: members.find(({ id }) => id === member.id)
       }
     })
-    const totals = members.map(node => {
+    const totals = members.map(member => {
       const emptyDate = moment.utc(new Date(0)).format(constants.format.date)
-      const lastPlayedDate = moment.utc(node.totals.lastPlayed).format(constants.format.date)
-      const hasPlayed = node.totals.games > 0
+      const lastPlayedDate = moment.utc(member.totals.lastPlayed).format(constants.format.date)
+      const hasPlayed = member.totals.games > 0
 
       return {
-        path: hasPlayed ? node.path : null,
-        platforms: node.platforms,
-        name: node.name,
-        icon: node.icon,
-        tags: node.tags,
-        wins: hasPlayed ? node.totals.wins : null,
-        kills: hasPlayed ? node.totals.kills : null,
-        deaths: hasPlayed ? node.totals.deaths : null,
-        assists: hasPlayed ? node.totals.assists : null,
-        score: hasPlayed ? node.totals.score : null,
+        path: hasPlayed ? member.path : null,
+        platforms: member.platforms,
+        name: member.name,
+        icon: member.icon,
+        tags: member.tags,
+        rank: '',
+        wins: hasPlayed ? member.totals.wins : null,
+        kills: hasPlayed ? member.totals.kills : null,
+        assists: hasPlayed ? member.totals.assists : null,
+        deaths: hasPlayed ? member.totals.deaths : null,
+        score: hasPlayed ? member.totals.score : null,
         lastPlayed: lastPlayedDate > emptyDate ? lastPlayedDate : constants.blank,
-        member: node
+        member: member
       }
     })
     const hasLeaderboards = previousLeaderboard.length > 0 || totals.length > 0
     const medals = clan.medals
     const title = `${clan.name} | Clans`
     const description = `${possessive(clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
-    const leaderboardColumns = [ 'path', 'platforms', 'name', 'icon', 'tags', 'rank' ]
 
     return (
       <PageContainer>
@@ -78,10 +79,9 @@ class ClanTemplate extends Component {
         {hasLeaderboards &&
           <TabContainer cutout>
             {previousLeaderboard.length > 0 &&
-              <Tab id={previousLeaderboard[0].eventId} name="Last event">
+              <Tab id={previousLeaderboard[0].eventId} name={constants.kicker.last}>
                 <Leaderboard
                   data={previousLeaderboard}
-                  columns={[ ...leaderboardColumns, 'games', 'wins', 'kills', 'deaths', 'assists', 'bonuses', 'score' ]}
                   sorting={{ score: 'DESC' }}
                   prefetch={false}
                   stateKey="member"
@@ -92,7 +92,6 @@ class ClanTemplate extends Component {
               <Tab name="Overall">
                 <Leaderboard
                   data={totals}
-                  columns={[ ...leaderboardColumns, 'wins', 'kills', 'deaths', 'assists', 'score' ]}
                   sorting={{ score: 'DESC', lastPlayed: 'DESC' }}
                   prefetch={false}
                   stateKey="member"

@@ -4,20 +4,17 @@ import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
 import Icons from './icons'
-
-import './Modifier.styl'
+import styles from './Modifier.styl'
 
 const pascalCase = require('pascal-case')
 const constants = require('../../utils/constants')
-
 const baseClassName = 'modifier'
 
-const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, multiplierBonus, size, align }) => {
+const Modifier = ({ name, description, creator, scoringModifier, bonus, size, align, enableHover, tooltipActive }) => {
   const iconKey = pascalCase(name || '')
   const icon = Icons.hasOwnProperty(iconKey) ? Icons[iconKey] : null
   const IconSvg = icon ? icon.svg : null
   const designer = icon ? icon.designer : null
-  var bonus = scoringModifier ? scoringBonus : multiplierBonus
   var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
   var suffix = ''
 
@@ -29,52 +26,60 @@ const Modifier = ({ name, description, creator, scoringModifier, scoringBonus, m
   }
 
   const label = `${prefix}${bonus}${suffix}`
-  const tooltip = [ description, '' ]
+  const tooltip = []
 
-  if (creator && creator.name) tooltip.push(`<strong>Creator:</strong> ${creator.name}${creator.clanTag ? ` [${creator.clanTag}]` : ''}`)
+  if (description) tooltip.push(description, '')
+  if (creator) tooltip.push(`<strong>Creator:</strong> ${creator}`)
   if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
   return (
-    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover>
+    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover={enableHover} isActive={tooltipActive}>
       <div
         className={classNames(
-          baseClassName,
-          size && `${baseClassName}--${size}`
+          styles[baseClassName],
+          size && styles[`${baseClassName}--${size}`]
         )}
         data-key={iconKey}
       >
-        <Icon className={`${baseClassName}__icon`}>
+        <Icon className={styles[`${baseClassName}__icon`]}>
           {IconSvg &&
             <IconSvg />
           }
-          <div className={`${baseClassName}__label`}>
-            {label}
-          </div>
+          {bonus &&
+            <div className={styles[`${baseClassName}__label`]}>
+              {label}
+            </div>
+          }
         </Icon>
       </div>
     </Tooltip>
   )
 }
 
+Modifier.defaultProps = {
+  enableHover: true
+}
+
 Modifier.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
-  creator: PropTypes.object,
+  creator: PropTypes.string,
   scoringModifier: PropTypes.bool,
-  scoringBonus: PropTypes.number,
-  multiplierBonus: PropTypes.number,
+  bonus: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),
-  align: PropTypes.oneOf([ 'left', 'right', 'center' ])
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  enableHover: PropTypes.bool,
+  tooltipActive: PropTypes.bool
 }
 
-const ModifierList = ({ modifiers, size, align }) => {
+const ModifierList = ({ modifiers, size, align, enableHover, tooltipActive }) => {
   if (!modifiers || modifiers.length < 1) return null
 
   return (
-    <ul className={classNames('list--inline', `${baseClassName}-list`)}>
+    <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
       {modifiers.map((modifier, i) => (
         <li key={i}>
-          <Modifier {...modifier} size={size} align={align} />
+          <Modifier {...modifier} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
         </li>
       ))}
     </ul>
@@ -82,13 +87,16 @@ const ModifierList = ({ modifiers, size, align }) => {
 }
 
 ModifierList.defaultProps = {
-  align: 'center'
+  align: 'center',
+  enableHover: true
 }
 
 ModifierList.propTypes = {
   modifiers: PropTypes.array,
   size: PropTypes.oneOf([ 'small' ]),
-  align: PropTypes.oneOf([ 'left', 'right', 'center' ])
+  align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  enableHover: PropTypes.bool,
+  tooltipActive: PropTypes.bool
 }
 
 export {

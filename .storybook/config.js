@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { Router } from 'react-static'
 import { configure, addDecorator } from '@storybook/react'
 import { setOptions } from '@storybook/addon-options'
 
@@ -23,7 +23,8 @@ addDecorator(story => (
 
 setOptions({
   name: constants.meta.name,
-  url: '/'
+  url: '/',
+  showAddonPanel: false
 })
 
 configure(loadStories, module)

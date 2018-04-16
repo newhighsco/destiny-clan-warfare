@@ -6,21 +6,11 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 
-const constants = require('../utils/constants')
-
 class ClansPage extends Component {
   render () {
     const { clans } = this.props
-    const leaderboard = clans.map(clan => {
-      return {
-        ...clan,
-        clanTag: clan.tag,
-        clanId: `${constants.prefix.hash}${clan.id}`
-      }
-    })
     const title = 'Clans'
     const description = 'All clans battling their way to the top of the Destiny 2 clan leaderboard'
-    const leaderboardColumns = [ 'color', 'foreground', 'background', 'platforms', 'name', 'clanTag', 'clanId' ]
 
     return (
       <PageContainer>
@@ -33,7 +23,7 @@ class ClansPage extends Component {
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Clans" />
         </Card>
-        <Leaderboard cutout data={leaderboard} columns={leaderboardColumns} prefetch={false} />
+        <Leaderboard cutout data={clans} />
       </PageContainer>
     )
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Switch, Route, Head, onLoading } from 'react-static'
+import { Router, Switch, Route, Head, Loading } from 'react-static'
 import identity from 'netlify-identity-widget'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
@@ -9,7 +9,8 @@ import { Logo } from './components/logo/Logo'
 import { Button, ButtonGroup } from './components/button/Button'
 import Member from './templates/member'
 import EventMember from './templates/event-member'
-import ogImage from './images/favicon-1200x1200.png'
+import appleTouchIcon from './images/apple-touch-icon.png'
+import openGraphImage from './images/favicon-1200x1200.png'
 
 import './stylus/index.styl'
 
@@ -37,16 +38,6 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  componentWillMount () {
-    this.unsubscribe = onLoading(loading => {
-      if (loading) {
-        NProgress.start()
-      } else {
-        NProgress.done()
-      }
-    })
-  }
-
   componentDidMount () {
     this.setState({ enableIdentity: enableIdentity })
     identity.init()
@@ -61,26 +52,26 @@ class App extends Component {
 
   render () {
     const { user, enableIdentity, enableIdentityLogin } = this.state
-    const { title, name, description, handle } = constants.meta
+    const { title, name, description } = constants.meta
 
     return (
       <Router>
         <div className="site-container">
+          <Loading
+            render={({ loading }) => {
+              loading ? NProgress.isStarted() || NProgress.start() : NProgress.done()
+              return null
+            }}
+          />
           <Head
             defaultTitle={title}
             titleTemplate={`%s | ${name}`}
           >
-            <html lang="en" />
-            <meta name="description" content={description} />
-            <meta property="og:type" content="website" />
-            <meta property="og:site_name" content={name} />
             <meta property="og:title" content={title} />
+            <meta name="description" content={description} />
             <meta property="og:description" content={description} />
-            <meta property="og:image" content={ogImage} />
-            <meta name="twitter:card" content="summary" />
-            <meta name="twitter:domain" content={process.env.SITE_URL} />
-            <meta name="twitter:site" content={handle} />
-            <meta name="twitter:creator" content={handle} />
+            <link rel="apple-touch-icon" href={appleTouchIcon} />
+            <meta property="og:image" content={openGraphImage} />
           </Head>
           {(enableIdentity && !user) ? (
             <HoldingPage>

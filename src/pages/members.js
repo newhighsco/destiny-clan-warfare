@@ -12,19 +12,14 @@ class MembersPage extends Component {
     const title = 'Members'
     const description = 'All clan members waging war against other clans in Destiny 2'
     var currentClanId
-    const leaderboard = members.filter(member => {
-      if (member.clanId !== currentClanId) {
-        currentClanId = member.clanId
+    const leaderboard = members.filter(({ clanId }) => {
+      if (clanId !== currentClanId) {
+        currentClanId = clanId
         return true
       }
 
       return false
-    }).map(member => ({
-      name: member.clanName,
-      path: member.clanPath,
-      clanTag: member.clanTag,
-      clanId: member.clanId
-    }))
+    }).map(({ clanName, clanPath, clanTag, clanId }) => ({ name: clanName, path: clanPath, clanTag, clanId }))
 
     return (
       <PageContainer>

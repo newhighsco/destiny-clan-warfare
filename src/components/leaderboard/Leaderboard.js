@@ -103,7 +103,7 @@ class Leaderboard extends Component {
       )}>
         {data.map((item, i) => {
           const rank = `${constants.prefix.hash}${i + 1}`
-          const updatedDate = (showUpdatedDate && item.updated) ? `${constants.relativeDate.updated} ${moment.utc(item.updated).fromNow()}` : null
+          const updatedDate = (showUpdatedDate && item.updated && moment(item.updated).isValid()) ? `${constants.relativeDate.updated} ${moment.utc(item.updated).fromNow()}` : null
           var state = {}
 
           if (stateKey) {

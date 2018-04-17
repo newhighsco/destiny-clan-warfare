@@ -63,7 +63,8 @@ const StatList = ({ stats, top, size }) => {
 
   var keys = Object.keys(stats)
   var filteredKeys = [
-    'id'
+    'id',
+    'updated'
   ]
   const kdaKeys = [
     'kills',

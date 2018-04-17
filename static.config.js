@@ -316,8 +316,9 @@ export default {
 
         return platforms
       }, [])
+      const updatedDate = MultiSort(clanMembers, 'lastchecked', 'ASC')[0].lastchecked
 
-      clanPlatforms.push({ id: clan.groupId, platforms })
+      clanPlatforms.push({ id: clan.groupId, platforms, updatedDate })
 
       const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
         if (leaderboard.length === 0) {
@@ -335,6 +336,7 @@ export default {
             deaths: Number.NEGATIVE_INFINITY,
             bonuses: [ { shortName: '', count: Number.NEGATIVE_INFINITY } ],
             score: Number.NEGATIVE_INFINITY,
+            updated: null,
             eventId: eventId
           } ]
         }
@@ -361,8 +363,8 @@ export default {
             deaths: item.deaths,
             bonuses: parseBonuses(item),
             score: parseInt(Math.round(item.totalScore)),
-            eventId: eventId,
-            updatedDate: moment.utc(member.lastchecked || 0).format(constants.format.machineReadable)
+            updated: isCurrent ? moment.utc(member.lastchecked) : null,
+            eventId: eventId
           }
         })
       }
@@ -411,7 +413,8 @@ export default {
         assists: Number.NEGATIVE_INFINITY,
         deaths: Number.NEGATIVE_INFINITY,
         bonuses: [],
-        score: Number.NEGATIVE_INFINITY
+        score: Number.NEGATIVE_INFINITY,
+        updated: null
       }
 
       if (memberLeaderboard) {
@@ -422,7 +425,8 @@ export default {
           assists: memberLeaderboard.assists,
           deaths: memberLeaderboard.deaths,
           bonuses: parseBonuses(memberLeaderboard),
-          score: parseInt(Math.round(memberLeaderboard.totalScore))
+          score: parseInt(Math.round(memberLeaderboard.totalScore)),
+          updated: moment.utc(member.lastchecked || 0)
         }
       }
 
@@ -481,8 +485,7 @@ export default {
           deaths: item.deaths,
           bonuses: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore))
-        })),
-        updatedDate: moment.utc(member.lastchecked || 0).format(constants.format.machineReadable)
+        }))
       })
     }))
 
@@ -528,7 +531,8 @@ export default {
             kills: rawClan.kills,
             assists: rawClan.assists,
             deaths: rawClan.deaths,
-            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0))
+            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0)),
+            updated: platforms ? moment.utc(platforms.updatedDate) : null
           }
         })
       }
@@ -655,7 +659,7 @@ export default {
             .map(({ path, id }) => ({ path, id })),
           currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
             .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) })),
+            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) })),
           pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
             .slice(0, 1)
             .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ path, name, platforms, color, background, foreground, medal, division, score }) => ({ path, name, platforms, color, background, foreground, medal, division, score })) })),
@@ -730,7 +734,7 @@ export default {
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
         getData: () => ({
-          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
+          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,

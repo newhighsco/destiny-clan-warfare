@@ -203,6 +203,7 @@ class Leaderboard extends Component {
                       } else {
                         exactValue = value
                         value = statsHelper.shortNumber(value)
+                        if (value === exactValue) exactValue = null
                       }
 
                       return (

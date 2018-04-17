@@ -316,7 +316,8 @@ export default {
 
         return platforms
       }, [])
-      const updatedDate = MultiSort(clanMembers, 'lastchecked', 'DESC')[0].lastchecked
+      const sortedClanMembers = MultiSort(clanMembers, 'lastchecked', 'DESC')
+      const updatedDate = sortedClanMembers.length > 0 ? sortedClanMembers[0].lastchecked : null
 
       clanPlatforms.push({ id: clan.groupId, platforms, updatedDate })
 

@@ -16,13 +16,11 @@ class Status extends Component {
   }
 
   componentDidMount () {
-    if (this.refs.status) {
-      bungie(`/Destiny2/Manifest/`)
-        .then(({ data }) => {
-          this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
-        })
-        .catch(err => console.log(err))
-    }
+    bungie(`/Destiny2/Manifest/`)
+      .then(({ data }) => {
+        this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
+      })
+      .catch(err => console.log(err))
   }
 
   render () {
@@ -31,7 +29,7 @@ class Status extends Component {
     if (!active) return null
 
     return (
-      <div ref="status" className="status content-center content-gutter">
+      <div className="status content-center content-gutter">
         <Notification state="error">
           The Bungie API is currently offline for maintenance.
         </Notification>

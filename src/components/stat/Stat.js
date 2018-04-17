@@ -6,7 +6,6 @@ import Tooltip from '../tooltip/Tooltip'
 import './Stat.styl'
 
 const sentenceCase = require('sentence-case')
-const shortNumber = require('short-number')
 const constants = require('../../utils/constants')
 const statsHelper = require('../../utils/stats-helper')
 const sentence = require('../../utils/grammar').sentence
@@ -21,7 +20,7 @@ const Stat = ({ label, prefix, stat, size, className }) => {
     value = value.stat || constants.blank
   }
 
-  value = isNaN(value) ? `${value}` : shortNumber(value)
+  value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)
 
   if (valueLabel && typeof valueLabel === 'string') valueLabel = [ valueLabel ]
 

@@ -206,6 +206,20 @@
       position relative
       margin-top rem(-12)
 
+  &[data-exact]
+    cursor help
+
+    &:after
+      content attr(data-exact)
+      display none
+
+    &:hover
+      span
+        display none
+
+      &:after
+        display block
+
 .leaderboard__stat-suffix
   color $color--silver
   display block

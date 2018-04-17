@@ -316,7 +316,7 @@ export default {
 
         return platforms
       }, [])
-      const sortedClanMembers = MultiSort(clanMembers, 'lastchecked', 'DESC')
+      const sortedClanMembers = MultiSort(clanMembers, 'lastchecked', 'DESC').filter(({ lastchecked }) => lastchecked)
       const updatedDate = sortedClanMembers.length > 0 ? sortedClanMembers[0].lastchecked : null
 
       clanPlatforms.push({ id: clan.groupId, platforms, updatedDate })
@@ -427,7 +427,7 @@ export default {
           deaths: memberLeaderboard.deaths,
           bonuses: parseBonuses(memberLeaderboard),
           score: parseInt(Math.round(memberLeaderboard.totalScore)),
-          updated: moment.utc(member.lastchecked || 0)
+          updated: moment.utc(member.lastchecked)
         }
       }
 

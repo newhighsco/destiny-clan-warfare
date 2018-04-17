@@ -15,6 +15,7 @@ import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
 
+const moment = require('moment')
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -58,6 +59,7 @@ class Leaderboard extends Component {
     const showMedals = keys.indexOf('medals') !== -1
     const showBonuses = keys.indexOf('bonuses') !== -1
     const showPlatforms = keys.indexOf('platforms') !== -1
+    const showUpdatedDate = keys.indexOf('updated') !== -1
     const filteredKeys = [
       'id',
       'icon',
@@ -75,7 +77,7 @@ class Leaderboard extends Component {
       'tags',
       'eventId',
       'platforms',
-      'updatedDate'
+      'updated'
     ]
 
     if (stateKey) filteredKeys.push(stateKey)
@@ -101,6 +103,7 @@ class Leaderboard extends Component {
       )}>
         {data.map((item, i) => {
           const rank = `${constants.prefix.hash}${i + 1}`
+          const updatedDate = (showUpdatedDate && item.updated) ? `${constants.relativeDate.updated} ${moment.utc(item.updated).fromNow()}` : null
           var state = {}
 
           if (stateKey) {
@@ -130,17 +133,24 @@ class Leaderboard extends Component {
                           }}
                           prefetch={prefetch}
                           className="leaderboard__name leaderboard__link"
-                          dangerouslySetInnerHTML={{ __html: item.name }}
-                        />
+                          data-suffix={updatedDate}
+                        >
+                          <span dangerouslySetInnerHTML={{ __html: item.name }} />
+                          {showNameTags &&
+                            <TagList tags={item.tags} className="leaderboard__tags" />
+                          }
+                        </Link>
                       ) : (
                         <div
                           className="leaderboard__name leaderboard__link"
-                          dangerouslySetInnerHTML={{ __html: item.name }}
-                        />
+                          data-suffix={updatedDate}
+                        >
+                          <span dangerouslySetInnerHTML={{ __html: item.name }} />
+                          {showNameTags &&
+                            <TagList tags={item.tags} className="leaderboard__tags" />
+                          }
+                        </div>
                       )}
-                      {showNameTags &&
-                        <TagList tags={item.tags} className="leaderboard__tags" />
-                      }
                       {showClanTag &&
                         <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId)}>{item.clanTag}</ClanTag>
                       }
@@ -162,7 +172,7 @@ class Leaderboard extends Component {
                           </a>
                         ) : (
                           <Link to={item.game.path} prefetch={prefetch} className="leaderboard__link">
-                            {item.game.type}
+                            <span>{item.game.type}</span>
                           </Link>
                         )}
                         <RelativeDate className="leaderboard__stat-suffix" start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />

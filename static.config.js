@@ -364,7 +364,7 @@ export default {
             deaths: item.deaths,
             bonuses: parseBonuses(item),
             score: parseInt(Math.round(item.totalScore)),
-            updated: isCurrent ? moment.utc(member.lastchecked) : null,
+            updated: isCurrent ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null,
             eventId: eventId
           }
         })
@@ -427,7 +427,7 @@ export default {
           deaths: memberLeaderboard.deaths,
           bonuses: parseBonuses(memberLeaderboard),
           score: parseInt(Math.round(memberLeaderboard.totalScore)),
-          updated: moment.utc(member.lastchecked)
+          updated: moment.utc(member.lastchecked).format(constants.format.machineReadable)
         }
       }
 
@@ -533,7 +533,7 @@ export default {
             assists: rawClan.assists,
             deaths: rawClan.deaths,
             score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0)),
-            updated: platforms ? moment.utc(platforms.updatedDate) : null
+            updated: platforms ? moment.utc(platforms.updatedDate).format(constants.format.machineReadable) : null
           }
         })
       }

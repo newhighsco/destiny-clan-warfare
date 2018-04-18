@@ -103,11 +103,26 @@ class Leaderboard extends Component {
       )}>
         {data.map((item, i) => {
           const rank = `${constants.prefix.hash}${i + 1}`
-          const updatedDate = (showUpdatedDate && item.updated && moment(item.updated).isValid()) ? `${constants.relativeDate.updated} ${moment.utc(item.updated).fromNow()}` : null
           var state = {}
 
           if (stateKey) {
             state[stateKey] = item[stateKey]
+          }
+
+          const Name = () => {
+            const updatedDate = (showUpdatedDate && item.updated && moment(item.updated).isValid()) ? moment.utc(item.updated) : null
+
+            return (
+              <Fragment>
+                <span dangerouslySetInnerHTML={{ __html: item.name }} />
+                {showNameTags &&
+                  <TagList tags={item.tags} className="leaderboard__tags" />
+                }
+                {showUpdatedDate &&
+                  <RelativeDate className="leaderboard__stat-suffix" end={updatedDate} label={constants.relativeDate.updated} />
+                }
+              </Fragment>
+            )
           }
 
           return (
@@ -133,22 +148,14 @@ class Leaderboard extends Component {
                           }}
                           prefetch={prefetch}
                           className="leaderboard__name leaderboard__link"
-                          data-suffix={updatedDate}
                         >
-                          <span dangerouslySetInnerHTML={{ __html: item.name }} />
-                          {showNameTags &&
-                            <TagList tags={item.tags} className="leaderboard__tags" />
-                          }
+                          <Name />
                         </Link>
                       ) : (
                         <div
                           className="leaderboard__name leaderboard__link"
-                          data-suffix={updatedDate}
                         >
-                          <span dangerouslySetInnerHTML={{ __html: item.name }} />
-                          {showNameTags &&
-                            <TagList tags={item.tags} className="leaderboard__tags" />
-                          }
+                          <Name />
                         </div>
                       )}
                       {showClanTag &&

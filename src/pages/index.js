@@ -26,7 +26,7 @@ class IndexPage extends Component {
       '@type': 'Organization',
       name: constants.meta.name,
       url: process.env.SITE_URL,
-      logo: `${process.env.SITE_URL}${LogoImage}`,
+      logo: `${LogoImage}`,
       sameAs: [
         constants.social.twitter
       ]

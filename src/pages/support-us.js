@@ -14,7 +14,7 @@ const constants = require('../utils/constants')
 class SupportUsPage extends Component {
   render () {
     const title = 'Support us'
-    const description = `Ways to support ${constants.meta.name}`
+    const description = `Support the development of ${constants.meta.name} by becoming a patron or making a donation`
 
     return (
       <PageContainer>

@@ -24,7 +24,7 @@ class EventsPage extends Component {
       }
     })
     const title = 'Events'
-    const description = `All ${constants.meta.name} events to date`
+    const description = `All upcoming, current, and, past ${constants.meta.name} events`
 
     return (
       <PageContainer>

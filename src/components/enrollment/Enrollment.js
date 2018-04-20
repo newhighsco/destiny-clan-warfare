@@ -35,7 +35,9 @@ class Enrollment extends Component {
 
   componentDidMount () {
     if (this.refs.form) {
-      this.setState({ active: true })
+      const { active } = this.state
+
+      if (!active) this.setState({ active: true })
 
       api(`Clan/AcceptingNewClans`)
         .then(({ data }) => {

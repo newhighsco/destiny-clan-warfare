@@ -115,14 +115,13 @@
 .leaderboard__link
   display inline-block
 
-  &:after
-    content ''
-    display block
+  span
+    display inline-block
     border-bottom 1px solid transparent
 
   &[href]:focus
   &[href]:hover
-    &:after
+    span
       border-color $color--terracotta
 
 .leaderboard__medal
@@ -141,9 +140,6 @@
   vertical-align middle
   padding $spacing--half $spacing--default
 
-  +width-min($mq--tablet)
-    padding $spacing--default
-
 .leaderboard__platforms
   display inline-block
   fill $color--silver
@@ -154,8 +150,6 @@
 
 .leaderboard__tags
   display inline-block
-  margin-left ($spacing--default * -1)
-  margin-top ($spacing--quarter * -1)
 
 .leaderboard__clan-tag
   color $color--silver

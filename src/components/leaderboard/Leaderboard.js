@@ -58,6 +58,7 @@ class Leaderboard extends Component {
     const showMedals = keys.indexOf('medals') !== -1
     const showBonuses = keys.indexOf('bonuses') !== -1
     const showPlatforms = keys.indexOf('platforms') !== -1
+    const showUpdatedDate = keys.indexOf('updated') !== -1
     const filteredKeys = [
       'id',
       'icon',
@@ -75,7 +76,7 @@ class Leaderboard extends Component {
       'tags',
       'eventId',
       'platforms',
-      'updatedDate'
+      'updated'
     ]
 
     if (stateKey) filteredKeys.push(stateKey)
@@ -107,6 +108,22 @@ class Leaderboard extends Component {
             state[stateKey] = item[stateKey]
           }
 
+          const Name = () => {
+            const updatedDate = showUpdatedDate && item.updated ? item.updated : null
+
+            return (
+              <Fragment>
+                <span dangerouslySetInnerHTML={{ __html: item.name }} />
+                {showNameTags &&
+                  <TagList tags={item.tags} className="leaderboard__tags" />
+                }
+                {updatedDate &&
+                  <RelativeDate className="leaderboard__stat-suffix" start={updatedDate} end={updatedDate} label={constants.relativeDate.updated} />
+                }
+              </Fragment>
+            )
+          }
+
           return (
             <div key={i} id={item.id} className="leaderboard__row" data-result={showGameDetails && item.game.result}>
               {(showIcons || showNames) &&
@@ -130,17 +147,16 @@ class Leaderboard extends Component {
                           }}
                           prefetch={prefetch}
                           className="leaderboard__name leaderboard__link"
-                          dangerouslySetInnerHTML={{ __html: item.name }}
-                        />
+                        >
+                          <Name />
+                        </Link>
                       ) : (
                         <div
                           className="leaderboard__name leaderboard__link"
-                          dangerouslySetInnerHTML={{ __html: item.name }}
-                        />
+                        >
+                          <Name />
+                        </div>
                       )}
-                      {showNameTags &&
-                        <TagList tags={item.tags} className="leaderboard__tags" />
-                      }
                       {showClanTag &&
                         <ClanTag className="leaderboard__clan-tag" href={urlBuilder.clanUrl(item.clanId)}>{item.clanTag}</ClanTag>
                       }
@@ -162,7 +178,7 @@ class Leaderboard extends Component {
                           </a>
                         ) : (
                           <Link to={item.game.path} prefetch={prefetch} className="leaderboard__link">
-                            {item.game.type}
+                            <span>{item.game.type}</span>
                           </Link>
                         )}
                         <RelativeDate className="leaderboard__stat-suffix" start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />

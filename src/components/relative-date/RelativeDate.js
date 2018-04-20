@@ -13,7 +13,9 @@ class RelativeDate extends Component {
   }
 
   componentDidMount () {
-    this.setState({ active: true })
+    const { active } = this.state
+
+    if (!active) this.setState({ active: true })
   }
 
   render () {
@@ -69,8 +71,8 @@ class RelativeDate extends Component {
 
 RelativeDate.propTypes = {
   status: PropTypes.bool,
-  start: PropTypes.string,
-  end: PropTypes.string,
+  start: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
+  end: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
   label: PropTypes.string,
   className: PropTypes.string
 }

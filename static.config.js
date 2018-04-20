@@ -89,7 +89,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch enrollment open', err)
+            console.error('fetch enrollment open', err.message)
             reject(err)
           })
       }),
@@ -104,7 +104,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch bungie api status', err)
+            console.error('fetch bungie api status', err.message)
             reject(err)
           })
       }),
@@ -118,7 +118,7 @@ export default {
             console.log(`clans: ${clans.length}`)
             resolve()
           })
-          .catch(err => console.error('fetch clans', err))
+          .catch(err => console.error('fetch clans', err.message))
       }),
       new Promise((resolve, reject) => {
         console.time(`fetch members`)
@@ -131,7 +131,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch members', err)
+            console.error('fetch members', err.message)
             reject(err)
           })
       }),
@@ -147,7 +147,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch events', err)
+            console.error('fetch events', err.message)
             reject(err)
           })
       }),
@@ -162,7 +162,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch modifiers', err)
+            console.error('fetch modifiers', err.message)
             reject(err)
           })
       }),
@@ -177,7 +177,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch member medals', err)
+            console.error('fetch member medals', err.message)
             reject(err)
           })
       }),
@@ -192,7 +192,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch clan medals', err)
+            console.error('fetch clan medals', err.message)
             reject(err)
           })
       }),
@@ -207,7 +207,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch event leaderboard', err)
+            console.error('fetch event leaderboard', err.message)
             reject(err)
           })
       }),
@@ -222,7 +222,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch current clan leaderboard', err)
+            console.error('fetch current clan leaderboard', err.message)
             reject(err)
           })
       })
@@ -241,7 +241,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch previous clan leaderboard', err)
+            console.error('fetch previous clan leaderboard', err.message)
             reject(err)
           })
       }))
@@ -255,13 +255,13 @@ export default {
 
         api(`Leaderboard/GetAllPlayersHistory`)
           .then(({ data }) => {
-            histories = data.Data.map(item => camelcaseKeys(item, casingOptions))
+            histories = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch match history`)
             console.log(`match history: ${histories.length}`)
             resolve()
           })
           .catch(err => {
-            console.error('fetch match history', err)
+            console.error('fetch match history', err.message)
             reject(err)
           })
       }))
@@ -273,16 +273,17 @@ export default {
 
     await fs.writeFile(path.join(distPath, 'api-status.json'), JSON.stringify(apiStatus))
 
-    const parseBonuses = (item) => {
-      const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
+    const parseBonuses = (item, modifierIds) => {
+      const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
 
-      return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
-        const modifier = modifiers.find(({ id }) => id === bonus.modifierId)
+      return bonuses.map((bonus, index) => {
+        const modifierId = modifierIds ? modifierIds[index] : bonus.modifierId
+        const modifier = modifiers.find(({ id }) => id === modifierId)
 
         if (modifier) {
           return {
             shortName: modifier.shortName,
-            count: bonus.bonusPoints
+            count: typeof bonus === 'object' ? bonus.bonusPoints : bonus
           }
         }
 
@@ -316,8 +317,10 @@ export default {
 
         return platforms
       }, [])
+      const sortedClanMembers = MultiSort(clanMembers, 'lastchecked', 'DESC').filter(({ lastchecked }) => lastchecked)
+      const updatedDate = sortedClanMembers.length > 0 ? sortedClanMembers[0].lastchecked : null
 
-      clanPlatforms.push({ id: clan.groupId, platforms })
+      clanPlatforms.push({ id: clan.groupId, platforms, updatedDate })
 
       const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
         if (leaderboard.length === 0) {
@@ -335,6 +338,7 @@ export default {
             deaths: Number.NEGATIVE_INFINITY,
             bonuses: [ { shortName: '', count: Number.NEGATIVE_INFINITY } ],
             score: Number.NEGATIVE_INFINITY,
+            updated: moment.utc(new Date(0)).format(constants.format.machineReadable),
             eventId: eventId
           } ]
         }
@@ -361,8 +365,8 @@ export default {
             deaths: item.deaths,
             bonuses: parseBonuses(item),
             score: parseInt(Math.round(item.totalScore)),
-            eventId: eventId,
-            updatedDate: moment.utc(member.lastchecked || 0).format(constants.format.machineReadable)
+            updated: isCurrent && member.lastchecked ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null,
+            eventId: eventId
           }
         })
       }
@@ -401,7 +405,7 @@ export default {
     await Promise.all(members.map(member => {
       const clan = clans.find(({ groupId }) => groupId === member.groupId)
       const historyCount = constants.matchHistoryLimit
-      var history = MultiSort(histories.filter(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
+      var history = MultiSort(histories.filter(({ membershipIdStr }) => membershipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
@@ -411,7 +415,8 @@ export default {
         assists: Number.NEGATIVE_INFINITY,
         deaths: Number.NEGATIVE_INFINITY,
         bonuses: [],
-        score: Number.NEGATIVE_INFINITY
+        score: Number.NEGATIVE_INFINITY,
+        updated: moment.utc(new Date(0)).format(constants.format.machineReadable)
       }
 
       if (memberLeaderboard) {
@@ -422,7 +427,8 @@ export default {
           assists: memberLeaderboard.assists,
           deaths: memberLeaderboard.deaths,
           bonuses: parseBonuses(memberLeaderboard),
-          score: parseInt(Math.round(memberLeaderboard.totalScore))
+          score: parseInt(Math.round(memberLeaderboard.totalScore)),
+          updated: member.lastchecked ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null
         }
       }
 
@@ -479,10 +485,9 @@ export default {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          bonuses: parseBonuses(item),
+          bonuses: parseBonuses(item, currentEvent.modifiers.map(({ id }) => (id))),
           score: parseInt(Math.round(item.totalScore))
-        })),
-        updatedDate: moment.utc(member.lastchecked || 0).format(constants.format.machineReadable)
+        }))
       })
     }))
 
@@ -528,7 +533,8 @@ export default {
             kills: rawClan.kills,
             assists: rawClan.assists,
             deaths: rawClan.deaths,
-            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0))
+            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0)),
+            updated: isCurrent && platforms ? moment.utc(platforms.updatedDate).format(constants.format.machineReadable) : null
           }
         })
       }
@@ -655,7 +661,7 @@ export default {
             .map(({ path, id }) => ({ path, id })),
           currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
             .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) })),
+            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) })),
           pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
             .slice(0, 1)
             .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ path, name, platforms, color, background, foreground, medal, division, score }) => ({ path, name, platforms, color, background, foreground, medal, division, score })) })),
@@ -730,7 +736,7 @@ export default {
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
         getData: () => ({
-          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
+          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,

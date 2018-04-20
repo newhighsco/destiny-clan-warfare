@@ -253,9 +253,9 @@ export default {
       sources.push(new Promise((resolve, reject) => {
         console.time(`fetch match history`)
 
-        api(`Leaderboard/GetAllPlayersHistory`)
+        api(`Leaderboard/GetAllPlayersHistoryBeta`)
           .then(({ data }) => {
-            histories = data.Data.map(item => camelcaseKeys(item, casingOptions))
+            histories = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch match history`)
             console.log(`match history: ${histories.length}`)
             resolve()
@@ -273,16 +273,17 @@ export default {
 
     await fs.writeFile(path.join(distPath, 'api-status.json'), JSON.stringify(apiStatus))
 
-    const parseBonuses = (item) => {
-      const bonuses = [ item.bonusPoints1, item.bonusPoints2, item.bonusPoints3 ]
+    const parseBonuses = (item, modifierIds) => {
+      const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
 
-      return bonuses.filter(bonus => bonus && bonus.bonusPoints !== null).map(bonus => {
-        const modifier = modifiers.find(({ id }) => id === bonus.modifierId)
+      return bonuses.map((bonus, index) => {
+        const modifierId = modifierIds ? modifierIds[index] : bonus.modifierId
+        const modifier = modifiers.find(({ id }) => id === modifierId)
 
         if (modifier) {
           return {
             shortName: modifier.shortName,
-            count: bonus.bonusPoints
+            count: typeof bonus === 'object' ? bonus.bonusPoints : bonus
           }
         }
 
@@ -364,7 +365,7 @@ export default {
             deaths: item.deaths,
             bonuses: parseBonuses(item),
             score: parseInt(Math.round(item.totalScore)),
-            updated: isCurrent ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null,
+            updated: isCurrent && member.lastchecked ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null,
             eventId: eventId
           }
         })
@@ -404,7 +405,7 @@ export default {
     await Promise.all(members.map(member => {
       const clan = clans.find(({ groupId }) => groupId === member.groupId)
       const historyCount = constants.matchHistoryLimit
-      var history = MultiSort(histories.filter(({ memberShipIdStr }) => memberShipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
+      var history = MultiSort(histories.filter(({ membershipIdStr }) => membershipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
@@ -427,7 +428,7 @@ export default {
           deaths: memberLeaderboard.deaths,
           bonuses: parseBonuses(memberLeaderboard),
           score: parseInt(Math.round(memberLeaderboard.totalScore)),
-          updated: moment.utc(member.lastchecked).format(constants.format.machineReadable)
+          updated: member.lastchecked ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null
         }
       }
 
@@ -484,7 +485,7 @@ export default {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          bonuses: parseBonuses(item),
+          bonuses: parseBonuses(item, currentEvent.modifiers.map(({ id }) => (id))),
           score: parseInt(Math.round(item.totalScore))
         }))
       })

@@ -534,7 +534,7 @@ export default {
             assists: rawClan.assists,
             deaths: rawClan.deaths,
             score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0)),
-            updated: platforms ? moment.utc(platforms.updatedDate).format(constants.format.machineReadable) : null
+            updated: isCurrent && platforms ? moment.utc(platforms.updatedDate).format(constants.format.machineReadable) : null
           }
         })
       }

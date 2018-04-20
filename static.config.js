@@ -89,7 +89,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch enrollment open', err)
+            console.error('fetch enrollment open', err.message)
             reject(err)
           })
       }),
@@ -104,7 +104,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch bungie api status', err)
+            console.error('fetch bungie api status', err.message)
             reject(err)
           })
       }),
@@ -118,7 +118,7 @@ export default {
             console.log(`clans: ${clans.length}`)
             resolve()
           })
-          .catch(err => console.error('fetch clans', err))
+          .catch(err => console.error('fetch clans', err.message))
       }),
       new Promise((resolve, reject) => {
         console.time(`fetch members`)
@@ -131,7 +131,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch members', err)
+            console.error('fetch members', err.message)
             reject(err)
           })
       }),
@@ -147,7 +147,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch events', err)
+            console.error('fetch events', err.message)
             reject(err)
           })
       }),
@@ -162,7 +162,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch modifiers', err)
+            console.error('fetch modifiers', err.message)
             reject(err)
           })
       }),
@@ -177,7 +177,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch member medals', err)
+            console.error('fetch member medals', err.message)
             reject(err)
           })
       }),
@@ -192,7 +192,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch clan medals', err)
+            console.error('fetch clan medals', err.message)
             reject(err)
           })
       }),
@@ -207,7 +207,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch event leaderboard', err)
+            console.error('fetch event leaderboard', err.message)
             reject(err)
           })
       }),
@@ -222,7 +222,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch current clan leaderboard', err)
+            console.error('fetch current clan leaderboard', err.message)
             reject(err)
           })
       })
@@ -241,7 +241,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch previous clan leaderboard', err)
+            console.error('fetch previous clan leaderboard', err.message)
             reject(err)
           })
       }))
@@ -261,7 +261,7 @@ export default {
             resolve()
           })
           .catch(err => {
-            console.error('fetch match history', err)
+            console.error('fetch match history', err.message)
             reject(err)
           })
       }))

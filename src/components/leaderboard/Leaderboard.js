@@ -110,7 +110,7 @@ class Leaderboard extends Component {
           }
 
           const Name = () => {
-            const updatedDate = (showUpdatedDate && item.updated && moment(item.updated).isValid()) ? moment.utc(item.updated) : null
+            const updatedDate = showUpdatedDate && item.updated ? item.updated : null
 
             return (
               <Fragment>
@@ -118,7 +118,7 @@ class Leaderboard extends Component {
                 {showNameTags &&
                   <TagList tags={item.tags} className="leaderboard__tags" />
                 }
-                {showUpdatedDate &&
+                {updatedDate &&
                   <RelativeDate className="leaderboard__stat-suffix" end={updatedDate} label={constants.relativeDate.updated} />
                 }
               </Fragment>

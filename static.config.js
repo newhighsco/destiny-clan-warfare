@@ -253,7 +253,7 @@ export default {
       sources.push(new Promise((resolve, reject) => {
         console.time(`fetch match history`)
 
-        api(`Leaderboard/GetAllPlayersHistoryBeta`)
+        api(`Leaderboard/GetAllPlayersHistory`)
           .then(({ data }) => {
             histories = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch match history`)

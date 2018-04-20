@@ -15,7 +15,6 @@ import ExternalSvg from '../../images/external.svg'
 
 import './Leaderboard.styl'
 
-const moment = require('moment')
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')

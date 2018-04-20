@@ -338,7 +338,7 @@ export default {
             deaths: Number.NEGATIVE_INFINITY,
             bonuses: [ { shortName: '', count: Number.NEGATIVE_INFINITY } ],
             score: Number.NEGATIVE_INFINITY,
-            updated: null,
+            updated: moment.utc(new Date(0)).format(constants.format.machineReadable),
             eventId: eventId
           } ]
         }
@@ -416,7 +416,7 @@ export default {
         deaths: Number.NEGATIVE_INFINITY,
         bonuses: [],
         score: Number.NEGATIVE_INFINITY,
-        updated: null
+        updated: moment.utc(new Date(0)).format(constants.format.machineReadable)
       }
 
       if (memberLeaderboard) {

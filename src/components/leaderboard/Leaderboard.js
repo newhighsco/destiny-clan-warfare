@@ -118,7 +118,7 @@ class Leaderboard extends Component {
                   <TagList tags={item.tags} className="leaderboard__tags" />
                 }
                 {updatedDate &&
-                  <RelativeDate className="leaderboard__stat-suffix" end={updatedDate} label={constants.relativeDate.updated} />
+                  <RelativeDate className="leaderboard__stat-suffix" start={updatedDate} end={updatedDate} label={constants.relativeDate.updated} />
                 }
               </Fragment>
             )

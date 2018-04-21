@@ -1,4 +1,3 @@
-const apiBaseUrl = 'https://mb-dcw-test.azurewebsites.net/'
 const bungieBaseUrl = 'https://www.bungie.net/'
 
 const constants = {
@@ -51,8 +50,12 @@ const constants = {
     last: 'Last event'
   },
   server: {
-    baseUrl: apiBaseUrl,
-    apiUrl: `${apiBaseUrl}api/`,
+    apiUrl: {
+      protocol: 'https://',
+      subdomains: [ 'mb-dcw-test', 'destinyclanwarfaredev' ],
+      domain: '.azurewebsites.net/',
+      path: 'api/'
+    },
     proxyUrl: 'https://clanwarfare-proxy.herokuapp.com/'
   },
   bungie: {

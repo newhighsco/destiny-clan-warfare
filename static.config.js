@@ -17,10 +17,12 @@ const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
-const api = require('./src/utils/api-helper').api
+const apiHelper = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
 
+const primaryApi = apiHelper.api()
+const secondaryApi = apiHelper.api(1)
 const distPath = 'public'
 const extractCssChunks = true
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
@@ -81,7 +83,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch enrollment open`)
 
-        api(`Clan/AcceptingNewClans`)
+        primaryApi(`Clan/AcceptingNewClans`)
           .then(({ data }) => {
             apiStatus.enrollmentOpen = data
             console.timeEnd(`fetch enrollment open`)
@@ -111,7 +113,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch clans`)
 
-        api(`Clan/GetAllClans`)
+        primaryApi(`Clan/GetAllClans`)
           .then(({ data }) => {
             clans = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch clans`)
@@ -123,7 +125,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch members`)
 
-        api(`Clan/GetAllMembers`)
+        primaryApi(`Clan/GetAllMembers`)
           .then(({ data }) => {
             members = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch members`)
@@ -138,7 +140,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch events`)
 
-        api(`Event/GetAllEvents`)
+        primaryApi(`Event/GetAllEvents`)
           .then(({ data }) => {
             events = data.map(item => camelcaseKeys(item, casingOptions))
             currentEvent = events.find(({ eventTense }) => eventTense === constants.tense.current)
@@ -154,7 +156,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch modifiers`)
 
-        api(`Component/GetAllModifiers`)
+        primaryApi(`Component/GetAllModifiers`)
           .then(({ data }) => {
             modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
             console.timeEnd(`fetch modifiers`)
@@ -169,7 +171,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch member medals`)
 
-        api(`Component/GetAllMedals`)
+        primaryApi(`Component/GetAllMedals`)
           .then(({ data }) => {
             medals = medals.concat(medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), constants.prefix.profile))
             console.timeEnd(`fetch member medals`)
@@ -184,7 +186,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch clan medals`)
 
-        api(`Component/GetAllClanMedals`)
+        primaryApi(`Component/GetAllClanMedals`)
           .then(({ data }) => {
             medals = medals.concat(medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), constants.prefix.clan))
             console.timeEnd(`fetch clan medals`)
@@ -199,7 +201,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch event leaderboard`)
 
-        api(`Leaderboard/GetLeaderboard`)
+        primaryApi(`Leaderboard/GetLeaderboard`)
           .then(({ data }) => {
             currentEventLeaderboard = camelcaseKeys(data, casingOptions)
             console.timeEnd(`fetch event leaderboard`)
@@ -214,7 +216,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch current clan leaderboard`)
 
-        api(`Leaderboard/GetClanLeaderboard`)
+        primaryApi(`Leaderboard/GetClanLeaderboard`)
           .then(({ data }) => {
             currentMemberLeaderboards = camelcaseKeys(data, casingOptions)
             console.timeEnd(`fetch current clan leaderboard`)
@@ -232,7 +234,7 @@ export default {
       sources.push(new Promise((resolve, reject) => {
         console.time(`fetch previous clan leaderboard`)
 
-        api(`Leaderboard/GetPreviousClanLeaderboard`)
+        primaryApi(`Leaderboard/GetPreviousClanLeaderboard`)
           .then(({ data }) => {
             previousMemberLeaderboards = camelcaseKeys(data[0].LeaderboardList, casingOptions)
             previousEventId = data[0].EventId
@@ -253,7 +255,7 @@ export default {
       sources.push(new Promise((resolve, reject) => {
         console.time(`fetch match history`)
 
-        api(`Leaderboard/GetAllPlayersHistory`)
+        secondaryApi(`Leaderboard/GetAllPlayersHistory`)
           .then(({ data }) => {
             histories = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch match history`)

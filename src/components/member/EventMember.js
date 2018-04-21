@@ -85,7 +85,7 @@ class EventMember extends Component {
                 {enableMatchHistory ? (
                   `Match history is being calculated. Please check back later.`
                 ) : (
-                  `Match history is currently disabled.`
+                  `Match history is currently disabled due to high volume.`
                 )}
               </Notification>
             }

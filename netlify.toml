@@ -4,7 +4,7 @@
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   SITE_URL = "https://beta.destinyclanwarfare.com"
   DISALLOW_ROBOTS = "true"
-  ENABLE_MATCH_HISTORY = "false"
+  ENABLE_MATCH_HISTORY = "true"
   ENABLE_PREVIOUS_LEADERBOARDS = "true"
 
 [context.branch-deploy.environment]
@@ -13,7 +13,7 @@
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   SITE_URL = "https://beta.destinyclanwarfare.com"
   DISALLOW_ROBOTS = "true"
-  ENABLE_MATCH_HISTORY = "false"
+  ENABLE_MATCH_HISTORY = "true"
   ENABLE_PREVIOUS_LEADERBOARDS = "true"
 
 [context.production.environment]

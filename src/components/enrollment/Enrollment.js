@@ -9,11 +9,12 @@ import Notification from '../notification/Notification'
 import './Enrollment.styl'
 
 const constants = require('../../utils/constants')
-const api = require('../../utils/api-helper').proxy
+const apiHelper = require('../../utils/api-helper')
 const bungie = require('../../utils/bungie-helper')
 const apiStatus = require('../../utils/api-status')
-const action = `${constants.server.baseUrl}Home/AddClan/`
+const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
+const proxy = apiHelper.proxy()
 
 class Enrollment extends Component {
   constructor (props) {
@@ -39,7 +40,7 @@ class Enrollment extends Component {
 
       if (!active) this.setState({ active: true })
 
-      api(`Clan/AcceptingNewClans`)
+      proxy(`Clan/AcceptingNewClans`)
         .then(({ data }) => {
           localStorage.setItem('enrollmentOpen', data)
           this.setState({ open: data })

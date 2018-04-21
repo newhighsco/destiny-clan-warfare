@@ -4,7 +4,7 @@ import MultiSort from 'multi-sort'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
-const api = require('../../utils/api-helper').api
+const api = require('../../utils/api-helper').api()
 const camelcaseKeys = require('camelcase-keys')
 const casingOptions = { deep: true }
 

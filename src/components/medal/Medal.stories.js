@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react'
 import { MedalList } from './Medal'
 
 const camelcaseKeys = require('camelcase-keys')
-const api = require('../../utils/api-helper').api
+const api = require('../../utils/api-helper').api()
 const medalBuilder = require('../../utils/medal-builder')
 const constants = require('../../utils/constants')
 const casingOptions = { deep: true }

@@ -52,7 +52,7 @@ const constants = {
   server: {
     apiUrl: {
       protocol: 'https://',
-      subdomains: [ 'mb-dcw-test', 'mb-dcw-test2' ],
+      subdomains: [ 'mb-dcw-test2' ],
       domain: '.azurewebsites.net/',
       path: 'api/'
     },

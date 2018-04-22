@@ -12,6 +12,7 @@ const proxy = (index = 0) => axios.create({
 
 const url = (index = 0, url = null) => {
   const { protocol, subdomains, domain, path } = constants.server.apiUrl
+  index = Math.min(Math.max(0, index), subdomains.length - 1)
 
   return `${protocol}${subdomains[index]}${domain}${url || path}`
 }

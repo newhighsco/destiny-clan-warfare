@@ -257,7 +257,7 @@ export default {
 
         secondaryApi(`Leaderboard/GetAllPlayersHistory`)
           .then(({ data }) => {
-            MultiSort(data, 'datePlayed', 'DESC').map(item => {
+            MultiSort(data, 'DatePlayed', 'DESC').map(item => {
               item = camelcaseKeys(item, casingOptions)
               const id = item.membershipIdStr
               const existing = histories[id]

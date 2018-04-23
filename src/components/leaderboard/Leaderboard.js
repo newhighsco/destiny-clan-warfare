@@ -201,8 +201,11 @@ class Leaderboard extends Component {
 
                           if (keys.indexOf(bonusKey) !== -1) return null
 
+                          var bonusValue = bonus.count
+                          if (bonusValue === null) bonusValue = constants.blank
+
                           return (
-                            <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonusKey}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonus.count}</div>
+                            <div key={i} className={classNames('leaderboard__stat', `leaderboard__stat--${bonusKey}`)} data-prefix={sentenceCase(bonus.shortName)}>{bonusValue}</div>
                           )
                         })
                       }
@@ -210,7 +213,7 @@ class Leaderboard extends Component {
                       var value = item[key]
                       var exactValue
 
-                      if (key === 'rank') value = rank
+                      if (key === 'rank') value = item.rank !== null ? rank : constants.blank
                       if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
                       if (value === null) value = constants.blank
 

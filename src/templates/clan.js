@@ -20,10 +20,23 @@ const possessive = require('../utils/grammar').possessive
 class ClanTemplate extends Component {
   render () {
     const { clan, members } = this.props
-    const previousLeaderboard = clan.previousLeaderboard.filter(member => member && member.games > 0).map(member => {
+    const previousLeaderboard = clan.previousLeaderboard.filter(member => member).map(member => {
+      const hasPlayed = member.games > 0
+
       return {
-        rank: '',
-        ...member,
+        path: hasPlayed ? member.path : null,
+        platforms: member.platforms,
+        name: member.name,
+        icon: member.icon,
+        tags: member.tags,
+        rank: hasPlayed ? '' : null,
+        games: hasPlayed ? member.games : null,
+        wins: hasPlayed ? member.wins : null,
+        kills: hasPlayed ? member.kills : null,
+        assists: hasPlayed ? member.assists : null,
+        deaths: hasPlayed ? member.deaths : null,
+        bonuses: member.bonuses,
+        score: hasPlayed ? member.score : null,
         member: members.find(({ id }) => id === member.id)
       }
     })
@@ -82,7 +95,7 @@ class ClanTemplate extends Component {
               <Tab id={previousLeaderboard[0].eventId} name={constants.kicker.last}>
                 <Leaderboard
                   data={previousLeaderboard}
-                  sorting={{ score: 'DESC' }}
+                  sorting={{ score: 'DESC', games: 'DESC', name: 'ASC' }}
                   prefetch={false}
                   stateKey="member"
                 />

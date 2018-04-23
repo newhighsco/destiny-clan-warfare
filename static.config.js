@@ -288,6 +288,7 @@ export default {
 
     const parseBonuses = (item, modifierIds) => {
       const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
+      const hasPlayed = item.gamesPlayed > 0
 
       return bonuses.map((bonus, index) => {
         const modifierId = modifierIds ? modifierIds[index] : bonus.modifierId
@@ -296,7 +297,7 @@ export default {
         if (modifier) {
           return {
             shortName: modifier.shortName,
-            count: typeof bonus === 'object' ? bonus.bonusPoints : bonus
+            count: hasPlayed ? (typeof bonus === 'object' ? bonus.bonusPoints : bonus) : null
           }
         }
 

@@ -52,6 +52,7 @@ class ClanTemplate extends Component {
         icon: member.icon,
         tags: member.tags,
         rank: hasPlayed ? '' : null,
+        games: hasPlayed ? member.totals.games : null,
         wins: hasPlayed ? member.totals.wins : null,
         kills: hasPlayed ? member.totals.kills : null,
         assists: hasPlayed ? member.totals.assists : null,

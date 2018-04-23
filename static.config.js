@@ -52,7 +52,7 @@ export default {
     var currentMemberLeaderboards = []
     var previousMemberLeaderboards = []
     var members = []
-    var histories = []
+    var histories = {}
     var events = []
     var modifiers = []
     var medals = []
@@ -257,9 +257,20 @@ export default {
 
         secondaryApi(`Leaderboard/GetAllPlayersHistory`)
           .then(({ data }) => {
-            histories = data.map(item => camelcaseKeys(item, casingOptions))
+            MultiSort(data, 'datePlayed', 'DESC').map(item => {
+              item = camelcaseKeys(item, casingOptions)
+              const id = item.membershipIdStr
+              const existing = histories[id]
+
+              if (existing) {
+                if (existing.length < constants.matchHistoryLimit) existing.push(item)
+              } else {
+                histories[id] = [ item ]
+              }
+            })
+
             console.timeEnd(`fetch match history`)
-            console.log(`match history: ${histories.length}`)
+            console.log(`match history: ${data.length}`)
             resolve()
           })
           .catch(err => {
@@ -406,8 +417,8 @@ export default {
 
     await Promise.all(members.map(member => {
       const clan = clans.find(({ groupId }) => groupId === member.groupId)
-      const historyCount = constants.matchHistoryLimit
-      var history = MultiSort(histories.filter(({ membershipIdStr }) => membershipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
+
+      var history = histories[member.profileIdStr] || []
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {

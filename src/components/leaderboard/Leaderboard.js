@@ -129,7 +129,7 @@ class Leaderboard extends Component {
               {(showIcons || showNames) &&
                 <div className="leaderboard__header">
                   {showIcons &&
-                    <Avatar className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
+                    <Avatar id={item.id || i} className="leaderboard__icon" color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
                   }
                   {showNames &&
                     <Fragment>

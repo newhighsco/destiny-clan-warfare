@@ -5,24 +5,18 @@ import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 
 import './Avatar.styl'
 
-const uuidv4 = require('uuid/v4')
-const uuidv5 = require('uuid/v5')
 const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
-const createContentDigest = require('../../utils/create-content-digest')
 const online = require('../../utils/online')
 const baseClassName = 'avatar'
 
-const AvatarLayer = (layer) => {
+const AvatarLayer = (id, layer) => {
   if (!layer.color || !layer.icon) return null
 
   const hex = hexHelper.hexToRgb(layer.color)
   const r = hex.r / 255
   const g = hex.g / 255
   const b = hex.b / 255
-  const uuid = uuidv4()
-  const contentDigest = createContentDigest(layer)
-  const id = uuidv5(contentDigest, uuid)
 
   return (
     <svg className={`${baseClassName}__layer`} viewBox="0 0 512 512">
@@ -35,7 +29,7 @@ const AvatarLayer = (layer) => {
 }
 
 const Avatar = (props) => {
-  const { icon, color, foreground, background, className, children, cutout, outline } = props
+  const { icon, color, foreground, background, className, id, children, cutout, outline } = props
   const classes = classNames(
     baseClassName,
     children && `${baseClassName}--inline`,
@@ -53,8 +47,8 @@ const Avatar = (props) => {
           <img src={icon} alt="" />
         </ResponsiveMedia>
       }
-      {background && AvatarLayer(background)}
-      {foreground && AvatarLayer(foreground)}
+      {background && AvatarLayer(`${id}-bg`, background)}
+      {foreground && AvatarLayer(`${id}-fg`, foreground)}
       {children}
     </div>
   )
@@ -66,6 +60,7 @@ Avatar.propTypes = {
   foreground: PropTypes.object,
   background: PropTypes.object,
   className: PropTypes.string,
+  id: PropTypes.string,
   cutout: PropTypes.bool,
   outline: PropTypes.bool,
   children: PropTypes.node

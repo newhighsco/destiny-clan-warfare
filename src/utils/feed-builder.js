@@ -34,11 +34,7 @@ module.exports = (allEvents, kicker) => {
       url: url,
       guid: url,
       date: event.startDate,
-      custom_elements: [
-        {
-          'content:encoded': content
-        }
-      ]
+      custom_elements: [ { 'content:encoded': content } ]
     })
   })
 

@@ -75,11 +75,10 @@ class EventClanTemplate extends Component {
       'score'
     ]
     const stats = {}
-    const hasLeaderboard = leaderboard.length > 0
     const filteredLeaderboard = leaderboard.filter(({ games }) => games > 0)
-    const hasStats = filteredLeaderboard.length > 0
+    const hasLeaderboard = filteredLeaderboard.length > 0
 
-    if (hasStats) {
+    if (hasLeaderboard) {
       const reduce = (stat) => filteredLeaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
       const add = (column, stat, top) => {
         if (top) {

@@ -770,6 +770,24 @@ export default {
 
     await fs.writeFile(path.join(distPath, '/events--current.xml'), feed.xml())
 
+    feed = new RSS(feedOptions)
+
+    const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has now closed'}`
+    const url = `${process.env.SITE_URL}/${moment(apiStatus.updatedDate).format(constants.format.url)}`
+    const canonicalUrl = apiStatus.enrollmentOpen ? `- ${process.env.SITE_URL}/#enroll` : ''
+    const content = `${kicker}${canonicalUrl}`
+
+    feed.item({
+      kicker,
+      description: kicker,
+      url,
+      guid: url,
+      date: apiStatus.updatedDate,
+      custom_elements: [ { 'content:encoded': content } ]
+    })
+
+    await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
+
     return routes
   },
   webpack: (config, { defaultLoaders, stage }) => {

@@ -528,6 +528,7 @@ export default {
           }
 
           return {
+            id: clan.groupId,
             path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
             platforms: platforms ? platforms.platforms : [],
             name: decode(clan.name),
@@ -564,6 +565,7 @@ export default {
           })
         } else {
           results.push({
+            id: '',
             path: '',
             platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
             name: '',
@@ -675,10 +677,10 @@ export default {
             .map(({ path, id }) => ({ path, id })),
           currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
             .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) })),
+            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) })),
           pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
             .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ path, name, platforms, color, background, foreground, medal, division, score }) => ({ path, name, platforms, color, background, foreground, medal, division, score })) })),
+            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ id, path, name, platforms, color, background, foreground, medal, division, score }) => ({ id, path, name, platforms, color, background, foreground, medal, division, score })) })),
           futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')
             .slice(0, 1)
             .map(({ path, name, description, startDate, endDate, modifiers }) => ({ path, name, description, startDate, endDate, modifiers }))
@@ -750,7 +752,7 @@ export default {
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
         getData: () => ({
-          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
+          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,

@@ -819,7 +819,8 @@ export default {
       { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
       { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
-      { from: urlBuilder.eventUrl(':event/:clan/:profile'), to: urlBuilder.profileUrl(':profile', ':event'), code: 301 }
+      { from: urlBuilder.eventUrl(':event/:clan/:profile'), to: urlBuilder.profileUrl(':profile', ':event'), code: 301 },
+      { from: '/testing*', to: '/#testing', code: 301 }
     ]
 
     if (currentEvent) {

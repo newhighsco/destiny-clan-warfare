@@ -15,6 +15,7 @@ import { PlatformList } from '../components/platform/Platform'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 const possessive = require('../utils/grammar').possessive
 
 class ClanTemplate extends Component {
@@ -66,6 +67,28 @@ class ClanTemplate extends Component {
     const medals = clan.medals
     const title = `${clan.name} | Clans`
     const description = `${possessive(clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`
+    const schema = {
+      '@context': 'http://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.clanRootUrl}`,
+            name: 'Clans'
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@id': `${process.env.SITE_URL}${urlBuilder.clanUrl(clan.id)}`,
+            name: clan.name
+          }
+        }
+      ]
+    }
 
     return (
       <PageContainer>
@@ -74,6 +97,7 @@ class ClanTemplate extends Component {
           <meta name="description" content={description} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
+          <script type="application/ld+json">{JSON.stringify(schema)}</script>
         </Head>
         <Card cutout={hasLeaderboards} center>
           <Avatar cutout outline color={clan.color} foreground={clan.foreground} background={clan.background} />

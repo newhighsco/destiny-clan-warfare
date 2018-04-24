@@ -288,7 +288,7 @@ export default {
 
     const parseBonuses = (item, modifierIds) => {
       const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
-      const hasPlayed = item.gamesPlayed > 0
+      const hasPlayed = item.gamesPlayed > 0 || item.pgcrId
 
       return bonuses.map((bonus, index) => {
         const modifierId = modifierIds ? modifierIds[index] : bonus.modifierId

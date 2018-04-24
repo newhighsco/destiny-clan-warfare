@@ -4,6 +4,8 @@ import identity from 'netlify-identity-widget'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
+import ReactGA from 'react-ga'
+import withAnalytics from './components/analytics/Analytics'
 import HoldingPage from './components/holding-page/HoldingPage'
 import { Logo } from './components/logo/Logo'
 import { Button, ButtonGroup } from './components/button/Button'
@@ -22,6 +24,8 @@ const urlBuilder = require('./utils/url-builder')
 class App extends Component {
   constructor (props) {
     super(props)
+
+    ReactGA.initialize(constants.meta.trackingId)
 
     this.state = {
       user: identity.currentUser(),
@@ -54,6 +58,17 @@ class App extends Component {
     const { user, enableIdentity, enableIdentityLogin } = this.state
     const { title, name, description } = constants.meta
 
+    const RenderRoutes = ({ getComponentForPath }) => (
+      <Route
+        path="*"
+        render={props => {
+          let Comp = withAnalytics(getComponentForPath(props.location.pathname))
+
+          return <Comp key={props.location.pathname} {...props} />
+        }}
+      />
+    )
+
     return (
       <Router>
         <div className="site-container">
@@ -84,9 +99,9 @@ class App extends Component {
             </HoldingPage>
           ) : (
             <Switch>
-              <Route path={urlBuilder.profileUrl(':member')} component={Member} />
-              <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={EventMember} />
-              <Routes />
+              <Route path={urlBuilder.profileUrl(':member')} component={withAnalytics(Member)} />
+              <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(EventMember)} />
+              <Routes component={RenderRoutes} />
             </Switch>
           )}
         </div>

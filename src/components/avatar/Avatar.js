@@ -60,7 +60,7 @@ Avatar.propTypes = {
   foreground: PropTypes.object,
   background: PropTypes.object,
   className: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   cutout: PropTypes.bool,
   outline: PropTypes.bool,
   children: PropTypes.node

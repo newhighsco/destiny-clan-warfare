@@ -42,6 +42,7 @@ export default {
   bundleAnalyzer: false,
   extractCssChunks: extractCssChunks,
   inlineCss: true,
+  disableRouteInfoWarning: true,
   getRoutes: async () => {
     var apiStatus = {
       enrollmentOpen: false,

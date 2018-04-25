@@ -79,7 +79,7 @@ class EventMember extends Component {
             <TagList tags={member.tags} className="card__tags" />
             <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.currentEventUrl(member.clanId)} heading={member.name} />
             <PlatformList platforms={member.platforms} />
-            <StatList stats={member.leaderboard} />
+            <StatList stats={member.leaderboard} kicker={`${constants.tense.current} stats`} />
             {!hasLeaderboard &&
               <Notification>
                 {enableMatchHistory ? (

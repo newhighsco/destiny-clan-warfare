@@ -7,7 +7,7 @@ import Avatar from '../avatar/Avatar'
 import { Lockup } from '../lockup/Lockup'
 import { MedalList } from '../medal/Medal'
 import { StatList } from '../stat/Stat'
-import { Button } from '../button/Button'
+import { Button, ButtonGroup } from '../button/Button'
 import { TagList } from '../tag/Tag'
 import Notification from '../notification/Notification'
 import Leaderboard from '../leaderboard/Leaderboard'
@@ -76,9 +76,11 @@ class Member extends Component {
           <TagList tags={member.tags} className="card__tags" />
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
           <PlatformList platforms={member.platforms} />
+          <ButtonGroup>
           <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
-          <MedalList medals={medals} />
-          <StatList stats={stats} />
+          </ButtonGroup>
+          <MedalList medals={medals} kicker="Medals awarded" />
+          <StatList stats={stats} kicker="Overall stats" />
           {!hasPastEvents &&
             <Notification>Past event statistics coming soon.</Notification>
           }

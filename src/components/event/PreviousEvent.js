@@ -17,7 +17,7 @@ const PreviousEvent = ({ event, element, summary }) => {
 
   const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
     name,
-    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, ...rest }) => ({
+    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, games, wins, kills, assists, deaths, ...rest }) => ({
       rank: '',
       ...rest
     }))

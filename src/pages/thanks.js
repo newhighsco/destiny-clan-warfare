@@ -76,7 +76,7 @@ class ThanksPage extends Component {
                   </Prose>
                 }
                 {enrollmentOpen ? (
-                  <Button href="/#enroll">Enroll your clan today</Button>
+                  <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
                 ) : (
                   <Button href="/">Return to the homepage</Button>
                 )}

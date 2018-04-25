@@ -6,6 +6,8 @@ import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
 
+const constants = require('../../utils/constants')
+
 class FutureEvent extends Component {
   constructor (props) {
     super(props)
@@ -36,7 +38,7 @@ class FutureEvent extends Component {
         }
         <ModifierList modifiers={event.modifiers} />
         {enrollmentOpen &&
-          <Button href="/#enroll">Enroll your clan today</Button>
+          <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
         }
       </Card>
     )

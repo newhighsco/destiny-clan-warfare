@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './Button.styl'
+import styles from './Button.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'button'
@@ -12,9 +11,9 @@ const Button = (props) => {
   const { children, className, href, target, type, size, solid, ...remainingProps } = props
   const commonAttributes = {
     className: classNames(
-      baseClassName,
-      size && `${baseClassName}--${size}`,
-      solid && `${baseClassName}--solid`,
+      styles[baseClassName],
+      size && styles[`${baseClassName}--${size}`],
+      solid && styles[`${baseClassName}--solid`],
       className
     )
   }
@@ -76,7 +75,7 @@ const ButtonGroup = ({ children, className }) => {
 
   return (
     <div className={classNames(
-      `${baseClassName}-group`,
+      styles[`${baseClassName}-group`],
       className
     )}>
       {children}

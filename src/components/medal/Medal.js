@@ -31,7 +31,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className, 
   if (!BackgroundSvg) return null
 
   return (
-    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} isActive={tooltipActive}>
+    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} active={tooltipActive}>
       <div
         className={classNames(
           styles[baseClassName],

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 import Notification from '../notification/Notification'
-
-import './Status.styl'
+import styles from './Status.styl'
 
 const constants = require('../../utils/constants')
 const bungie = require('../../utils/bungie-helper')
@@ -29,7 +29,7 @@ class Status extends Component {
     if (!active) return null
 
     return (
-      <div className="status content-center content-gutter">
+      <div className={classNames(styles.status, 'content-center content-gutter')}>
         <Notification state="error">
           The Bungie API is currently offline for maintenance.
         </Notification>

@@ -1,9 +1,11 @@
 import React from 'react'
+import classNames from 'classnames'
 import { Link } from 'react-static'
 import { LogoIcon } from '../logo/Logo'
 import Credit from '../credit/Credit'
+import styles from './Footer.styl'
 
-import './Footer.styl'
+const baseClassName = 'footer'
 
 const Footer = () => {
   const date = new Date()
@@ -13,21 +15,21 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="footer" role="contentinfo">
-      <LogoIcon size="small" className="footer__logo" />
+    <footer className={styles[baseClassName]} role="contentinfo">
+      <LogoIcon size="small" className={styles[`${baseClassName}__logo`]} />
       <div className="content-center content-gutter">
         <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
           <div className="grid__item tablet-one-half">
-            <ul className="list--inline footer__list">
+            <ul className={classNames('list--inline', `${baseClassName}__list`)}>
               {links.map((link, i) => {
                 return (
-                  <li key={i} className="footer__item">
-                    <Link className="footer__link" to={link.href}>{link.text}</Link>
+                  <li key={i} className={styles[`${baseClassName}__item`]}>
+                    <Link className={styles[`${baseClassName}__link`]} to={link.href}>{link.text}</Link>
                   </li>
                 )
               })}
-              <li className="footer__item">
-                <span className="footer__link">&copy;{date.getFullYear()}</span>
+              <li className={styles[`${baseClassName}__item`]}>
+                <span className={styles[`${baseClassName}__link`]}>&copy;{date.getFullYear()}</span>
               </li>
             </ul>
           </div>

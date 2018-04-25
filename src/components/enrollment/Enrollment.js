@@ -89,7 +89,7 @@ class Enrollment extends Component {
               const group = groups.find(({ groupId }) => groupId === detail.groupId)
 
               if (!group && detail.groupType === groupType) {
-                groups.push(detail)
+                groups.unshift(detail)
               }
 
               this.setState({ groups: groups })

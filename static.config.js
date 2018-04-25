@@ -817,7 +817,7 @@ export default {
 
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has now closed'}`
     const url = `${process.env.SITE_URL}/${moment(apiStatus.updatedDate).format(constants.format.url)}`
-    const canonicalUrl = apiStatus.enrollmentOpen ? ` - ${process.env.SITE_URL}/#enroll` : ''
+    const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/#enroll` : ''
     const content = `${kicker}${canonicalUrl}`
 
     feed.item({

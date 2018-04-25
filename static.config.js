@@ -850,13 +850,15 @@ export default {
 
     const redirects = [
       { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
-      { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
       { from: urlBuilder.eventUrl(':event/:clan/:profile'), to: urlBuilder.profileUrl(':profile', ':event'), code: 301 }
     ]
 
     if (currentEvent) {
-      redirects.push({ from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 302 })
+      redirects.push(
+        { from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 302 },
+        { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+      )
     } else {
       redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
     }

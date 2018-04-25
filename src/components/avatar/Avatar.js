@@ -3,8 +3,7 @@ import LazyLoad from 'react-lazyload'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
-
-import './Avatar.styl'
+import styles from './Avatar.styl'
 
 const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
@@ -21,7 +20,7 @@ const AvatarLayer = (id, layer) => {
 
   return (
     <LazyLoad height={96}>
-      <svg className={`${baseClassName}__layer`} viewBox="0 0 512 512">
+      <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">
         <filter id={id} x="0" y="0" width="100%" height="100%">
           <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
         </filter>
@@ -34,10 +33,10 @@ const AvatarLayer = (id, layer) => {
 const Avatar = (props) => {
   const { icon, color, foreground, background, className, id, children, cutout, outline } = props
   const classes = classNames(
-    baseClassName,
-    children && `${baseClassName}--inline`,
-    cutout && `${baseClassName}--cutout`,
-    outline && `${baseClassName}--outline`,
+    styles[baseClassName],
+    children && styles[`${baseClassName}--inline`],
+    cutout && styles[`${baseClassName}--cutout`],
+    outline && styles[`${baseClassName}--outline`],
     className
   )
 
@@ -46,7 +45,7 @@ const Avatar = (props) => {
   return (
     <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
       {icon &&
-        <ResponsiveMedia className={`${baseClassName}__layer`} ratio="1:1">
+        <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
           <LazyLoad height={96}>
             <img src={icon} alt="" />
           </LazyLoad>

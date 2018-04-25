@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './ResponsiveMedia.styl'
+import styles from './ResponsiveMedia.styl'
 
 const ratioRegex = /^\d+:\d+$/
 
@@ -15,7 +14,7 @@ const ResponsiveMedia = ({ children, ratio, className }) => {
 
   return (
     <div
-      className={classNames('responsive-media', className)}
+      className={classNames(styles['responsive-media'], className)}
       style={ratio && { paddingBottom: `${ratioPercentageRounded}%` }}
       >
       {children}

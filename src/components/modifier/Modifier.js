@@ -33,7 +33,7 @@ const Modifier = ({ name, description, creator, scoringModifier, bonus, size, al
   if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
   return (
-    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover={enableHover} isActive={tooltipActive}>
+    <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover={enableHover} active={tooltipActive}>
       <div
         className={classNames(
           styles[baseClassName],

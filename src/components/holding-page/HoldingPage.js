@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import './HoldingPage.styl'
+import styles from './HoldingPage.styl'
 
 const HoldingPage = ({ children }) => (
-  <div className="holding-page">
+  <div className={styles['holding-page']}>
     <div className="content-center content-gutter text-center">
       {children}
     </div>

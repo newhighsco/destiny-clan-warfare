@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './Tag.styl'
+import styles from './Tag.styl'
 
 const baseClassName = 'tag'
 
@@ -20,8 +19,8 @@ const Tag = ({ name }) => {
   return (
     <div
       className={classNames(
-        baseClassName,
-        allowed.tier && `${baseClassName}--tier-${allowed.tier}`
+        styles[baseClassName],
+        allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`]
       )}
       data-label={allowed.label}
     />
@@ -36,7 +35,7 @@ const TagList = ({ tags, className }) => {
   if (!tags || tags.length < 1) return null
 
   return (
-    <ul className={classNames('list--inline', `${baseClassName}-list`, className)}>
+    <ul className={classNames('list--inline', styles[`${baseClassName}-list`], className)}>
       {tags.map((tag, i) => (
         <li key={i}>
           <Tag {...tag} />

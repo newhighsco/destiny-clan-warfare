@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import styles from './Icon.styl'
 
-import './Icon.styl'
+const baseClassName = 'icon'
 
 export default function Icon ({ children, a11yText, className, height, width }) {
   const iconClassNames = classNames(
-    'icon',
-    { 'icon--custom-size': width || height },
+    styles[baseClassName],
+    (width || height) && styles[`${baseClassName}--custom-size`],
     className
   )
 

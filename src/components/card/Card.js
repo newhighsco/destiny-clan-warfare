@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './Card.styl'
+import styles from './Card.styl'
 
 const Card = ({ cutout, center, children, className }) => {
   const baseClassName = 'card'
   const classes = classNames(
-    baseClassName,
-    className,
-    cutout && `${baseClassName}--cutout`,
-    center && 'text-center'
+    styles[baseClassName],
+    cutout && styles[`${baseClassName}--cutout`],
+    center && 'text-center',
+    className
   )
 
   return (

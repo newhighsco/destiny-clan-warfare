@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import './Advert.styl'
+import styles from './Advert.styl'
 
 class Advert extends Component {
   componentDidMount () {
     if (typeof window !== 'undefined' && window) (window.adsbygoogle = window.adsbygoogle || []).push({})
 
-    document.body.classList.add('has-advert')
+    document.body.classList.add(styles['has-advert'])
   }
 
   render () {
     const { client, slot, format } = this.props
 
     return (
-      <div className="advert">
-        <ins className="adsbygoogle" data-ad-client={client} data-ad-slot={slot} data-ad-format={format} />
+      <div className={styles.advert}>
+        <ins className={styles.adsbygoogle} data-ad-client={client} data-ad-slot={slot} data-ad-format={format} />
       </div>
     )
   }

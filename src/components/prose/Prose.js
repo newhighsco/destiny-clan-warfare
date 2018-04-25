@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import './Prose.styl'
+import styles from './Prose.styl'
 
 const Prose = ({ children }) => {
   return (
-    <div className="prose">
+    <div className={styles.prose}>
       {children}
     </div>
   )

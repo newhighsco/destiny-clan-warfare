@@ -9,6 +9,8 @@ import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 
+const constants = require('../../utils/constants')
+
 class CurrentEvent extends Component {
   constructor (props) {
     super(props)
@@ -49,7 +51,7 @@ class CurrentEvent extends Component {
             <Button href={`${event.path}#leaderboard`}>View full leaderboard</Button>
           }
           {!summary && enrollmentOpen &&
-            <Button href="/#enroll">Enroll your clan today</Button>
+            <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
           }
         </Card>
         {hasLeaderboards &&

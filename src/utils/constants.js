@@ -78,7 +78,8 @@ const constants = {
     percent: '%',
     most: 'most',
     highest: 'highest',
-    relative: 'in'
+    relative: 'in',
+    enroll: 'enroll'
   },
   enrollment: {
     existing: 'Clan already exists',

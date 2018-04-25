@@ -105,7 +105,7 @@ class Enrollment extends Component {
   render () {
     const { clans } = this.props
     const { active, open, groups, selectedGroup } = this.state
-    const id = 'enroll'
+    const id = constants.prefix.enroll
     const baseClassName = 'enrollment'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'

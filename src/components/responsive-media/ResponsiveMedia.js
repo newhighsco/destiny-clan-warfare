@@ -4,11 +4,9 @@ import classNames from 'classnames'
 
 import './ResponsiveMedia.styl'
 
-// Ratio should be supplied in a `16:9` style format
 const ratioRegex = /^\d+:\d+$/
 
 const ResponsiveMedia = ({ children, ratio, className }) => {
-  // We can't predict sizes without a ratio, so just output the children
   if (!ratio) return children
 
   const ratioParts = ratio.split(':')

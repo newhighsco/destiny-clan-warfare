@@ -17,7 +17,7 @@ const constants = {
     humanReadableDate: 'MMM DD',
     humanReadableTime: 'HH:mm z',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ',
-    url: 'YYYY-MM-DD-HH-mm-ss'
+    url: 'YYYY-MM-DD'
   },
   division: {
     large: 'Company',

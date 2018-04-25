@@ -142,7 +142,7 @@ class EventClanTemplate extends Component {
           <Avatar cutout outline color={clan.color} foreground={clan.foreground} background={clan.background} />
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
-          <StatList stats={stats} top />
+          <StatList stats={stats} top kicker="Top stats" />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
           }

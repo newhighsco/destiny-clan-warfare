@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
+import { Lockup } from '../lockup/Lockup'
 import styles from './Stat.styl'
 
 const sentenceCase = require('sentence-case')
@@ -57,7 +58,7 @@ Stat.propTypes = {
   className: PropTypes.string
 }
 
-const StatList = ({ stats, top, size }) => {
+const StatList = ({ stats, kicker, top, size }) => {
   if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
@@ -117,34 +118,40 @@ const StatList = ({ stats, top, size }) => {
   }, [])
 
   return (
-    <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
-      {keys.map((key, i) => {
-        const label = sentenceCase(key)
-        var stat = stats[key]
-        var prefix
+    <Fragment>
+      {kicker &&
+        <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+      }
+      <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
+        {keys.map((key, i) => {
+          const label = sentenceCase(key)
+          var stat = stats[key]
+          var prefix
 
-        if (stat === null) stat = constants.blank
+          if (stat === null) stat = constants.blank
 
-        if (top) {
-          prefix = constants.prefix.most
+          if (top) {
+            prefix = constants.prefix.most
 
-          if (key.match(/(kd|kda|ppg|score)/)) {
-            prefix = constants.prefix.highest
+            if (key.match(/(kd|kda|ppg|score)/)) {
+              prefix = constants.prefix.highest
+            }
           }
-        }
 
-        return (
-          <li key={i}>
-            <Stat label={label} stat={stat} prefix={prefix} size={size} />
-          </li>
-        )
-      })}
-    </ul>
+          return (
+            <li key={i}>
+              <Stat label={label} stat={stat} prefix={prefix} size={size} />
+            </li>
+          )
+        })}
+      </ul>
+    </Fragment>
   )
 }
 
 StatList.propTypes = {
   stats: PropTypes.object,
+  kicker: PropTypes.string,
   top: PropTypes.bool,
   size: PropTypes.oneOf([ 'small' ])
 }

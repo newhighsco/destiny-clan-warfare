@@ -7,7 +7,7 @@ import Avatar from '../components/avatar/Avatar'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
 import { MedalList } from '../components/medal/Medal'
-import { Button } from '../components/button/Button'
+import { Button, ButtonGroup } from '../components/button/Button'
 import Notification from '../components/notification/Notification'
 import Prose from '../components/prose/Prose'
 import { TabContainer, Tab } from '../components/tab/Tab'
@@ -108,8 +108,10 @@ class ClanTemplate extends Component {
               <p dangerouslySetInnerHTML={{ __html: clan.description }} />
             </Prose>
           }
-          <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`} target="_blank">Join clan</Button>
-          <MedalList medals={medals} />
+          <ButtonGroup>
+            <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`} target="_blank">Join clan</Button>
+          </ButtonGroup>
+          <MedalList medals={medals} kicker="Medals awarded" />
           {!hasLeaderboards &&
             <Notification>Clan roster is being calculated. Please check back later.</Notification>
           }

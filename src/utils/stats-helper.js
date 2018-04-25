@@ -32,7 +32,7 @@ const percentage = (current, total, limit, precision) => {
 
   var result = (current / total) * 100
 
-  if (limit) result = Math.min(result, 100)
+  if (limit) result = Math.max(0, Math.min(result, 100))
 
   return round(result, precision)
 }

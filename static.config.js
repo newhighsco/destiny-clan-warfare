@@ -17,6 +17,7 @@ const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
+const statsHelper = require('./src/utils/stats-helper')
 const apiHelper = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
@@ -422,6 +423,7 @@ export default {
 
       var history = histories[member.profileIdStr] || []
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
+      var previousMemberLeaderboard = previousMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
         games: Number.NEGATIVE_INFINITY,
@@ -469,6 +471,31 @@ export default {
         }
       }
 
+      var pastEvents = []
+
+      if (previousMemberLeaderboard) {
+        const previousEvent = events.find(({ eventId }) => eventId === previousEventId)
+        const games = previousMemberLeaderboard.gamesPlayed
+        const score = parseInt(Math.round(previousMemberLeaderboard.totalScore))
+
+        pastEvents.push({
+          id: previousEventId,
+          game: {
+            path: urlBuilder.eventUrl(previousEventId),
+            result: true,
+            type: previousEvent.name,
+            endDate: moment.utc(previousEvent.scoringEndTime).format(constants.format.machineReadable)
+          },
+          games,
+          wins: previousMemberLeaderboard.gamesWon,
+          kd: statsHelper.kd(previousMemberLeaderboard),
+          kda: statsHelper.kda(previousMemberLeaderboard),
+          bonuses: parseBonuses(previousMemberLeaderboard),
+          ppg: statsHelper.ppg({ games, score }),
+          score
+        })
+      }
+
       return parsedMembers.push({
         id: member.profileIdStr,
         platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
@@ -502,7 +529,8 @@ export default {
           deaths: item.deaths,
           bonuses: parseBonuses(item, currentEvent.modifiers.map(({ id }) => (id))),
           score: parseInt(Math.round(item.totalScore))
-        }))
+        })),
+        pastEvents
       })
     }))
 
@@ -702,7 +730,7 @@ export default {
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
+            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }))
           })
         }))
       },
@@ -713,7 +741,7 @@ export default {
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
-          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
+          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }))
         })
       },
       {
@@ -789,7 +817,7 @@ export default {
 
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has now closed'}`
     const url = `${process.env.SITE_URL}/${moment(apiStatus.updatedDate).format(constants.format.url)}`
-    const canonicalUrl = apiStatus.enrollmentOpen ? `- ${process.env.SITE_URL}/#enroll` : ''
+    const canonicalUrl = apiStatus.enrollmentOpen ? ` - ${process.env.SITE_URL}/#enroll` : ''
     const content = `${kicker}${canonicalUrl}`
 
     feed.item({

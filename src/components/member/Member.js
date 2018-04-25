@@ -51,12 +51,8 @@ class Member extends Component {
       ]
     }
     const pastEvents = member.pastEvents || []
-    // const pastEvents = [
-    //   { id: 16, game: { result: true, path: '/16', type: 'Iron Banner', map: 'Ended 4 days ago' }, medals: medals.slice(1, 2), rank: 7, overall: 140, games: 10, wins: 2, kda: 7.1, bonus1: 10, bonus2: 12, score: 2000000 },
-    //   { id: 15, game: { result: true, path: '/15', type: 'Competitive Midweek', map: 'Ended 10 days ago' }, medals: medals.slice(1, 3), rank: 1, overall: 1, games: 102, wins: 72, kda: 107.1, bonus1: 30, bonus2: 5, score: 2000 },
-    //   { id: 22, game: { result: true, path: '/22', type: '24 Hour Strike Race', map: 'Ended 40 days ago' }, medals: medals, rank: 72, overall: 4000, games: 120, wins: 24, kda: 700.1, bonus1: 100, bonus2: 1, score: 50500 }
-    // ]
     const hasPastEvents = pastEvents.length > 0
+    const isMultiColumn = pastEvents.length > 1
 
     return (
       <PageContainer>
@@ -77,7 +73,7 @@ class Member extends Component {
           <Lockup primary center reverse kicker={kicker} kickerHref={kickerHref} heading={member.name} />
           <PlatformList platforms={member.platforms} />
           <ButtonGroup>
-          <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
+            <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
           </ButtonGroup>
           <MedalList medals={medals} kicker="Medals awarded" />
           <StatList stats={stats} kicker="Overall stats" />
@@ -87,8 +83,8 @@ class Member extends Component {
         </Card>
         {hasPastEvents &&
           <TabContainer cutout>
-            <Tab name="Events">
-              <Leaderboard data={pastEvents} multiColumn />
+            <Tab name={`${constants.kicker.past}${isMultiColumn ? 's' : ''}`}>
+              <Leaderboard data={pastEvents} multiColumn={isMultiColumn} />
             </Tab>
           </TabContainer>
         }

@@ -3,6 +3,7 @@ const constants = require('./constants')
 const clanRootUrl = '/clans/'
 const currentEventRootUrl = '/current/'
 const eventRootUrl = '/events/'
+const leaderboardRootUrl = '/leaderboard/'
 const pgrcRootUrl = 'https://destinytracker.com/d2/pgcr/'
 const profileRootUrl = '/members/'
 
@@ -31,6 +32,8 @@ module.exports = {
   eventUrl: (eventId) => {
     return `${eventRootUrl}${eventId}/`
   },
+
+  leaderboardRootUrl,
 
   pgcrUrl: (pgcrId) => {
     return `${pgrcRootUrl}${pgcrId}`

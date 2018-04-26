@@ -1,0 +1,85 @@
+.filter
+  padding $spacing--quarter 0 0 $spacing--quarter
+  border 1px solid black
+  cursor text
+  text-align left
+  position relative
+  z-index 3
+
+  &.is-focused
+    border-color green
+
+.filter__selected
+  display inline
+
+.filter__selected-tag
+  background white
+  border 1px solid black
+  display inline-block
+  font-size inherit
+  line-height inherit
+  margin 0 $spacing--quarter $spacing--quarter 0
+  padding $spacing--quarter
+
+  &:after
+    content '\2715'
+    color silver
+    margin-left $spacing--quarter
+
+.filter__selected-tag
+  &:hover
+  &:focus
+    border-color green
+
+.filter__search
+  display inline-block
+  margin-bottom $spacing--quarter
+  max-width 100%
+  padding $spacing--quarter 0
+
+  input
+    border 0
+    font-size inherit
+    line-height inherit
+    margin 0
+    max-width 100%
+    outline 0
+    padding 0
+
+    &::-ms-clear
+      display none
+
+.filter__suggestions
+  position absolute
+  top 100%
+  left 0
+  width 100%
+
+  ul
+    background white
+    border 1px solid black
+    margin 0 -1px
+    padding 0
+
+  li
+    border-bottom 1px solid black
+    list-style none
+    margin 0
+    padding $spacing--quarter
+
+    mark
+      background none
+      font-weight bold
+      text-decoration underline
+
+    &:hover
+      background red
+      cursor pointer
+
+    &.is-active
+      background orange
+
+    &.is-disabled
+      cursor auto
+      opacity 0.5
+

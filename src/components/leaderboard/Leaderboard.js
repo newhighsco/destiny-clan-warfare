@@ -246,7 +246,7 @@ Leaderboard.defaultProps = {
 }
 
 Leaderboard.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   columns: PropTypes.array,
   sorting: PropTypes.object,
   cutout: PropTypes.bool,

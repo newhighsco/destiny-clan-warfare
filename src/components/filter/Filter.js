@@ -9,7 +9,7 @@ const baseClassName = 'filter'
 
 const filterById = (all, id) => all.indexOf(`${id}`) !== -1
 
-const getIds = tags => tags.reduce((ids, tag) => ids.concat(`${tag.id}`), [])
+const getIds = tags => tags.reduce((ids, tag) => ids.concat(`${tag.id}`), []).sort()
 
 class Filter extends Component {
   render () {

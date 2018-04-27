@@ -4,14 +4,13 @@ import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
-import Filter from '../components/filter/Filter'
+import { Filter, getIds, filterById } from '../components/filter/Filter'
 import Notification from '../components/notification/Notification'
 import Leaderboard from '../components/leaderboard/Leaderboard'
+import Enrollment from '../components/enrollment/Enrollment'
 
 const constants = require('../utils/constants')
 
-const filterById = (all, id) => all.indexOf(`${id}`) !== -1
-const getIds = tags => tags.reduce((ids, tag) => ids.concat(tag.id), [])
 const setHash = tags => {
   var hash = `${constants.prefix.hash}${getIds(tags).join(',')}`
 
@@ -42,10 +41,13 @@ class LeaderboardPage extends Component {
 
   handleAddition (tag) {
     const { tags } = this.state
+    const existing = tags.find(({ id }) => id === tag.id)
 
-    tags.push(tag)
+    if (!existing) {
+      tags.push(tag)
 
-    this.setState({ tags }, () => setHash(tags))
+      this.setState({ tags }, () => setHash(tags))
+    }
   }
 
   handleDelete (index) {
@@ -58,9 +60,10 @@ class LeaderboardPage extends Component {
 
   render () {
     const { leaderboard } = this.props
-    const { tags, suggestions } = this.state
+    var { tags, suggestions } = this.state
     const custom = tags.length > 0
-    const visible = custom ? leaderboard.filter(({ id }) => filterById(getIds(tags), id)) : leaderboard
+    const ids = getIds(tags)
+    const visible = custom ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
     const kicker = custom ? 'Custom' : 'Overall'
     const title = `${kicker} Leaderboard`
     const description = 'TBC'
@@ -74,10 +77,12 @@ class LeaderboardPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Head>
+        <Enrollment />
         <Card cutout={hasLeaderboard} center>
           <Lockup primary center kicker={kicker} heading="Leaderboard" />
           <Filter
-            placeholder="Filter by clan"
+            kicker="Filter by clans"
+            placeholder="Enter clan name"
             suggestions={suggestions}
             tags={tags}
             handleAddition={this.handleAddition}

@@ -1,50 +1,37 @@
 .filter
-  padding $spacing--quarter 0 0 $spacing--quarter
-  border 1px solid black
+  background $color--white
   cursor text
-  text-align left
+  line-height 1
+  opacity 0.9
+  padding $spacing--default 0 $spacing--half $spacing--default
   position relative
+  text-align left
   z-index 3
 
   &.is-focused
-    border-color green
+    opacity 1
+
+.filter__lockup
+  padding $spacing--default 0
 
 .filter__selected
   display inline
 
-.filter__selected-tag
-  background white
-  border 1px solid black
-  display inline-block
-  font-size inherit
-  line-height inherit
-  margin 0 $spacing--quarter $spacing--quarter 0
-  padding $spacing--quarter
-
-  &:after
-    content '\2715'
-    color silver
-    margin-left $spacing--quarter
-
-.filter__selected-tag
-  &:hover
-  &:focus
-    border-color green
-
 .filter__search
   display inline-block
-  margin-bottom $spacing--quarter
+  line-height inherit
   max-width 100%
-  padding $spacing--quarter 0
+
+.filter__input
+  margin-bottom $spacing--half
 
   input
+    background transparent
     border 0
     font-size inherit
     line-height inherit
-    margin 0
     max-width 100%
     outline 0
-    padding 0
 
     &::-ms-clear
       display none
@@ -56,30 +43,73 @@
   width 100%
 
   ul
-    background white
-    border 1px solid black
-    margin 0 -1px
+    box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
+    font-size rem(14)
     padding 0
 
   li
-    border-bottom 1px solid black
+    background $color--nightrider
+    border-top 1px solid $color--nero
+    color $color--white
+    line-height 1.5
     list-style none
     margin 0
-    padding $spacing--quarter
+    padding $spacing--half $spacing--default
+    position relative
+
+    &:nth-child(even)
+      background $color--eclipse
 
     mark
       background none
-      font-weight bold
+      color inherit
       text-decoration underline
 
+    span:after
+      content 'Add'
+      color $color--silver
+      position absolute
+      top $spacing--half
+      right $spacing--default
+      text-transform uppercase
+
     &:hover
-      background red
+    &.is-active
+      background $color--white-smoke
+      color $color--black
       cursor pointer
 
-    &.is-active
-      background orange
+      span:after
+        color $color--terracotta
 
     &.is-disabled
-      cursor auto
-      opacity 0.5
+      color $color--silver
+      cursor default
+      pointer-events none
 
+      span:after
+        display none
+
+.filter-tag
+  background $color--eclipse
+  border 0
+  border-radius $spacing--default
+  color $color--white
+  display inline-block
+  font-size smaller
+  font-weight bold
+  line-height inherit
+  margin -1px $spacing--quarter $spacing--quarter 0
+  outline 0
+  padding $spacing--quarter $spacing--half
+
+  &:last-of-type
+    margin-right $spacing--half
+
+  &:after
+    content '\2715'
+    margin-left $spacing--half
+
+  &:hover
+  &:focus
+    background $color--silver

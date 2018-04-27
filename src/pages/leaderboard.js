@@ -12,10 +12,11 @@ import Enrollment from '../components/enrollment/Enrollment'
 const constants = require('../utils/constants')
 
 const setHash = tags => {
-  var hash = `${constants.prefix.hash}${getIds(tags).join(',')}`
+  const ids = getIds(tags)
+  const hash = `${ids.length ? constants.prefix.hash : ''}${ids.join(',')}`
 
   if (history.pushState) {
-    history.pushState(null, null, hash)
+    history.pushState(null, null, `${window.location.pathname}${hash}`)
   } else {
     location.hash = hash
   }

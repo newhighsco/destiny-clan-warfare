@@ -31,12 +31,19 @@ class LeaderboardPage extends Component {
     const tags = suggestions.filter(({ id }) => filterById(ids, id))
 
     this.state = {
+      active: false,
       suggestions,
       tags
     }
 
     this.handleAddition = this.handleAddition.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+  }
+
+  componentDidMount () {
+    const { active } = this.state
+
+    if (!active) this.setState({ active: true })
   }
 
   handleAddition (tag) {
@@ -60,7 +67,7 @@ class LeaderboardPage extends Component {
 
   render () {
     const { leaderboard } = this.props
-    var { tags, suggestions } = this.state
+    var { active, tags, suggestions } = this.state
     const custom = tags.length > 0
     const ids = getIds(tags)
     const visible = custom ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
@@ -79,14 +86,16 @@ class LeaderboardPage extends Component {
         </Head>
         <Card cutout={hasLeaderboard} center>
           <Lockup primary center kicker={kicker} heading="Leaderboard" />
-          <Filter
-            kicker="Filter by clans"
-            placeholder="Enter clan name"
-            suggestions={suggestions}
-            tags={tags}
-            handleAddition={this.handleAddition}
-            handleDelete={this.handleDelete}
-          />
+          {active &&
+            <Filter
+              kicker="Filter by clans"
+              placeholder="Enter clan name"
+              suggestions={suggestions}
+              tags={tags}
+              handleAddition={this.handleAddition}
+              handleDelete={this.handleDelete}
+            />
+          }
           {!hasLeaderboard &&
             (custom ? (
               <Notification>We were unable to find any matching clans. Please try again.</Notification>

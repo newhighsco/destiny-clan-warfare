@@ -7,7 +7,6 @@ import { Lockup } from '../components/lockup/Lockup'
 import { Filter, getIds, filterById } from '../components/filter/Filter'
 import Notification from '../components/notification/Notification'
 import Leaderboard from '../components/leaderboard/Leaderboard'
-import Enrollment from '../components/enrollment/Enrollment'
 
 const constants = require('../utils/constants')
 
@@ -78,7 +77,6 @@ class LeaderboardPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Head>
-        <Enrollment />
         <Card cutout={hasLeaderboard} center>
           <Lockup primary center kicker={kicker} heading="Leaderboard" />
           <Filter

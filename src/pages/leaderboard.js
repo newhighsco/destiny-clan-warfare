@@ -86,7 +86,7 @@ class LeaderboardPage extends Component {
         </Head>
         <Card cutout={hasLeaderboard} center>
           <Lockup primary center kicker={kicker} heading="Leaderboard" />
-          {active &&
+          {active && hasLeaderboard &&
             <Filter
               kicker="Filter by clans"
               placeholder="Enter clan name"
@@ -100,7 +100,7 @@ class LeaderboardPage extends Component {
             (custom ? (
               <Notification>We were unable to find any matching clans. Please try again.</Notification>
             ) : (
-              <Notification>Overal leaderboard is being calculated. Please check back later.</Notification>
+              <Notification>Overall leaderboard is being calculated. Please check back later.</Notification>
             ))
           }
         </Card>

@@ -67,7 +67,7 @@ class LeaderboardPage extends Component {
   }
 
   render () {
-    const { leaderboard } = this.props
+    const { event, leaderboard } = this.props
     var { active, tags, suggestions } = this.state
     const custom = tags.length > 0
     const ids = getIds(tags)
@@ -76,6 +76,8 @@ class LeaderboardPage extends Component {
     const title = `${kicker} Leaderboard`
     const description = `The overall leaderboard for the current ${constants.meta.name} event`
     const hasLeaderboard = visible && visible.length > 0
+
+    console.log(event)
 
     return (
       <PageContainer>
@@ -90,7 +92,7 @@ class LeaderboardPage extends Component {
         </Lockup>
         <Card cutout={hasLeaderboard} center>
           <Lockup center kicker={kicker} heading="Leaderboard" />
-          {active && hasLeaderboard &&
+          {active &&
             <Filter
               kicker="Filter by clans"
               placeholder="Enter clan name"
@@ -117,6 +119,7 @@ class LeaderboardPage extends Component {
 }
 
 LeaderboardPage.propTypes = {
+  event: PropTypes.object,
   leaderboard: PropTypes.array,
   history: PropTypes.object
 }

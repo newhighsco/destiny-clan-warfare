@@ -762,6 +762,7 @@ export default {
         path: urlBuilder.leaderboardRootUrl,
         component: 'src/pages/leaderboard',
         getData: () => ({
+          event: currentEvent ? { isCurrent: true } : { isCurrent: false },
           leaderboard: currentEvent ? MultiSort(parsedEvents.find(({ id }) => id === currentEvent.eventId).leaderboards.reduce((result, leaderboard) => result.concat(leaderboard.data.map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', active, size, score, updated }))), []), 'score', 'DESC') : []
         })
       },

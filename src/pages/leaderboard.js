@@ -7,6 +7,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import { Filter, getIds, filterById } from '../components/filter/Filter'
 import Notification from '../components/notification/Notification'
 import Leaderboard from '../components/leaderboard/Leaderboard'
+import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
 
@@ -84,8 +85,11 @@ class LeaderboardPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Head>
+        <Lockup primary center kicker={constants.kicker.current}>
+          <RelativeDate status />
+        </Lockup>
         <Card cutout={hasLeaderboard} center>
-          <Lockup primary center kicker={kicker} heading="Leaderboard" />
+          <Lockup center kicker={kicker} heading="Leaderboard" />
           {active && hasLeaderboard &&
             <Filter
               kicker="Filter by clans"

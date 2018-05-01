@@ -762,25 +762,30 @@ export default {
         path: urlBuilder.leaderboardRootUrl,
         component: 'src/pages/leaderboard',
         getData: () => {
-          const eventId = currentEvent ? currentEvent.id : previousEventId
-          const totals = parsedEvents.find(({ id }) => id === eventId).leaderboards.reduce((result, leaderboard) => result.concat(leaderboard.data.map(({ id, score, active, size, updated }) => ({ clanId: id, active, size, score, updated }))), [])
+          const eventId = currentEvent ? currentEvent.eventId : previousEventId
+          const event = visibleEvents.find(({ id }) => id === eventId)
+          const totals = event.leaderboards.reduce((result, leaderboard) => result.concat(leaderboard.data.map(({ id, path, score, active, size, updated }) => ({ clanId: id, path, active, size, score, updated }))), [])
 
           return {
-            event: currentEvent ? { isCurrent: true } : { isCurrent: false },
-            leaderboard: MultiSort(parsedClans.map(({ id, path, name, platforms, color, background, foreground }) => {
+            event: (({ path, isCurrent }) => ({ path, isCurrent }))(event),
+            leaderboard: MultiSort(parsedClans.map(({ id, name, platforms, color, background, foreground }) => {
               const total = totals.find(({ clanId }) => `${clanId}` === id)
+              const { path, active, size, score } = total || { active: null, size: null, score: Number.NEGATIVE_INFINITY }
 
               return {
+                id,
                 path,
                 name,
                 platforms,
                 color,
                 background,
                 foreground,
-                rank: '',
-                ...total
+                rank: score,
+                active,
+                size,
+                score
               }
-            }), 'score', 'DESC')
+            }), { score: 'DESC', name: 'ASC' })
           }
         }
       },

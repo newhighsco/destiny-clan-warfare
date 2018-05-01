@@ -77,6 +77,12 @@ class LeaderboardPage extends Component {
     const description = `The overall leaderboard for the current ${constants.meta.name} event`
     const isCurrent = event.isCurrent
     const hasLeaderboard = visible && visible.length > 0
+    const columns = visible ? Object.keys(visible[0]) : []
+
+    if (!isCurrent) {
+      columns.splice(columns.indexOf('active'), 1)
+      columns.splice(columns.indexOf('size'), 1)
+    }
 
     return (
       <PageContainer>
@@ -86,7 +92,7 @@ class LeaderboardPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Head>
-        <Lockup primary center kicker={isCurrent ? constants.kicker.current : constants.kicker.previous}>
+        <Lockup primary center kicker={isCurrent ? constants.kicker.current : constants.kicker.previous} kickerHref={event.path}>
           {isCurrent &&
             <RelativeDate status />
           }
@@ -112,7 +118,7 @@ class LeaderboardPage extends Component {
           }
         </Card>
         {hasLeaderboard &&
-          <Leaderboard cutout data={visible} />
+          <Leaderboard cutout data={visible} columns={columns} />
         }
       </PageContainer>
     )

@@ -8,6 +8,7 @@ import { Button } from '../button/Button'
 import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
+import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
 
@@ -41,7 +42,9 @@ class CurrentEvent extends Component {
           <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
           <Timer start={event.startDate} end={event.endDate} />
           {event.description &&
-            <p>{event.description}</p>
+            <Prose>
+              <p dangerouslySetInnerHTML={{ __html: event.description }} />
+            </Prose>
           }
           <ModifierList modifiers={event.modifiers} />
           {!hasLeaderboards &&

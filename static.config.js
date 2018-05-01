@@ -770,7 +770,7 @@ export default {
             event: (({ path, isCurrent }) => ({ path, isCurrent }))(event),
             leaderboard: MultiSort(parsedClans.map(({ id, name, platforms, color, background, foreground }) => {
               const total = totals.find(({ clanId }) => `${clanId}` === id)
-              const { path, active, size, score } = total || { active: null, size: null, score: Number.NEGATIVE_INFINITY }
+              const { path, active, size, score, updated } = total || { active: null, size: null, score: Number.NEGATIVE_INFINITY, updated: null }
 
               return {
                 id,
@@ -783,7 +783,8 @@ export default {
                 rank: score,
                 active,
                 size,
-                score
+                score,
+                updated
               }
             }), { score: 'DESC', name: 'ASC' })
           }

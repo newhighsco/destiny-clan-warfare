@@ -86,7 +86,7 @@ const constants = {
     closed: 'Not accepting new clans at this time.'
   },
   social: {
-    discord: 'http://discord.destinyclanwarfare.com',
+    discord: 'https://discord.destinyclanwarfare.com',
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'

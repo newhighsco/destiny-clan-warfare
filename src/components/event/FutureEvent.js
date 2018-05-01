@@ -5,6 +5,7 @@ import { Lockup } from '../lockup/Lockup'
 import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
+import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
 
@@ -34,7 +35,9 @@ class FutureEvent extends Component {
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <Timer start={event.startDate} end={event.endDate} />
         {event.description &&
-          <p>{event.description}</p>
+          <Prose>
+            <p dangerouslySetInnerHTML={{ __html: event.description }} />
+          </Prose>
         }
         <ModifierList modifiers={event.modifiers} />
         {enrollmentOpen &&

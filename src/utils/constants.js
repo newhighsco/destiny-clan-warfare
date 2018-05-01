@@ -83,7 +83,8 @@ const constants = {
   },
   enrollment: {
     existing: 'Clan already exists',
-    closed: 'Not accepting new clans at this time.'
+    closed: 'Not accepting new clans at this time.',
+    optOut: 'This clan has opted out of DestinyClanWarfare'
   },
   social: {
     discord: 'https://discord.destinyclanwarfare.com',

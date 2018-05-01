@@ -28,6 +28,7 @@ class FaqsPage extends Component {
             <a id="points" />
             <h2>How do you earn points in {constants.meta.name}?</h2>
             <p>Once your clan has been enrolled, you will automatically be tracked and added, and start appearing in the leaderboards as soon as you score some points against the current event. You have nothing more to do.</p>
+            <p>Points are only calculated for completed activities, so if you get kicked from a PvP match, or leave a Strike before the end, it will not count towards your score on the leaderboard.</p>
             <h2>How many points do you earn in {constants.meta.name}?</h2>
             <p>Unless stated otherwise, each event will be made up of the following points:</p>
             <ul>

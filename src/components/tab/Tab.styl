@@ -38,6 +38,10 @@
   &:first-child:before
     display none
 
+  +width-min($mq--tablet)
+    .tab-navigation__item
+      min-width ($mq--tablet / 3)
+
 .tab-navigation__item
   display inline-block
   min-width 33.333%

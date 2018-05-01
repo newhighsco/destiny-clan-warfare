@@ -138,7 +138,11 @@
 .leaderboard__name
   display inline-block
   vertical-align middle
-  padding $spacing--half $spacing--default
+  padding $spacing--quarter $spacing--default
+
+  +width-min($mq--tablet)
+    padding-top $spacing--half
+    padding-bottom $spacing--half
 
 .leaderboard__platforms
   display inline-block
@@ -218,6 +222,7 @@
   color $color--silver
   display block
   font-size smaller
+  line-height 1
 
 .leaderboard__stat--game
   flex auto

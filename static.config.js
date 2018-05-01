@@ -17,10 +17,13 @@ const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
-const api = require('./src/utils/api-helper').api
+const statsHelper = require('./src/utils/stats-helper')
+const apiHelper = require('./src/utils/api-helper')
 const bungie = require('./src/utils/bungie-helper')
 const decode = require('./src/utils/html-entities').decode
 
+const primaryApi = apiHelper.api()
+const secondaryApi = apiHelper.api(1)
 const distPath = 'public'
 const extractCssChunks = true
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
@@ -40,6 +43,7 @@ export default {
   bundleAnalyzer: false,
   extractCssChunks: extractCssChunks,
   inlineCss: true,
+  disableRouteInfoWarning: true,
   getRoutes: async () => {
     var apiStatus = {
       enrollmentOpen: false,
@@ -50,7 +54,7 @@ export default {
     var currentMemberLeaderboards = []
     var previousMemberLeaderboards = []
     var members = []
-    var histories = []
+    var histories = {}
     var events = []
     var modifiers = []
     var medals = []
@@ -81,7 +85,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch enrollment open`)
 
-        api(`Clan/AcceptingNewClans`)
+        primaryApi(`Clan/AcceptingNewClans`)
           .then(({ data }) => {
             apiStatus.enrollmentOpen = data
             console.timeEnd(`fetch enrollment open`)
@@ -111,7 +115,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch clans`)
 
-        api(`Clan/GetAllClans`)
+        primaryApi(`Clan/GetAllClans`)
           .then(({ data }) => {
             clans = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch clans`)
@@ -123,7 +127,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch members`)
 
-        api(`Clan/GetAllMembers`)
+        primaryApi(`Clan/GetAllMembers`)
           .then(({ data }) => {
             members = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch members`)
@@ -138,7 +142,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch events`)
 
-        api(`Event/GetAllEvents`)
+        primaryApi(`Event/GetAllEvents`)
           .then(({ data }) => {
             events = data.map(item => camelcaseKeys(item, casingOptions))
             currentEvent = events.find(({ eventTense }) => eventTense === constants.tense.current)
@@ -154,7 +158,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch modifiers`)
 
-        api(`Component/GetAllModifiers`)
+        primaryApi(`Component/GetAllModifiers`)
           .then(({ data }) => {
             modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
             console.timeEnd(`fetch modifiers`)
@@ -169,7 +173,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch member medals`)
 
-        api(`Component/GetAllMedals`)
+        primaryApi(`Component/GetAllMedals`)
           .then(({ data }) => {
             medals = medals.concat(medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), constants.prefix.profile))
             console.timeEnd(`fetch member medals`)
@@ -184,7 +188,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch clan medals`)
 
-        api(`Component/GetAllClanMedals`)
+        primaryApi(`Component/GetAllClanMedals`)
           .then(({ data }) => {
             medals = medals.concat(medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), constants.prefix.clan))
             console.timeEnd(`fetch clan medals`)
@@ -199,7 +203,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch event leaderboard`)
 
-        api(`Leaderboard/GetLeaderboard`)
+        primaryApi(`Leaderboard/GetLeaderboard`)
           .then(({ data }) => {
             currentEventLeaderboard = camelcaseKeys(data, casingOptions)
             console.timeEnd(`fetch event leaderboard`)
@@ -214,7 +218,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch current clan leaderboard`)
 
-        api(`Leaderboard/GetClanLeaderboard`)
+        primaryApi(`Leaderboard/GetClanLeaderboard`)
           .then(({ data }) => {
             currentMemberLeaderboards = camelcaseKeys(data, casingOptions)
             console.timeEnd(`fetch current clan leaderboard`)
@@ -232,7 +236,7 @@ export default {
       sources.push(new Promise((resolve, reject) => {
         console.time(`fetch previous clan leaderboard`)
 
-        api(`Leaderboard/GetPreviousClanLeaderboard`)
+        primaryApi(`Leaderboard/GetPreviousClanLeaderboard`)
           .then(({ data }) => {
             previousMemberLeaderboards = camelcaseKeys(data[0].LeaderboardList, casingOptions)
             previousEventId = data[0].EventId
@@ -253,11 +257,22 @@ export default {
       sources.push(new Promise((resolve, reject) => {
         console.time(`fetch match history`)
 
-        api(`Leaderboard/GetAllPlayersHistory`)
+        secondaryApi(`Leaderboard/GetAllPlayersHistory`)
           .then(({ data }) => {
-            histories = data.map(item => camelcaseKeys(item, casingOptions))
+            MultiSort(data, 'DatePlayed', 'DESC').map(item => {
+              item = camelcaseKeys(item, casingOptions)
+              const id = item.membershipIdStr
+              const existing = histories[id]
+
+              if (existing) {
+                if (existing.length < constants.matchHistoryLimit) existing.push(item)
+              } else {
+                histories[id] = [ item ]
+              }
+            })
+
             console.timeEnd(`fetch match history`)
-            console.log(`match history: ${histories.length}`)
+            console.log(`match history: ${data.length}`)
             resolve()
           })
           .catch(err => {
@@ -275,6 +290,7 @@ export default {
 
     const parseBonuses = (item, modifierIds) => {
       const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
+      const hasPlayed = item.gamesPlayed > 0 || item.pgcrId
 
       return bonuses.map((bonus, index) => {
         const modifierId = modifierIds ? modifierIds[index] : bonus.modifierId
@@ -283,7 +299,7 @@ export default {
         if (modifier) {
           return {
             shortName: modifier.shortName,
-            count: typeof bonus === 'object' ? bonus.bonusPoints : bonus
+            count: hasPlayed ? (typeof bonus === 'object' ? bonus.bonusPoints : bonus) : null
           }
         }
 
@@ -404,9 +420,10 @@ export default {
 
     await Promise.all(members.map(member => {
       const clan = clans.find(({ groupId }) => groupId === member.groupId)
-      const historyCount = constants.matchHistoryLimit
-      var history = MultiSort(histories.filter(({ membershipIdStr }) => membershipIdStr === member.profileIdStr), 'datePlayed', 'DESC').slice(0, historyCount)
+
+      var history = histories[member.profileIdStr] || []
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
+      var previousMemberLeaderboard = previousMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
         games: Number.NEGATIVE_INFINITY,
@@ -454,6 +471,31 @@ export default {
         }
       }
 
+      var pastEvents = []
+
+      if (previousMemberLeaderboard) {
+        const previousEvent = events.find(({ eventId }) => eventId === previousEventId)
+        const games = previousMemberLeaderboard.gamesPlayed
+        const score = parseInt(Math.round(previousMemberLeaderboard.totalScore))
+
+        pastEvents.push({
+          id: previousEventId,
+          game: {
+            path: urlBuilder.eventUrl(previousEventId),
+            result: true,
+            type: previousEvent.name,
+            endDate: moment.utc(previousEvent.scoringEndTime).format(constants.format.machineReadable)
+          },
+          games,
+          wins: previousMemberLeaderboard.gamesWon,
+          kd: statsHelper.kd(previousMemberLeaderboard),
+          kda: statsHelper.kda(previousMemberLeaderboard),
+          bonuses: parseBonuses(previousMemberLeaderboard),
+          ppg: statsHelper.ppg({ games, score }),
+          score
+        })
+      }
+
       return parsedMembers.push({
         id: member.profileIdStr,
         platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
@@ -487,7 +529,8 @@ export default {
           deaths: item.deaths,
           bonuses: parseBonuses(item, currentEvent.modifiers.map(({ id }) => (id))),
           score: parseInt(Math.round(item.totalScore))
-        }))
+        })),
+        pastEvents
       })
     }))
 
@@ -514,6 +557,7 @@ export default {
           }
 
           return {
+            id: clan.groupId,
             path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
             platforms: platforms ? platforms.platforms : [],
             name: decode(clan.name),
@@ -550,6 +594,7 @@ export default {
           })
         } else {
           results.push({
+            id: '',
             path: '',
             platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
             name: '',
@@ -661,10 +706,10 @@ export default {
             .map(({ path, id }) => ({ path, id })),
           currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
             .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) })),
+            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', active, size, score, updated })) })) })),
           pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
             .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ path, name, platforms, color, background, foreground, medal, division, score }) => ({ path, name, platforms, color, background, foreground, medal, division, score })) })),
+            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ id, path, name, platforms, color, background, foreground, medal, division, score }) => ({ id, path, name, platforms, color, background, foreground, medal, division, score })) })),
           futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')
             .slice(0, 1)
             .map(({ path, name, description, startDate, endDate, modifiers }) => ({ path, name, description, startDate, endDate, modifiers }))
@@ -685,7 +730,7 @@ export default {
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
+            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }))
           })
         }))
       },
@@ -696,7 +741,7 @@ export default {
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
-          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals }))
+          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }))
         })
       },
       {
@@ -736,7 +781,7 @@ export default {
         path: urlBuilder.currentEventRootUrl,
         component: 'src/templates/event',
         getData: () => ({
-          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ path, name, platforms, color, background, foreground, rank: '', score, active, size, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
+          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', active, size, score, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
         }),
         children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
           path: `/${clan.id}/`,
@@ -767,6 +812,25 @@ export default {
     feedBuilder(visibleEvents, constants.kicker.current).map(event => feed.item(event))
 
     await fs.writeFile(path.join(distPath, '/events--current.xml'), feed.xml())
+
+    feed = new RSS(feedOptions)
+
+    const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
+    const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
+    const url = `${process.env.SITE_URL}/?date=${moment(apiStatus.updatedDate).format(constants.format.url)}${hash}`
+    const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
+    const content = `${kicker}${canonicalUrl}`
+
+    feed.item({
+      kicker,
+      description: kicker,
+      url,
+      guid: url,
+      date: apiStatus.updatedDate,
+      custom_elements: [ { 'content:encoded': content } ]
+    })
+
+    await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
 
     return routes
   },
@@ -815,15 +879,17 @@ export default {
 
     const redirects = [
       { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
-      { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
       { from: urlBuilder.eventUrl(':event/:clan/:profile'), to: urlBuilder.profileUrl(':profile', ':event'), code: 301 }
     ]
 
     if (currentEvent) {
-      redirects.push({ from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 302 })
+      redirects.push(
+        { from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 302 },
+        { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+      )
     } else {
-      redirects.push({ from: urlBuilder.currentEventRootUrl, to: '/#next', code: 302 })
+      redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
     }
 
     await fs.writeFile(path.join(distPath, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))

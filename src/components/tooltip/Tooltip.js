@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import styles from './Tooltip.styl'
 
-import './Tooltip.styl'
+const baseClassName = 'tooltip'
 
 class Tooltip extends Component {
   constructor (props) {
     super(props)
 
-    const { isActive } = this.props
+    const { active } = this.props
 
     this.state = {
-      isActive: isActive,
+      active: active,
       align: props.align,
       valign: props.valign
     }
@@ -22,9 +23,9 @@ class Tooltip extends Component {
   }
 
   componentDidUpdate () {
-    const { isActive } = this.state
+    const { active } = this.state
 
-    isActive
+    active
       ? document.addEventListener('keydown', this.handleKeyDown)
       : document.removeEventListener('keydown', this.handleKeyDown)
   }
@@ -35,11 +36,11 @@ class Tooltip extends Component {
 
   hideTooltip () {
     this.content.style = {}
-    this.setState({ isActive: false })
+    this.setState({ active: false })
   }
 
   showTooltip () {
-    this.setState({ isActive: true })
+    this.setState({ active: true })
   }
 
   handleKeyDown (e) {
@@ -51,59 +52,55 @@ class Tooltip extends Component {
 
   render () {
     const { children, className, clickOutsideToClose, enableHover, heading, text } = this.props
-    const { isActive, align, valign } = this.state
-    const TooltipClassNames = classNames(
-      'tooltip',
-      { 'is-active': isActive },
-      className
-    )
+    const { active, align, valign } = this.state
     const hasContent = heading || text
+    const triggerClassName = `${baseClassName}__trigger`
+    const contentClassName = `${baseClassName}__content`
 
     return (
       <span
-        className={TooltipClassNames}
-        >
+        className={classNames(baseClassName, { 'is-active': active }, className)}>
         <button
           type="button"
-          className={classNames('text-button tooltip__trigger', hasContent && 'tooltip__trigger--enabled')}
+          className={classNames('text-button', styles[triggerClassName], hasContent && styles[`${triggerClassName}--enabled`])}
           aria-label="Open tooltip"
           {...enableHover ? {
             onMouseOver: this.showTooltip,
             onMouseOut: this.hideTooltip,
-            onTouchEnd: isActive ? this.hideTooltip : this.showTooltip
+            onTouchEnd: active ? this.hideTooltip : this.showTooltip
           } : {
-            onClick: isActive ? this.hideTooltip : this.showTooltip
+            onClick: active ? this.hideTooltip : this.showTooltip
           }}
           >
           {children}
         </button>
         <span
           className={classNames(
-            'tooltip__content',
-            `tooltip__content--${align}`,
-            `tooltip__content--${valign}`,
-            { 'is-vhidden': !isActive },
+            styles[contentClassName],
+            styles[`${contentClassName}--${align}`],
+            styles[`${contentClassName}--${valign}`],
+            { 'is-vhidden': !active },
             { 'is-hidden': !hasContent }
           )}
-          {...isActive && {
+          {...active && {
             tabIndex: 0,
             onBlur: this.hideTooltip
           }}
           ref={(span) => { this.content = span }}
           >
           {heading &&
-            <span className="tooltip__heading">{heading}</span>
+            <span className={styles[`${baseClassName}__heading`]}>{heading}</span>
           }
           {text &&
             <span
-              className="tooltip__text"
+              className={styles[`${baseClassName}__text`]}
               dangerouslySetInnerHTML={{ __html: text }}
             />
           }
         </span>
-        {isActive && clickOutsideToClose && !enableHover &&
+        {active && clickOutsideToClose && !enableHover &&
           <span
-            className="tooltip__backdrop"
+            className={styles[`${baseClassName}__backdrop`]}
             onClick={this.hideTooltip}
           />
         }
@@ -127,7 +124,7 @@ Tooltip.propTypes = {
   heading: PropTypes.string,
   text: PropTypes.string,
   valign: PropTypes.oneOf([ 'top', 'bottom' ]),
-  isActive: PropTypes.bool
+  active: PropTypes.bool
 }
 
 export default Tooltip

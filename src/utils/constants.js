@@ -1,4 +1,3 @@
-const apiBaseUrl = 'https://mb-dcw-test.azurewebsites.net/'
 const bungieBaseUrl = 'https://www.bungie.net/'
 
 const constants = {
@@ -17,7 +16,8 @@ const constants = {
     humanReadable: 'MMM DD HH:mm\xa0z',
     humanReadableDate: 'MMM DD',
     humanReadableTime: 'HH:mm z',
-    machineReadable: 'YYYY-MM-DDTHH:mm:ssZ'
+    machineReadable: 'YYYY-MM-DDTHH:mm:ssZ',
+    url: 'YYYY-MM-DD'
   },
   division: {
     large: 'Company',
@@ -51,8 +51,12 @@ const constants = {
     last: 'Last event'
   },
   server: {
-    baseUrl: apiBaseUrl,
-    apiUrl: `${apiBaseUrl}api/`,
+    apiUrl: {
+      protocol: 'https://',
+      subdomains: [ 'mb-dcw-test2' ],
+      domain: '.azurewebsites.net/',
+      path: 'api/'
+    },
     proxyUrl: 'https://clanwarfare-proxy.herokuapp.com/'
   },
   bungie: {
@@ -74,14 +78,16 @@ const constants = {
     percent: '%',
     most: 'most',
     highest: 'highest',
-    relative: 'in'
+    relative: 'in',
+    enroll: 'enroll'
   },
   enrollment: {
     existing: 'Clan already exists',
-    closed: 'Not accepting new clans at this time.'
+    closed: 'Not accepting new clans at this time.',
+    optOut: 'This clan has opted out of DestinyClanWarfare'
   },
   social: {
-    discord: 'http://discord.destinyclanwarfare.com',
+    discord: 'https://discord.destinyclanwarfare.com',
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'

@@ -2,12 +2,11 @@ import React from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './ClanTag.styl'
+import styles from './ClanTag.styl'
 
 const ClanTag = ({ children, className, href }) => {
   const baseClassName = 'clan-tag'
-  const classes = classNames(baseClassName, className)
+  const classes = classNames(styles[baseClassName], className)
 
   return (
     <Link to={href} className={classes}>{children}</Link>

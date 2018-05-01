@@ -5,15 +5,15 @@ import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
 import { Button, ButtonGroup } from '../button/Button'
 import Notification from '../notification/Notification'
-
-import './Enrollment.styl'
+import styles from './Enrollment.styl'
 
 const constants = require('../../utils/constants')
-const api = require('../../utils/api-helper').proxy
+const apiHelper = require('../../utils/api-helper')
 const bungie = require('../../utils/bungie-helper')
 const apiStatus = require('../../utils/api-status')
-const action = `${constants.server.baseUrl}Home/AddClan/`
+const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
+const proxy = apiHelper.proxy()
 
 class Enrollment extends Component {
   constructor (props) {
@@ -39,7 +39,7 @@ class Enrollment extends Component {
 
       if (!active) this.setState({ active: true })
 
-      api(`Clan/AcceptingNewClans`)
+      proxy(`Clan/AcceptingNewClans`)
         .then(({ data }) => {
           localStorage.setItem('enrollmentOpen', data)
           this.setState({ open: data })
@@ -89,7 +89,7 @@ class Enrollment extends Component {
               const group = groups.find(({ groupId }) => groupId === detail.groupId)
 
               if (!group && detail.groupType === groupType) {
-                groups.push(detail)
+                groups.unshift(detail)
               }
 
               this.setState({ groups: groups })
@@ -105,13 +105,13 @@ class Enrollment extends Component {
   render () {
     const { clans } = this.props
     const { active, open, groups, selectedGroup } = this.state
-    const id = 'enroll'
+    const id = constants.prefix.enroll
     const baseClassName = 'enrollment'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
     return (
-      <form ref="form" id={id} className={baseClassName} action={action} method="post" onSubmit={this.handleEnroll}>
+      <form ref="form" id={id} className={styles[baseClassName]} action={action} method="post" onSubmit={this.handleEnroll}>
         <input type="hidden" name="redirectUrl" value={redirectUrl} />
         {selectedGroup &&
           <input type="hidden" name="clanId" value={selectedGroup} />
@@ -120,7 +120,7 @@ class Enrollment extends Component {
           <Lockup borderless center kicker="Enroll your clan today" />
         </label>
         <div className="field" id="field--clan">
-          <div className={classNames('field__answer', `${baseClassName}__field`)}>
+          <div className={classNames('field__answer', styles[`${baseClassName}__field`])}>
             {open ? (
               <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
             ) : (
@@ -132,18 +132,18 @@ class Enrollment extends Component {
           <Button solid type="submit">Enroll clan</Button>
         </ButtonGroup>
         {groups.length > 0 &&
-          <ul className={classNames('list--unstyled', `${baseClassName}__clans`)}>
+          <ul className={classNames('list--unstyled', styles[`${baseClassName}__clans`])}>
             {groups.map((group, i) => {
               const clan = clans.find(clan => clan.id === group.groupId)
 
               return (
                 <li key={i}>
                   {clan ? (
-                    <Link to={clan.path} className={`${baseClassName}__clan`}>
+                    <Link to={clan.path} className={styles[`${baseClassName}__clan`]}>
                       {group.name}
                     </Link>
                   ) : (
-                    <button onClick={this.handleEnroll} data-id={group.groupId} className={classNames('text-button', `${baseClassName}__clan`)}>
+                    <button onClick={this.handleEnroll} data-id={group.groupId} className={classNames('text-button', styles[`${baseClassName}__clan`])}>
                       {group.name}
                     </button>
                   )}

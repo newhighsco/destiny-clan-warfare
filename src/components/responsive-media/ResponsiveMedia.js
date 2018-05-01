@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import styles from './ResponsiveMedia.styl'
 
-import './ResponsiveMedia.styl'
-
-// Ratio should be supplied in a `16:9` style format
 const ratioRegex = /^\d+:\d+$/
 
 const ResponsiveMedia = ({ children, ratio, className }) => {
-  // We can't predict sizes without a ratio, so just output the children
   if (!ratio) return children
 
   const ratioParts = ratio.split(':')
@@ -17,7 +14,7 @@ const ResponsiveMedia = ({ children, ratio, className }) => {
 
   return (
     <div
-      className={classNames('responsive-media', className)}
+      className={classNames(styles['responsive-media'], className)}
       style={ratio && { paddingBottom: `${ratioPercentageRounded}%` }}
       >
       {children}

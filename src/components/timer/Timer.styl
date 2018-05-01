@@ -8,7 +8,7 @@
   z-index 2
 
 .timer__progress
-  margin -1.5em auto 0
+  margin 0 auto
   max-width $mq--mobile--landscape
   position relative
   width 100%
@@ -19,7 +19,9 @@
   font-size rem(12)
   letter-spacing 0.1em
   line-height 1.1
-  text-align left
+  margin-top $spacing--quarter
+  padding 0 $spacing--half
+  text-align right
   text-transform uppercase
   vertical-align top
   width 50%
@@ -30,12 +32,22 @@
     font-weight bold
 
   & + &
-    text-align right
+    text-align left
+
+.timer__progress--active
+  margin-top -1.5em
+
+  .timer__date
+    text-align left
+    padding 0
+
+    & + .timer__date
+      text-align right
 
 .timer-progress
   border 1px solid $color--silver
   display block
-  margin $spacing--half auto
+  margin $spacing--half auto $spacing--quarter
   height $spacing--default
   padding 1px
 

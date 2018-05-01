@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import MultiSort from 'multi-sort'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
+import { Lockup } from '../lockup/Lockup'
 import BackgroundSvgs from './background'
 import ForegroundSvgs from './foreground'
 import HighlightSvg from './highlight.svg'
@@ -31,7 +32,7 @@ const Medal = ({ name, description, label, tier, count, size, align, className, 
   if (!BackgroundSvg) return null
 
   return (
-    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} isActive={tooltipActive}>
+    <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} active={tooltipActive}>
       <div
         className={classNames(
           styles[baseClassName],
@@ -80,7 +81,7 @@ Medal.propTypes = {
   tooltipActive: PropTypes.bool
 }
 
-const MedalList = ({ medals, size, align, center, enableHover, tooltipActive }) => {
+const MedalList = ({ medals, kicker, size, align, center, enableHover, tooltipActive }) => {
   if (!medals || medals.length < 1) return null
 
   medals = MultiSort(medals, {
@@ -90,13 +91,18 @@ const MedalList = ({ medals, size, align, center, enableHover, tooltipActive }) 
   })
 
   return (
-    <ul className={classNames('list--inline', styles[`${baseClassName}-list`], center && 'text-center')}>
-      {medals.map((medal, i) => (
-        <li key={i}>
-          <Medal {...medal} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
-        </li>
-      ))}
-    </ul>
+    <Fragment>
+      {kicker &&
+        <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+      }
+      <ul className={classNames('list--inline', styles[`${baseClassName}-list`], center && 'text-center')}>
+        {medals.map((medal, i) => (
+          <li key={i}>
+            <Medal {...medal} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
+          </li>
+        ))}
+      </ul>
+    </Fragment>
   )
 }
 
@@ -107,6 +113,7 @@ MedalList.defaultProps = {
 
 MedalList.propTypes = {
   medals: PropTypes.array,
+  kicker: PropTypes.string,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
   center: PropTypes.bool,

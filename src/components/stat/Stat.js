@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
-
-import './Stat.styl'
+import { Lockup } from '../lockup/Lockup'
+import styles from './Stat.styl'
 
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
@@ -27,21 +27,21 @@ const Stat = ({ label, prefix, stat, size, className }) => {
   return (
     <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} className={className} valign="bottom" enableHover>
       <div className={classNames(
-        baseClassName,
-        size && `${baseClassName}--${size}`
+        styles[baseClassName],
+        size && styles[`${baseClassName}--${size}`]
       )}>
-        <div className={`${baseClassName}__label`}>
+        <div className={styles[`${baseClassName}__label`]}>
           {prefix &&
             <span>{prefix} </span>
           }
           {label}
         </div>
-        <div className={`${baseClassName}__value`}>
+        <div className={styles[`${baseClassName}__value`]}>
           {value}
         </div>
         {valueLabel &&
           <div
-            className={classNames(`${baseClassName}__label`, `${baseClassName}__label--simple`)}
+            className={classNames(styles[`${baseClassName}__label`], styles[`${baseClassName}__label--simple`])}
             dangerouslySetInnerHTML={{ __html: sentence(valueLabel) }}
           />
         }
@@ -58,7 +58,7 @@ Stat.propTypes = {
   className: PropTypes.string
 }
 
-const StatList = ({ stats, top, size }) => {
+const StatList = ({ stats, kicker, top, size }) => {
   if (!stats || stats.length < 1) return null
 
   var keys = Object.keys(stats)
@@ -118,34 +118,40 @@ const StatList = ({ stats, top, size }) => {
   }, [])
 
   return (
-    <ul className={classNames('list--inline', `${baseClassName}-list`)}>
-      {keys.map((key, i) => {
-        const label = sentenceCase(key)
-        var stat = stats[key]
-        var prefix
+    <Fragment>
+      {kicker &&
+        <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+      }
+      <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
+        {keys.map((key, i) => {
+          const label = sentenceCase(key)
+          var stat = stats[key]
+          var prefix
 
-        if (stat === null) stat = constants.blank
+          if (stat === null) stat = constants.blank
 
-        if (top) {
-          prefix = constants.prefix.most
+          if (top) {
+            prefix = constants.prefix.most
 
-          if (key.match(/(kd|kda|ppg|score)/)) {
-            prefix = constants.prefix.highest
+            if (key.match(/(kd|kda|ppg|score)/)) {
+              prefix = constants.prefix.highest
+            }
           }
-        }
 
-        return (
-          <li key={i}>
-            <Stat label={label} stat={stat} prefix={prefix} size={size} />
-          </li>
-        )
-      })}
-    </ul>
+          return (
+            <li key={i}>
+              <Stat label={label} stat={stat} prefix={prefix} size={size} />
+            </li>
+          )
+        })}
+      </ul>
+    </Fragment>
   )
 }
 
 StatList.propTypes = {
   stats: PropTypes.object,
+  kicker: PropTypes.string,
   top: PropTypes.bool,
   size: PropTypes.oneOf([ 'small' ])
 }

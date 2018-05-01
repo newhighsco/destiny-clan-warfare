@@ -1,15 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './Notification.styl'
+import styles from './Notification.styl'
 
 const Notification = ({ children, state, id }) => {
   const baseClassName = 'notification'
 
   return (
-    <div id={id} className={classNames(baseClassName, state && `${baseClassName}--${state}`)}>
-      <div className={`${baseClassName}__inner`}>
+    <div id={id} className={classNames(styles[baseClassName], state && styles[`${baseClassName}--${state}`])}>
+      <div className={styles[`${baseClassName}__inner`]}>
         {children}
       </div>
     </div>

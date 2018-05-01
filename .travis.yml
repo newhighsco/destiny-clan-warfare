@@ -10,3 +10,6 @@ cache:
     - node_modules
 after_success:
   - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && yarn deploy
+notifications:
+  email:
+    on_success: never

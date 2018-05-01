@@ -9,6 +9,7 @@ import { Button } from '../button/Button'
 import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
+import Prose from '../prose/Prose'
 
 const medalBuilder = require('../../utils/medal-builder')
 
@@ -17,7 +18,7 @@ const PreviousEvent = ({ event, element, summary }) => {
 
   const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
     name,
-    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, ...rest }) => ({
+    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, games, wins, kills, assists, deaths, ...rest }) => ({
       rank: '',
       ...rest
     }))
@@ -30,11 +31,13 @@ const PreviousEvent = ({ event, element, summary }) => {
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <Timer start={event.startDate} end={event.endDate} />
         {event.description &&
-          <p>{event.description}</p>
+          <Prose>
+            <p dangerouslySetInnerHTML={{ __html: event.description }} />
+          </Prose>
         }
         <ModifierList modifiers={event.modifiers} />
         {!summary && isCalculated && event.medals && event.medals.clans &&
-          <MedalList medals={event.medals.clans} />
+          <MedalList medals={event.medals.clans} kicker="Medals awarded" />
         }
         {!summary && isCalculated && event.medals && event.medals.members &&
           <MedalList medals={event.medals.members} />

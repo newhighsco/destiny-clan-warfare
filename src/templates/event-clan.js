@@ -19,10 +19,24 @@ const possessive = require('../utils/grammar').possessive
 class EventClanTemplate extends Component {
   render () {
     const { clan, members } = this.props
-    const leaderboard = clan.leaderboard.filter(({ games }) => games > 0).map(member => {
+    const leaderboard = clan.leaderboard.map(member => {
+      const hasPlayed = member.games > 0
+
       return {
-        rank: '',
-        ...member,
+        path: hasPlayed ? member.path : null,
+        platforms: member.platforms,
+        name: member.name,
+        icon: member.icon,
+        tags: member.tags,
+        updated: hasPlayed ? member.updated : null,
+        rank: hasPlayed ? '' : null,
+        games: hasPlayed ? member.games : null,
+        wins: hasPlayed ? member.wins : null,
+        kills: hasPlayed ? member.kills : null,
+        assists: hasPlayed ? member.assists : null,
+        deaths: hasPlayed ? member.deaths : null,
+        bonuses: member.bonuses,
+        score: hasPlayed ? member.score : null,
         member: members.find(({ id }) => id === member.id)
       }
     })
@@ -61,10 +75,11 @@ class EventClanTemplate extends Component {
       'score'
     ]
     const stats = {}
-    const hasLeaderboard = leaderboard.length > 0
+    const filteredLeaderboard = leaderboard.filter(({ games }) => games > 0)
+    const hasLeaderboard = filteredLeaderboard.length > 0
 
     if (hasLeaderboard) {
-      const reduce = (stat) => leaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
+      const reduce = (stat) => filteredLeaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
       const add = (column, stat, top) => {
         if (top) {
           const value = stat(top)
@@ -127,7 +142,7 @@ class EventClanTemplate extends Component {
           <Avatar cutout outline color={clan.color} foreground={clan.foreground} background={clan.background} />
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
-          <StatList stats={stats} top />
+          <StatList stats={stats} top kicker="Top stats" />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
           }
@@ -136,7 +151,7 @@ class EventClanTemplate extends Component {
           <Leaderboard
             cutout
             data={leaderboard}
-            sorting={{ score: 'DESC' }}
+            sorting={{ score: 'DESC', games: 'DESC', name: 'ASC' }}
             prefetch={false}
             stateKey="member"
           />

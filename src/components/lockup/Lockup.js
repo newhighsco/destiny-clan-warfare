@@ -2,8 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-
-import './Lockup.styl'
+import styles from './Lockup.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
@@ -12,12 +11,12 @@ const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, bor
   const commonAttributes = {
     id: id,
     className: classNames(
-      baseClassName
-      , className
-      , reverse && `${baseClassName}--reverse`
-      , center && `${baseClassName}--center`
-      , borderless && `${baseClassName}--borderless`
-      , primary && `${baseClassName}--primary`
+      styles[baseClassName],
+      reverse && styles[`${baseClassName}--reverse`],
+      center && styles[`${baseClassName}--center`],
+      borderless && styles[`${baseClassName}--borderless`],
+      primary && styles[`${baseClassName}--primary`],
+      className
     )
   }
 
@@ -65,7 +64,7 @@ Lockup.propTypes = {
 const LockupElement = ({ children, element, elementName, href }) => {
   const Element = element
   const commonAttributes = {
-    className: `${baseClassName}__${elementName}`
+    className: styles[`${baseClassName}__${elementName}`]
   }
 
   if (children) {

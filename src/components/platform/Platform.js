@@ -6,8 +6,7 @@ import Icon from '../icon/Icon'
 import BattlenetSvg from './icons/battlenet.svg'
 import PlaystationSvg from './icons/playstation.svg'
 import XboxSvg from './icons/xbox.svg'
-
-import './Platform.styl'
+import styles from './Platform.styl'
 
 const baseClassName = 'platform'
 
@@ -33,8 +32,8 @@ const Platform = ({ platform, size }) => {
   if (!Svg) return null
 
   return (
-    <div className={classNames(baseClassName, size && `${baseClassName}--${size}`)}>
-      <Icon a11yText={name} className={`${baseClassName}__icon`}>
+    <div className={classNames(styles[baseClassName], size && styles[`${baseClassName}--${size}`])}>
+      <Icon a11yText={name} className={styles[`${baseClassName}__icon`]}>
         <Svg />
       </Icon>
     </div>
@@ -61,7 +60,7 @@ const PlatformList = ({ platforms, size, className }) => {
   platforms = platforms.filter(platform => platform.percentage >= 10)
 
   return (
-    <ul className={classNames('list--inline', `${baseClassName}-list`, className)}>
+    <ul className={classNames('list--inline', styles[`${baseClassName}-list`], className)}>
       {platforms.map((platform, i) => (
         <li key={i}>
           <Platform platform={platform} size={size} />

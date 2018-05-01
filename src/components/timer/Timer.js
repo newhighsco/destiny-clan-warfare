@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { Stat } from '../stat/Stat'
 import styles from './Timer.styl'
 
@@ -36,13 +37,16 @@ class Timer extends Component {
     const startDate = moment.utc(start)
     const endDate = moment.utc(end)
     var showProgress = false
+    var showRange = false
     var displayDate = endDate
     var label = []
 
     if (startDate < currentDate && endDate > currentDate) {
       showProgress = true
+      showRange = true
       label.push(constants.relativeDate.current)
     } else if (startDate > currentDate) {
+      showRange = true
       label.push(constants.relativeDate.future)
       displayDate = startDate
     } else if (endDate < currentDate) {
@@ -56,6 +60,7 @@ class Timer extends Component {
       startDate,
       endDate,
       showProgress,
+      showRange,
       displayDate,
       label,
       interval: null
@@ -88,7 +93,7 @@ class Timer extends Component {
   }
 
   render () {
-    const { active, currentDate, startDate, endDate, showProgress, displayDate, label } = this.state
+    const { active, currentDate, startDate, endDate, showProgress, showRange, displayDate, label } = this.state
 
     if (active && label.length <= 1) label.push(constants.prefix.relative)
 
@@ -101,17 +106,19 @@ class Timer extends Component {
     const passedPercentage = active ? statsHelper.percentage(passedDuration.asMilliseconds(), totalDuration.asMilliseconds(), true, 2) : 0
     const stat = {
       stat: active ? countdown(remainingDuration) : humanReadableDate,
-      label: active ? (showProgress ? null : humanReadable) : humanReadableTime
+      label: active ? (showRange ? null : humanReadable) : humanReadableTime
     }
 
     return (
       <div className={styles[baseClassName]}>
         <Stat label={label.join(' ')} stat={stat} className={styles[`${baseClassName}__stat`]} size="small" />
-        {active && showProgress &&
-          <div className={styles[`${baseClassName}__progress`]}>
-            <div className={styles[`${baseClassName}-progress`]} data-value={passedPercentage}>
-              <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
-            </div>
+        {active && showRange &&
+          <div className={classNames(styles[`${baseClassName}__progress`], showProgress && styles[`${baseClassName}__progress--active`])}>
+            {showProgress &&
+              <div className={styles[`${baseClassName}-progress`]} data-value={passedPercentage}>
+                <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
+              </div>
+            }
             <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
               {startDate.format(constants.format.humanReadable)}
             </div>

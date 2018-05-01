@@ -849,12 +849,12 @@ export default {
 
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
     const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    const url = `${process.env.SITE_URL}/?date=${moment(apiStatus.updatedDate).format(constants.format.url)}${hash}`
+    const url = `${process.env.SITE_URL}/${moment(apiStatus.updatedDate).format(constants.format.url)}/`
     const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
     const content = `${kicker}${canonicalUrl}`
 
     feed.item({
-      kicker,
+      title: kicker,
       description: kicker,
       url,
       guid: url,

@@ -761,10 +761,28 @@ export default {
       {
         path: urlBuilder.leaderboardRootUrl,
         component: 'src/pages/leaderboard',
-        getData: () => ({
-          event: currentEvent ? { isCurrent: true } : { isCurrent: false },
-          leaderboard: currentEvent ? MultiSort(parsedEvents.find(({ id }) => id === currentEvent.eventId).leaderboards.reduce((result, leaderboard) => result.concat(leaderboard.data.map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', active, size, score, updated }))), []), 'score', 'DESC') : []
-        })
+        getData: () => {
+          const eventId = currentEvent ? currentEvent.id : previousEventId
+          const totals = parsedEvents.find(({ id }) => id === eventId).leaderboards.reduce((result, leaderboard) => result.concat(leaderboard.data.map(({ id, score, active, size, updated }) => ({ clanId: id, active, size, score, updated }))), [])
+
+          return {
+            event: currentEvent ? { isCurrent: true } : { isCurrent: false },
+            leaderboard: MultiSort(parsedClans.map(({ id, path, name, platforms, color, background, foreground }) => {
+              const total = totals.find(({ clanId }) => `${clanId}` === id)
+
+              return {
+                path,
+                name,
+                platforms,
+                color,
+                background,
+                foreground,
+                rank: '',
+                ...total
+              }
+            }), 'score', 'DESC')
+          }
+        }
       },
       {
         path: '/faqs/',

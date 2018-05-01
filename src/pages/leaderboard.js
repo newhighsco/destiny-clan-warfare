@@ -75,9 +75,8 @@ class LeaderboardPage extends Component {
     const kicker = custom ? 'Custom' : 'Overall'
     const title = `${kicker} Leaderboard`
     const description = `The overall leaderboard for the current ${constants.meta.name} event`
+    const isCurrent = event.isCurrent
     const hasLeaderboard = visible && visible.length > 0
-
-    console.log(event)
 
     return (
       <PageContainer>
@@ -87,8 +86,10 @@ class LeaderboardPage extends Component {
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
         </Head>
-        <Lockup primary center kicker={constants.kicker.current}>
-          <RelativeDate status />
+        <Lockup primary center kicker={isCurrent ? constants.kicker.current : constants.kicker.previous}>
+          {isCurrent &&
+            <RelativeDate status />
+          }
         </Lockup>
         <Card cutout={hasLeaderboard} center>
           <Lockup center kicker={kicker} heading="Leaderboard" />

@@ -34,6 +34,7 @@ class ThanksPage extends Component {
     const message = query.message || ''
     const successful = success || (!success && message === constants.enrollment.existing)
     const closed = !success && message === constants.enrollment.closed
+    const optOut = !success && message === constants.enrollment.optOut
     const title = successful ? 'Thanks for enrolling' : (closed ? 'Enrollment closed' : 'Enrollment failed')
     const description = `Clan enrollment for ${constants.meta.name}`
 
@@ -68,19 +69,30 @@ class ThanksPage extends Component {
                 <Button href="/">Return to the homepage</Button>
               </Fragment>
             ) : (
-              <Fragment>
-                <Lockup primary center kicker={title} heading="Please try again" />
-                {message &&
+              optOut ? (
+                <Fragment>
+                  <Lockup primary center kicker={title} heading="Can't enroll clan" />
                   <Prose>
-                    <p>{message}</p>
+                    <p>This clan has opted-out of participating in {constants.meta.name}, and therefore cannot be enrolled.</p>
+                    <p>If you thing this is a mistake you can <a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to discuss the issue with us further.</p>
                   </Prose>
-                }
-                {enrollmentOpen ? (
-                  <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
-                ) : (
                   <Button href="/">Return to the homepage</Button>
-                )}
-              </Fragment>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Lockup primary center kicker={title} heading="Please try again" />
+                  {message &&
+                    <Prose>
+                      <p>{message}</p>
+                    </Prose>
+                  }
+                  {enrollmentOpen ? (
+                    <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+                  ) : (
+                    <Button href="/">Return to the homepage</Button>
+                  )}
+                </Fragment>
+              )
             )
           )}
         </Card>

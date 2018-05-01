@@ -28,6 +28,7 @@ class FaqsPage extends Component {
             <a id="points" />
             <h2>How do you earn points in {constants.meta.name}?</h2>
             <p>Once your clan has been enrolled, you will automatically be tracked and added, and start appearing in the leaderboards as soon as you score some points against the current event. You have nothing more to do.</p>
+            <p>Points are only calculated for completed activities, so if you get kicked from a PvP match, or leave a Strike before the end, it will not count towards your score on the leaderboard.</p>
             <h2>How many points do you earn in {constants.meta.name}?</h2>
             <p>Unless stated otherwise, each event will be made up of the following points:</p>
             <ul>
@@ -36,6 +37,10 @@ class FaqsPage extends Component {
               <li>-50 points per death</li>
             </ul>
             <p>You will also earn 2 sets of bonus points and a total score modifier which will vary each event. The active bonus & modifier will clearly be visible on the homepage.</p>
+            <a id="strikes" />
+            <h2>How do you earn points in Strikes?</h2>
+            <p>Strikes follow the same base scoring method as other events - base points for kills, assists and deaths plus a variety of bonus points. The additional thing that strikes have is a timer failsafe - sadly strikes are able to be exploited a little more so there is a limitation on time to avoid this. Any strike taking 25 minutes or more will receive a 0 score. Any strike taking 20 to 25 minutes will receive a half score penalty. All other strikes will receive their full score.</p>
+            <p>These calculations are based on the amount of time the player was in the game, NOT the total time to complete the strike - for instance if you join a strike that's been running for 30 minutes, your timer starts from when you first load in and not when the strike started.</p>
             <a id="enrollment" />
             <h2>How do I enroll into {constants.meta.name}?</h2>
             <p>At the top of the home page, you will be able to search for, and enroll, your clan. Please allow 60-90 minutes for you clan and clan members to start appearing on the leaderboards. Your clan will not appear on the leaderboards until a clan member has scored some points against the current event.</p>

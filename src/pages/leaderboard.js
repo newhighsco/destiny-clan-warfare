@@ -74,7 +74,7 @@ class LeaderboardPage extends Component {
     const visible = custom ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
     const kicker = custom ? 'Custom' : 'Overall'
     const title = `${kicker} Leaderboard`
-    const description = `The overall leaderboard for the current ${constants.meta.name} event`
+    const description = `The overall leaderboard for the latest ${constants.meta.name} event`
     const isCurrent = event.isCurrent
     const hasLeaderboard = visible && visible.length > 0
     const columns = visible ? Object.keys(visible[0]) : []

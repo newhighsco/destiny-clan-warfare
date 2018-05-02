@@ -780,10 +780,10 @@ export default {
                 color,
                 background,
                 foreground,
-                rank: score,
+                rank: score >= 0 ? '' : null,
                 active,
                 size,
-                score,
+                score: score >= 0 ? score : null,
                 updated
               }
             }), { score: 'DESC', name: 'ASC' })

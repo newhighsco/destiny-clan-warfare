@@ -907,6 +907,7 @@ export default {
 
     redirects.push(
       { from: urlBuilder.profileRootUrl, to: '/', code: 301 },
+      { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
       { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }
     )

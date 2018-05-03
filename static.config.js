@@ -726,11 +726,11 @@ export default {
           path: `/${clan.id}/`,
           component: 'src/templates/clan',
           getData: () => ({
-            clan: (({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard, leaderboardVisible }) => ({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard, currentEventId: (leaderboardVisible && currentEvent) ? currentEvent.eventId : null }))(clan),
+            clan: (({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard, leaderboardVisible }) => ({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard, leaderboardVisible }))(clan),
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, currentEventId: currentEvent ? currentEvent.eventId : null }))
+            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }))
           })
         }))
       },
@@ -741,7 +741,7 @@ export default {
           members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
             clanSortable: 'ASC',
             nameSortable: 'ASC'
-          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, currentEventId: currentEvent ? currentEvent.eventId : null }))
+          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }))
         })
       },
       {

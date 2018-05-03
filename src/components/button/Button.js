@@ -8,7 +8,7 @@ const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'button'
 
 const Button = (props) => {
-  const { children, className, href, target, type, size, solid, ...remainingProps } = props
+  const { children, className, href, target, type, size, solid, prefetch, ...remainingProps } = props
   const commonAttributes = {
     className: classNames(
       styles[baseClassName],
@@ -50,6 +50,7 @@ const Button = (props) => {
       {...remainingProps}
       {...commonAttributes}
       to={href}
+      prefetch={prefetch}
     >
       {children}
     </Link>
@@ -57,7 +58,8 @@ const Button = (props) => {
 }
 
 Button.defaultProps = {
-  type: 'button'
+  type: 'button',
+  prefetch: true
 }
 
 Button.propTypes = {
@@ -67,7 +69,8 @@ Button.propTypes = {
   target: PropTypes.string,
   type: PropTypes.oneOf([ 'button', 'reset', 'submit' ]),
   size: PropTypes.oneOf([ 'small' ]),
-  solid: PropTypes.bool
+  solid: PropTypes.bool,
+  prefetch: PropTypes.bool
 }
 
 const ButtonGroup = ({ children, className }) => {

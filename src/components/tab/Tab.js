@@ -26,15 +26,17 @@ class TabContainer extends Component {
     super(props)
 
     const { children } = this.props
-
-    const id = location.hash.replace(constants.prefix.hash, '')
     var activeIndex = 0
 
-    if (id) {
-      const childArray = React.Children.toArray(children)
-      const found = childArray.find(child => child.props.id === id)
+    if (typeof location !== 'undefined') {
+      const id = location.hash.replace(constants.prefix.hash, '')
 
-      if (found) activeIndex = childArray.indexOf(found)
+      if (id && id.length) {
+        const childArray = React.Children.toArray(children)
+        const found = childArray.find(child => child.props.id === id)
+
+        if (found) activeIndex = childArray.indexOf(found)
+      }
     }
 
     this.state = {

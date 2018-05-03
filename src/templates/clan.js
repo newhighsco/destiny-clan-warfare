@@ -139,7 +139,7 @@ class ClanTemplate extends Component {
               </Tab>
             }
             {clan.leaderboardVisible &&
-              <Tab name={constants.kicker.current} href={`${urlBuilder.currentEventUrl(clan.id)}#current`} />
+              <Tab name={constants.kicker.current} href={urlBuilder.currentEventUrl(clan.id)} />
             }
           </TabContainer>
         }

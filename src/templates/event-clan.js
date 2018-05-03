@@ -159,10 +159,7 @@ class EventClanTemplate extends Component {
                 stateKey="member"
               />
             </Tab>
-            {clan.previousEventId &&
-              <Tab name={constants.kicker.last} href={`${clanUrl}#${clan.previousEventId}`} />
-            }
-            <Tab name="Overall" href={`${clanUrl}#overall`} />
+            <Tab name="Overall" href={clanUrl} />
           </TabContainer>
         }
       </PageContainer>

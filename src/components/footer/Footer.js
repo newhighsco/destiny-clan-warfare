@@ -16,7 +16,9 @@ const Footer = () => {
 
   return (
     <footer className={styles[baseClassName]} role="contentinfo">
-      <LogoIcon size="small" className={styles[`${baseClassName}__logo`]} />
+      <Link to="#top" title="Back to top">
+        <LogoIcon size="small" className={styles[`${baseClassName}__logo`]} />
+      </Link>
       <div className="content-center content-gutter">
         <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
           <div className="grid__item tablet-one-half">

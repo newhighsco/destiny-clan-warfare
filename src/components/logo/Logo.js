@@ -8,16 +8,18 @@ import styles from './Logo.styl'
 const sizes = [ 'small', 'medium' ]
 const baseClassName = 'logo'
 
-const Logo = ({ size, className }) => {
+const Logo = ({ kicker, heading, size, className }) => {
   return (
     <h1 className={classNames(styles[baseClassName], className)}>
       <LogoIcon size={size} />
-      <LogoLockup size={size} />
+      <LogoLockup kicker={kicker} heading={heading} size={size} />
     </h1>
   )
 }
 
 Logo.propTypes = {
+  kicker: PropTypes.string,
+  heading: PropTypes.string,
   className: PropTypes.string,
   size: PropTypes.oneOf(sizes)
 }
@@ -35,19 +37,26 @@ LogoIcon.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-const LogoLockup = ({ size, className }) => {
+const LogoLockup = ({ kicker, heading, size, className }) => {
   const lockupClassName = `${baseClassName}-lockup`
 
   return (
     <Lockup className={classNames(styles[lockupClassName], size && styles[`${lockupClassName}--${size}`], className)}
-      heading="Clan Warfare"
-      kicker="Destiny"
+      heading={heading}
+      kicker={kicker}
       element="span"
     />
   )
 }
 
+LogoLockup.defaultProps = {
+  kicker: 'Destiny',
+  heading: 'Clan Warfare'
+}
+
 LogoLockup.propTypes = {
+  kicker: PropTypes.string,
+  heading: PropTypes.string,
   className: PropTypes.string,
   size: PropTypes.oneOf(sizes)
 }

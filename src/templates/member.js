@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
 import Member from '../components/member/Member'
-import NotFoundPage from '../pages/404'
+import Loading from '../components/loading/Loading'
 
 const urlBuilder = require('../utils/url-builder')
 
@@ -38,7 +38,7 @@ class MemberTemplate extends Component {
 
     if (!member) {
       return (
-        <NotFoundPage />
+        <Loading />
       )
     }
 

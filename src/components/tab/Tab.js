@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { Button } from '../button/Button'
 import styles from './Tab.styl'
 
+const constants = require('../../utils/constants')
 const baseClassName = 'tab'
 
 const Tab = ({ children, name, id }) => {
@@ -24,9 +25,21 @@ class TabContainer extends Component {
   constructor (props) {
     super(props)
 
+    const { children } = this.props
+
+    const id = location.hash.replace(constants.prefix.hash, '')
+    var activeIndex = 0
+
+    if (id) {
+      const childArray = React.Children.toArray(children)
+      const found = childArray.find(child => child.props.id === id)
+
+      if (found) activeIndex = childArray.indexOf(found)
+    }
+
     this.state = {
       active: false,
-      activeIndex: 0
+      activeIndex: activeIndex
     }
 
     this.handleToggle = this.handleToggle.bind(this)
@@ -39,9 +52,11 @@ class TabContainer extends Component {
   }
 
   handleToggle (e) {
-    e.preventDefault()
+    if (!e.target.href) {
+      e.preventDefault()
 
-    this.setState({ activeIndex: JSON.parse(e.target.dataset.index) })
+      this.setState({ activeIndex: JSON.parse(e.target.dataset.index) })
+    }
   }
 
   render () {
@@ -66,7 +81,7 @@ class TabContainer extends Component {
             {visibleChildren.map((child, i) => {
               return (
                 <li key={i} id={child.props.id} className={styles[navigationItemClassName]}>
-                  <Button onClick={this.handleToggle} className={classNames(styles[buttonClassName], activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
+                  <Button onClick={this.handleToggle} href={child.props.href} className={classNames(styles[buttonClassName], activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
                 </li>
               )
             })}

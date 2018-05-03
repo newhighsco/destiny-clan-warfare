@@ -12,6 +12,9 @@ const baseClassName = 'page-container'
 const PageContainer = ({ children }) => {
   return (
     <Fragment>
+      <a id="top">
+        <span className="is-vhidden">Top of page</span>
+      </a>
       <Header />
       <BungieStatus />
       <main id="content" className={styles[baseClassName]} role="main">

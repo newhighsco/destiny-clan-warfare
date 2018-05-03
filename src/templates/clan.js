@@ -119,7 +119,7 @@ class ClanTemplate extends Component {
         {hasLeaderboards &&
           <TabContainer cutout>
             {previousLeaderboard.length > 0 &&
-              <Tab id={previousLeaderboard[0].eventId} name={constants.kicker.last}>
+              <Tab id={previousLeaderboard[0].eventId} name={constants.tense.previous}>
                 <Leaderboard
                   data={previousLeaderboard}
                   sorting={{ score: 'DESC', games: 'DESC', name: 'ASC' }}
@@ -139,7 +139,7 @@ class ClanTemplate extends Component {
               </Tab>
             }
             {clan.leaderboardVisible &&
-              <Tab name={constants.kicker.current} href={urlBuilder.currentEventUrl(clan.id)} />
+              <Tab name={constants.tense.current} href={urlBuilder.currentEventUrl(clan.id)} />
             }
           </TabContainer>
         }

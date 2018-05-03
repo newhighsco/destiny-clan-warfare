@@ -16,7 +16,7 @@
 
 .tab-navigation
   margin $spacing--double auto $spacing--half
-  max-width rem(600)
+  max-width $mq--tablet
   position relative
   text-align center
   z-index 2
@@ -45,18 +45,22 @@
 .tab-navigation__item
   display inline-block
   min-width 33.333%
-  max-width rem(170)
   padding 0 $spacing--quarter
-  width 33.333%
 
-  &:only-child
-    max-width 100%
-    width auto
+  +width-min($mq--tablet)
+    max-width rem(170)
+    width 33.333%
+
+    &:only-child
+      max-width 100%
+      width auto
 
 .tab-button
   background-color $color--nero
   border-color $color--eclipse
   color $color--silver
+  padding-left $spacing--quarter
+  padding-right $spacing--quarter
   width 100%
 
   &.is-active

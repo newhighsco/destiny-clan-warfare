@@ -151,7 +151,7 @@ class EventClanTemplate extends Component {
         </Card>
         {hasLeaderboard &&
           <TabContainer cutout>
-            <Tab id="current" name={constants.kicker.current}>
+            <Tab id="current" name={constants.tense.current}>
               <Leaderboard
                 data={leaderboard}
                 sorting={{ score: 'DESC', games: 'DESC', name: 'ASC' }}

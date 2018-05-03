@@ -32,7 +32,8 @@ const constants = {
   tense: {
     current: 'Current',
     past: 'Past',
-    future: 'Future'
+    future: 'Future',
+    previous: 'Previous'
   },
   relativeDate: {
     updated: 'Updated',
@@ -47,8 +48,7 @@ const constants = {
     past: 'Past event',
     future: 'Upcoming event',
     previous: 'Previous event',
-    next: 'Next event',
-    last: 'Last event'
+    next: 'Next event'
   },
   server: {
     apiUrl: {

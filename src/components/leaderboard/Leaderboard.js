@@ -219,6 +219,8 @@ class Leaderboard extends Component {
                       if (isNaN(value)) {
                         value = `${value}`
                       } else {
+                        if (value === Number.NEGATIVE_INFINITY) value = constants.blank
+
                         exactValue = value
                         value = statsHelper.shortNumber(value)
                         if (value === exactValue) exactValue = null

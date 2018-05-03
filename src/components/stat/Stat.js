@@ -17,7 +17,7 @@ const Stat = ({ label, prefix, stat, size, className }) => {
 
   if (typeof value === 'object') {
     valueLabel = value.label
-    value = value.stat || constants.blank
+    value = typeof value.stat !== 'undefined' ? value.stat : constants.blank
   }
 
   value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)

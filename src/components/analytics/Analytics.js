@@ -6,6 +6,7 @@ export default function withAnalytics (WrappedComponent, options = {}) {
   const trackPage = (page) => {
     ReactGA.set({
       page,
+      title: page,
       ...options
     })
     ReactGA.pageview(page)

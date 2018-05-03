@@ -889,6 +889,7 @@ export default {
     ]
 
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
+    config.plugins.push(extractCssChunks ? new ExtractCssChunks() : new ExtractTextPlugin())
 
     return config
   },

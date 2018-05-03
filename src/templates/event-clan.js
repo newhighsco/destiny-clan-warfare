@@ -10,6 +10,7 @@ import RelativeDate from '../components/relative-date/RelativeDate'
 import { StatList } from '../components/stat/Stat'
 import Notification from '../components/notification/Notification'
 import { PlatformList } from '../components/platform/Platform'
+import { Tab, TabContainer } from '../components/tab/Tab'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -19,6 +20,7 @@ const possessive = require('../utils/grammar').possessive
 class EventClanTemplate extends Component {
   render () {
     const { clan, members } = this.props
+    const clanUrl = urlBuilder.clanUrl(clan.id)
     const leaderboard = clan.leaderboard.filter(member => member).map(member => {
       const hasPlayed = member.games > 0
 
@@ -148,13 +150,20 @@ class EventClanTemplate extends Component {
           }
         </Card>
         {hasLeaderboard &&
-          <Leaderboard
-            cutout
-            data={leaderboard}
-            sorting={{ score: 'DESC', games: 'DESC', name: 'ASC' }}
-            prefetch={false}
-            stateKey="member"
-          />
+          <TabContainer cutout>
+            <Tab id="current" name={constants.kicker.current}>
+              <Leaderboard
+                data={leaderboard}
+                sorting={{ score: 'DESC', games: 'DESC', name: 'ASC' }}
+                prefetch={false}
+                stateKey="member"
+              />
+            </Tab>
+            {clan.previousEventId &&
+              <Tab name={constants.kicker.last} href={`${clanUrl}#${clan.previousEventId}`} />
+            }
+            <Tab name="Overall" href={`${clanUrl}#overall`} />
+          </TabContainer>
         }
       </PageContainer>
     )

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
 import EventMember from '../components/member/EventMember'
-import NotFoundPage from '../pages/404'
+import Loading from '../components/loading/Loading'
 
 const urlBuilder = require('../utils/url-builder')
 
@@ -39,7 +39,7 @@ class EventMemberTemplate extends Component {
 
     if (!member) {
       return (
-        <NotFoundPage />
+        <Loading />
       )
     }
 

@@ -129,7 +129,7 @@ class ClanTemplate extends Component {
               </Tab>
             }
             {totals.length > 0 &&
-              <Tab name="Overall">
+              <Tab id="overall" name="Overall">
                 <Leaderboard
                   data={totals}
                   sorting={{ score: 'DESC', lastPlayed: 'DESC' }}
@@ -137,6 +137,9 @@ class ClanTemplate extends Component {
                   stateKey="member"
                 />
               </Tab>
+            }
+            {clan.currentEventId &&
+              <Tab name={constants.kicker.current} href={`${urlBuilder.currentEventUrl(clan.id)}#current`} />
             }
           </TabContainer>
         }

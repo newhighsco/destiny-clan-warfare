@@ -95,6 +95,9 @@ class EventMember extends Component {
               <Tab name={`Last ${constants.matchHistoryLimit} games`}>
                 <Leaderboard data={leaderboard} />
               </Tab>
+              {member.totalsVisible &&
+                <Tab name="Overall" href={urlBuilder.profileUrl(member.id)} />
+              }
             </TabContainer>
           }
         </Fragment>

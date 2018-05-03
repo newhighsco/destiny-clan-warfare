@@ -87,7 +87,7 @@ class Member extends Component {
               <Leaderboard data={pastEvents} multiColumn={isMultiColumn} />
             </Tab>
             {member.leaderboardVisible &&
-              <Tab name={constants.kicker.current} href={urlBuilder.currentEventUrl(member.clanId, member.id)} prefetch={false} />
+              <Tab name={constants.kicker.current} href={urlBuilder.currentEventUrl(member.clanId, member.id)} state={{ member: member }} prefetch={false} />
             }
           </TabContainer>
         }

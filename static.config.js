@@ -735,7 +735,7 @@ export default {
             members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
               totalsSortable: 'ASC',
               nameSortable: 'ASC'
-            }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }))
+            }).map(({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }) => ({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }))
           })
         }))
       },
@@ -817,7 +817,7 @@ export default {
             clan: (({ path, platforms, id, name, motto, color, foreground, background, leaderboard, previousLeaderboard }) => ({ path, platforms, id, name, motto, color, foreground, background, leaderboard, previousEventId: previousLeaderboard.length > 0 ? previousEventId : null }))(clan),
             members: parsedMembers
               .filter(({ clanId }) => clanId === clan.id)
-              .map(({ id, platforms, name, icon, tags, clanId, clanName, clanTag, leaderboard, history, totalsVisible }) => ({ id, platforms, name, icon, tags, clanId, clanName, clanTag, leaderboard, history, totalsVisible }))
+              .map(({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }) => ({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }))
           })
         }))
       })

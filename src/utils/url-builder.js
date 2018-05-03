@@ -41,7 +41,7 @@ module.exports = {
 
   profileRootUrl,
 
-  profileUrl: (profileId, eventId) => {
-    return `${profileRootUrl}${profileId}/${eventHash(eventId)}`
+  profileUrl: (clanId, profileId, eventId) => {
+    return `${clanRootUrl}${clanId}/${profileId}/${eventHash(eventId)}`
   }
 }

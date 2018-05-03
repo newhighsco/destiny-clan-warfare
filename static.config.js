@@ -29,6 +29,7 @@ const extractCssChunks = true
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADERBOARDS)
 var currentEvent
+var redirects = []
 
 export default {
   paths: {
@@ -368,7 +369,7 @@ export default {
           }
 
           return {
-            path: isCurrent ? urlBuilder.currentEventUrl(member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.profileIdStr, eventId),
+            path: isCurrent ? urlBuilder.currentEventUrl(member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.groupId, member.profileIdStr, eventId),
             id: member.profileIdStr,
             platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
             name: decode(member.name),
@@ -496,10 +497,14 @@ export default {
         })
       }
 
+      const path = urlBuilder.profileUrl(member.groupId, member.profileIdStr)
+
+      redirects.push({ from: `${urlBuilder.profileRootUrl}${member.profileIdStr}/`, to: path, code: 301 })
+
       return parsedMembers.push({
         id: member.profileIdStr,
         platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
-        path: urlBuilder.profileUrl(member.profileIdStr),
+        path,
         clanId: `${member.groupId}`,
         clanName: decode(clan.name),
         clanPath: urlBuilder.clanUrl(member.groupId),
@@ -735,16 +740,6 @@ export default {
         }))
       },
       {
-        path: urlBuilder.profileRootUrl,
-        component: 'src/pages/members',
-        getData: () => ({
-          members: MultiSort(parsedMembers.filter(({ totalsVisible }) => totalsVisible), {
-            clanSortable: 'ASC',
-            nameSortable: 'ASC'
-          }).map(({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }) => ({ path, id, platforms, name, clanId, clanName, clanTag, clanPath, icon, tags, totals, medals, pastEvents, leaderboardVisible }))
-        })
-      },
-      {
         path: urlBuilder.eventRootUrl,
         component: 'src/pages/events',
         getData: () => ({
@@ -909,11 +904,11 @@ export default {
 
     await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
 
-    const redirects = [
-      { from: `${urlBuilder.profileRootUrl}*`, to: urlBuilder.profileRootUrl, code: 200 },
+    redirects.push(
+      { from: urlBuilder.profileRootUrl, to: '/', code: 301 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
-      { from: urlBuilder.eventUrl(':event/:clan/:profile'), to: urlBuilder.profileUrl(':profile', ':event'), code: 301 }
-    ]
+      { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }
+    )
 
     if (currentEvent) {
       redirects.push(

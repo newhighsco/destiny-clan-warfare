@@ -22,9 +22,10 @@ class MemberTemplate extends Component {
 
     if (!member) {
       const { match } = this.props
+      const clanId = match.params.clan
       const memberId = match.params.member
 
-      prefetch(urlBuilder.profileRootUrl)
+      prefetch(urlBuilder.clanUrl(clanId))
         .then(({ members }) => {
           this.setState({
             member: members.find(({ id }) => id === memberId)

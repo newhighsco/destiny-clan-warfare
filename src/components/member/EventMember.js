@@ -96,7 +96,7 @@ class EventMember extends Component {
                 <Leaderboard data={leaderboard} />
               </Tab>
               {member.totalsVisible &&
-                <Tab name="Overall" href={urlBuilder.profileUrl(member.clanId, member.id)} prefetch={false} />
+                <Tab name="Overall" href={urlBuilder.profileUrl(member.clanId, member.id)} state={{ member: member }} prefetch={false} />
               }
             </TabContainer>
           }

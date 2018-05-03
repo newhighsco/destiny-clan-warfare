@@ -83,7 +83,7 @@ class TabContainer extends Component {
             {visibleChildren.map((child, i) => {
               return (
                 <li key={i} id={child.props.id} className={styles[navigationItemClassName]}>
-                  <Button onClick={this.handleToggle} href={child.props.href} prefetch={child.props.prefetch} className={classNames(styles[buttonClassName], activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
+                  <Button onClick={this.handleToggle} href={child.props.href} state={child.props.state} prefetch={child.props.prefetch} className={classNames(styles[buttonClassName], activeIndex === i && 'is-active')} data-index={i} size="small">{child.props.name}</Button>
                 </li>
               )
             })}

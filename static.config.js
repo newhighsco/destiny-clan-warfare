@@ -101,7 +101,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch bungie api status`)
 
-        bungie(`/Destiny2/Manifest`)
+        bungie(`/Destiny2/Milestones`)
           .then(({ data }) => {
             if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
             console.timeEnd(`fetch bungie api status`)

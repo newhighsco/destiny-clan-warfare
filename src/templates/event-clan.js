@@ -19,7 +19,7 @@ const possessive = require('../utils/grammar').possessive
 class EventClanTemplate extends Component {
   render () {
     const { clan, members } = this.props
-    const leaderboard = clan.leaderboard.map(member => {
+    const leaderboard = clan.leaderboard.filter(member => member).map(member => {
       const hasPlayed = member.games > 0
 
       return {

@@ -783,7 +783,7 @@ export default {
                 rank: score >= 0 ? '' : null,
                 active,
                 size,
-                score: score >= 0 ? score : null,
+                score,
                 updated
               }
             }), { score: 'DESC', name: 'ASC' })

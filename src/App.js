@@ -99,7 +99,7 @@ class App extends Component {
             </HoldingPage>
           ) : (
             <Switch>
-              <Route path={urlBuilder.profileUrl(':member')} component={withAnalytics(Member)} />
+              <Route path={urlBuilder.profileUrl(':clan', ':member')} component={withAnalytics(Member)} />
               <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(EventMember)} />
               <Routes component={RenderRoutes} />
             </Switch>

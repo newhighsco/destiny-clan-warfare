@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import LazyLoad from 'react-lazyload'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -30,32 +30,34 @@ const AvatarLayer = (id, layer) => {
   )
 }
 
-const Avatar = (props) => {
-  const { icon, color, foreground, background, className, id, children, cutout, outline } = props
-  const classes = classNames(
-    styles[baseClassName],
-    children && styles[`${baseClassName}--inline`],
-    cutout && styles[`${baseClassName}--cutout`],
-    outline && styles[`${baseClassName}--outline`],
-    className
-  )
+const Avatar = class extends PureComponent {
+  render () {
+    const { icon, color, foreground, background, className, id, children, cutout, outline } = this.props
+    const classes = classNames(
+      styles[baseClassName],
+      children && styles[`${baseClassName}--inline`],
+      cutout && styles[`${baseClassName}--cutout`],
+      outline && styles[`${baseClassName}--outline`],
+      className
+    )
 
-  if (!online) return null
+    if (!online) return null
 
-  return (
-    <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
-      {icon &&
-        <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
-          <LazyLoad height={96}>
-            <img src={icon} alt="" />
-          </LazyLoad>
-        </ResponsiveMedia>
-      }
-      {background && AvatarLayer(`${id}-bg`, background)}
-      {foreground && AvatarLayer(`${id}-fg`, foreground)}
-      {children}
-    </div>
-  )
+    return (
+      <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
+        {icon &&
+          <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
+            <LazyLoad height={96}>
+              <img src={icon} alt="" />
+            </LazyLoad>
+          </ResponsiveMedia>
+        }
+        {background && AvatarLayer(`${id}-bg`, background)}
+        {foreground && AvatarLayer(`${id}-fg`, foreground)}
+        {children}
+      </div>
+    )
+  }
 }
 
 Avatar.propTypes = {

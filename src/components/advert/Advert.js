@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Advert.styl'
 
-class Advert extends Component {
+class Advert extends PureComponent {
   componentDidMount () {
     if (typeof window !== 'undefined' && window) (window.adsbygoogle = window.adsbygoogle || []).push({})
 

@@ -53,7 +53,7 @@ const constants = {
   server: {
     apiUrl: {
       protocol: 'https://',
-      subdomains: [ 'mb-dcw-test2' ],
+      subdomains: [ 'destinyclanwarfareapi' ],
       domain: '.azurewebsites.net/',
       path: 'api/'
     },

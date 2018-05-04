@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -7,54 +7,56 @@ import styles from './Button.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'button'
 
-const Button = (props) => {
-  const { children, className, href, target, type, size, solid, prefetch, state, ...remainingProps } = props
-  const commonAttributes = {
-    className: classNames(
-      styles[baseClassName],
-      size && styles[`${baseClassName}--${size}`],
-      solid && styles[`${baseClassName}--solid`],
-      className
-    )
-  }
+const Button = class extends PureComponent {
+  render () {
+    const { children, className, href, target, type, size, solid, prefetch, state, ...remainingProps } = this.props
+    const commonAttributes = {
+      className: classNames(
+        styles[baseClassName],
+        size && styles[`${baseClassName}--${size}`],
+        solid && styles[`${baseClassName}--solid`],
+        className
+      )
+    }
 
-  if (!href) {
+    if (!href) {
+      return (
+        <button
+          {...remainingProps}
+          {...commonAttributes}
+          type={type}
+        >
+          {children}
+        </button>
+      )
+    }
+
+    if (absoluteUrl(href)) {
+      return (
+        <a
+          {...remainingProps}
+          {...commonAttributes}
+          type={null}
+          href={href}
+          {...target && { target }}
+          {...target === '_blank' && { rel: 'noopener noreferrer' }}
+        >
+          {children}
+        </a>
+      )
+    }
+
     return (
-      <button
+      <Link
         {...remainingProps}
         {...commonAttributes}
-        type={type}
+        to={{ pathname: href, state: state }}
+        prefetch={prefetch}
       >
         {children}
-      </button>
+      </Link>
     )
   }
-
-  if (absoluteUrl(href)) {
-    return (
-      <a
-        {...remainingProps}
-        {...commonAttributes}
-        type={null}
-        href={href}
-        {...target && { target }}
-        {...target === '_blank' && { rel: 'noopener noreferrer' }}
-      >
-        {children}
-      </a>
-    )
-  }
-
-  return (
-    <Link
-      {...remainingProps}
-      {...commonAttributes}
-      to={{ pathname: href, state: state }}
-      prefetch={prefetch}
-    >
-      {children}
-    </Link>
-  )
 }
 
 Button.defaultProps = {
@@ -75,17 +77,21 @@ Button.propTypes = {
   state: PropTypes.object
 }
 
-const ButtonGroup = ({ children, className }) => {
-  if (!children) return null
+const ButtonGroup = class extends PureComponent {
+  render () {
+    const { children, className } = this.props
 
-  return (
-    <div className={classNames(
-      styles[`${baseClassName}-group`],
-      className
-    )}>
-      {children}
-    </div>
-  )
+    if (!children) return null
+
+    return (
+      <div className={classNames(
+        styles[`${baseClassName}-group`],
+        className
+      )}>
+        {children}
+      </div>
+    )
+  }
 }
 
 ButtonGroup.propTypes = {

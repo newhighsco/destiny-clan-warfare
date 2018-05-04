@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Notification from '../notification/Notification'
 import styles from './Status.styl'
@@ -6,21 +7,27 @@ import styles from './Status.styl'
 const constants = require('../../utils/constants')
 const bungie = require('../../utils/bungie-helper')
 
-class Status extends Component {
+class Status extends PureComponent {
   constructor (props) {
     super(props)
 
+    const { active } = this.props
+
     this.state = {
-      active: false
+      active
     }
   }
 
   componentDidMount () {
-    bungie(`/Destiny2/Milestones/`)
-      .then(({ data }) => {
-        this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
-      })
-      .catch(err => console.log(err))
+    const { active } = this.state
+
+    if (!active) {
+      bungie(`/Destiny2/Milestones/`)
+        .then(({ data }) => {
+          this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   render () {
@@ -36,6 +43,10 @@ class Status extends Component {
       </div>
     )
   }
+}
+
+Status.propTypes = {
+  active: PropTypes.bool
 }
 
 export default Status

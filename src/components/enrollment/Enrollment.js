@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -15,7 +15,7 @@ const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
 
-class Enrollment extends Component {
+class Enrollment extends PureComponent {
   constructor (props) {
     super(props)
 

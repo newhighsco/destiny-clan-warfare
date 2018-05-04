@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './ClanTag.styl'
 
-const ClanTag = ({ children, className, href }) => {
-  const baseClassName = 'clan-tag'
-  const classes = classNames(styles[baseClassName], className)
+const ClanTag = class extends PureComponent {
+  render () {
+    const { children, className, href } = this.props
+    const baseClassName = 'clan-tag'
+    const classes = classNames(styles[baseClassName], className)
 
-  return (
-    <Link to={href} className={classes}>{children}</Link>
-  )
+    return (
+      <Link to={href} className={classes}>{children}</Link>
+    )
+  }
 }
 
 ClanTag.propTypes = {

@@ -62,7 +62,7 @@ const constants = {
   bungie: {
     baseUrl: bungieBaseUrl,
     apiUrl: `${bungieBaseUrl}Platform/`,
-    disabledStatusCode: 5,
+    disabledStatusCode: [ 5, 1618 ],
     iconUrl: `${bungieBaseUrl}img/profile/avatars/default_avatar.gif`,
     platformDefault: -1
   },

@@ -18,7 +18,7 @@ class Status extends Component {
   componentDidMount () {
     bungie(`/Destiny2/Milestones/`)
       .then(({ data }) => {
-        this.setState({ active: data.ErrorCode === constants.bungie.disabledStatusCode })
+        this.setState({ active: constants.bungie.disabledStatusCode.indexOf(data.ErrorCode) !== -1 })
       })
       .catch(err => console.log(err))
   }

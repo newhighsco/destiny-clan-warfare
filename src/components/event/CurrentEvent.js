@@ -9,6 +9,7 @@ import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
+import EventType from '../event-type/EventType'
 
 const constants = require('../../utils/constants')
 
@@ -39,6 +40,7 @@ class CurrentEvent extends Component {
     return (
       <Fragment>
         <Card cutout={hasLeaderboards} center>
+          <EventType name={event.name} />
           <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
           <Timer start={event.startDate} end={event.endDate} />
           {event.description &&

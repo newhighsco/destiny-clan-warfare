@@ -10,6 +10,7 @@ import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
+import EventType from '../event-type/EventType'
 
 const medalBuilder = require('../../utils/medal-builder')
 
@@ -28,6 +29,7 @@ const PreviousEvent = ({ event, element, summary }) => {
   return (
     <Fragment>
       <Card cutout={isCalculated} center>
+        <EventType name={event.name} />
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <Timer start={event.startDate} end={event.endDate} />
         {event.description &&

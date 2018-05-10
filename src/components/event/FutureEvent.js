@@ -6,6 +6,7 @@ import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
 import { Button } from '../button/Button'
 import Prose from '../prose/Prose'
+import EventType from '../event-type/EventType'
 
 const constants = require('../../utils/constants')
 
@@ -32,6 +33,7 @@ class FutureEvent extends Component {
 
     return (
       <Card center>
+        <EventType name={event.name} />
         <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
         <Timer start={event.startDate} end={event.endDate} />
         {event.description &&

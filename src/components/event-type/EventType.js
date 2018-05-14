@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Avatar from '../avatar/Avatar'
 import Icons from './icons'
+import styles from './EventType.styl'
 
 class EventType extends PureComponent {
   constructor (props) {
@@ -34,7 +35,7 @@ class EventType extends PureComponent {
     if (!IconSvg) return null
 
     return (
-      <Avatar cutout>
+      <Avatar cutout className={styles['event-type']}>
         <IconSvg />
       </Avatar>
     )

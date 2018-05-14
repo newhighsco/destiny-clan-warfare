@@ -3,6 +3,7 @@ import AntiMeta from './anti-meta.svg'
 import AnythingYouCanDo from './anything-you-can-do.svg'
 import AutomaticLockdown from './automatic-lockdown.svg'
 import BandTogether from './band-together.svg'
+import BeASuperHero from './be-a-superhero.svg'
 import BoyScout from './boy-scout.svg'
 import Bullseye from './bullseye.svg'
 import CrimsonDoubleDown from './crimson-double-down.svg'
@@ -15,10 +16,12 @@ import NiceThrow from './nice-throw.svg'
 import NotSoSuper from './not-so-super.svg'
 import Perfection from './perfection.svg'
 import PewPewPew from './pew-pew-pew.svg'
+import PowerHungry from './power-hungry.svg'
 import RaidMaster from './raid-master.svg'
 import RockyBalboaSTrainee from './rocky-balboa-s-trainee.svg'
 import StopTheStopper from './stop-the-stopper.svg'
 import StrikeDeathPenalty from './strike-death-penalty.svg'
+import SupersTwoPointZero from './supers-two-point-zero.svg'
 import TelestoFesto from './telesto-festo.svg'
 import TwentyTwenty from './twenty-twenty.svg'
 import VarietyIsTheSpiceOfLife from './variety-is-the-spice-of-life.svg'
@@ -32,6 +35,7 @@ const svgs = {
   AnythingYouCanDo: { svg: AnythingYouCanDo },
   AutomaticLockdown: { svg: AutomaticLockdown, designer: 'Jaime M. Laurel' },
   BandTogether: { svg: BandTogether, designer: 'Gabriel Vogel' },
+  BeASuperHero: { svg: BeASuperHero },
   BoyScout: { svg: BoyScout, designer: 'AomAm' },
   Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
@@ -44,12 +48,15 @@ const svgs = {
   NotSoSuper: { svg: NotSoSuper },
   Perfection: { svg: Perfection, designer: 'Montu Yadav' },
   PewPewPew: { svg: PewPewPew, designer: 'Nikol Kokešová' },
+  PowerHungry: { svg: PowerHungry, designer: 'naim' },
   RaidMaster: { svg: RaidMaster, designer: 'Robert Bjurshagen' },
   RockyBalboaSTrainee: { svg: RockyBalboaSTrainee, designer: 'miza bin' },
   StopTheStopper: { svg: StopTheStopper, designer: 'Optimus Prime' },
   StrikeDeathPenalty: { svg: StrikeDeathPenalty, designer: 'Robert Bjurshagen' },
+  Supers_2_0: { svg: SupersTwoPointZero },
   TelestoFesto: { svg: TelestoFesto, designer: 'Casper Jensen' },
   VarietyIsTheSpiceOfLife: { svg: VarietyIsTheSpiceOfLife, designer: 'Xela Ub' },
+  WarmindAntiMeta: { svg: AntiMeta, designer: 'TMD' },
   WinnerWinnerChickenDinner: { svg: WinnerWinnerChickenDinner, designer: 'Artem Kovyazin' },
   ZoneCaptured: { svg: ZoneCaptured }
 }

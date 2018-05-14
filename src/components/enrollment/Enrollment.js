@@ -23,7 +23,7 @@ class Enrollment extends PureComponent {
 
     this.state = {
       active: false,
-      open: status.enrollmentOpen && status.bungieStatus !== constants.bungie.disabledStatusCode,
+      open: status.enrollmentOpen && constants.bungie.disabledStatusCode.indexOf(status.bungieStatus) === -1,
       name: '',
       groups: [],
       selectedGroup: null

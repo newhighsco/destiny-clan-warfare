@@ -68,16 +68,15 @@ class LeaderboardPage extends Component {
 
   render () {
     const { event, leaderboard } = this.props
-    var { active, tags, suggestions } = this.state
-    const custom = tags.length > 0
+    const { active, tags, suggestions } = this.state
+    const hasLeaderboard = leaderboard.length > 0
     const ids = getIds(tags)
-    const visible = custom ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
-    const kicker = custom ? 'Custom' : 'Overall'
-    const title = `${kicker} Leaderboard`
-    const description = `The overall leaderboard for the latest ${constants.meta.name} event`
+    const visible = tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : []
+    const title = 'Custom leaderboard'
+    const description = `Create and share custom leaderboards for the latest ${constants.meta.name} event`
     const isCurrent = event.isCurrent
-    const hasLeaderboard = visible && visible.length > 0
-    const columns = visible ? Object.keys(visible[0]) : []
+    const hasVisible = visible && visible.length > 0
+    const columns = hasVisible ? Object.keys(visible[0]) : []
 
     if (!isCurrent) {
       columns.splice(columns.indexOf('active'), 1)
@@ -97,11 +96,11 @@ class LeaderboardPage extends Component {
             <RelativeDate status />
           }
         </Lockup>
-        <Card cutout={hasLeaderboard} center>
-          <Lockup center kicker={kicker} heading="Leaderboard" />
-          {active &&
+        <Card cutout={hasVisible} center>
+          <Lockup center kicker="Custom" heading="leaderboard" />
+          {active && hasLeaderboard &&
             <Filter
-              kicker="Filter by clans"
+              kicker="Add clans"
               placeholder="Enter clan name"
               suggestions={suggestions}
               tags={tags}
@@ -110,14 +109,14 @@ class LeaderboardPage extends Component {
             />
           }
           {!hasLeaderboard &&
-            (custom ? (
-              <Notification>We were unable to find any matching clans. Please try again.</Notification>
+            (isCurrent ? (
+              <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
             ) : (
-              <Notification>Overall leaderboard is being calculated. Please check back later.</Notification>
+              <Notification>Results for this event are being calculated. Please check back later.</Notification>
             ))
           }
         </Card>
-        {hasLeaderboard &&
+        {hasVisible &&
           <Leaderboard cutout data={visible} columns={columns} />
         }
       </PageContainer>

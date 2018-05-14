@@ -798,6 +798,10 @@ export default {
         component: 'src/pages/thanks'
       },
       {
+        path: '/branding/',
+        component: 'src/pages/branding'
+      },
+      {
         is404: true,
         component: 'src/pages/404'
       }

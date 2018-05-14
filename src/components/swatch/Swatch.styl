@@ -1,0 +1,19 @@
+.swatch
+  border 1px solid $color--silver
+  position relative
+  padding-top 8em
+  text-align left
+
+.swatch__caption
+  background-color $color--white
+  padding 0.5em 0.75em
+  border-top 1px solid $color--silver
+
+.swatch__title
+  font-weight bold
+
+$colors = 'terracotta', 'equator', 'lemon', 'black', 'nero', 'nightrider', 'eclipse', 'silver', 'white-smoke', 'white', 'pastel-green', 'cornflower'
+
+for $color in $colors
+  .swatch--{$color}
+    background-color lookup('$color--' + $color)

@@ -4,7 +4,7 @@ import MultiSort from 'multi-sort'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
-const api = require('../../utils/api-helper').api()
+const proxy = require('../../utils/api-helper').proxy()
 const camelcaseKeys = require('camelcase-keys')
 const casingOptions = { deep: true }
 
@@ -18,7 +18,7 @@ class Loader extends Component {
   }
 
   componentDidMount () {
-    api(`Component/GetAllModifiers`)
+    proxy(`Component/GetAllModifiers`)
       .then(({ data }) => {
         this.setState({ modifiers: camelcaseKeys(data, casingOptions) })
       })

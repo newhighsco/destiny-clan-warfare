@@ -3,7 +3,7 @@ import AntiMeta from './anti-meta.svg'
 import AnythingYouCanDo from './anything-you-can-do.svg'
 import AutomaticLockdown from './automatic-lockdown.svg'
 import BandTogether from './band-together.svg'
-import BeASuperHero from './be-a-superhero.svg'
+import BeASuperhero from './be-a-superhero.svg'
 import BoyScout from './boy-scout.svg'
 import Bullseye from './bullseye.svg'
 import CrimsonDoubleDown from './crimson-double-down.svg'
@@ -35,7 +35,7 @@ const svgs = {
   AnythingYouCanDo: { svg: AnythingYouCanDo },
   AutomaticLockdown: { svg: AutomaticLockdown, designer: 'Jaime M. Laurel' },
   BandTogether: { svg: BandTogether, designer: 'Gabriel Vogel' },
-  BeASuperHero: { svg: BeASuperHero },
+  BeASuperhero: { svg: BeASuperhero },
   BoyScout: { svg: BoyScout, designer: 'AomAm' },
   Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },

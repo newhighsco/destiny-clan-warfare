@@ -479,22 +479,24 @@ export default {
         const games = previousMemberLeaderboard.gamesPlayed
         const score = parseInt(Math.round(previousMemberLeaderboard.totalScore))
 
-        pastEvents.push({
-          id: previousEventId,
-          game: {
-            path: urlBuilder.eventUrl(previousEventId),
-            result: true,
-            type: previousEvent.name,
-            endDate: moment.utc(previousEvent.scoringEndTime).format(constants.format.machineReadable)
-          },
-          games,
-          wins: previousMemberLeaderboard.gamesWon,
-          kd: statsHelper.kd(previousMemberLeaderboard),
-          kda: statsHelper.kda(previousMemberLeaderboard),
-          bonuses: parseBonuses(previousMemberLeaderboard),
-          ppg: statsHelper.ppg({ games, score }),
-          score
-        })
+        if (games > 0) {
+          pastEvents.push({
+            id: previousEventId,
+            game: {
+              path: urlBuilder.eventUrl(previousEventId),
+              result: true,
+              type: previousEvent.name,
+              endDate: moment.utc(previousEvent.scoringEndTime).format(constants.format.machineReadable)
+            },
+            games,
+            wins: previousMemberLeaderboard.gamesWon,
+            kd: statsHelper.kd(previousMemberLeaderboard),
+            kda: statsHelper.kda(previousMemberLeaderboard),
+            bonuses: parseBonuses(previousMemberLeaderboard),
+            ppg: statsHelper.ppg({ games, score }),
+            score
+          })
+        }
       }
 
       const path = urlBuilder.profileUrl(member.groupId, member.profileIdStr)

@@ -9,7 +9,6 @@ import { MedalList } from '../medal/Medal'
 import { StatList } from '../stat/Stat'
 import { Button, ButtonGroup } from '../button/Button'
 import { TagList } from '../tag/Tag'
-import Notification from '../notification/Notification'
 import Leaderboard from '../leaderboard/Leaderboard'
 import { TabContainer, Tab } from '../tab/Tab'
 import { PlatformList } from '../platform/Platform'
@@ -77,9 +76,6 @@ class Member extends Component {
           </ButtonGroup>
           <MedalList medals={medals} kicker="Medals awarded" />
           <StatList stats={stats} kicker="Overall stats" />
-          {!hasPastEvents &&
-            <Notification>Past event statistics coming soon.</Notification>
-          }
         </Card>
         {hasPastEvents &&
           <TabContainer cutout>

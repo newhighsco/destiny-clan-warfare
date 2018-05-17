@@ -42,6 +42,7 @@ const svgs = {
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   Deathless: { svg: Deathless, designer: 'Robert Bjurshagen' },
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },
+  DoublesDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
   FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
   LukeSkywalkerSPadawan: { svg: LukeSkywalkerSPadawan, designer: 'Colour Block' },

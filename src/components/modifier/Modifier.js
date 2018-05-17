@@ -45,7 +45,7 @@ const Modifier = ({ name, description, creator, scoringModifier, bonus, size, al
           {IconSvg &&
             <IconSvg />
           }
-          {bonus &&
+          {bonus !== null &&
             <div className={styles[`${baseClassName}__label`]}>
               {label}
             </div>

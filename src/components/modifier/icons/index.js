@@ -7,6 +7,7 @@ import BeASuperhero from './be-a-superhero.svg'
 import BoyScout from './boy-scout.svg'
 import Bullseye from './bullseye.svg'
 import CrimsonDoubleDown from './crimson-double-down.svg'
+import Deathless from './deathless.svg'
 import DoubleDown from './double-down.svg'
 import FlawlessStriker from './flawless-striker.svg'
 import FragAndTag from './frag-and-tag.svg'
@@ -39,7 +40,9 @@ const svgs = {
   BoyScout: { svg: BoyScout, designer: 'AomAm' },
   Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
   CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
+  Deathless: { svg: Deathless, designer: 'Robert Bjurshagen' },
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },
+  DoublesDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
   FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
   LukeSkywalkerSPadawan: { svg: LukeSkywalkerSPadawan, designer: 'Colour Block' },

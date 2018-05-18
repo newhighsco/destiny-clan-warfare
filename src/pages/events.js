@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -8,7 +8,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 
 const constants = require('../utils/constants')
 
-class EventsPage extends Component {
+class EventsPage extends PureComponent {
   render () {
     const { events } = this.props
     const leaderboard = events.map(event => {

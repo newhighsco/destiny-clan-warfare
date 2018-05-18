@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Link, Head } from 'react-static'
 import HoldingPage from '../components/holding-page/HoldingPage'
 import { Logo } from '../components/logo/Logo'
 
-class NotFoundPage extends Component {
+class NotFoundPage extends PureComponent {
   constructor (props) {
     super(props)
 

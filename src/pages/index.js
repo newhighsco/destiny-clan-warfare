@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -15,7 +15,7 @@ import LogoImage from '../images/avatar-512x512.jpg'
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class IndexPage extends Component {
+class IndexPage extends PureComponent {
   render () {
     const { clans, currentEvents, pastEvents, futureEvents } = this.props
     const currentEvent = currentEvents ? currentEvents[0] : null

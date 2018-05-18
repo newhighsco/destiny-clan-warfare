@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Head } from 'react-static'
 import PageContainer from '../page-container/PageContainer'
@@ -17,7 +17,7 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
-class EventMember extends Component {
+class EventMember extends PureComponent {
   render () {
     const { member } = this.props
     const leaderboard = member.history ? member.history.filter(({ game }) => game.path.length && game.type) : null

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Link, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -11,7 +11,7 @@ const queryString = require('query-string')
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class ThanksPage extends Component {
+class ThanksPage extends PureComponent {
   constructor (props) {
     super(props)
 

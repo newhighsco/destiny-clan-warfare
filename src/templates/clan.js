@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -18,7 +18,7 @@ const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 const possessive = require('../utils/grammar').possessive
 
-class ClanTemplate extends Component {
+class ClanTemplate extends PureComponent {
   render () {
     const { clan, members } = this.props
     const previousLeaderboard = clan.previousLeaderboard.filter(member => member && member.path).map(member => {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -7,7 +7,7 @@ import Prose from '../components/prose/Prose'
 
 const constants = require('../utils/constants')
 
-class FaqsPage extends Component {
+class FaqsPage extends PureComponent {
   render () {
     const title = 'FAQs'
     const description = `Frequently asked questions about ${constants.meta.name}`

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -17,7 +17,7 @@ const urlBuilder = require('../utils/url-builder')
 const statsHelper = require('../utils/stats-helper')
 const possessive = require('../utils/grammar').possessive
 
-class EventClanTemplate extends Component {
+class EventClanTemplate extends PureComponent {
   render () {
     const { clan, members } = this.props
     const clanUrl = urlBuilder.clanUrl(clan.id)

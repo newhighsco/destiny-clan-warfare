@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { MedalList } from './Medal'
@@ -9,7 +9,7 @@ const medalBuilder = require('../../utils/medal-builder')
 const constants = require('../../utils/constants')
 const casingOptions = { deep: true }
 
-class Loader extends Component {
+class Loader extends PureComponent {
   constructor (props) {
     super(props)
 

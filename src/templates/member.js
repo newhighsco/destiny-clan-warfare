@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
 import Member from '../components/member/Member'
@@ -6,7 +6,7 @@ import Loading from '../components/loading/Loading'
 
 const urlBuilder = require('../utils/url-builder')
 
-class MemberTemplate extends Component {
+class MemberTemplate extends PureComponent {
   constructor (props) {
     super(props)
 

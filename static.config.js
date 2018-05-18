@@ -146,7 +146,7 @@ export default {
         primaryApi(`Event/GetAllEvents`)
           .then(({ data }) => {
             events = data.map(item => camelcaseKeys(item, casingOptions))
-            currentEvent = events.find(({ eventTense }) => eventTense === constants.tense.current)
+            currentEvent = events.find(({ eventTense, calculated }) => eventTense === constants.tense.current && !calculated)
             console.timeEnd(`fetch events`)
             console.log(`events: ${events.length}`)
             resolve()
@@ -407,7 +407,7 @@ export default {
           icon: clan.backgroundicon
         },
         leaderboard: currentEvent ? parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true) : [],
-        leaderboardVisible: currentClanLeaderboard.length > 0,
+        leaderboardVisible: currentEvent && currentClanLeaderboard.length > 0,
         previousLeaderboard: parseClanLeaderboard(previousClanLeaderboard, previousEventId),
         medals: medalBuilder.parseMedals(clan.medalUnlocks, constants.prefix.clan)
       })
@@ -521,7 +521,7 @@ export default {
         totalsVisible: totals.games > 0,
         totalsSortable: totals.lastPlayed,
         leaderboard,
-        leaderboardVisible: leaderboard.games > 0,
+        leaderboardVisible: currentEvent && leaderboard.games > 0,
         history: history.map(item => ({
           game: {
             path: urlBuilder.pgcrUrl(item.pgcrId),

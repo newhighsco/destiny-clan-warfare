@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Button } from '../button/Button'
@@ -21,7 +21,7 @@ Tab.propTypes = {
   id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
 }
 
-class TabContainer extends Component {
+class TabContainer extends PureComponent {
   constructor (props) {
     super(props)
 

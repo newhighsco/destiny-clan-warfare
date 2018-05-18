@@ -20,9 +20,14 @@ const Modifier = ({ name, description, creator, scoringModifier, bonus, size, al
 
   if (bonus <= 0) prefix = ''
   if (!scoringModifier && bonus < 1) {
-    prefix = ''
-    bonus *= 100
     suffix = constants.prefix.percent
+
+    if (bonus === 0) {
+      bonus = -100
+    } else {
+      prefix = ''
+      bonus *= 100
+    }
   }
 
   const label = `${prefix}${bonus}${suffix}`

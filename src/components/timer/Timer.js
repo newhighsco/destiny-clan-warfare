@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Stat } from '../stat/Stat'
@@ -27,7 +27,7 @@ const countdown = duration => {
   return countdown.join(' ')
 }
 
-class Timer extends Component {
+class Timer extends PureComponent {
   constructor (props) {
     super(props)
 

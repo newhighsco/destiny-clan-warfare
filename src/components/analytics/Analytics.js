@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import ReactGA from 'react-ga'
 
@@ -12,7 +12,7 @@ export default function withAnalytics (WrappedComponent, options = {}) {
     ReactGA.pageview(page)
   }
 
-  const Analytics = class extends Component {
+  const Analytics = class extends PureComponent {
     componentDidMount () {
       const page = this.props.location.pathname
 

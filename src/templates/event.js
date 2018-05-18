@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { withRouteData, Head } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -13,7 +13,7 @@ const moment = require('moment')
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class EventTemplate extends Component {
+class EventTemplate extends PureComponent {
   render () {
     const { event } = this.props
     const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? constants.kicker.past : constants.kicker.future)

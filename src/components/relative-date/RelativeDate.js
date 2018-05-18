@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 const moment = require('moment')
 const constants = require('../../utils/constants')
 const apiStatus = require('../../utils/api-status')
 
-class RelativeDate extends Component {
+class RelativeDate extends PureComponent {
   constructor (props) {
     super(props)
 

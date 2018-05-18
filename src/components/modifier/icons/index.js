@@ -1,4 +1,5 @@
 import AbuseOfPower from './abuse-of-power.svg'
+import AlwaysByYourSide from './always-by-your-side.svg'
 import AntiMeta from './anti-meta.svg'
 import AnythingYouCanDo from './anything-you-can-do.svg'
 import AutomaticLockdown from './automatic-lockdown.svg'
@@ -10,6 +11,7 @@ import CrimsonDoubleDown from './crimson-double-down.svg'
 import Deathless from './deathless.svg'
 import DoubleDown from './double-down.svg'
 import FlawlessStriker from './flawless-striker.svg'
+import FlyingTheFlag from './flying-the-flag.svg'
 import FragAndTag from './frag-and-tag.svg'
 import LukeSkywalkerSPadawan from './luke-skywalker-s-padawan.svg'
 import Merciless from './merciless.svg'
@@ -32,6 +34,7 @@ import ZoneCaptured from './zone-captured.svg'
 const svgs = {
   '20_20': { svg: TwentyTwenty, designer: 'Chanut is Industries' },
   AbuseOfPower: { svg: AbuseOfPower, designer: 'naim' },
+  AlwaysByYourSide: { svg: AlwaysByYourSide, designer: 'Simon Child' },
   AntiMeta: { svg: AntiMeta, designer: 'TMD' },
   AnythingYouCanDo: { svg: AnythingYouCanDo },
   AutomaticLockdown: { svg: AutomaticLockdown, designer: 'Jaime M. Laurel' },
@@ -44,6 +47,7 @@ const svgs = {
   DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },
   DoublesDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
+  FlyingTheFlag: { svg: FlyingTheFlag },
   FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
   LukeSkywalkerSPadawan: { svg: LukeSkywalkerSPadawan, designer: 'Colour Block' },
   Merciless: { svg: Merciless, designer: 'Optimus Prime' },

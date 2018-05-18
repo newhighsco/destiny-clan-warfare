@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Head } from 'react-static'
 import PageContainer from '../page-container/PageContainer'
@@ -17,7 +17,7 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
-class Member extends Component {
+class Member extends PureComponent {
   render () {
     const { member } = this.props
     const medals = member.medals

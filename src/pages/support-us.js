@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -11,7 +11,7 @@ import PayPalSvg from '../images/paypal.svg'
 
 const constants = require('../utils/constants')
 
-class SupportUsPage extends Component {
+class SupportUsPage extends PureComponent {
   render () {
     const title = 'Support us'
     const description = `Support the development of ${constants.meta.name} by becoming a patron or making a donation`

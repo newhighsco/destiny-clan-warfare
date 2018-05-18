@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Tooltip.styl'
 
 const baseClassName = 'tooltip'
 
-class Tooltip extends Component {
+class Tooltip extends PureComponent {
   constructor (props) {
     super(props)
 

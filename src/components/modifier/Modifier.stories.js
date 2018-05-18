@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import MultiSort from 'multi-sort'
 import { storiesOf } from '@storybook/react'
@@ -8,7 +8,7 @@ const proxy = require('../../utils/api-helper').proxy()
 const camelcaseKeys = require('camelcase-keys')
 const casingOptions = { deep: true }
 
-class Loader extends Component {
+class Loader extends PureComponent {
   constructor (props) {
     super(props)
 

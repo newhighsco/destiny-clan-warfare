@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
@@ -9,7 +9,7 @@ import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
 
-class FutureEvent extends Component {
+class FutureEvent extends PureComponent {
   constructor (props) {
     super(props)
 

@@ -75,7 +75,9 @@ class Member extends PureComponent {
             <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
           </ButtonGroup>
           <MedalList medals={medals} kicker="Medals awarded" />
-          <StatList stats={stats} kicker="Overall stats" />
+          {stats.games > 0 &&
+            <StatList stats={stats} kicker="Overall stats" />
+          }
         </Card>
         {hasPastEvents &&
           <TabContainer cutout>

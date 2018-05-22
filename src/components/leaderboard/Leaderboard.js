@@ -100,8 +100,10 @@ class Leaderboard extends Component {
         className
       )}>
         {data.map((item, i) => {
-          const rank = `${constants.prefix.hash}${i + 1}`
           var state = {}
+          var rank = i + 1
+
+          if (item.rank && !isNaN(item.rank)) rank = item.rank
 
           if (stateKey) {
             state[stateKey] = item[stateKey]
@@ -212,7 +214,7 @@ class Leaderboard extends Component {
                       var value = item[key]
                       var exactValue
 
-                      if (key === 'rank') value = item.rank !== null ? rank : constants.blank
+                      if (key === 'rank') value = item.rank !== null ? `${constants.prefix.hash}${rank}` : constants.blank
                       if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
                       if (value === null) value = constants.blank
 

@@ -128,7 +128,7 @@ export default {
       new Promise((resolve, reject) => {
         console.time(`fetch members`)
 
-        primaryApi(`Clan/GetAllMembers`)
+        primaryApi(`Clan/GetAllMembersBeta`)
           .then(({ data }) => {
             members = data.map(item => camelcaseKeys(item, casingOptions))
             console.timeEnd(`fetch members`)
@@ -424,7 +424,6 @@ export default {
 
       var history = histories[member.profileIdStr] || []
       var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
-      var previousMemberLeaderboard = previousMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
 
       var leaderboard = {
         games: Number.NEGATIVE_INFINITY,
@@ -474,29 +473,35 @@ export default {
 
       var pastEvents = []
 
-      if (previousMemberLeaderboard) {
-        const previousEvent = events.find(({ eventId }) => eventId === previousEventId)
-        const games = previousMemberLeaderboard.gamesPlayed
-        const score = parseInt(Math.round(previousMemberLeaderboard.totalScore))
+      if (member.history) {
+        member.history.map(item => {
+          const pastEvent = events.find(({ eventId }) => eventId === item.eventId)
+          const games = item.results.gamesPlayed
+          const score = parseInt(Math.round(item.results.totalScore))
+          const kills = item.results.totalKills
+          const assists = item.results.totalAssists
+          const deaths = item.results.totalDeaths
 
-        if (games > 0) {
-          pastEvents.push({
-            id: previousEventId,
+          return pastEvents.push({
+            id: pastEvent.eventId,
             game: {
-              path: urlBuilder.eventUrl(previousEventId),
+              path: urlBuilder.eventUrl(pastEvent.eventId),
               result: true,
-              type: previousEvent.name,
-              endDate: moment.utc(previousEvent.scoringEndTime).format(constants.format.machineReadable)
+              type: pastEvent.name,
+              endDate: moment.utc(pastEvent.scoringEndTime).format(constants.format.machineReadable)
             },
+            medals: medalBuilder.parseMedals(item.medals, constants.prefix.profile),
+            rank: item.results.rankInClan,
+            overall: `${constants.prefix.hash}${item.results.overallRank}`,
             games,
-            wins: previousMemberLeaderboard.gamesWon,
-            kd: statsHelper.kd(previousMemberLeaderboard),
-            kda: statsHelper.kda(previousMemberLeaderboard),
-            bonuses: parseBonuses(previousMemberLeaderboard),
+            wins: item.gamesWon,
+            kd: statsHelper.kd({ kills, deaths }),
+            kda: statsHelper.kda({ kills, deaths, assists }),
+            bonuses: parseBonuses(item.results, pastEvent.modifiers.map(({ id }) => (id))),
             ppg: statsHelper.ppg({ games, score }),
             score
           })
-        }
+        })
       }
 
       const path = urlBuilder.profileUrl(member.groupId, member.profileIdStr)

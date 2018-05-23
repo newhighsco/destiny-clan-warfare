@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
 import { Button, ButtonGroup } from '../button/Button'
 import Notification from '../notification/Notification'
+import ClanTag from '../clan-tag/ClanTag'
 import styles from './Enrollment.styl'
 
 const constants = require('../../utils/constants')
@@ -15,7 +16,7 @@ const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
 
-class Enrollment extends PureComponent {
+class Enrollment extends Component {
   constructor (props) {
     super(props)
 
@@ -135,16 +136,17 @@ class Enrollment extends PureComponent {
           <ul className={classNames('list--unstyled', styles[`${baseClassName}__clans`])}>
             {groups.map((group, i) => {
               const clan = clans.find(clan => clan.id === group.groupId)
+              const Group = () => <Fragment>{group.name} <ClanTag>{group.clanInfo.clanCallsign}</ClanTag></Fragment>
 
               return (
                 <li key={i}>
                   {clan ? (
                     <Link to={clan.path} className={styles[`${baseClassName}__clan`]}>
-                      {group.name}
+                      <Group />
                     </Link>
                   ) : (
                     <button onClick={this.handleEnroll} data-id={group.groupId} className={classNames('text-button', styles[`${baseClassName}__clan`])}>
-                      {group.name}
+                      <Group />
                     </button>
                   )}
                 </li>

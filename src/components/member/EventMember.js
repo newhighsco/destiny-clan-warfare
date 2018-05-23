@@ -79,7 +79,9 @@ class EventMember extends PureComponent {
             <TagList tags={member.tags} className="card__tags" />
             <Lockup center reverse kicker={member.clanName} kickerHref={urlBuilder.currentEventUrl(member.clanId)} heading={member.name} />
             <PlatformList platforms={member.platforms} />
-            <StatList stats={member.leaderboard} kicker={`${constants.tense.current} stats`} />
+            {member.leaderboard && member.leaderboard.games > 0 &&
+              <StatList stats={member.leaderboard} kicker={`${constants.tense.current} stats`} />
+            }
             {!hasLeaderboard &&
               <Notification>
                 {enableMatchHistory ? (

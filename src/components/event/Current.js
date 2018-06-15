@@ -47,14 +47,14 @@ class CurrentEvent extends PureComponent {
             </Prose>
           }
           <ModifierList modifiers={event.modifiers} />
-          {!hasLeaderboards &&
-            <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
-          }
           {hasLeaderboards && summary &&
             <Button href={`${event.path}#leaderboard`}>View full leaderboard</Button>
           }
           {!summary && enrollmentOpen &&
             <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+          }
+          {!hasLeaderboards &&
+            <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
           }
         </Card>
         {hasLeaderboards &&

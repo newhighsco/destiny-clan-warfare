@@ -1,8 +1,8 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import CurrentEvent from './CurrentEvent'
-import FutureEvent from './FutureEvent'
-import PreviousEvent from './PreviousEvent'
+import EventCurrent from './Current'
+import EventFuture from './Future'
+import EventPrevious from './Previous'
 
 const moment = require('moment')
 
@@ -21,11 +21,11 @@ const event = {
 
 storiesOf('Events', module)
   .add('Current', () => (
-    <CurrentEvent event={{ ...event, startDate: startDate, endDate: endDate }} />
+    <EventCurrent event={{ ...event, startDate: startDate, endDate: endDate }} />
   ))
   .add('Future', () => (
-    <FutureEvent event={{ ...event, startDate: endDate }} />
+    <EventFuture event={{ ...event, startDate: endDate }} />
   ))
   .add('Previous', () => (
-    <PreviousEvent event={{ ...event, endDate: startDate }} />
+    <EventPrevious event={{ ...event, endDate: startDate }} />
   ))

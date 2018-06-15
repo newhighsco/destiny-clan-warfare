@@ -11,19 +11,13 @@ import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
 
-const medalBuilder = require('../../utils/medal-builder')
+const constants = require('../../utils/constants')
 
 const PreviousEvent = ({ event, element, summary }) => {
   if (!event) return null
 
-  const leaderboards = event.leaderboards ? event.leaderboards.map(({ name, data }) => ({
-    name,
-    data: medalBuilder.embellishLeaderboard(data, name).map(({ size, active, games, wins, kills, assists, deaths, ...rest }) => ({
-      rank: '',
-      ...rest
-    }))
-  })) : []
-  const isCalculated = event.isCalculated
+  const leaderboards = event.leaderboards
+  const isCalculated = event.isCalculated && (leaderboards.length === constants.divisions.length)
 
   return (
     <Fragment>
@@ -36,11 +30,11 @@ const PreviousEvent = ({ event, element, summary }) => {
           </Prose>
         }
         <ModifierList modifiers={event.modifiers} />
-        {!summary && isCalculated && event.medals && event.medals.clans &&
-          <MedalList medals={event.medals.clans} kicker="Medals awarded" />
-        }
-        {!summary && isCalculated && event.medals && event.medals.members &&
-          <MedalList medals={event.medals.members} />
+        {!summary && isCalculated && event.medals &&
+          <Fragment>
+            <MedalList medals={event.medals.clans} kicker="Medals awarded" />
+            <MedalList medals={event.medals.members} />
+          </Fragment>
         }
         {!isCalculated &&
           <Notification>Results for this event are being calculated. Please check back later.</Notification>
@@ -53,15 +47,15 @@ const PreviousEvent = ({ event, element, summary }) => {
         summary ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.results} sorting={{ division: 'ASC' }} />
+              <Leaderboard data={event.results} />
             </Tab>
           </TabContainer>
         ) : (
           <TabContainer id="results" cutout>
-            {leaderboards.map(leaderboard => {
+            {leaderboards.map(({ leaderboard, division }) => {
               return (
-                <Tab key={leaderboard.name} name={leaderboard.name}>
-                  <Leaderboard data={leaderboard.data} />
+                <Tab key={division} name={division}>
+                  <Leaderboard data={leaderboard} />
                 </Tab>
               )
             })}

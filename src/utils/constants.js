@@ -19,11 +19,11 @@ const constants = {
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ',
     url: 'YYYY-MM-DD'
   },
-  division: {
-    large: 'Company',
-    medium: 'Platoon',
-    small: 'Squad'
-  },
+  divisions: [
+    { size: 'Large', division: 'Company' },
+    { size: 'Medium', division: 'Platoon' },
+    { size: 'Small', division: 'Squad' }
+  ],
   result: {
     win: 'win',
     loss: 'loss',

@@ -1,3 +1,12 @@
+const Autolinker = require('autolinker')
+const linkOptions = {
+  mention: 'twitter'
+}
+
+const description = (s) => {
+  return Autolinker.link(s, linkOptions).split(/\r?\n/g).join('<br />')
+}
+
 const possessive = (s) => {
   return s ? (s + (s.substr(-1) === 's' ? '\'' : '\'s')) : s
 }
@@ -7,6 +16,7 @@ const sentence = (a) => {
 }
 
 module.exports = {
+  description,
   possessive,
   sentence
 }

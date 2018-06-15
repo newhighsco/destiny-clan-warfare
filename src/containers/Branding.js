@@ -1,5 +1,4 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -7,43 +6,38 @@ import Swatch from '../components/swatch/Swatch'
 import Prose from '../components/prose/Prose'
 
 const constants = require('../utils/constants')
+const meta = {
+  title: 'Branding',
+  description: `Branding guidelines for ${constants.meta.name}`,
+  robots: 'noindex,nofollow'
+}
+const colours = [
+  { name: 'Terracotta', value: '#e27365' },
+  { name: 'Equator', value: '#e2b265' },
+  { name: 'Lemon', value: '#d6da2a' },
+  { name: 'Pastel green', value: '#65e273' },
+  { name: 'Cornflower', value: '#6596e2' },
+  { name: 'White', value: '#fff' },
+  { name: 'White smoke', value: '#f4f4f4' },
+  { name: 'Silver', value: '#b3b3b3' },
+  { name: 'Eclipse', value: '#404040' },
+  { name: 'Nightrider', value: '#333' },
+  { name: 'Nero', value: '#262626' },
+  { name: 'Black', value: '#000' }
+]
+const logos = [
+  { name: 'Combined - small', value: 'Logo_Small' },
+  { name: 'Combined - medium', value: 'Logo_Medium' },
+  { name: 'Combined - large', value: 'Logo_Large' },
+  { name: 'Icon', value: 'Logo_Icon' },
+  { name: 'Lockup', value: 'Logo_Lockup' }
+]
+const extensions = [ 'png', 'psd', 'svg' ]
 
-class BrandingPage extends PureComponent {
+class BrandingContainer extends PureComponent {
   render () {
-    const title = 'Branding'
-    const description = `Branding guidelines for ${constants.meta.name}`
-    const colours = [
-      { name: 'Terracotta', value: '#e27365' },
-      { name: 'Equator', value: '#e2b265' },
-      { name: 'Lemon', value: '#d6da2a' },
-      { name: 'Pastel green', value: '#65e273' },
-      { name: 'Cornflower', value: '#6596e2' },
-      { name: 'White', value: '#fff' },
-      { name: 'White smoke', value: '#f4f4f4' },
-      { name: 'Silver', value: '#b3b3b3' },
-      { name: 'Eclipse', value: '#404040' },
-      { name: 'Nightrider', value: '#333' },
-      { name: 'Nero', value: '#262626' },
-      { name: 'Black', value: '#000' }
-    ]
-    const logos = [
-      { name: 'Combined - small', value: 'Logo_Small' },
-      { name: 'Combined - medium', value: 'Logo_Medium' },
-      { name: 'Combined - large', value: 'Logo_Large' },
-      { name: 'Icon', value: 'Logo_Icon' },
-      { name: 'Lockup', value: 'Logo_Lockup' }
-    ]
-    const extensions = [ 'png', 'psd', 'svg' ]
-
     return (
-      <PageContainer>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta name="robots" content="noindex,nofollow" />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-        </Head>
+      <PageContainer {...meta}>
         <Lockup primary center element="h1" kicker="Branding" />
         <Card>
           <Lockup center element="h2" heading="Logos" />
@@ -89,4 +83,4 @@ class BrandingPage extends PureComponent {
   }
 }
 
-export default BrandingPage
+export default BrandingContainer

@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react'
-import { withRouteData, Head } from 'react-static'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
-import CurrentEvent from '../components/event/CurrentEvent'
-import FutureEvent from '../components/event/FutureEvent'
-import PreviousEvent from '../components/event/PreviousEvent'
+import EventCurrent from '../components/event/Current'
+import EventFuture from '../components/event/Future'
+import EventPrevious from '../components/event/Previous'
+import { ButtonGroup, Button } from '../components/button/Button'
 import SchemaImage from '../images/favicon-1200x1200.png'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class EventTemplate extends PureComponent {
+class EventContainer extends PureComponent {
   render () {
     const { event } = this.props
     const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? constants.kicker.past : constants.kicker.future)
@@ -64,37 +65,38 @@ class EventTemplate extends PureComponent {
         ]
       }
     ]
+    const meta = {
+      title,
+      description,
+      schema
+    }
 
     return (
-      <PageContainer>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-          <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Head>
+      <PageContainer {...meta}>
         <Lockup primary center kicker={kicker}>
           {event.isCurrent &&
             <RelativeDate status />
           }
         </Lockup>
         {event.isCurrent &&
-          <CurrentEvent event={event} />
+          <EventCurrent event={event} />
         }
         {event.isPast &&
-          <PreviousEvent event={event} />
+          <EventPrevious event={event} />
         }
         {event.isFuture &&
-          <FutureEvent event={event} />
+          <EventFuture event={event} />
         }
+        <ButtonGroup>
+          <Button href={urlBuilder.eventRootUrl}>View all events</Button>
+        </ButtonGroup>
       </PageContainer>
     )
   }
 }
 
-EventTemplate.propTypes = {
+EventContainer.propTypes = {
   event: PropTypes.object
 }
 
-export default withRouteData(EventTemplate)
+export default withRouteData(EventContainer)

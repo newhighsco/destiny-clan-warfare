@@ -10,24 +10,33 @@ const constants = require('../../utils/constants')
 const online = require('../../utils/online')
 const baseClassName = 'avatar'
 
-const AvatarLayer = (id, layer) => {
-  if (!layer.color || !layer.icon) return null
+const AvatarLayer = class extends PureComponent {
+  render () {
+    const { id, layer } = this.props
 
-  const hex = hexHelper.hexToRgb(layer.color)
-  const r = hex.r / 255
-  const g = hex.g / 255
-  const b = hex.b / 255
+    if (!layer.color || !layer.icon) return null
 
-  return (
-    <LazyLoad height={96}>
-      <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">
-        <filter id={id} x="0" y="0" width="100%" height="100%">
-          <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
-        </filter>
-        <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={layer.icon} />
-      </svg>
-    </LazyLoad>
-  )
+    const hex = hexHelper.hexToRgb(layer.color)
+    const r = hex.r / 255
+    const g = hex.g / 255
+    const b = hex.b / 255
+
+    return (
+      <LazyLoad height={96}>
+        <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">
+          <filter id={id} x="0" y="0" width="100%" height="100%">
+            <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
+          </filter>
+          <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={layer.icon} />
+        </svg>
+      </LazyLoad>
+    )
+  }
+}
+
+AvatarLayer.propTypes = {
+  id: PropTypes.string,
+  layer: PropTypes.object
 }
 
 const Avatar = class extends PureComponent {
@@ -52,8 +61,12 @@ const Avatar = class extends PureComponent {
             </LazyLoad>
           </ResponsiveMedia>
         }
-        {background && AvatarLayer(`${id}-bg`, background)}
-        {foreground && AvatarLayer(`${id}-fg`, foreground)}
+        {background &&
+          <AvatarLayer id={`${id}-bg`} layer={background} />
+        }
+        {foreground &&
+          <AvatarLayer id={`${id}-fg`} layer={foreground} />
+        }
         {children}
       </div>
     )

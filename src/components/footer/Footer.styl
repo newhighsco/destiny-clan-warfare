@@ -48,8 +48,13 @@
 
 .footer__logo.logo-icon
   fill $color--silver
-  margin auto
+  margin 0 auto
   position absolute
   left 0
   right 0
   top ($spacing--double * -1)
+  transition margin 0.25s
+
+  &:hover
+    fill $color--white
+    margin-top ($spacing--half * -1)

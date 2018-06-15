@@ -17,9 +17,9 @@ const Footer = class extends PureComponent {
 
     return (
       <footer className={styles[baseClassName]} role="contentinfo">
-        <Link to="#top" title="Back to top">
+        <a href="#top" title="Back to top">
           <LogoIcon size="small" className={styles[`${baseClassName}__logo`]} />
-        </Link>
+        </a>
         <div className="content-center content-gutter">
           <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
             <div className="grid__item tablet-one-half">

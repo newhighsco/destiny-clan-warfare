@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -10,20 +9,15 @@ import PatreonSvg from '../images/patreon.svg'
 import PayPalSvg from '../images/paypal.svg'
 
 const constants = require('../utils/constants')
+const meta = {
+  title: 'Support us',
+  description: `Support the development of ${constants.meta.name} by becoming a patron or making a donation`
+}
 
-class SupportUsPage extends PureComponent {
+class SupportUsContainer extends PureComponent {
   render () {
-    const title = 'Support us'
-    const description = `Support the development of ${constants.meta.name} by becoming a patron or making a donation`
-
     return (
-      <PageContainer>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-        </Head>
+      <PageContainer {...meta}>
         <Lockup primary center element="h1" kicker="Support us" />
         <div className="grid grid--flex grid--stacked">
           <div className="grid__item tablet-landscape-one-half">
@@ -58,4 +52,4 @@ class SupportUsPage extends PureComponent {
   }
 }
 
-export default SupportUsPage
+export default SupportUsContainer

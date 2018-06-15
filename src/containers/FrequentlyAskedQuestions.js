@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Head } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -7,19 +6,15 @@ import Prose from '../components/prose/Prose'
 
 const constants = require('../utils/constants')
 
-class FaqsPage extends PureComponent {
-  render () {
-    const title = 'FAQs'
-    const description = `Frequently asked questions about ${constants.meta.name}`
+const meta = {
+  title: 'FAQs',
+  description: `Frequently asked questions about ${constants.meta.name}`
+}
 
+class FrequentlyAskedQuestions extends PureComponent {
+  render () {
     return (
-      <PageContainer>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-        </Head>
+      <PageContainer {...meta}>
         <Card>
           <Lockup primary center kicker="Frequently asked" heading="Questions" />
           <Prose>
@@ -78,4 +73,4 @@ class FaqsPage extends PureComponent {
   }
 }
 
-export default FaqsPage
+export default FrequentlyAskedQuestions

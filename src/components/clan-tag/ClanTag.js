@@ -9,9 +9,10 @@ const ClanTag = class extends PureComponent {
     const { children, className, href } = this.props
     const baseClassName = 'clan-tag'
     const classes = classNames(styles[baseClassName], className)
+    const Element = href ? Link : 'span'
 
     return (
-      <Link to={href} className={classes}>{children}</Link>
+      <Element to={href} className={classes}>{children}</Element>
     )
   }
 }

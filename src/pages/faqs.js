@@ -60,11 +60,17 @@ class FaqsPage extends PureComponent {
               <li>Company: 61+ members</li>
             </ul>
             <a id="raids" />
-            <h2>Do you plan to run any Raid based events?</h2>
-            <p>We have some concerns regarding Raid based events. We believe that engagement will probably be low due to the requirement for a fireteam of six. One of our core pillars for {constants.meta.name} is that any clan member can get to contribute, even if they don't have the time to team up with others.</p>
-            <p>Additionally, only completed activities contribute towards the score of our events, and as we are currently unable to identify individual raid encounters, this means that to score any points what so ever a much large commitment of time is required compared to other events.</p>
-            <p>A further potential contentious issue is that the Castellum of the Leviathan provides and infinite number of enemies, and because kills are one of the cornerstones of our scoring system, this is likely to give rise to farming this area and then moving onto Callus for the completion.</p>
-            <p>We will however keep considering the idea, and are open to <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">suggestions via Discord</a>.</p>
+            <h2>How do I earn points in raids?</h2>
+            <p>Only completions of the Leviathan raid will count towards your {constants.meta.name} score - a completion is currently defined as killing Calus so starting at a checkpoint would be valid, as long as you finish.</p>
+            <p>Raids also follow the very same base scoring methods as all other event based on kills, assists and deaths alongside 2 bonus sets of points and a score % modifier. However, raids have an additional timer based modifier in a bid to try and level the playing field and promote playing the event as was intended.</p>
+            <ul>
+              <li>If your completion time is less than 60 minutes, your score is multiplied by 4.</li>
+              <li>If your completion time is between 60 and 89 minutes, your score is multiplied by 2.</li>
+              <li>If your completion time is between  90 minutes and 119 minutes, your score is multiplied by 1.5</li>
+              <li>If your completion time is between 120 and 150 minutes, your score is kept the same.</li>
+              <li>If your completion time is over 150 minutes, your score is reset to 0.</li>
+            </ul>
+            <p>Please note, our raid events are currently only available on a trial basic and the numbers above are subject to change for future events. All calculations are based on the time provided to us by Bungie via the API - historically this has seen to be a little different to what you see in games but sadly, that's out of our control. If you have any feedback, <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">jump into our Discord</a> and let us know.</p>
           </Prose>
         </Card>
       </PageContainer>

@@ -334,8 +334,8 @@ export default {
 
         return platforms
       }, [])
-      const sortedClanMembers = MultiSort(clanMembers, 'lastchecked', 'DESC').filter(({ lastchecked }) => lastchecked)
-      const updatedDate = sortedClanMembers.length > 0 ? sortedClanMembers[0].lastchecked : null
+      const sortedClanMembers = MultiSort(clanMembers, 'lastChecked', 'DESC').filter(({ lastChecked }) => lastChecked)
+      const updatedDate = sortedClanMembers.length > 0 ? sortedClanMembers[0].lastChecked : null
 
       clanPlatforms.push({ id: clan.groupId, platforms, updatedDate })
 
@@ -382,7 +382,7 @@ export default {
             deaths: item.deaths,
             bonuses: parseBonuses(item),
             score: parseInt(Math.round(item.totalScore)),
-            updated: isCurrent && member.lastchecked ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null,
+            updated: isCurrent && member.lastChecked ? moment.utc(member.lastChecked).format(constants.format.machineReadable) : null,
             eventId: eventId
           }
         })
@@ -397,14 +397,14 @@ export default {
         tag: decode(clan.tag),
         motto: decode(clan.motto),
         description: linkify(clan.description, linkifyOptions).split(/\r?\n/g).join('<br />'),
-        color: clan.backgroundcolor,
+        color: clan.backgroundColor,
         foreground: {
-          color: clan.emblemcolor1,
-          icon: clan.foregroundicon
+          color: clan.emblemColor1,
+          icon: clan.foregroundIcon
         },
         background: {
-          color: clan.emblemcolor2,
-          icon: clan.backgroundicon
+          color: clan.emblemColor2,
+          icon: clan.backgroundIcon
         },
         leaderboard: currentEvent ? parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true) : [],
         leaderboardVisible: currentEvent && currentClanLeaderboard.length > 0,
@@ -445,7 +445,7 @@ export default {
           deaths: memberLeaderboard.deaths,
           bonuses: parseBonuses(memberLeaderboard),
           score: parseInt(Math.round(memberLeaderboard.totalScore)),
-          updated: member.lastchecked ? moment.utc(member.lastchecked).format(constants.format.machineReadable) : null
+          updated: member.lastChecked ? moment.utc(member.lastChecked).format(constants.format.machineReadable) : null
         }
       }
 
@@ -573,14 +573,14 @@ export default {
             path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
             platforms: platforms ? platforms.platforms : [],
             name: decode(clan.name),
-            color: clan.backgroundcolor,
+            color: clan.backgroundColor,
             foreground: {
-              color: clan.emblemcolor1,
-              icon: clan.foregroundicon
+              color: clan.emblemColor1,
+              icon: clan.foregroundIcon
             },
             background: {
-              color: clan.emblemcolor2,
-              icon: clan.backgroundicon
+              color: clan.emblemColor2,
+              icon: clan.backgroundIcon
             },
             size: rawClan.size || 0,
             active: rawClan.active || 0,
@@ -853,15 +853,17 @@ export default {
 
     feed = new RSS(feedOptions)
 
+    const formattedDate = moment(apiStatus.updatedDate).format(constants.format.url)
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
     const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    const url = `${process.env.SITE_URL}/${moment(apiStatus.updatedDate).format(constants.format.url)}/`
+    const url = `${process.env.SITE_URL}/${formattedDate}/`
     const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
+    const title = `${kicker} - ${formattedDate}`
     const content = `${kicker}${canonicalUrl}`
 
     feed.item({
-      title: kicker,
-      description: kicker,
+      title: title,
+      description: title,
       url,
       guid: url,
       date: apiStatus.updatedDate,

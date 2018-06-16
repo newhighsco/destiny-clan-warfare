@@ -2,6 +2,7 @@
   margin-top ($spacing--default * -1)
   padding-top $spacing--default
   position relative
+  z-index 3
 
 .enrollment__field
   margin-top $spacing--default
@@ -49,4 +50,9 @@
     color $color--black !important // @stylint ignore
 
     &[data-id]:after
+    .clan-tag:after
+    .clan-tag:before
       color $color--terracotta
+
+  .clan-tag
+    pointer-events none

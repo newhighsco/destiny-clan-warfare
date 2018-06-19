@@ -1,9 +1,15 @@
 import React, { PureComponent } from 'react'
-import { Link, Head } from 'react-static'
+import { Link } from 'react-static'
 import HoldingPage from '../components/holding-page/HoldingPage'
 import { Logo } from '../components/logo/Logo'
 
-class NotFoundPage extends PureComponent {
+const meta = {
+  title: 'Page not found',
+  description: 'Sorry, this page could not be found',
+  robots: 'noindex,nofollow'
+}
+
+class NotFoundContainer extends PureComponent {
   constructor (props) {
     super(props)
 
@@ -21,18 +27,8 @@ class NotFoundPage extends PureComponent {
 
     if (!active) return null
 
-    const title = 'Page not found'
-    const description = 'Sorry, this page could not be found'
-
     return (
-      <HoldingPage>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta name="robots" content="noindex,nofollow" />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-        </Head>
+      <HoldingPage meta={meta}>
         <Link to="/">
           <Logo />
         </Link>
@@ -41,4 +37,4 @@ class NotFoundPage extends PureComponent {
   }
 }
 
-export default NotFoundPage
+export default NotFoundContainer

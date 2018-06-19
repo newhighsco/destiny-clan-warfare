@@ -14,7 +14,7 @@ const meta = {
 class FrequentlyAskedQuestions extends PureComponent {
   render () {
     return (
-      <PageContainer {...meta}>
+      <PageContainer meta={meta}>
         <Card>
           <Lockup primary center kicker="Frequently asked" heading="Questions" />
           <Prose>
@@ -42,7 +42,7 @@ class FrequentlyAskedQuestions extends PureComponent {
             <p>We will lock your clan member list in place for the duration of the event. A snapshot will be taken when the event starts and any amendments to your roster will not be taken into account until the next event starts.</p>
             <p>Please note - there is a limit on clan participation at this time so if we are full, please check back each week as we accept more clans.</p>
             <h2>When will enrollment be open again?</h2>
-            <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
+            <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</p>
             <h2>Will I have to enroll my clan for every events?</h2>
             <p>No. Once you are enrolled, you will automatically be entered into all future events. Just score some points, and you'll appear on the leaderboards.</p>
             <a id="size" />

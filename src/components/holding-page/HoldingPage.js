@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Meta from '../meta/Meta'
 import styles from './HoldingPage.styl'
 
 const HoldingPage = class extends PureComponent {
   render () {
-    const { children } = this.props
+    const { children, meta } = this.props
 
     return (
       <div className={styles['holding-page']}>
+        <Meta {...meta} />
         <div className="content-center content-gutter text-center">
           {children}
         </div>
@@ -17,7 +19,8 @@ const HoldingPage = class extends PureComponent {
 }
 
 HoldingPage.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  meta: PropTypes.object
 }
 
 export default HoldingPage

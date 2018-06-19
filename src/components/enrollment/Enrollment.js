@@ -108,6 +108,7 @@ class Enrollment extends Component {
     const { active, open, groups, selectedGroup } = this.state
     const id = constants.prefix.enroll
     const baseClassName = 'enrollment'
+    const kicker = open ? 'Enroll your clan today' : 'Enrollment closed'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
@@ -118,14 +119,14 @@ class Enrollment extends Component {
           <input type="hidden" name="clanId" value={selectedGroup} />
         }
         <label htmlFor="control--clan">
-          <Lockup borderless center kicker="Enroll your clan today" />
+          <Lockup borderless center kicker={kicker} />
         </label>
         <div className="field" id="field--clan">
           <div className={classNames('field__answer', styles[`${baseClassName}__field`])}>
             {open ? (
               <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
             ) : (
-              <Notification>Enrollment for new clans is currently closed.</Notification>
+              <Notification><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</Notification>
             )}
           </div>
         </div>

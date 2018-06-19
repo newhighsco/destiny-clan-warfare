@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Link, Head } from 'react-static'
+import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -11,7 +11,12 @@ const queryString = require('query-string')
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class ThanksPage extends PureComponent {
+const meta = {
+  description: `Clan enrollment for ${constants.meta.name}`,
+  robots: 'noindex,nofollow'
+}
+
+class ThanksContainer extends PureComponent {
   constructor (props) {
     super(props)
 
@@ -35,18 +40,11 @@ class ThanksPage extends PureComponent {
     const successful = success || (!success && message === constants.enrollment.existing)
     const closed = !success && message === constants.enrollment.closed
     const optOut = !success && message === constants.enrollment.optOut
-    const title = successful ? 'Thanks for enrolling' : (closed ? 'Enrollment closed' : 'Enrollment failed')
-    const description = `Clan enrollment for ${constants.meta.name}`
+
+    meta.title = successful ? 'Thanks for enrolling' : (closed ? 'Enrollment closed' : 'Enrollment failed')
 
     return (
-      <PageContainer>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-          <meta name="robots" content="noindex,nofollow" />
-        </Head>
+      <PageContainer meta={meta}>
         <Card center>
           {successful ? (
             <Fragment>
@@ -61,17 +59,17 @@ class ThanksPage extends PureComponent {
           ) : (
             closed ? (
               <Fragment>
-                <Lockup primary center kicker={title} heading="Sorry we're full" />
+                <Lockup primary center kicker={meta.title} heading="Sorry we're full" />
                 <Prose>
                   <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
-                  <p>You can <a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when enrollment opens again.</p>
+                  <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</p>
                 </Prose>
                 <Button href="/">Return to the homepage</Button>
               </Fragment>
             ) : (
               optOut ? (
                 <Fragment>
-                  <Lockup primary center kicker={title} heading="Can't enroll clan" />
+                  <Lockup primary center kicker={meta.title} heading="Can't enroll clan" />
                   <Prose>
                     <p>This clan has opted-out of participating in {constants.meta.name}, and therefore cannot be enrolled.</p>
                     <p>If you thing this is a mistake you can <a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to discuss the issue with us further.</p>
@@ -80,7 +78,7 @@ class ThanksPage extends PureComponent {
                 </Fragment>
               ) : (
                 <Fragment>
-                  <Lockup primary center kicker={title} heading="Please try again" />
+                  <Lockup primary center kicker={meta.title} heading="Please try again" />
                   {message &&
                     <Prose>
                       <p>{message}</p>
@@ -101,8 +99,8 @@ class ThanksPage extends PureComponent {
   }
 }
 
-ThanksPage.propTypes = {
+ThanksContainer.propTypes = {
   history: PropTypes.object
 }
 
-export default ThanksPage
+export default ThanksContainer

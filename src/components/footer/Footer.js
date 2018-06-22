@@ -6,15 +6,14 @@ import Credit from '../credit/Credit'
 import styles from './Footer.styl'
 
 const baseClassName = 'footer'
+const date = new Date()
+const links = [
+  { href: '/faqs/', text: 'FAQs' },
+  { href: '/support-us/', text: 'Support us' }
+]
 
 const Footer = class extends PureComponent {
   render () {
-    const date = new Date()
-    const links = [
-      { href: '/faqs/', text: 'FAQs' },
-      { href: '/support-us/', text: 'Support us' }
-    ]
-
     return (
       <footer className={styles[baseClassName]} role="contentinfo">
         <a href="#top" title="Back to top">

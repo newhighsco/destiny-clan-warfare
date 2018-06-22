@@ -11,16 +11,15 @@ import styles from './Header.styl'
 
 const constants = require('../../utils/constants')
 const baseClassName = 'header'
+const links = [
+  { href: constants.social.twitter, text: 'Follow us on Twitter', icon: TwitterSvg },
+  { href: constants.social.discord, text: 'Join our Discord server', icon: DiscordSvg },
+  { href: constants.social.patreon, text: 'Become a Patron via Patreon', icon: PatreonSvg },
+  { href: constants.social.paypal, text: 'Make a donation via PayPal', icon: PayPalSvg }
+]
 
 const Header = class extends PureComponent {
   render () {
-    const links = [
-      { href: constants.social.twitter, text: 'Follow us on Twitter', icon: TwitterSvg },
-      { href: constants.social.discord, text: 'Join our Discord server', icon: DiscordSvg },
-      { href: constants.social.patreon, text: 'Become a Patron via Patreon', icon: PatreonSvg },
-      { href: constants.social.paypal, text: 'Make a donation via PayPal', icon: PayPalSvg }
-    ]
-
     return (
       <header className={styles[baseClassName]} role="banner">
         <div className={classNames(styles[`${baseClassName}__container`], 'content-center content-gutter')}>

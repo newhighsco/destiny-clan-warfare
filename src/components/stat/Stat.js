@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
@@ -11,43 +11,47 @@ const statsHelper = require('../../utils/stats-helper')
 const sentence = require('../../utils/grammar').sentence
 const baseClassName = 'stat'
 
-const Stat = ({ label, prefix, stat, size, className }) => {
-  var value = stat
-  var valueLabel
+class Stat extends PureComponent {
+  render () {
+    const { label, prefix, stat, size, className } = this.props
+    var value = stat
+    var valueLabel
 
-  if (typeof value === 'object') {
-    valueLabel = value.label
-    value = typeof value.stat !== 'undefined' ? value.stat : constants.blank
-  }
+    if (typeof value === 'object') {
+      valueLabel = value.label
+      value = typeof value.stat !== 'undefined' ? value.stat : constants.blank
+    }
 
-  value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)
+    value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)
 
-  if (valueLabel && typeof valueLabel === 'string') valueLabel = [ valueLabel ]
+    if (valueLabel && typeof valueLabel === 'string') valueLabel = [ valueLabel ]
+    const enableHover = valueLabel && valueLabel.length > 1
 
-  return (
-    <Tooltip text={valueLabel && valueLabel.length > 1 ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} className={className} valign="bottom" enableHover>
-      <div className={classNames(
-        styles[baseClassName],
-        size && styles[`${baseClassName}--${size}`]
-      )}>
-        <div className={styles[`${baseClassName}__label`]}>
-          {prefix &&
-            <span>{prefix} </span>
+    return (
+      <Tooltip text={enableHover ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} className={className} valign="bottom" enableHover={enableHover}>
+        <div className={classNames(
+          styles[baseClassName],
+          size && styles[`${baseClassName}--${size}`]
+        )}>
+          <div className={styles[`${baseClassName}__label`]}>
+            {prefix &&
+              <span>{prefix} </span>
+            }
+            {label}
+          </div>
+          <div className={styles[`${baseClassName}__value`]}>
+            {value}
+          </div>
+          {valueLabel &&
+            <div
+              className={classNames(styles[`${baseClassName}__label`], styles[`${baseClassName}__label--simple`])}
+              dangerouslySetInnerHTML={{ __html: sentence(valueLabel) }}
+            />
           }
-          {label}
         </div>
-        <div className={styles[`${baseClassName}__value`]}>
-          {value}
-        </div>
-        {valueLabel &&
-          <div
-            className={classNames(styles[`${baseClassName}__label`], styles[`${baseClassName}__label--simple`])}
-            dangerouslySetInnerHTML={{ __html: sentence(valueLabel) }}
-          />
-        }
-      </div>
-    </Tooltip>
-  )
+      </Tooltip>
+    )
+  }
 }
 
 Stat.propTypes = {
@@ -58,95 +62,98 @@ Stat.propTypes = {
   className: PropTypes.string
 }
 
-const StatList = ({ stats, kicker, top, size }) => {
-  if (!stats || stats.length < 1) return null
+class StatList extends PureComponent {
+  render () {
+    const { stats, kicker, top, size } = this.props
 
-  var keys = Object.keys(stats)
-  var filteredKeys = [
-    'id',
-    'updated'
-  ]
-  const kdaKeys = [
-    'kills',
-    'deaths',
-    'assists'
-  ]
-  const kdKey = 'kd'
-  const kdaKey = 'kda'
-  const bonusesKey = 'bonuses'
-  const ppgKeys = [
-    'score',
-    'games'
-  ]
-  const ppgKey = 'ppg'
+    if (!stats || stats.length < 1) return null
 
-  if (keys.filter(key => kdaKeys.indexOf(key) !== -1).length === kdaKeys.length) {
-    const index = keys.indexOf(kdaKeys[0])
+    var keys = Object.keys(stats)
+    var filteredKeys = [
+      'lastPlayed'
+    ]
+    const kdaKeys = [
+      'kills',
+      'deaths',
+      'assists'
+    ]
+    const kdKey = 'kd'
+    const kdaKey = 'kda'
+    const bonusesKey = 'bonuses'
+    const ppgKeys = [
+      'score',
+      'games'
+    ]
+    const ppgKey = 'ppg'
 
-    keys.splice(index, kdaKeys.length, kdKey, kdaKey)
-    stats[kdKey] = statsHelper.kd(stats)
-    stats[kdaKey] = statsHelper.kda(stats)
-  }
+    if (keys.filter(key => kdaKeys.indexOf(key) !== -1).length === kdaKeys.length) {
+      const index = keys.indexOf(kdaKeys[0])
 
-  if (keys.indexOf(ppgKey) === -1 && keys.filter(key => ppgKeys.indexOf(key) !== -1).length === ppgKeys.length) {
-    const index = keys.indexOf(ppgKeys[0])
-
-    keys.splice(index, 1, ppgKey, ppgKeys[0])
-    stats[ppgKey] = statsHelper.ppg(stats)
-  }
-
-  const bonusesIndex = keys.indexOf(bonusesKey)
-
-  if (bonusesIndex !== -1) {
-    const bonusesKeys = stats[bonusesKey].map(bonus => {
-      const key = bonus.shortName
-
-      if (keys.indexOf(key.toLowerCase()) !== -1) return null
-      stats[key] = bonus.count
-      return key
-    })
-
-    keys.splice(bonusesIndex, 1, ...bonusesKeys)
-  }
-
-  keys = Array.from(new Set(keys)).reduce((filtered, key) => {
-    if (filteredKeys.indexOf(key) === -1) {
-      filtered.push(key)
+      keys.splice(index, kdaKeys.length, kdKey, kdaKey)
+      stats[kdKey] = statsHelper.kd(stats)
+      stats[kdaKey] = statsHelper.kda(stats)
     }
 
-    return filtered
-  }, [])
+    if (keys.indexOf(ppgKey) === -1 && keys.filter(key => ppgKeys.indexOf(key) !== -1).length === ppgKeys.length) {
+      const index = keys.indexOf(ppgKeys[0])
 
-  return (
-    <Fragment>
-      {kicker &&
-        <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+      keys.splice(index, 1, ppgKey, ppgKeys[0])
+      stats[ppgKey] = statsHelper.ppg(stats)
+    }
+
+    const bonusesIndex = keys.indexOf(bonusesKey)
+
+    if (bonusesIndex !== -1) {
+      const bonusesKeys = stats[bonusesKey].map(bonus => {
+        const key = bonus.shortName
+
+        if (keys.indexOf(key.toLowerCase()) !== -1) return null
+        stats[key] = bonus.count
+        return key
+      })
+
+      keys.splice(bonusesIndex, 1, ...bonusesKeys)
+    }
+
+    keys = Array.from(new Set(keys)).reduce((filtered, key) => {
+      if (filteredKeys.indexOf(key) === -1) {
+        filtered.push(key)
       }
-      <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
-        {keys.map((key, i) => {
-          const label = sentenceCase(key)
-          var stat = stats[key]
-          var prefix
 
-          if (stat === null) stat = constants.blank
+      return filtered
+    }, [])
 
-          if (top) {
-            prefix = constants.prefix.most
+    return (
+      <Fragment>
+        {kicker &&
+          <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+        }
+        <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
+          {keys.map((key, i) => {
+            const label = sentenceCase(key)
+            var stat = stats[key]
+            var prefix
 
-            if (key.match(/(kd|kda|ppg|score)/)) {
-              prefix = constants.prefix.highest
+            if (stat === null) stat = constants.blank
+
+            if (top) {
+              prefix = constants.prefix.most
+
+              if (key.match(/(kd|kda|ppg|score)/)) {
+                prefix = constants.prefix.highest
+              }
             }
-          }
 
-          return (
-            <li key={i}>
-              <Stat label={label} stat={stat} prefix={prefix} size={size} />
-            </li>
-          )
-        })}
-      </ul>
-    </Fragment>
-  )
+            return (
+              <li key={i}>
+                <Stat label={label} stat={stat} prefix={prefix} size={size} />
+              </li>
+            )
+          })}
+        </ul>
+      </Fragment>
+    )
+  }
 }
 
 StatList.propTypes = {

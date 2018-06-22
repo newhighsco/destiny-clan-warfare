@@ -20,9 +20,9 @@ const constants = {
     url: 'YYYY-MM-DD'
   },
   divisions: [
-    { size: 'Large', division: 'Company' },
-    { size: 'Medium', division: 'Platoon' },
-    { size: 'Small', division: 'Squad' }
+    { key: 'Large', name: 'Company', size: '61+ members' },
+    { key: 'Medium', name: 'Platoon', size: '31-60 members' },
+    { key: 'Small', name: 'Squad', size: '1-30 members' }
   ],
   result: {
     win: 'win',

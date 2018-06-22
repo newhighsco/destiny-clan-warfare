@@ -12,7 +12,7 @@ const possessive = (s) => {
 }
 
 const sentence = (a) => {
-  return a ? a.sort().join(', ').replace(/,(?!.*,)/g, ' &') : ''
+  return a ? a.filter(a => a).sort().join(', ').replace(/,(?!.*,)/g, ' &') : ''
 }
 
 module.exports = {

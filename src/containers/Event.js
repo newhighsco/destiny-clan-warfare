@@ -72,7 +72,7 @@ class EventContainer extends PureComponent {
     }
 
     return (
-      <PageContainer {...meta}>
+      <PageContainer meta={meta}>
         <Lockup primary center kicker={kicker}>
           {event.isCurrent &&
             <RelativeDate status />

@@ -37,7 +37,7 @@ const extensions = [ 'png', 'psd', 'svg' ]
 class BrandingContainer extends PureComponent {
   render () {
     return (
-      <PageContainer {...meta}>
+      <PageContainer meta={meta}>
         <Lockup primary center element="h1" kicker="Branding" />
         <Card>
           <Lockup center element="h2" heading="Logos" />

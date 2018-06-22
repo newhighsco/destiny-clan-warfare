@@ -15,13 +15,24 @@ const meta = {
 class EventsContainer extends PureComponent {
   render () {
     const { events } = this.props
+    const leaderboard = events.map(event => {
+      const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? null : constants.kicker.future)
+
+      return {
+        game: {
+          ...event,
+          name: `${event.name}${kicker ? ` - ${kicker}` : ''}`
+        },
+        modifiers: event.modifiers
+      }
+    })
 
     return (
       <PageContainer meta={meta}>
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Events" />
         </Card>
-        <Leaderboard cutout data={events} />
+        <Leaderboard cutout data={leaderboard} />
       </PageContainer>
     )
   }

@@ -12,6 +12,8 @@ const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungie = require('../../utils/bungie-helper')
 const apiStatus = require('../../utils/api-status')
+
+const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
@@ -107,7 +109,6 @@ class Enrollment extends Component {
     const { clans } = this.props
     const { active, open, groups, selectedGroup } = this.state
     const id = constants.prefix.enroll
-    const baseClassName = 'enrollment'
     const kicker = open ? 'Enroll your clan today' : 'Enrollment closed'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'

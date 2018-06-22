@@ -16,7 +16,7 @@ class ClansContainer extends PureComponent {
     const { clans } = this.props
 
     return (
-      <PageContainer {...meta}>
+      <PageContainer meta={meta}>
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Clans" />
         </Card>

@@ -17,7 +17,7 @@ const meta = {
 class SupportUsContainer extends PureComponent {
   render () {
     return (
-      <PageContainer {...meta}>
+      <PageContainer meta={meta}>
         <Lockup primary center element="h1" kicker="Support us" />
         <div className="grid grid--flex grid--stacked">
           <div className="grid__item tablet-landscape-one-half">

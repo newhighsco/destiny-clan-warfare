@@ -17,7 +17,7 @@ class EventsContainer extends PureComponent {
     const { events } = this.props
 
     return (
-      <PageContainer {...meta}>
+      <PageContainer meta={meta}>
         <Card cutout center>
           <Lockup primary center kicker="All" heading="Events" />
         </Card>

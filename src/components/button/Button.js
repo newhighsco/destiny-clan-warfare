@@ -26,7 +26,7 @@ const Button = class extends PureComponent {
           {...commonAttributes}
           type={type}
         >
-          {children}
+          <span>{children}</span>
         </button>
       )
     }
@@ -41,7 +41,7 @@ const Button = class extends PureComponent {
           {...target && { target }}
           {...target === '_blank' && { rel: 'noopener noreferrer' }}
         >
-          {children}
+          <span>{children}</span>
         </a>
       )
     }
@@ -53,7 +53,7 @@ const Button = class extends PureComponent {
         to={{ pathname: href, state: state }}
         prefetch={prefetch}
       >
-        {children}
+        <span>{children}</span>
       </Link>
     )
   }

@@ -1,48 +1,53 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Tag.styl'
 
 const baseClassName = 'tag'
+const allowedTags = [
+  { name: 'Beta Tester', tier: 3, label: 'Beta' },
+  { name: 'Creator', tier: 1, label: 'Creator' },
+  { name: 'Insider', tier: 2, label: 'Insider' }
+]
 
-const Tag = ({ name }) => {
-  const allowedTags = [
-    { name: 'Beta Tester', tier: 3, label: 'Beta' },
-    { name: 'Creator', tier: 1, label: 'Creator' },
-    { name: 'Insider', tier: 2, label: 'Insider' }
-  ]
+class Tag extends PureComponent {
+  render () {
+    const { name } = this.props
+    const allowed = allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
 
-  const allowed = allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
+    if (!allowed) return null
 
-  if (!allowed) return null
-
-  return (
-    <div
-      className={classNames(
-        styles[baseClassName],
-        allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`]
-      )}
-      data-label={allowed.label}
-    />
-  )
+    return (
+      <div
+        className={classNames(
+          styles[baseClassName],
+          allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`]
+        )}
+        data-label={allowed.label}
+      />
+    )
+  }
 }
 
 Tag.propTypes = {
   name: PropTypes.string
 }
 
-const TagList = ({ tags, className }) => {
-  if (!tags || tags.length < 1) return null
+class TagList extends PureComponent {
+  render () {
+    const { tags, className } = this.props
+    if (!tags || tags.length < 1) return null
 
-  return (
-    <ul className={classNames('list--inline', styles[`${baseClassName}-list`], className)}>
-      {tags.map((tag, i) => (
-        <li key={i}>
-          <Tag {...tag} />
-        </li>
-      ))}
-    </ul>
-  )
+    return (
+      <ul className={classNames('list--inline', styles[`${baseClassName}-list`], className)}>
+        {tags.map((tag, i) => (
+          <li key={i}>
+            <Tag {...tag} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
 }
 
 TagList.propTypes = {

@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
-import { withRouteData, Head } from 'react-static'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import { Button, ButtonGroup } from '../components/button/Button'
@@ -7,48 +7,54 @@ import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
-import CurrentEvent from '../components/event/CurrentEvent'
-import PreviousEvent from '../components/event/PreviousEvent'
-import FutureEvent from '../components/event/FutureEvent'
+import EventCurrent from '../components/event/Current'
+import EventPrevious from '../components/event/Previous'
+import EventFuture from '../components/event/Future'
 import LogoImage from '../images/avatar-512x512.jpg'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class IndexPage extends PureComponent {
+const meta = {
+  schema: {
+    '@context': 'http://schema.org',
+    '@type': 'Organization',
+    name: constants.meta.name,
+    url: process.env.SITE_URL,
+    logo: `${LogoImage}`,
+    sameAs: [
+      constants.social.twitter
+    ]
+  }
+}
+
+class HomeContainer extends PureComponent {
   render () {
-    const { clans, currentEvents, pastEvents, futureEvents } = this.props
-    const currentEvent = currentEvents ? currentEvents[0] : null
-    const previousEvent = pastEvents ? pastEvents[0] : null
-    const nextEvent = futureEvents ? futureEvents[0] : null
-    const schema = {
-      '@context': 'http://schema.org',
-      '@type': 'Organization',
-      name: constants.meta.name,
-      url: process.env.SITE_URL,
-      logo: `${LogoImage}`,
-      sameAs: [
-        constants.social.twitter
-      ]
-    }
+    const { clans, events } = this.props
+    var currentEvent
+    var previousEvent
+    var nextEvent
+
+    events.map(event => {
+      if (event.isCurrent && !currentEvent) currentEvent = event
+      if (event.isPast && !previousEvent) previousEvent = event
+      if (event.isFuture) nextEvent = event
+    })
 
     return (
-      <PageContainer>
-        <Head>
-          <script type="application/ld+json">{JSON.stringify(schema)}</script>
-        </Head>
+      <PageContainer meta={meta}>
         <Enrollment clans={clans} />
         {currentEvent ? (
           <Fragment>
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate status />
             </Lockup>
-            <CurrentEvent event={currentEvent} element="h2" summary />
+            <EventCurrent event={currentEvent} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <PreviousEvent event={previousEvent} element="h2" summary />
+                <EventPrevious event={previousEvent} element="h2" summary />
               </Fragment>
             }
             {nextEvent &&
@@ -57,7 +63,7 @@ class IndexPage extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} element="h2" summary />
+                <EventFuture event={nextEvent} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -66,7 +72,7 @@ class IndexPage extends PureComponent {
             {nextEvent &&
               <Fragment>
                 <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
-                <FutureEvent event={nextEvent} element="h2" summary />
+                <EventFuture event={nextEvent} element="h2" summary />
               </Fragment>
             }
             {previousEvent &&
@@ -75,7 +81,7 @@ class IndexPage extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <PreviousEvent event={previousEvent} element="h2" summary />
+                <EventPrevious event={previousEvent} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -88,11 +94,9 @@ class IndexPage extends PureComponent {
   }
 }
 
-IndexPage.propTypes = {
+HomeContainer.propTypes = {
   clans: PropTypes.array,
-  currentEvents: PropTypes.array,
-  pastEvents: PropTypes.array,
-  futureEvents: PropTypes.array
+  events: PropTypes.array
 }
 
-export default withRouteData(IndexPage)
+export default withRouteData(HomeContainer)

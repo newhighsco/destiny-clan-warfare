@@ -64,12 +64,10 @@ class Tooltip extends PureComponent {
           type="button"
           className={classNames('text-button', styles[triggerClassName], hasContent && styles[`${triggerClassName}--enabled`])}
           aria-label="Open tooltip"
-          {...enableHover ? {
+          {...enableHover && {
             onMouseOver: this.showTooltip,
             onMouseOut: this.hideTooltip,
             onTouchEnd: active ? this.hideTooltip : this.showTooltip
-          } : {
-            onClick: active ? this.hideTooltip : this.showTooltip
           }}
           >
           {children}

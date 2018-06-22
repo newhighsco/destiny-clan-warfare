@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -7,43 +7,45 @@ import styles from './Lockup.styl'
 const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
-const Lockup = ({ heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, id, element, children }) => {
-  const commonAttributes = {
-    id: id,
-    className: classNames(
-      styles[baseClassName],
-      reverse && styles[`${baseClassName}--reverse`],
-      center && styles[`${baseClassName}--center`],
-      borderless && styles[`${baseClassName}--borderless`],
-      primary && styles[`${baseClassName}--primary`],
-      className
+class Lockup extends PureComponent {
+  render () {
+    const { heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, id, element, children } = this.props
+    const commonAttributes = {
+      id,
+      className: classNames(
+        styles[baseClassName],
+        reverse && styles[`${baseClassName}--reverse`],
+        center && styles[`${baseClassName}--center`],
+        borderless && styles[`${baseClassName}--borderless`],
+        primary && styles[`${baseClassName}--primary`],
+        className
+      )
+    }
+
+    const kickerElement = heading ? 'span' : element
+    const headingElement = element || 'h1'
+
+    const Kicker = () => <LockupElement element={kickerElement} elementName="kicker" href={kickerHref}>{kicker}</LockupElement>
+    const Heading = () => <LockupElement element={headingElement} elementName="heading" href={headingHref}>{heading}</LockupElement>
+    const Content = () => <LockupElement elementName="content">{children}</LockupElement>
+
+    return (
+      <span {...commonAttributes}>
+        {reverse ? (
+          <Fragment>
+            <Heading />
+            <Kicker />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Kicker />
+            <Heading />
+          </Fragment>
+        )}
+        <Content />
+      </span>
     )
   }
-
-  const kickerElement = heading ? 'span' : element
-  const headingElement = element || 'h1'
-
-  const Kicker = () => <LockupElement element={kickerElement} elementName="kicker" href={kickerHref}>{kicker}</LockupElement>
-  const Heading = () => <LockupElement element={headingElement} elementName="heading" href={headingHref}>{heading}</LockupElement>
-  const Content = () => <LockupElement elementName="content">{children}</LockupElement>
-
-  return (
-    <span {...commonAttributes}>
-      {reverse ? (
-        <Fragment>
-          <Heading />
-          <Kicker />
-          <Content />
-        </Fragment>
-      ) : (
-        <Fragment>
-          <Kicker />
-          <Heading />
-          <Content />
-        </Fragment>
-      )}
-    </span>
-  )
 }
 
 Lockup.propTypes = {
@@ -61,35 +63,38 @@ Lockup.propTypes = {
   children: PropTypes.node
 }
 
-const LockupElement = ({ children, element, elementName, href }) => {
-  const Element = element
-  const commonAttributes = {
-    className: styles[`${baseClassName}__${elementName}`]
-  }
-
-  if (children) {
-    if (!href) {
-      return (
-        <Element {...commonAttributes}>{children}</Element>
-      )
+class LockupElement extends PureComponent {
+  render () {
+    const { children, element, elementName, href } = this.props
+    const Element = element
+    const commonAttributes = {
+      className: styles[`${baseClassName}__${elementName}`]
     }
 
-    if (absoluteUrl(href)) {
+    if (children) {
+      if (!href) {
+        return (
+          <Element {...commonAttributes}>{children}</Element>
+        )
+      }
+
+      if (absoluteUrl(href)) {
+        return (
+          <a href={href} {...commonAttributes}>
+            <Element>{children}</Element>
+          </a>
+        )
+      }
+
       return (
-        <a href={href} {...commonAttributes}>
+        <Link to={href} {...commonAttributes}>
           <Element>{children}</Element>
-        </a>
+        </Link>
       )
     }
 
-    return (
-      <Link to={href} {...commonAttributes}>
-        <Element>{children}</Element>
-      </Link>
-    )
+    return null
   }
-
-  return (null)
 }
 
 LockupElement.defaultProps = {

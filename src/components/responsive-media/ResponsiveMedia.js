@@ -1,28 +1,30 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './ResponsiveMedia.styl'
 
 const ratioRegex = /^\d+:\d+$/
 
-const ResponsiveMedia = ({ children, ratio, className }) => {
-  if (!ratio) return children
+class ResponsiveMedia extends PureComponent {
+  render () {
+    const { children, ratio, className } = this.props
 
-  const ratioParts = ratio.split(':')
-  const ratioPercentage = ratio && (ratioParts[1] / ratioParts[0]) * 100
-  const ratioPercentageRounded = ratioPercentage && parseFloat(ratioPercentage.toFixed(4))
+    if (!ratio) return children
 
-  return (
-    <div
-      className={classNames(styles['responsive-media'], className)}
-      style={ratio && { paddingBottom: `${ratioPercentageRounded}%` }}
-      >
-      {children}
-    </div>
-  )
+    const ratioParts = ratio.split(':')
+    const ratioPercentage = ratio && (ratioParts[1] / ratioParts[0]) * 100
+    const ratioPercentageRounded = ratioPercentage && parseFloat(ratioPercentage.toFixed(4))
+
+    return (
+      <div
+        className={classNames(styles['responsive-media'], className)}
+        style={ratio && { paddingBottom: `${ratioPercentageRounded}%` }}
+        >
+        {children}
+      </div>
+    )
+  }
 }
-
-ResponsiveMedia.defaultProps = {}
 
 ResponsiveMedia.propTypes = {
   children: PropTypes.node.isRequired,

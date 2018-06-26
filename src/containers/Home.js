@@ -32,17 +32,10 @@ class HomeContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { events } = this.props
-
-    var currentEvent
-    var previousEvent
-    var nextEvent
-
-    events.map(event => {
-      if (event.isCurrent && !currentEvent) currentEvent = event
-      if (event.isPast && !previousEvent) previousEvent = event
-      if (event.isFuture) nextEvent = event
-    })
+    const { events, currentEventId, previousEventId } = this.props
+    const currentEvent = events.find(({ id }) => id === currentEventId)
+    const previousEvent = events.find(({ id }) => id === previousEventId)
+    const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
 
     this.state = {
       currentEvent,
@@ -110,7 +103,9 @@ class HomeContainer extends PureComponent {
 
 HomeContainer.propTypes = {
   clans: PropTypes.array,
-  events: PropTypes.array
+  events: PropTypes.array,
+  currentEventId: PropTypes.number,
+  previousEventId: PropTypes.number
 }
 
 export default withRouteData(HomeContainer)

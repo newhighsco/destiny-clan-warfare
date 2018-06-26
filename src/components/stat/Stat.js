@@ -68,6 +68,7 @@ class StatList extends PureComponent {
 
     if (!stats || stats.length < 1) return null
 
+    // TODO: Move all these calculators out of render
     var keys = Object.keys(stats)
     var filteredKeys = [
       'id',

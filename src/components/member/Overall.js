@@ -63,6 +63,7 @@ class MemberOverall extends PureComponent {
         ]
       }
     }
+    // TODO: Add missing columns
     const pastEvents = member.previousTotals && member.previousTotals.games > 0 ? [ member.previousTotals ] : []
     const stats = member.totals && member.totals.games ? member.totals : null
 

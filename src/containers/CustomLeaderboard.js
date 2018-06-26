@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { withRouteData, Head } from 'react-static'
+import React, { PureComponent } from 'react'
+import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -10,6 +10,14 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
+
+const columns = [
+  'rank',
+  'overall',
+  'active',
+  'size',
+  'score'
+]
 
 const setHash = tags => {
   const ids = getIds(tags)
@@ -22,17 +30,28 @@ const setHash = tags => {
   }
 }
 
-class LeaderboardPage extends Component {
+class CustomLeaderboardContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { leaderboard, history: { location: { hash } } } = this.props
+    const { history: { location: { hash } }, clans, events, currentEventId, previousEventId } = this.props
+    const eventId = currentEventId || previousEventId
+    const event = events.find(({ id }) => id === eventId)
     const ids = hash.replace(constants.prefix.hash, '').split(',')
-    const suggestions = leaderboard.map(({ id, name }) => ({ id: `${id}`, name }))
+    const suggestions = clans.map(({ id, name }) => ({ id: `${id}`, name }))
     const tags = suggestions.filter(({ id }) => filterById(ids, id))
+    const leaderboard = event.leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
+    const meta = {
+      kicker: currentEventId ? constants.kicker.current : constants.kicker.previous,
+      kickerHref: event.path,
+      title: 'Custom leaderboard',
+      description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
+    }
 
     this.state = {
       active: false,
+      meta,
+      leaderboard,
       suggestions,
       tags
     }
@@ -67,32 +86,17 @@ class LeaderboardPage extends Component {
   }
 
   render () {
-    const { event, leaderboard } = this.props
-    const { active, tags, suggestions } = this.state
+    const { currentEventId } = this.props
+    const { active, meta, leaderboard, tags, suggestions } = this.state
     const hasLeaderboard = leaderboard.length > 0
     const ids = getIds(tags)
     const visible = tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : []
-    const title = 'Custom leaderboard'
-    const description = `Create and share custom leaderboards for the latest ${constants.meta.name} event`
-    const isCurrent = event.isCurrent
     const hasVisible = visible && visible.length > 0
-    const columns = hasVisible ? Object.keys(visible[0]) : []
-
-    if (!isCurrent) {
-      columns.splice(columns.indexOf('active'), 1)
-      columns.splice(columns.indexOf('size'), 1)
-    }
 
     return (
-      <PageContainer>
-        <Head>
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-        </Head>
-        <Lockup primary center kicker={isCurrent ? constants.kicker.current : constants.kicker.previous} kickerHref={event.path}>
-          {isCurrent &&
+      <PageContainer meta={meta}>
+        <Lockup primary center kicker={meta.kicker} kickerHref={meta.kickerHref}>
+          {currentEventId &&
             <RelativeDate status />
           }
         </Lockup>
@@ -109,7 +113,7 @@ class LeaderboardPage extends Component {
             />
           }
           {!hasLeaderboard &&
-            (isCurrent ? (
+            (currentEventId ? (
               <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
             ) : (
               <Notification>Results for this event are being calculated. Please check back later.</Notification>
@@ -117,17 +121,19 @@ class LeaderboardPage extends Component {
           }
         </Card>
         {hasVisible &&
-          <Leaderboard cutout data={visible} columns={columns} />
+          <Leaderboard cutout data={leaderboard} columns={columns} />
         }
       </PageContainer>
     )
   }
 }
 
-LeaderboardPage.propTypes = {
-  event: PropTypes.object,
-  leaderboard: PropTypes.array,
-  history: PropTypes.object
+CustomLeaderboardContainer.propTypes = {
+  history: PropTypes.object,
+  clans: PropTypes.array,
+  events: PropTypes.array,
+  currentEventId: PropTypes.number,
+  previousEventId: PropTypes.number
 }
 
-export default withRouteData(LeaderboardPage)
+export default withRouteData(CustomLeaderboardContainer)

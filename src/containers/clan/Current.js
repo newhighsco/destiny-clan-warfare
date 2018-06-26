@@ -27,6 +27,16 @@ const statsColumns = [
   'ppg',
   'score'
 ]
+const leaderboardColumns = [
+  'rank',
+  'games',
+  'wins',
+  'kills',
+  'assists',
+  'deaths',
+  'bonuses',
+  'score'
+]
 
 class ClanCurrentContainer extends PureComponent {
   constructor (props) {
@@ -143,7 +153,7 @@ class ClanCurrentContainer extends PureComponent {
         {hasLeaderboard &&
           <TabContainer cutout>
             <Tab id="current" name={constants.tense.current}>
-              <Leaderboard data={leaderboard} prefetch={false} />
+              <Leaderboard data={leaderboard} prefetch={false} columns={leaderboardColumns} />
             </Tab>
             <Tab name="Overall" href={clan.path} />
           </TabContainer>

@@ -50,7 +50,7 @@ class PreviousEvent extends PureComponent {
           summary ? (
             <TabContainer cutout>
               <Tab name="Winners">
-                <Leaderboard data={event.results} />
+                <Leaderboard data={event.results} columns={[ 'score' ]} />
               </Tab>
             </TabContainer>
           ) : (
@@ -58,7 +58,7 @@ class PreviousEvent extends PureComponent {
               {leaderboards.map(({ leaderboard, division }) => {
                 return (
                   <Tab key={division.name} name={division.name} title={division.size}>
-                    <Leaderboard data={leaderboard} />
+                    <Leaderboard data={leaderboard} columns={[ 'rank', 'overall', 'score' ]} />
                   </Tab>
                 )
               })}

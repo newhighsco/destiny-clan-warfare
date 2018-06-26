@@ -262,7 +262,7 @@ export default {
           .then(({ data }) => {
             MultiSort(data, 'DatePlayed', 'DESC').map(item => {
               item = camelcaseKeys(item, casingOptions)
-              const id = item.membershipIdStr
+              const id = item.memberShipIdStr
               const existing = histories[id]
 
               if (existing) {
@@ -534,7 +534,7 @@ export default {
           kills: item.kills,
           assists: item.assists,
           deaths: item.deaths,
-          bonuses: currentEvent ? parseBonuses(item, currentEvent.modifiers.map(({ id }) => (id))) : [],
+          bonuses: parseBonuses(item),
           score: parseInt(Math.round(item.totalScore))
         })),
         pastEvents

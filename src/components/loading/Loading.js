@@ -3,7 +3,9 @@ import HoldingPage from '../holding-page/HoldingPage'
 import { Lockup } from '../lockup/Lockup'
 
 const meta = {
-  title: 'Loading...'
+  title: 'Loading...',
+  description: 'Please be patient, this page is loading',
+  robots: 'noindex,nofollow'
 }
 
 class Loading extends PureComponent {

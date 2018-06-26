@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './ClanTag.styl'
 
+const baseClassName = 'clan-tag'
+
 const ClanTag = class extends PureComponent {
   render () {
     const { children, className, href } = this.props
-    const baseClassName = 'clan-tag'
     const classes = classNames(styles[baseClassName], className)
     const Element = href ? Link : 'span'
 

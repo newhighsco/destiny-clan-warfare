@@ -15,8 +15,11 @@ const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
 class EventContainer extends PureComponent {
-  render () {
+  constructor (props) {
+    super(props)
+
     const { event } = this.props
+
     const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? constants.kicker.past : constants.kicker.future)
     const title = `${event.name} | ${kicker}`
     const description = event.isCurrent
@@ -66,14 +69,23 @@ class EventContainer extends PureComponent {
       }
     ]
     const meta = {
+      kicker,
       title,
       description,
       schema
     }
 
+    this.state = {
+      meta
+    }
+  }
+  render () {
+    const { event } = this.props
+    const { meta } = this.state
+
     return (
       <PageContainer meta={meta}>
-        <Lockup primary center kicker={kicker}>
+        <Lockup primary center kicker={meta.kicker}>
           {event.isCurrent &&
             <RelativeDate status />
           }

@@ -10,6 +10,7 @@ import TwitterSvg from '../../images/twitter.svg'
 import styles from './Header.styl'
 
 const constants = require('../../utils/constants')
+
 const baseClassName = 'header'
 const links = [
   { href: constants.social.twitter, text: 'Follow us on Twitter', icon: TwitterSvg },

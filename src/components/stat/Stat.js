@@ -70,7 +70,10 @@ class StatList extends PureComponent {
 
     var keys = Object.keys(stats)
     var filteredKeys = [
-      'lastPlayed'
+      'id',
+      'path',
+      'lastPlayed',
+      'updated'
     ]
     const kdaKeys = [
       'kills',

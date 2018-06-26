@@ -33,8 +33,8 @@ class CurrentEvent extends PureComponent {
 
     if (!event) return null
 
-    const leaderboards = event.leaderboards ? event.leaderboards : []
-    const hasLeaderboards = leaderboards.reduce((result, leaderboard) => (result = leaderboard.data.length > 0), false)
+    const leaderboards = event.leaderboards
+    const hasLeaderboards = leaderboards.length === constants.divisions.length
 
     return (
       <Fragment>
@@ -47,7 +47,7 @@ class CurrentEvent extends PureComponent {
             </Prose>
           }
           <ModifierList modifiers={event.modifiers} />
-          {hasLeaderboards && summary &&
+          {summary && hasLeaderboards &&
             <Button href={`${event.path}#leaderboard`}>View full leaderboard</Button>
           }
           {!summary && enrollmentOpen &&
@@ -59,10 +59,10 @@ class CurrentEvent extends PureComponent {
         </Card>
         {hasLeaderboards &&
           <TabContainer id={!summary ? 'leaderboard' : null} cutout>
-            {leaderboards.map(leaderboard => {
+            {leaderboards.map(({ leaderboard, division }) => {
               return (
-                <Tab key={leaderboard.name} name={leaderboard.name}>
-                  <Leaderboard data={leaderboard.data} />
+                <Tab key={division.name} name={division.name} title={division.size}>
+                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} />
                 </Tab>
               )
             })}

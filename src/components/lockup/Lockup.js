@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import styles from './Lockup.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')
+
 const baseClassName = 'lockup'
 
 class Lockup extends PureComponent {

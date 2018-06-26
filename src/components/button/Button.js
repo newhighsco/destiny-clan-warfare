@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import styles from './Button.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')
+
 const baseClassName = 'button'
 
 const Button = class extends PureComponent {

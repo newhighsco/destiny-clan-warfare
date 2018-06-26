@@ -29,8 +29,11 @@ const meta = {
 }
 
 class HomeContainer extends PureComponent {
-  render () {
-    const { clans, events } = this.props
+  constructor (props) {
+    super(props)
+
+    const { events } = this.props
+
     var currentEvent
     var previousEvent
     var nextEvent
@@ -40,6 +43,17 @@ class HomeContainer extends PureComponent {
       if (event.isPast && !previousEvent) previousEvent = event
       if (event.isFuture) nextEvent = event
     })
+
+    this.state = {
+      currentEvent,
+      previousEvent,
+      nextEvent
+    }
+  }
+
+  render () {
+    const { clans } = this.props
+    const { currentEvent, previousEvent, nextEvent } = this.state
 
     return (
       <PageContainer meta={meta}>

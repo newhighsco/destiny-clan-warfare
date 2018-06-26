@@ -8,6 +8,7 @@ import styles from './Avatar.styl'
 const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
 const online = require('../../utils/online')
+
 const baseClassName = 'avatar'
 
 const AvatarLayer = class extends PureComponent {

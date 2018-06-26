@@ -9,7 +9,7 @@ import XboxSvg from './icons/xbox.svg'
 import styles from './Platform.styl'
 
 const baseClassName = 'platform'
-const icons = [
+const allowedPlatforms = [
   { id: 1, Svg: XboxSvg, name: 'Xbox Live' },
   { id: 2, Svg: PlaystationSvg, name: 'PlayStation Network' },
   { id: 4, Svg: BattlenetSvg, name: 'Battle.net' }
@@ -18,7 +18,7 @@ const icons = [
 class Platform extends PureComponent {
   render () {
     const { platform, size } = this.props
-    const { Svg, name } = icons.find(({ id }) => id === platform.id)
+    const { Svg, name } = allowedPlatforms.find(({ id }) => id === platform.id)
 
     if (!Svg) return null
 

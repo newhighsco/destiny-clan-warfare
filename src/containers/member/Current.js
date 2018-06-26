@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
-import EventMember from '../components/member/EventMember'
-import Loading from '../components/loading/Loading'
+import MemberCurrent from '../../components/member/Current'
+import Loading from '../../components/loading/Loading'
 
-const urlBuilder = require('../utils/url-builder')
+const urlBuilder = require('../../utils/url-builder')
 
-class EventMemberTemplate extends PureComponent {
+class MemberCurrentContainer extends PureComponent {
   constructor (props) {
     super(props)
 
     const { location: { state } } = this.props
 
     this.state = {
+      clan: state ? state.clan : null,
       member: state ? state.member : null
     }
   }
@@ -26,8 +27,9 @@ class EventMemberTemplate extends PureComponent {
       const memberId = match.params.member
 
       prefetch(urlBuilder.currentEventUrl(clanId))
-        .then(({ members }) => {
+        .then(({ clan, members }) => {
           this.setState({
+            clan,
             member: members.find(({ id }) => id === memberId)
           })
         })
@@ -44,14 +46,14 @@ class EventMemberTemplate extends PureComponent {
     }
 
     return (
-      <EventMember member={member} />
+      <MemberCurrent {...this.state} />
     )
   }
 }
 
-EventMemberTemplate.propTypes = {
+MemberCurrentContainer.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object
 }
 
-export default EventMemberTemplate
+export default MemberCurrentContainer

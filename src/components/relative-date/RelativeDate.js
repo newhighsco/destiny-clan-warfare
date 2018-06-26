@@ -19,6 +19,7 @@ class RelativeDate extends PureComponent {
   }
 
   render () {
+    // TODO: Improve this no end
     const { status, start, end, className } = this.props
     var { label } = this.props
     const { active } = this.state

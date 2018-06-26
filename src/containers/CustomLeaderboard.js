@@ -86,6 +86,7 @@ class CustomLeaderboardContainer extends PureComponent {
   }
 
   render () {
+    // TODO: Move this out of render
     const { currentEventId } = this.props
     const { active, meta, leaderboard, tags, suggestions } = this.state
     const hasLeaderboard = leaderboard.length > 0

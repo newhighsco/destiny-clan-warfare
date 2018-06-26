@@ -16,6 +16,16 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
+const columns = [
+  'games',
+  'wins',
+  'kd',
+  'kda',
+  'bonuses',
+  'ppg',
+  'score'
+]
+
 class MemberOverall extends PureComponent {
   constructor (props) {
     super(props)
@@ -53,16 +63,19 @@ class MemberOverall extends PureComponent {
         ]
       }
     }
+    const pastEvents = member.previousTotals && member.previousTotals.games > 0 ? [ member.previousTotals ] : []
+    const stats = member.totals && member.totals.games ? member.totals : null
 
     this.state = {
+      pastEvents,
+      stats,
       meta
     }
   }
 
   render () {
     const { clan, member } = this.props
-    const { meta } = this.state
-    const pastEvents = member.pastEvents || []
+    const { pastEvents, stats, meta } = this.state
     const hasLeaderboard = pastEvents.length > 0
     const isMultiColumn = pastEvents.length > 1
 
@@ -77,14 +90,12 @@ class MemberOverall extends PureComponent {
             <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
           </ButtonGroup>
           <MedalList medals={member.medals} kicker="Medals awarded" />
-          {member.totals && member.totals.games > 0 &&
-            <StatList stats={member.totals} kicker="Overall stats" />
-          }
+          <StatList stats={stats} kicker="Overall stats" />
         </Card>
         {hasLeaderboard &&
           <TabContainer cutout>
             <Tab name={`${constants.kicker.past}${isMultiColumn ? 's' : ''}`}>
-              <Leaderboard data={pastEvents} multiColumn={isMultiColumn} />
+              <Leaderboard data={pastEvents} columns={columns} multiColumn={isMultiColumn} />
             </Tab>
             {member.currentTotals && member.currentTotals.games > 0 &&
               <Tab name={constants.tense.current} href={urlBuilder.currentEventUrl(clan.id, member.id)} />

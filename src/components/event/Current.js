@@ -12,6 +12,14 @@ import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
 
+const columns = [
+  'rank',
+  'overall',
+  'active',
+  'size',
+  'score'
+]
+
 class CurrentEvent extends PureComponent {
   constructor (props) {
     super(props)
@@ -62,7 +70,7 @@ class CurrentEvent extends PureComponent {
             {leaderboards.map(({ leaderboard, division }) => {
               return (
                 <Tab key={division.name} name={division.name} title={division.size}>
-                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} />
+                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={columns} />
                 </Tab>
               )
             })}

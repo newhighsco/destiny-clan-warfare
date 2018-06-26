@@ -18,6 +18,17 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
+const columns = [
+  'rank',
+  'games',
+  'wins',
+  'kills',
+  'assists',
+  'deaths',
+  'bonuses',
+  'score'
+]
+
 class ClanOverallContainer extends PureComponent {
   constructor (props) {
     super(props)
@@ -49,22 +60,27 @@ class ClanOverallContainer extends PureComponent {
         ]
       }
     }
-    const leaderboard = MultiSort(members.map((member, i) => ({ ...member, ...member.totals, rank: '' })), {
+    const overall = MultiSort(members.map(member => ({ ...member, ...member.totals, rank: '' })), {
       score: 'DESC',
       lastPlayed: 'DESC'
     })
+    const previous = MultiSort(members.map(member => ({ ...member, ...member.previousTotals, rank: '' })), {
+      score: 'DESC',
+      games: 'DESC',
+      name: 'ASC'
+    })
 
     this.state = {
-      leaderboard,
+      overall,
+      previous,
       meta
     }
   }
 
   render () {
-    const { clan, currentEventId } = this.props
-    const { leaderboard, meta } = this.state
-    const hasLeaderboard = leaderboard.length > 0
-    const previousEvent = []
+    const { clan, currentEventId, previousEventId } = this.props
+    const { overall, previous, meta } = this.state
+    const hasLeaderboard = overall.length > 0 || previous.length > 0
 
     return (
       <PageContainer meta={meta}>
@@ -87,14 +103,16 @@ class ClanOverallContainer extends PureComponent {
         </Card>
         {hasLeaderboard &&
           <TabContainer cutout>
-            {previousEvent.length > 0 &&
-              <Tab id={previousEvent[0].eventId} name={constants.tense.previous}>
-                <Leaderboard data={previousEvent} prefetch={false} />
+            {previous.length > 0 &&
+              <Tab id={previousEventId} name={constants.tense.previous}>
+                <Leaderboard data={previous} prefetch={false} columns={columns} />
               </Tab>
             }
-            <Tab id="overall" name="Overall">
-              <Leaderboard data={leaderboard} prefetch={false} />
-            </Tab>
+            {overall.length > 0 &&
+              <Tab id="overall" name="Overall">
+                <Leaderboard data={overall} prefetch={false} columns={[ ...columns, 'lastPlayed' ]} />
+              </Tab>
+            }
             {currentEventId &&
               <Tab name={constants.tense.current} href={urlBuilder.currentEventUrl(clan.id)} />
             }
@@ -108,7 +126,8 @@ class ClanOverallContainer extends PureComponent {
 ClanOverallContainer.propTypes = {
   clan: PropTypes.object,
   members: PropTypes.array,
-  currentEventId: PropTypes.number
+  currentEventId: PropTypes.number,
+  previousEventId: PropTypes.number
 }
 
 export default withRouteData(ClanOverallContainer)

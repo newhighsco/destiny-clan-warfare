@@ -16,6 +16,14 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
+const columns = [
+  'kills',
+  'assists',
+  'deaths',
+  'bonuses',
+  'score'
+]
+
 class MemberCurrent extends PureComponent {
   constructor (props) {
     super(props)
@@ -63,10 +71,12 @@ class MemberCurrent extends PureComponent {
       }
     }
     const leaderboard = member.matchHistory
+    const stats = member.currentTotals && member.currentTotals.games > 0 ? member.currentTotals : null
     const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 
     this.state = {
       leaderboard,
+      stats,
       enableMatchHistory,
       meta
     }
@@ -74,7 +84,7 @@ class MemberCurrent extends PureComponent {
 
   render () {
     const { clan, member } = this.props
-    const { leaderboard, enableMatchHistory, meta } = this.state
+    const { leaderboard, stats, enableMatchHistory, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
 
     return (
@@ -88,9 +98,7 @@ class MemberCurrent extends PureComponent {
             <TagList tags={member.tags} className="card__tags" />
             <Lockup center reverse kicker={meta.kicker} kickerHref={meta.kickerHref} heading={member.name} />
             <PlatformList platforms={member.platforms} />
-            {member.currentTotals && member.currentTotals.games > 0 &&
-              <StatList stats={member.currentTotals} kicker={`${constants.tense.current} stats`} />
-            }
+            <StatList stats={stats} kicker={`${constants.tense.current} stats`} />
             {!hasLeaderboard &&
               <Notification>
                 {enableMatchHistory ? (
@@ -104,7 +112,7 @@ class MemberCurrent extends PureComponent {
           {hasLeaderboard &&
             <TabContainer cutout>
               <Tab name={`Last ${constants.matchHistoryLimit} games`}>
-                <Leaderboard data={leaderboard} />
+                <Leaderboard data={leaderboard} columns={columns} />
               </Tab>
               {member.totals && member.totals.games > 0 &&
                 <Tab name="Overall" href={urlBuilder.profileUrl(clan.id, member.id)} prefetch={false} />

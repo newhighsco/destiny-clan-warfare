@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
-import Member from '../components/member/Member'
-import Loading from '../components/loading/Loading'
+import MemberOverall from '../../components/member/Overall'
+import Loading from '../../components/loading/Loading'
 
-const urlBuilder = require('../utils/url-builder')
+const urlBuilder = require('../../utils/url-builder')
 
-class MemberTemplate extends PureComponent {
+class MemberOverallContainer extends PureComponent {
   constructor (props) {
     super(props)
 
     const { location: { state } } = this.props
 
     this.state = {
+      clan: state ? state.clan : null,
       member: state ? state.member : null
     }
   }
@@ -26,8 +27,9 @@ class MemberTemplate extends PureComponent {
       const memberId = match.params.member
 
       prefetch(urlBuilder.clanUrl(clanId))
-        .then(({ members }) => {
+        .then(({ clan, members }) => {
           this.setState({
+            clan,
             member: members.find(({ id }) => id === memberId)
           })
         })
@@ -44,14 +46,14 @@ class MemberTemplate extends PureComponent {
     }
 
     return (
-      <Member member={member} />
+      <MemberOverall {...this.state} />
     )
   }
 }
 
-MemberTemplate.propTypes = {
+MemberOverallContainer.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object
 }
 
-export default MemberTemplate
+export default MemberOverallContainer

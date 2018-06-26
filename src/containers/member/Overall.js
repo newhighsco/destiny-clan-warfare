@@ -3,7 +3,7 @@ import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
 import MemberOverall from '../../components/member/Overall'
 import Loading from '../../components/loading/Loading'
-import NotFound from '../NotFound'
+import NotFound from '../../components/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 

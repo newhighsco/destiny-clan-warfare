@@ -9,7 +9,7 @@ import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
 
-class FutureEvent extends PureComponent {
+class EventFuture extends PureComponent {
   constructor (props) {
     super(props)
 
@@ -48,14 +48,14 @@ class FutureEvent extends PureComponent {
   }
 }
 
-FutureEvent.defaultProps = {
+EventFuture.defaultProps = {
   element: 'h1'
 }
 
-FutureEvent.propTypes = {
+EventFuture.propTypes = {
   event: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }
 
-export default FutureEvent
+export default EventFuture

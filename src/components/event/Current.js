@@ -20,7 +20,7 @@ const columns = [
   'score'
 ]
 
-class CurrentEvent extends PureComponent {
+class EventCurrent extends PureComponent {
   constructor (props) {
     super(props)
 
@@ -41,7 +41,7 @@ class CurrentEvent extends PureComponent {
 
     if (!event) return null
 
-    const leaderboards = event.leaderboards
+    const leaderboards = event.leaderboards || []
     const hasLeaderboards = leaderboards.length === constants.divisions.length
 
     return (
@@ -81,14 +81,14 @@ class CurrentEvent extends PureComponent {
   }
 }
 
-CurrentEvent.defaultProps = {
+EventCurrent.defaultProps = {
   element: 'h1'
 }
 
-CurrentEvent.propTypes = {
+EventCurrent.propTypes = {
   event: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }
 
-export default CurrentEvent
+export default EventCurrent

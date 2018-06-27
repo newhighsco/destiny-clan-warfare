@@ -132,7 +132,7 @@ class Leaderboard extends PureComponent {
                       })
                     }
 
-                    if (column === 'rank' && !item.rank) item.rank = item.games && item.games > 0 ? '' : -1
+                    if (column === 'rank' && typeof item.rank === 'boolean') item.rank = item.rank === true ? '' : -1
 
                     var value = item[column]
 

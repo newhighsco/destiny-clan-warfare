@@ -49,6 +49,7 @@ const fetch = async () => {
         const totals = {
           eventId,
           path: null,
+          rank: false,
           games: -1,
           wins: -1,
           kills: -1,
@@ -67,6 +68,7 @@ const fetch = async () => {
           const score = statsHelper.total(member.TotalScore)
 
           totals.path = eventId ? urlBuilder.profileUrl(clanId, id, eventId) : urlBuilder.currentEventUrl(clanId, id)
+          totals.rank = true
           totals.games = games
           totals.wins = member.GamesWon
           totals.kills = kills
@@ -179,6 +181,7 @@ const fetch = async () => {
             const path = urlBuilder.profileUrl(clanId, id)
             const totals = {
               path: null,
+              rank: false,
               games: -1,
               wins: -1,
               kills: -1,
@@ -203,6 +206,7 @@ const fetch = async () => {
                 const score = statsHelper.total(member.CurrentScore.TotalScore)
 
                 totals.path = path
+                totals.rank = true
                 totals.games = games
                 totals.wins = member.CurrentScore.GamesWon
                 totals.kills = kills

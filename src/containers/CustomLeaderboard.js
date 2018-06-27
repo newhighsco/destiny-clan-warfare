@@ -58,7 +58,7 @@ class CustomLeaderboardContainer extends PureComponent {
 
     const emptyTotal = {
       path: null,
-      games: -1,
+      rank: false,
       overall: -1,
       active: currentEventId ? -1 : null,
       size: currentEventId ? -1 : null,
@@ -73,7 +73,7 @@ class CustomLeaderboardContainer extends PureComponent {
       var total = totals.find(({ id }) => id === clanId)
 
       if (total) {
-        total.games = 1
+        total.rank = true
       } else {
         total = emptyTotal
       }

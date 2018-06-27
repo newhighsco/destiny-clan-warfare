@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
+import MultiSort from 'multi-sort'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -10,6 +11,7 @@ import Leaderboard from '../components/leaderboard/Leaderboard'
 import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 
 const columns = [
   'rank',
@@ -18,6 +20,11 @@ const columns = [
   'size',
   'score'
 ]
+
+const getVisible = (tags, leaderboard) => {
+  const ids = getIds(tags)
+  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : []
+}
 
 const setHash = tags => {
   const ids = getIds(tags)
@@ -38,26 +45,68 @@ class CustomLeaderboardContainer extends PureComponent {
     const eventId = currentEventId || previousEventId
     const event = events.find(({ id }) => id === eventId)
     const ids = hash.replace(constants.prefix.hash, '').split(',')
-    const suggestions = clans.map(({ id, name }) => ({ id: `${id}`, name }))
-    const tags = suggestions.filter(({ id }) => filterById(ids, id))
-    const leaderboard = event.leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
+    const totals = event.leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     const meta = {
       kicker: currentEventId ? constants.kicker.current : constants.kicker.previous,
       kickerHref: event.path,
       title: 'Custom leaderboard',
       description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
     }
+    var suggestions = []
+    var tags = []
+    var leaderboard = []
+
+    const emptyTotal = {
+      path: null,
+      games: -1,
+      overall: -1,
+      active: currentEventId ? -1 : null,
+      size: currentEventId ? -1 : null,
+      score: -1,
+      updated: null
+    }
+
+    clans.map(clan => {
+      const clanId = clan.id
+      const path = currentEventId ? urlBuilder.currentEventUrl(clanId) : urlBuilder.clanUrl(clanId, eventId)
+      const suggestion = { id: clanId, name: clan.name }
+      var total = totals.find(({ id }) => id === clanId)
+
+      if (total) {
+        total.games = 1
+      } else {
+        total = emptyTotal
+      }
+
+      total = {
+        ...clan,
+        ...total,
+        path,
+        tag: null,
+        medal: null
+      }
+
+      suggestions.push(suggestion)
+      leaderboard.push(total)
+
+      if (filterById(ids, clanId)) tags.push(suggestion)
+    })
+
+    leaderboard = MultiSort(leaderboard, { score: 'DESC', name: 'ASC' })
 
     this.state = {
       active: false,
       meta,
       leaderboard,
+      hasLeaderboard: leaderboard.length > 0,
+      visible: leaderboard.filter(({ id }) => filterById(ids, id)),
       suggestions,
       tags
     }
 
     this.handleAddition = this.handleAddition.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount () {
@@ -73,7 +122,7 @@ class CustomLeaderboardContainer extends PureComponent {
     if (!existing) {
       tags.push(tag)
 
-      this.setState({ tags }, () => setHash(tags))
+      this.handleChange(tags)
     }
   }
 
@@ -82,17 +131,23 @@ class CustomLeaderboardContainer extends PureComponent {
 
     tags.splice(index, 1)
 
-    this.setState({ tags }, () => setHash(tags))
+    this.handleChange(tags)
+  }
+
+  handleChange (tags) {
+    const { leaderboard } = this.state
+    const visible = getVisible(tags, leaderboard)
+
+    this.setState({
+      tags,
+      visible
+    }, () => setHash(tags))
   }
 
   render () {
-    // TODO: Move this out of render
     const { currentEventId } = this.props
-    const { active, meta, leaderboard, tags, suggestions } = this.state
-    const hasLeaderboard = leaderboard.length > 0
-    const ids = getIds(tags)
-    const visible = tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : []
-    const hasVisible = visible && visible.length > 0
+    const { active, meta, hasLeaderboard, visible, tags, suggestions } = this.state
+    const hasVisible = visible.length > 0
 
     return (
       <PageContainer meta={meta}>
@@ -122,7 +177,7 @@ class CustomLeaderboardContainer extends PureComponent {
           }
         </Card>
         {hasVisible &&
-          <Leaderboard cutout data={leaderboard} columns={columns} />
+          <Leaderboard cutout data={visible} columns={columns} />
         }
       </PageContainer>
     )

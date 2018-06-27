@@ -60,11 +60,11 @@ class ClanOverallContainer extends PureComponent {
         ]
       }
     }
-    const overall = MultiSort(members.map(member => ({ ...member, ...member.totals, rank: '' })), {
+    const overall = MultiSort(members.map(member => ({ ...member, ...member.totals })), {
       score: 'DESC',
       lastPlayed: 'DESC'
     })
-    const previous = MultiSort(members.map(member => ({ ...member, ...member.previousTotals, rank: '' })), {
+    const previous = MultiSort(members.map(member => ({ ...member, ...member.previousTotals })), {
       score: 'DESC',
       games: 'DESC',
       name: 'ASC'

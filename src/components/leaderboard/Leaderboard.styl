@@ -1,7 +1,9 @@
 .leaderboard
+  counter-reset leaderboard
   position relative
 
 .leaderboard__row
+  counter-increment leaderboard
   display block
   line-height 1.2
   margin-bottom 1px
@@ -260,6 +262,10 @@
     max-height none
     padding $spacing--half
     width 65%
+
+.leaderboard__stat--rank
+  span:empty:after
+    content '#' counter(leaderboard)
 
 .leaderboard__external
   display inline-block

@@ -51,8 +51,6 @@ class Leaderboard extends PureComponent {
             )
           }
 
-          if (item.rank === '') item.rank = item.games > 0 ? statsHelper.ranking(i + 1) : constants.blank
-
           return (
             <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
               {item.name &&
@@ -133,6 +131,8 @@ class Leaderboard extends PureComponent {
                         )
                       })
                     }
+
+                    if (column === 'rank' && !item.rank) item.rank = item.games && item.games > 0 ? '' : -1
 
                     var value = item[column]
 

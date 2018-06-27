@@ -174,6 +174,7 @@ export default {
               tag: null,
               path: urlBuilder.currentEventUrl(clan.id),
               updated: clan.lastChecked,
+              rank: true,
               overall: statsHelper.ranking(Rank),
               active: Active,
               size: Size,
@@ -218,6 +219,7 @@ export default {
               ...clan,
               tag: null,
               medal,
+              rank: true,
               overall: statsHelper.ranking(rank),
               score
             }

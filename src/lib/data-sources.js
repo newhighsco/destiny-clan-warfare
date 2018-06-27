@@ -43,7 +43,8 @@ const fetch = async () => {
       leaderboard.map(member => {
         const id = member.IdStr
         const clanId = member.ClanId
-        const hasPlayed = member.GamesPlayed > 0
+        const games = member.GamesPlayed
+        const hasPlayed = games > 0
 
         const totals = {
           eventId,
@@ -53,17 +54,28 @@ const fetch = async () => {
           kills: -1,
           assists: -1,
           deaths: -1,
+          kd: -1,
+          kda: -1,
+          ppg: -1,
           score: -1
         }
 
         if (hasPlayed) {
+          const kills = member.Kills
+          const assists = member.Assists
+          const deaths = member.Deaths
+          const score = statsHelper.total(member.TotalScore)
+
           totals.path = eventId ? urlBuilder.profileUrl(clanId, id, eventId) : urlBuilder.currentEventUrl(clanId, id)
-          totals.games = member.GamesPlayed
+          totals.games = games
           totals.wins = member.GamesWon
-          totals.kills = member.Kills
-          totals.assists = member.Assists
-          totals.deaths = member.Deaths
-          totals.score = statsHelper.total(member.TotalScore)
+          totals.kills = kills
+          totals.assists = assists
+          totals.deaths = deaths
+          totals.kd = statsHelper.kd({ kills, deaths })
+          totals.kda = statsHelper.kda({ kills, deaths, assists })
+          totals.ppg = statsHelper.ppg({ games, score })
+          totals.score = score
         }
 
         totals.bonuses = parseBonuses(member, hasPlayed)
@@ -164,12 +176,17 @@ const fetch = async () => {
           data.map(member => {
             const id = member.ProfileIdStr
             const clanId = member.GroupId
+            const path = urlBuilder.profileUrl(clanId, id)
             const totals = {
+              path: null,
               games: -1,
               wins: -1,
               kills: -1,
               assists: -1,
               deaths: -1,
+              kd: -1,
+              kda: -1,
+              ppg: -1,
               score: -1,
               lastPlayed: -1
             }
@@ -177,40 +194,53 @@ const fetch = async () => {
 
             if (member.CurrentScore && member.CurrentScore.LastSeen) {
               totals.lastPlayed = moment.utc(member.CurrentScore.LastSeen).format(constants.format.date)
+              const games = member.CurrentScore.GamesPlayed
 
-              if (member.CurrentScore.GamesPlayed > 0) {
-                totals.games = member.CurrentScore.GamesPlayed
+              if (games > 0) {
+                const kills = member.CurrentScore.Kills
+                const assists = member.CurrentScore.Assists
+                const deaths = member.CurrentScore.Deaths
+                const score = statsHelper.total(member.CurrentScore.TotalScore)
+
+                totals.path = path
+                totals.games = games
                 totals.wins = member.CurrentScore.GamesWon
-                totals.kills = member.CurrentScore.Kills
-                totals.assists = member.CurrentScore.Assists
-                totals.deaths = member.CurrentScore.Deaths
-                totals.score = statsHelper.total(member.CurrentScore.TotalScore)
+                totals.kills = kills
+                totals.assists = assists
+                totals.deaths = deaths
+                totals.kd = statsHelper.kd({ kills, deaths })
+                totals.kda = statsHelper.kda({ kills, deaths, assists })
+                totals.ppg = statsHelper.ppg({ games, score })
+                totals.score = score
               }
             }
 
             if (member.History) {
-              member.History.map(event => {
-                const id = event.EventId
-                const games = event.Results.GamesPlayed
-                const score = statsHelper.total(event.Results.TotalScore)
-                const kills = event.Results.TotalKills
-                const assists = event.Results.TotalAssists
-                const deaths = event.Results.TotalDeaths
+              member.History.map(match => {
+                const eventId = match.EventId
+                const games = match.Results.GamesPlayed
+                const score = statsHelper.total(match.Results.TotalScore)
+                const kills = match.Results.TotalKills
+                const assists = match.Results.TotalAssists
+                const deaths = match.Results.TotalDeaths
 
                 pastEvents.push({
-                  id,
+                  id: eventId,
                   game: {
-                    path: urlBuilder.eventUrl(id),
-                    return: true,
-                    medals: medalBuilder.parseMedals(event.Medals, constants.prefix.profile)
+                    path: urlBuilder.eventUrl(eventId),
+                    result: true,
+                    // TODO: Populate event data
+                    name: null,
+                    endDate: null,
+                    medals: medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
                   },
-                  rank: statsHelper.ranking(event.Results.RankInClan),
-                  overall: statsHelper.ranking(event.Results.OverallRank),
+                  rank: statsHelper.ranking(match.Results.RankInClan),
+                  overall: statsHelper.ranking(match.Results.OverallRank),
                   games,
-                  wins: event.Results.GamesWon,
+                  wins: match.Results.GamesWon,
                   kd: statsHelper.kd({ kills, deaths }),
                   kda: statsHelper.kda({ kills, deaths, assists }),
-                  bonuses: parseBonuses(event.Results, true),
+                  bonuses: parseBonuses(match.Results, true),
                   ppg: statsHelper.ppg({ games, score }),
                   score
                 })
@@ -218,7 +248,7 @@ const fetch = async () => {
             }
 
             parsed.members.push({
-              path: urlBuilder.profileUrl(clanId, id),
+              path,
               id,
               clanId,
               name: member.Name,

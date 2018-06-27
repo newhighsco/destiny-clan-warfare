@@ -15,7 +15,6 @@ import { Tab, TabContainer } from '../../components/tab/Tab'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
-const statsHelper = require('../../utils/stats-helper')
 const possessive = require('../../utils/grammar').possessive
 
 const statsColumns = [
@@ -77,50 +76,40 @@ class ClanCurrentContainer extends PureComponent {
     const stats = {}
 
     if (leaderboard.length > 0) {
-      const findStat = (stat) => leaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
+      const findTopStat = (stat) => leaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
       const addStat = (column, stat, top) => {
         if (top) {
           const value = stat(top)
-          const names = leaderboard.filter(row => stat(row) === value).map(row => row.name)
+          const names = leaderboard.filter(row => stat(row) === value).map(({ name }) => name)
 
           stats[column] = { stat: value, label: names }
         }
       }
+      const bonusesKeys = leaderboard[0].bonuses.map(({ shortName }) => shortName)
 
       statsColumns.map(column => {
-        var stat = (row) => parseInt(row[column])
-
-        if (column === 'kd') {
-          stat = (row) => statsHelper.kd(row)
-        }
-
-        if (column === 'kda') {
-          stat = (row) => statsHelper.kda(row)
-        }
-
-        if (column === 'ppg') {
-          stat = (row) => statsHelper.ppg(row)
-        }
-
-        var top = findStat(stat)
+        var stat
+        var top
 
         if (column === 'bonuses') {
           const bonusCount = (row, key) => {
-            return row.bonuses.find(bonus => bonus.shortName === key).count
+            return row.bonuses.find(({ shortName }) => shortName === key).count
           }
-          const bonusesKeys = leaderboard[0].bonuses.map(bonus => bonus.shortName)
 
           bonusesKeys.map(key => {
             stat = (row) => bonusCount(row, key)
-            top = findStat(stat)
+            top = findTopStat(stat)
 
             addStat(key, stat, top)
           })
 
           top = null
-        }
+        } else {
+          stat = (row) => parseInt(row[column])
+          top = findTopStat(stat)
 
-        addStat(column, stat, top)
+          addStat(column, stat, top)
+        }
       })
     }
 

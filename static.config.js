@@ -851,7 +851,7 @@ export default {
     const formattedDate = moment(apiStatus.updatedDate).format(constants.format.url)
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
     const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    const url = `${process.env.SITE_URL}/${formattedDate}/`
+    const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
     const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
     const title = `${kicker} - ${formattedDate}`
     const content = `${kicker}${canonicalUrl}`

@@ -13,13 +13,13 @@ import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
 
-class PreviousEvent extends PureComponent {
+class EventPrevious extends PureComponent {
   render () {
     const { event, element, summary } = this.props
 
     if (!event) return null
 
-    const leaderboards = event.leaderboards
+    const leaderboards = event.leaderboards || []
     const isCalculated = event.isCalculated && (leaderboards.length === constants.divisions.length)
 
     return (
@@ -70,14 +70,14 @@ class PreviousEvent extends PureComponent {
   }
 }
 
-PreviousEvent.defaultProps = {
+EventPrevious.defaultProps = {
   element: 'h1'
 }
 
-PreviousEvent.propTypes = {
+EventPrevious.propTypes = {
   event: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }
 
-export default PreviousEvent
+export default EventPrevious

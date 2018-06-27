@@ -30,6 +30,7 @@ class Stat extends PureComponent {
     if (typeof value === 'object') {
       valueLabel = value.label
       value = typeof value.stat !== 'undefined' ? value.stat : constants.blank
+      if (value < 0) value = constants.blank
     }
 
     value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)

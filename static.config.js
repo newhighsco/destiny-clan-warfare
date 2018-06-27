@@ -95,7 +95,27 @@ export default {
         }
 
         if (previousEventId) {
-          member.previousTotals = previousClanLeaderboard.find(({ id }) => id === memberId)
+          const previousTotals = previousClanLeaderboard.find(({ id }) => id === memberId)
+          const pastEvents = []
+
+          if (previousTotals && previousTotals.games > 0) {
+            const { eventId, path, ...totals } = previousTotals
+            const event = events.find(({ id }) => id === eventId)
+
+            pastEvents.push({
+              ...totals,
+              id: eventId,
+              game: {
+                path: event.path,
+                result: true,
+                name: event.name,
+                endDate: event.endDate
+              }
+            })
+          }
+
+          member.previousTotals = previousTotals
+          member.pastEvents = pastEvents
         }
 
         redirects.push({ from: `${urlBuilder.profileRootUrl}${memberId}/`, to: member.path, code: 301 })

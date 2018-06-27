@@ -120,16 +120,16 @@ class Leaderboard extends PureComponent {
                   }
                   {columns && columns.map((column, i) => {
                     if (column === 'bonuses' && item.bonuses) {
-                      return item.bonuses.map((bonus, i) => {
-                        const bonusKey = bonus.shortName.toLowerCase()
+                      return item.bonuses.map(({ shortName, count }, i) => {
+                        const bonusKey = shortName.toLowerCase()
 
                         if (columns.indexOf(bonusKey) !== -1) return null
 
-                        var bonusValue = bonus.count
+                        var bonusValue = count
                         if (bonusValue < 0) bonusValue = constants.blank
 
                         return (
-                          <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={bonus.shortName}>{bonusValue}</div>
+                          <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={shortName}>{bonusValue}</div>
                         )
                       })
                     }

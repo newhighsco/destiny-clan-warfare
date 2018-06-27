@@ -77,7 +77,7 @@ class StatList extends PureComponent {
   render () {
     const { stats, kicker, top, size } = this.props
 
-    if (!stats || stats.length < 1) return null
+    if (!stats || Object.keys(stats).length < 1) return null
 
     return (
       <Fragment>

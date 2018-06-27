@@ -74,6 +74,7 @@ class ClanCurrentContainer extends PureComponent {
       name: 'ASC'
     })
     const stats = {}
+    var hasStats = true
 
     if (leaderboard.length > 0) {
       const findTopStat = (stat) => leaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
@@ -96,26 +97,29 @@ class ClanCurrentContainer extends PureComponent {
             return row.bonuses.find(({ shortName }) => shortName === key).count
           }
 
-          bonusesKeys.map(key => {
-            stat = (row) => bonusCount(row, key)
-            top = findTopStat(stat)
+          if (hasStats) {
+            bonusesKeys.map(key => {
+              stat = (row) => bonusCount(row, key)
+              top = findTopStat(stat)
 
-            addStat(key, stat, top)
-          })
+              addStat(key, stat, top)
+            })
+          }
 
           top = null
         } else {
           stat = (row) => parseInt(row[column])
           top = findTopStat(stat)
 
-          addStat(column, stat, top)
+          if (column === 'games' && top.games < 0) hasStats = false
+          if (hasStats) addStat(column, stat, top)
         }
       })
     }
 
     this.state = {
       leaderboard,
-      stats: stats.games && stats.games > 0 ? stats : null,
+      stats,
       meta
     }
   }

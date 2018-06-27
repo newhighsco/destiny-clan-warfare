@@ -178,7 +178,7 @@ export default {
                 if (rank === 1) {
                   medal = winnersMedal
                 } else {
-                  medal = medalBuilder.build(1, 2, division)
+                  medal = medalBuilder.build(1, 2, division.name)
                 }
 
                 event.results.push({
@@ -191,7 +191,7 @@ export default {
                 break
               case 1:
               case 2:
-                medal = medalBuilder.build('top 3', 1, division)
+                medal = medalBuilder.build('top 3', 1, division.name)
                 break
             }
 

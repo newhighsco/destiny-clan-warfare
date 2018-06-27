@@ -115,7 +115,7 @@ class ClanCurrentContainer extends PureComponent {
 
     this.state = {
       leaderboard,
-      stats,
+      stats: stats.games && stats.games > 0 ? stats : null,
       meta
     }
   }

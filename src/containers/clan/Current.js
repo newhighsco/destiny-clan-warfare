@@ -68,7 +68,7 @@ class ClanCurrentContainer extends PureComponent {
         ]
       }
     }
-    const leaderboard = MultiSort(members.map((member, i) => ({ ...member, ...member.currentTotals, rank: '' })), {
+    const leaderboard = MultiSort(members.map((member, i) => ({ ...member, ...member.currentTotals })), {
       score: 'DESC',
       games: 'DESC',
       name: 'ASC'

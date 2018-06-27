@@ -137,7 +137,7 @@ class Enrollment extends Component {
         {groups.length > 0 &&
           <ul className={classNames('list--unstyled', styles[`${baseClassName}__clans`])}>
             {groups.map((group, i) => {
-              const clan = clans.find(clan => clan.id === group.groupId)
+              const clan = clans.find(({ id }) => id === group.groupId)
               const Group = () => <Fragment>{group.name} <ClanTag>{group.clanInfo.clanCallsign}</ClanTag></Fragment>
 
               return (

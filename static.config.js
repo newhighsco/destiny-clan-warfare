@@ -167,7 +167,7 @@ export default {
       if (event.isCurrent) {
         event.leaderboards = currentEventLeaderboards.map(({ leaderboard, division }) => {
           leaderboard = leaderboard.map(({ Id, Rank, TotalScore, Active, Size }, i) => {
-            const clan = clans.find(({ id }) => id === Id)
+            const clan = clans.find(({ id }) => id === `${Id}`)
 
             return {
               ...clan,
@@ -190,7 +190,7 @@ export default {
       } else {
         event.leaderboards = event.leaderboards.map(({ leaderboard, division }) => {
           leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
-            const clan = clans.find(({ id }) => id === clanId)
+            const clan = clans.find(({ id }) => id === `${clanId}`)
             var medal
 
             switch (i) {

@@ -42,7 +42,7 @@ const fetch = async () => {
     if (leaderboard) {
       leaderboard.map(member => {
         const id = member.IdStr
-        const clanId = member.ClanId
+        const clanId = `${member.ClanId}`
         const games = member.GamesPlayed
         const hasPlayed = games > 0
 
@@ -138,7 +138,7 @@ const fetch = async () => {
       primaryApi(`Clan/GetAllClans`)
         .then(({ data }) => {
           data.map(clan => {
-            const id = clan.GroupId
+            const id = `${clan.GroupId}`
 
             parsed.clans.push({
               path: urlBuilder.clanUrl(id),
@@ -175,7 +175,7 @@ const fetch = async () => {
         .then(({ data }) => {
           data.map(member => {
             const id = member.ProfileIdStr
-            const clanId = member.GroupId
+            const clanId = `${member.GroupId}`
             const path = urlBuilder.profileUrl(clanId, id)
             const totals = {
               path: null,

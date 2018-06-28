@@ -19,9 +19,53 @@ const statsHelper = require('../../utils/stats-helper')
 
 const baseClassName = 'leaderboard'
 
+class LeaderboardName extends PureComponent {
+  render () {
+    const { name, updated, tags } = this.props
+    var { startDate, endDate } = this.props
+    var label
+
+    if (updated) {
+      startDate = updated
+      endDate = startDate
+      label = constants.relativeDate.updated
+    }
+
+    return (
+      <Fragment>
+        <span dangerouslySetInnerHTML={{ __html: name }} />
+        <TagList tags={tags} className={styles[`${baseClassName}__tags`]} />
+        <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={startDate} end={endDate} label={label} />
+      </Fragment>
+    )
+  }
+}
+
+LeaderboardName.propTypes = {
+  name: PropTypes.string,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
+  updated: PropTypes.string,
+  tags: PropTypes.array
+}
+
 class Leaderboard extends PureComponent {
+  constructor (props) {
+    super(props)
+
+    const { data } = this.props
+    const bonusColumns = data.length ? (data[0].bonuses || []).reduce((result, { shortName }) => result.concat(shortName), []) : []
+
+    this.state = {
+      bonusColumns
+    }
+  }
+
   render () {
     const { data, cutout, columns, multiColumn, className, prefetch } = this.props
+    const { bonusColumns } = this.state
+
+    if (!data || data.length < 1) return null
 
     return (
       <div className={
@@ -31,26 +75,6 @@ class Leaderboard extends PureComponent {
         className
       )}>
         {data.map((item, i) => {
-          const Name = () => {
-            var startDate = item.startDate
-            var endDate = item.endDate
-            var label
-
-            if (item.updated) {
-              startDate = item.updated
-              endDate = startDate
-              label = constants.relativeDate.updated
-            }
-
-            return (
-              <Fragment>
-                <span dangerouslySetInnerHTML={{ __html: item.name }} />
-                <TagList tags={item.tags} className={styles[`${baseClassName}__tags`]} />
-                <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={startDate} end={endDate} label={label} />
-              </Fragment>
-            )
-          }
-
           return (
             <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
               {item.name &&
@@ -69,11 +93,11 @@ class Leaderboard extends PureComponent {
                         prefetch={prefetch}
                         className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}
                       >
-                        <Name />
+                        <LeaderboardName {...item} />
                       </Link>
                     ) : (
                       <div className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}>
-                        <Name />
+                        <LeaderboardName {...item} />
                       </div>
                     )}
                   </Fragment>
@@ -117,13 +141,13 @@ class Leaderboard extends PureComponent {
                     <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>
                   }
                   {columns && columns.map((column, i) => {
-                    if (column === 'bonuses' && item.bonuses) {
-                      return item.bonuses.map(({ shortName, count }, i) => {
+                    if (column === 'bonuses' && bonusColumns.length) {
+                      return bonusColumns.map((shortName, i) => {
                         const bonusKey = shortName.toLowerCase()
 
                         if (columns.indexOf(bonusKey) !== -1) return null
 
-                        var bonusValue = count
+                        var bonusValue = item.bonuses ? item.bonuses.find(bonus => bonus.shortName === shortName).count : -1
                         if (bonusValue < 0) bonusValue = constants.blank
 
                         return (

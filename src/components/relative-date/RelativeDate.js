@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 const moment = require('moment')
 const constants = require('../../utils/constants')
-const apiStatus = require('../../utils/api-status')
 
 class RelativeDate extends PureComponent {
   constructor (props) {
@@ -20,12 +19,12 @@ class RelativeDate extends PureComponent {
 
   render () {
     // TODO: Improve this no end
-    const { status, start, end, className } = this.props
+    const { apiStatus, start, end, className } = this.props
     var { label } = this.props
     const { active } = this.state
     var updated
 
-    if (status) updated = apiStatus().updatedDate
+    if (apiStatus) updated = apiStatus.updatedDate
 
     if (!updated && !start && !end) return null
 
@@ -71,7 +70,7 @@ class RelativeDate extends PureComponent {
 }
 
 RelativeDate.propTypes = {
-  status: PropTypes.bool,
+  apiStatus: PropTypes.object,
   start: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
   end: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
   label: PropTypes.string,

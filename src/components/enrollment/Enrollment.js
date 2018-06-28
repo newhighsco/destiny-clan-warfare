@@ -11,7 +11,6 @@ import styles from './Enrollment.styl'
 const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungie = require('../../utils/bungie-helper')
-const apiStatus = require('../../utils/api-status')
 
 const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
@@ -22,11 +21,11 @@ class Enrollment extends Component {
   constructor (props) {
     super(props)
 
-    const status = apiStatus()
+    const { apiStatus } = this.props
 
     this.state = {
       active: false,
-      open: status.enrollmentOpen && constants.bungie.disabledStatusCode.indexOf(status.bungieStatus) === -1,
+      open: apiStatus && apiStatus.enrollmentOpen && constants.bungie.disabledStatusCode.indexOf(apiStatus.bungieStatus) === -1,
       name: '',
       groups: [],
       selectedGroup: null
@@ -165,6 +164,7 @@ class Enrollment extends Component {
 }
 
 Enrollment.propTypes = {
+  apiStatus: PropTypes.object,
   clans: PropTypes.array
 }
 

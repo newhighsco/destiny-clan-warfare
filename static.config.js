@@ -35,8 +35,6 @@ export default {
   getRoutes: async () => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentEventLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, emptyTotals } = await dataSources.fetch()
 
-    await fs.writeFile(path.join(distPath, 'api-status.json'), JSON.stringify(apiStatus))
-
     const routes = [
       {
         is404: true,
@@ -141,6 +139,7 @@ export default {
           path: urlBuilder.currentEventUrl(clan.id),
           component: 'src/containers/clan/Current',
           getData: () => ({
+            apiStatus,
             clan,
             members: clanMembers
           })
@@ -237,7 +236,8 @@ export default {
         path: event.path,
         component: 'src/containers/Event',
         getData: () => ({
-          event
+          event,
+          apiStatus: event.isCurrent ? apiStatus : {}
         })
       })
     })
@@ -247,6 +247,7 @@ export default {
         path: '/',
         component: 'src/containers/Home',
         getData: () => ({
+          apiStatus,
           clans,
           events,
           currentEventId,
@@ -271,6 +272,7 @@ export default {
         path: urlBuilder.leaderboardRootUrl,
         component: 'src/containers/CustomLeaderboard',
         getData: () => ({
+          apiStatus,
           clans,
           events,
           currentEventId,

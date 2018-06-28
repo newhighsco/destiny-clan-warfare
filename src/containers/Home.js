@@ -45,16 +45,16 @@ class HomeContainer extends PureComponent {
   }
 
   render () {
-    const { clans } = this.props
+    const { apiStatus, clans } = this.props
     const { currentEvent, previousEvent, nextEvent } = this.state
 
     return (
       <PageContainer meta={meta}>
-        <Enrollment clans={clans} />
+        <Enrollment apiStatus={apiStatus} clans={clans} />
         {currentEvent ? (
           <Fragment>
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
-              <RelativeDate status />
+              <RelativeDate apiStatus={apiStatus} />
             </Lockup>
             <EventCurrent event={currentEvent} element="h2" summary />
             {previousEvent &&
@@ -102,6 +102,7 @@ class HomeContainer extends PureComponent {
 }
 
 HomeContainer.propTypes = {
+  apiStatus: PropTypes.object,
   clans: PropTypes.array,
   events: PropTypes.array,
   currentEventId: PropTypes.number,

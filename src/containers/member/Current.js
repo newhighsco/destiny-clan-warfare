@@ -15,6 +15,7 @@ class MemberCurrentContainer extends PureComponent {
     const { location: { state } } = this.props
 
     this.state = {
+      apiStatus: null,
       clan: state ? state.clan : null,
       member: state ? state.member : null,
       notFound: false
@@ -30,10 +31,11 @@ class MemberCurrentContainer extends PureComponent {
       const memberId = match.params.member.replace(/#.+$/, '')
 
       prefetch(urlBuilder.currentEventUrl(clanId))
-        .then(({ clan, members }) => {
+        .then(({ apiStatus, clan, members }) => {
           member = members.find(({ id }) => id === memberId)
 
           this.setState({
+            apiStatus,
             clan,
             member,
             notFound: typeof member === 'undefined'

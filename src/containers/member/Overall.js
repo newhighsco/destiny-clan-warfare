@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
+import NProgress from 'nprogress'
 import MemberOverall from '../../components/member/Overall'
 import Loading from '../../components/loading/Loading'
 import NotFound from '../../components/not-found/NotFound'
@@ -45,16 +46,22 @@ class MemberOverallContainer extends PureComponent {
     const { member, notFound } = this.state
 
     if (notFound) {
+      NProgress.done()
+
       return (
         <NotFound />
       )
     }
 
     if (!member) {
+      NProgress.start()
+
       return (
         <Loading />
       )
     }
+
+    NProgress.done()
 
     return (
       <MemberOverall {...this.state} />

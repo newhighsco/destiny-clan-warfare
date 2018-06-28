@@ -390,7 +390,6 @@ const fetch = async () => {
 
       primaryApi(`Component/GetAllMedals`)
         .then(({ data }) => {
-          // TODO: Calculate tooltips here rather than at render
           parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.profile))
 
           console.timeEnd(`fetch member medals`)

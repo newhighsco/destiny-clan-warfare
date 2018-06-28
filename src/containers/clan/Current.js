@@ -125,14 +125,14 @@ class ClanCurrentContainer extends PureComponent {
   }
 
   render () {
-    const { clan } = this.props
+    const { apiStatus, clan } = this.props
     const { leaderboard, stats, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
 
     return (
       <PageContainer meta={meta}>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
-          <RelativeDate status />
+          <RelativeDate apiStatus={apiStatus} />
         </Lockup>
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline {...clan.avatar} />
@@ -157,6 +157,7 @@ class ClanCurrentContainer extends PureComponent {
 }
 
 ClanCurrentContainer.propTypes = {
+  apiStatus: PropTypes.object,
   clan: PropTypes.object,
   members: PropTypes.array
 }

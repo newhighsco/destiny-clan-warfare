@@ -83,14 +83,14 @@ class MemberCurrent extends PureComponent {
   }
 
   render () {
-    const { clan, member } = this.props
+    const { apiStatus, clan, member } = this.props
     const { leaderboard, stats, enableMatchHistory, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
 
     return (
       <PageContainer meta={meta}>
         <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
-          <RelativeDate status />
+          <RelativeDate apiStatus={apiStatus} />
         </Lockup>
         <Fragment>
           <Card cutout={hasLeaderboard} center>
@@ -126,6 +126,7 @@ class MemberCurrent extends PureComponent {
 }
 
 MemberCurrent.propTypes = {
+  apiStatus: PropTypes.object,
   clan: PropTypes.object,
   member: PropTypes.object
 }

@@ -80,14 +80,14 @@ class EventContainer extends PureComponent {
     }
   }
   render () {
-    const { event } = this.props
+    const { apiStatus, event } = this.props
     const { meta } = this.state
 
     return (
       <PageContainer meta={meta}>
         <Lockup primary center kicker={meta.kicker}>
           {event.isCurrent &&
-            <RelativeDate status />
+            <RelativeDate apiStatus={apiStatus} />
           }
         </Lockup>
         {event.isCurrent &&
@@ -108,6 +108,7 @@ class EventContainer extends PureComponent {
 }
 
 EventContainer.propTypes = {
+  apiStatus: PropTypes.object,
   event: PropTypes.object
 }
 

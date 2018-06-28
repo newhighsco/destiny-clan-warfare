@@ -152,7 +152,7 @@ class CustomLeaderboardContainer extends PureComponent {
   }
 
   render () {
-    const { currentEventId } = this.props
+    const { apiStatus, currentEventId } = this.props
     const { active, meta, hasLeaderboard, visible, tags, suggestions } = this.state
     const hasVisible = visible.length > 0
 
@@ -160,7 +160,7 @@ class CustomLeaderboardContainer extends PureComponent {
       <PageContainer meta={meta}>
         <Lockup primary center kicker={meta.kicker} kickerHref={meta.kickerHref}>
           {currentEventId &&
-            <RelativeDate status />
+            <RelativeDate apiStatus={apiStatus} />
           }
         </Lockup>
         <Card cutout={hasVisible} center>
@@ -193,6 +193,7 @@ class CustomLeaderboardContainer extends PureComponent {
 
 CustomLeaderboardContainer.propTypes = {
   history: PropTypes.object,
+  apiStatus: PropTypes.object,
   clans: PropTypes.array,
   events: PropTypes.array,
   currentEventId: PropTypes.number,

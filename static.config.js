@@ -33,7 +33,7 @@ export default {
   inlineCss: true,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentEventLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard } = await dataSources.fetch()
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentEventLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, emptyTotals } = await dataSources.fetch()
 
     await fs.writeFile(path.join(distPath, 'api-status.json'), JSON.stringify(apiStatus))
 
@@ -114,8 +114,9 @@ export default {
             })
           }
 
-          member.previousTotals = previousTotals
-          member.pastEvents = pastEvents
+          member.previousTotals = previousTotals || emptyTotals
+
+          if (pastEvents.length) member.pastEvents = pastEvents
         }
 
         redirects.push({ from: `${urlBuilder.profileRootUrl}${memberId}/`, to: member.path, code: 301 })

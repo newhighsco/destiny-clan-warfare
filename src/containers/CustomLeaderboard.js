@@ -41,17 +41,33 @@ class CustomLeaderboardContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { history: { location: { hash } }, clans, events, currentEventId, previousEventId } = this.props
+    const { events, currentEventId, previousEventId } = this.props
     const eventId = currentEventId || previousEventId
     const event = events.find(({ id }) => id === eventId)
-    const ids = hash.replace(constants.prefix.hash, '').split(',')
-    const totals = event.leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     const meta = {
-      kicker: currentEventId ? constants.kicker.current : constants.kicker.previous,
+      kicker: event.isCurrent ? constants.kicker.current : constants.kicker.previous,
       kickerHref: event.path,
       title: 'Custom leaderboard',
       description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
     }
+
+    this.state = {
+      active: false,
+      meta,
+      event,
+      visible: []
+    }
+
+    this.handleAddition = this.handleAddition.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount () {
+    const { active, event } = this.state
+    const { history: { location: { hash } }, clans } = this.props
+    const ids = hash.replace(constants.prefix.hash, '').split(',')
+    const totals = event.leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     var suggestions = []
     var tags = []
     var leaderboard = []
@@ -60,15 +76,15 @@ class CustomLeaderboardContainer extends PureComponent {
       path: null,
       rank: false,
       overall: -1,
-      active: currentEventId ? -1 : null,
-      size: currentEventId ? -1 : null,
+      active: event.isCurrent ? -1 : null,
+      size: event.isCurrent ? -1 : null,
       score: -1,
       updated: null
     }
 
     clans.map(clan => {
       const clanId = clan.id
-      const path = currentEventId ? urlBuilder.currentEventUrl(clanId) : urlBuilder.clanUrl(clanId, eventId)
+      const path = event.isCurrent ? urlBuilder.currentEventUrl(clanId) : urlBuilder.clanUrl(clanId, event.id)
       const suggestion = { id: clanId, name: clan.name }
       var total = totals.find(({ id }) => id === clanId)
 
@@ -94,25 +110,16 @@ class CustomLeaderboardContainer extends PureComponent {
 
     leaderboard = MultiSort(leaderboard, { score: 'DESC', name: 'ASC' })
 
-    this.state = {
-      active: false,
-      meta,
-      leaderboard,
-      hasLeaderboard: leaderboard.length > 0,
-      visible: leaderboard.filter(({ id }) => filterById(ids, id)),
-      suggestions,
-      tags
+    if (!active) {
+      this.setState({
+        active: true,
+        leaderboard,
+        hasLeaderboard: leaderboard.length > 0,
+        visible: leaderboard.filter(({ id }) => filterById(ids, id)),
+        suggestions,
+        tags
+      })
     }
-
-    this.handleAddition = this.handleAddition.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  componentDidMount () {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
   }
 
   handleAddition (tag) {

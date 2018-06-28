@@ -16,6 +16,20 @@ const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADER
 const fetch = async () => {
   const utc = moment.utc()
   const updatedDate = utc.format(constants.format.machineReadable)
+  const emptyTotals = {
+    path: null,
+    rank: false,
+    games: -1,
+    wins: -1,
+    kills: -1,
+    assists: -1,
+    deaths: -1,
+    kd: -1,
+    kda: -1,
+    bonuses: null,
+    ppg: -1,
+    score: -1
+  }
   const parsed = {
     apiStatus: {
       enrollmentOpen: false,
@@ -33,7 +47,8 @@ const fetch = async () => {
     currentClanLeaderboard: [],
     previousEventId: null,
     previousClanLeaderboard: [],
-    matchHistory: []
+    matchHistory: [],
+    emptyTotals
   }
 
   const parseLeaderboard = (leaderboard, eventId) => {
@@ -47,18 +62,8 @@ const fetch = async () => {
         const hasPlayed = games > 0
 
         const totals = {
-          eventId,
-          path: null,
-          rank: false,
-          games: -1,
-          wins: -1,
-          kills: -1,
-          assists: -1,
-          deaths: -1,
-          kd: -1,
-          kda: -1,
-          ppg: -1,
-          score: -1
+          ...emptyTotals,
+          eventId
         }
 
         if (hasPlayed) {

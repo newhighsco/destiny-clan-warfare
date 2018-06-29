@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Icon from '../icon/Icon'
-import AvalancheUkSvg from '../../images/avalanche-uk.svg'
+import CreditSvg from './avalanche-uk.svg'
 import styles from './Credit.styl'
 
 const baseClassName = 'credit'
@@ -11,7 +11,7 @@ const Credit = class extends PureComponent {
       <div className={styles[baseClassName]}>
         <a className={styles[`${baseClassName}__link`]} href="https://avaclanche.uk" target="_blank" rel="noopener noreferrer">
           <Icon className={styles[`${baseClassName}__icon`]}>
-            <AvalancheUkSvg />
+            <CreditSvg />
           </Icon>
           <div className={styles[`${baseClassName}__details`]}>
             <small>Proudly brought to you by</small>

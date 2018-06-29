@@ -55,7 +55,7 @@ class RelativeDate extends PureComponent {
     const machineReadable = value.format(constants.format.machineReadable)
     const humanReadable = [ label, label && ' ', (active ? value.fromNow() : title) ]
 
-    if (status) return (<Fragment>{active ? humanReadable : <br />}</Fragment>)
+    if (apiStatus) return (<Fragment>{active ? humanReadable : <br />}</Fragment>)
 
     return (
       <time

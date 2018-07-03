@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Card.styl'
 
+const baseClassName = 'card'
+
 const Card = class extends PureComponent {
   render () {
     const { cutout, center, children, className } = this.props
-    const baseClassName = 'card'
     const classes = classNames(
       styles[baseClassName],
       cutout && styles[`${baseClassName}--cutout`],
@@ -20,11 +21,6 @@ const Card = class extends PureComponent {
       </div>
     )
   }
-}
-
-Card.defaultProps = {
-  cutout: false,
-  center: false
 }
 
 Card.propTypes = {

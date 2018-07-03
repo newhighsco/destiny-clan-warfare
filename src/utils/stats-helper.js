@@ -1,3 +1,5 @@
+const constants = require('./constants')
+
 const round = (result, precision) => {
   const factor = Math.pow(10, precision)
 
@@ -37,6 +39,14 @@ const percentage = (current, total, limit, precision) => {
   return round(result, precision)
 }
 
+const ranking = (rank) => {
+  return `${constants.prefix.hash}${rank}`
+}
+
+const total = (value) => {
+  return Math.max(parseInt(Math.round(value)), 0)
+}
+
 const shortNumber = (value, precision) => {
   if (typeof value !== 'number') return value
   if (value > 1e19) return value
@@ -67,5 +77,7 @@ module.exports = {
   kda,
   ppg,
   percentage,
-  shortNumber
+  ranking,
+  shortNumber,
+  total
 }

@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react'
-import { Head } from 'react-static'
 import HoldingPage from '../holding-page/HoldingPage'
-import { Logo } from '../logo/Logo'
+import { Lockup } from '../lockup/Lockup'
+
+const meta = {
+  title: 'Loading...',
+  description: 'Please be patient, this page is loading',
+  robots: 'noindex,nofollow'
+}
 
 class Loading extends PureComponent {
   render () {
     return (
-      <HoldingPage>
-        <Head>
-          <title>Loading</title>
-        </Head>
-        <Logo />
+      <HoldingPage meta={meta} showBackground={false}>
+        <Lockup heading={meta.title} />
       </HoldingPage>
     )
   }

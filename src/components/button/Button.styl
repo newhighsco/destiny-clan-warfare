@@ -12,7 +12,7 @@
 .button
   display inline-block
   border 0
-  cursor pointer
+  cursor default
   overflow visible // removes padding in IE
 
   // Presentational Styles
@@ -32,6 +32,9 @@
   +width-min($mq--tablet)
     padding $spacing--half $spacing--double
 
+  &[href]
+    cursor pointer
+
   &:hover
   &:focus
     border-color currentColor
@@ -47,6 +50,25 @@
     opacity 0.5
     user-select none
     pointer-events none
+
+  &[data-exact]
+    position relative
+
+    &:after
+      content attr(data-exact)
+      position absolute
+      left 0
+      right 0
+      top 50%
+      transform translateY(-50%)
+      opacity 0
+
+    &:hover
+      span
+        opacity 0
+
+      &:after
+        opacity 1
 
 //
 // BUTTON STYLES

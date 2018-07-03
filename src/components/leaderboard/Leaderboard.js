@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-static'
 import classNames from 'classnames'
-import MultiSort from 'multi-sort'
 import Avatar from '../avatar/Avatar'
 import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
@@ -16,81 +15,57 @@ import styles from './Leaderboard.styl'
 
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
-const urlBuilder = require('../../utils/url-builder')
 const statsHelper = require('../../utils/stats-helper')
 
-class Leaderboard extends Component {
+const baseClassName = 'leaderboard'
+
+class LeaderboardName extends PureComponent {
+  render () {
+    const { name, updated, tags } = this.props
+    var { startDate, endDate } = this.props
+    var label
+
+    if (updated) {
+      startDate = updated
+      endDate = startDate
+      label = constants.relativeDate.updated
+    }
+
+    return (
+      <Fragment>
+        <span dangerouslySetInnerHTML={{ __html: name }} />
+        <TagList tags={tags} className={styles[`${baseClassName}__tags`]} />
+        <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={startDate} end={endDate} label={label} />
+      </Fragment>
+    )
+  }
+}
+
+LeaderboardName.propTypes = {
+  name: PropTypes.string,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
+  updated: PropTypes.string,
+  tags: PropTypes.array
+}
+
+class Leaderboard extends PureComponent {
   constructor (props) {
     super(props)
 
+    const { data } = this.props
+    const bonusColumns = data.length ? (data[0].bonuses || []).reduce((result, { shortName }) => result.concat(shortName), []) : []
+
     this.state = {
-      sorting: this.props.sorting
+      bonusColumns
     }
-
-    this.handleSort = this.handleSort.bind(this)
-  }
-
-  handleSort (e) {
-    e.preventDefault()
-
-    this.setState({
-      sorting: e.target.dataset.sorting
-    })
   }
 
   render () {
-    var { data } = this.props
-    const { columns, cutout, multiColumn, className, prefetch, stateKey } = this.props
-    const { sorting } = this.state
-    const baseClassName = 'leaderboard'
+    const { data, cutout, columns, multiColumn, className, prefetch } = this.props
+    const { bonusColumns } = this.state
 
-    if (!data || data.length <= 0) return null
-
-    var keys = columns || Object.keys(data[0])
-    const showIcons = (keys.indexOf('icon') !== -1 || keys.indexOf('foreground') !== -1 || keys.indexOf('background') !== -1)
-    const showClanTag = keys.indexOf('clanTag') !== -1
-    const showNames = keys.indexOf('name') !== -1
-    const showNameTags = keys.indexOf('tags') !== -1
-    const showGameDetails = keys.indexOf('game') !== -1
-    const showModifiers = keys.indexOf('modifiers') !== -1
-    const showMedal = keys.indexOf('medal') !== -1
-    const showMedals = keys.indexOf('medals') !== -1
-    const showBonuses = keys.indexOf('bonuses') !== -1
-    const showPlatforms = keys.indexOf('platforms') !== -1
-    const showUpdatedDate = keys.indexOf('updated') !== -1
-    const filteredKeys = [
-      'id',
-      'icon',
-      'color',
-      'foreground',
-      'background',
-      'name',
-      'clanId',
-      'clanTag',
-      'path',
-      'game',
-      'modifiers',
-      'medal',
-      'medals',
-      'tags',
-      'eventId',
-      'platforms',
-      'updated'
-    ]
-
-    if (stateKey) filteredKeys.push(stateKey)
-
-    keys = keys.reduce((filtered, key) => {
-      if (filteredKeys.indexOf(key) === -1) {
-        filtered.push(key)
-      }
-
-      return filtered
-    }, [])
-
-    if (sorting) {
-      data = MultiSort(data, sorting)
-    }
+    if (!data || data.length < 1) return null
 
     return (
       <div className={
@@ -100,139 +75,111 @@ class Leaderboard extends Component {
         className
       )}>
         {data.map((item, i) => {
-          const rank = `${constants.prefix.hash}${i + 1}`
-          var state = {}
-
-          if (stateKey) {
-            state[stateKey] = item[stateKey]
-          }
-
-          const Name = () => {
-            const updatedDate = showUpdatedDate && item.updated ? item.updated : null
-
-            return (
-              <Fragment>
-                <span dangerouslySetInnerHTML={{ __html: item.name }} />
-                {showNameTags &&
-                  <TagList tags={item.tags} className={styles[`${baseClassName}__tags`]} />
-                }
-                {updatedDate &&
-                  <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={updatedDate} end={updatedDate} label={constants.relativeDate.updated} />
-                }
-              </Fragment>
-            )
-          }
-
           return (
-            <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={showGameDetails && item.game.result}>
-              {(showIcons || showNames) &&
+            <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
+              {item.name &&
                 <div className={styles[`${baseClassName}__header`]}>
-                  {showIcons &&
-                    <Avatar id={item.id || i} className={styles[`${baseClassName}__icon`]} color={item.color} icon={item.icon} foreground={item.foreground} background={item.background} />
+                  {item.avatar &&
+                    <Avatar id={item.id || i} className={styles[`${baseClassName}__icon`]} {...item.avatar} />
                   }
-                  {showNames &&
-                    <Fragment>
-                      { showMedal &&
-                        <Medal {...item.medal} size="small" align="left" className={styles[`${baseClassName}__medal`]} />
-                      }
-                      { showPlatforms &&
-                        <PlatformList platforms={item.platforms} size="small" className={styles[`${baseClassName}__platforms`]} />
-                      }
-                      {item.path ? (
-                        <Link
-                          to={{
-                            pathname: item.path,
-                            state: state
-                          }}
-                          prefetch={prefetch}
-                          className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}
-                        >
-                          <Name />
-                        </Link>
-                      ) : (
-                        <div
-                          className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}
-                        >
-                          <Name />
-                        </div>
-                      )}
-                      {showClanTag &&
-                        <ClanTag className={styles[`${baseClassName}__clan-tag`]} href={urlBuilder.clanUrl(item.clanId)}>{item.clanTag}</ClanTag>
-                      }
-                    </Fragment>
-                  }
+                  <Fragment>
+                    {item.medal &&
+                      <Medal {...item.medal} size="small" align="left" className={styles[`${baseClassName}__medal`]} />
+                    }
+                    <PlatformList platforms={item.platforms} size="small" className={styles[`${baseClassName}__platforms`]} />
+                    {item.path ? (
+                      <Link
+                        to={{ pathname: item.path }}
+                        prefetch={prefetch}
+                        className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}
+                      >
+                        <LeaderboardName {...item} />
+                      </Link>
+                    ) : (
+                      <div className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}>
+                        <LeaderboardName {...item} />
+                      </div>
+                    )}
+                  </Fragment>
                 </div>
               }
-              {(keys.length > 0 || showGameDetails) &&
-                <div className={styles[`${baseClassName}__body`]}>
-                  <div className={styles[`${baseClassName}__stats`]}>
-                    {showGameDetails &&
+              <div className={classNames(styles[`${baseClassName}__body`])}>
+                <div className={styles[`${baseClassName}__stats`]}>
+                  {item.game &&
+                    <Fragment>
                       <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
                         {item.game.isExternal ? (
                           <a href={item.game.path} target="_blank" rel="noopener noreferrer">
-                            <span>{item.game.type}</span>
+                            <span>{item.game.name}</span>
                             <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
                               <ExternalSvg />
                             </Icon>
                           </a>
                         ) : (
-                          <Link to={item.game.path} prefetch={prefetch} className={styles[`${baseClassName}__link`]}>
-                            <span>{item.game.type}</span>
+                          <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
+                            <span>{item.game.name}</span>
                           </Link>
                         )}
-                        <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.map ? `${item.game.map} -` : null} />
+                        <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
                       </div>
-                    }
-                    {showMedals &&
-                      <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                        <MedalList size="x-small" align="left" medals={item.medals} />
-                      </div>
-                    }
-                    {showModifiers &&
-                      <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
-                        <ModifierList size="small" align="right" modifiers={item.modifiers} />
-                      </div>
-                    }
-                    {keys.map((key, i) => {
-                      if (showBonuses && key === 'bonuses') {
-                        return item.bonuses.map((bonus, i) => {
-                          const bonusKey = bonus.shortName.toLowerCase()
-
-                          if (keys.indexOf(bonusKey) !== -1) return null
-
-                          var bonusValue = bonus.count
-                          if (bonusValue === null) bonusValue = constants.blank
-
-                          return (
-                            <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={sentenceCase(bonus.shortName)}>{bonusValue}</div>
-                          )
-                        })
+                      {item.game.medals && item.game.medals.length > 0 &&
+                        <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
+                          <MedalList size="x-small" align="left" medals={item.medals} />
+                        </div>
                       }
+                    </Fragment>
+                  }
+                  {item.modifiers && item.modifiers.length > 0 &&
+                    <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
+                      <ModifierList size="small" align="right" modifiers={item.modifiers} />
+                    </div>
+                  }
+                  {item.tag &&
+                    <ClanTag className={styles[`${baseClassName}__clan-tag`]} href={item.path}>{item.tag}</ClanTag>
+                  }
+                  {item.division &&
+                    <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>
+                  }
+                  {columns && columns.map((column, i) => {
+                    if (column === 'bonuses' && bonusColumns.length) {
+                      return bonusColumns.map((shortName, i) => {
+                        const bonusKey = shortName.toLowerCase()
 
-                      var value = item[key]
-                      var exactValue
+                        if (columns.indexOf(bonusKey) !== -1) return null
 
-                      if (key === 'rank') value = item.rank !== null ? rank : constants.blank
-                      if (key === 'score' && showGameDetails) value = Math.max(item[key], 0)
-                      if (value === null) value = constants.blank
+                        var bonusValue = item.bonuses ? item.bonuses.find(bonus => bonus.shortName === shortName).count : -1
+                        if (bonusValue < 0) bonusValue = constants.blank
 
-                      if (isNaN(value)) {
-                        value = `${value}`
-                      } else {
-                        if (value === Number.NEGATIVE_INFINITY) value = constants.blank
+                        return (
+                          <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={shortName}>{bonusValue}</div>
+                        )
+                      })
+                    }
 
-                        exactValue = value
-                        value = statsHelper.shortNumber(value)
-                        if (value === exactValue) exactValue = null
-                      }
+                    if (column === 'rank' && typeof item.rank === 'boolean') item.rank = item.rank === true ? '' : -1
 
-                      return (
-                        <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${key}`])} data-prefix={sentenceCase(key)} data-exact={exactValue}><span>{value}</span></div>
-                      )
-                    })}
-                  </div>
+                    var value = item[column]
+
+                    if (typeof value === 'undefined' || value === null) return null
+
+                    var exactValue
+
+                    if (isNaN(value)) {
+                      value = `${value}`
+                    } else {
+                      if (value < 0) value = constants.blank
+
+                      exactValue = value
+                      value = statsHelper.shortNumber(value)
+                      if (value === exactValue) exactValue = null
+                    }
+
+                    return (
+                      <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}><span>{value}</span></div>
+                    )
+                  })}
                 </div>
-              }
+              </div>
             </div>
           )
         })}
@@ -241,21 +188,13 @@ class Leaderboard extends Component {
   }
 }
 
-Leaderboard.defaultProps = {
-  descending: false,
-  cutout: false,
-  prefetch: true
-}
-
 Leaderboard.propTypes = {
   data: PropTypes.array,
-  columns: PropTypes.array,
-  sorting: PropTypes.object,
   cutout: PropTypes.bool,
+  columns: PropTypes.array,
   multiColumn: PropTypes.bool,
   className: PropTypes.string,
-  prefetch: PropTypes.oneOfType([ PropTypes.bool, PropTypes.string ]),
-  stateKey: PropTypes.string
+  prefetch: PropTypes.bool
 }
 
 export default Leaderboard

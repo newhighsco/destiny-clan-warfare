@@ -117,8 +117,6 @@ export default {
 
           if (pastEvents.length) member.pastEvents = pastEvents
         }
-
-        redirects.push({ from: `${urlBuilder.profileRootUrl}${memberId}/`, to: member.path, code: 301 })
       })
 
       clan.platforms = platforms
@@ -373,7 +371,6 @@ export default {
     await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
 
     redirects.push(
-      { from: urlBuilder.profileRootUrl, to: '/', code: 301 },
       { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
       { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }

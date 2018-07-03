@@ -180,12 +180,15 @@ export default {
       event.results = []
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
-        const member = members.find(({ id }) => id === modifier.creator)
 
-        if (member) {
-          const clan = clans.find(({ id }) => id === member.clanId)
+        if (modifier.creator) {
+          const member = members.find(({ id }) => id === modifier.creator)
 
-          modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+          if (member) {
+            const clan = clans.find(({ id }) => id === member.clanId)
+
+            modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+          }
         }
 
         return modifier

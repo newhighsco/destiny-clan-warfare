@@ -7,7 +7,6 @@ import styles from './Avatar.styl'
 
 const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
-const online = require('../../utils/online')
 
 const baseClassName = 'avatar'
 
@@ -50,8 +49,6 @@ const Avatar = class extends PureComponent {
       outline && styles[`${baseClassName}--outline`],
       className
     )
-
-    if (!online) return null
 
     return (
       <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>

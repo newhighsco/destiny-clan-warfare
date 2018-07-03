@@ -310,12 +310,6 @@ export default {
 
     feed = new RSS(feedOptions)
 
-    feedBuilder(events, constants.kicker.current).map(event => feed.item(event))
-
-    await fs.writeFile(path.join(distPath, '/events--current.xml'), feed.xml())
-
-    feed = new RSS(feedOptions)
-
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
     const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
     const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${apiStatus.formattedDate}/`

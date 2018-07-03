@@ -57,7 +57,7 @@ const constants = {
       domain: '.azurewebsites.net/',
       path: 'api/'
     },
-    proxyUrl: 'https://clanwarfare-proxy.herokuapp.com/'
+    proxyUrl: 'https://proxy.destinyclanwarfare.com/'
   },
   bungie: {
     baseUrl: bungieBaseUrl,
@@ -87,7 +87,7 @@ const constants = {
     optOut: 'This clan has opted out of DestinyClanWarfare'
   },
   social: {
-    discord: 'https://discord.destinyclanwarfare.com',
+    discord: 'https://discordapp.com/invite/Fysyhwg',
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'

@@ -152,8 +152,8 @@ export default {
 
     if (currentEventId) {
       currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }) => {
-        leaderboard = leaderboard.map(({ Id, Rank, TotalScore, Active, Size }, i) => {
-          const clan = clans.find(({ id }) => id === `${Id}`)
+        leaderboard = leaderboard.map(({ IdStr, Rank, TotalScore, Active, Size }, i) => {
+          const clan = clans.find(({ id }) => id === IdStr)
           const clanLastChecked = MultiSort(lastChecked.filter(({ clanId }) => clanId === clan.id), { date: 'DESC' })
 
           return {

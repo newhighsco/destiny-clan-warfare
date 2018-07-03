@@ -43,11 +43,12 @@ const fetch = async () => {
     modifiers: [],
     medals: [],
     currentEventId: null,
-    currentEventLeaderboards: [],
+    currentLeaderboards: [],
     currentClanLeaderboard: [],
     previousEventId: null,
     previousClanLeaderboard: [],
     matchHistory: [],
+    lastChecked: [],
     emptyTotals
   }
 
@@ -89,6 +90,7 @@ const fetch = async () => {
 
         parsed.push({
           id,
+          clanId,
           ...totals
         })
       })
@@ -184,6 +186,7 @@ const fetch = async () => {
             const id = member.ProfileIdStr
             const clanId = `${member.GroupId}`
             const path = urlBuilder.profileUrl(clanId, id)
+            const lastChecked = member.LastChecked
             const totals = {
               path: null,
               rank: false,
@@ -256,6 +259,14 @@ const fetch = async () => {
               })
             }
 
+            if (lastChecked) {
+              parsed.lastChecked.push({
+                id,
+                clanId,
+                date: moment.utc(lastChecked).format(constants.format.machineReadable)
+              })
+            }
+
             parsed.members.push({
               path,
               id,
@@ -266,8 +277,7 @@ const fetch = async () => {
               tags: member.BonusUnlocks.map(({ Name }) => ({ name: Name })),
               medals: medalBuilder.parseMedals(member.MedalUnlocks, constants.prefix.profile),
               totals,
-              pastEvents,
-              lastChecked: member.LastChecked ? moment.utc(member.LastChecked).format(constants.format.machineReadable) : null
+              pastEvents
             })
           })
 
@@ -426,7 +436,7 @@ const fetch = async () => {
             const leaderboard = data[`${key}Leaderboard`]
 
             if (leaderboard) {
-              parsed.currentEventLeaderboards.push({
+              parsed.currentLeaderboards.push({
                 leaderboard,
                 division: {
                   name,

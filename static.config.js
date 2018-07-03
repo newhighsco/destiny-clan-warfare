@@ -1,4 +1,5 @@
 import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
+import MultiSort from 'multi-sort'
 import RSS from 'rss'
 import Html from './src/Html'
 
@@ -33,7 +34,7 @@ export default {
   inlineCss: true,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentEventLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, emptyTotals } = await dataSources.fetch()
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, lastChecked, emptyTotals } = await dataSources.fetch()
 
     const routes = [
       {
@@ -60,18 +61,18 @@ export default {
 
     clans.map(clan => {
       const clanMembers = members.filter(({ clanId }) => clanId === clan.id)
+      const clanCurrentTotals = {}
+      const clanMatchHistory = {}
       const totalSize = clanMembers.length
       const platforms = []
-      var clanLastChecked = null
 
       clanMembers.map(member => {
         const memberId = member.id
         const hasPlayed = member.totals ? member.totals.games > 0 : false
         const platformId = member.platforms[0].id
         const existing = platforms.find(({ id }) => id === platformId)
-        const lastChecked = member.lastChecked
-
-        if (!clanLastChecked || lastChecked > clanLastChecked) clanLastChecked = lastChecked
+        const memberLastChecked = lastChecked.find(({ id }) => id === memberId)
+        const memberLastCheckedDate = memberLastChecked ? memberLastChecked.date : null
 
         if (existing) {
           if (hasPlayed) existing.active++
@@ -84,12 +85,12 @@ export default {
         if (currentEventId) {
           const currentTotals = currentClanLeaderboard.find(({ id }) => id === memberId)
 
-          member.currentTotals = {
+          clanCurrentTotals[memberId] = {
             ...currentTotals,
-            updated: currentTotals.games > 0 ? lastChecked : null
+            updated: currentTotals.games > 0 ? memberLastCheckedDate : null
           }
 
-          member.matchHistory = matchHistory[memberId] || []
+          clanMatchHistory[memberId] = matchHistory[memberId] || []
         }
 
         if (previousEventId) {
@@ -121,7 +122,6 @@ export default {
       })
 
       clan.platforms = platforms
-      clan.lastChecked = clanLastChecked
 
       routes.push({
         path: clan.path,
@@ -141,13 +141,42 @@ export default {
           getData: () => ({
             apiStatus,
             clan,
-            members: clanMembers
+            members: clanMembers,
+            currentTotals: clanCurrentTotals,
+            matchHistory: clanMatchHistory
           })
         })
       }
     })
 
     const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
+    var currentEventLeaderboards = []
+
+    if (currentEventId) {
+      currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }) => {
+        leaderboard = leaderboard.map(({ Id, Rank, TotalScore, Active, Size }, i) => {
+          const clan = clans.find(({ id }) => id === `${Id}`)
+          const clanLastChecked = MultiSort(lastChecked.filter(({ clanId }) => clanId === clan.id), { date: 'DESC' })
+
+          return {
+            ...clan,
+            updated: clanLastChecked.length ? clanLastChecked[0].date : null,
+            tag: null,
+            path: urlBuilder.currentEventUrl(clan.id),
+            rank: true,
+            overall: statsHelper.ranking(Rank),
+            active: Active,
+            size: Size,
+            score: TotalScore
+          }
+        })
+
+        return {
+          leaderboard,
+          division
+        }
+      })
+    }
 
     events.map(event => {
       event.results = []
@@ -164,79 +193,55 @@ export default {
         return modifier
       })
 
-      if (event.isCurrent) {
-        event.leaderboards = currentEventLeaderboards.map(({ leaderboard, division }) => {
-          leaderboard = leaderboard.map(({ Id, Rank, TotalScore, Active, Size }, i) => {
-            const clan = clans.find(({ id }) => id === `${Id}`)
+      event.leaderboards = event.leaderboards.map(({ leaderboard, division }) => {
+        leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
+          const clan = clans.find(({ id }) => id === `${clanId}`)
+          var medal
 
-            return {
-              ...clan,
-              tag: null,
-              path: urlBuilder.currentEventUrl(clan.id),
-              updated: clan.lastChecked,
-              rank: true,
-              overall: statsHelper.ranking(Rank),
-              active: Active,
-              size: Size,
-              score: TotalScore
-            }
-          })
+          switch (i) {
+            case 0:
+              if (rank === 1) {
+                medal = winnersMedal
+              } else {
+                medal = medalBuilder.build(1, 2, division.name)
+              }
+
+              event.results.push({
+                ...clan,
+                tag: null,
+                medal,
+                division,
+                score
+              })
+              break
+            case 1:
+            case 2:
+              medal = medalBuilder.build('top 3', 1, division.name)
+              break
+          }
 
           return {
-            leaderboard,
-            division
+            ...clan,
+            tag: null,
+            medal,
+            rank: true,
+            overall: statsHelper.ranking(rank),
+            score
           }
         })
-      } else {
-        event.leaderboards = event.leaderboards.map(({ leaderboard, division }) => {
-          leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
-            const clan = clans.find(({ id }) => id === `${clanId}`)
-            var medal
 
-            switch (i) {
-              case 0:
-                if (rank === 1) {
-                  medal = winnersMedal
-                } else {
-                  medal = medalBuilder.build(1, 2, division.name)
-                }
-
-                event.results.push({
-                  ...clan,
-                  tag: null,
-                  medal,
-                  division,
-                  score
-                })
-                break
-              case 1:
-              case 2:
-                medal = medalBuilder.build('top 3', 1, division.name)
-                break
-            }
-
-            return {
-              ...clan,
-              tag: null,
-              medal,
-              rank: true,
-              overall: statsHelper.ranking(rank),
-              score
-            }
-          })
-
-          return {
-            leaderboard,
-            division
-          }
-        })
-      }
+        return {
+          leaderboard,
+          division
+        }
+      })
 
       routes.push({
         path: event.path,
         component: 'src/containers/Event',
         getData: () => ({
           event,
+          currentEventLeaderboards: event.isCurrent ? currentEventLeaderboards : null,
           apiStatus: event.isCurrent ? apiStatus : {}
         })
       })
@@ -250,6 +255,7 @@ export default {
           apiStatus,
           clans,
           events,
+          currentEventLeaderboards,
           currentEventId,
           previousEventId
         })
@@ -275,6 +281,7 @@ export default {
           apiStatus,
           clans,
           events,
+          currentEventLeaderboards,
           currentEventId,
           previousEventId
         })

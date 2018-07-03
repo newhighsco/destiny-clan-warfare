@@ -36,12 +36,11 @@ class EventCurrent extends PureComponent {
   }
 
   render () {
-    const { event, element, summary } = this.props
+    const { event, leaderboards, element, summary } = this.props
     const { enrollmentOpen } = this.state
 
     if (!event) return null
 
-    const leaderboards = event.leaderboards || []
     const hasLeaderboards = leaderboards.length === constants.divisions.length
 
     return (
@@ -87,6 +86,7 @@ EventCurrent.defaultProps = {
 
 EventCurrent.propTypes = {
   event: PropTypes.object,
+  leaderboards: PropTypes.array,
   element: PropTypes.string,
   summary: PropTypes.bool
 }

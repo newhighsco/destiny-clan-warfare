@@ -32,12 +32,13 @@ class HomeContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { events, currentEventId, previousEventId } = this.props
+    const { events, currentEventLeaderboards, currentEventId, previousEventId } = this.props
     const currentEvent = events.find(({ id }) => id === currentEventId)
     const previousEvent = events.find(({ id }) => id === previousEventId)
     const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
 
     this.state = {
+      currentEventLeaderboards: currentEvent ? currentEventLeaderboards : null,
       currentEvent,
       previousEvent,
       nextEvent
@@ -46,7 +47,7 @@ class HomeContainer extends PureComponent {
 
   render () {
     const { apiStatus, clans } = this.props
-    const { currentEvent, previousEvent, nextEvent } = this.state
+    const { currentEventLeaderboards, currentEvent, previousEvent, nextEvent } = this.state
 
     return (
       <PageContainer meta={meta}>
@@ -56,7 +57,7 @@ class HomeContainer extends PureComponent {
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate apiStatus={apiStatus} />
             </Lockup>
-            <EventCurrent event={currentEvent} element="h2" summary />
+            <EventCurrent event={currentEvent} leaderboards={currentEventLeaderboards} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
@@ -105,6 +106,7 @@ HomeContainer.propTypes = {
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
   events: PropTypes.array,
+  currentEventLeaderboards: PropTypes.array,
   currentEventId: PropTypes.number,
   previousEventId: PropTypes.number
 }

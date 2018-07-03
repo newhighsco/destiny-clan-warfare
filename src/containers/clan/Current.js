@@ -41,7 +41,7 @@ class ClanCurrentContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { clan, members } = this.props
+    const { clan, members, currentTotals } = this.props
     const meta = {
       title: `${clan.name} | ${constants.kicker.current}`,
       description: `${possessive(clan.name)} clan standings in the current ${constants.meta.name} event`,
@@ -68,7 +68,14 @@ class ClanCurrentContainer extends PureComponent {
         ]
       }
     }
-    const leaderboard = MultiSort(members.map((member, i) => ({ ...member, ...member.currentTotals })), {
+    const leaderboard = MultiSort(members.map((member, i) => {
+      const memberCurrentTotals = currentTotals[member.id]
+
+      return {
+        ...member,
+        ...memberCurrentTotals
+      }
+    }), {
       score: 'DESC',
       games: 'DESC',
       name: 'ASC'
@@ -159,7 +166,8 @@ class ClanCurrentContainer extends PureComponent {
 ClanCurrentContainer.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
-  members: PropTypes.array
+  members: PropTypes.array,
+  currentTotals: PropTypes.object
 }
 
 export default withRouteData(ClanCurrentContainer)

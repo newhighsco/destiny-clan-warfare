@@ -41,7 +41,7 @@ class CustomLeaderboardContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { events, currentEventId, previousEventId } = this.props
+    const { events, currentEventLeaderboards, currentEventId, previousEventId } = this.props
     const eventId = currentEventId || previousEventId
     const event = events.find(({ id }) => id === eventId)
     const meta = {
@@ -55,6 +55,7 @@ class CustomLeaderboardContainer extends PureComponent {
       active: false,
       meta,
       event,
+      leaderboards: event.isCurrent ? currentEventLeaderboards : event.leaderboards,
       visible: []
     }
 
@@ -64,10 +65,10 @@ class CustomLeaderboardContainer extends PureComponent {
   }
 
   componentDidMount () {
-    const { active, event } = this.state
+    const { active, event, leaderboards } = this.state
     const { history: { location: { hash } }, clans } = this.props
     const ids = hash.replace(constants.prefix.hash, '').split(',')
-    const totals = event.leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
+    const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     var suggestions = []
     var tags = []
     var leaderboard = []
@@ -196,6 +197,7 @@ CustomLeaderboardContainer.propTypes = {
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
   events: PropTypes.array,
+  currentEventLeaderboards: PropTypes.array,
   currentEventId: PropTypes.number,
   previousEventId: PropTypes.number
 }

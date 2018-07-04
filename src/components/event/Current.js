@@ -42,7 +42,7 @@ class EventCurrent extends PureComponent {
 
     if (!event) return null
 
-    const hasLeaderboards = leaderboards.length === constants.divisions.length
+    const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
 
     return (
       <Fragment>

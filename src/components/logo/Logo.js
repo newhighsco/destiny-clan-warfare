@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
@@ -7,14 +7,20 @@ import styles from './Logo.styl'
 
 const sizes = [ 'small', 'medium' ]
 const baseClassName = 'logo'
+const iconClassName = `${baseClassName}-icon`
+const lockupClassName = `${baseClassName}-lockup`
 
-const Logo = ({ kicker, heading, size, className }) => {
-  return (
-    <h1 className={classNames(styles[baseClassName], className)}>
-      <LogoIcon size={size} />
-      <LogoLockup kicker={kicker} heading={heading} size={size} />
-    </h1>
-  )
+class Logo extends PureComponent {
+  render () {
+    const { kicker, heading, size, className } = this.props
+
+    return (
+      <h1 className={classNames(styles[baseClassName], className)}>
+        <LogoIcon size={size} />
+        <LogoLockup kicker={kicker} heading={heading} size={size} />
+      </h1>
+    )
+  }
 }
 
 Logo.propTypes = {
@@ -24,12 +30,14 @@ Logo.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-const LogoIcon = ({ size, className }) => {
-  const iconClassName = `${baseClassName}-icon`
+class LogoIcon extends PureComponent {
+  render () {
+    const { size, className } = this.props
 
-  return (
-    <LogoSvg className={classNames(styles[iconClassName], size && styles[`${iconClassName}--${size}`], className)} />
-  )
+    return (
+      <LogoSvg className={classNames(styles[iconClassName], size && styles[`${iconClassName}--${size}`], className)} />
+    )
+  }
 }
 
 LogoIcon.propTypes = {
@@ -37,16 +45,18 @@ LogoIcon.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-const LogoLockup = ({ kicker, heading, size, className }) => {
-  const lockupClassName = `${baseClassName}-lockup`
+class LogoLockup extends PureComponent {
+  render () {
+    const { kicker, heading, size, className } = this.props
 
-  return (
-    <Lockup className={classNames(styles[lockupClassName], size && styles[`${lockupClassName}--${size}`], className)}
-      heading={heading}
-      kicker={kicker}
-      element="span"
-    />
-  )
+    return (
+      <Lockup className={classNames(styles[lockupClassName], size && styles[`${lockupClassName}--${size}`], className)}
+        heading={heading}
+        kicker={kicker}
+        element="span"
+      />
+    )
+  }
 }
 
 LogoLockup.defaultProps = {

@@ -1,35 +1,23 @@
-import MultiSort from 'multi-sort'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
+import MultiSort from 'multi-sort'
 import RSS from 'rss'
-import Html from './src/html'
+import Html from './src/Html'
 
 require('dotenv').config()
 
 const path = require('path')
 const fs = require('fs-extra')
-const camelcaseKeys = require('camelcase-keys')
-const moment = require('moment')
-const linkify = require('linkify-urls')
 const webpack = require('webpack')
+const dataSources = require('./src/lib/data-sources')
 const stylusLoaders = require('./src/utils/stylus-loaders')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
 const statsHelper = require('./src/utils/stats-helper')
-const apiHelper = require('./src/utils/api-helper')
-const bungie = require('./src/utils/bungie-helper')
-const decode = require('./src/utils/html-entities').decode
 
-const primaryApi = apiHelper.api()
-const secondaryApi = apiHelper.api(1)
 const distPath = 'public'
-const extractCssChunks = true
-const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
-const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADERBOARDS)
-var currentEvent
-var redirects = []
+const redirects = []
 
 export default {
   paths: {
@@ -42,791 +30,272 @@ export default {
   },
   siteRoot: process.env.SITE_URL,
   bundleAnalyzer: false,
-  extractCssChunks: extractCssChunks,
+  extractCssChunks: true,
   inlineCss: true,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
-    var apiStatus = {
-      enrollmentOpen: false,
-      bungieStatus: constants.bungie.disabledStatusCode,
-      updatedDate: moment.utc().format(constants.format.machineReadable)
-    }
-    var clans = []
-    var currentMemberLeaderboards = []
-    var previousMemberLeaderboards = []
-    var members = []
-    var histories = {}
-    var events = []
-    var modifiers = []
-    var medals = []
-    var currentEventLeaderboard
-    var previousEventId
-    const casingOptions = { deep: true }
-    const linkifyOptions = { attributes: { target: '_blank', rel: 'noopener noreferrer' } }
-    const clanPlatforms = []
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, lastChecked, emptyTotals } = await dataSources.fetch()
 
-    const parseModifier = (modifier) => {
-      const { id, name, description, scoringModifier } = modifier
-      const member = members.find(({ profileIdStr }) => profileIdStr === modifier.createdBy)
-      const clan = member ? clans.find(({ groupId }) => groupId === member.groupId) : null
-      const creator = member ? `${decode(member.name)}${clan ? ` [${decode(clan.tag)}]` : ''}` : null
-
-      return {
-        id,
-        name,
-        description,
-        scoringModifier,
-        bonus: modifier.scoringBonus || modifier.multiplierBonus,
-        shortName: modifier.shortName || name.split(' ')[0],
-        creator
-      }
-    }
-
-    const sources = [
-      new Promise((resolve, reject) => {
-        console.time(`fetch enrollment open`)
-
-        primaryApi(`Clan/AcceptingNewClans`)
-          .then(({ data }) => {
-            apiStatus.enrollmentOpen = data
-            console.timeEnd(`fetch enrollment open`)
-            console.log(`enrollment open: ${apiStatus.enrollmentOpen}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch enrollment open', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch bungie api status`)
-
-        bungie(`/Destiny2/Milestones`)
-          .then(({ data }) => {
-            if (data.ErrorCode) apiStatus.bungieStatus = data.ErrorCode
-            console.timeEnd(`fetch bungie api status`)
-            console.log(`bungie api status: ${apiStatus.bungieStatus}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch bungie api status', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch clans`)
-
-        primaryApi(`Clan/GetAllClans`)
-          .then(({ data }) => {
-            clans = data.map(item => camelcaseKeys(item, casingOptions))
-            console.timeEnd(`fetch clans`)
-            console.log(`clans: ${clans.length}`)
-            resolve()
-          })
-          .catch(err => console.error('fetch clans', err.message))
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch members`)
-
-        primaryApi(`Clan/GetAllMembers`)
-          .then(({ data }) => {
-            members = data.map(item => camelcaseKeys(item, casingOptions))
-            console.timeEnd(`fetch members`)
-            console.log(`members: ${members.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch members', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch events`)
-
-        primaryApi(`Event/GetAllEvents`)
-          .then(({ data }) => {
-            events = data.map(item => camelcaseKeys(item, casingOptions))
-            currentEvent = events.find(({ eventTense, calculated }) => eventTense === constants.tense.current && !calculated)
-            console.timeEnd(`fetch events`)
-            console.log(`events: ${events.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch events', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch modifiers`)
-
-        primaryApi(`Component/GetAllModifiers`)
-          .then(({ data }) => {
-            modifiers = data.map(item => parseModifier(camelcaseKeys(item, casingOptions)))
-            console.timeEnd(`fetch modifiers`)
-            console.log(`modifiers: ${modifiers.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch modifiers', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch member medals`)
-
-        primaryApi(`Component/GetAllMedals`)
-          .then(({ data }) => {
-            medals = medals.concat(medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), constants.prefix.profile))
-            console.timeEnd(`fetch member medals`)
-            console.log(`member medals: ${data.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch member medals', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch clan medals`)
-
-        primaryApi(`Component/GetAllClanMedals`)
-          .then(({ data }) => {
-            medals = medals.concat(medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), constants.prefix.clan))
-            console.timeEnd(`fetch clan medals`)
-            console.log(`clan medals: ${data.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch clan medals', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch event leaderboard`)
-
-        primaryApi(`Leaderboard/GetLeaderboard`)
-          .then(({ data }) => {
-            currentEventLeaderboard = camelcaseKeys(data, casingOptions)
-            console.timeEnd(`fetch event leaderboard`)
-            console.log(`event leaderboard: ${currentEventLeaderboard !== null}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch event leaderboard', err.message)
-            reject(err)
-          })
-      }),
-      new Promise((resolve, reject) => {
-        console.time(`fetch current clan leaderboard`)
-
-        primaryApi(`Leaderboard/GetClanLeaderboard`)
-          .then(({ data }) => {
-            currentMemberLeaderboards = camelcaseKeys(data, casingOptions)
-            console.timeEnd(`fetch current clan leaderboard`)
-            console.log(`current clan leaderboard: ${currentMemberLeaderboards.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch current clan leaderboard', err.message)
-            reject(err)
-          })
-      })
-    ]
-
-    if (enablePreviousLeaderboards) {
-      sources.push(new Promise((resolve, reject) => {
-        console.time(`fetch previous clan leaderboard`)
-
-        primaryApi(`Leaderboard/GetPreviousClanLeaderboard`)
-          .then(({ data }) => {
-            previousMemberLeaderboards = camelcaseKeys(data[0].LeaderboardList, casingOptions)
-            previousEventId = data[0].EventId
-            console.timeEnd(`fetch previous clan leaderboard`)
-            console.log(`previous clan leaderboard: ${previousMemberLeaderboards.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch previous clan leaderboard', err.message)
-            reject(err)
-          })
-      }))
-    } else {
-      console.log('fetch previous clan leaderboard disabled')
-    }
-
-    if (enableMatchHistory) {
-      sources.push(new Promise((resolve, reject) => {
-        console.time(`fetch match history`)
-
-        secondaryApi(`Leaderboard/GetAllPlayersHistory`)
-          .then(({ data }) => {
-            MultiSort(data, 'DatePlayed', 'DESC').map(item => {
-              item = camelcaseKeys(item, casingOptions)
-              const id = item.membershipIdStr
-              const existing = histories[id]
-
-              if (existing) {
-                if (existing.length < constants.matchHistoryLimit) existing.push(item)
-              } else {
-                histories[id] = [ item ]
-              }
-            })
-
-            console.timeEnd(`fetch match history`)
-            console.log(`match history: ${data.length}`)
-            resolve()
-          })
-          .catch(err => {
-            console.error('fetch match history', err.message)
-            reject(err)
-          })
-      }))
-    } else {
-      console.log('fetch match history disabled')
-    }
-
-    await Promise.all(sources)
-
-    await fs.writeFile(path.join(distPath, 'api-status.json'), JSON.stringify(apiStatus))
-
-    const parseBonuses = (item, modifierIds) => {
-      const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
-      const hasPlayed = item.gamesPlayed > 0 || item.pgcrId
-
-      return bonuses.map((bonus, index) => {
-        const modifierId = modifierIds ? modifierIds[index] : bonus.modifierId
-        const modifier = modifiers.find(({ id }) => id === modifierId)
-
-        if (modifier) {
-          return {
-            shortName: modifier.shortName,
-            count: hasPlayed ? (typeof bonus === 'object' ? bonus.bonusPoints : bonus) : null
-          }
-        }
-
-        return null
-      })
-    }
-
-    console.time(`create clan nodes`)
-
-    const parsedClans = []
-
-    const parseTags = (bonusUnlocks) => {
-      return bonusUnlocks.map(({ name }) => ({ name }))
-    }
-
-    await Promise.all(clans.map(clan => {
-      const clanMembers = members.filter(({ groupId }) => groupId === clan.groupId)
-      const currentClanLeaderboard = currentMemberLeaderboards.filter(({ clanId }) => clanId === clan.groupId)
-      const previousClanLeaderboard = previousMemberLeaderboards.filter(({ clanId }) => clanId === clan.groupId)
-      const platforms = clanMembers.reduce((platforms, member) => {
-        const hasPlayed = member.currentScore ? member.currentScore.gamesPlayed > 0 : false
-        const platformId = member.membershipType
-        const existing = platforms.find(({ id }) => id === platformId)
-
-        if (existing) {
-          existing.size++
-          if (hasPlayed) existing.active++
-        } else {
-          platforms.push({ id: platformId, size: 1, active: hasPlayed ? 1 : 0 })
-        }
-
-        return platforms
-      }, [])
-      const sortedClanMembers = MultiSort(clanMembers, 'lastChecked', 'DESC').filter(({ lastChecked }) => lastChecked)
-      const updatedDate = sortedClanMembers.length > 0 ? sortedClanMembers[0].lastChecked : null
-
-      clanPlatforms.push({ id: clan.groupId, platforms, updatedDate })
-
-      const parseClanLeaderboard = (leaderboard, eventId, isCurrent) => {
-        if (leaderboard.length === 0) {
-          return [ {
-            path: '',
-            id: '',
-            platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
-            name: '',
-            icon: '',
-            tags: [ { name: '', description: '' } ],
-            games: Number.NEGATIVE_INFINITY,
-            wins: Number.NEGATIVE_INFINITY,
-            kills: Number.NEGATIVE_INFINITY,
-            assists: Number.NEGATIVE_INFINITY,
-            deaths: Number.NEGATIVE_INFINITY,
-            bonuses: [ { shortName: '', count: Number.NEGATIVE_INFINITY } ],
-            score: Number.NEGATIVE_INFINITY,
-            updated: moment.utc(new Date(0)).format(constants.format.machineReadable),
-            eventId: eventId
-          } ]
-        }
-
-        return leaderboard.map(item => {
-          const member = clanMembers.find(({ profileIdStr }) => profileIdStr === item.idStr)
-
-          if (!member) {
-            if (isCurrent) console.error(`Cannot find member: ${item.idStr}`)
-            return null
-          }
-
-          return {
-            path: isCurrent ? urlBuilder.currentEventUrl(member.groupId, member.profileIdStr) : urlBuilder.profileUrl(member.groupId, member.profileIdStr, eventId),
-            id: member.profileIdStr,
-            platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
-            name: decode(member.name),
-            icon: member.icon,
-            tags: parseTags(member.bonusUnlocks),
-            games: item.gamesPlayed,
-            wins: item.gamesWon,
-            kills: item.kills,
-            assists: item.assists,
-            deaths: item.deaths,
-            bonuses: parseBonuses(item),
-            score: parseInt(Math.round(item.totalScore)),
-            updated: isCurrent && member.lastChecked ? moment.utc(member.lastChecked).format(constants.format.machineReadable) : null,
-            eventId: eventId
-          }
-        })
-      }
-
-      return parsedClans.push({
-        id: `${clan.groupId}`,
-        platforms,
-        path: urlBuilder.clanUrl(clan.groupId),
-        name: decode(clan.name),
-        nameSortable: clan.name.toUpperCase(),
-        tag: decode(clan.tag),
-        motto: decode(clan.motto),
-        description: linkify(clan.description, linkifyOptions).split(/\r?\n/g).join('<br />'),
-        color: clan.backgroundColor,
-        foreground: {
-          color: clan.emblemColor1,
-          icon: clan.foregroundIcon
-        },
-        background: {
-          color: clan.emblemColor2,
-          icon: clan.backgroundIcon
-        },
-        leaderboard: currentEvent ? parseClanLeaderboard(currentClanLeaderboard, currentEvent.eventId, true) : [],
-        leaderboardVisible: currentEvent && currentClanLeaderboard.length > 0,
-        previousLeaderboard: parseClanLeaderboard(previousClanLeaderboard, previousEventId),
-        medals: medalBuilder.parseMedals(clan.medalUnlocks, constants.prefix.clan)
-      })
-    }))
-
-    console.timeEnd(`create clan nodes`)
-
-    console.time(`create member nodes`)
-
-    const parsedMembers = []
-
-    await Promise.all(members.map(member => {
-      const clan = clans.find(({ groupId }) => groupId === member.groupId)
-
-      var history = histories[member.profileIdStr] || []
-      var memberLeaderboard = currentMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
-      var previousMemberLeaderboard = previousMemberLeaderboards.find(({ idStr }) => idStr === member.profileIdStr)
-
-      var leaderboard = {
-        games: Number.NEGATIVE_INFINITY,
-        wins: Number.NEGATIVE_INFINITY,
-        kills: Number.NEGATIVE_INFINITY,
-        assists: Number.NEGATIVE_INFINITY,
-        deaths: Number.NEGATIVE_INFINITY,
-        bonuses: [],
-        score: Number.NEGATIVE_INFINITY,
-        updated: moment.utc(new Date(0)).format(constants.format.machineReadable)
-      }
-
-      if (memberLeaderboard) {
-        leaderboard = {
-          games: memberLeaderboard.gamesPlayed,
-          wins: memberLeaderboard.gamesWon,
-          kills: memberLeaderboard.kills,
-          assists: memberLeaderboard.assists,
-          deaths: memberLeaderboard.deaths,
-          bonuses: parseBonuses(memberLeaderboard),
-          score: parseInt(Math.round(memberLeaderboard.totalScore)),
-          updated: member.lastChecked ? moment.utc(member.lastChecked).format(constants.format.machineReadable) : null
-        }
-      }
-
-      var totals = {
-        games: Number.NEGATIVE_INFINITY,
-        wins: Number.NEGATIVE_INFINITY,
-        kills: Number.NEGATIVE_INFINITY,
-        assists: Number.NEGATIVE_INFINITY,
-        deaths: Number.NEGATIVE_INFINITY,
-        score: Number.NEGATIVE_INFINITY,
-        lastPlayed: moment.utc(new Date(0)).format(constants.format.machineReadable)
-      }
-
-      if (member.currentScore && member.currentScore.lastSeen) {
-        totals = {
-          games: member.currentScore.gamesPlayed,
-          wins: member.currentScore.gamesWon,
-          kills: member.currentScore.kills,
-          assists: member.currentScore.assists,
-          deaths: member.currentScore.deaths,
-          score: parseInt(Math.round(member.currentScore.totalScore)),
-          lastPlayed: moment.utc(member.currentScore.lastSeen).format(constants.format.machineReadable)
-        }
-      }
-
-      var pastEvents = []
-
-      if (previousMemberLeaderboard) {
-        const previousEvent = events.find(({ eventId }) => eventId === previousEventId)
-        const games = previousMemberLeaderboard.gamesPlayed
-        const score = parseInt(Math.round(previousMemberLeaderboard.totalScore))
-
-        if (games > 0) {
-          pastEvents.push({
-            id: previousEventId,
-            game: {
-              path: urlBuilder.eventUrl(previousEventId),
-              result: true,
-              type: previousEvent.name,
-              endDate: moment.utc(previousEvent.scoringEndTime).format(constants.format.machineReadable)
-            },
-            games,
-            wins: previousMemberLeaderboard.gamesWon,
-            kd: statsHelper.kd(previousMemberLeaderboard),
-            kda: statsHelper.kda(previousMemberLeaderboard),
-            bonuses: parseBonuses(previousMemberLeaderboard),
-            ppg: statsHelper.ppg({ games, score }),
-            score
-          })
-        }
-      }
-
-      const path = urlBuilder.profileUrl(member.groupId, member.profileIdStr)
-
-      redirects.push({ from: `${urlBuilder.profileRootUrl}${member.profileIdStr}/`, to: path, code: 301 })
-
-      return parsedMembers.push({
-        id: member.profileIdStr,
-        platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1 } ],
-        path,
-        clanId: `${member.groupId}`,
-        clanName: decode(clan.name),
-        clanPath: urlBuilder.clanUrl(member.groupId),
-        clanTag: decode(clan.tag),
-        clanSortable: clan.name.toUpperCase(),
-        name: decode(member.name),
-        nameSortable: member.name.toUpperCase(),
-        icon: member.icon,
-        tags: parseTags(member.bonusUnlocks),
-        medals: medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile),
-        totals,
-        totalsVisible: totals.games > 0,
-        totalsSortable: totals.lastPlayed,
-        leaderboard,
-        leaderboardVisible: currentEvent && leaderboard.games > 0,
-        history: history.map(item => ({
-          game: {
-            path: urlBuilder.pgcrUrl(item.pgcrId),
-            isExternal: true,
-            result: item.gameWon === true ? constants.result.win : (item.gameWon === false ? constants.result.loss : ''),
-            type: item.gameType,
-            map: item.map,
-            endDate: moment.utc(item.datePlayed).format(constants.format.machineReadable)
-          },
-          kills: item.kills,
-          assists: item.assists,
-          deaths: item.deaths,
-          bonuses: currentEvent ? parseBonuses(item, currentEvent.modifiers.map(({ id }) => (id))) : [],
-          score: parseInt(Math.round(item.totalScore))
-        })),
-        pastEvents
-      })
-    }))
-
-    console.timeEnd(`create member nodes`)
-
-    console.time(`create event nodes`)
-
-    const parsedEvents = []
-
-    await Promise.all(events.map(event => {
-      var hasResults = false
-
-      const parseClans = (rawClans, eventId, isCurrent) => {
-        if (!rawClans) return []
-
-        return rawClans.map((rawClan, i) => {
-          const clanId = rawClan.clanId || rawClan.id
-          const clan = clans.find(({ groupId }) => groupId === clanId)
-          const platforms = clanPlatforms.find(({ id }) => id === clanId)
-
-          if (!clan) {
-            console.error(`Cannot find clan: ${clanId}`)
-            return null
-          }
-
-          return {
-            id: clan.groupId,
-            path: isCurrent ? urlBuilder.currentEventUrl(clan.groupId) : urlBuilder.clanUrl(clan.groupId, eventId),
-            platforms: platforms ? platforms.platforms : [],
-            name: decode(clan.name),
-            color: clan.backgroundColor,
-            foreground: {
-              color: clan.emblemColor1,
-              icon: clan.foregroundIcon
-            },
-            background: {
-              color: clan.emblemColor2,
-              icon: clan.backgroundIcon
-            },
-            size: rawClan.size || 0,
-            active: rawClan.active || 0,
-            games: rawClan.gamesPlayed,
-            wins: rawClan.gamesWon,
-            kills: rawClan.kills,
-            assists: rawClan.assists,
-            deaths: rawClan.deaths,
-            score: parseInt(Math.round(rawClan.score || rawClan.totalScore || 0)),
-            updated: isCurrent && platforms ? moment.utc(platforms.updatedDate).format(constants.format.machineReadable) : null
-          }
-        })
-      }
-
-      const parseResults = (division, leaderboard, results) => {
-        if (leaderboard && leaderboard.length) {
-          hasResults = true
-
-          results.push({
-            ...leaderboard[0],
-            division: division,
-            medal: medalBuilder.build(1, 2, division)
-          })
-        } else {
-          results.push({
-            id: '',
-            path: '',
-            platforms: [ { id: constants.bungie.platformDefault, size: Number.NEGATIVE_INFINITY, active: Number.NEGATIVE_INFINITY } ],
-            name: '',
-            color: '',
-            foreground: { color: '', icon: '' },
-            background: { color: '', icon: '' },
-            rank: '',
-            size: Number.NEGATIVE_INFINITY,
-            games: Number.NEGATIVE_INFINITY,
-            wins: Number.NEGATIVE_INFINITY,
-            kills: Number.NEGATIVE_INFINITY,
-            assists: Number.NEGATIVE_INFINITY,
-            deaths: Number.NEGATIVE_INFINITY,
-            score: Number.NEGATIVE_INFINITY,
-            division: '',
-            medal: {
-              tier: Number.NEGATIVE_INFINITY,
-              name: '',
-              description: ''
-            }
-          })
-        }
-      }
-
-      const startDate = moment.utc(event.startTime).format(constants.format.machineReadable)
-      const endDate = moment.utc(event.scoringEndTime).format(constants.format.machineReadable)
-      var isCurrent = event.eventTense === constants.tense.current
-      var isPast = event.eventTense === constants.tense.past
-      var isFuture = event.eventTense === constants.tense.future
-      const results = []
-      var largeLeaderboard = []
-      var mediumLeaderboard = []
-      var smallLeaderboard = []
-
-      if (isCurrent && endDate < apiStatus.updatedDate) {
-        currentEvent = null
-        isCurrent = false
-        isPast = true
-      }
-
-      if (isFuture && startDate < apiStatus.updatedDate) {
-        currentEvent = event
-        isCurrent = true
-        isFuture = false
-      }
-
-      if (isCurrent) {
-        largeLeaderboard = parseClans(currentEventLeaderboard.largeLeaderboard, event.eventId, true)
-        mediumLeaderboard = parseClans(currentEventLeaderboard.mediumLeaderboard, event.eventId, true)
-        smallLeaderboard = parseClans(currentEventLeaderboard.smallLeaderboard, event.eventId, true)
-      } else {
-        largeLeaderboard = parseClans(event.result.large, event.eventId)
-        mediumLeaderboard = parseClans(event.result.medium, event.eventId)
-        smallLeaderboard = parseClans(event.result.small, event.eventId)
-
-        parseResults(constants.division.large, largeLeaderboard, results)
-        parseResults(constants.division.medium, mediumLeaderboard, results)
-        parseResults(constants.division.small, smallLeaderboard, results)
-
-        const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
-
-        if (winnersMedal) {
-          results
-            .sort((a, b) => b.score - a.score)
-            .map((item, i) => {
-              if (i === 0) {
-                item.medal = winnersMedal
-              }
-              return item
-            })
-        }
-      }
-
-      return parsedEvents.push({
-        id: event.eventId,
-        path: isCurrent ? urlBuilder.currentEventUrl() : urlBuilder.eventUrl(event.eventId),
-        name: event.name,
-        description: event.description || '',
-        startDate: moment.utc(startDate).format(constants.format.machineReadable),
-        endDate: moment.utc(endDate).format(constants.format.machineReadable),
-        isPast: isPast,
-        isFuture: isFuture,
-        isCurrent: isCurrent,
-        isCalculated: event.calculated,
-        visible: event.expired ? hasResults : true,
-        modifiers: event.modifiers ? event.modifiers.map(modifier => parseModifier(modifier)) : [],
-        leaderboards: [
-          { name: constants.division.large, data: largeLeaderboard },
-          { name: constants.division.medium, data: mediumLeaderboard },
-          { name: constants.division.small, data: smallLeaderboard }
-        ],
-        results: results.filter(({ score }) => score > 0),
-        medals: {
-          clans: event.clanMedals ? medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1) : [],
-          members: event.clanMemberMedals ? medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1) : []
-        }
-      })
-    }))
-
-    console.timeEnd(`create event nodes`)
-
-    const visibleEvents = MultiSort(parsedEvents.filter(({ visible }) => visible), 'startDate', 'DESC')
     const routes = [
       {
-        path: '/',
-        component: 'src/pages/index',
+        is404: true,
+        component: 'src/containers/NotFound'
+      },
+      {
+        path: '/branding/',
+        component: 'src/containers/Branding'
+      },
+      {
+        path: '/faqs/',
+        component: 'src/containers/FrequentlyAskedQuestions'
+      },
+      {
+        path: '/support-us/',
+        component: 'src/containers/SupportUs'
+      },
+      {
+        path: '/thanks/',
+        component: 'src/containers/Thanks'
+      }
+    ]
+
+    clans.map(clan => {
+      const clanMembers = members.filter(({ clanId }) => clanId === clan.id)
+      const clanCurrentTotals = {}
+      const clanMatchHistory = {}
+      const totalSize = clanMembers.length
+      const platforms = []
+
+      clanMembers.map(member => {
+        const memberId = member.id
+        const hasPlayed = member.totals ? member.totals.games > 0 : false
+        const platformId = member.platforms[0].id
+        const existing = platforms.find(({ id }) => id === platformId)
+        const memberLastChecked = lastChecked.find(({ id }) => id === memberId)
+        const memberLastCheckedDate = memberLastChecked ? memberLastChecked.date : null
+
+        if (existing) {
+          if (hasPlayed) existing.active++
+          existing.size++
+          existing.percentage = Math.round((existing.size / totalSize) * 100)
+        } else {
+          platforms.push({ id: platformId, size: 1, active: hasPlayed ? 1 : 0, percentage: Math.round((1 / totalSize) * 100) })
+        }
+
+        if (currentEventId) {
+          const currentTotals = currentClanLeaderboard.find(({ id }) => id === memberId)
+
+          clanCurrentTotals[memberId] = {
+            ...currentTotals,
+            updated: currentTotals.games > 0 ? memberLastCheckedDate : null
+          }
+
+          clanMatchHistory[memberId] = matchHistory[memberId] || []
+        }
+
+        if (previousEventId) {
+          const previousTotals = previousClanLeaderboard.find(({ id }) => id === memberId)
+          const pastEvents = []
+
+          if (previousTotals && previousTotals.games > 0) {
+            const { eventId, path, ...totals } = previousTotals
+            const event = events.find(({ id }) => id === eventId)
+
+            pastEvents.push({
+              ...totals,
+              id: eventId,
+              game: {
+                path: event.path,
+                result: true,
+                name: event.name,
+                endDate: event.endDate
+              }
+            })
+          }
+
+          member.previousTotals = previousTotals || emptyTotals
+
+          if (pastEvents.length) member.pastEvents = pastEvents
+        }
+      })
+
+      clan.platforms = platforms
+
+      routes.push({
+        path: clan.path,
+        component: 'src/containers/clan/Overall',
         getData: () => ({
-          clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
-            .map(({ path, id }) => ({ path, id })),
-          currentEvents: MultiSort(parsedEvents.filter(({ isCurrent }) => isCurrent), 'startDate', 'ASC')
-            .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, leaderboards }) => ({ path, name, description, startDate, endDate, modifiers, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.slice(0, 3).map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', active, size, score, updated })) })) })),
-          pastEvents: MultiSort(parsedEvents.filter(({ isPast }) => isPast), 'startDate', 'DESC')
-            .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers, isCalculated, results }) => ({ path, name, description, startDate, endDate, modifiers, isCalculated, results: results.map(({ id, path, name, platforms, color, background, foreground, medal, division, score }) => ({ id, path, name, platforms, color, background, foreground, medal, division, score })) })),
-          futureEvents: MultiSort(parsedEvents.filter(({ isFuture }) => isFuture), 'startDate', 'ASC')
-            .slice(0, 1)
-            .map(({ path, name, description, startDate, endDate, modifiers }) => ({ path, name, description, startDate, endDate, modifiers }))
+          clan,
+          members: clanMembers,
+          currentEventId,
+          previousEventId
+        })
+      })
+
+      if (currentEventId) {
+        routes.push({
+          path: urlBuilder.currentEventUrl(clan.id),
+          component: 'src/containers/clan/Current',
+          getData: () => ({
+            apiStatus,
+            clan,
+            members: clanMembers,
+            currentTotals: clanCurrentTotals,
+            matchHistory: clanMatchHistory
+          })
+        })
+      }
+    })
+
+    const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
+    var currentEventLeaderboards = []
+
+    if (currentEventId) {
+      currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }) => {
+        leaderboard = leaderboard.map(({ IdStr, Rank, TotalScore, Active, Size }, i) => {
+          const clan = clans.find(({ id }) => id === IdStr)
+          const clanLastChecked = MultiSort(lastChecked.filter(({ clanId }) => clanId === clan.id), { date: 'DESC' })
+
+          return {
+            ...clan,
+            updated: clanLastChecked.length ? clanLastChecked[0].date : null,
+            tag: null,
+            path: urlBuilder.currentEventUrl(clan.id),
+            rank: true,
+            overall: statsHelper.ranking(Rank),
+            active: Active,
+            size: Size,
+            score: TotalScore
+          }
+        })
+
+        return {
+          leaderboard,
+          division
+        }
+      })
+    }
+
+    events.map(event => {
+      event.results = []
+      event.modifiers = event.modifiers.map(id => {
+        const modifier = modifiers.find(modifier => modifier.id === id)
+
+        if (modifier.creator) {
+          const member = members.find(({ id }) => id === modifier.creator)
+
+          if (member) {
+            const clan = clans.find(({ id }) => id === member.clanId)
+
+            modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+          }
+        }
+
+        return modifier
+      })
+
+      event.leaderboards = event.leaderboards.map(({ leaderboard, division }) => {
+        leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
+          const clan = clans.find(({ id }) => id === `${clanId}`)
+          var medal
+
+          switch (i) {
+            case 0:
+              if (rank === 1) {
+                medal = winnersMedal
+              } else {
+                medal = medalBuilder.build(1, 2, division.name)
+              }
+
+              event.results.push({
+                ...clan,
+                tag: null,
+                medal,
+                division,
+                score
+              })
+              break
+            case 1:
+            case 2:
+              medal = medalBuilder.build('top 3', 1, division.name)
+              break
+          }
+
+          return {
+            ...clan,
+            tag: null,
+            medal,
+            rank: true,
+            overall: statsHelper.ranking(rank),
+            score
+          }
+        })
+
+        return {
+          leaderboard,
+          division
+        }
+      })
+
+      routes.push({
+        path: event.path,
+        component: 'src/containers/Event',
+        getData: () => ({
+          event,
+          currentEventLeaderboards: event.isCurrent ? currentEventLeaderboards : null,
+          apiStatus: event.isCurrent ? apiStatus : {}
+        })
+      })
+    })
+
+    routes.push(
+      {
+        path: '/',
+        component: 'src/containers/Home',
+        getData: () => ({
+          apiStatus,
+          clans,
+          events,
+          currentEventLeaderboards,
+          currentEventId,
+          previousEventId
+        })
+      },
+      {
+        path: urlBuilder.eventRootUrl,
+        component: 'src/containers/Events',
+        getData: () => ({
+          events
         })
       },
       {
         path: urlBuilder.clanRootUrl,
-        component: 'src/pages/clans',
+        component: 'src/containers/Clans',
         getData: () => ({
-          clans: MultiSort(parsedClans, 'nameSortable', 'ASC')
-            .map(({ path, platforms, name, color, tag, id, foreground, background }) => ({ path, platforms, name, color, clanTag: tag, clanId: id, foreground, background }))
-        }),
-        children: parsedClans.map(clan => ({
-          path: `/${clan.id}/`,
-          component: 'src/templates/clan',
-          getData: () => ({
-            clan: (({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard, leaderboardVisible }) => ({ id, name, platforms, motto, description, color, foreground, background, medals, previousLeaderboard, leaderboardVisible }))(clan),
-            members: MultiSort(parsedMembers.filter(({ clanId }) => clanId === clan.id), {
-              totalsSortable: 'ASC',
-              nameSortable: 'ASC'
-            }).map(({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }) => ({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }))
-          })
-        }))
-      },
-      {
-        path: urlBuilder.eventRootUrl,
-        component: 'src/pages/events',
-        getData: () => ({
-          events: visibleEvents.map(({ path, name, startDate, endDate, isCurrent, isPast, modifiers }) => ({ path, name, startDate, endDate, isCurrent, isPast, modifiers }))
-        }),
-        children: parsedEvents.filter(({ visible }) => visible).map(event => ({
-          path: `/${event.id}/`,
-          component: 'src/templates/event',
-          getData: () => ({
-            event: (({ path, name, description, startDate, endDate, isCurrent, isPast, isFuture, isCalculated, leaderboards, results, modifiers, medals }) => ({ path, name, description, startDate, endDate, isCurrent, isPast, isFuture, isCalculated, leaderboards, results, modifiers, medals }))(event)
-          })
-        }))
+          clans
+        })
       },
       {
         path: urlBuilder.leaderboardRootUrl,
-        component: 'src/pages/leaderboard',
-        getData: () => {
-          const eventId = currentEvent ? currentEvent.eventId : previousEventId
-          const event = visibleEvents.find(({ id }) => id === eventId)
-          const totals = event.leaderboards.reduce((result, leaderboard) => result.concat(leaderboard.data.map(({ id, path, score, active, size, updated }) => ({ clanId: id, path, active, size, score, updated }))), [])
-
-          return {
-            event: (({ path, isCurrent }) => ({ path, isCurrent }))(event),
-            leaderboard: MultiSort(parsedClans.map(({ id, name, platforms, color, background, foreground }) => {
-              const total = totals.find(({ clanId }) => `${clanId}` === id)
-              const { path, active, size, score, updated } = total || { active: null, size: null, score: Number.NEGATIVE_INFINITY, updated: null }
-
-              return {
-                id,
-                path,
-                name,
-                platforms,
-                color,
-                background,
-                foreground,
-                rank: score >= 0 ? '' : null,
-                active,
-                size,
-                score,
-                updated
-              }
-            }), { score: 'DESC', name: 'ASC' })
-          }
-        }
-      },
-      {
-        path: '/faqs/',
-        component: 'src/pages/faqs'
-      },
-      {
-        path: '/support-us/',
-        component: 'src/pages/support-us'
-      },
-      {
-        path: '/thanks/',
-        component: 'src/pages/thanks'
-      },
-      {
-        path: '/branding/',
-        component: 'src/pages/branding'
-      },
-      {
-        is404: true,
-        component: 'src/pages/404'
-      }
-    ]
-
-    if (currentEvent) {
-      routes.push({
-        path: urlBuilder.currentEventRootUrl,
-        component: 'src/templates/event',
+        component: 'src/containers/CustomLeaderboard',
         getData: () => ({
-          event: (({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards }) => ({ path, name, description, startDate, endDate, isCurrent, modifiers, medals, leaderboards: leaderboards.map(({ name, data }) => ({ name, data: data.map(({ id, path, name, platforms, color, background, foreground, score, active, size, updated }) => ({ id, path, name, platforms, color, background, foreground, rank: '', active, size, score, updated })) })) }))(parsedEvents.find(({ id }) => id === currentEvent.eventId))
-        }),
-        children: parsedClans.filter(({ leaderboardVisible }) => leaderboardVisible).map(clan => ({
-          path: `/${clan.id}/`,
-          component: 'src/templates/event-clan',
-          getData: () => ({
-            clan: (({ path, platforms, id, name, motto, color, foreground, background, leaderboard, previousLeaderboard }) => ({ path, platforms, id, name, motto, color, foreground, background, leaderboard, previousEventId: previousLeaderboard.length > 0 ? previousEventId : null }))(clan),
-            members: parsedMembers
-              .filter(({ clanId }) => clanId === clan.id)
-              .map(({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }) => ({ path, id, platforms, name, icon, tags, clanId, clanName, clanTag, clanPath, medals, history, totals, totalsVisible, leaderboard, leaderboardVisible, pastEvents }))
-          })
-        }))
-      })
+          apiStatus,
+          clans,
+          events,
+          currentEventLeaderboards,
+          currentEventId,
+          previousEventId
+        })
+      }
+    )
+
+    if (currentEventId) {
+      redirects.push(
+        { from: urlBuilder.eventUrl(currentEventId), to: urlBuilder.currentEventRootUrl, code: 302 },
+        { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+      )
+    } else {
+      redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
     }
 
     const feedOptions = {
@@ -836,24 +305,17 @@ export default {
     }
     var feed = new RSS(feedOptions)
 
-    feedBuilder(visibleEvents).map(event => feed.item(event))
+    feedBuilder(events).map(event => feed.item(event))
 
     await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
 
     feed = new RSS(feedOptions)
 
-    feedBuilder(visibleEvents, constants.kicker.current).map(event => feed.item(event))
-
-    await fs.writeFile(path.join(distPath, '/events--current.xml'), feed.xml())
-
-    feed = new RSS(feedOptions)
-
-    const formattedDate = moment(apiStatus.updatedDate).format(constants.format.url)
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
     const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    const url = `${process.env.SITE_URL}/${formattedDate}/`
+    const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${apiStatus.formattedDate}/`
     const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
-    const title = `${kicker} - ${formattedDate}`
+    const title = `${kicker} - ${apiStatus.formattedDate}`
     const content = `${kicker}${canonicalUrl}`
 
     feed.item({
@@ -873,8 +335,8 @@ export default {
     if (stage !== 'dev') config.devtool = false
 
     config.entry = stage === 'dev'
-      ? [ 'babel-polyfill', ...config.entry ]
-      : [ 'babel-polyfill', config.entry ]
+      ? [ require.resolve('babel-polyfill'), ...config.entry ]
+      : [ require.resolve('babel-polyfill'), config.entry ]
 
     config.module.rules = [
       {
@@ -883,7 +345,7 @@ export default {
             test: /\.styl$/,
             use: stage === 'dev'
               ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : (extractCssChunks ? ExtractCssChunks : ExtractTextPlugin).extract({ use: stylusLoaders() })
+              : ExtractCssChunks.extract({ use: stylusLoaders() })
           },
           {
             test: /\.svg$/,
@@ -897,15 +359,13 @@ export default {
     ]
 
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-    config.plugins.push(extractCssChunks ? new ExtractCssChunks() : new ExtractTextPlugin())
+    if (stage === 'node') config.plugins.push(new ExtractCssChunks())
 
     return config
   },
   Document: Html,
   onBuild: async () => {
-    const robots = [
-      'User-agent: *'
-    ]
+    const robots = [ 'User-agent: *' ]
     const disallowRobots = JSON.parse(process.env.DISALLOW_ROBOTS)
 
     if (disallowRobots) robots.push('Disallow: /')
@@ -914,20 +374,10 @@ export default {
     await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
 
     redirects.push(
-      { from: urlBuilder.profileRootUrl, to: '/', code: 301 },
       { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
       { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
       { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }
     )
-
-    if (currentEvent) {
-      redirects.push(
-        { from: urlBuilder.eventUrl(currentEvent.eventId), to: urlBuilder.currentEventRootUrl, code: 302 },
-        { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
-      )
-    } else {
-      redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
-    }
 
     await fs.writeFile(path.join(distPath, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
 

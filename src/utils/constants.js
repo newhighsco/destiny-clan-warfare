@@ -19,11 +19,11 @@ const constants = {
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ',
     url: 'YYYY-MM-DD'
   },
-  division: {
-    large: 'Company',
-    medium: 'Platoon',
-    small: 'Squad'
-  },
+  divisions: [
+    { key: 'Large', name: 'Company', size: '61+ members' },
+    { key: 'Medium', name: 'Platoon', size: '31-60 members' },
+    { key: 'Small', name: 'Squad', size: '1-30 members' }
+  ],
   result: {
     win: 'win',
     loss: 'loss',
@@ -57,7 +57,7 @@ const constants = {
       domain: '.azurewebsites.net/',
       path: 'api/'
     },
-    proxyUrl: 'https://clanwarfare-proxy.herokuapp.com/'
+    proxyUrl: 'https://proxy.destinyclanwarfare.com/'
   },
   bungie: {
     baseUrl: bungieBaseUrl,
@@ -87,7 +87,7 @@ const constants = {
     optOut: 'This clan has opted out of DestinyClanWarfare'
   },
   social: {
-    discord: 'https://discord.destinyclanwarfare.com',
+    discord: 'https://discordapp.com/invite/Fysyhwg',
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'

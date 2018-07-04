@@ -51,7 +51,7 @@ class Tooltip extends PureComponent {
   }
 
   render () {
-    const { children, className, clickOutsideToClose, enableHover, heading, text } = this.props
+    const { children, className, enableHover, heading, text } = this.props
     const { active, align, valign } = this.state
     const hasContent = heading || text
     const triggerClassName = `${baseClassName}__trigger`
@@ -64,12 +64,10 @@ class Tooltip extends PureComponent {
           type="button"
           className={classNames('text-button', styles[triggerClassName], hasContent && styles[`${triggerClassName}--enabled`])}
           aria-label="Open tooltip"
-          {...enableHover ? {
+          {...enableHover && {
             onMouseOver: this.showTooltip,
             onMouseOut: this.hideTooltip,
             onTouchEnd: active ? this.hideTooltip : this.showTooltip
-          } : {
-            onClick: active ? this.hideTooltip : this.showTooltip
           }}
           >
           {children}
@@ -98,12 +96,6 @@ class Tooltip extends PureComponent {
             />
           }
         </span>
-        {active && clickOutsideToClose && !enableHover &&
-          <span
-            className={styles[`${baseClassName}__backdrop`]}
-            onClick={this.hideTooltip}
-          />
-        }
       </span>
     )
   }
@@ -111,7 +103,6 @@ class Tooltip extends PureComponent {
 
 Tooltip.defaultProps = {
   align: 'center',
-  clickOutsideToClose: true,
   valign: 'top'
 }
 
@@ -119,7 +110,6 @@ Tooltip.propTypes = {
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  clickOutsideToClose: PropTypes.bool,
   enableHover: PropTypes.bool,
   heading: PropTypes.string,
   text: PropTypes.string,

@@ -5,8 +5,6 @@ import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
 const proxy = require('../../utils/api-helper').proxy()
-const camelcaseKeys = require('camelcase-keys')
-const casingOptions = { deep: true }
 
 class Loader extends PureComponent {
   constructor (props) {
@@ -20,7 +18,7 @@ class Loader extends PureComponent {
   componentDidMount () {
     proxy(`Component/GetAllModifiers`)
       .then(({ data }) => {
-        this.setState({ modifiers: camelcaseKeys(data, casingOptions) })
+        this.setState({ modifiers: data })
       })
   }
 
@@ -42,7 +40,12 @@ storiesOf('Modifiers', module)
   .add('All', () => (
     <Loader>
       {modifiers => (
-        <ModifierList modifiers={MultiSort(modifiers.map(modifier => ({ ...modifier, creator: modifier.createdBy, bonus: modifier.scoringBonus || modifier.multiplierBonus })), { name: 'ASC' })} enableHover={false} tooltipActive />
+        <ModifierList modifiers={MultiSort(modifiers.map(modifier => ({
+          name: modifier.Name,
+          description: modifier.Description,
+          creator: modifier.CreatedBy,
+          bonus: modifier.ScoringBonus || modifier.MultiplierBonus
+        })), { name: 'ASC' })} enableHover={false} tooltipActive />
       )}
     </Loader>
   ))

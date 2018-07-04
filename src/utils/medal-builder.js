@@ -1,3 +1,5 @@
+const decode = require('./html-entities').decode
+
 const numberToWords = require('number-to-words')
 const sentenceCase = require('sentence-case')
 
@@ -20,41 +22,18 @@ const build = (rank, tier, division) => {
   }
 }
 
-const embellishLeaderboard = (leaderboard, division) => {
-  return leaderboard.map((item, index) => {
-    var medal = { tier: 0 }
-
-    switch (index) {
-      case 0:
-        medal = build(1, 2, division)
-        break
-      case 1:
-      case 2:
-        medal = build('top 3', 1, division)
-        break
-    }
-
-    return {
-      ...item,
-      medal: medal
-    }
-  })
-}
-
 const parseMedals = (input, type, minimumTier) => {
   minimumTier = minimumTier || 0
   const output = []
-  const parseMedal = (medal, type) => {
-    return {
-      id: medal.id || medal.medalId || medal.unlockId,
-      type,
-      tier: medal.tier || medal.medalTier || 1,
-      name: medal.name,
-      description: medal.description,
-      count: medal.count || null,
-      label: [ medal.awardedTo ] || []
-    }
-  }
+  const parseMedal = (medal, type) => ({
+    id: medal.Id || medal.MedalId || medal.UnlockId,
+    type,
+    tier: medal.Tier || medal.MedalTier || 1,
+    name: medal.Name,
+    description: medal.Description,
+    count: medal.Count || null,
+    label: [ decode(medal.AwardedTo || '') ]
+  })
 
   if (input) {
     input.map(medal => {
@@ -76,6 +55,5 @@ const parseMedals = (input, type, minimumTier) => {
 
 module.exports = {
   build,
-  embellishLeaderboard,
   parseMedals
 }

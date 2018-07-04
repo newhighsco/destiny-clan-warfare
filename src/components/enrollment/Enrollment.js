@@ -11,7 +11,8 @@ import styles from './Enrollment.styl'
 const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungie = require('../../utils/bungie-helper')
-const apiStatus = require('../../utils/api-status')
+
+const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
@@ -20,11 +21,11 @@ class Enrollment extends Component {
   constructor (props) {
     super(props)
 
-    const status = apiStatus()
+    const { apiStatus } = this.props
 
     this.state = {
       active: false,
-      open: status.enrollmentOpen && constants.bungie.disabledStatusCode.indexOf(status.bungieStatus) === -1,
+      open: apiStatus && apiStatus.enrollmentOpen && constants.bungie.disabledStatusCode.indexOf(apiStatus.bungieStatus) === -1,
       name: '',
       groups: [],
       selectedGroup: null
@@ -107,7 +108,7 @@ class Enrollment extends Component {
     const { clans } = this.props
     const { active, open, groups, selectedGroup } = this.state
     const id = constants.prefix.enroll
-    const baseClassName = 'enrollment'
+    const kicker = open ? 'Enroll your clan today' : 'Enrollment closed'
     const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
@@ -118,14 +119,14 @@ class Enrollment extends Component {
           <input type="hidden" name="clanId" value={selectedGroup} />
         }
         <label htmlFor="control--clan">
-          <Lockup borderless center kicker="Enroll your clan today" />
+          <Lockup borderless center kicker={kicker} />
         </label>
         <div className="field" id="field--clan">
           <div className={classNames('field__answer', styles[`${baseClassName}__field`])}>
             {open ? (
               <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
             ) : (
-              <Notification>Enrollment for new clans is currently closed.</Notification>
+              <Notification><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</Notification>
             )}
           </div>
         </div>
@@ -135,7 +136,7 @@ class Enrollment extends Component {
         {groups.length > 0 &&
           <ul className={classNames('list--unstyled', styles[`${baseClassName}__clans`])}>
             {groups.map((group, i) => {
-              const clan = clans.find(clan => clan.id === group.groupId)
+              const clan = clans.find(({ id }) => id === group.groupId)
               const Group = () => <Fragment>{group.name} <ClanTag>{group.clanInfo.clanCallsign}</ClanTag></Fragment>
 
               return (
@@ -163,6 +164,7 @@ class Enrollment extends Component {
 }
 
 Enrollment.propTypes = {
+  apiStatus: PropTypes.object,
   clans: PropTypes.array
 }
 

@@ -1,5 +1,41 @@
 .tab-container
   position relative
+  text-align center
+
+  &.is-active
+    display flex
+    flex-wrap wrap
+    align-items center
+    justify-content center
+
+    .tab-navigation
+      margin 0 0 $spacing--half
+      max-width rem(180)
+      width 33.333%
+
+      &:before
+        display none
+
+    .tab-button
+      border-bottom-width 1px
+      border-color $color--eclipse
+      color $color--silver
+      cursor pointer
+      width 100%
+
+      &.is-active
+        border-color currentColor
+        border-bottom-width 5px
+        color currentColor
+        cursor default
+
+    .tab-content
+      display none
+      order 1
+      width 100%
+
+      &.is-active
+        display block
 
 .tab-container--cutout
   margin-top ($spacing--default * -1) !important // @stylint ignore
@@ -16,16 +52,8 @@
 
 .tab-navigation
   margin $spacing--double auto $spacing--half
-  max-width $mq--tablet
+  padding 0 $spacing--quarter
   position relative
-  text-align center
-  z-index 2
-
-  &:first-child
-    margin-top 0
-
-.tab-navigation--heading
-  max-width 100%
 
   &:before
     border-bottom 1px solid $color--eclipse
@@ -35,36 +63,21 @@
     left 0
     right 0
 
-  &:first-child:before
-    display none
+  &:first-child
+    margin-top 0
 
-  +width-min($mq--tablet)
-    .tab-navigation__item
-      min-width ($mq--tablet / 3)
-
-.tab-navigation__item
-  display inline-block
-  min-width 33.333%
-  padding 0 $spacing--quarter
-
-  +width-min($mq--tablet)
-    max-width rem(170)
-    width 33.333%
-
-    &:only-child
-      max-width 100%
-      width auto
+    &:before
+      display none
 
 .tab-button
   background-color $color--nero
-  border-color $color--eclipse
-  color $color--silver
+  border-bottom-width 5px
   padding-left $spacing--quarter
   padding-right $spacing--quarter
-  width 100%
+  width 33.333%
 
-  &.is-active
-    border-color currentColor
-    border-bottom-width 5px
-    color currentColor
-    pointer-events none
+  +width-min($mq--tablet)
+    max-width rem(180)
+
+.tab-content
+  text-align left

@@ -1,63 +1,36 @@
 import React, { Component } from 'react'
-import { Router, Switch, Route, Head, Loading } from 'react-static'
-import identity from 'netlify-identity-widget'
+import { Router, Switch, Route, Head, onLoading } from 'react-static'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
 import ReactGA from 'react-ga'
 import withAnalytics from './components/analytics/Analytics'
-import HoldingPage from './components/holding-page/HoldingPage'
-import { Logo } from './components/logo/Logo'
-import { Button, ButtonGroup } from './components/button/Button'
-import Member from './templates/member'
-import EventMember from './templates/event-member'
+import MemberCurrent from './containers/member/Current'
+import MemberOverall from './containers/member/Overall'
 import appleTouchIcon from './images/apple-touch-icon.png'
 import openGraphImage from './images/favicon-1200x1200.png'
 
 import './stylus/index.styl'
 
 const constants = require('./utils/constants')
-const enableIdentity = JSON.parse(process.env.ENABLE_IDENTITY)
-const enableIdentityLogin = JSON.parse(process.env.ENABLE_IDENTITY_LOGIN)
 const urlBuilder = require('./utils/url-builder')
+
+const { title, name, description } = constants.meta
 
 class App extends Component {
   constructor (props) {
     super(props)
 
     ReactGA.initialize(constants.meta.trackingId)
-
-    this.state = {
-      user: identity.currentUser(),
-      enableIdentity: false,
-      enableIdentityLogin: enableIdentityLogin
-    }
-
-    identity.on('login', (user) => {
-      this.setState({ user: user })
-      identity.close()
-    })
-    identity.on('logout', () => this.setState({ user: null }))
-
-    this.handleLogin = this.handleLogin.bind(this)
   }
 
   componentDidMount () {
-    this.setState({ enableIdentity: enableIdentity })
-    identity.init()
-
-    if (!enableIdentityLogin) identity.logout()
-  }
-
-  handleLogin (e) {
-    e.preventDefault()
-    identity.open()
+    onLoading(loading => {
+      loading ? NProgress.isStarted() || NProgress.start() : NProgress.done()
+    })
   }
 
   render () {
-    const { user, enableIdentity, enableIdentityLogin } = this.state
-    const { title, name, description } = constants.meta
-
     const RenderRoutes = ({ getComponentForPath }) => (
       <Route
         path="*"
@@ -72,12 +45,6 @@ class App extends Component {
     return (
       <Router>
         <div className="site-container">
-          <Loading
-            render={({ loading }) => {
-              loading ? NProgress.isStarted() || NProgress.start() : NProgress.done()
-              return null
-            }}
-          />
           <Head
             defaultTitle={title}
             titleTemplate={`%s | ${name}`}
@@ -88,22 +55,11 @@ class App extends Component {
             <link rel="apple-touch-icon" href={appleTouchIcon} />
             <meta property="og:image" content={openGraphImage} />
           </Head>
-          {(enableIdentity && !user) ? (
-            <HoldingPage>
-              <Logo />
-              {enableIdentityLogin &&
-                <ButtonGroup>
-                  <Button onClick={this.handleLogin}>Log in to view</Button>
-                </ButtonGroup>
-              }
-            </HoldingPage>
-          ) : (
-            <Switch>
-              <Route path={urlBuilder.profileUrl(':clan', ':member')} component={withAnalytics(Member)} />
-              <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(EventMember)} />
-              <Routes component={RenderRoutes} />
-            </Switch>
-          )}
+          <Switch>
+            <Route path={urlBuilder.profileUrl(':clan', ':member')} component={withAnalytics(MemberOverall)} />
+            <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(MemberCurrent)} />
+            <Routes component={RenderRoutes} />
+          </Switch>
         </div>
       </Router>
     )

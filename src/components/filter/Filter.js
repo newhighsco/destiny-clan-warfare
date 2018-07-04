@@ -7,9 +7,9 @@ import styles from './Filter.styl'
 
 const baseClassName = 'filter'
 
-const filterById = (all, id) => all.indexOf(`${id}`) !== -1
+const filterById = (all, id) => all.indexOf(id) !== -1
 
-const getIds = tags => tags.reduce((ids, tag) => ids.concat(`${tag.id}`), []).sort()
+const getIds = tags => tags.reduce((ids, tag) => ids.concat(tag.id), []).sort()
 
 class Filter extends Component {
   render () {

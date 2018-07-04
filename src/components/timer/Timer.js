@@ -97,6 +97,7 @@ class Timer extends PureComponent {
 
     if (active && label.length <= 1) label.push(constants.prefix.relative)
 
+    // TODO: Remove all this horror
     const humanReadable = displayDate.format(constants.format.humanReadable)
     const humanReadableDate = displayDate.format(constants.format.humanReadableDate)
     const humanReadableTime = displayDate.format(constants.format.humanReadableTime)

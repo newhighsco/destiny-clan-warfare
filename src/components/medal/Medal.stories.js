@@ -3,11 +3,9 @@ import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { MedalList } from './Medal'
 
-const camelcaseKeys = require('camelcase-keys')
 const proxy = require('../../utils/api-helper').proxy()
 const medalBuilder = require('../../utils/medal-builder')
 const constants = require('../../utils/constants')
-const casingOptions = { deep: true }
 
 class Loader extends PureComponent {
   constructor (props) {
@@ -21,7 +19,7 @@ class Loader extends PureComponent {
   componentDidMount () {
     proxy(this.props.url)
       .then(({ data }) => {
-        this.setState({ medals: medalBuilder.parseMedals(camelcaseKeys(data, casingOptions), this.props.type) })
+        this.setState({ medals: medalBuilder.parseMedals(data, this.props.type) })
       })
   }
 

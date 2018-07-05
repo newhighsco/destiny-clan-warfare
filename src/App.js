@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Router, Switch, Route, Head, onLoading } from 'react-static'
-import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
 import ReactGA from 'react-ga'
-import withAnalytics from './components/analytics/Analytics'
+// import withAnalytics from './components/analytics/Analytics'
 import MemberCurrent from './containers/member/Current'
 import MemberOverall from './containers/member/Overall'
 import appleTouchIcon from './images/apple-touch-icon.png'
@@ -35,7 +34,8 @@ class App extends Component {
       <Route
         path="*"
         render={props => {
-          let Comp = withAnalytics(getComponentForPath(props.location.pathname))
+          let Comp = getComponentForPath(props.location.pathname)
+          if (!Comp) Comp = getComponentForPath('404')
 
           return <Comp key={props.location.pathname} {...props} />
         }}
@@ -56,8 +56,8 @@ class App extends Component {
             <meta property="og:image" content={openGraphImage} />
           </Head>
           <Switch>
-            <Route path={urlBuilder.profileUrl(':clan', ':member')} component={withAnalytics(MemberOverall)} />
-            <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(MemberCurrent)} />
+            <Route path={urlBuilder.profileUrl(':clan', ':member')} component={MemberOverall} />
+            <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={MemberCurrent} />
             <Routes component={RenderRoutes} />
           </Switch>
         </div>
@@ -66,4 +66,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App)
+export default App

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 class Meta extends PureComponent {
   render () {
-    const { children, title, description, canonicalUrl, robots, schema } = this.props
+    const { children, title, description, canonicalUrl, schema } = this.props
 
     return (
       <Head>
@@ -20,9 +20,6 @@ class Meta extends PureComponent {
           <link key="canonical" rel="canonical" href={canonicalUrl} />,
           <meta key="ogUrl" property="og:url" content={canonicalUrl} />
         ]}
-        {robots &&
-          <meta name="robots" content={robots} />
-        }
         {schema &&
           <script type="application/ld+json">{JSON.stringify(schema)}</script>
         }
@@ -37,7 +34,6 @@ Meta.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   canonicalUrl: PropTypes.string,
-  robots: PropTypes.string,
   schema: PropTypes.oneOfType([ PropTypes.object, PropTypes.array ])
 }
 

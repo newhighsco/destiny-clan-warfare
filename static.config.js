@@ -38,12 +38,14 @@ export default {
 
     const routes = [
       {
-        is404: true,
-        component: 'src/containers/NotFound'
+        path: '/404/',
+        component: 'src/containers/NotFound',
+        noindex: true
       },
       {
         path: '/branding/',
-        component: 'src/containers/Branding'
+        component: 'src/containers/Branding',
+        noindex: true
       },
       {
         path: '/faqs/',
@@ -55,7 +57,8 @@ export default {
       },
       {
         path: '/thanks/',
-        component: 'src/containers/Thanks'
+        component: 'src/containers/Thanks',
+        noindex: true
       }
     ]
 
@@ -307,7 +310,7 @@ export default {
 
     feedBuilder(events).map(event => feed.item(event))
 
-    await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
+    // await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
 
     feed = new RSS(feedOptions)
 
@@ -327,7 +330,7 @@ export default {
       custom_elements: [ { 'content:encoded': content } ]
     })
 
-    await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
+    // await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
 
     return routes
   },
@@ -345,7 +348,7 @@ export default {
             test: /\.styl$/,
             use: stage === 'dev'
               ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : ExtractCssChunks.extract({ use: stylusLoaders() })
+              : [ ExtractCssChunks.loader ].concat(stylusLoaders())
           },
           {
             test: /\.svg$/,

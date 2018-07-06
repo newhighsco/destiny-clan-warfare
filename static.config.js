@@ -348,7 +348,7 @@ export default {
             test: /\.styl$/,
             use: stage === 'dev'
               ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : [ ExtractCssChunks.loader ].concat(stylusLoaders())
+              : ExtractCssChunks.extract({ use: stylusLoaders() })
           },
           {
             test: /\.svg$/,

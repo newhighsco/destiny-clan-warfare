@@ -17,6 +17,8 @@ const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
 const columns = [
+  'rank',
+  'overall',
   'games',
   'wins',
   'kd',

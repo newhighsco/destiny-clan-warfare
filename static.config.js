@@ -97,26 +97,6 @@ export default {
           const previousTotals = previousClanLeaderboard.find(({ id }) => id === memberId)
 
           member.previousTotals = previousTotals || emptyTotals
-
-          // const pastEvents = []
-
-          // if (previousTotals && previousTotals.games > 0) {
-          //   const { eventId, path, ...totals } = previousTotals
-          //   const event = events.find(({ id }) => id === eventId)
-
-          //   pastEvents.push({
-          //     ...totals,
-          //     id: eventId,
-          //     game: {
-          //       path: event.path,
-          //       result: true,
-          //       name: event.name,
-          //       endDate: event.endDate
-          //     }
-          //   })
-          // }
-
-          // if (pastEvents.length) member.pastEvents = pastEvents
         }
       })
 

@@ -124,7 +124,7 @@ class Leaderboard extends PureComponent {
                       </div>
                       {item.game.medals && item.game.medals.length > 0 &&
                         <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                          <MedalList size="x-small" align="left" medals={item.medals} />
+                          <MedalList size="x-small" align="left" medals={item.game.medals} />
                         </div>
                       }
                     </Fragment>

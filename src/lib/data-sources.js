@@ -102,8 +102,8 @@ const fetch = async () => {
   const parseBonuses = (item, hasPlayed) => {
     const bonuses = [ item.BonusPoints1, item.BonusPoints2 ]
 
-    return bonuses.map(bonus => ({
-      shortName: bonus.ShortName || '',
+    return bonuses.map((bonus, i) => ({
+      shortName: bonus.ShortName || `Bonus ${i + 1}`,
       count: hasPlayed ? (typeof bonus === 'object' ? bonus.BonusPoints : bonus) : -1
     }))
   }
@@ -241,9 +241,9 @@ const fetch = async () => {
                   game: {
                     path: urlBuilder.eventUrl(eventId),
                     result: true,
-                    // TODO: Populate event data
-                    name: null,
-                    endDate: null,
+                    // TODO: Event details
+                    name: 'Event name TBC',
+                    endDate: updatedDate,
                     medals: medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
                   },
                   rank: statsHelper.ranking(match.Results.RankInClan),
@@ -252,6 +252,7 @@ const fetch = async () => {
                   wins: match.Results.GamesWon,
                   kd: statsHelper.kd({ kills, deaths }),
                   kda: statsHelper.kda({ kills, deaths, assists }),
+                  // TODO: Bonus short names
                   bonuses: parseBonuses(match.Results, true),
                   ppg: statsHelper.ppg({ games, score }),
                   score

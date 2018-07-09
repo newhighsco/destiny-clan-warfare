@@ -241,9 +241,8 @@ const fetch = async () => {
                   game: {
                     path: urlBuilder.eventUrl(eventId),
                     result: true,
-                    // TODO: Event details
-                    name: 'Event name TBC',
-                    endDate: updatedDate,
+                    name: match.Results.EventData.Name,
+                    endDate: moment.utc(match.Results.EventData.ScoringEndDate).format(constants.format.machineReadable),
                     medals: medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
                   },
                   rank: statsHelper.ranking(match.Results.RankInClan),
@@ -252,7 +251,6 @@ const fetch = async () => {
                   wins: match.Results.GamesWon,
                   kd: statsHelper.kd({ kills, deaths }),
                   kda: statsHelper.kda({ kills, deaths, assists }),
-                  // TODO: Bonus short names
                   bonuses: parseBonuses(match.Results, true),
                   ppg: statsHelper.ppg({ games, score }),
                   score

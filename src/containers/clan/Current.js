@@ -127,13 +127,14 @@ class ClanCurrentContainer extends PureComponent {
     this.state = {
       leaderboard,
       stats,
+      statsColumns: Object.keys(stats),
       meta
     }
   }
 
   render () {
     const { apiStatus, clan } = this.props
-    const { leaderboard, stats, meta } = this.state
+    const { leaderboard, stats, statsColumns, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
 
     return (
@@ -145,7 +146,7 @@ class ClanCurrentContainer extends PureComponent {
           <Avatar cutout outline {...clan.avatar} />
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
-          <StatList stats={stats} top kicker="Top stats" />
+          <StatList stats={stats} columns={statsColumns} top kicker="Top stats" />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
           }

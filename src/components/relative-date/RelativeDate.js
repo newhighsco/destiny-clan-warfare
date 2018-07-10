@@ -8,32 +8,17 @@ class RelativeDate extends PureComponent {
   constructor (props) {
     super(props)
 
-    this.state = { active: false }
-  }
-
-  componentDidMount () {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
-  }
-
-  render () {
-    // TODO: Improve this no end
-    const { apiStatus, start, end, className } = this.props
+    const { apiStatus, start, end } = this.props
     var { label } = this.props
-    const { active } = this.state
+    var value
     var updated
 
     if (apiStatus) updated = apiStatus.updatedDate
-
-    if (!updated && !start && !end) return null
 
     const currentDate = moment.utc()
     const startDate = moment.utc(start)
     const endDate = moment.utc(end)
     const updatedDate = moment.utc(updated)
-
-    var value
 
     if (updated) {
       value = updatedDate
@@ -49,21 +34,41 @@ class RelativeDate extends PureComponent {
       label = label || constants.relativeDate.past
     }
 
+    const dateTime = value ? value.format(constants.format.machineReadable) : null
+    const title = value ? value.format(constants.format.humanReadable) : null
+
+    this.state = {
+      active: false,
+      value,
+      dateTime,
+      title,
+      label
+    }
+  }
+
+  componentDidMount () {
+    const { active } = this.state
+
+    if (!active) this.setState({ active: true })
+  }
+
+  render () {
+    const { active, value, dateTime, title, label } = this.state
+    const { apiStatus, className } = this.props
+
     if (!value) return null
 
-    const title = value.format(constants.format.humanReadable)
-    const machineReadable = value.format(constants.format.machineReadable)
-    const humanReadable = [ label, label && ' ', (active ? value.fromNow() : title) ]
+    const contents = [ label, label && ' ', active ? value.fromNow() : title ]
 
-    if (apiStatus) return (<Fragment>{active ? humanReadable : <br />}</Fragment>)
+    if (apiStatus) return (<Fragment>{active ? contents : <br />}</Fragment>)
 
     return (
       <time
-        dateTime={machineReadable}
+        dateTime={dateTime}
         title={title}
         className={className}
       >
-        {humanReadable}
+        {contents}
       </time>
     )
   }

@@ -101,6 +101,7 @@ class ClanCurrentContainer extends PureComponent {
 
         if (column === 'bonuses') {
           const bonusCount = (row, key) => {
+            if (!row.bonuses) return -1
             return row.bonuses.find(({ shortName }) => shortName === key).count
           }
 

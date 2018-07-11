@@ -85,9 +85,16 @@ export default {
         if (currentEventId) {
           const currentTotals = currentClanLeaderboard.find(({ id }) => id === memberId)
 
+          if (currentTotals) {
           clanCurrentTotals[memberId] = {
             ...currentTotals,
             updated: currentTotals.games > 0 ? memberLastCheckedDate : null
+          }
+          } else {
+            clanCurrentTotals[memberId] = {
+              ...emptyTotals,
+              updated: null
+            }
           }
 
           clanMatchHistory[memberId] = matchHistory[memberId] || []

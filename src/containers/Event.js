@@ -79,7 +79,7 @@ class EventContainer extends PureComponent {
     }
   }
   render () {
-    const { apiStatus, event, currentEventLeaderboards } = this.props
+    const { apiStatus, event, currentEventLeaderboards, currentEventStats } = this.props
     const { meta } = this.state
 
     return (
@@ -90,7 +90,7 @@ class EventContainer extends PureComponent {
           }
         </Lockup>
         {event.isCurrent &&
-          <EventCurrent event={event} leaderboards={currentEventLeaderboards} />
+          <EventCurrent event={event} leaderboards={currentEventLeaderboards} stats={currentEventStats} />
         }
         {event.isPast &&
           <EventPrevious event={event} />
@@ -109,7 +109,8 @@ class EventContainer extends PureComponent {
 EventContainer.propTypes = {
   apiStatus: PropTypes.object,
   event: PropTypes.object,
-  currentEventLeaderboards: PropTypes.array
+  currentEventLeaderboards: PropTypes.array,
+  currentEventStats: PropTypes.object
 }
 
 export default withRouteData(EventContainer)

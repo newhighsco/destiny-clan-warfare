@@ -63,7 +63,7 @@ class Leaderboard extends PureComponent {
 
   render () {
     const { data, cutout, columns, multiColumn, className, prefetch } = this.props
-    const { bonusColumns } = this.state
+    var { bonusColumns } = this.state
 
     if (!data || data.length < 1) return null
 
@@ -75,6 +75,8 @@ class Leaderboard extends PureComponent {
         className
       )}>
         {data.map((item, i) => {
+          if (item.bonusColumns) bonusColumns = item.bonusColumns
+
           return (
             <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
               {item.name &&

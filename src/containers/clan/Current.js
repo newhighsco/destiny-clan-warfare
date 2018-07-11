@@ -115,7 +115,7 @@ class ClanCurrentContainer extends PureComponent {
 
           top = null
         } else {
-          stat = (row) => parseInt(row[column])
+          stat = (row) => parseFloat(row[column])
           top = findTopStat(stat)
 
           if (column === 'games' && top.games < 0) hasStats = false

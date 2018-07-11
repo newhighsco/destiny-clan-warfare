@@ -59,7 +59,8 @@ export default {
       }
     ]
 
-    const currentStatsColumns = [
+    const currentEventStats = {}
+    const statsColumns = [
       'games',
       'wins',
       'kd',
@@ -98,6 +99,7 @@ export default {
       clanMembers.map(member => {
         const memberId = member.id
         const memberName = member.name
+        const memberFullName = `${memberName} [${clan.tag}]`
         const hasPlayed = member.totals ? member.totals.games > 0 : false
         const platformId = member.platforms[0].id
         const existingPlatform = platforms.find(({ id }) => id === platformId)
@@ -124,13 +126,17 @@ export default {
             }
 
             if (hasStats) {
-              currentStatsColumns.map(column => {
+              statsColumns.map(column => {
                 if (column === 'bonuses' && currentTotals.bonuses) {
                   currentTotals.bonuses.map(({ shortName, count }) => {
                     updateStat(clanCurrentStats, shortName, count, memberName)
+                    updateStat(currentEventStats, shortName, count, memberFullName)
                   })
                 } else {
-                  updateStat(clanCurrentStats, column, currentTotals[column], memberName)
+                  const value = currentTotals[column]
+
+                  updateStat(clanCurrentStats, column, value, memberName)
+                  updateStat(currentEventStats, column, value, memberFullName)
                 }
               })
             }
@@ -295,6 +301,7 @@ export default {
         getData: () => ({
           event,
           currentEventLeaderboards: event.isCurrent ? currentEventLeaderboards : null,
+          currentEventStats: event.isCurrent ? currentEventStats : null,
           apiStatus: event.isCurrent ? apiStatus : {}
         })
       })

@@ -235,6 +235,7 @@ const fetch = async () => {
                 const kills = match.Results.TotalKills
                 const assists = match.Results.TotalAssists
                 const deaths = match.Results.TotalDeaths
+                const bonuses = parseBonuses(match.Results, true)
 
                 pastEvents.push({
                   id: eventId,
@@ -251,7 +252,8 @@ const fetch = async () => {
                   wins: match.Results.GamesWon,
                   kd: statsHelper.kd({ kills, deaths }),
                   kda: statsHelper.kda({ kills, deaths, assists }),
-                  bonuses: parseBonuses(match.Results, true),
+                  bonuses,
+                  bonusColumns: bonuses.map(({ shortName }) => shortName),
                   ppg: statsHelper.ppg({ games, score }),
                   score
                 })

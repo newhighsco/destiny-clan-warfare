@@ -59,25 +59,55 @@ export default {
       }
     ]
 
+    const currentStatsColumns = [
+      'games',
+      'wins',
+      'kd',
+      'kda',
+      'bonuses',
+      'ppg',
+      'score'
+    ]
+
+    const addStat = (stats, column, value, name) => {
+      stats[column] = { stat: value, label: [ name ] }
+    }
+
+    const updateStat = (stats, column, value, name) => {
+      var existingStat = stats[column]
+
+      if (!existingStat) {
+        addStat(stats, column, value, name)
+      } else {
+        if (value === existingStat.stat) {
+          existingStat.label.push(name)
+        } else if (value > existingStat.stat) {
+          addStat(stats, column, value, name)
+        }
+      }
+    }
+
     clans.map(clan => {
       const clanMembers = members.filter(({ clanId }) => clanId === clan.id)
       const clanCurrentTotals = {}
+      const clanCurrentStats = {}
       const clanMatchHistory = {}
       const totalSize = clanMembers.length
       const platforms = []
 
       clanMembers.map(member => {
         const memberId = member.id
+        const memberName = member.name
         const hasPlayed = member.totals ? member.totals.games > 0 : false
         const platformId = member.platforms[0].id
-        const existing = platforms.find(({ id }) => id === platformId)
+        const existingPlatform = platforms.find(({ id }) => id === platformId)
         const memberLastChecked = lastChecked.find(({ id }) => id === memberId)
         const memberLastCheckedDate = memberLastChecked ? memberLastChecked.date : null
 
-        if (existing) {
-          if (hasPlayed) existing.active++
-          existing.size++
-          existing.percentage = Math.round((existing.size / totalSize) * 100)
+        if (existingPlatform) {
+          if (hasPlayed) existingPlatform.active++
+          existingPlatform.size++
+          existingPlatform.percentage = Math.round((existingPlatform.size / totalSize) * 100)
         } else {
           platforms.push({ id: platformId, size: 1, active: hasPlayed ? 1 : 0, percentage: Math.round((1 / totalSize) * 100) })
         }
@@ -85,9 +115,30 @@ export default {
         if (currentEventId) {
           const currentTotals = currentClanLeaderboard.find(({ id }) => id === memberId)
 
-          clanCurrentTotals[memberId] = {
-            ...currentTotals,
-            updated: currentTotals.games > 0 ? memberLastCheckedDate : null
+          if (currentTotals) {
+            const hasStats = currentTotals.games > 0
+
+            clanCurrentTotals[memberId] = {
+              ...currentTotals,
+              updated: hasStats ? memberLastCheckedDate : null
+            }
+
+            if (hasStats) {
+              currentStatsColumns.map(column => {
+                if (column === 'bonuses' && currentTotals.bonuses) {
+                  currentTotals.bonuses.map(({ shortName, count }) => {
+                    updateStat(clanCurrentStats, shortName, count, memberName)
+                  })
+                } else {
+                  updateStat(clanCurrentStats, column, currentTotals[column], memberName)
+                }
+              })
+            }
+          } else {
+            clanCurrentTotals[memberId] = {
+              ...emptyTotals,
+              updated: null
+            }
           }
 
           clanMatchHistory[memberId] = matchHistory[memberId] || []
@@ -122,6 +173,7 @@ export default {
             clan,
             members: clanMembers,
             currentTotals: clanCurrentTotals,
+            currentStats: clanCurrentStats,
             matchHistory: clanMatchHistory
           })
         })

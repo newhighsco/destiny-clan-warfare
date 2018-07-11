@@ -1,7 +1,7 @@
 {
   "name": "destiny-clan-warfare",
   "description": "Destiny Clan Warfare",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "author": "New High Score <hello@newhighsco.re>",
   "license": "ISC",
   "engines": {
@@ -15,6 +15,7 @@
     "build": "npm-run-all build:production",
     "build:staging": "npm run build:production -- --staging",
     "build:production": "node --max-old-space-size=8192 ./node_modules/.bin/react-static build",
+    "build:storybook": "build-storybook -c .storybook -o ./docs",
     "clean": "rm -rf public",
     "serve": "serve ./public -p 9000",
     "optimize": "npm-run-all optimize:*",

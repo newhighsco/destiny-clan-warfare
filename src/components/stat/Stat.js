@@ -87,7 +87,7 @@ class StatList extends PureComponent {
               }
             }
 
-            if (column === 'bonuses' && stats.bonuses) {
+            if (column === 'bonuses' && stats.bonuses && stats.bonuses.length) {
               return stats.bonuses.map(({ shortName, count }, i) => {
                 const bonusKey = shortName.toLowerCase()
 

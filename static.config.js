@@ -400,28 +400,28 @@ export default {
       ? [ require.resolve('babel-polyfill'), ...config.entry ]
       : [ require.resolve('babel-polyfill'), config.entry ]
 
-    config.module.rules = [
+    var loaders = []
+
+    if (stage === 'dev') {
+      loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
+    } else if (stage === 'node') {
+      loaders = [ ...stylusLoaders() ]
+    } else {
+      loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
+    }
+
+    config.module.rules[0].oneOf.unshift(
       {
-        oneOf: [
-          {
-            test: /\.styl$/,
-            use: stage === 'dev'
-              ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : ExtractCssChunks.extract({ use: stylusLoaders() })
-          },
-          {
-            test: /\.svg$/,
-            loader: require.resolve('svg-react-loader')
-          },
-          defaultLoaders.cssLoader,
-          defaultLoaders.jsLoader,
-          defaultLoaders.fileLoader
-        ]
+        test: /\.styl$/,
+        use: loaders
+      },
+      {
+        test: /\.svg$/,
+        loader: require.resolve('svg-react-loader')
       }
-    ]
+    )
 
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-    if (stage === 'node') config.plugins.push(new ExtractCssChunks())
 
     return config
   },

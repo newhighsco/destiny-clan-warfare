@@ -8,8 +8,10 @@ const moment = require('moment')
 const constants = require('../../utils/constants')
 const statsHelper = require('../../utils/stats-helper')
 const baseClassName = 'timer'
+const tickInterval = 1000
 
-const countdown = duration => {
+const countdown = milliseconds => {
+  const duration = moment.duration(milliseconds)
   const days = duration.days()
   const hours = Math.floor(duration.asHours())
   const minutes = duration.minutes()
@@ -36,9 +38,9 @@ class Timer extends PureComponent {
     const currentDate = moment.utc()
     const startDate = moment.utc(start)
     const endDate = moment.utc(end)
+    var displayDate = endDate
     var showProgress = false
     var showRange = false
-    var displayDate = endDate
     var label = []
 
     if (startDate < currentDate && endDate > currentDate) {
@@ -54,19 +56,30 @@ class Timer extends PureComponent {
       active = false
     }
 
+    const totalDuration = moment.duration(endDate.diff(startDate)).asMilliseconds()
+    const passedDuration = moment.duration(currentDate.diff(startDate)).asMilliseconds()
+    const remainingDuration = moment.duration(displayDate.diff(currentDate)).asMilliseconds()
+
     this.state = {
       active,
-      currentDate,
-      startDate,
-      endDate,
+      startDate: startDate.format(constants.format.humanReadable),
+      endDate: endDate.format(constants.format.humanReadable),
+      displayDate: {
+        full: displayDate.format(constants.format.humanReadable),
+        date: displayDate.format(constants.format.humanReadableDate),
+        time: displayDate.format(constants.format.humanReadableTime)
+      },
       showProgress,
       showRange,
-      displayDate,
       label,
+      totalDuration,
+      passedDuration,
+      remainingDuration,
       interval: null
     }
 
     this.tick = this.tick.bind(this)
+    this.untick = this.untick.bind(this)
   }
 
   componentDidMount () {
@@ -75,56 +88,63 @@ class Timer extends PureComponent {
     if (active === undefined) {
       this.setState({
         active: true,
-        interval: setInterval(this.tick, 1000)
+        interval: setInterval(this.tick, tickInterval)
       })
     }
   }
 
   componentWillUnmount () {
+    this.untick()
+  }
+
+  tick () {
+    var { remainingDuration, passedDuration } = this.state
+
+    remainingDuration -= tickInterval
+    passedDuration += tickInterval
+
+    if (remainingDuration > 0) {
+      this.setState({
+        remainingDuration,
+        passedDuration
+      })
+    } else {
+      this.untick()
+    }
+  }
+
+  untick () {
     const { interval } = this.state
 
     interval && clearInterval(interval)
   }
 
-  tick () {
-    this.setState({
-      currentDate: moment.utc()
-    })
-  }
-
   render () {
-    const { active, currentDate, startDate, endDate, showProgress, showRange, displayDate, label } = this.state
+    const { active, startDate, endDate, displayDate, showProgress, showRange, label, totalDuration, remainingDuration, passedDuration } = this.state
 
     if (active && label.length <= 1) label.push(constants.prefix.relative)
 
-    // TODO: Remove all this horror
-    const humanReadable = displayDate.format(constants.format.humanReadable)
-    const humanReadableDate = displayDate.format(constants.format.humanReadableDate)
-    const humanReadableTime = displayDate.format(constants.format.humanReadableTime)
-    const totalDuration = moment.duration(endDate.diff(startDate))
-    const passedDuration = moment.duration(currentDate.diff(startDate))
-    const remainingDuration = moment.duration(displayDate.diff(currentDate))
-    const passedPercentage = active ? statsHelper.percentage(passedDuration.asMilliseconds(), totalDuration.asMilliseconds(), true, 2) : 0
+    const passedPercentage = active ? statsHelper.percentage(passedDuration, totalDuration, true, 2) : 0
     const stat = {
-      stat: active ? countdown(remainingDuration) : humanReadableDate,
-      label: active ? (showRange ? null : humanReadable) : humanReadableTime
+      stat: active ? countdown(remainingDuration) : displayDate.date,
+      label: active ? (showRange ? null : displayDate.full) : displayDate.time
     }
 
     return (
       <div className={styles[baseClassName]}>
         <Stat label={label.join(' ')} stat={stat} className={styles[`${baseClassName}__stat`]} size="small" />
         {active && showRange &&
-          <div className={classNames(styles[`${baseClassName}__progress`], showProgress && styles[`${baseClassName}__progress--active`])}>
+          <div className={classNames(styles[`${baseClassName}__range`], showProgress && styles[`${baseClassName}__range--active`])}>
             {showProgress &&
               <div className={styles[`${baseClassName}-progress`]} data-value={passedPercentage}>
                 <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
               </div>
             }
             <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
-              {startDate.format(constants.format.humanReadable)}
+              {startDate}
             </div>
             <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
-              {endDate.format(constants.format.humanReadable)}
+              {endDate}
             </div>
           </div>
         }

@@ -11,15 +11,6 @@ const statsHelper = require('../../utils/stats-helper')
 const sentence = require('../../utils/grammar').sentence
 
 const baseClassName = 'stat'
-const columns = [
-  'games',
-  'wins',
-  'kd',
-  'kda',
-  'bonuses',
-  'ppg',
-  'score'
-]
 
 class Stat extends PureComponent {
   render () {
@@ -75,7 +66,7 @@ Stat.propTypes = {
 
 class StatList extends PureComponent {
   render () {
-    const { stats, kicker, top, size } = this.props
+    const { stats, columns, kicker, top, size } = this.props
 
     if (!stats || Object.keys(stats).length < 1) return null
 
@@ -96,7 +87,7 @@ class StatList extends PureComponent {
               }
             }
 
-            if (column === 'bonuses' && stats.bonuses) {
+            if (column === 'bonuses' && stats.bonuses && stats.bonuses.length) {
               return stats.bonuses.map(({ shortName, count }, i) => {
                 const bonusKey = shortName.toLowerCase()
 
@@ -131,8 +122,21 @@ class StatList extends PureComponent {
   }
 }
 
+StatList.defaultProps = {
+  columns: [
+    'games',
+    'wins',
+    'kd',
+    'kda',
+    'bonuses',
+    'ppg',
+    'score'
+  ]
+}
+
 StatList.propTypes = {
   stats: PropTypes.object,
+  columns: PropTypes.array,
   kicker: PropTypes.string,
   top: PropTypes.bool,
   size: PropTypes.oneOf([ 'small' ])

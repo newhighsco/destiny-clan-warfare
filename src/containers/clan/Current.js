@@ -17,15 +17,6 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
-const statsColumns = [
-  'games',
-  'wins',
-  'kd',
-  'kda',
-  'bonuses',
-  'ppg',
-  'score'
-]
 const leaderboardColumns = [
   'rank',
   'games',
@@ -41,7 +32,7 @@ class ClanCurrentContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { clan, members, currentTotals } = this.props
+    const { clan, members, currentTotals, currentStats } = this.props
     const meta = {
       title: `${clan.name} | ${constants.kicker.current}`,
       description: `${possessive(clan.name)} clan standings in the current ${constants.meta.name} event`,
@@ -80,60 +71,18 @@ class ClanCurrentContainer extends PureComponent {
       games: 'DESC',
       name: 'ASC'
     })
-    const stats = {}
-    var hasStats = true
-
-    if (leaderboard.length > 0) {
-      const findTopStat = (stat) => leaderboard.reduce((a, b) => stat(a) > stat(b) ? a : b)
-      const addStat = (column, stat, top) => {
-        if (top) {
-          const value = stat(top)
-          const names = leaderboard.filter(row => stat(row) === value).map(({ name }) => name)
-
-          stats[column] = { stat: value, label: names }
-        }
-      }
-      const bonusesKeys = leaderboard[0].bonuses.map(({ shortName }) => shortName)
-
-      statsColumns.map(column => {
-        var stat
-        var top
-
-        if (column === 'bonuses') {
-          const bonusCount = (row, key) => {
-            return row.bonuses.find(({ shortName }) => shortName === key).count
-          }
-
-          if (hasStats) {
-            bonusesKeys.map(key => {
-              stat = (row) => bonusCount(row, key)
-              top = findTopStat(stat)
-
-              addStat(key, stat, top)
-            })
-          }
-
-          top = null
-        } else {
-          stat = (row) => parseInt(row[column])
-          top = findTopStat(stat)
-
-          if (column === 'games' && top.games < 0) hasStats = false
-          if (hasStats) addStat(column, stat, top)
-        }
-      })
-    }
 
     this.state = {
       leaderboard,
-      stats,
+      stats: currentStats,
+      statsColumns: Object.keys(currentStats),
       meta
     }
   }
 
   render () {
     const { apiStatus, clan } = this.props
-    const { leaderboard, stats, meta } = this.state
+    const { leaderboard, stats, statsColumns, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
 
     return (
@@ -145,7 +94,7 @@ class ClanCurrentContainer extends PureComponent {
           <Avatar cutout outline {...clan.avatar} />
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
-          <StatList stats={stats} top kicker="Top stats" />
+          <StatList stats={stats} columns={statsColumns} top kicker="Top stats" />
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
           }
@@ -167,7 +116,8 @@ ClanCurrentContainer.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
   members: PropTypes.array,
-  currentTotals: PropTypes.object
+  currentTotals: PropTypes.object,
+  currentStats: PropTypes.object
 }
 
 export default withRouteData(ClanCurrentContainer)

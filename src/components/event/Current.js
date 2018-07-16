@@ -4,11 +4,12 @@ import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
-import { Button } from '../button/Button'
+import { Button, ButtonGroup } from '../button/Button'
 import { TabContainer, Tab } from '../tab/Tab'
 import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
+import { StatList } from '../../components/stat/Stat'
 
 const constants = require('../../utils/constants')
 
@@ -24,8 +25,11 @@ class EventCurrent extends PureComponent {
   constructor (props) {
     super(props)
 
+    const { stats } = this.props
+
     this.state = {
-      enrollmentOpen: false
+      enrollmentOpen: false,
+      statsColumns: stats ? Object.keys(stats) : null
     }
   }
 
@@ -36,8 +40,8 @@ class EventCurrent extends PureComponent {
   }
 
   render () {
-    const { event, leaderboards, element, summary } = this.props
-    const { enrollmentOpen } = this.state
+    const { event, leaderboards, stats, element, summary } = this.props
+    const { enrollmentOpen, statsColumns } = this.state
 
     if (!event) return null
 
@@ -57,8 +61,17 @@ class EventCurrent extends PureComponent {
           {summary && hasLeaderboards &&
             <Button href={`${event.path}#leaderboard`}>View full leaderboard</Button>
           }
-          {!summary && enrollmentOpen &&
-            <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+          {!summary &&
+            <Fragment>
+              {enrollmentOpen &&
+                <ButtonGroup>
+                  <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+                </ButtonGroup>
+              }
+              {hasLeaderboards &&
+                <StatList stats={stats} columns={statsColumns} top kicker="Top stats" />
+              }
+            </Fragment>
           }
           {!hasLeaderboards &&
             <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
@@ -87,6 +100,7 @@ EventCurrent.defaultProps = {
 EventCurrent.propTypes = {
   event: PropTypes.object,
   leaderboards: PropTypes.array,
+  stats: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool
 }

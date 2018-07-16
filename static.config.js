@@ -124,7 +124,7 @@ export default {
               updated: games > 0 ? memberLastChecked : null
             }
 
-            if (hasStats) {
+            if (games >= constants.statsGamesThreshold) {
               statsColumns.map(column => {
                 if (column === 'bonuses' && currentTotals.bonuses) {
                   currentTotals.bonuses.map(({ shortName, count }) => {

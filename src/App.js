@@ -55,8 +55,8 @@ class App extends Component {
             <meta property="og:image" content={openGraphImage} />
           </Head>
           <Switch>
-            {/* <Route path={urlBuilder.profileUrl(':clan', ':member')} component={withAnalytics(MemberOverall)} />
-            <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(MemberCurrent)} /> */}
+            <Route path={urlBuilder.profileUrl(':clan', ':member')} component={withAnalytics(MemberOverall)} />
+            <Route path={urlBuilder.currentEventUrl(':clan', ':member')} component={withAnalytics(MemberCurrent)} />
             <Routes component={RenderRoutes} />
           </Switch>
         </div>

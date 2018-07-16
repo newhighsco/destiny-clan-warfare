@@ -393,20 +393,18 @@ export default {
 
     return routes
   },
-  webpack: (config, { defaultLoaders, stage }) => {
+  webpack: (config, { stage }) => {
     if (stage !== 'dev') config.devtool = false
-
-    config.entry = stage === 'dev'
-      ? [ require.resolve('babel-polyfill'), ...config.entry ]
-      : [ require.resolve('babel-polyfill'), config.entry ]
 
     var loaders = []
 
     if (stage === 'dev') {
+      config.entry = [ 'babel-polyfill', ...config.entry ]
       loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
     } else if (stage === 'node') {
       loaders = [ ...stylusLoaders() ]
     } else {
+      config.entry = [ 'babel-polyfill', config.entry ]
       loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
     }
 

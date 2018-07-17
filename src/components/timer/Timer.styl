@@ -7,13 +7,6 @@
   position relative
   z-index 2
 
-.timer__progress
-  margin 0 auto
-  max-width $mq--mobile--landscape
-  position relative
-  width 100%
-  z-index 1
-
 .timer__date
   display inline-block
   font-size rem(12)
@@ -34,7 +27,14 @@
   & + &
     text-align left
 
-.timer__progress--active
+.timer__range
+  margin 0 auto
+  max-width $mq--mobile--landscape
+  position relative
+  width 100%
+  z-index 1
+
+.timer__range--active
   margin-top -1.5em
 
   .timer__date

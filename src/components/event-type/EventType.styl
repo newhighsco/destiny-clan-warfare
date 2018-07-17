@@ -1,0 +1,33 @@
+.event-type
+  color $color--terracotta
+  fill $color--black
+  position relative
+
+  &:before
+  &:after
+    border 3em solid transparent
+    content ''
+    margin auto
+    position absolute
+    bottom -50%
+    top -50%
+    left -50%
+    right -50%
+    width 0
+    height 0
+    z-index 1
+
+    +width-min($mq--tablet)
+      border-width 3.5em
+
+  &:before
+    border-top-color currentColor
+    margin-top 100%
+
+  &:after
+    border-bottom-color currentColor
+    margin-bottom 100%
+
+  > *
+    position relative
+    z-index 2

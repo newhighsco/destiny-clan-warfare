@@ -20,12 +20,17 @@ const event = {
 }
 
 storiesOf('Events', module)
+  .addDecorator(story => (
+    <div style={{ padding: '1em' }}>
+      {story()}
+    </div>
+  ))
   .add('Current', () => (
     <EventCurrent event={{ ...event, startDate: startDate, endDate: endDate }} />
   ))
   .add('Future', () => (
-    <EventFuture event={{ ...event, startDate: endDate }} />
+    <EventFuture event={{ ...event, startDate: endDate, name: 'Weekend Strike Race' }} />
   ))
   .add('Previous', () => (
-    <EventPrevious event={{ ...event, endDate: startDate }} />
+    <EventPrevious event={{ ...event, endDate: startDate, name: 'Quick Quickplay' }} />
   ))

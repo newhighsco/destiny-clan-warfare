@@ -10,6 +10,7 @@ import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
 import { StatList } from '../../components/stat/Stat'
+import EventType from '../event-type/EventType'
 
 const constants = require('../../utils/constants')
 
@@ -50,6 +51,7 @@ class EventCurrent extends PureComponent {
     return (
       <Fragment>
         <Card cutout={hasLeaderboards} center>
+          <EventType name={event.name} />
           <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
           <Timer start={event.startDate} end={event.endDate} />
           {event.description &&

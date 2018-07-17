@@ -98,8 +98,8 @@ const fetch = async () => {
   const parseBonuses = (item, hasPlayed) => {
     const bonuses = [ item.BonusPoints1, item.BonusPoints2 ]
 
-    return bonuses.map(bonus => ({
-      shortName: bonus.ShortName || '',
+    return bonuses.map((bonus, i) => ({
+      shortName: bonus.ShortName || `Bonus ${i + 1}`,
       count: hasPlayed ? (typeof bonus === 'object' ? bonus.BonusPoints : bonus) : -1
     }))
   }
@@ -176,7 +176,7 @@ const fetch = async () => {
     new Promise((resolve, reject) => {
       console.time(`fetch members`)
 
-      primaryApi(`Clan/GetAllMembers`)
+      primaryApi(`Clan/GetAllMembersBeta`)
         .then(({ data }) => {
           data.map(member => {
             const id = member.ProfileIdStr
@@ -231,15 +231,15 @@ const fetch = async () => {
                 const kills = match.Results.TotalKills
                 const assists = match.Results.TotalAssists
                 const deaths = match.Results.TotalDeaths
+                const bonuses = parseBonuses(match.Results, true)
 
                 pastEvents.push({
                   id: eventId,
                   game: {
                     path: urlBuilder.eventUrl(eventId),
                     result: true,
-                    // TODO: Populate event data
-                    name: null,
-                    endDate: null,
+                    name: match.Results.EventData.Name,
+                    endDate: moment.utc(match.Results.EventData.ScoringEndDate).format(constants.format.machineReadable),
                     medals: medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
                   },
                   rank: statsHelper.ranking(match.Results.RankInClan),
@@ -248,7 +248,8 @@ const fetch = async () => {
                   wins: match.Results.GamesWon,
                   kd: statsHelper.kd({ kills, deaths }),
                   kda: statsHelper.kda({ kills, deaths, assists }),
-                  bonuses: parseBonuses(match.Results, true),
+                  bonuses,
+                  bonusColumns: bonuses.map(({ shortName }) => shortName),
                   ppg: statsHelper.ppg({ games, score }),
                   score
                 })

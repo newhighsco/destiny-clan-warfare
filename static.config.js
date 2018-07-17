@@ -61,7 +61,6 @@ export default {
       }
     ]
 
-    const previousEvent = previousEventId ? events.find(({ id }) => id === previousEventId) : null
     const currentEventStats = {}
     const statsColumns = [
       'games',
@@ -154,26 +153,8 @@ export default {
 
         if (previousEventId) {
           const previousTotals = previousClanLeaderboard[memberId]
-          const pastEvents = []
-
-          if (previousEvent && previousTotals && previousTotals.games > 0) {
-            const { path, ...totals } = previousTotals
-
-            pastEvents.push({
-              ...totals,
-              id: previousEventId,
-              game: {
-                path: previousEvent.path,
-                result: true,
-                name: previousEvent.name,
-                endDate: previousEvent.endDate
-              }
-            })
-          }
 
           member.previousTotals = previousTotals || emptyTotals
-
-          if (pastEvents.length) member.pastEvents = pastEvents
         }
       })
 

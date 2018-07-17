@@ -92,6 +92,7 @@ const constants = {
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'
   },
+  statsGamesThreshold: 15,
   matchHistoryLimit: 25
 }
 

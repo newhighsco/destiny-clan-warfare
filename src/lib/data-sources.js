@@ -44,16 +44,16 @@ const fetch = async () => {
     medals: [],
     currentEventId: null,
     currentLeaderboards: [],
-    currentClanLeaderboard: [],
+    currentClanLeaderboard: {},
     previousEventId: null,
-    previousClanLeaderboard: [],
-    matchHistory: [],
-    lastChecked: [],
+    previousClanLeaderboard: {},
+    matchHistory: {},
+    lastChecked: {},
     emptyTotals
   }
 
   const parseLeaderboard = (leaderboard, eventId) => {
-    const parsed = []
+    const parsed = {}
 
     if (leaderboard) {
       leaderboard.map(member => {
@@ -88,11 +88,7 @@ const fetch = async () => {
 
         totals.bonuses = parseBonuses(member, hasPlayed)
 
-        parsed.push({
-          id,
-          clanId,
-          ...totals
-        })
+        parsed[id] = totals
       })
     }
 
@@ -261,11 +257,11 @@ const fetch = async () => {
             }
 
             if (lastChecked) {
-              parsed.lastChecked.push({
-                id,
-                clanId,
-                date: moment.utc(lastChecked).format(constants.format.machineReadable)
-              })
+              const clanLastCheckedDate = parsed.lastChecked[clanId]
+              const memberlastCheckedDate = moment.utc(lastChecked).format(constants.format.machineReadable)
+              parsed.lastChecked[id] = memberlastCheckedDate
+
+              if (!clanLastCheckedDate || memberlastCheckedDate > clanLastCheckedDate) parsed.lastChecked[clanId] = memberlastCheckedDate
             }
 
             parsed.members.push({
@@ -464,7 +460,7 @@ const fetch = async () => {
           parsed.currentClanLeaderboard = parseLeaderboard(data)
 
           console.timeEnd(`fetch current clan leaderboard`)
-          console.log(`current clan leaderboard: ${parsed.currentClanLeaderboard.length}`)
+          console.log(`current clan leaderboard: ${data.length}`)
           resolve()
         })
         .catch(err => {
@@ -486,7 +482,7 @@ const fetch = async () => {
           parsed.previousClanLeaderboard = parseLeaderboard(LeaderboardList, EventId)
 
           console.timeEnd(`fetch previous clan leaderboard`)
-          console.log(`previous clan leaderboard: ${parsed.previousClanLeaderboard.length}`)
+          console.log(`previous clan leaderboard: ${LeaderboardList.length}`)
           resolve()
         })
         .catch(err => {

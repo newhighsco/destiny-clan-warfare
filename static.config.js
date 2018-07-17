@@ -58,7 +58,6 @@ export default {
       }
     ]
 
-    const previousEvent = previousEventId ? events.find(({ id }) => id === previousEventId) : null
     const currentEventStats = {}
     const statsColumns = [
       'games',

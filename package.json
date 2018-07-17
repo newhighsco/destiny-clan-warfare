@@ -27,8 +27,7 @@
     "qa:stylint": "stylint ./src",
     "test": "npm-run-all qa",
     "deploy": "npm-run-all build deploy:firebase",
-    "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN",
-    "preversion": "npm-run-all build:storybook"
+    "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
   "dependencies": {
     "autolinker": "^1.6.2",

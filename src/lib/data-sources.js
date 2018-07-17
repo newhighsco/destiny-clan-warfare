@@ -176,7 +176,7 @@ const fetch = async () => {
     new Promise((resolve, reject) => {
       console.time(`fetch members`)
 
-      primaryApi(`Clan/GetAllMembersBeta`)
+      primaryApi(`Clan/GetAllMembers`)
         .then(({ data }) => {
           data.map(member => {
             const id = member.ProfileIdStr

@@ -1,5 +1,4 @@
 import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
-import MultiSort from 'multi-sort'
 import RSS from 'rss'
 import Html from './src/Html'
 
@@ -59,7 +58,9 @@ export default {
       }
     ]
 
-    const currentStatsColumns = [
+    const previousEvent = previousEventId ? events.find(({ id }) => id === previousEventId) : null
+    const currentEventStats = {}
+    const statsColumns = [
       'games',
       'wins',
       'kd',
@@ -98,11 +99,11 @@ export default {
       clanMembers.map(member => {
         const memberId = member.id
         const memberName = member.name
+        const memberFullName = `${memberName} [${clan.tag}]`
         const hasPlayed = member.totals ? member.totals.games > 0 : false
         const platformId = member.platforms[0].id
         const existingPlatform = platforms.find(({ id }) => id === platformId)
-        const memberLastChecked = lastChecked.find(({ id }) => id === memberId)
-        const memberLastCheckedDate = memberLastChecked ? memberLastChecked.date : null
+        const memberLastChecked = lastChecked[memberId]
 
         if (existingPlatform) {
           if (hasPlayed) existingPlatform.active++
@@ -113,24 +114,28 @@ export default {
         }
 
         if (currentEventId) {
-          const currentTotals = currentClanLeaderboard.find(({ id }) => id === memberId)
+          const currentTotals = currentClanLeaderboard[memberId]
 
           if (currentTotals) {
-            const hasStats = currentTotals.games > 0
+            const { games } = currentTotals
 
             clanCurrentTotals[memberId] = {
               ...currentTotals,
-              updated: hasStats ? memberLastCheckedDate : null
+              updated: games > 0 ? memberLastChecked : null
             }
 
-            if (hasStats) {
-              currentStatsColumns.map(column => {
+            if (games >= constants.statsGamesThreshold) {
+              statsColumns.map(column => {
                 if (column === 'bonuses' && currentTotals.bonuses) {
                   currentTotals.bonuses.map(({ shortName, count }) => {
                     updateStat(clanCurrentStats, shortName, count, memberName)
+                    updateStat(currentEventStats, shortName, count, memberFullName)
                   })
                 } else {
-                  updateStat(clanCurrentStats, column, currentTotals[column], memberName)
+                  const value = currentTotals[column]
+
+                  updateStat(clanCurrentStats, column, value, memberName)
+                  updateStat(currentEventStats, column, value, memberFullName)
                 }
               })
             }
@@ -145,7 +150,7 @@ export default {
         }
 
         if (previousEventId) {
-          const previousTotals = previousClanLeaderboard.find(({ id }) => id === memberId)
+          const previousTotals = previousClanLeaderboard[memberId]
 
           member.previousTotals = previousTotals || emptyTotals
         }
@@ -187,11 +192,11 @@ export default {
       currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }) => {
         leaderboard = leaderboard.map(({ IdStr, Rank, TotalScore, Active, Size }, i) => {
           const clan = clans.find(({ id }) => id === IdStr)
-          const clanLastChecked = MultiSort(lastChecked.filter(({ clanId }) => clanId === clan.id), { date: 'DESC' })
+          const clanLastChecked = lastChecked[clan.id]
 
           return {
             ...clan,
-            updated: clanLastChecked.length ? clanLastChecked[0].date : null,
+            updated: clanLastChecked || null,
             tag: null,
             path: urlBuilder.currentEventUrl(clan.id),
             rank: true,
@@ -276,6 +281,7 @@ export default {
         getData: () => ({
           event,
           currentEventLeaderboards: event.isCurrent ? currentEventLeaderboards : null,
+          currentEventStats: event.isCurrent ? currentEventStats : null,
           apiStatus: event.isCurrent ? apiStatus : {}
         })
       })

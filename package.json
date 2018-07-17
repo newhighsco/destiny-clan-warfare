@@ -28,7 +28,7 @@
     "test": "npm-run-all qa",
     "deploy": "npm-run-all build deploy:firebase",
     "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN",
-    "preversion": "npm-run-all build:start-storybook"
+    "preversion": "npm-run-all build:storybook"
   },
   "dependencies": {
     "autolinker": "^1.6.2",

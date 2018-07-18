@@ -44,6 +44,7 @@ storiesOf('Modifiers', module)
           name: modifier.Name,
           description: modifier.Description,
           creator: modifier.CreatedBy,
+          scoringModifier: modifier.ScoringModifier,
           bonus: modifier.ScoringBonus || modifier.MultiplierBonus
         })), { name: 'ASC' })} enableHover={false} tooltipActive />
       )}

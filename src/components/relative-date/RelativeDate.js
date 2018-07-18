@@ -16,9 +16,9 @@ class RelativeDate extends PureComponent {
     if (apiStatus) updated = apiStatus.updatedDate
 
     const currentDate = moment.utc()
-    const startDate = moment.utc(start)
-    const endDate = moment.utc(end)
-    const updatedDate = moment.utc(updated)
+    const startDate = start ? moment.utc(start) : null
+    const endDate = end ? moment.utc(end) : null
+    const updatedDate = updated ? moment.utc(updated) : null
 
     if (updated) {
       value = updatedDate

@@ -5,10 +5,10 @@ import styles from './Prose.styl'
 
 class Prose extends PureComponent {
   render () {
-    const { children, className } = this.props
+    const { children, className, html } = this.props
 
     return (
-      <div className={classNames(styles.prose, className)}>
+      <div className={classNames(styles.prose, className)} {...html && { dangerouslySetInnerHTML: { __html: html } }}>
         {children}
       </div>
     )
@@ -17,7 +17,8 @@ class Prose extends PureComponent {
 
 Prose.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
+  html: PropTypes.string
 }
 
 export default Prose

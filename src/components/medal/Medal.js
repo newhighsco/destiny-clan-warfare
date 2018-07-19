@@ -25,9 +25,10 @@ class Medal extends PureComponent {
     const foreground = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
     const ForegroundSvg = foreground ? foreground.svg : null
     const designer = foreground ? foreground.designer : null
-    const tooltip = [ description, '' ]
+    const tooltip = []
     const labelSentence = sentence(label)
 
+    if (description) tooltip.push(description, '')
     if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
     if (label && label.length > 1) tooltip.push(`<strong>Awarded to:</strong> ${labelSentence}`)
 

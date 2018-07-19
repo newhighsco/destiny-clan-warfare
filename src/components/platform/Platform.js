@@ -42,6 +42,8 @@ class PlatformList extends PureComponent {
     const { size, className } = this.props
     var { platforms } = this.props
 
+    if (!platforms || platforms.length < 1) return null
+
     platforms = MultiSort(platforms.filter(platform => platform.percentage >= 10), {
       size: 'DESC',
       active: 'DESC',

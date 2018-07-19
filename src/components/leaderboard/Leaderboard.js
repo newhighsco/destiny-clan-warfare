@@ -76,6 +76,8 @@ class Leaderboard extends PureComponent {
       )}>
         {data.map((item, i) => {
           if (item.bonusColumns) bonusColumns = item.bonusColumns
+          const hasModifiers = item.modifiers && item.modifiers.length > 0
+          const hasBody = item.game || hasModifiers || item.tag || columns
 
           return (
             <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
@@ -105,83 +107,85 @@ class Leaderboard extends PureComponent {
                   </Fragment>
                 </div>
               }
-              <div className={classNames(styles[`${baseClassName}__body`])}>
-                <div className={styles[`${baseClassName}__stats`]}>
-                  {item.game &&
-                    <Fragment>
-                      <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
-                        {item.game.isExternal ? (
-                          <a href={item.game.path} target="_blank" rel="noopener noreferrer">
-                            <span>{item.game.name}</span>
-                            <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
-                              <ExternalSvg />
-                            </Icon>
-                          </a>
-                        ) : (
-                          <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
-                            <span>{item.game.name}</span>
-                          </Link>
-                        )}
-                        <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
-                      </div>
-                      {item.game.medals && item.game.medals.length > 0 &&
-                        <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                          <MedalList size="x-small" align="left" medals={item.game.medals} />
+              {hasBody &&
+                <div className={classNames(styles[`${baseClassName}__body`])}>
+                  <div className={styles[`${baseClassName}__stats`]}>
+                    {item.game &&
+                      <Fragment>
+                        <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
+                          {item.game.isExternal ? (
+                            <a href={item.game.path} target="_blank" rel="noopener noreferrer">
+                              <span>{item.game.name}</span>
+                              <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
+                                <ExternalSvg />
+                              </Icon>
+                            </a>
+                          ) : (
+                            <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
+                              <span>{item.game.name}</span>
+                            </Link>
+                          )}
+                          <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
                         </div>
+                        {item.game.medals && item.game.medals.length > 0 &&
+                          <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
+                            <MedalList size="x-small" align="left" medals={item.game.medals} />
+                          </div>
+                        }
+                      </Fragment>
+                    }
+                    {hasModifiers &&
+                      <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
+                        <ModifierList size="small" align="right" modifiers={item.modifiers} />
+                      </div>
+                    }
+                    {item.tag &&
+                      <ClanTag className={styles[`${baseClassName}__clan-tag`]} href={item.path}>{item.tag}</ClanTag>
+                    }
+                    {item.division &&
+                      <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>
+                    }
+                    {columns && columns.map((column, i) => {
+                      if (column === 'bonuses' && bonusColumns.length) {
+                        return bonusColumns.map((shortName, i) => {
+                          const bonusKey = shortName.toLowerCase()
+
+                          if (columns.indexOf(bonusKey) !== -1) return null
+
+                          var bonusValue = item.bonuses ? item.bonuses.find(bonus => bonus.shortName === shortName).count : -1
+                          if (bonusValue < 0) bonusValue = constants.blank
+
+                          return (
+                            <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={shortName}>{bonusValue}</div>
+                          )
+                        })
                       }
-                    </Fragment>
-                  }
-                  {item.modifiers && item.modifiers.length > 0 &&
-                    <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
-                      <ModifierList size="small" align="right" modifiers={item.modifiers} />
-                    </div>
-                  }
-                  {item.tag &&
-                    <ClanTag className={styles[`${baseClassName}__clan-tag`]} href={item.path}>{item.tag}</ClanTag>
-                  }
-                  {item.division &&
-                    <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>
-                  }
-                  {columns && columns.map((column, i) => {
-                    if (column === 'bonuses' && bonusColumns.length) {
-                      return bonusColumns.map((shortName, i) => {
-                        const bonusKey = shortName.toLowerCase()
 
-                        if (columns.indexOf(bonusKey) !== -1) return null
+                      if (column === 'rank' && typeof item.rank === 'boolean') item.rank = item.rank === true ? '' : -1
 
-                        var bonusValue = item.bonuses ? item.bonuses.find(bonus => bonus.shortName === shortName).count : -1
-                        if (bonusValue < 0) bonusValue = constants.blank
+                      var value = item[column]
 
-                        return (
-                          <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={shortName}>{bonusValue}</div>
-                        )
-                      })
-                    }
+                      if (typeof value === 'undefined' || value === null) return null
 
-                    if (column === 'rank' && typeof item.rank === 'boolean') item.rank = item.rank === true ? '' : -1
+                      var exactValue
 
-                    var value = item[column]
+                      if (isNaN(value)) {
+                        value = `${value}`
+                      } else {
+                        if (value < 0) value = constants.blank
 
-                    if (typeof value === 'undefined' || value === null) return null
+                        exactValue = value
+                        value = statsHelper.shortNumber(value)
+                        if (value === exactValue) exactValue = null
+                      }
 
-                    var exactValue
-
-                    if (isNaN(value)) {
-                      value = `${value}`
-                    } else {
-                      if (value < 0) value = constants.blank
-
-                      exactValue = value
-                      value = statsHelper.shortNumber(value)
-                      if (value === exactValue) exactValue = null
-                    }
-
-                    return (
-                      <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}><span>{value}</span></div>
-                    )
-                  })}
+                      return (
+                        <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}><span>{value}</span></div>
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
+              }
             </div>
           )
         })}

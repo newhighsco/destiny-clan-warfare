@@ -1,4 +1,5 @@
 .leaderboard
+  color $color--white
   counter-reset leaderboard
   position relative
 
@@ -134,8 +135,7 @@
 
   +width-min($mq--tablet)
     display inline-block
-    padding $spacing--half $spacing--default
-    padding-right 0
+    padding-left $spacing--default
 
     svg
       filter drop-shadow(0 0 1px rgba($color--silver, 0.5))

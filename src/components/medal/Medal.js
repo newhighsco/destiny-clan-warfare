@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
@@ -92,11 +92,7 @@ class MedalList extends PureComponent {
 
     if (!medals || medals.length < 1) return null
 
-    medals = MultiSort(medals, {
-      tier: 'DESC',
-      name: 'ASC',
-      label: 'ASC'
-    })
+    medals = medals.sort(firstBy('tier', -1).thenBy('name').thenBy('label'))
 
     return (
       <Fragment>

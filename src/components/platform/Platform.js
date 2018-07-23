@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import Icon from '../icon/Icon'
 import BattlenetSvg from './icons/battlenet.svg'
 import PlaystationSvg from './icons/playstation.svg'
@@ -44,11 +44,7 @@ class PlatformList extends PureComponent {
 
     if (!platforms || platforms.length < 1) return null
 
-    platforms = MultiSort(platforms.filter(platform => platform.percentage >= 10), {
-      size: 'DESC',
-      active: 'DESC',
-      id: 'ASC'
-    })
+    platforms = platforms.filter(platform => platform.percentage >= 10).sort(firstBy('size', -1).thenBy('active', -1).thenBy('id'))
 
     if (!platforms || platforms.length < 1) return null
 

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -109,7 +109,7 @@ class CustomLeaderboardContainer extends PureComponent {
       if (filterById(ids, clanId)) tags.push(suggestion)
     })
 
-    leaderboard = MultiSort(leaderboard, { score: 'DESC', name: 'ASC' })
+    leaderboard = leaderboard.sort(firstBy('score', -1).thenBy('name'))
 
     if (!active) {
       this.setState({

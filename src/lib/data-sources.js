@@ -195,7 +195,7 @@ const fetch = async () => {
               kda: -1,
               ppg: -1,
               score: -1,
-              lastPlayed: -1
+              lastPlayed: '-1'
             }
             const pastEvents = []
 

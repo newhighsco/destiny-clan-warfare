@@ -117,10 +117,13 @@ export default {
 
           if (currentTotals) {
             const { games } = currentTotals
+            const hasCurrentTotals = games > 0
+
+            member.hasCurrentTotals = hasCurrentTotals
 
             clanCurrentTotals[memberId] = {
               ...currentTotals,
-              updated: games > 0 ? memberLastChecked : null
+              updated: hasCurrentTotals ? memberLastChecked : null
             }
 
             if (games >= constants.statsGamesThreshold) {

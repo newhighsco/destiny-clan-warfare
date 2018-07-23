@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
+import { firstBy } from 'thenby'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -12,15 +13,39 @@ const meta = {
 }
 
 class ClansContainer extends PureComponent {
-  render () {
+  constructor (props) {
+    super(props)
+
     const { clans } = this.props
+
+    this.state = {
+      clans: clans.map(({ medals, ...rest }) => {
+        const tiers = { total: 0, '3': 0, '2': 0, '1': 0 }
+
+        medals.map(medal => {
+          const count = medal.count
+
+          tiers[medal.tier] += count
+          tiers.total += count
+        })
+
+        return {
+          ...rest,
+          ...tiers
+        }
+      }).sort(firstBy('total', -1).thenBy('3', -1).thenBy('2', -1).thenBy('3', -1))
+    }
+  }
+
+  render () {
+    const { clans } = this.state
 
     return (
       <PageContainer meta={meta}>
         <Card cutout center>
-          <Lockup primary center kicker="All" heading="Clans" />
+          <Lockup primary center kicker="Clan medal" heading="leaderboard" />
         </Card>
-        <Leaderboard cutout data={clans} />
+        <Leaderboard cutout data={clans} columns={[ '3', '2', '1', 'total' ]} />
       </PageContainer>
     )
   }

@@ -7,7 +7,6 @@ import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
-import ClanTag from '../clan-tag/ClanTag'
 import { PlatformList } from '../platform/Platform'
 import RelativeDate from '../relative-date/RelativeDate'
 import ExternalSvg from '../../images/external.svg'
@@ -77,7 +76,7 @@ class Leaderboard extends PureComponent {
         {data.map((item, i) => {
           if (item.bonusColumns) bonusColumns = item.bonusColumns
           const hasModifiers = item.modifiers && item.modifiers.length > 0
-          const hasBody = item.game || hasModifiers || item.tag || columns
+          const hasBody = item.game || hasModifiers || columns
 
           return (
             <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
@@ -138,9 +137,6 @@ class Leaderboard extends PureComponent {
                       <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
                         <ModifierList size="small" align="right" modifiers={item.modifiers} />
                       </div>
-                    }
-                    {item.tag &&
-                      <ClanTag className={styles[`${baseClassName}__clan-tag`]} href={item.path}>{item.tag}</ClanTag>
                     }
                     {item.division &&
                       <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>

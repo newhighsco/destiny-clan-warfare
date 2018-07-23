@@ -99,7 +99,6 @@ class CustomLeaderboardContainer extends PureComponent {
         ...clan,
         ...total,
         path,
-        tag: null,
         medal: null
       }
 

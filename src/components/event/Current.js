@@ -46,6 +46,7 @@ class EventCurrent extends PureComponent {
     if (!event) return null
 
     const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
+    const tooltip = `Play a minimum of ${constants.statsGamesThreshold} games to be included.`
 
     return (
       <Fragment>
@@ -68,9 +69,13 @@ class EventCurrent extends PureComponent {
                   <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
                 </ButtonGroup>
               }
-              {hasLeaderboards &&
-                <StatList stats={stats} columns={statsColumns} top kicker="Top stats" />
-              }
+              {hasLeaderboards && (
+                statsColumns.length > 0 ? (
+                  <StatList stats={stats} columns={statsColumns} top kicker="Top stats" tooltip={tooltip} />
+                ) : (
+                  <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
+                )
+              )}
             </Fragment>
           }
           {!hasLeaderboards &&

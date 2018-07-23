@@ -66,14 +66,16 @@ Stat.propTypes = {
 
 class StatList extends PureComponent {
   render () {
-    const { stats, columns, kicker, top, size } = this.props
+    const { stats, columns, kicker, tooltip, top, size } = this.props
 
     if (!stats || Object.keys(stats).length < 1) return null
 
     return (
       <Fragment>
         {kicker &&
-          <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+          <Tooltip text={tooltip} className={styles[`${baseClassName}-lockup`]} enableHover>
+            <Lockup kicker={kicker} borderless />
+          </Tooltip>
         }
         <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
           {columns.map((column, i) => {
@@ -138,6 +140,7 @@ StatList.propTypes = {
   stats: PropTypes.object,
   columns: PropTypes.array,
   kicker: PropTypes.string,
+  tooltip: PropTypes.string,
   top: PropTypes.bool,
   size: PropTypes.oneOf([ 'small' ])
 }

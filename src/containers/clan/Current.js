@@ -80,6 +80,7 @@ class ClanCurrentContainer extends PureComponent {
     const { apiStatus, clan } = this.props
     const { leaderboard, stats, statsColumns, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
+    const tooltip = `Play a minimum of ${constants.statsGamesThreshold} games to be included.`
 
     return (
       <PageContainer meta={meta}>
@@ -90,7 +91,11 @@ class ClanCurrentContainer extends PureComponent {
           <Avatar cutout outline {...clan.avatar} />
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
-          <StatList stats={stats} columns={statsColumns} top kicker="Top stats" />
+          {statsColumns.length > 0 ? (
+            <StatList stats={stats} columns={statsColumns} top kicker="Top stats" tooltip={tooltip} />
+          ) : (
+            <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
+          )}
           {!hasLeaderboard &&
             <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
           }

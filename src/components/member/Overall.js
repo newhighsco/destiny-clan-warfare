@@ -99,7 +99,7 @@ class MemberOverall extends PureComponent {
             <Tab name={`${constants.kicker.past}${isMultiColumn ? 's' : ''}`}>
               <Leaderboard data={pastEvents} columns={columns} multiColumn={isMultiColumn} />
             </Tab>
-            {member.currentTotals && member.currentTotals.games > 0 &&
+            {member.hasCurrentTotals &&
               <Tab name={constants.tense.current} href={urlBuilder.currentEventUrl(clan.id, member.id)} />
             }
           </TabContainer>

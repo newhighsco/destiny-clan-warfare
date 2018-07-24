@@ -244,12 +244,32 @@
   max-width none
   padding 0
   text-align right
-  width 100%
+  width 75%
+
+  li
+    text-align left
+    width 33.333%
+
+  .medal
+    margin 0 $spacing--half
+
+  .leaderboard--multi-column &
+    width 100%
+
+    li
+      width auto
+
+    .medal
+      margin $spacing--half
 
   +width-min($mq--tablet--landscape)
     max-height none
-    padding $spacing--half
+    padding 0 $spacing--half
     width 65%
+
+    li
+      text-align right
+      width 25%
 
 .leaderboard__stat--modifiers
   flex auto

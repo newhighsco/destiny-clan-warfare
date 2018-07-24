@@ -19,7 +19,7 @@ class Loader extends PureComponent {
   componentDidMount () {
     proxy(this.props.url)
       .then(({ data }) => {
-        this.setState({ medals: medalBuilder.parseMedals(data, this.props.type) })
+        this.setState({ ...medalBuilder.parseMedals(data, this.props.type) })
       })
   }
 

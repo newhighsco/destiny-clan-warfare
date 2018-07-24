@@ -24,7 +24,8 @@ const build = (rank, tier, division) => {
 
 const parseMedals = (input, type, minimumTier) => {
   minimumTier = minimumTier || 0
-  const output = []
+  const medals = []
+  const totals = { total: 0 }
   const parseMedal = (medal, type) => ({
     id: medal.Id || medal.MedalId || medal.UnlockId,
     type,
@@ -38,19 +39,22 @@ const parseMedals = (input, type, minimumTier) => {
   if (input) {
     input.map(medal => {
       const parsed = parseMedal(medal, type)
-      const existing = output.find(({ id, type }) => id === parsed.id && type === parsed.type)
+      const existing = medals.find(({ id, type }) => id === parsed.id && type === parsed.type)
 
       if (parsed.tier <= minimumTier) return
+
+      totals[parsed.tier] += parsed.count
+      totals.total += parsed.count
 
       if (existing) {
         existing.label = existing.label.concat(parsed.label)
       } else {
-        output.push(parsed)
+        medals.push(parsed)
       }
     })
   }
 
-  return output
+  return { medals, totals }
 }
 
 module.exports = {

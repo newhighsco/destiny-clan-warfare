@@ -12,6 +12,7 @@ import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
 
 const constants = require('../../utils/constants')
+const urlBuilder = require('../../utils/url-builder')
 
 class EventPrevious extends PureComponent {
   render () {
@@ -35,7 +36,7 @@ class EventPrevious extends PureComponent {
           <ModifierList modifiers={event.modifiers} />
           {!summary && isCalculated && event.medals &&
             <Fragment>
-              <MedalList medals={event.medals.clans} kicker="Medals awarded" />
+              <MedalList medals={event.medals.clans} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
               <MedalList medals={event.medals.members} />
             </Fragment>
           }

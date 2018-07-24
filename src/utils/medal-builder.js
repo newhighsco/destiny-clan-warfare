@@ -32,7 +32,7 @@ const parseMedals = (input, type, minimumTier) => {
     tier: medal.Tier || medal.MedalTier || 1,
     name: medal.Name,
     description: medal.Description,
-    count: medal.Count || null,
+    count: medal.Count || 1,
     label: [ decode(medal.AwardedTo || '') ]
   })
 
@@ -43,7 +43,7 @@ const parseMedals = (input, type, minimumTier) => {
 
       if (parsed.tier <= minimumTier) return
 
-      totals[parsed.tier] += parsed.count
+      totals[parsed.tier] = totals[parsed.tier] + parsed.count
       totals.total += parsed.count
 
       if (existing) {

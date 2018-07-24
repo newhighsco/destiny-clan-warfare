@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactTags from 'react-tag-autocomplete'
 import PropTypes from 'prop-types'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import { Lockup } from '../lockup/Lockup'
 import styles from './Filter.styl'
 
@@ -17,11 +17,7 @@ class Filter extends Component {
     const { kicker, placeholder, tags, handleAddition, handleDelete } = this.props
     const ids = getIds(tags)
 
-    suggestions = MultiSort(
-      suggestions.map(suggestion => ({ ...suggestion, disabled: filterById(ids, suggestion.id) })),
-      'disabled',
-      'ASC'
-    )
+    suggestions = suggestions.map(suggestion => ({ ...suggestion, disabled: filterById(ids, suggestion.id) })).sort(firstBy('disabled'))
 
     return (
       <div className="field">

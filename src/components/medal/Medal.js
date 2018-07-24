@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
@@ -87,21 +87,19 @@ Medal.propTypes = {
 
 class MedalList extends PureComponent {
   render () {
-    const { kicker, size, align, center, enableHover, tooltipActive } = this.props
+    const { kicker, kickerHref, size, align, center, enableHover, tooltipActive } = this.props
     var { medals } = this.props
 
     if (!medals || medals.length < 1) return null
 
-    medals = MultiSort(medals, {
-      tier: 'DESC',
-      name: 'ASC',
-      label: 'ASC'
-    })
+    medals = medals.filter(({ count, tier }) => count > 0 && tier).sort(firstBy('tier', -1).thenBy('name').thenBy('label'))
+
+    if (medals.length === 0) return null
 
     return (
       <Fragment>
         {kicker &&
-          <Lockup kicker={kicker} className={styles[`${baseClassName}-lockup`]} borderless />
+          <Lockup kicker={kicker} kickerHref={kickerHref} className={styles[`${baseClassName}-lockup`]} borderless />
         }
         <ul className={classNames('list--inline', styles[`${baseClassName}-list`], center && 'text-center')}>
           {medals.map((medal, i) => (
@@ -123,6 +121,7 @@ MedalList.defaultProps = {
 MedalList.propTypes = {
   medals: PropTypes.array,
   kicker: PropTypes.string,
+  kickerHref: PropTypes.string,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
   center: PropTypes.bool,

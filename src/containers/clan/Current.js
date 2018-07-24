@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import PageContainer from '../../components/page-container/PageContainer'
 import Card from '../../components/card/Card'
 import Avatar from '../../components/avatar/Avatar'
@@ -59,18 +59,14 @@ class ClanCurrentContainer extends PureComponent {
         ]
       }
     }
-    const leaderboard = MultiSort(members.map((member, i) => {
+    const leaderboard = members.map((member, i) => {
       const memberCurrentTotals = currentTotals[member.id]
 
       return {
         ...member,
         ...memberCurrentTotals
       }
-    }), {
-      score: 'DESC',
-      games: 'DESC',
-      name: 'ASC'
-    })
+    }).sort(firstBy('score', -1).thenBy('games', -1).thenBy('name'))
 
     this.state = {
       leaderboard,

@@ -144,6 +144,7 @@ const fetch = async () => {
         .then(({ data }) => {
           data.map(clan => {
             const id = `${clan.GroupId}`
+            const { medals, totals } = medalBuilder.parseMedals(clan.MedalUnlocks, constants.prefix.clan)
 
             parsed.clans.push({
               path: urlBuilder.clanUrl(id),
@@ -163,7 +164,8 @@ const fetch = async () => {
                   icon: clan.BackgroundIcon
                 }
               },
-              medals: medalBuilder.parseMedals(clan.MedalUnlocks, constants.prefix.clan)
+              medals,
+              medalTotals: totals
             })
           })
 
@@ -195,7 +197,7 @@ const fetch = async () => {
               kda: -1,
               ppg: -1,
               score: -1,
-              lastPlayed: -1
+              lastPlayed: '-1'
             }
             const pastEvents = []
 
@@ -232,6 +234,7 @@ const fetch = async () => {
                 const assists = match.Results.TotalAssists
                 const deaths = match.Results.TotalDeaths
                 const bonuses = parseBonuses(match.Results, true)
+                const { medals } = medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
 
                 pastEvents.push({
                   id: eventId,
@@ -240,7 +243,7 @@ const fetch = async () => {
                     result: true,
                     name: match.Results.EventData.Name,
                     endDate: moment.utc(match.Results.EventData.ScoringEndDate).format(constants.format.machineReadable),
-                    medals: medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
+                    medals
                   },
                   rank: statsHelper.ranking(match.Results.RankInClan),
                   overall: statsHelper.ranking(match.Results.OverallRank),
@@ -264,6 +267,8 @@ const fetch = async () => {
               if (!clanLastCheckedDate || memberlastCheckedDate > clanLastCheckedDate) parsed.lastChecked[clanId] = memberlastCheckedDate
             }
 
+            const { medals } = medalBuilder.parseMedals(member.MedalUnlocks, constants.prefix.profile)
+
             parsed.members.push({
               path,
               id,
@@ -272,7 +277,7 @@ const fetch = async () => {
               avatar: { icon: member.Icon },
               platforms: [ { id: member.MembershipType || constants.bungie.platformDefault, size: 1, active: 1, percentage: 100 } ],
               tags: member.BonusUnlocks.map(({ Name }) => ({ name: Name })),
-              medals: medalBuilder.parseMedals(member.MedalUnlocks, constants.prefix.profile),
+              medals,
               totals,
               pastEvents
             })
@@ -349,8 +354,8 @@ const fetch = async () => {
               modifiers: event.Modifiers.map(({ Id }) => (Id)),
               leaderboards,
               medals: {
-                clans: medalBuilder.parseMedals(event.ClanMedals, constants.prefix.clan, 1),
-                members: medalBuilder.parseMedals(event.ClanMemberMedals, constants.prefix.profile, 1)
+                clans: medalBuilder.parseMedals(event.ClanMedals, constants.prefix.clan, 1).medals,
+                members: medalBuilder.parseMedals(event.ClanMemberMedals, constants.prefix.profile, 1).medals
               }
             })
           })
@@ -397,7 +402,7 @@ const fetch = async () => {
 
       primaryApi(`Component/GetAllMedals`)
         .then(({ data }) => {
-          parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.profile))
+          parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.profile).medals)
 
           console.timeEnd(`fetch member medals`)
           console.log(`member medals: ${data.length}`)
@@ -413,7 +418,7 @@ const fetch = async () => {
 
       primaryApi(`Component/GetAllClanMedals`)
         .then(({ data }) => {
-          parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.clan))
+          parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.clan).medals)
 
           console.timeEnd(`fetch clan medals`)
           console.log(`clan medals: ${data.length}`)

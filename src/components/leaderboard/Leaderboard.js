@@ -7,7 +7,6 @@ import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
-import ClanTag from '../clan-tag/ClanTag'
 import { PlatformList } from '../platform/Platform'
 import RelativeDate from '../relative-date/RelativeDate'
 import ExternalSvg from '../../images/external.svg'
@@ -62,7 +61,7 @@ class Leaderboard extends PureComponent {
   }
 
   render () {
-    const { data, cutout, columns, multiColumn, className, prefetch } = this.props
+    const { data, cutout, columns, multiColumn, medalsSize, className, prefetch } = this.props
     var { bonusColumns } = this.state
 
     if (!data || data.length < 1) return null
@@ -77,7 +76,7 @@ class Leaderboard extends PureComponent {
         {data.map((item, i) => {
           if (item.bonusColumns) bonusColumns = item.bonusColumns
           const hasModifiers = item.modifiers && item.modifiers.length > 0
-          const hasBody = item.game || hasModifiers || item.tag || columns
+          const hasBody = item.game || hasModifiers || columns
 
           return (
             <div key={i} id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result}>
@@ -112,24 +111,26 @@ class Leaderboard extends PureComponent {
                   <div className={styles[`${baseClassName}__stats`]}>
                     {item.game &&
                       <Fragment>
-                        <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
-                          {item.game.isExternal ? (
-                            <a href={item.game.path} target="_blank" rel="noopener noreferrer">
-                              <span>{item.game.name}</span>
-                              <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
-                                <ExternalSvg />
-                              </Icon>
-                            </a>
-                          ) : (
-                            <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
-                              <span>{item.game.name}</span>
-                            </Link>
-                          )}
-                          <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
-                        </div>
+                        {item.game.name &&
+                          <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
+                            {item.game.isExternal ? (
+                              <a href={item.game.path} target="_blank" rel="noopener noreferrer">
+                                <span>{item.game.name}</span>
+                                <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
+                                  <ExternalSvg />
+                                </Icon>
+                              </a>
+                            ) : (
+                              <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
+                                <span>{item.game.name}</span>
+                              </Link>
+                            )}
+                            <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
+                          </div>
+                        }
                         {item.game.medals && item.game.medals.length > 0 &&
                           <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                            <MedalList size="x-small" align="left" medals={item.game.medals} />
+                            <MedalList size={medalsSize} align="left" medals={item.game.medals} />
                           </div>
                         }
                       </Fragment>
@@ -138,9 +139,6 @@ class Leaderboard extends PureComponent {
                       <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
                         <ModifierList size="small" align="right" modifiers={item.modifiers} />
                       </div>
-                    }
-                    {item.tag &&
-                      <ClanTag className={styles[`${baseClassName}__clan-tag`]} href={item.path}>{item.tag}</ClanTag>
                     }
                     {item.division &&
                       <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>
@@ -194,11 +192,16 @@ class Leaderboard extends PureComponent {
   }
 }
 
+Leaderboard.defaultProps = {
+  medalsSize: 'x-small'
+}
+
 Leaderboard.propTypes = {
   data: PropTypes.array,
   cutout: PropTypes.bool,
   columns: PropTypes.array,
   multiColumn: PropTypes.bool,
+  medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),
   className: PropTypes.string,
   prefetch: PropTypes.bool
 }

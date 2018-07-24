@@ -202,7 +202,6 @@ export default {
           return {
             ...clan,
             updated: clanLastChecked || null,
-            tag: null,
             path: urlBuilder.currentEventUrl(clan.id),
             rank: true,
             overall: statsHelper.ranking(Rank),
@@ -252,7 +251,6 @@ export default {
 
               event.results.push({
                 ...clan,
-                tag: null,
                 medal,
                 division,
                 score
@@ -266,7 +264,6 @@ export default {
 
           return {
             ...clan,
-            tag: null,
             medal,
             rank: true,
             overall: statsHelper.ranking(rank),

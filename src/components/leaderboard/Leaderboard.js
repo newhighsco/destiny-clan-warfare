@@ -61,7 +61,7 @@ class Leaderboard extends PureComponent {
   }
 
   render () {
-    const { data, cutout, columns, multiColumn, className, prefetch } = this.props
+    const { data, cutout, columns, multiColumn, medalsSize, className, prefetch } = this.props
     var { bonusColumns } = this.state
 
     if (!data || data.length < 1) return null
@@ -111,24 +111,26 @@ class Leaderboard extends PureComponent {
                   <div className={styles[`${baseClassName}__stats`]}>
                     {item.game &&
                       <Fragment>
-                        <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
-                          {item.game.isExternal ? (
-                            <a href={item.game.path} target="_blank" rel="noopener noreferrer">
-                              <span>{item.game.name}</span>
-                              <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
-                                <ExternalSvg />
-                              </Icon>
-                            </a>
-                          ) : (
-                            <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
-                              <span>{item.game.name}</span>
-                            </Link>
-                          )}
-                          <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
-                        </div>
+                        {item.game.name &&
+                          <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
+                            {item.game.isExternal ? (
+                              <a href={item.game.path} target="_blank" rel="noopener noreferrer">
+                                <span>{item.game.name}</span>
+                                <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
+                                  <ExternalSvg />
+                                </Icon>
+                              </a>
+                            ) : (
+                              <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
+                                <span>{item.game.name}</span>
+                              </Link>
+                            )}
+                            <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
+                          </div>
+                        }
                         {item.game.medals && item.game.medals.length > 0 &&
                           <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                            <MedalList size="x-small" align="left" medals={item.game.medals} />
+                            <MedalList size={medalsSize} align="left" medals={item.game.medals} />
                           </div>
                         }
                       </Fragment>
@@ -190,11 +192,16 @@ class Leaderboard extends PureComponent {
   }
 }
 
+Leaderboard.defaultProps = {
+  medalsSize: 'x-small'
+}
+
 Leaderboard.propTypes = {
   data: PropTypes.array,
   cutout: PropTypes.bool,
   columns: PropTypes.array,
   multiColumn: PropTypes.bool,
+  medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),
   className: PropTypes.string,
   prefetch: PropTypes.bool
 }

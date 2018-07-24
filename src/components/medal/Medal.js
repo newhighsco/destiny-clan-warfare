@@ -92,7 +92,9 @@ class MedalList extends PureComponent {
 
     if (!medals || medals.length < 1) return null
 
-    medals = medals.sort(firstBy('tier', -1).thenBy('name').thenBy('label'))
+    medals = medals.filter(({ count, tier }) => count > 0 && tier).sort(firstBy('tier', -1).thenBy('name').thenBy('label'))
+
+    if (medals.length === 0) return null
 
     return (
       <Fragment>

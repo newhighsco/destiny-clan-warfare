@@ -43,7 +43,7 @@ const parseMedals = (input, type, minimumTier) => {
 
       if (parsed.tier <= minimumTier) return
 
-      totals[parsed.tier] = totals[parsed.tier] + parsed.count
+      totals[parsed.tier] = (totals[parsed.tier] || 0) + parsed.count
       totals.total += parsed.count
 
       if (existing) {

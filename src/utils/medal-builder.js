@@ -27,13 +27,13 @@ const parseMedals = (input, type, minimumTier) => {
   const medals = []
   const totals = { total: 0 }
   const parseMedal = (medal, type) => ({
-    id: medal.Id || medal.MedalId || medal.UnlockId,
+    id: medal.id || medal.medalId || medal.unlockId,
     type,
-    tier: medal.Tier || medal.MedalTier || 1,
-    name: medal.Name,
-    description: medal.Description,
-    count: medal.Count || 1,
-    label: [ decode(medal.AwardedTo || '') ]
+    tier: medal.tier || medal.medalTier || 1,
+    name: medal.name,
+    description: medal.description,
+    count: medal.count || 1,
+    label: [ decode(medal.awardedTo || '') ]
   })
 
   if (input) {

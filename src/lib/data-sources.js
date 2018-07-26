@@ -57,9 +57,9 @@ const fetch = async () => {
 
     if (leaderboard) {
       leaderboard.map(member => {
-        const id = member.IdStr
-        const clanId = `${member.ClanId}`
-        const games = member.GamesPlayed
+        const id = member.idStr
+        const clanId = `${member.clanId}`
+        const games = member.gamesPlayed
         const hasPlayed = games > 0
 
         const totals = {
@@ -68,15 +68,15 @@ const fetch = async () => {
         }
 
         if (hasPlayed) {
-          const kills = member.Kills
-          const assists = member.Assists
-          const deaths = member.Deaths
-          const score = statsHelper.total(member.TotalScore)
+          const kills = member.kills
+          const assists = member.assists
+          const deaths = member.deaths
+          const score = statsHelper.total(member.totalScore)
 
           totals.path = eventId ? urlBuilder.profileUrl(clanId, id, eventId) : urlBuilder.currentEventUrl(clanId, id)
           totals.rank = true
           totals.games = games
-          totals.wins = member.GamesWon
+          totals.wins = member.gamesWon
           totals.kills = kills
           totals.assists = assists
           totals.deaths = deaths
@@ -96,11 +96,11 @@ const fetch = async () => {
   }
 
   const parseBonuses = (item, hasPlayed) => {
-    const bonuses = [ item.BonusPoints1, item.BonusPoints2 ]
+    const bonuses = [ item.bonusPoints1, item.bonusPoints2 ]
 
     return bonuses.map((bonus, i) => ({
-      shortName: bonus.ShortName || `Bonus ${i + 1}`,
-      count: hasPlayed ? (typeof bonus === 'object' ? bonus.BonusPoints : bonus) : -1
+      shortName: bonus.shortName || `Bonus ${i + 1}`,
+      count: hasPlayed ? (typeof bonus === 'object' ? bonus.bonusPoints : bonus) : -1
     }))
   }
 
@@ -129,7 +129,7 @@ const fetch = async () => {
           parsed.apiStatus.bungieStatus = data.ErrorCode
 
           console.timeEnd(`fetch bungie api status`)
-          console.log(`bungie api status: ${data.ErrorCode}`)
+          console.log(`bungie api status: ${parsed.apiStatus.bungieStatus}`)
           resolve()
         })
         .catch(err => {
@@ -143,25 +143,25 @@ const fetch = async () => {
       primaryApi(`Clan/GetAllClans`)
         .then(({ data }) => {
           data.map(clan => {
-            const id = `${clan.GroupId}`
-            const { medals, totals } = medalBuilder.parseMedals(clan.MedalUnlocks, constants.prefix.clan)
+            const id = `${clan.groupId}`
+            const { medals, totals } = medalBuilder.parseMedals(clan.medalUnlocks, constants.prefix.clan)
 
             parsed.clans.push({
               path: urlBuilder.clanUrl(id),
               id,
-              name: decode(clan.Name),
-              tag: decode(clan.Tag),
-              motto: decode(clan.Motto),
-              description: description(clan.Description),
+              name: decode(clan.name),
+              tag: decode(clan.tag),
+              motto: decode(clan.motto),
+              description: description(clan.description),
               avatar: {
-                color: clan.BackgroundColor,
+                color: clan.backgroundColor,
                 foreground: {
-                  color: clan.EmblemColor1,
-                  icon: clan.ForegroundIcon
+                  color: clan.emblemColor1,
+                  icon: clan.foregroundIcon
                 },
                 background: {
-                  color: clan.EmblemColor2,
-                  icon: clan.BackgroundIcon
+                  color: clan.emblemColor2,
+                  icon: clan.backgroundIcon
                 }
               },
               medals,
@@ -181,10 +181,10 @@ const fetch = async () => {
       primaryApi(`Clan/GetAllMembers`)
         .then(({ data }) => {
           data.map(member => {
-            const id = member.ProfileIdStr
-            const clanId = `${member.GroupId}`
+            const id = member.profileIdStr
+            const clanId = `${member.groupId}`
             const path = urlBuilder.profileUrl(clanId, id)
-            const lastChecked = member.LastChecked
+            const lastChecked = member.lastChecked
             const totals = {
               path: null,
               rank: false,
@@ -199,22 +199,23 @@ const fetch = async () => {
               score: -1,
               lastPlayed: '-1'
             }
+            const currentScore = member.currentScore
             const pastEvents = []
 
-            if (member.CurrentScore && member.CurrentScore.LastSeen) {
-              totals.lastPlayed = moment.utc(member.CurrentScore.LastSeen).format(constants.format.date)
-              const games = member.CurrentScore.GamesPlayed
+            if (currentScore && currentScore.lastSeen) {
+              totals.lastPlayed = moment.utc(currentScore.lastSeen).format(constants.format.date)
+              const games = currentScore.gamesPlayed
 
               if (games > 0) {
-                const kills = member.CurrentScore.Kills
-                const assists = member.CurrentScore.Assists
-                const deaths = member.CurrentScore.Deaths
-                const score = statsHelper.total(member.CurrentScore.TotalScore)
+                const kills = currentScore.kills
+                const assists = currentScore.assists
+                const deaths = currentScore.deaths
+                const score = statsHelper.total(currentScore.totalScore)
 
                 totals.path = path
                 totals.rank = true
                 totals.games = games
-                totals.wins = member.CurrentScore.GamesWon
+                totals.wins = currentScore.gamesWon
                 totals.kills = kills
                 totals.assists = assists
                 totals.deaths = deaths
@@ -225,30 +226,31 @@ const fetch = async () => {
               }
             }
 
-            if (member.History) {
-              member.History.map(match => {
-                const eventId = match.EventId
-                const games = match.Results.GamesPlayed
-                const score = statsHelper.total(match.Results.TotalScore)
-                const kills = match.Results.TotalKills
-                const assists = match.Results.TotalAssists
-                const deaths = match.Results.TotalDeaths
-                const bonuses = parseBonuses(match.Results, true)
-                const { medals } = medalBuilder.parseMedals(match.Medals, constants.prefix.profile)
+            if (member.history) {
+              member.history.map(match => {
+                const eventId = match.eventId
+                const results = match.results
+                const games = results.gamesPlayed
+                const score = statsHelper.total(results.totalScore)
+                const kills = results.totalKills
+                const assists = results.totalAssists
+                const deaths = results.totalDeaths
+                const bonuses = parseBonuses(results, true)
+                const { medals } = medalBuilder.parseMedals(match.medals, constants.prefix.profile)
 
                 pastEvents.push({
                   id: eventId,
                   game: {
                     path: urlBuilder.eventUrl(eventId),
                     result: true,
-                    name: match.Results.EventData.Name,
-                    endDate: moment.utc(match.Results.EventData.ScoringEndDate).format(constants.format.machineReadable),
+                    name: results.eventData.name,
+                    endDate: moment.utc(results.eventData.scoringEndDate).format(constants.format.machineReadable),
                     medals
                   },
-                  rank: statsHelper.ranking(match.Results.RankInClan),
-                  overall: statsHelper.ranking(match.Results.OverallRank),
+                  rank: statsHelper.ranking(results.rankInClan),
+                  overall: statsHelper.ranking(results.overallRank),
                   games,
-                  wins: match.Results.GamesWon,
+                  wins: results.gamesWon,
                   kd: statsHelper.kd({ kills, deaths }),
                   kda: statsHelper.kda({ kills, deaths, assists }),
                   bonuses,
@@ -267,16 +269,16 @@ const fetch = async () => {
               if (!clanLastCheckedDate || memberlastCheckedDate > clanLastCheckedDate) parsed.lastChecked[clanId] = memberlastCheckedDate
             }
 
-            const { medals } = medalBuilder.parseMedals(member.MedalUnlocks, constants.prefix.profile)
+            const { medals } = medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile)
 
             parsed.members.push({
               path,
               id,
               clanId,
-              name: member.Name,
-              avatar: { icon: member.Icon },
-              platforms: [ { id: member.MembershipType || constants.bungie.platformDefault, size: 1, active: 1, percentage: 100 } ],
-              tags: member.BonusUnlocks.map(({ Name }) => ({ name: Name })),
+              name: member.name,
+              avatar: { icon: member.icon },
+              platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1, percentage: 100 } ],
+              tags: member.bonusUnlocks.map(({ name }) => ({ name })),
               medals,
               totals,
               pastEvents
@@ -298,12 +300,13 @@ const fetch = async () => {
       primaryApi(`Event/GetAllEvents`)
         .then(({ data }) => {
           data.map(event => {
-            const id = event.EventId
-            const startDate = moment.utc(event.StartTime).format(constants.format.machineReadable)
-            const endDate = moment.utc(event.ScoringEndTime).format(constants.format.machineReadable)
-            var isCurrent = event.EventTense === constants.tense.current
-            var isPast = event.EventTense === constants.tense.past
-            var isFuture = event.EventTense === constants.tense.future
+            const id = event.eventId
+            const startDate = moment.utc(event.startTime).format(constants.format.machineReadable)
+            const endDate = moment.utc(event.scoringEndTime).format(constants.format.machineReadable)
+            const tense = event.eventTense
+            var isCurrent = tense === constants.tense.current
+            var isPast = tense === constants.tense.past
+            var isFuture = tense === constants.tense.future
             var path = urlBuilder.eventUrl(id)
 
             if (isCurrent && endDate < updatedDate) {
@@ -322,7 +325,7 @@ const fetch = async () => {
             }
 
             const leaderboards = []
-            const results = event.Result
+            const results = event.result
 
             if (results) {
               constants.divisions.map(({ key, name, size }) => {
@@ -343,19 +346,19 @@ const fetch = async () => {
             parsed.events.push({
               path,
               id,
-              name: event.Name,
-              description: description(event.Description),
+              name: event.name,
+              description: description(event.description),
               startDate,
               endDate,
               isCurrent,
               isPast,
               isFuture,
-              isCalculated: event.Calculated,
-              modifiers: event.Modifiers.map(({ Id }) => (Id)),
+              isCalculated: event.calculated,
+              modifiers: event.modifiers.map(({ id }) => id),
               leaderboards,
               medals: {
-                clans: medalBuilder.parseMedals(event.ClanMedals, constants.prefix.clan, 1).medals,
-                members: medalBuilder.parseMedals(event.ClanMemberMedals, constants.prefix.profile, 1).medals
+                clans: medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1).medals,
+                members: medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1).medals
               }
             })
           })
@@ -374,17 +377,15 @@ const fetch = async () => {
 
       primaryApi(`Component/GetAllModifiers`)
         .then(({ data }) => {
-          data.map(modifier => {
-            const name = modifier.Name
-
+          data.map(({ id, name, shortName, description, scoringModifier, scoringBonus, multiplierBonus, createdBy }) => {
             parsed.modifiers.push({
-              id: modifier.Id,
+              id,
               name,
-              shortName: modifier.ShortName || name.split(' ')[0],
-              description: modifier.Description,
-              scoringModifier: modifier.ScoringModifier,
-              bonus: modifier.ScoringBonus || modifier.MultiplierBonus,
-              creator: modifier.CreatedBy
+              shortName: shortName || name.split(' ')[0],
+              description,
+              scoringModifier,
+              bonus: scoringBonus || multiplierBonus,
+              creator: createdBy
             })
           })
 
@@ -481,13 +482,13 @@ const fetch = async () => {
 
       primaryApi(`Leaderboard/GetPreviousClanLeaderboard`)
         .then(({ data }) => {
-          const { EventId, LeaderboardList } = data[0]
+          const { eventId, leaderboardList } = data[0]
 
-          parsed.previousEventId = EventId
-          parsed.previousClanLeaderboard = parseLeaderboard(LeaderboardList, EventId)
+          parsed.previousEventId = eventId
+          parsed.previousClanLeaderboard = parseLeaderboard(leaderboardList, eventId)
 
           console.timeEnd(`fetch previous clan leaderboard`)
-          console.log(`previous clan leaderboard: ${LeaderboardList.length}`)
+          console.log(`previous clan leaderboard: ${leaderboardList.length}`)
           resolve()
         })
         .catch(err => {
@@ -505,23 +506,23 @@ const fetch = async () => {
 
       secondaryApi(`Leaderboard/GetAllPlayersHistory`)
         .then(({ data }) => {
-          data.map(match => {
-            const id = match.MemberShipIdStr
+          data.map((match) => {
+            const id = match.memberShipIdStr
             const existing = parsed.matchHistory[id]
             const history = {
               game: {
-                path: urlBuilder.pgcrUrl(match.PgcrId),
+                path: urlBuilder.pgcrUrl(match.pgcrId),
                 isExternal: true,
-                result: match.GameWon === true ? constants.result.win : (match.GameWon === false ? constants.result.loss : ''),
-                name: match.GameType,
-                label: match.Map,
-                endDate: moment.utc(match.DatePlayed).format(constants.format.machineReadable)
+                result: match.gameWon === true ? constants.result.win : (match.gameWon === false ? constants.result.loss : ''),
+                name: match.gameType,
+                label: match.map,
+                endDate: moment.utc(match.datePlayed).format(constants.format.machineReadable)
               },
-              kills: match.Kills,
-              assists: match.Assists,
-              deaths: match.Deaths,
+              kills: match.kills,
+              assists: match.assists,
+              deaths: match.deaths,
               bonuses: parseBonuses(match, true),
-              score: statsHelper.total(match.TotalScore)
+              score: statsHelper.total(match.totalScore)
             }
 
             if (existing) {

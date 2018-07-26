@@ -195,8 +195,8 @@ export default {
 
     if (currentEventId) {
       currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }) => {
-        leaderboard = leaderboard.map(({ IdStr, Rank, TotalScore, Active, Size }, i) => {
-          const clan = clans.find(({ id }) => id === IdStr)
+        leaderboard = leaderboard.map(({ idStr, rank, totalScore, active, size }, i) => {
+          const clan = clans.find(({ id }) => id === idStr)
           const clanLastChecked = lastChecked[clan.id]
 
           return {
@@ -204,10 +204,10 @@ export default {
             updated: clanLastChecked || null,
             path: urlBuilder.currentEventUrl(clan.id),
             rank: true,
-            overall: statsHelper.ranking(Rank),
-            active: Active,
-            size: Size,
-            score: TotalScore
+            overall: statsHelper.ranking(rank),
+            active,
+            size,
+            score: totalScore
           }
         })
 

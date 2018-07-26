@@ -30,15 +30,21 @@
 .medal__count
   background currentColor
   border-radius $spacing--default
-  font-size x-small
   font-weight bold
   line-height 1
   min-width 2em
   padding $spacing--quarter
   position absolute
-  top 0.5em
-  right -0.5em
   text-align center
+  top 45%
+  right 50%
+  transform translate(50%, -50%)
+
+.medal__count--small
+  font-size x-small
+  top 0.5em !important // @stylint ignore
+  right -0.5em
+  transform none
 
 .medal__layer
   position absolute
@@ -78,6 +84,10 @@
 .medal--small
   .medal__icon
     width rem(42)
+
+  .medal__count
+    font-size x-small
+    top 50%
 
 .medal--x-small
   .medal__icon

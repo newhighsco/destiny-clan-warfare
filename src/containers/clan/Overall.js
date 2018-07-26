@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import PageContainer from '../../components/page-container/PageContainer'
 import Card from '../../components/card/Card'
 import Avatar from '../../components/avatar/Avatar'
@@ -60,15 +60,8 @@ class ClanOverallContainer extends PureComponent {
         ]
       }
     }
-    const overall = MultiSort(members.map(member => ({ ...member, ...member.totals })), {
-      score: 'DESC',
-      lastPlayed: 'DESC'
-    })
-    const previous = MultiSort(members.map(member => ({ ...member, ...member.previousTotals })), {
-      score: 'DESC',
-      games: 'DESC',
-      name: 'ASC'
-    })
+    const overall = members.map(member => ({ ...member, ...member.totals })).sort(firstBy('score', -1).thenBy('games', -1).thenBy('lastPlayed', -1).thenBy('name'))
+    const previous = members.map(member => ({ ...member, ...member.previousTotals })).sort(firstBy('score', -1).thenBy('games', -1).thenBy('name'))
 
     this.state = {
       overall,
@@ -96,7 +89,7 @@ class ClanOverallContainer extends PureComponent {
           <ButtonGroup>
             <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`} target="_blank">Join clan</Button>
           </ButtonGroup>
-          <MedalList medals={clan.medals} kicker="Medals awarded" />
+          <MedalList medals={clan.medals} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
           {!hasLeaderboard &&
             <Notification>Clan roster is being calculated. Please check back later.</Notification>
           }

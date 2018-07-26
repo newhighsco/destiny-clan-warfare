@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import MultiSort from 'multi-sort'
+import { firstBy } from 'thenby'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
@@ -40,13 +40,13 @@ storiesOf('Modifiers', module)
   .add('All', () => (
     <Loader>
       {modifiers => (
-        <ModifierList modifiers={MultiSort(modifiers.map(modifier => ({
+        <ModifierList modifiers={modifiers.map(modifier => ({
           name: modifier.Name,
           description: modifier.Description,
           creator: modifier.CreatedBy,
           scoringModifier: modifier.ScoringModifier,
           bonus: modifier.ScoringBonus || modifier.MultiplierBonus
-        })), { name: 'ASC' })} enableHover={false} tooltipActive />
+        })).sort(firstBy('name'))} enableHover={false} tooltipActive />
       )}
     </Loader>
   ))

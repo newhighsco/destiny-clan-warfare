@@ -40,12 +40,12 @@ storiesOf('Modifiers', module)
   .add('All', () => (
     <Loader>
       {modifiers => (
-        <ModifierList modifiers={modifiers.map(modifier => ({
-          name: modifier.Name,
-          description: modifier.Description,
-          creator: modifier.CreatedBy,
-          scoringModifier: modifier.ScoringModifier,
-          bonus: modifier.ScoringBonus || modifier.MultiplierBonus
+        <ModifierList modifiers={modifiers.map(({ name, description, createdBy, scoringModifier, scoringBonus, multiplierBonus }) => ({
+          name,
+          description,
+          creator: createdBy,
+          scoringModifier,
+          bonus: scoringBonus || multiplierBonus
         })).sort(firstBy('name'))} enableHover={false} tooltipActive />
       )}
     </Loader>

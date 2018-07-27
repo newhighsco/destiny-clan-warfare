@@ -57,7 +57,7 @@ class Medal extends PureComponent {
             <div className={styles[`${baseClassName}__label`]} dangerouslySetInnerHTML={{ __html: labelSentence }} />
           }
           {count > 1 &&
-            <div className={classNames(styles[`${baseClassName}__count`], 'foreground')}>
+            <div className={classNames(styles[`${baseClassName}__count`], ForegroundSvg && styles[`${baseClassName}__count--small`], 'foreground')}>
               <span className="background">{count}</span>
             </div>
           }

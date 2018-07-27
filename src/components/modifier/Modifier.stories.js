@@ -1,10 +1,24 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { firstBy } from 'thenby'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
 const proxy = require('../../utils/api-helper').proxy()
+const modifiers = [
+  { name: '20/20' },
+  { name: '20/20', bonus: 100 },
+  { name: '20/20', bonus: 0 },
+  { name: '20/20', bonus: 0.1 },
+  { name: '20/20', bonus: 50, scoringModifier: true },
+  { name: '20/20', bonus: -50, scoringModifier: true },
+  { name: 'Nonexistent' },
+  { name: 'Nonexistent', bonus: 100 },
+  { name: 'Nonexistent', bonus: 0 },
+  { name: 'Nonexistent', bonus: 0.1 },
+  { name: 'Nonexistent', bonus: 50, scoringModifier: true },
+  { name: 'Nonexistent', bonus: -50, scoringModifier: true }
+]
 
 class Loader extends PureComponent {
   constructor (props) {
@@ -18,7 +32,15 @@ class Loader extends PureComponent {
   componentDidMount () {
     proxy(`Component/GetAllModifiers`)
       .then(({ data }) => {
-        this.setState({ modifiers: data })
+        const modifiers = data.map(({ name, description, createdBy, scoringModifier, scoringBonus, multiplierBonus }) => ({
+          name,
+          description,
+          creator: createdBy,
+          scoringModifier,
+          bonus: scoringBonus || multiplierBonus
+        })).sort(firstBy('name'))
+
+        this.setState({ modifiers })
       })
   }
 
@@ -32,21 +54,18 @@ Loader.propTypes = {
 }
 
 storiesOf('Modifiers', module)
-  .addDecorator(story => (
+  .add('All', () => (
     <div className="storybook-tooltips-visible">
-      {story()}
+      <Loader>
+        {modifiers => <ModifierList modifiers={modifiers} enableHover={false} tooltipActive />}
+      </Loader>
     </div>
   ))
-  .add('All', () => (
-    <Loader>
-      {modifiers => (
-        <ModifierList modifiers={modifiers.map(({ name, description, createdBy, scoringModifier, scoringBonus, multiplierBonus }) => ({
-          name,
-          description,
-          creator: createdBy,
-          scoringModifier,
-          bonus: scoringBonus || multiplierBonus
-        })).sort(firstBy('name'))} enableHover={false} tooltipActive />
-      )}
-    </Loader>
+  .add('Sizes', () => (
+    <Fragment>
+      <p>Regular</p>
+      <ModifierList modifiers={modifiers} enableHover={false} />
+      <p>Small</p>
+      <ModifierList modifiers={modifiers} enableHover={false} size="small" />
+    </Fragment>
   ))

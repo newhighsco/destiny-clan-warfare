@@ -15,6 +15,7 @@ import FeelingBlue from './icons/feeling-blue.svg'
 import FlawlessStriker from './icons/flawless-striker.svg'
 import FlyingTheFlag from './icons/flying-the-flag.svg'
 import FragAndTag from './icons/frag-and-tag.svg'
+import HearTheWhisper from './icons/hear-the-whisper.svg'
 import HelpingHand from './icons/helping-hand.svg'
 import IHitARock from './icons/i-hit-a-rock.svg'
 import LukeSkywalkersPadawan from './icons/luke-skywalkers-padawan.svg'
@@ -60,6 +61,7 @@ const svgs = {
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
   FlyingTheFlag: { svg: FlyingTheFlag },
   FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
+  HearTheWhisper: { svg: HearTheWhisper, designer: 'BGBOXXX Design' },
   HelpingHand: { svg: HelpingHand, designer: 'Demetria Rose' },
   IHitARock: { svg: IHitARock, designer: 'Tom Fricker' },
   LukeSkywalkerSPadawan: { svg: LukeSkywalkersPadawan, designer: 'Colour Block' },

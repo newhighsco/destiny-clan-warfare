@@ -53,7 +53,7 @@ class Modifier extends PureComponent {
             {IconSvg &&
               <IconSvg />
             }
-            {bonus !== null &&
+            {bonus &&
               <div className={styles[`${baseClassName}__label`]}>
                 {label}
               </div>

@@ -53,12 +53,13 @@ const fetch = async () => {
   }
 
   const parseLeaderboard = (leaderboard, eventId) => {
-    const parsed = {}
+    const parsedLeaderboard = {}
 
     if (leaderboard) {
       leaderboard.map(member => {
         const id = member.idStr
         const clanId = `${member.clanId}`
+        const lastChecked = member.lastChecked
         const games = member.gamesPlayed
         const hasPlayed = games > 0
 
@@ -86,13 +87,21 @@ const fetch = async () => {
           totals.score = score
         }
 
+        if (lastChecked) {
+          const clanLastCheckedDate = parsed.lastChecked[clanId]
+          const memberlastCheckedDate = moment.utc(lastChecked).format(constants.format.machineReadable)
+          parsed.lastChecked[id] = memberlastCheckedDate
+
+          if (!clanLastCheckedDate || memberlastCheckedDate > clanLastCheckedDate) parsed.lastChecked[clanId] = memberlastCheckedDate
+        }
+
         totals.bonuses = parseBonuses(member, hasPlayed)
 
-        parsed[id] = totals
+        parsedLeaderboard[id] = totals
       })
     }
 
-    return parsed
+    return parsedLeaderboard
   }
 
   const parseBonuses = (item, hasPlayed) => {
@@ -184,7 +193,6 @@ const fetch = async () => {
             const id = member.profileIdStr
             const clanId = `${member.groupId}`
             const path = urlBuilder.profileUrl(clanId, id)
-            const lastChecked = member.lastChecked
             const totals = {
               path: null,
               rank: false,
@@ -259,14 +267,6 @@ const fetch = async () => {
                   score
                 })
               })
-            }
-
-            if (lastChecked) {
-              const clanLastCheckedDate = parsed.lastChecked[clanId]
-              const memberlastCheckedDate = moment.utc(lastChecked).format(constants.format.machineReadable)
-              parsed.lastChecked[id] = memberlastCheckedDate
-
-              if (!clanLastCheckedDate || memberlastCheckedDate > clanLastCheckedDate) parsed.lastChecked[clanId] = memberlastCheckedDate
             }
 
             const { medals } = medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile)

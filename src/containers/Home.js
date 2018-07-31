@@ -10,6 +10,7 @@ import Enrollment from '../components/enrollment/Enrollment'
 import EventCurrent from '../components/event/Current'
 import EventPrevious from '../components/event/Previous'
 import EventFuture from '../components/event/Future'
+import Notification from '../components/notification/Notification'
 import LogoImage from '../images/avatar-512x512.jpg'
 
 const constants = require('../utils/constants')
@@ -52,6 +53,9 @@ class HomeContainer extends PureComponent {
     return (
       <PageContainer meta={meta}>
         <Enrollment apiStatus={apiStatus} clans={clans} />
+        {apiStatus && apiStatus.alert &&
+          <Notification state="notice" html={apiStatus.alert} />
+        }
         {currentEvent ? (
           <Fragment>
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>

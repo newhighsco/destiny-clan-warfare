@@ -7,11 +7,11 @@ const baseClassName = 'notification'
 
 class Notification extends PureComponent {
   render () {
-    const { children, state, id } = this.props
+    const { children, state, id, html } = this.props
 
     return (
       <div id={id} className={classNames(styles[baseClassName], state && styles[`${baseClassName}--${state}`])}>
-        <div className={styles[`${baseClassName}__inner`]}>
+        <div className={styles[`${baseClassName}__inner`]} {...html && { dangerouslySetInnerHTML: { __html: html } }}>
           {children}
         </div>
       </div>
@@ -22,7 +22,8 @@ class Notification extends PureComponent {
 Notification.propTypes = {
   children: PropTypes.node,
   state: PropTypes.oneOf([ 'warning', 'error', 'success', 'notice' ]),
-  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
+  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+  html: PropTypes.string
 }
 
 export default Notification

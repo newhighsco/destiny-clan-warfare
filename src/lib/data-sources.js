@@ -131,6 +131,22 @@ const fetch = async () => {
         })
     }),
     new Promise((resolve, reject) => {
+      console.time(`fetch current alert`)
+
+      primaryApi(`Event/GetCurrentAlert`)
+        .then(({ data }) => {
+          parsed.apiStatus.alert = data
+
+          console.timeEnd(`fetch current alert`)
+          console.log(`current alert: ${data}`)
+          resolve()
+        })
+        .catch(err => {
+          console.error('fetch current alert', err.message)
+          reject(err)
+        })
+    }),
+    new Promise((resolve, reject) => {
       console.time(`fetch bungie api status`)
 
       bungie(`/Destiny2/Milestones`)

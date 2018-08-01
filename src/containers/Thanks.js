@@ -12,8 +12,7 @@ const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
 const meta = {
-  description: `Clan enrollment for ${constants.meta.name}`,
-  robots: 'noindex,nofollow'
+  description: `Clan enrollment for ${constants.meta.name}`
 }
 
 class ThanksContainer extends PureComponent {

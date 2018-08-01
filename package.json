@@ -48,7 +48,7 @@
     "react-dom": "^16.0.0",
     "react-ga": "^2.5.0",
     "react-lazyload": "^2.3.0",
-    "react-static": "^5.9.7",
+    "react-static": "^6.0.0-beta.14",
     "react-tag-autocomplete": "^5.5.1",
     "responsive-grid": "^1.1.0",
     "rss": "^1.2.2",

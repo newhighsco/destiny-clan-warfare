@@ -37,12 +37,14 @@ export default {
 
     const routes = [
       {
-        is404: true,
-        component: 'src/containers/NotFound'
+        path: '/404/',
+        component: 'src/containers/NotFound',
+        noindex: true
       },
       {
         path: '/branding/',
-        component: 'src/containers/Branding'
+        component: 'src/containers/Branding',
+        noindex: true
       },
       {
         path: '/faqs/',
@@ -54,7 +56,8 @@ export default {
       },
       {
         path: '/thanks/',
-        component: 'src/containers/Thanks'
+        component: 'src/containers/Thanks',
+        noindex: true
       }
     ]
 
@@ -362,7 +365,7 @@ export default {
 
     feedBuilder(events).map(event => feed.item(event))
 
-    await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
+    // await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
 
     feed = new RSS(feedOptions)
 
@@ -382,39 +385,37 @@ export default {
       custom_elements: [ { 'content:encoded': content } ]
     })
 
-    await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
+    // await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
 
     return routes
   },
-  webpack: (config, { defaultLoaders, stage }) => {
+  webpack: (config, { stage }) => {
     if (stage !== 'dev') config.devtool = false
 
-    config.entry = stage === 'dev'
-      ? [ require.resolve('babel-polyfill'), ...config.entry ]
-      : [ require.resolve('babel-polyfill'), config.entry ]
+    var loaders = []
 
-    config.module.rules = [
+    if (stage === 'dev') {
+      config.entry = [ 'babel-polyfill', ...config.entry ]
+      loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
+    } else if (stage === 'node') {
+      loaders = [ ...stylusLoaders() ]
+    } else {
+      config.entry = [ 'babel-polyfill', config.entry ]
+      loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
+    }
+
+    config.module.rules[0].oneOf.unshift(
       {
-        oneOf: [
-          {
-            test: /\.styl$/,
-            use: stage === 'dev'
-              ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : ExtractCssChunks.extract({ use: stylusLoaders() })
-          },
-          {
-            test: /\.svg$/,
-            loader: require.resolve('svg-react-loader')
-          },
-          defaultLoaders.cssLoader,
-          defaultLoaders.jsLoader,
-          defaultLoaders.fileLoader
-        ]
+        test: /\.styl$/,
+        use: loaders
+      },
+      {
+        test: /\.svg$/,
+        loader: require.resolve('svg-react-loader')
       }
-    ]
+    )
 
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-    if (stage === 'node') config.plugins.push(new ExtractCssChunks())
 
     return config
   },

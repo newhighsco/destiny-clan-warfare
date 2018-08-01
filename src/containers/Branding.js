@@ -8,8 +8,7 @@ import Prose from '../components/prose/Prose'
 const constants = require('../utils/constants')
 const meta = {
   title: 'Branding',
-  description: `Branding guidelines for ${constants.meta.name}`,
-  robots: 'noindex,nofollow'
+  description: `Branding guidelines for ${constants.meta.name}`
 }
 const colours = [
   { name: 'Terracotta', value: '#e27365' },

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Router, Switch, Route, Head, onLoading } from 'react-static'
-import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
 import NProgress from 'nprogress'
 import ReactGA from 'react-ga'
@@ -66,4 +65,4 @@ class App extends Component {
   }
 }
 
-export default hot(module)(App)
+export default App

@@ -5,8 +5,7 @@ import { Logo } from '../logo/Logo'
 
 const meta = {
   title: 'Page not found',
-  description: 'Sorry, this page could not be found',
-  robots: 'noindex,nofollow'
+  description: 'Sorry, this page could not be found'
 }
 
 class NotFound extends PureComponent {

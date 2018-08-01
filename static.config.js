@@ -324,6 +324,23 @@ export default {
           currentEventId,
           previousEventId
         })
+      },
+      {
+        path: '/pixelpub',
+        component: 'src/containers/CustomLeaderboard',
+        getData: () => ({
+          apiStatus,
+          clans,
+          selectedIds: constants.clans.pixelPub,
+          events,
+          currentEventLeaderboards,
+          currentEventId,
+          previousEventId,
+          meta: {
+            title: 'PixelPub custom leaderboard',
+            robots: 'noindex,nofollow'
+          }
+        })
       }
     )
 

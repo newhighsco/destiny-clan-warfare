@@ -42,14 +42,16 @@ class CustomLeaderboardContainer extends PureComponent {
     super(props)
 
     const { events, currentEventLeaderboards, currentEventId, previousEventId } = this.props
+    var { meta } = this.props
     const eventId = currentEventId || previousEventId
     const event = events.find(({ id }) => id === eventId)
-    const meta = {
+
+    meta = Object.assign({
       kicker: event.isCurrent ? constants.kicker.current : constants.kicker.previous,
       kickerHref: event.path,
       title: 'Custom leaderboard',
       description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
-    }
+    }, meta)
 
     this.state = {
       active: false,
@@ -66,8 +68,8 @@ class CustomLeaderboardContainer extends PureComponent {
 
   componentDidMount () {
     const { active, event, leaderboards } = this.state
-    const { history: { location: { hash } }, clans } = this.props
-    const ids = hash.replace(constants.prefix.hash, '').split(',')
+    const { history: { location: { hash } }, clans, selectedIds } = this.props
+    const ids = selectedIds || hash.replace(constants.prefix.hash, '').split(',')
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     var suggestions = []
     var tags = []
@@ -152,7 +154,7 @@ class CustomLeaderboardContainer extends PureComponent {
   }
 
   render () {
-    const { apiStatus, currentEventId } = this.props
+    const { apiStatus, currentEventId, selectedIds } = this.props
     const { active, meta, hasLeaderboard, visible, tags, suggestions } = this.state
     const hasVisible = visible.length > 0
 
@@ -165,7 +167,7 @@ class CustomLeaderboardContainer extends PureComponent {
         </Lockup>
         <Card cutout={hasVisible} center>
           <Lockup center kicker="Custom" heading="leaderboard" />
-          {active && hasLeaderboard &&
+          {active && hasLeaderboard && !selectedIds &&
             <Filter
               kicker="Add clans"
               placeholder="Enter clan name"
@@ -195,10 +197,12 @@ CustomLeaderboardContainer.propTypes = {
   history: PropTypes.object,
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
+  selectedIds: PropTypes.array,
   events: PropTypes.array,
   currentEventLeaderboards: PropTypes.array,
   currentEventId: PropTypes.number,
-  previousEventId: PropTypes.number
+  previousEventId: PropTypes.number,
+  meta: PropTypes.object
 }
 
 export default withRouteData(CustomLeaderboardContainer)

@@ -9,6 +9,7 @@ class Html extends PureComponent {
     const { Html, Head, Body, children, routeInfo } = this.props
     const canonicalPath = routeInfo && routeInfo.path !== '404' ? (routeInfo.path.match(/\/$/) ? routeInfo.path : `${routeInfo.path}/`) : null
     const canonicalUrl = `${process.env.SITE_URL}${canonicalPath === '/' ? canonicalPath : `/${canonicalPath}`}`
+    const enableAdverts = JSON.parse(process.env.ENABLE_ADVERTS)
 
     return (
       <Html lang="en">
@@ -36,7 +37,9 @@ class Html extends PureComponent {
         <Body>
           {children}
         </Body>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
+        {enableAdverts &&
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
+        }
       </Html>
     )
   }

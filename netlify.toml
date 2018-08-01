@@ -4,6 +4,7 @@
   DISALLOW_ROBOTS = "true"
   ENABLE_MATCH_HISTORY = "true"
   ENABLE_PREVIOUS_LEADERBOARDS = "true"
+  ENABLE_ADVERTS = "false"
 
 [context.branch-deploy.environment]
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
@@ -11,6 +12,7 @@
   DISALLOW_ROBOTS = "true"
   ENABLE_MATCH_HISTORY = "true"
   ENABLE_PREVIOUS_LEADERBOARDS = "true"
+  ENABLE_ADVERTS = "false"
 
 [context.production.environment]
   BUNGIE_API_KEY = "e44a1c455b634479aa069be92838857d"
@@ -18,3 +20,4 @@
   DISALLOW_ROBOTS = "false"
   ENABLE_MATCH_HISTORY = "true"
   ENABLE_PREVIOUS_LEADERBOARDS = "true"
+  ENABLE_ADVERTS = "true"

@@ -3,13 +3,29 @@ import PropTypes from 'prop-types'
 import styles from './Advert.styl'
 
 class Advert extends PureComponent {
-  componentDidMount () {
-    if (typeof window !== 'undefined' && window) (window.adsbygoogle = window.adsbygoogle || []).push({})
+  constructor (props) {
+    super(props)
 
-    document.body.classList.add(styles['has-advert'])
+    this.state = {
+      active: JSON.parse(process.env.ENABLE_ADVERTS)
+    }
+  }
+
+  componentDidMount () {
+    const { active } = this.state
+
+    if (active) {
+      if (typeof window !== 'undefined' && window) (window.adsbygoogle = window.adsbygoogle || []).push({})
+
+      document.body.classList.add(styles['has-advert'])
+    }
   }
 
   render () {
+    const { active } = this.state
+
+    if (!active) return null
+
     const { client, slot, format } = this.props
 
     return (

@@ -326,7 +326,7 @@ export default {
         })
       },
       {
-        path: '/pixelpub',
+        path: '/pixelpub/',
         component: 'src/containers/CustomLeaderboard',
         getData: () => ({
           apiStatus,

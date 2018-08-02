@@ -33,7 +33,7 @@ export default {
   inlineCss: true,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, lastChecked, emptyTotals } = await dataSources.fetch()
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, lastChecked, leaderboards, emptyTotals } = await dataSources.fetch()
 
     const routes = [
       {
@@ -216,6 +216,8 @@ export default {
     }
 
     events.map(event => {
+      const eventId = event.id
+
       event.results = []
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
@@ -233,7 +235,7 @@ export default {
         return modifier
       })
 
-      event.leaderboards = event.leaderboards.map(({ leaderboard, division }) => {
+      leaderboards[eventId] = leaderboards[eventId].map(({ leaderboard, division }) => {
         leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
           const clan = clans.find(({ id }) => id === `${clanId}`)
           var medal
@@ -279,12 +281,17 @@ export default {
         component: 'src/containers/Event',
         getData: () => ({
           event,
-          currentEventLeaderboards: event.isCurrent ? currentEventLeaderboards : null,
-          currentEventStats: event.isCurrent ? currentEventStats : null,
+          leaderboards: event.isCurrent ? currentEventLeaderboards : leaderboards[eventId],
+          stats: event.isCurrent ? currentEventStats : null,
           apiStatus: event.isCurrent ? apiStatus : {}
         })
       })
     })
+
+    const currentEvent = events.find(({ id }) => id === currentEventId)
+    const previousEvent = events.find(({ id }) => id === previousEventId)
+    const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
+    const previousEventLeaderboards = previousEventId ? leaderboards[previousEventId] : []
 
     routes.push(
       {
@@ -293,10 +300,11 @@ export default {
         getData: () => ({
           apiStatus,
           clans,
-          events,
+          currentEvent,
+          previousEvent,
+          nextEvent,
           currentEventLeaderboards,
-          currentEventId,
-          previousEventId
+          previousEventLeaderboards
         })
       },
       {
@@ -319,10 +327,9 @@ export default {
         getData: () => ({
           apiStatus,
           clans,
-          events,
-          currentEventLeaderboards,
-          currentEventId,
-          previousEventId
+          event: currentEventId ? currentEvent : previousEvent,
+          leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
+          currentEventId
         })
       },
       {
@@ -332,10 +339,9 @@ export default {
           apiStatus,
           clans,
           selectedIds: constants.clans.pixelPub,
-          events,
-          currentEventLeaderboards,
+          event: currentEventId ? currentEvent : previousEvent,
+          leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
           currentEventId,
-          previousEventId,
           meta: {
             title: 'PixelPub custom leaderboard',
             robots: 'noindex,nofollow'

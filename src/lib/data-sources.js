@@ -49,6 +49,7 @@ const fetch = async () => {
     previousClanLeaderboard: {},
     matchHistory: {},
     lastChecked: {},
+    leaderboards: {},
     emptyTotals
   }
 
@@ -371,12 +372,13 @@ const fetch = async () => {
               isFuture,
               isCalculated: event.calculated,
               modifiers: event.modifiers.map(({ id }) => id),
-              leaderboards,
               medals: {
                 clans: medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1).medals,
                 members: medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1).medals
               }
             })
+
+            parsed.leaderboards[id] = leaderboards
           })
 
           console.timeEnd(`fetch events`)

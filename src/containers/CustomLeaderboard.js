@@ -41,10 +41,7 @@ class CustomLeaderboardContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { events, currentEventLeaderboards, currentEventId, previousEventId } = this.props
-    var { meta } = this.props
-    const eventId = currentEventId || previousEventId
-    const event = events.find(({ id }) => id === eventId)
+    var { meta, event } = this.props
 
     meta = Object.assign({
       kicker: event.isCurrent ? constants.kicker.current : constants.kicker.previous,
@@ -56,8 +53,6 @@ class CustomLeaderboardContainer extends PureComponent {
     this.state = {
       active: false,
       meta,
-      event,
-      leaderboards: event.isCurrent ? currentEventLeaderboards : event.leaderboards,
       visible: []
     }
 
@@ -67,8 +62,8 @@ class CustomLeaderboardContainer extends PureComponent {
   }
 
   componentDidMount () {
-    const { active, event, leaderboards } = this.state
-    const { history: { location: { hash } }, clans, selectedIds } = this.props
+    const { active } = this.state
+    const { history: { location: { hash } }, clans, selectedIds, event, leaderboards } = this.props
     const ids = selectedIds || hash.replace(constants.prefix.hash, '').split(',')
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     var suggestions = []
@@ -154,16 +149,18 @@ class CustomLeaderboardContainer extends PureComponent {
   }
 
   render () {
-    const { apiStatus, currentEventId, selectedIds } = this.props
+    const { apiStatus, event, currentEventId, selectedIds } = this.props
     const { active, meta, hasLeaderboard, visible, tags, suggestions } = this.state
     const hasVisible = visible.length > 0
 
     return (
       <PageContainer meta={meta}>
         <Lockup primary center kicker={meta.kicker} kickerHref={meta.kickerHref}>
-          {currentEventId &&
+          {currentEventId ? (
             <RelativeDate apiStatus={apiStatus} />
-          }
+          ) : (
+            event.name
+          )}
         </Lockup>
         <Card cutout={hasVisible} center>
           <Lockup center kicker="Custom" heading="leaderboard" />
@@ -198,10 +195,9 @@ CustomLeaderboardContainer.propTypes = {
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
   selectedIds: PropTypes.array,
-  events: PropTypes.array,
-  currentEventLeaderboards: PropTypes.array,
+  event: PropTypes.object,
+  leaderboards: PropTypes.array,
   currentEventId: PropTypes.number,
-  previousEventId: PropTypes.number,
   meta: PropTypes.object
 }
 

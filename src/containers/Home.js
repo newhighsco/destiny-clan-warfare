@@ -30,25 +30,8 @@ const meta = {
 }
 
 class HomeContainer extends PureComponent {
-  constructor (props) {
-    super(props)
-
-    const { events, currentEventLeaderboards, currentEventId, previousEventId } = this.props
-    const currentEvent = events.find(({ id }) => id === currentEventId)
-    const previousEvent = events.find(({ id }) => id === previousEventId)
-    const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
-
-    this.state = {
-      currentEventLeaderboards: currentEvent ? currentEventLeaderboards : null,
-      currentEvent,
-      previousEvent,
-      nextEvent
-    }
-  }
-
   render () {
-    const { apiStatus, clans } = this.props
-    const { currentEventLeaderboards, currentEvent, previousEvent, nextEvent } = this.state
+    const { apiStatus, clans, currentEvent, previousEvent, nextEvent, currentEventLeaderboards, previousEventLeaderboards } = this.props
 
     return (
       <PageContainer meta={meta}>
@@ -66,7 +49,7 @@ class HomeContainer extends PureComponent {
               <Fragment>
                 <Advert />
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <EventPrevious event={previousEvent} element="h2" summary />
+                <EventPrevious event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
               </Fragment>
             }
             {nextEvent &&
@@ -93,7 +76,7 @@ class HomeContainer extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <EventPrevious event={previousEvent} element="h2" summary />
+                <EventPrevious event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -109,10 +92,11 @@ class HomeContainer extends PureComponent {
 HomeContainer.propTypes = {
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
-  events: PropTypes.array,
+  currentEvent: PropTypes.object,
+  previousEvent: PropTypes.object,
+  nextEvent: PropTypes.object,
   currentEventLeaderboards: PropTypes.array,
-  currentEventId: PropTypes.number,
-  previousEventId: PropTypes.number
+  previousEventLeaderboards: PropTypes.array
 }
 
 export default withRouteData(HomeContainer)

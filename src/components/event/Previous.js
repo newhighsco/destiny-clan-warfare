@@ -16,12 +16,11 @@ const urlBuilder = require('../../utils/url-builder')
 
 class EventPrevious extends PureComponent {
   render () {
-    const { event, element, summary } = this.props
+    const { event, leaderboards, element, summary } = this.props
 
     if (!event) return null
 
-    const leaderboards = event.leaderboards || []
-    const isCalculated = event.isCalculated && (leaderboards.length === constants.divisions.length)
+    const isCalculated = event.isCalculated && (leaderboards && leaderboards.length === constants.divisions.length)
 
     return (
       <Fragment>
@@ -56,7 +55,7 @@ class EventPrevious extends PureComponent {
             </TabContainer>
           ) : (
             <TabContainer id="results" cutout>
-              {leaderboards.map(({ leaderboard, division }) => {
+              {leaderboards && leaderboards.map(({ leaderboard, division }) => {
                 return (
                   <Tab key={division.name} name={division.name} title={division.size}>
                     <Leaderboard data={leaderboard} columns={[ 'rank', 'overall', 'score' ]} />
@@ -77,6 +76,7 @@ EventPrevious.defaultProps = {
 
 EventPrevious.propTypes = {
   event: PropTypes.object,
+  leaderboards: PropTypes.array,
   element: PropTypes.string,
   summary: PropTypes.bool
 }

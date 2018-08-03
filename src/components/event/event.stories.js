@@ -1,5 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import Event from './Event'
 import EventCurrent from './Current'
 import EventFuture from './Future'
 import EventPrevious from './Previous'
@@ -21,11 +22,23 @@ const event = {
 
 storiesOf('Events', module)
   .add('Current', () => (
-    <EventCurrent event={{ ...event, startDate: startDate, endDate: endDate }} />
+    <div>
+      <EventCurrent event={{ ...event, startDate: startDate, endDate: endDate }} />
+      <br />
+      <Event event={{ ...event, isCurrent: true, startDate: startDate, endDate: endDate }} />
+    </div>
   ))
   .add('Future', () => (
-    <EventFuture event={{ ...event, startDate: endDate }} />
+    <div>
+      <EventFuture event={{ ...event, startDate: endDate }} />
+      <br />
+      <Event event={{ ...event, isFuture: true, startDate: endDate }} />
+    </div>
   ))
   .add('Previous', () => (
-    <EventPrevious event={{ ...event, endDate: startDate }} />
+    <div>
+      <EventPrevious event={{ ...event, endDate: startDate }} />
+      <br />
+      <Event event={{ ...event, isPast: true, endDate: startDate }} />
+    </div>
   ))

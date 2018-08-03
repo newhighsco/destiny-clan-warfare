@@ -16,7 +16,7 @@
     "build:staging": "npm run build:production -- --staging",
     "build:production": "node --max-old-space-size=8192 ./node_modules/.bin/react-static build",
     "build:storybook": "build-storybook -c .storybook -o ./docs",
-    "clean": "rm -rf public",
+    "clean": "rm -rf {docs,public}",
     "serve": "serve ./public -p 9000",
     "optimize": "npm-run-all optimize:*",
     "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass",

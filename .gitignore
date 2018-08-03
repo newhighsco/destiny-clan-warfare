@@ -18,6 +18,7 @@ Thumbs.db
 # Project Specific
 node_modules
 npm-debug.log
+docs/
 public/
 .env*
 .eslintcache

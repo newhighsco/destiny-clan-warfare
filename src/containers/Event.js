@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
-import EventCurrent from '../components/event/Current'
-import EventFuture from '../components/event/Future'
-import EventPrevious from '../components/event/Previous'
+import Event from '../components/event/Event'
 import { ButtonGroup, Button } from '../components/button/Button'
 import SchemaImage from '../images/favicon-1200x1200.png'
 
@@ -89,15 +87,7 @@ class EventContainer extends PureComponent {
             <RelativeDate apiStatus={apiStatus} />
           }
         </Lockup>
-        {event.isCurrent &&
-          <EventCurrent event={event} leaderboards={leaderboards} stats={stats} />
-        }
-        {event.isPast &&
-          <EventPrevious event={event} leaderboards={leaderboards} />
-        }
-        {event.isFuture &&
-          <EventFuture event={event} />
-        }
+        <Event event={event} leaderboards={leaderboards} stats={stats} />
         <ButtonGroup>
           <Button href={urlBuilder.eventRootUrl}>View all events</Button>
         </ButtonGroup>

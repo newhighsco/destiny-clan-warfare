@@ -7,9 +7,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
-import EventCurrent from '../components/event/Current'
-import EventPrevious from '../components/event/Previous'
-import EventFuture from '../components/event/Future'
+import Event from '../components/event/Event'
 import Notification from '../components/notification/Notification'
 import LogoImage from '../images/avatar-512x512.jpg'
 
@@ -44,12 +42,12 @@ class HomeContainer extends PureComponent {
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate apiStatus={apiStatus} />
             </Lockup>
-            <EventCurrent event={currentEvent} leaderboards={currentEventLeaderboards} element="h2" summary />
+            <Event event={currentEvent} leaderboards={currentEventLeaderboards} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <EventPrevious event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
+                <Event event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
               </Fragment>
             }
             {nextEvent &&
@@ -58,7 +56,7 @@ class HomeContainer extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
-                <EventFuture event={nextEvent} element="h2" summary />
+                <Event event={nextEvent} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -67,7 +65,7 @@ class HomeContainer extends PureComponent {
             {nextEvent &&
               <Fragment>
                 <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
-                <EventFuture event={nextEvent} element="h2" summary />
+                <Event event={nextEvent} element="h2" summary />
               </Fragment>
             }
             {previousEvent &&
@@ -76,7 +74,7 @@ class HomeContainer extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <EventPrevious event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
+                <Event event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
               </Fragment>
             }
           </Fragment>

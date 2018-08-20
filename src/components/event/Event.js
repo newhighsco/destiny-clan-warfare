@@ -4,10 +4,16 @@ import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import Timer from '../timer/Timer'
 import { ModifierList } from '../modifier/Modifier'
+import { MedalList } from '../medal/Medal'
 import { Button, ButtonGroup } from '../button/Button'
+import { TabContainer, Tab } from '../tab/Tab'
+import Leaderboard from '../leaderboard/Leaderboard'
+import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
+import { StatList } from '../../components/stat/Stat'
 
 const constants = require('../../utils/constants')
+const urlBuilder = require('../../utils/url-builder')
 
 class Event extends PureComponent {
   constructor (props) {
@@ -35,9 +41,13 @@ class Event extends PureComponent {
     const { event, leaderboards, stats, element, summary } = this.props
     const { enrollmentOpen, statsColumns } = this.state
 
-    const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
-
     if (!event) return null
+
+    const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
+    const isCalculated = event.isCalculated && hasLeaderboards
+    const tooltip = `Play a minimum of ${constants.statsGamesThreshold} games to be included.`
+    const summaryType = hasLeaderboards ? (isCalculated ? 'results' : 'leaderboard') : null
+    const leaderboardColumns = isCalculated ? [ 'rank', 'overall', 'score' ] : [ 'rank', 'overall', 'active', 'size', 'score' ]
 
     return (
       <Fragment>
@@ -50,10 +60,53 @@ class Event extends PureComponent {
             </Prose>
           }
           <ModifierList modifiers={event.modifiers} />
-          {enrollmentOpen &&
-            <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+          {!summary &&
+            <Fragment>
+              {hasLeaderboards && statsColumns &&
+                <Fragment>
+                  {statsColumns.length > 0 ? (
+                    <StatList stats={stats} columns={statsColumns} top kicker="Top stats" tooltip={tooltip} />
+                  ) : (
+                    <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
+                  )}
+                </Fragment>
+              }
+              {isCalculated && event.medals &&
+                <MedalList medals={event.medals.clans} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
+              }
+            </Fragment>
+          }
+          {summaryType ? (summary &&
+            <Button href={`${event.path}${constants.prefix.hash}${summaryType}`}>View full {summaryType}</Button>
+          ) : (enrollmentOpen &&
+            <ButtonGroup>
+              <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+            </ButtonGroup>
+          )}
+          {event.isCurrent && !hasLeaderboards &&
+            <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
+          }
+          {event.isPast && !isCalculated &&
+            <Notification>Results for this event are being calculated. Please check back later.</Notification>
           }
         </Card>
+        {summary && isCalculated ? (
+          <TabContainer cutout>
+            <Tab name="Winners">
+              <Leaderboard data={event.results} columns={[ 'score' ]} />
+            </Tab>
+          </TabContainer>
+        ) : (hasLeaderboards &&
+          <TabContainer id={!summary ? summaryType : null} cutout>
+            {leaderboards && leaderboards.map(({ leaderboard, division }) => {
+              return (
+                <Tab key={division.name} name={division.name} title={division.size}>
+                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} />
+                </Tab>
+              )
+            })}
+          </TabContainer>
+        )}
       </Fragment>
     )
   }

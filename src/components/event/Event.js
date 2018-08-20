@@ -19,11 +19,17 @@ class Event extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { stats } = this.props
+    const { event, leaderboards, stats } = this.props
+    const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
+    const hasResults = event.isCalculated && hasLeaderboards
+    const leaderboardColumns = hasResults ? [ 'rank', 'overall', 'score' ] : [ 'rank', 'overall', 'active', 'size', 'score' ]
 
     this.state = {
       enrollmentOpen: false,
-      statsColumns: stats ? Object.keys(stats) : null
+      statsColumns: stats ? Object.keys(stats) : null,
+      hasLeaderboards,
+      hasResults,
+      leaderboardColumns
     }
   }
 
@@ -39,15 +45,12 @@ class Event extends PureComponent {
 
   render () {
     const { event, leaderboards, stats, element, summary } = this.props
-    const { enrollmentOpen, statsColumns } = this.state
+    const { enrollmentOpen, statsColumns, hasLeaderboards, hasResults, leaderboardColumns } = this.state
 
     if (!event) return null
 
-    const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
-    const isCalculated = event.isCalculated && hasLeaderboards
     const tooltip = `Play a minimum of ${constants.statsGamesThreshold} games to be included.`
-    const summaryType = hasLeaderboards ? (isCalculated ? 'results' : 'leaderboard') : null
-    const leaderboardColumns = isCalculated ? [ 'rank', 'overall', 'score' ] : [ 'rank', 'overall', 'active', 'size', 'score' ]
+    const summaryType = hasLeaderboards ? (hasResults ? 'results' : 'leaderboard') : null
 
     return (
       <Fragment>
@@ -71,7 +74,7 @@ class Event extends PureComponent {
                   )}
                 </Fragment>
               }
-              {isCalculated && event.medals &&
+              {hasResults && event.medals &&
                 <MedalList medals={event.medals.clans} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
               }
             </Fragment>
@@ -86,11 +89,11 @@ class Event extends PureComponent {
           {event.isCurrent && !hasLeaderboards &&
             <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
           }
-          {event.isPast && !isCalculated &&
+          {event.isPast && !hasResults &&
             <Notification>Results for this event are being calculated. Please check back later.</Notification>
           }
         </Card>
-        {summary && isCalculated ? (
+        {summary && hasResults ? (
           <TabContainer cutout>
             <Tab name="Winners">
               <Leaderboard data={event.results} columns={[ 'score' ]} />

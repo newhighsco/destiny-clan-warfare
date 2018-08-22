@@ -70,6 +70,21 @@
       &:after
         opacity 1
 
+.button__external
+  display inline-block
+  fill currentColor
+  margin-left spacing(0.25)
+  margin-top -0.15em
+  opacity 0.75
+  vertical-align middle
+  width 1em
+  height 1em
+
+  a[href]:hover &
+    fill $color--terracotta
+    opacity 1
+    transform scale(1.25)
+
 //
 // BUTTON STYLES
 //

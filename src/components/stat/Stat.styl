@@ -17,7 +17,7 @@
 .stat__label--simple
   border 0
   font-size rem(13)
-  margin $spacing--quarter auto 0
+  margin spacing(0.25) auto 0
   max-height 1em
   max-width rem(140)
   overflow hidden
@@ -44,14 +44,14 @@
     vertical-align top
 
   .stat
-    margin $spacing--quarter $spacing--default
+    margin spacing(0.25) spacing(1)
 
     +width-min($mq--tablet)
-      margin $spacing--half $spacing--default
+      margin spacing(0.5) spacing(1)
 
 .stat-lockup
-  margin-top $spacing--default
-  padding-top $spacing--default
+  margin-top spacing(1)
+  padding-top spacing(1)
 
   & + .stat-list
-    margin-top $spacing--half
+    margin-top spacing(0.5)

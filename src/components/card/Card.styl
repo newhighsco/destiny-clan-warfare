@@ -1,18 +1,18 @@
 .card
   background $color--white-smoke
-  box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
+  box-shadow 0 spacing(1) spacing(1) rgba($color--black, 0.5), 0 spacing(0.5) spacing(0.5) rgba($color--black, 0.25)
   color $color--nero
   height 100%
-  padding $spacing--double $spacing--default
+  padding spacing(2) spacing(1)
 
   > * + *
-    margin-top $spacing--default
+    margin-top spacing(1)
 
   &:last-child
     margin-bottom 0
 
   +width-min($mq--tablet)
-    padding $spacing--double
+    padding spacing(2)
 
 .card__tags
   margin-top -1em
@@ -22,16 +22,16 @@
     display block !important // @stylint ignore
 
     & + li
-      margin-top $spacing--quarter
+      margin-top spacing(0.25)
 
   .tag
     font-size rem(14)
     margin 0 !important // @stylint ignore
-    padding $spacing--quarter $spacing--half
+    padding spacing(0.25) spacing(25)
 
 .card--cutout
   +width-min($mq--tablet)
-    padding-bottom $spacing--treble
+    padding-bottom spacing(3)
 
   &:last-child
-    padding-bottom $spacing--double
+    padding-bottom spacing(2)

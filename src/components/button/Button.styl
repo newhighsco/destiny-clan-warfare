@@ -22,7 +22,7 @@
   font-family $font--heading
   font-size rem(18)
   line-height inherit
-  padding $spacing--half $spacing--default
+  padding spacing(0.5) spacing(1)
   text-align center
   text-decoration none
   text-transform uppercase
@@ -30,7 +30,7 @@
   width auto
 
   +width-min($mq--tablet)
-    padding $spacing--half $spacing--double
+    padding spacing(0.5) spacing(2)
 
   &[href]
     cursor pointer
@@ -84,10 +84,10 @@
 
 .button--small
   font-size 0.75em
-  padding $spacing--half $spacing--quarter
+  padding spacing(0.5) spacing(0.25)
 
   +width-min($mq--tablet)
-    padding $spacing--half $spacing--double
+    padding spacing(0.5) spacing(2)
 
 //
 // BUTTON GROUP
@@ -98,4 +98,4 @@
   text-align center
 
   .button
-    margin $spacing--quarter
+    margin spacing(0.25)

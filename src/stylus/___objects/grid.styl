@@ -4,7 +4,7 @@
 // Reference: https://github.com/clocklimited/responsive-grid
 //
 
-$grid--gutter = $spacing--default
+$grid--gutter = spacing(1)
 
 //
 // BASE GRID STYLES
@@ -30,7 +30,7 @@ grid-widths('', 2)
 //
 
 grid-gutter-modifier('gutterless', 0)
-grid-gutter-modifier('gutter-quadruple', $spacing--quadruple)
+grid-gutter-modifier('gutter-quadruple', spacing(4))
 
 grid-reverse()
 
@@ -48,4 +48,4 @@ grid-reverse()
 
 .grid--stacked
   > .grid__item
-    margin-bottom $spacing--half
+    margin-bottom spacing(0.5)

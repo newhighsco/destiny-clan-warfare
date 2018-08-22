@@ -7,7 +7,7 @@
       {$property}: inherit !important // @stylint ignore
 
   > * + *
-    margin-top $spacing--default
+    margin-top spacing(1)
 
   h2
     font-size 1.2em
@@ -15,7 +15,7 @@
 
   h2, h3
     font-weight bold
-    margin-bottom ($spacing--default * -1)
+    margin-bottom spacing(-1)
 
     &:last-child
       margin-bottom 0
@@ -34,11 +34,11 @@
   .anchor
     color $color--terracotta
     float left
-    margin-left ($spacing--default * -1)
+    margin-left spacing(-1)
     opacity 0
     text-align center
     text-decoration none !important // @stylint ignore
-    width $spacing--default
+    width spacing(1)
     height 1em
 
     &:before

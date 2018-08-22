@@ -1,18 +1,18 @@
 .enrollment
-  margin-top ($spacing--default * -1)
-  padding-top $spacing--default
+  margin-top spacing(-1)
+  padding-top spacing(1)
   position relative
   z-index 3
 
 .enrollment__field
-  margin-top $spacing--default
+  margin-top spacing(1)
   position relative
   z-index 2
 
 .enrollment__clans
-  box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
+  box-shadow 0 spacing(1) spacing(2) rgba($color--black, 0.5), 0 spacing(0.5) spacing(0.5) rgba($color--black, 0.25)
   font-size rem(14)
-  margin-top ($spacing--default * -1)
+  margin-top spacing(-1)
   position absolute
   left 0
   right 0
@@ -27,7 +27,7 @@
 
 .enrollment__clan
   display block
-  padding $spacing--half $spacing--default !important // @stylint ignore
+  padding spacing(0.5) spacing(1) !important // @stylint ignore
   position relative
   text-align left
   width 100%
@@ -36,8 +36,8 @@
     content 'Enroll'
     color $color--silver
     position absolute
-    top $spacing--half
-    right $spacing--default
+    top spacing(0.5)
+    right spacing(1)
     text-transform uppercase
 
   &[href]:after

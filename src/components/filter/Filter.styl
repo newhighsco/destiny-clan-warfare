@@ -3,7 +3,7 @@
   cursor text
   line-height 1
   opacity 0.9
-  padding $spacing--default 0 $spacing--half $spacing--default
+  padding spacing(1) 0 spacing(0.5) spacing(1)
   position relative
   text-align left
   z-index 3
@@ -12,7 +12,7 @@
     opacity 1
 
 .filter__lockup
-  padding $spacing--default 0
+  padding spacing(1) 0
 
 .filter__selected
   display inline
@@ -23,7 +23,7 @@
   max-width 100%
 
 .filter__input
-  margin-bottom $spacing--half
+  margin-bottom spacing(0.5)
 
   input
     background transparent
@@ -43,7 +43,7 @@
   width 100%
 
   ul
-    box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25)
+    box-shadow 0 spacing(1) spacing(2) rgba($color--black, 0.5), 0 spacing(0.5) spacing(0.5) rgba($color--black, 0.25)
     font-size rem(14)
     padding 0
 
@@ -54,7 +54,7 @@
     line-height 1.5
     list-style none
     margin 0
-    padding $spacing--half $spacing--default
+    padding spacing(0.5) spacing(1)
     position relative
 
     &:nth-child(even)
@@ -69,8 +69,8 @@
       content 'Add'
       color $color--silver
       position absolute
-      top $spacing--half
-      right $spacing--default
+      top spacing(0.5)
+      right spacing(1)
       text-transform uppercase
 
     &:hover
@@ -93,22 +93,22 @@
 .filter-tag
   background $color--eclipse
   border 0
-  border-radius $spacing--default
+  border-radius spacing(1)
   color $color--white
   display inline-block
   font-size smaller
   font-weight bold
   line-height inherit
-  margin -1px $spacing--quarter $spacing--quarter 0
+  margin -1px spacing(0.25) spacing(0.25) 0
   outline 0
-  padding $spacing--quarter $spacing--half
+  padding spacing(0.25) spacing(0.5)
 
   &:last-of-type
-    margin-right $spacing--half
+    margin-right spacing(0.5)
 
   &:after
     content '\2715'
-    margin-left $spacing--half
+    margin-left spacing(0.5)
 
   &:hover
   &:focus

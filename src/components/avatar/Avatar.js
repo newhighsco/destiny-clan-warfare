@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import LazyLoad from 'react-lazyload'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
@@ -22,14 +21,12 @@ const AvatarLayer = class extends PureComponent {
     const b = hex.b / 255
 
     return (
-      <LazyLoad height={96} once>
-        <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">
-          <filter id={id} x="0" y="0" width="100%" height="100%">
-            <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
-          </filter>
-          <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={layer.icon} />
-        </svg>
-      </LazyLoad>
+      <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">
+        <filter id={id} x="0" y="0" width="100%" height="100%">
+          <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
+        </filter>
+        <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={layer.icon} />
+      </svg>
     )
   }
 }
@@ -54,9 +51,7 @@ const Avatar = class extends PureComponent {
       <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
         {icon &&
           <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
-            <LazyLoad height={96} once>
-              <img src={icon} alt="" />
-            </LazyLoad>
+            <img src={icon} alt="" />
           </ResponsiveMedia>
         }
         {background &&

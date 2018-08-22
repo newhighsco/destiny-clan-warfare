@@ -91,7 +91,7 @@ class ClanOverallContainer extends PureComponent {
           </ButtonGroup>
           <MedalList medals={clan.medals} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
           {!hasLeaderboard &&
-            <Notification>Clan roster is being calculated. Please check back later.</Notification>
+            <Notification>Clan roster is being processed. Please check back later.</Notification>
           }
         </Card>
         {hasLeaderboard &&

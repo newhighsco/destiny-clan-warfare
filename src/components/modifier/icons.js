@@ -61,6 +61,7 @@ const svgs = {
   FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
   FlyingTheFlag: { svg: FlyingTheFlag },
   FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
+  GuidedGamesRaidTiming: { svg: RaidTiming, designer: 'Pixel Lab' },
   HearTheWhisper: { svg: HearTheWhisper, designer: 'BGBOXXX Design' },
   HelpingHand: { svg: HelpingHand, designer: 'Demetria Rose' },
   IHitARock: { svg: IHitARock, designer: 'Tom Fricker' },

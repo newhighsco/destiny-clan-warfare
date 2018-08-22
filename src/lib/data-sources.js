@@ -456,7 +456,7 @@ const fetch = async () => {
           constants.divisions.map(({ key, name, size }) => {
             const leaderboard = data[`${key}Leaderboard`]
 
-            if (leaderboard) {
+            if (leaderboard && leaderboard.length > 0) {
               parsed.currentLeaderboards.push({
                 leaderboard,
                 division: {

@@ -37,12 +37,14 @@
     +width-min($mq--tablet--landscape)
       background $color--eclipse
 
+  $hover-shadow = 0 spacing(0.5) spacing(1) rgba($color--black, 0.2), 0 spacing(0.25) spacing(0.25) rgba($color--black, 0.25), 0 spacing(-0.25) spacing(0.25) rgba($color--black, 0.25)
+
   &:hover
     z-index 2
 
     .leaderboard__header
       background $color--white-smoke
-      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      box-shadow $hover-shadow
       color $color--black
       z-index 2
 
@@ -51,12 +53,12 @@
 
     .leaderboard__body:first-child
       background $color--white-smoke
-      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      box-shadow $hover-shadow
       color $color--black
 
     +width-min($mq--tablet--landscape)
       background $color--white-smoke
-      box-shadow 0 $spacing--default $spacing--double rgba($color--black, 0.5), 0 $spacing--half $spacing--half rgba($color--black, 0.25), 0 ($spacing--default * -1) $spacing--double rgba($color--black, 0.5), 0 ($spacing--half * -1) $spacing--half rgba($color--black, 0.25)
+      box-shadow $hover-shadow
       color $color--black
 
   +width-min($mq--tablet--landscape)
@@ -135,26 +137,27 @@
 
   +width-min($mq--tablet)
     display inline-block
-    padding-left $spacing--default
+    padding-left spacing(0.75)
+    margin-right spacing(-0.25)
 
-    svg
-      filter drop-shadow(0 0 1px rgba($color--silver, 0.5))
+    .medal
+      padding spacing(0.25)
 
 .leaderboard__name
   display inline-block
   vertical-align middle
-  padding $spacing--quarter $spacing--default
+  padding spacing(0.25) spacing(1)
 
   +width-min($mq--tablet)
-    padding-top $spacing--half
-    padding-bottom $spacing--half
+    padding-top spacing(0.5)
+    padding-bottom spacing(0.5)
 
 .leaderboard__platforms
   display inline-block
   fill $color--silver
-  margin-left $spacing--half
-  margin-right ($spacing--default * -1)
-  padding $spacing--half $spacing--quarter
+  margin-left spacing(0.5)
+  margin-right spacing(-1)
+  padding spacing(0.5) spacing(0.25)
   padding-right 0
 
 .leaderboard__tags
@@ -163,7 +166,7 @@
 .leaderboard__clan-tag
   color $color--silver
   display none
-  padding $spacing--half $spacing--default
+  padding spacing(0.5) spacing(1)
   position absolute
   top 50%
   right 0
@@ -171,13 +174,13 @@
 
   +width-min($mq--tablet)
     display block
-    padding $spacing--default
+    padding spacing(1)
 
 .leaderboard__stats
   display flex
   flex-wrap wrap
   align-items center
-  padding $spacing--half
+  padding spacing(0.5)
 
   +width-min($mq--tablet--landscape)
     justify-content flex-end
@@ -187,7 +190,7 @@
 .leaderboard__stat
   display inline-block
   flex 1 1 0
-  padding 0 $spacing--half $spacing--half
+  padding 0 spacing(0.5) spacing(0.5)
   position relative
   text-align left
   white-space nowrap
@@ -195,7 +198,7 @@
   +width-min($mq--tablet--landscape)
     max-height rem(60)
     max-width 25%
-    padding $spacing--default $spacing--default $spacing--default 0
+    padding spacing(1) spacing(1) spacing(1) 0
     text-align right
 
   &[data-prefix]:before
@@ -236,7 +239,7 @@
   width 100%
 
   +width-min($mq--tablet--landscape)
-    padding $spacing--half $spacing--default
+    padding spacing(0.5) spacing(1)
     width 35%
 
 .leaderboard__stat--medals
@@ -251,7 +254,7 @@
     width 33.333%
 
   .medal
-    margin 0 $spacing--half
+    margin 0 spacing(0.5)
 
   .leaderboard--multi-column &
     width 100%
@@ -260,11 +263,11 @@
       width auto
 
     .medal
-      margin $spacing--half
+      margin spacing(0.5)
 
   +width-min($mq--tablet--landscape)
     max-height none
-    padding 0 $spacing--half
+    padding 0 spacing(0.5)
     width 65%
 
     li
@@ -280,7 +283,7 @@
 
   +width-min($mq--tablet--landscape)
     max-height none
-    padding $spacing--half
+    padding spacing(0.5)
     width 65%
 
 .leaderboard__stat--rank
@@ -290,7 +293,7 @@
 .leaderboard__external
   display inline-block
   fill currentColor
-  margin-left $spacing--quarter
+  margin-left spacing(0.25)
   vertical-align bottom
   width rem(20)
   height rem(20)
@@ -303,18 +306,18 @@
     transform scale(1.25)
 
 .leaderboard--cutout
-  margin-top ($spacing--default * -1) !important // @stylint ignore
-  margin-left $spacing--half
-  margin-right $spacing--half
+  margin-top spacing(-1) !important // @stylint ignore
+  margin-left spacing(0.5)
+  margin-right spacing(0.5)
 
   +width-min($mq--tablet)
-    margin-top ($spacing--double * -1) !important // @stylint ignore
-    margin-left $spacing--default
-    margin-right $spacing--default
+    margin-top spacing(-2) !important // @stylint ignore
+    margin-left spacing(1)
+    margin-right spacing(1)
 
   +width-min($mq--desktop)
-    margin-left $spacing--double
-    margin-right $spacing--double
+    margin-left spacing(2)
+    margin-right spacing(2)
 
 .leaderboard--multi-column
   display flex
@@ -346,10 +349,10 @@
 
     .leaderboard__stats
       justify-content flex-start
-      padding $spacing--half
+      padding spacing(0.5)
 
     .leaderboard__stat
-      padding 0 $spacing--half $spacing--half
+      padding 0 spacing(0.5) spacing(0.5)
       text-align left
 
       &[data-prefix]:before

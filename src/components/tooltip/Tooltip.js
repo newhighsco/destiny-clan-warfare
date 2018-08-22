@@ -113,7 +113,7 @@ Tooltip.propTypes = {
   enableHover: PropTypes.bool,
   heading: PropTypes.string,
   text: PropTypes.string,
-  valign: PropTypes.oneOf([ 'top', 'bottom' ]),
+  valign: PropTypes.oneOf([ 'top', 'bottom', 'middle' ]),
   active: PropTypes.bool
 }
 

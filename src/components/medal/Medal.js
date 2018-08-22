@@ -18,7 +18,7 @@ const baseClassName = 'medal'
 
 class Medal extends PureComponent {
   render () {
-    const { name, description, label, tier, count, size, align, className, enableHover, tooltipActive } = this.props
+    const { name, description, label, tier, count, size, align, valign, className, enableHover, tooltipActive } = this.props
     const backgroundKey = `Tier${tier}`
     const foregroundKey = pascalCase(name || '')
     const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
@@ -35,7 +35,7 @@ class Medal extends PureComponent {
     if (!BackgroundSvg) return null
 
     return (
-      <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} enableHover={enableHover} active={tooltipActive}>
+      <Tooltip heading={name} text={tooltip.join('<br />')} className={className} align={align} valign={valign} enableHover={enableHover} active={tooltipActive}>
         <div
           className={classNames(
             styles[baseClassName],
@@ -80,6 +80,7 @@ Medal.propTypes = {
   count: PropTypes.number,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  valign: PropTypes.oneOf([ 'top', 'bottom', 'middle' ]),
   className: PropTypes.string,
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool
@@ -87,7 +88,7 @@ Medal.propTypes = {
 
 class MedalList extends PureComponent {
   render () {
-    const { kicker, kickerHref, size, align, center, enableHover, tooltipActive } = this.props
+    const { kicker, kickerHref, size, align, valign, center, enableHover, tooltipActive } = this.props
     var { medals } = this.props
 
     if (!medals || medals.length < 1) return null
@@ -104,7 +105,7 @@ class MedalList extends PureComponent {
         <ul className={classNames('list--inline', styles[`${baseClassName}-list`], center && 'text-center')}>
           {medals.map((medal, i) => (
             <li key={i}>
-              <Medal {...medal} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
+              <Medal {...medal} size={size} align={align} valign={valign} enableHover={enableHover} tooltipActive={tooltipActive} />
             </li>
           ))}
         </ul>
@@ -115,6 +116,7 @@ class MedalList extends PureComponent {
 
 MedalList.defaultProps = {
   align: 'center',
+  valign: 'top',
   enableHover: true
 }
 
@@ -124,6 +126,7 @@ MedalList.propTypes = {
   kickerHref: PropTypes.string,
   size: PropTypes.oneOf([ 'x-small', 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  valign: PropTypes.oneOf([ 'top', 'bottom', 'middle' ]),
   center: PropTypes.bool,
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool

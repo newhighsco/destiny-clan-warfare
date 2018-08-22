@@ -21,7 +21,7 @@
   letter-spacing 0.4em
   margin auto
   max-width 100%
-  padding 0 $spacing--quarter
+  padding 0 spacing(0.25)
   padding-right 0
   text-transform uppercase
   word-wrap break-word
@@ -30,7 +30,7 @@
     border-bottom 5px solid currentColor
     content ''
     display block
-    margin 0.25em auto 0.5em ($spacing--quarter * -1)
+    margin 0.25em auto 0.5em spacing(-0.25)
     opacity 0.5
 
   &[href]:hover
@@ -64,9 +64,9 @@
     opacity 0.5
     position absolute
     top 0.2em
-    right ($spacing--quarter * -1)
+    right spacing(-0.25)
     bottom 0.275em
-    left ($spacing--quarter * -1)
+    left spacing(-0.25)
 
   &[href]:hover
     transform scale(1.1)

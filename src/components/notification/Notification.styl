@@ -2,7 +2,7 @@
   border 2px solid $color--silver
   font-size rem(14)
   letter-spacing 0.1em
-  padding $spacing--half $spacing--default $spacing--half $spacing--double
+  padding spacing(0.5) spacing(1) spacing(0.5) spacing(2)
   position relative
   text-align center
   text-transform uppercase
@@ -29,8 +29,8 @@
     z-index 1
 
   +width-min($mq--tablet)
-    padding-top $spacing--default
-    padding-bottom $spacing--default
+    padding-top spacing(1)
+    padding-bottom spacing(1)
 
 .notification__inner
   display inline

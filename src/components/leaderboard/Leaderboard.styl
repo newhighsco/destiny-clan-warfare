@@ -1,24 +1,23 @@
 .leaderboard
   color $color--white
-  counter-reset leaderboard
+  margin 0 spacing(-1)
   position relative
 
 .leaderboard__row
-  counter-increment leaderboard
   display block
+  border-bottom 1px solid $color--nero
   line-height 1.2
-  margin-bottom 1px
+  margin 0 spacing(1)
   position relative
   z-index 1
 
-  &[data-result]
-    &:before
-      content ''
-      position absolute
-      top 0
-      left -2px
-      bottom 0
-      width 2px
+  &[data-result]:before
+    content ''
+    position absolute
+    top 0
+    left -2px
+    bottom 0
+    width 2px
 
   &[data-result=true]:before
     background $color--silver
@@ -29,7 +28,7 @@
   &[data-result=loss]:before
     background $color--error
 
-  &:nth-of-type(even)
+  &[data-even=true]
     .leaderboard__header
     .leaderboard__body
       background $color--eclipse
@@ -40,7 +39,7 @@
   $hover-shadow = 0 spacing(0.5) spacing(1) rgba($color--black, 0.2), 0 spacing(0.25) spacing(0.25) rgba($color--black, 0.25), 0 spacing(-0.25) spacing(0.25) rgba($color--black, 0.25)
 
   &:hover
-    z-index 2
+    z-index 4
 
     .leaderboard__header
       background $color--white-smoke
@@ -67,11 +66,7 @@
 .leaderboard__header
   background $color--nightrider
   border-bottom 1px solid $color--nero
-  position relative
-  position sticky
-  top 0
   white-space nowrap
-  z-index 1
 
   +width-min($mq--tablet--landscape)
     background none !important // @stylint ignore
@@ -286,10 +281,6 @@
     padding spacing(0.5)
     width 65%
 
-.leaderboard__stat--rank
-  span:empty:after
-    content '#' counter(leaderboard)
-
 .leaderboard__external
   display inline-block
   fill currentColor
@@ -304,6 +295,11 @@
   a[href]:hover &
     fill $color--terracotta
     transform scale(1.25)
+
+.leaderboard--active
+  .leaderboard__container
+    height auto !important // @stylint ignore
+    max-height rem(500)
 
 .leaderboard--cutout
   margin-top spacing(-1) !important // @stylint ignore
@@ -337,6 +333,7 @@
       display inline-block
       width 50%
 
+      // TODO: change to attributes rather than nth-type
       &:nth-of-type(4n-1)
       &:nth-of-type(4n-2)
         background-color $color--eclipse

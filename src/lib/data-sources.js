@@ -292,7 +292,7 @@ const fetch = async () => {
               path,
               id,
               clanId,
-              name: member.name,
+              name: member.name || constants.blank,
               avatar: { icon: member.icon },
               platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1, percentage: 100 } ],
               tags: member.bonusUnlocks.map(({ name }) => ({ name })),

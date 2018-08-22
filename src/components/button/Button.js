@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-static'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import Icon from '../icon/Icon'
+import ExternalSvg from '../../images/external.svg'
 import styles from './Button.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')
@@ -42,7 +44,14 @@ const Button = class extends PureComponent {
           {...target && { target }}
           {...target === '_blank' && { rel: 'noopener noreferrer' }}
         >
-          <span>{children}</span>
+          <span>
+            {children}
+            {target === '_blank' &&
+              <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
+                <ExternalSvg />
+              </Icon>
+            }
+          </span>
         </a>
       )
     }

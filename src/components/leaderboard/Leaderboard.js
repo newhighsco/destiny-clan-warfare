@@ -63,10 +63,12 @@ class Leaderboard extends PureComponent {
     this.state = {
       active: false,
       cache: emptyCache(),
-      bonusColumns
+      bonusColumns,
+      overflow: { top: false, bottom: false }
     }
 
     this.handleResize = this.handleResize.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
   componentDidMount () {
@@ -76,24 +78,39 @@ class Leaderboard extends PureComponent {
   }
 
   handleResize (e) {
-    this.setState({ cache: emptyCache() })
+    const { cache } = this.state
+
+    if (cache._rowCount > 0) this.setState({ cache: emptyCache() })
+  }
+
+  handleScroll (e) {
+    const { padding } = this.props
+    const { clientHeight, scrollHeight, scrollTop } = e
+    const scrollBottom = clientHeight + scrollTop
+    const top = scrollTop > padding
+    const bottom = scrollBottom < (scrollHeight - padding)
+
+    this.setState({ overflow: { top, bottom } })
   }
 
   render () {
     const { data, cutout, columns, multiColumn, medalsSize, className, prefetch } = this.props
-    var { active, cache, bonusColumns } = this.state
+    var { active, cache, bonusColumns, overflow } = this.state
+    const dataCount = data.length
 
-    if (!data || data.length < 1) return null
+    if (!data || dataCount < 1) return null
 
     return (
       <div
-        className={
-          classNames(styles[baseClassName],
+        className={classNames(
+          styles[baseClassName],
           cutout && styles[`${baseClassName}--cutout`],
           multiColumn && styles[`${baseClassName}--multi-column`],
           active && styles[`${baseClassName}--active`],
           className
         )}
+        data-overflow-top={overflow.top}
+        data-overflow-bottom={overflow.bottom}
       >
         <AutoSizer disableHeight onResize={this.handleResize}>
           {({ height, width }) => (
@@ -102,8 +119,9 @@ class Leaderboard extends PureComponent {
               deferredMeasurementCache={cache}
               height={500}
               width={width}
-              rowCount={data.length}
+              rowCount={dataCount}
               rowHeight={cache.rowHeight}
+              onScroll={this.handleScroll}
               rowRenderer={({ index, isScrolling, key, parent, style }) => {
                 const item = data[index]
                 if (item.bonusColumns) bonusColumns = item.bonusColumns
@@ -119,8 +137,8 @@ class Leaderboard extends PureComponent {
                     parent={parent}
                     rowIndex={index}
                   >
-                    <div style={style} className={styles[`${baseClassName}__row-wrapper`]}>
-                      <div id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result} data-rank={rank} data-even={rank % 2 === 0}>
+                    <div style={style} className={styles[`${baseClassName}__row-wrapper`]} {...index === 0 && { 'data-first': true }} {...rank === dataCount && { 'data-last': true }}>
+                      <div id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result} data-rank={rank} {...rank % 2 === 0 && { 'data-even': true }}>
                         {item.name &&
                           <div className={styles[`${baseClassName}__header`]}>
                             {item.avatar &&
@@ -239,7 +257,8 @@ class Leaderboard extends PureComponent {
 }
 
 Leaderboard.defaultProps = {
-  medalsSize: 'x-small'
+  medalsSize: 'x-small',
+  padding: 10
 }
 
 Leaderboard.propTypes = {
@@ -249,7 +268,8 @@ Leaderboard.propTypes = {
   multiColumn: PropTypes.bool,
   medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),
   className: PropTypes.string,
-  prefetch: PropTypes.bool
+  prefetch: PropTypes.bool,
+  padding: PropTypes.number
 }
 
 export default Leaderboard

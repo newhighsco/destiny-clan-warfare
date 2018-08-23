@@ -1,5 +1,4 @@
 import React, { Fragment, PureComponent } from 'react'
-import { forceCheck } from 'react-lazyload'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Button } from '../button/Button'
@@ -57,10 +56,6 @@ class TabContainer extends PureComponent {
     const { active } = this.state
 
     if (!active) this.setState({ active: true })
-  }
-
-  componentDidUpdate () {
-    forceCheck()
   }
 
   handleToggle (e) {

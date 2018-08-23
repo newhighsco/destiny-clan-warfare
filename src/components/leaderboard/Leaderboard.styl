@@ -1,15 +1,32 @@
 .leaderboard
   color $color--white
-  margin 0 spacing(-1)
+  margin 0 spacing(-0.5)
   position relative
+
+  +width-min($mq--tablet)
+    margin 0 spacing(-1)
+
+.leaderboard__row-wrapper
+  &[data-first]:before
+  &[data-last]:after
+    content ''
+    display block
+    height spacing(0.5)
+    margin 0 spacing(0.5)
+
+    +width-min($mq--tablet)
+      margin 0 spacing(1)
 
 .leaderboard__row
   display block
   border-bottom 1px solid $color--nero
   line-height 1.2
-  margin 0 spacing(1)
+  margin 0 spacing(0.5)
   position relative
   z-index 1
+
+  +width-min($mq--tablet)
+    margin 0 spacing(1)
 
   &[data-result]:before
     content ''
@@ -28,7 +45,7 @@
   &[data-result=loss]:before
     background $color--error
 
-  &[data-even=true]
+  &[data-even]
     .leaderboard__header
     .leaderboard__body
       background $color--eclipse
@@ -297,6 +314,32 @@
     transform scale(1.25)
 
 .leaderboard--active
+  &:before
+  &:after
+    content ''
+    background linear-gradient(rgba($color--black, 0.75), rgba($color--black, 0))
+    height spacing(0.5)
+    opacity 0
+    position absolute
+    left spacing(0.5)
+    right spacing(0.5)
+    z-index 1
+
+    +width-min($mq--tablet)
+      left spacing(1)
+      right spacing(1)
+
+  &:before
+    top 0
+
+  &:after
+    bottom 0
+    transform scaleY(-1)
+
+  &[data-overflow-top=true]:before
+  &[data-overflow-bottom=true]:after
+    opacity 1
+
   .leaderboard__container
     height auto !important // @stylint ignore
     max-height rem(500)

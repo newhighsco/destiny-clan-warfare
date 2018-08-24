@@ -79,7 +79,6 @@ class MemberOverall extends PureComponent {
     const { clan, member } = this.props
     const { pastEvents, stats, meta } = this.state
     const hasLeaderboard = pastEvents.length > 0
-    const isMultiColumn = pastEvents.length > 1
 
     return (
       <PageContainer meta={meta}>
@@ -96,8 +95,8 @@ class MemberOverall extends PureComponent {
         </Card>
         {hasLeaderboard &&
           <TabContainer cutout>
-            <Tab name={`${constants.kicker.past}${isMultiColumn ? 's' : ''}`}>
-              <Leaderboard data={pastEvents} columns={columns} multiColumn={isMultiColumn} />
+            <Tab name={`${constants.kicker.past}${pastEvents.length > 1 ? 's' : ''}`}>
+              <Leaderboard data={pastEvents} columns={columns} extraColumns />
             </Tab>
             {member.hasCurrentTotals &&
               <Tab name={constants.tense.current} href={urlBuilder.currentEventUrl(clan.id, member.id)} />

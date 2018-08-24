@@ -94,7 +94,7 @@ class Leaderboard extends PureComponent {
   }
 
   render () {
-    const { data, cutout, columns, multiColumn, medalsSize, className, prefetch } = this.props
+    const { data, cutout, columns, extraColumns, medalsSize, className, prefetch } = this.props
     var { active, cache, bonusColumns, overflow } = this.state
     const dataCount = data.length
 
@@ -105,7 +105,7 @@ class Leaderboard extends PureComponent {
         className={classNames(
           styles[baseClassName],
           cutout && styles[`${baseClassName}--cutout`],
-          multiColumn && styles[`${baseClassName}--multi-column`],
+          extraColumns && styles[`${baseClassName}--extra-columns`],
           active && styles[`${baseClassName}--active`],
           className
         )}
@@ -189,7 +189,7 @@ class Leaderboard extends PureComponent {
                                   }
                                   {item.game.medals && item.game.medals.length > 0 &&
                                     <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                                      <MedalList size={medalsSize} align="left" medals={item.game.medals} />
+                                      <MedalList size={medalsSize} align="left" valign="middle" medals={item.game.medals} />
                                     </div>
                                   }
                                 </Fragment>
@@ -265,7 +265,7 @@ Leaderboard.propTypes = {
   data: PropTypes.array,
   cutout: PropTypes.bool,
   columns: PropTypes.array,
-  multiColumn: PropTypes.bool,
+  extraColumns: PropTypes.bool,
   medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),
   className: PropTypes.string,
   prefetch: PropTypes.bool,

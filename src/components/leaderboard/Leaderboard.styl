@@ -268,15 +268,6 @@
   .medal
     margin 0 spacing(0.5)
 
-  .leaderboard--multi-column &
-    width 100%
-
-    li
-      width auto
-
-    .medal
-      margin spacing(0.5)
-
   +width-min($mq--tablet--landscape)
     max-height none
     padding 0 spacing(0.5)
@@ -358,50 +349,32 @@
     margin-left spacing(2)
     margin-right spacing(2)
 
-.leaderboard--multi-column
-  display flex
-  flex-wrap wrap
-
-  .leaderboard__row
-    width 100%
-
+.leaderboard--extra-columns
   .leaderboard__stat--game
   .leaderboard__stat--medals
     text-align left
     white-space normal
 
-  +width-min($mq--tablet--landscape)
-    .leaderboard__row
-      background-color $color--nightrider
-      display inline-block
-      width 50%
+  .leaderboard__stats
+    justify-content flex-start
+    padding spacing(0.5)
 
-      // TODO: change to attributes rather than nth-type
-      &:nth-of-type(4n-1)
-      &:nth-of-type(4n-2)
-        background-color $color--eclipse
+  .leaderboard__stat
+    padding 0 spacing(0.5) spacing(0.5)
+    text-align left
 
-      &:hover
-        background-color $color--white-smoke
+    &[data-prefix]:before
+      margin-top 0
 
-    .leaderboard__body
-      height 100%
+  .leaderboard__stat--medals
+    padding 0
+    width 100%
 
-    .leaderboard__stats
-      justify-content flex-start
-      padding spacing(0.5)
+    li
+      width auto
 
-    .leaderboard__stat
-      padding 0 spacing(0.5) spacing(0.5)
-      text-align left
+    .medal
+      margin spacing(0.5)
 
-      &[data-prefix]:before
-        margin-top 0
-
-    .leaderboard__stat--medals
-      padding 0
-
-    .leaderboard__stat--game
-    .leaderboard__stat--medals
-      max-height 100%
-      width 100%
+  .leaderboard__stat--game
+    width 100%

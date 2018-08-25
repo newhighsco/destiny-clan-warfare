@@ -43,7 +43,7 @@ class CustomLeaderboardContainer extends PureComponent {
 
     var { meta } = this.props
     const { history: { location: { hash } }, clans, selectedIds, event, leaderboards } = this.props
-    const ids = selectedIds || hash.length ? hash.replace(constants.prefix.hash, '').split(',') : []
+    const ids = selectedIds || (hash.length ? hash.replace(constants.prefix.hash, '').split(',') : [])
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     var suggestions = []
     var tags = []
@@ -147,6 +147,7 @@ class CustomLeaderboardContainer extends PureComponent {
     const { apiStatus, event, currentEventId, selectedIds } = this.props
     const { active, meta, hasLeaderboard, visible, tags, suggestions } = this.state
     const hasVisible = visible.length > 0
+    const title = meta.title.split(' ')
 
     return (
       <PageContainer meta={meta}>
@@ -158,7 +159,7 @@ class CustomLeaderboardContainer extends PureComponent {
           )}
         </Lockup>
         <Card cutout={hasVisible} center>
-          <Lockup center kicker="Custom" heading="leaderboard" />
+          <Lockup center kicker={title[0]} heading={title.length > 1 && title[1]} />
           {active && hasLeaderboard && !selectedIds &&
             <Filter
               kicker="Filter clans"

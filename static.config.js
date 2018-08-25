@@ -343,7 +343,7 @@ export default {
           leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
           currentEventId,
           meta: {
-            title: 'PixelPub custom leaderboard',
+            title: 'PixelPub leaderboard',
             robots: 'noindex,nofollow'
           }
         })

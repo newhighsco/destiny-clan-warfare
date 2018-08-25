@@ -77,6 +77,14 @@ class Leaderboard extends PureComponent {
     if (!active) this.setState({ active: true })
   }
 
+  componentDidUpdate (prevProps) {
+    const { data } = this.props
+
+    if (prevProps.data.length !== data.length) {
+      this.handleResize()
+    }
+  }
+
   handleResize (e) {
     const { cache } = this.state
 

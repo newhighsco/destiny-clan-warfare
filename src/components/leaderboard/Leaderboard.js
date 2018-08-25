@@ -19,7 +19,6 @@ const statsHelper = require('../../utils/stats-helper')
 
 const baseClassName = 'leaderboard'
 const emptyCache = () => new CellMeasurerCache({
-  defaultHeight: 60,
   fixedWidth: true
 })
 
@@ -74,21 +73,32 @@ class Leaderboard extends PureComponent {
   componentDidMount () {
     const { active } = this.state
 
-    if (!active) this.setState({ active: true })
+    if (!active) {
+      this.setState({
+        active: true
+      }, () => this.handleResize())
+    }
   }
 
   componentDidUpdate (prevProps) {
     const { data } = this.props
 
+    this.List.measureAllRows()
+
     if (prevProps.data.length !== data.length) {
       this.handleResize()
+      this.List.scrollToPosition(0)
     }
   }
 
   handleResize (e) {
     const { cache } = this.state
 
-    if (cache._rowCount > 0) this.setState({ cache: emptyCache() })
+    if (cache._rowCount > 0) {
+      this.setState({
+        cache: emptyCache()
+      }, () => this.handleScroll(this.List.Grid._scrollingContainer))
+    }
   }
 
   handleScroll (e) {
@@ -123,6 +133,7 @@ class Leaderboard extends PureComponent {
         <AutoSizer disableHeight onResize={this.handleResize}>
           {({ height, width }) => (
             <List
+              ref={instance => (this.List = instance)}
               className={styles[`${baseClassName}__container`]}
               deferredMeasurementCache={cache}
               height={500}

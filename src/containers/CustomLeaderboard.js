@@ -23,7 +23,7 @@ const columns = [
 
 const getVisible = (tags, leaderboard) => {
   const ids = getIds(tags)
-  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : []
+  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
 }
 
 const setHash = tags => {
@@ -41,30 +41,9 @@ class CustomLeaderboardContainer extends PureComponent {
   constructor (props) {
     super(props)
 
-    var { meta, event } = this.props
-
-    meta = Object.assign({
-      kicker: event.isCurrent ? constants.kicker.current : constants.kicker.previous,
-      kickerHref: event.path,
-      title: 'Custom leaderboard',
-      description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
-    }, meta)
-
-    this.state = {
-      active: false,
-      meta,
-      visible: []
-    }
-
-    this.handleAddition = this.handleAddition.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  componentDidMount () {
-    const { active } = this.state
+    var { meta } = this.props
     const { history: { location: { hash } }, clans, selectedIds, event, leaderboards } = this.props
-    const ids = selectedIds || hash.replace(constants.prefix.hash, '').split(',')
+    const ids = selectedIds || hash.length ? hash.replace(constants.prefix.hash, '').split(',') : []
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     var suggestions = []
     var tags = []
@@ -107,16 +86,32 @@ class CustomLeaderboardContainer extends PureComponent {
 
     leaderboard = leaderboard.sort(firstBy('score', -1).thenBy('name'))
 
-    if (!active) {
-      this.setState({
-        active: true,
-        leaderboard,
-        hasLeaderboard: leaderboard.length > 0,
-        visible: leaderboard.filter(({ id }) => filterById(ids, id)),
-        suggestions,
-        tags
-      })
+    meta = Object.assign({
+      kicker: event.isCurrent ? constants.kicker.current : constants.kicker.previous,
+      kickerHref: event.path,
+      title: 'Custom leaderboard',
+      description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
+    }, meta)
+
+    this.state = {
+      active: false,
+      meta,
+      leaderboard,
+      hasLeaderboard: leaderboard.length > 0,
+      visible: ids.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard,
+      suggestions,
+      tags
     }
+
+    this.handleAddition = this.handleAddition.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount () {
+    const { active } = this.state
+
+    if (!active) this.setState({ active: true })
   }
 
   handleAddition (tag) {
@@ -166,7 +161,7 @@ class CustomLeaderboardContainer extends PureComponent {
           <Lockup center kicker="Custom" heading="leaderboard" />
           {active && hasLeaderboard && !selectedIds &&
             <Filter
-              kicker="Add clans"
+              kicker="Filter clans"
               placeholder="Enter clan name"
               suggestions={suggestions}
               tags={tags}

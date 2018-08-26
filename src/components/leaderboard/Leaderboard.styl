@@ -6,7 +6,23 @@
   +width-min($mq--tablet)
     margin 0 spacing(-1)
 
+.leaderboard__wrapper
+  width auto !important // @stylint ignore
+
+.leaderboard__container
+  height auto !important // @stylint ignore
+  width auto !important // @stylint ignore
+
+  > div[role=rowgroup]
+    max-height 100% !important // @stylint ignore
+    max-width 100% !important // @stylint ignore
+
+    .leaderboard--inactive &
+      height auto !important // @stylint ignore
+
 .leaderboard__row-wrapper
+  position relative !important // @stylint ignore
+
   &[data-first]:before
   &[data-last]:after
     content ''
@@ -332,8 +348,10 @@
     opacity 1
 
   .leaderboard__container
-    height auto !important // @stylint ignore
     max-height rem(500)
+
+  .leaderboard__row-wrapper
+    position absolute !important // @stylint ignore
 
 .leaderboard--cutout
   margin-top spacing(-1) !important // @stylint ignore

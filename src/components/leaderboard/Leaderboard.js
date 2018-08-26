@@ -124,13 +124,14 @@ class Leaderboard extends PureComponent {
           styles[baseClassName],
           cutout && styles[`${baseClassName}--cutout`],
           extraColumns && styles[`${baseClassName}--extra-columns`],
+          !active && styles[`${baseClassName}--inactive`],
           active && styles[`${baseClassName}--active`],
           className
         )}
         data-overflow-top={overflow.top}
         data-overflow-bottom={overflow.bottom}
       >
-        <AutoSizer disableHeight onResize={this.handleResize}>
+        <AutoSizer className={styles[`${baseClassName}__wrapper`]} disableHeight defaultWidth={300} onResize={this.handleResize}>
           {({ height, width }) => (
             <List
               ref={instance => (this.List = instance)}

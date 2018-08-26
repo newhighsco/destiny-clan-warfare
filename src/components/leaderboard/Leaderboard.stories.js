@@ -15,9 +15,12 @@ const row = {
   ],
   medal: { tier: 3 }
 }
-const data = Array(5).fill(row)
+const data = Array(25).fill(row)
 
 storiesOf('Leaderboard', module)
-  .add('Default', () => (
+  .add('Short', () => (
+    <Leaderboard data={data.slice(0, 3)} />
+  ))
+  .add('Long', () => (
     <Leaderboard data={data} />
   ))

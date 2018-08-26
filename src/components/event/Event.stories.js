@@ -33,7 +33,7 @@ const row = {
   score: 10000,
   medal: { tier: 3 }
 }
-const leaderboard = Array(200).fill(row)
+const leaderboard = Array(25).fill(row)
 const leaderboards = [
   { leaderboard, division: { name: 'Company' } },
   { leaderboard, division: { name: 'Platoon' } },

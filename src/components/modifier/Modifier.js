@@ -12,7 +12,7 @@ const baseClassName = 'modifier'
 
 class Modifier extends PureComponent {
   render () {
-    const { name, description, creator, scoringModifier, size, align, enableHover, tooltipActive } = this.props
+    const { name, description, creator, scoringModifier, size, align, valign, enableHover, tooltipActive } = this.props
     var { bonus } = this.props
     const iconKey = pascalCase(name || '')
     const icon = Icons.hasOwnProperty(iconKey) ? Icons[iconKey] : null
@@ -32,6 +32,19 @@ class Modifier extends PureComponent {
         bonus *= 100
       }
     }
+    if (scoringModifier && bonus === 0) prefix = constants.prefix.positive
+
+    if (constants.modifiers.tbc.indexOf(name) !== -1) {
+      prefix = ''
+      suffix = ''
+      bonus = 'TBC'
+    }
+
+    if (constants.modifiers.notApplicable.indexOf(name) !== -1) {
+      prefix = ''
+      suffix = ''
+      bonus = 'N/A'
+    }
 
     const label = `${prefix}${bonus}${suffix}`
     const tooltip = []
@@ -41,7 +54,7 @@ class Modifier extends PureComponent {
     if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
 
     return (
-      <Tooltip heading={name} text={tooltip.join('<br />')} align={align} enableHover={enableHover} active={tooltipActive}>
+      <Tooltip heading={name} text={tooltip.join('<br />')} align={align} valign={valign} enableHover={enableHover} active={tooltipActive}>
         <div
           className={classNames(
             styles[baseClassName],
@@ -53,7 +66,7 @@ class Modifier extends PureComponent {
             {IconSvg &&
               <IconSvg />
             }
-            {bonus &&
+            {bonus !== undefined &&
               <div className={styles[`${baseClassName}__label`]}>
                 {label}
               </div>
@@ -77,13 +90,14 @@ Modifier.propTypes = {
   bonus: PropTypes.number,
   size: PropTypes.oneOf([ 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  valign: PropTypes.oneOf([ 'top', 'bottom', 'middle' ]),
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool
 }
 
 class ModifierList extends PureComponent {
   render () {
-    const { modifiers, size, align, enableHover, tooltipActive } = this.props
+    const { modifiers, size, align, valign, enableHover, tooltipActive } = this.props
 
     if (!modifiers || modifiers.length < 1) return null
 
@@ -91,7 +105,7 @@ class ModifierList extends PureComponent {
       <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
         {modifiers.map((modifier, i) => (
           <li key={i}>
-            <Modifier {...modifier} size={size} align={align} enableHover={enableHover} tooltipActive={tooltipActive} />
+            <Modifier {...modifier} size={size} align={align} valign={valign} enableHover={enableHover} tooltipActive={tooltipActive} />
           </li>
         ))}
       </ul>
@@ -101,6 +115,7 @@ class ModifierList extends PureComponent {
 
 ModifierList.defaultProps = {
   align: 'center',
+  valign: 'top',
   enableHover: true
 }
 
@@ -108,6 +123,7 @@ ModifierList.propTypes = {
   modifiers: PropTypes.array,
   size: PropTypes.oneOf([ 'small' ]),
   align: PropTypes.oneOf([ 'left', 'right', 'center' ]),
+  valign: PropTypes.oneOf([ 'top', 'bottom', 'middle' ]),
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool
 }

@@ -216,7 +216,7 @@ class Leaderboard extends PureComponent {
                               }
                               {hasModifiers &&
                                 <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
-                                  <ModifierList size="small" align="right" modifiers={item.modifiers} />
+                                  <ModifierList size="small" align="right" valign="middle" modifiers={item.modifiers} />
                                 </div>
                               }
                               {item.division &&

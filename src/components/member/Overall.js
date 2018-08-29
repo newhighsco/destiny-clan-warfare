@@ -65,8 +65,11 @@ class MemberOverall extends PureComponent {
         ]
       }
     }
+    var stats = {}
     const pastEvents = member.pastEvents
-    const stats = member.totals && member.totals.games > 0 ? member.totals : null
+
+    if (pastEvents.length > 0) stats.events = pastEvents.length
+    if (member.totals && member.totals.games > 0) stats = { ...stats, ...member.totals }
 
     this.state = {
       pastEvents,

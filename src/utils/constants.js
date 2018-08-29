@@ -29,6 +29,10 @@ const constants = {
     loss: 'loss',
     winnersMedal: 'The Best of the Best'
   },
+  modifiers: {
+    tbc: [ 'Modifier TBC', 'Multiplier TBC' ],
+    notApplicable: [ 'No Modifier', 'No Multiplier' ]
+  },
   tense: {
     current: 'Current',
     past: 'Past',

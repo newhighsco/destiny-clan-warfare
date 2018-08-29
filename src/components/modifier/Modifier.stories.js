@@ -10,14 +10,20 @@ const modifiers = [
   { name: '20/20', bonus: 100 },
   { name: '20/20', bonus: 0 },
   { name: '20/20', bonus: 0.1 },
+  { name: '20/20', bonus: 0, scoringModifier: true },
   { name: '20/20', bonus: 50, scoringModifier: true },
   { name: '20/20', bonus: -50, scoringModifier: true },
   { name: 'Nonexistent' },
   { name: 'Nonexistent', bonus: 100 },
   { name: 'Nonexistent', bonus: 0 },
   { name: 'Nonexistent', bonus: 0.1 },
+  { name: 'Nonexistent', bonus: 0, scoringModifier: true },
   { name: 'Nonexistent', bonus: 50, scoringModifier: true },
-  { name: 'Nonexistent', bonus: -50, scoringModifier: true }
+  { name: 'Nonexistent', bonus: -50, scoringModifier: true },
+  { name: 'Multiplier TBC', bonus: 0 },
+  { name: 'Modifier TBC', bonus: 0, scoringModifier: true },
+  { name: 'No Multiplier', bonus: 0 },
+  { name: 'No Modifier', bonus: 0, scoringModifier: true }
 ]
 
 class Loader extends PureComponent {

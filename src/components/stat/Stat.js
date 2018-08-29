@@ -87,6 +87,10 @@ class StatList extends PureComponent {
               if (column.match(/(kd|kda|ppg|score)/)) {
                 prefix = constants.prefix.highest
               }
+
+              if (column.match(/^total/)) {
+                prefix = ''
+              }
             }
 
             if (column === 'bonuses' && stats.bonuses && stats.bonuses.length) {

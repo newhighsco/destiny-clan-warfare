@@ -130,6 +130,7 @@ class StatList extends PureComponent {
 
 StatList.defaultProps = {
   columns: [
+    'events',
     'games',
     'wins',
     'kd',

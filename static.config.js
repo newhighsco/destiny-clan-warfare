@@ -70,7 +70,21 @@ export default {
     ]
 
     const addStat = (stats, column, value, name) => {
-      stats[column] = { stat: value, label: [ name ] }
+      if (name) {
+        stats[column] = { stat: value, label: [ name ] }
+      } else {
+        stats[column] = value
+      }
+    }
+
+    const incrementStat = (stats, column, value) => {
+      var existingStat = stats[column]
+
+      if (!existingStat) {
+        addStat(stats, column, value)
+      } else {
+        stats[column] += value
+      }
     }
 
     const updateStat = (stats, column, value, name) => {
@@ -120,6 +134,13 @@ export default {
             const hasCurrentTotals = games > 0
 
             member.hasCurrentTotals = hasCurrentTotals
+
+            if (hasCurrentTotals) {
+              incrementStat(clanCurrentStats, 'totalActive', 1)
+              incrementStat(currentEventStats, 'totalActive', 1)
+              incrementStat(clanCurrentStats, 'totalGames', games)
+              incrementStat(currentEventStats, 'totalGames', games)
+            }
 
             clanCurrentTotals[memberId] = {
               ...currentTotals,

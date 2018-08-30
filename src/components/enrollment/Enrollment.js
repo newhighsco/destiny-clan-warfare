@@ -10,7 +10,7 @@ import styles from './Enrollment.styl'
 
 const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
-const bungie = require('../../utils/bungie-helper')
+const bungieHelper = require('../../utils/bungie-helper')
 
 const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
@@ -25,7 +25,7 @@ class Enrollment extends Component {
 
     this.state = {
       active: false,
-      open: apiStatus && apiStatus.enrollmentOpen && constants.bungie.disabledStatusCode.indexOf(apiStatus.bungieStatus) === -1,
+      open: apiStatus && apiStatus.enrollmentOpen && !bungieHelper.disabled(apiStatus.bungieStatus),
       name: '',
       groups: [],
       selectedGroup: null
@@ -37,14 +37,17 @@ class Enrollment extends Component {
 
   componentDidMount () {
     if (this.refs.form) {
-      const { active } = this.state
+      var { active } = this.state
 
       if (!active) this.setState({ active: true })
 
       proxy(`Clan/AcceptingNewClans`)
         .then(({ data }) => {
-          localStorage.setItem('enrollmentOpen', data)
-          this.setState({ open: data })
+          const apiDisabled = JSON.parse(localStorage.getItem('apiDisabled'))
+          active = data && !apiDisabled
+
+          localStorage.setItem('enrollmentOpen', active)
+          this.setState({ open: active })
         })
         .catch(err => console.log(err))
     }
@@ -84,7 +87,7 @@ class Enrollment extends Component {
         const isNumeric = !isNaN(name)
         const endpoint = isNumeric ? `GroupV2/${name}/` : `GroupV2/Name/${name}/${groupType}/`
 
-        bungie(endpoint)
+        bungieHelper.api(endpoint)
           .then(({ data }) => {
             if (data.Response && data.Response.detail) {
               const detail = data.Response.detail

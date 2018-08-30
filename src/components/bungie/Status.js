@@ -4,8 +4,7 @@ import classNames from 'classnames'
 import Notification from '../notification/Notification'
 import styles from './Status.styl'
 
-const constants = require('../../utils/constants')
-const bungie = require('../../utils/bungie-helper')
+const bungieHelper = require('../../utils/bungie-helper')
 
 class Status extends PureComponent {
   constructor (props) {
@@ -19,12 +18,14 @@ class Status extends PureComponent {
   }
 
   componentDidMount () {
-    const { active } = this.state
+    var { active } = this.state
 
     if (!active) {
-      bungie(`/Destiny2/Milestones/`)
+      bungieHelper.api(`/Destiny2/Milestones/`)
         .then(({ data }) => {
-          this.setState({ active: constants.bungie.disabledStatusCode.indexOf(data.ErrorCode) !== -1 })
+          active = bungieHelper.disabled(data)
+          localStorage.setItem('apiDisabled', active)
+          this.setState({ active })
         })
         .catch(err => console.log(err))
     }

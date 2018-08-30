@@ -2,7 +2,7 @@ const moment = require('moment')
 const constants = require('../utils/constants')
 const medalBuilder = require('../utils/medal-builder')
 const apiHelper = require('../utils/api-helper')
-const bungie = require('../utils/bungie-helper')
+const bungieHelper = require('../utils/bungie-helper')
 const urlBuilder = require('../utils/url-builder')
 const statsHelper = require('../utils/stats-helper')
 const description = require('../utils/grammar').description
@@ -33,7 +33,7 @@ const fetch = async () => {
   const parsed = {
     apiStatus: {
       enrollmentOpen: false,
-      bungieStatus: constants.bungie.disabledStatusCode,
+      bungieStatus: constants.bungie.disabledStatusCodes[0],
       updatedDate: updatedDate,
       formattedDate: utc.format(constants.format.url)
     },
@@ -150,7 +150,7 @@ const fetch = async () => {
     new Promise((resolve, reject) => {
       console.time(`fetch bungie api status`)
 
-      bungie(`/Destiny2/Milestones`)
+      bungieHelper.api(`/Destiny2/Milestones`)
         .then(({ data }) => {
           parsed.apiStatus.bungieStatus = data.ErrorCode
 

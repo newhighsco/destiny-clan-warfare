@@ -1,15 +1,16 @@
 .leaderboard
   color $color--white
   margin 0 spacing(-0.5)
-  position relative
 
   +width-min($mq--tablet)
     margin 0 spacing(-1)
 
 .leaderboard__wrapper
+  position relative
   width auto !important // @stylint ignore
 
 .leaderboard__container
+  outline 0
   height auto !important // @stylint ignore
   width auto !important // @stylint ignore
 
@@ -32,6 +33,12 @@
 
     +width-min($mq--tablet)
       margin 0 spacing(1)
+
+.leaderboard__search
+  margin 0 spacing(0.5) !important // @stylint ignore
+
+  +width-min($mq--tablet)
+    margin 0 spacing(1) !important // @stylint ignore
 
 .leaderboard__row
   display block
@@ -72,6 +79,7 @@
   $hover-shadow = 0 spacing(0.5) spacing(1) rgba($color--black, 0.2), 0 spacing(0.25) spacing(0.25) rgba($color--black, 0.25), 0 spacing(-0.25) spacing(0.25) rgba($color--black, 0.25)
 
   &:hover
+  &[data-active]
     z-index 4
 
     .leaderboard__header
@@ -79,9 +87,6 @@
       box-shadow $hover-shadow
       color $color--black
       z-index 2
-
-    .leaderboard__icon
-      transform scale(1.25)
 
     .leaderboard__body:first-child
       background $color--white-smoke
@@ -92,6 +97,10 @@
       background $color--white-smoke
       box-shadow $hover-shadow
       color $color--black
+
+  &:hover
+    .leaderboard__icon
+      transform scale(1.25)
 
   +width-min($mq--tablet--landscape)
     background $color--nightrider
@@ -321,31 +330,32 @@
     transform scale(1.25)
 
 .leaderboard--active
-  &:before
-  &:after
-    content ''
-    background linear-gradient(rgba($color--black, 0.75), rgba($color--black, 0))
-    height spacing(0.5)
-    opacity 0
-    position absolute
-    left spacing(0.5)
-    right spacing(0.5)
-    z-index 1
+  .leaderboard__wrapper
+    &:before
+    &:after
+      content ''
+      background linear-gradient(rgba($color--black, 0.75), rgba($color--black, 0))
+      height spacing(0.5)
+      opacity 0
+      position absolute
+      left spacing(0.5)
+      right spacing(0.5)
+      z-index 1
 
-    +width-min($mq--tablet)
-      left spacing(1)
-      right spacing(1)
+      +width-min($mq--tablet)
+        left spacing(1)
+        right spacing(1)
 
-  &:before
-    top 0
+    &:before
+      top 0
 
-  &:after
-    bottom 0
-    transform scaleY(-1)
+    &:after
+      bottom 0
+      transform scaleY(-1)
 
-  &[data-overflow-top=true]:before
-  &[data-overflow-bottom=true]:after
-    opacity 1
+  &[data-overflow-top=true] .leaderboard__wrapper:before
+  &[data-overflow-bottom=true] .leaderboard__wrapper:after
+      opacity 1
 
   .leaderboard__container
     max-height rem(500)

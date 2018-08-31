@@ -10,6 +10,7 @@ import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
 import { PlatformList } from '../platform/Platform'
 import RelativeDate from '../relative-date/RelativeDate'
+import { Filter } from '../filter/Filter'
 import ExternalSvg from '../../images/external.svg'
 import styles from './Leaderboard.styl'
 
@@ -56,18 +57,22 @@ class Leaderboard extends PureComponent {
   constructor (props) {
     super(props)
 
-    const { data } = this.props
+    const { data, activeIndex } = this.props
     const bonusColumns = data.length ? (data[0].bonuses || []).reduce((result, { shortName }) => result.concat(shortName), []) : []
+    const suggestions = data.map(({ name, tag }, index) => ({ id: index, name: `${name}${tag ? ` [${tag}]` : ''}` }))
 
     this.state = {
       active: false,
+      activeIndex,
       cache: emptyCache(),
       bonusColumns,
-      overflow: { top: false, bottom: false }
+      overflow: { top: false, bottom: false },
+      suggestions
     }
 
     this.handleResize = this.handleResize.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
   }
 
   componentDidMount () {
@@ -81,7 +86,7 @@ class Leaderboard extends PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    const { data } = this.props
+    const { data, activeIndex } = this.props
 
     this.List.measureAllRows()
 
@@ -89,15 +94,23 @@ class Leaderboard extends PureComponent {
       this.handleResize()
       this.List.scrollToPosition(0)
     }
+
+    if (prevProps.activeIndex !== activeIndex) {
+      this.handleSearch({ id: activeIndex })
+    }
   }
 
   handleResize (e) {
-    const { cache } = this.state
+    const { cache, activeIndex } = this.state
 
     if (cache._rowCount > 0) {
       this.setState({
         cache: emptyCache()
-      }, () => this.handleScroll(this.List.Grid._scrollingContainer))
+      }, () => {
+        if (activeIndex) this.List.scrollToRow(activeIndex)
+
+        this.handleScroll(this.List.Grid._scrollingContainer)
+      })
     }
   }
 
@@ -111,9 +124,21 @@ class Leaderboard extends PureComponent {
     this.setState({ overflow: { top, bottom } })
   }
 
+  handleSearch (tag) {
+    const id = tag.id
+
+    this.List.scrollToRow(id)
+
+    this.setState({
+      activeIndex: id
+    }, () => {
+      this.List.scrollToRow(id)
+    })
+  }
+
   render () {
-    const { data, cutout, columns, extraColumns, medalsSize, className, prefetch } = this.props
-    var { active, cache, bonusColumns, overflow } = this.state
+    const { data, cutout, search, placeholder, columns, extraColumns, medalsSize, className, prefetch } = this.props
+    var { active, activeIndex, cache, bonusColumns, overflow, suggestions } = this.state
     const dataCount = data.length
 
     if (!data || dataCount < 1) return null
@@ -131,6 +156,17 @@ class Leaderboard extends PureComponent {
         data-overflow-top={overflow.top}
         data-overflow-bottom={overflow.bottom}
       >
+        {active && search &&
+          <Filter
+            className={classNames(
+              styles[`${baseClassName}__search`],
+              cutout && styles[`${baseClassName}--cutout`]
+            )}
+            placeholder={placeholder}
+            suggestions={suggestions}
+            handleAddition={this.handleSearch}
+          />
+        }
         <AutoSizer className={styles[`${baseClassName}__wrapper`]} disableHeight defaultWidth={300} onResize={this.handleResize}>
           {({ height, width }) => (
             <List
@@ -139,9 +175,11 @@ class Leaderboard extends PureComponent {
               deferredMeasurementCache={cache}
               height={500}
               width={width}
+              onScroll={this.handleScroll}
+              scrollToAlignment="start"
+              scrollToIndex={activeIndex || 0}
               rowCount={dataCount}
               rowHeight={cache.rowHeight}
-              onScroll={this.handleScroll}
               rowRenderer={({ index, isScrolling, key, parent, style }) => {
                 const item = data[index]
                 if (item.bonusColumns) bonusColumns = item.bonusColumns
@@ -158,7 +196,7 @@ class Leaderboard extends PureComponent {
                     rowIndex={index}
                   >
                     <div style={style} className={styles[`${baseClassName}__row-wrapper`]} {...index === 0 && { 'data-first': true }} {...rank === dataCount && { 'data-last': true }}>
-                      <div id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result} data-rank={rank} {...rank % 2 === 0 && { 'data-even': true }}>
+                      <div id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result} data-rank={rank} {...rank % 2 === 0 && { 'data-even': true }} {...index === activeIndex && { 'data-active': true }}>
                         {item.name &&
                           <div className={styles[`${baseClassName}__header`]}>
                             {item.avatar &&
@@ -283,7 +321,10 @@ Leaderboard.defaultProps = {
 
 Leaderboard.propTypes = {
   data: PropTypes.array,
+  activeIndex: PropTypes.number,
   cutout: PropTypes.bool,
+  search: PropTypes.bool,
+  placeholder: PropTypes.string,
   columns: PropTypes.array,
   extraColumns: PropTypes.bool,
   medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),

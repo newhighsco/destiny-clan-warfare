@@ -104,7 +104,7 @@ class Event extends PureComponent {
             {leaderboards && leaderboards.map(({ leaderboard, division }) => {
               return (
                 <Tab key={division.name} name={division.name} title={division.size}>
-                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} />
+                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} search={!summary} placeholder={`Find clan in ${division.name} leaderboard`} />
                 </Tab>
               )
             })}

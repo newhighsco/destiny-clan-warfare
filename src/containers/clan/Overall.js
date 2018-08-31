@@ -37,6 +37,7 @@ class ClanOverallContainer extends PureComponent {
     const meta = {
       title: `${clan.name} | Clans`,
       description: `${possessive(clan.name)} progress battling their way to the top of the Destiny 2 clan leaderboard`,
+      placeholder: 'Find clan member',
       schema: {
         '@context': 'http://schema.org',
         '@type': 'BreadcrumbList',
@@ -98,12 +99,12 @@ class ClanOverallContainer extends PureComponent {
           <TabContainer cutout>
             {previous.length > 0 &&
               <Tab id={previousEventId} name={constants.tense.previous}>
-                <Leaderboard data={previous} prefetch={false} columns={columns} />
+                <Leaderboard data={previous} prefetch={false} columns={columns} search placeholder={meta.placeholder} />
               </Tab>
             }
             {overall.length > 0 &&
               <Tab id="overall" name="Overall">
-                <Leaderboard data={overall} prefetch={false} columns={[ ...columns, 'lastPlayed' ]} />
+                <Leaderboard data={overall} prefetch={false} columns={[ ...columns, 'lastPlayed' ]} search placeholder={meta.placeholder} />
               </Tab>
             }
             {currentEventId &&

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classNames from 'classnames'
 import ReactTags from 'react-tag-autocomplete'
 import PropTypes from 'prop-types'
 import { firstBy } from 'thenby'
@@ -7,6 +8,8 @@ import styles from './Filter.styl'
 
 const baseClassName = 'filter'
 
+const emptyHandle = () => {}
+
 const filterById = (all, id) => all.indexOf(id) !== -1
 
 const getIds = tags => tags.reduce((ids, tag) => ids.concat(tag.id), []).sort()
@@ -14,13 +17,13 @@ const getIds = tags => tags.reduce((ids, tag) => ids.concat(tag.id), []).sort()
 class Filter extends Component {
   render () {
     var { suggestions } = this.props
-    const { kicker, placeholder, tags, handleAddition, handleDelete } = this.props
-    const ids = getIds(tags)
+    const { className, kicker, placeholder, maxSuggestionsLength, tags, handleAddition, handleDelete } = this.props
+    const ids = getIds(tags || [])
 
     suggestions = suggestions.map(suggestion => ({ ...suggestion, disabled: filterById(ids, suggestion.id) })).sort(firstBy('disabled'))
 
     return (
-      <div className="field">
+      <div className={classNames('field', className)}>
         {kicker &&
           <Lockup borderless center kicker={kicker} className={styles[`${baseClassName}__lockup`]} />
         }
@@ -28,8 +31,9 @@ class Filter extends Component {
           placeholder={placeholder}
           suggestions={suggestions}
           tags={tags}
-          handleAddition={handleAddition}
-          handleDelete={handleDelete}
+          handleAddition={handleAddition || emptyHandle}
+          handleDelete={handleDelete || emptyHandle}
+          maxSuggestionsLength={maxSuggestionsLength}
           classNames={{
             root: styles[baseClassName],
             rootFocused: styles['is-focused'],
@@ -49,12 +53,15 @@ class Filter extends Component {
 }
 
 Filter.defaultProps = {
-  placeholder: 'Add'
+  placeholder: 'Filter',
+  maxSuggestionsLength: 10
 }
 
 Filter.propTypes = {
+  className: PropTypes.string,
   kicker: PropTypes.string,
   placeholder: PropTypes.string,
+  maxSuggestionsLength: PropTypes.number,
   suggestions: PropTypes.array,
   tags: PropTypes.array,
   handleAddition: PropTypes.func,

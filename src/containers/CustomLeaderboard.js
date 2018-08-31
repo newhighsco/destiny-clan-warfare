@@ -62,7 +62,7 @@ class CustomLeaderboardContainer extends PureComponent {
     clans.map(clan => {
       const clanId = clan.id
       const path = event.isCurrent ? urlBuilder.currentEventUrl(clanId) : urlBuilder.clanUrl(clanId, event.id)
-      const suggestion = { id: clanId, name: clan.name }
+      const suggestion = { id: clanId, name: `${clan.name} [${clan.tag}]`, shortName: clan.name }
       var total = totals.find(({ id }) => id === clanId)
 
       if (total) {
@@ -119,7 +119,7 @@ class CustomLeaderboardContainer extends PureComponent {
     const existing = tags.find(({ id }) => id === tag.id)
 
     if (!existing) {
-      tags.push(tag)
+      tags.push({ id: tag.id, name: tag.shortName })
 
       this.handleChange(tags)
     }

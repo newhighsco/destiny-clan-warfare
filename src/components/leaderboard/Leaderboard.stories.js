@@ -15,7 +15,8 @@ const row = {
   ],
   medal: { tier: 3 }
 }
-const data = Array(25).fill(row)
+var data = Array(25).fill(row)
+data = data.map((row, index) => ({ ...row, name: `${row.name} ${index}` }))
 
 storiesOf('Leaderboard', module)
   .add('Short', () => (
@@ -23,4 +24,7 @@ storiesOf('Leaderboard', module)
   ))
   .add('Long', () => (
     <Leaderboard data={data} />
+  ))
+  .add('Search', () => (
+    <Leaderboard data={data} search />
   ))

@@ -28,6 +28,7 @@ class Filter extends Component {
           <Lockup borderless center kicker={kicker} className={styles[`${baseClassName}__lockup`]} />
         }
         <ReactTags
+          autofocus={false}
           placeholder={placeholder}
           suggestions={suggestions}
           tags={tags}

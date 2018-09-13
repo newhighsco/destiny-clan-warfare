@@ -11,6 +11,7 @@ import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
 import { StatList } from '../../components/stat/Stat'
+import { Filter } from '../../components/filter/Filter'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -23,18 +24,24 @@ class Event extends PureComponent {
     const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
     const hasResults = event.isCalculated && hasLeaderboards
     const leaderboardColumns = hasResults ? [ 'rank', 'overall', 'score' ] : [ 'rank', 'overall', 'active', 'size', 'score' ]
+    const suggestions = hasLeaderboards ? leaderboards.reduce((ids, tag) => ids.concat(tag.id), []) : []
 
     this.state = {
+      active: false,
       enrollmentOpen: false,
       statsColumns: stats ? Object.keys(stats) : null,
       hasLeaderboards,
       hasResults,
-      leaderboardColumns
+      leaderboardColumns,
+      suggestions
     }
   }
 
   componentDidMount () {
     const { event } = this.props
+    var { active } = this.state
+
+    if (!active) this.setState({ active: true })
 
     if (!event.isPast) {
       const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
@@ -45,7 +52,7 @@ class Event extends PureComponent {
 
   render () {
     const { event, leaderboards, stats, element, summary } = this.props
-    const { enrollmentOpen, statsColumns, hasLeaderboards, hasResults, leaderboardColumns } = this.state
+    const { active, enrollmentOpen, statsColumns, hasLeaderboards, hasResults, leaderboardColumns, suggestions } = this.state
 
     if (!event) return null
 
@@ -76,6 +83,14 @@ class Event extends PureComponent {
               }
               {hasResults && event.medals &&
                 <MedalList medals={event.medals.clans} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
+              }
+              {hasLeaderboards && active &&
+                <Filter
+                  kicker="Find clan"
+                  placeholder="Enter clan name"
+                  suggestions={suggestions}
+                  handleAddition={this.handleSearch}
+                />
               }
             </Fragment>
           }

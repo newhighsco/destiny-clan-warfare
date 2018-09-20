@@ -5,9 +5,10 @@ import styles from './Tag.styl'
 
 const baseClassName = 'tag'
 const allowedTags = [
-  { name: 'Beta Tester', tier: 3, label: 'Beta' },
-  { name: 'Creator', tier: 1, label: 'Creator' },
-  { name: 'Insider', tier: 2, label: 'Insider' }
+  { name: 'Beta Tester', shortName: 'Beta', tier: 3 },
+  { name: 'Creator', tier: 1 },
+  { name: 'Insider', tier: 2 },
+  { name: 'Rockstar', tier: 3 }
 ]
 
 class Tag extends PureComponent {
@@ -23,7 +24,7 @@ class Tag extends PureComponent {
           styles[baseClassName],
           allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`]
         )}
-        data-label={allowed.label}
+        data-label={allowed.shortName || allowed.name}
       />
     )
   }

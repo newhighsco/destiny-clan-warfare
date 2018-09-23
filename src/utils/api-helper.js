@@ -3,7 +3,7 @@ const constants = require('./constants')
 
 const api = (index = 0) => axios.create({
   baseURL: url(index),
-  timeout: 60000
+  timeout: 120000
 })
 
 const proxy = (index = 0) => axios.create({

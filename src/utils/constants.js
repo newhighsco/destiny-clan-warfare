@@ -91,7 +91,6 @@ const constants = {
     optOut: 'This clan has opted out of DestinyClanWarfare'
   },
   social: {
-    discord: 'https://discordapp.com/invite/Fysyhwg',
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'

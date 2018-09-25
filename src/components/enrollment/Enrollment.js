@@ -129,7 +129,7 @@ class Enrollment extends Component {
             {open ? (
               <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
             ) : (
-              <Notification><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</Notification>
+              <Notification><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a> to find out first when it reopens.</Notification>
             )}
           </div>
         </div>

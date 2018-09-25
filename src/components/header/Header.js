@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import { Link } from 'react-static'
 import { LogoLockup } from '../logo/Logo'
 import Icon from '../icon/Icon'
-import DiscordSvg from '../../images/discord.svg'
 import PatreonSvg from '../../images/patreon.svg'
 import PayPalSvg from '../../images/paypal.svg'
 import TwitterSvg from '../../images/twitter.svg'
@@ -14,7 +13,6 @@ const constants = require('../../utils/constants')
 const baseClassName = 'header'
 const links = [
   { href: constants.social.twitter, text: 'Follow us on Twitter', icon: TwitterSvg },
-  { href: constants.social.discord, text: 'Join our Discord server', icon: DiscordSvg },
   { href: constants.social.patreon, text: 'Become a Patron via Patreon', icon: PatreonSvg },
   { href: constants.social.paypal, text: 'Make a donation via PayPal', icon: PayPalSvg }
 ]

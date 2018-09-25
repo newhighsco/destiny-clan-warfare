@@ -1,13 +1,12 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { TagList } from './Tag'
+import { firstBy } from 'thenby'
+import { allowedTags, TagList } from './Tag'
 
 const tags = [
-  { name: 'Beta Tester' },
-  { name: 'Creator' },
-  { name: 'Insider' },
+  ...allowedTags,
   { name: 'Invalid' }
-]
+].sort(firstBy('tier'))
 
 storiesOf('Tag', module)
   .add('List', () => (

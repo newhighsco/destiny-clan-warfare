@@ -96,7 +96,7 @@ const constants = {
     twitter: 'https://twitter.com/destinyclanwar'
   },
   statsGamesThreshold: 15,
-  matchHistoryLimit: 25,
+  matchHistoryLimit: 10,
   clans: {
     pixelPub: [
       '2050502',

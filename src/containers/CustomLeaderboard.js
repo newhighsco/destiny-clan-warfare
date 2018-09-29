@@ -12,6 +12,7 @@ import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
+const statsHelper = require('../utils/stats-helper')
 
 const columns = [
   'rank',
@@ -23,7 +24,7 @@ const columns = [
 
 const getVisible = (tags, leaderboard) => {
   const ids = getIds(tags)
-  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
+  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)).map((row, i) => ({ ...row, rank: statsHelper.ranking(i + 1) })) : leaderboard
 }
 
 const setHash = tags => {

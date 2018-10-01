@@ -17,6 +17,7 @@ import styles from './Leaderboard.styl'
 const sentenceCase = require('sentence-case')
 const constants = require('../../utils/constants')
 const statsHelper = require('../../utils/stats-helper')
+const urlBuilder = require('../../utils/url-builder')
 
 const baseClassName = 'leaderboard'
 const emptyCache = () => new CellMeasurerCache({
@@ -137,7 +138,7 @@ class Leaderboard extends PureComponent {
   }
 
   render () {
-    const { data, cutout, search, placeholder, columns, extraColumns, medalsSize, className, prefetch } = this.props
+    const { data, cutout, search, overall, placeholder, columns, extraColumns, medalsSize, className, prefetch } = this.props
     var { active, activeIndex, cache, bonusColumns, overflow, suggestions } = this.state
     const dataCount = data.length
 
@@ -279,6 +280,9 @@ class Leaderboard extends PureComponent {
                                 if (column === 'rank' && typeof item.rank === 'boolean') item.rank = item.rank === true ? statsHelper.ranking(rank) : -1
 
                                 var value = item[column]
+                                var href
+
+                                if (!overall && column === 'overall') href = urlBuilder.leaderboardRootUrl
 
                                 if (typeof value === 'undefined' || value === null) return null
 
@@ -295,7 +299,13 @@ class Leaderboard extends PureComponent {
                                 }
 
                                 return (
-                                  <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}><span>{value}</span></div>
+                                  <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}>
+                                    {href ? (
+                                      <a href={href}>{value}</a>
+                                    ) : (
+                                      <span>{value}</span>
+                                    )}
+                                  </div>
                                 )
                               })}
                             </div>
@@ -324,6 +334,7 @@ Leaderboard.propTypes = {
   activeIndex: PropTypes.number,
   cutout: PropTypes.bool,
   search: PropTypes.bool,
+  overall: PropTypes.bool,
   placeholder: PropTypes.string,
   columns: PropTypes.array,
   extraColumns: PropTypes.bool,

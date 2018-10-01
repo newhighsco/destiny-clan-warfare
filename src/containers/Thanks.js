@@ -62,7 +62,7 @@ class ThanksContainer extends PureComponent {
                 <Lockup primary center kicker={meta.title} heading="Sorry we're full" />
                 <Prose>
                   <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
-                  <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</p>
+                  <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a> to find out first when it reopens.</p>
                 </Prose>
                 <Button href="/">Return to the homepage</Button>
               </Fragment>
@@ -72,7 +72,7 @@ class ThanksContainer extends PureComponent {
                   <Lockup primary center kicker={meta.title} heading="Can't enroll clan" />
                   <Prose>
                     <p>This clan has opted-out of participating in {constants.meta.name}, and therefore cannot be enrolled.</p>
-                    <p>If you thing this is a mistake you can <a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to discuss the issue with us further.</p>
+                    <p>If you thing this is a mistake you can <a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</a> to discuss the issue with us further.</p>
                   </Prose>
                   <Button href="/">Return to the homepage</Button>
                 </Fragment>

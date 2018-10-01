@@ -12,6 +12,7 @@ import RelativeDate from '../components/relative-date/RelativeDate'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
+const statsHelper = require('../utils/stats-helper')
 
 const columns = [
   'rank',
@@ -23,7 +24,7 @@ const columns = [
 
 const getVisible = (tags, leaderboard) => {
   const ids = getIds(tags)
-  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard
+  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)).map((row, i) => ({ ...row, rank: row.rank ? statsHelper.ranking(i + 1) : constants.blank })) : leaderboard
 }
 
 const setHash = tags => {
@@ -45,6 +46,7 @@ class CustomLeaderboardContainer extends PureComponent {
     const { history: { location: { hash } }, clans, selectedIds, event, leaderboards } = this.props
     const ids = selectedIds || (hash.length ? hash.replace(constants.prefix.hash, '').split(',') : [])
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
+    const kicker = event.isCurrent ? constants.kicker.current : constants.kicker.previous
     var suggestions = []
     var tags = []
     var leaderboard = []
@@ -87,10 +89,11 @@ class CustomLeaderboardContainer extends PureComponent {
     leaderboard = leaderboard.sort(firstBy('score', -1).thenBy('name'))
 
     meta = Object.assign({
-      kicker: event.isCurrent ? constants.kicker.current : constants.kicker.previous,
+      kicker,
       kickerHref: event.path,
-      title: 'Custom leaderboard',
-      description: `Create and share custom leaderboards for the latest ${constants.meta.name} event`
+      title: 'Overall leaderboard',
+      description: `Create and share custom views of the overall leaderboard for the ${kicker} ${constants.meta.name} event`,
+      overall: true
     }, meta)
 
     this.state = {
@@ -179,7 +182,7 @@ class CustomLeaderboardContainer extends PureComponent {
           }
         </Card>
         {hasVisible &&
-          <Leaderboard cutout data={visible} columns={columns} />
+          <Leaderboard cutout overall={meta.overall} data={visible} columns={columns} />
         }
       </PageContainer>
     )

@@ -11,6 +11,7 @@ import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
 import { StatList } from '../../components/stat/Stat'
+import Sponsor from '../../components/sponsor/Sponsor'
 import { Filter } from '../../components/filter/Filter'
 
 const constants = require('../../utils/constants')
@@ -62,7 +63,10 @@ class Event extends PureComponent {
     return (
       <Fragment>
         <Card cutout={hasLeaderboards} center>
-          <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
+          <Lockup center reverse element={element} headingHref={summary && event.path} heading={event.name}>
+            {event.sponsor && constants.kicker.sponsor}
+          </Lockup>
+          <Sponsor name={event.sponsor} />
           <Timer start={event.startDate} end={event.endDate} />
           {event.description &&
             <Prose>
@@ -119,7 +123,7 @@ class Event extends PureComponent {
             {leaderboards && leaderboards.map(({ leaderboard, division }) => {
               return (
                 <Tab key={division.name} name={division.name} title={division.size}>
-                  <Leaderboard data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} search={!summary} placeholder={`Find clan in ${division.name} leaderboard`} />
+                  <Leaderboard overall={event.isPast} data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} search={!summary} placeholder={`Find clan in ${division.name} leaderboard`} />
                 </Tab>
               )
             })}

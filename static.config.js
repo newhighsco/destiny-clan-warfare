@@ -365,7 +365,8 @@ export default {
           currentEventId,
           meta: {
             title: 'PixelPub leaderboard',
-            robots: 'noindex,nofollow'
+            robots: 'noindex,nofollow',
+            overall: false
           }
         })
       }

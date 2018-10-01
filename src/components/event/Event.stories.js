@@ -74,3 +74,6 @@ storiesOf('Events', module)
   .add('Previous - Summary', () => (
     <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, results, medals }} leaderboards={leaderboards} summary />
   ))
+  .add('Sponsored', () => (
+    <Event event={{ ...event, isFuture: true, startDate: endDate, sponsor: 'Insert Coin' }} />
+  ))

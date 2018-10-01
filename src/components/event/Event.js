@@ -11,6 +11,7 @@ import Leaderboard from '../leaderboard/Leaderboard'
 import Notification from '../notification/Notification'
 import Prose from '../prose/Prose'
 import { StatList } from '../../components/stat/Stat'
+import Sponsor from '../../components/sponsor/Sponsor'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -55,7 +56,10 @@ class Event extends PureComponent {
     return (
       <Fragment>
         <Card cutout={hasLeaderboards} center>
-          <Lockup center element={element} headingHref={summary && event.path} heading={event.name} />
+          <Lockup center reverse element={element} headingHref={summary && event.path} heading={event.name}>
+            {event.sponsor && constants.kicker.sponsor}
+          </Lockup>
+          <Sponsor name={event.sponsor} />
           <Timer start={event.startDate} end={event.endDate} />
           {event.description &&
             <Prose>

@@ -17,7 +17,8 @@ const constants = {
     humanReadableDate: 'MMM DD',
     humanReadableTime: 'HH:mm z',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ',
-    url: 'YYYY-MM-DD'
+    url: 'YYYY-MM-DD',
+    timeIs: '[https://time.is/]HHmm_DD_MMM_YYYY_in_UTC'
   },
   divisions: [
     { key: 'large', name: 'Company', size: '61+ members' },

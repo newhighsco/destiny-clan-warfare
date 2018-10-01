@@ -63,7 +63,9 @@ class Timer extends PureComponent {
     this.state = {
       active,
       startDate: startDate.format(constants.format.humanReadable),
+      startHref: startDate.format(constants.format.timeIs),
       endDate: endDate.format(constants.format.humanReadable),
+      endHref: endDate.format(constants.format.timeIs),
       displayDate: {
         full: displayDate.format(constants.format.humanReadable),
         date: displayDate.format(constants.format.humanReadableDate),
@@ -120,7 +122,7 @@ class Timer extends PureComponent {
   }
 
   render () {
-    const { active, startDate, endDate, displayDate, showProgress, showRange, label, totalDuration, remainingDuration, passedDuration } = this.state
+    const { active, startDate, startHref, endDate, endHref, displayDate, showProgress, showRange, label, totalDuration, remainingDuration, passedDuration } = this.state
 
     if (active && label.length <= 1) label.push(constants.prefix.relative)
 
@@ -140,12 +142,12 @@ class Timer extends PureComponent {
                 <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
               </div>
             }
-            <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
+            <a href={startHref} target="_blank" rel="noopener noreferrer" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
               {startDate}
-            </div>
-            <div className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
+            </a>
+            <a href={endHref} target="_blank" rel="noopener noreferrer" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
               {endDate}
-            </div>
+            </a>
           </div>
         }
       </div>

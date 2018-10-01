@@ -53,7 +53,8 @@ const constants = {
     past: 'Past event',
     future: 'Upcoming event',
     previous: 'Previous event',
-    next: 'Next event'
+    next: 'Next event',
+    sponsor: 'Sponsored by'
   },
   server: {
     apiUrl: {

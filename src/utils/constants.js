@@ -17,7 +17,8 @@ const constants = {
     humanReadableDate: 'MMM DD',
     humanReadableTime: 'HH:mm z',
     machineReadable: 'YYYY-MM-DDTHH:mm:ssZ',
-    url: 'YYYY-MM-DD'
+    url: 'YYYY-MM-DD',
+    timeIs: '[https://time.is/]HHmm_DD_MMM_YYYY_in_UTC'
   },
   divisions: [
     { key: 'large', name: 'Company', size: '61+ members' },
@@ -52,7 +53,8 @@ const constants = {
     past: 'Past event',
     future: 'Upcoming event',
     previous: 'Previous event',
-    next: 'Next event'
+    next: 'Next event',
+    sponsor: 'Sponsored by'
   },
   server: {
     apiUrl: {
@@ -91,13 +93,12 @@ const constants = {
     optOut: 'This clan has opted out of DestinyClanWarfare'
   },
   social: {
-    discord: 'https://discordapp.com/invite/Fysyhwg',
     patreon: 'https://www.patreon.com/destinyclanwarfare',
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'
   },
   statsGamesThreshold: 15,
-  matchHistoryLimit: 25,
+  matchHistoryLimit: 10,
   clans: {
     pixelPub: [
       '2050502',

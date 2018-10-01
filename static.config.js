@@ -30,7 +30,7 @@ export default {
   siteRoot: process.env.SITE_URL,
   bundleAnalyzer: false,
   extractCssChunks: true,
-  inlineCss: true,
+  inlineCss: false,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, lastChecked, leaderboards, emptyTotals } = await dataSources.fetch()
@@ -365,7 +365,8 @@ export default {
           currentEventId,
           meta: {
             title: 'PixelPub leaderboard',
-            robots: 'noindex,nofollow'
+            robots: 'noindex,nofollow',
+            overall: false
           }
         })
       }

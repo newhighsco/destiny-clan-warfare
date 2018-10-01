@@ -25,7 +25,7 @@ class FrequentlyAskedQuestions extends PureComponent {
             <p>We will lock your clan member list in place for the duration of the event. A snapshot will be taken when the event starts and any amendments to your roster will not be taken into account until the next event starts.</p>
             <p>Please note - there is a limit on clan participation at this time so if we are full, please check back each week as we accept more clans.</p>
             <h3>When will enrollment be open again?</h3>
-            <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a>, or <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">join our Discord server</a> to find out first when it reopens.</p>
+            <p><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a> to find out first when it reopens.</p>
             <h3>Will I have to enroll my clan for every events?</h3>
             <p>No. Once you are enrolled, you will automatically be entered into all future events. Just score some points, and you'll appear on the leaderboards.</p>
             <h2><a id="points" href="#points" className="anchor" />How do I earn points in {constants.meta.name}?</h2>
@@ -52,7 +52,7 @@ class FrequentlyAskedQuestions extends PureComponent {
               <li>If your completion time is between 120 and 150 minutes, your score is kept the same.</li>
               <li>If your completion time is over 150 minutes, your score is reset to 0.</li>
             </ul>
-            <p>Please note, our raid events are currently only available on a trial basic and the numbers above are subject to change for future events. All calculations are based on the time provided to us by Bungie via the API - historically this has seen to be a little different to what you see in games but sadly, that's out of our control. If you have any feedback, <a href={constants.social.discord} target="_blank" rel="noopener noreferrer">jump into our Discord</a> and let us know.</p>
+            <p>Please note, our raid events are currently only available on a trial basic and the numbers above are subject to change for future events. All calculations are based on the time provided to us by Bungie via the API - historically this has seen to be a little different to what you see in games but sadly, that's out of our control.</p>
             <h2><a id="size" href="#size" className="anchor" />What if my clan is only small, I’ll never win anything?</h2>
             <p>Whilst you may not win the tournament as a whole, everything we do is split into 3 divisions based on clan size increasing your chances of performing well.</p>
             <p>The divisions are as follows:</p>

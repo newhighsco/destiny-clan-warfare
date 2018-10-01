@@ -57,6 +57,7 @@ TagList.propTypes = {
 }
 
 export {
+  allowedTags,
   Tag,
   TagList
 }

@@ -77,7 +77,7 @@ class EventContainer extends PureComponent {
     }
   }
   render () {
-    const { apiStatus, event, leaderboards, stats } = this.props
+    const { apiStatus, event, leaderboards, suggestions, stats } = this.props
     const { meta } = this.state
 
     return (
@@ -87,7 +87,7 @@ class EventContainer extends PureComponent {
             <RelativeDate apiStatus={apiStatus} />
           }
         </Lockup>
-        <Event event={event} leaderboards={leaderboards} stats={stats} />
+        <Event event={event} leaderboards={leaderboards} suggestions={suggestions} stats={stats} />
         <ButtonGroup>
           <Button href={urlBuilder.eventRootUrl}>View all events</Button>
         </ButtonGroup>
@@ -100,6 +100,7 @@ EventContainer.propTypes = {
   apiStatus: PropTypes.object,
   event: PropTypes.object,
   leaderboards: PropTypes.array,
+  suggestions: PropTypes.array,
   stats: PropTypes.object
 }
 

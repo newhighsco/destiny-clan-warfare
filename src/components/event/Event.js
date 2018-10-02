@@ -25,7 +25,8 @@ class Event extends PureComponent {
     const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
     const hasResults = event.isCalculated && hasLeaderboards
     const leaderboardColumns = hasResults ? [ 'rank', 'overall', 'score' ] : [ 'rank', 'overall', 'active', 'size', 'score' ]
-    const suggestions = hasLeaderboards ? leaderboards.reduce((ids, tag) => ids.concat(tag.id), []) : []
+
+    this.handleSearch = this.handleSearch.bind(this)
 
     this.state = {
       active: false,
@@ -34,7 +35,8 @@ class Event extends PureComponent {
       hasLeaderboards,
       hasResults,
       leaderboardColumns,
-      suggestions
+      tabIndex: 0,
+      leaderboardIndices: hasLeaderboards ? Array(leaderboards.length).fill(null) : []
     }
   }
 
@@ -47,13 +49,28 @@ class Event extends PureComponent {
     if (!event.isPast) {
       const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
 
-      this.setState({ enrollmentOpen: enrollmentOpen })
+      this.setState({ enrollmentOpen })
     }
   }
 
+  handleSearch (e) {
+    const { leaderboardIndices } = this.state
+
+    const indices = e.id.split(constants.blank)
+    const tabIndex = parseInt(indices[0])
+    const leaderboardIndex = parseInt(indices[1])
+
+    leaderboardIndices[tabIndex] = leaderboardIndex
+
+    this.setState({
+      tabIndex,
+      leaderboardIndices: [ ...leaderboardIndices ]
+    })
+  }
+
   render () {
-    const { event, leaderboards, stats, element, summary } = this.props
-    const { active, enrollmentOpen, statsColumns, hasLeaderboards, hasResults, leaderboardColumns, suggestions } = this.state
+    const { event, leaderboards, suggestions, stats, element, summary } = this.props
+    const { active, enrollmentOpen, statsColumns, hasLeaderboards, hasResults, leaderboardColumns, tabIndex, leaderboardIndices } = this.state
 
     if (!event) return null
 
@@ -119,11 +136,11 @@ class Event extends PureComponent {
             </Tab>
           </TabContainer>
         ) : (hasLeaderboards &&
-          <TabContainer id={!summary ? summaryType : null} cutout>
-            {leaderboards && leaderboards.map(({ leaderboard, division }) => {
+          <TabContainer id={!summary ? summaryType : null} cutout activeIndex={tabIndex}>
+            {leaderboards && leaderboards.map(({ leaderboard, division }, index) => {
               return (
                 <Tab key={division.name} name={division.name} title={division.size}>
-                  <Leaderboard overall={event.isPast} data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} search={!summary} placeholder={`Find clan in ${division.name} leaderboard`} />
+                  <Leaderboard overall={event.isPast} data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} activeIndex={leaderboardIndices[index]} />
                 </Tab>
               )
             })}
@@ -141,6 +158,7 @@ Event.defaultProps = {
 Event.propTypes = {
   event: PropTypes.object,
   leaderboards: PropTypes.array,
+  suggestions: PropTypes.array,
   stats: PropTypes.object,
   element: PropTypes.string,
   summary: PropTypes.bool

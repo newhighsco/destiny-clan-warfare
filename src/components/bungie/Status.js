@@ -27,7 +27,6 @@ class Status extends PureComponent {
           localStorage.setItem('apiDisabled', active)
           this.setState({ active })
         })
-        .catch(err => console.log(err))
     }
   }
 

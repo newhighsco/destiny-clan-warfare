@@ -27,9 +27,9 @@ class TabContainer extends PureComponent {
   constructor (props) {
     super(props)
 
+    var { activeIndex } = this.props
     const { children } = this.props
     const visibleChildren = []
-    var activeIndex = 0
 
     React.Children.map(children, (child) => {
       if (child) visibleChildren.push(child)
@@ -45,10 +45,10 @@ class TabContainer extends PureComponent {
 
     this.state = {
       active: false,
-      activeIndex: activeIndex,
-      children: visibleChildren
+      activeIndex
     }
 
+    this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
@@ -58,30 +58,44 @@ class TabContainer extends PureComponent {
     if (!active) this.setState({ active: true })
   }
 
-  handleToggle (e) {
-    if (!e.currentTarget.href) {
-      e.preventDefault()
+  componentDidUpdate (prevProps) {
+    const { activeIndex } = this.props
 
-      this.setState({ activeIndex: JSON.parse(e.currentTarget.dataset.index) })
+    if (prevProps.activeIndex !== activeIndex) {
+      this.handleToggle(activeIndex)
     }
   }
 
-  render () {
-    const { id, cutout } = this.props
-    const { children, active, activeIndex } = this.state
+  handleClick (e) {
+    if (!e.currentTarget.href) {
+      e.preventDefault()
 
-    if (!children.length) return null
+      this.handleToggle(JSON.parse(e.currentTarget.dataset.index))
+    }
+  }
+
+  handleToggle (index) {
+    this.setState({ activeIndex: index })
+  }
+
+  render () {
+    const { id, cutout, children } = this.props
+    const { active, activeIndex } = this.state
+
+    if (!children) return null
 
     return (
       <div id={id} className={classNames(styles[containerClassName], cutout && styles[`${containerClassName}--cutout`], active && 'is-active')}>
-        {children.map((child, i) => {
+        {React.Children.map(children, (child, i) => {
+          if (!child) return null
+
           const { id, href, state, prefetch, title, name } = child.props
           const isActive = i === activeIndex
 
           return (
             <Fragment key={i}>
               <div id={id} className={styles[navigationClassName]}>
-                <Button onClick={this.handleToggle} href={href} className={classNames(styles[buttonClassName], isActive && 'is-active')} state={state} prefetch={prefetch} data-index={i} size="small" data-exact={title}>{name}</Button>
+                <Button onClick={this.handleClick} href={href} className={classNames(styles[buttonClassName], isActive && 'is-active')} state={state} prefetch={prefetch} data-index={i} size="small" data-exact={title}>{name}</Button>
               </div>
               <div className={classNames(styles[contentClassName], isActive && 'is-active')}>
                 {child}
@@ -94,9 +108,14 @@ class TabContainer extends PureComponent {
   }
 }
 
+TabContainer.defaultProps = {
+  activeIndex: 0
+}
+
 TabContainer.propTypes = {
   id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   children: PropTypes.node,
+  activeIndex: PropTypes.number,
   cutout: PropTypes.bool
 }
 

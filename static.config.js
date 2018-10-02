@@ -210,12 +210,18 @@ export default {
 
     const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
     var currentEventLeaderboards = []
+    const currentEventSuggestions = []
 
     if (currentEventId) {
-      currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }) => {
+      currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }, tabIndex) => {
         leaderboard = leaderboard.map(({ idStr, rank, totalScore, active, size }, i) => {
           const clan = clans.find(({ id }) => id === idStr)
           const clanLastChecked = lastChecked[clan.id]
+
+          currentEventSuggestions.push({
+            id: `${tabIndex}${constants.blank}${i}`,
+            name: `${clan.name} [${clan.tag}]`
+          })
 
           return {
             ...clan,
@@ -235,6 +241,8 @@ export default {
         }
       })
     }
+
+    const suggestions = {}
 
     events.map(event => {
       const eventId = event.id
@@ -256,7 +264,9 @@ export default {
         return modifier
       })
 
-      leaderboards[eventId] = leaderboards[eventId].map(({ leaderboard, division }) => {
+      suggestions[eventId] = []
+
+      leaderboards[eventId] = leaderboards[eventId].map(({ leaderboard, division }, tabIndex) => {
         leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
           const clan = clans.find(({ id }) => id === `${clanId}`)
           var medal
@@ -282,6 +292,11 @@ export default {
               break
           }
 
+          suggestions[eventId].push({
+            id: `${tabIndex}${constants.blank}${i}`,
+            name: `${clan.name} [${clan.tag}]`
+          })
+
           return {
             ...clan,
             medal,
@@ -303,6 +318,7 @@ export default {
         getData: () => ({
           event,
           leaderboards: event.isCurrent ? currentEventLeaderboards : leaderboards[eventId],
+          suggestions: event.isCurrent ? currentEventSuggestions : suggestions[eventId],
           stats: event.isCurrent ? currentEventStats : null,
           apiStatus: event.isCurrent ? apiStatus : {}
         })

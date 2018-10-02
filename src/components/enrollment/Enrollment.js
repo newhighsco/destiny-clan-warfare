@@ -49,7 +49,6 @@ class Enrollment extends Component {
           localStorage.setItem('enrollmentOpen', active)
           this.setState({ open: active })
         })
-        .catch(err => console.log(err))
     }
   }
 
@@ -100,7 +99,6 @@ class Enrollment extends Component {
               this.setState({ groups: groups })
             }
           })
-          .catch(err => console.log(err))
 
         this.setState({ name: name })
       }

@@ -83,7 +83,7 @@ class MemberCurrent extends PureComponent {
   }
 
   render () {
-    const { apiStatus, clan, member } = this.props
+    const { apiStatus, clan, member, matchHistoryLimit } = this.props
     const { leaderboard, stats, enableMatchHistory, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
 
@@ -111,7 +111,7 @@ class MemberCurrent extends PureComponent {
           </Card>
           {hasLeaderboard &&
             <TabContainer cutout>
-              <Tab name={`Last ${constants.matchHistoryLimit} games`}>
+              <Tab name={`Last ${matchHistoryLimit} games`}>
                 <Leaderboard data={leaderboard} columns={columns} />
               </Tab>
               {member.totals && member.totals.games > 0 &&
@@ -128,7 +128,8 @@ class MemberCurrent extends PureComponent {
 MemberCurrent.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
-  member: PropTypes.object
+  member: PropTypes.object,
+  matchHistoryLimit: PropTypes.number
 }
 
 export default MemberCurrent

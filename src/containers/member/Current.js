@@ -31,7 +31,7 @@ class MemberCurrentContainer extends PureComponent {
       const memberId = match.params.member.replace(/#.+$/, '')
 
       prefetch(urlBuilder.currentEventUrl(clanId))
-        .then(({ apiStatus, clan, members, currentTotals, matchHistory }) => {
+        .then(({ apiStatus, clan, members, currentTotals, matchHistory, matchHistoryLimit }) => {
           member = members.find(({ id }) => id === memberId)
           member.currentTotals = currentTotals[memberId]
           member.matchHistory = matchHistory[memberId]
@@ -40,6 +40,7 @@ class MemberCurrentContainer extends PureComponent {
             apiStatus,
             clan,
             member,
+            matchHistoryLimit,
             notFound: typeof member === 'undefined'
           })
         })

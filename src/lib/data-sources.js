@@ -524,7 +524,9 @@ const fetch = async () => {
 
       secondaryApi(`Leaderboard/GetAllPlayersHistory`)
         .then(({ data }) => {
-          data.map((match) => {
+          const { history, matchHistorySize } = data
+
+          history.map((match) => {
             const id = match.memberShipIdStr
             const existing = parsed.matchHistory[id]
             const history = {
@@ -544,14 +546,17 @@ const fetch = async () => {
             }
 
             if (existing) {
-              if (existing.length < constants.matchHistoryLimit) existing.push(history)
+              existing.push(history)
             } else {
               parsed.matchHistory[id] = [ history ]
             }
           })
 
+          parsed.matchHistoryLimit = matchHistorySize
+
           console.timeEnd(`fetch match history`)
-          console.log(`match history: ${data.length}`)
+          console.log(`match history: ${history.length}`)
+          console.log(`match history limit: ${matchHistorySize}`)
           resolve()
         })
         .catch(err => {

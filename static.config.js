@@ -33,7 +33,7 @@ export default {
   inlineCss: false,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, previousEventId, previousClanLeaderboard, lastChecked, leaderboards, emptyTotals } = await dataSources.fetch()
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards, emptyTotals } = await dataSources.fetch()
 
     const routes = [
       {
@@ -202,7 +202,8 @@ export default {
             members: clanMembers,
             currentTotals: clanCurrentTotals,
             currentStats: clanCurrentStats,
-            matchHistory: clanMatchHistory
+            matchHistory: clanMatchHistory,
+            matchHistoryLimit
           })
         })
       }

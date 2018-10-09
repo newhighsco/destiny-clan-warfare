@@ -365,6 +365,7 @@ const fetch = async () => {
               id,
               name: event.name,
               description: description(event.description),
+              sponsor: event.sponsor,
               startDate,
               endDate,
               isCurrent,

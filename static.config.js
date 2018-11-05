@@ -407,6 +407,7 @@ export default {
 
     feedBuilder(events).map(event => feed.item(event))
 
+    await fs.ensureDir(distPath)
     await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
 
     feed = new RSS(feedOptions)

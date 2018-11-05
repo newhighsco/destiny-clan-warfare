@@ -52,7 +52,7 @@ storiesOf('Medals', module)
       </Loader>
     </div>
   ))
-  .add('Members', () => (
+  .add('Member', () => (
     <div className="storybook-tooltips-visible">
       <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
         {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}

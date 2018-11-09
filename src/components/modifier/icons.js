@@ -47,6 +47,7 @@ import TelestoFesto from './icons/telesto-festo.svg'
 import ThisIsMyHouse from './icons/this-is-my-house.svg'
 import TwentyTwenty from './icons/twenty-twenty.svg'
 import VarietyIsTheSpiceOfLife from './icons/variety-is-the-spice-of-life.svg'
+import WeaponsOfTheBeasts from './icons/weapons-of-the-beasts.svg'
 import WinnerWinnerChickenDinner from './icons/winner-winner-chicken-dinner.svg'
 import ZoneCaptured from './icons/zone-captured.svg'
 
@@ -107,6 +108,7 @@ const svgs = {
   ThisIsMyHouse: { svg: ThisIsMyHouse, designer: 'arif fajar yulianto' },
   VarietyIsTheSpiceOfLife: { svg: VarietyIsTheSpiceOfLife, designer: 'Xela Ub' },
   WarmindAntiMeta: { svg: AntiMeta, designer: 'TMD' },
+  WeaponsOfTheBeasts: { svg: WeaponsOfTheBeasts, designer: 'Lorc' },
   WinnerWinnerChickenDinner: { svg: WinnerWinnerChickenDinner, designer: 'Artem Kovyazin' },
   ZoneCaptured: { svg: ZoneCaptured }
 }

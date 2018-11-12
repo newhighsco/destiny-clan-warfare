@@ -252,8 +252,8 @@ export default {
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
 
-        if (modifier.creator) {
-          const member = members.find(({ id }) => id === modifier.creator)
+        if (modifier.creatorId) {
+          const member = members.find(({ id }) => id === modifier.creatorId)
 
           if (member) {
             const clan = clans.find(({ id }) => id === member.clanId)

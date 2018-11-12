@@ -404,7 +404,7 @@ const fetch = async () => {
               description,
               scoringModifier,
               bonus: scoringBonus || multiplierBonus,
-              creator: createdBy
+              creatorId: createdBy
             })
           })
 

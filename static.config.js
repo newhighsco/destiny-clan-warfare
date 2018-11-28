@@ -42,7 +42,8 @@ export default {
       },
       {
         path: '/branding/',
-        component: 'src/containers/Branding'
+        component: 'src/containers/Branding',
+        noindex: true
       },
       {
         path: '/faqs/',
@@ -373,6 +374,7 @@ export default {
       {
         path: '/pixelpub/',
         component: 'src/containers/CustomLeaderboard',
+        noindex: true,
         getData: () => ({
           apiStatus,
           clans,

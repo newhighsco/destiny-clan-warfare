@@ -6,6 +6,7 @@ import styles from './Avatar.styl'
 
 const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
+const urlBuilder = require('../../utils/url-builder')
 
 const baseClassName = 'avatar'
 
@@ -25,7 +26,7 @@ const AvatarLayer = class extends PureComponent {
         <filter id={id} x="0" y="0" width="100%" height="100%">
           <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
         </filter>
-        <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={layer.icon} />
+        <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={urlBuilder.avatarLayerUrl(layer.icon)} />
       </svg>
     )
   }

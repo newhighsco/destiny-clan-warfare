@@ -166,6 +166,10 @@ const fetch = async () => {
     new Promise((resolve, reject) => {
       console.time(`fetch clans`)
 
+      const parseClanIcon = (path) => {
+        return path.replace(/^.*_(\w*).*$/, '$1')
+      }
+
       primaryApi(`Clan/GetAllClans`)
         .then(({ data }) => {
           data.map(clan => {
@@ -183,11 +187,11 @@ const fetch = async () => {
                 color: clan.backgroundColor,
                 foreground: {
                   color: clan.emblemColor1,
-                  icon: clan.foregroundIcon
+                  icon: parseClanIcon(clan.foregroundIcon)
                 },
                 background: {
                   color: clan.emblemColor2,
-                  icon: clan.backgroundIcon
+                  icon: parseClanIcon(clan.backgroundIcon)
                 }
               },
               medals,

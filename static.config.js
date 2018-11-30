@@ -102,6 +102,8 @@ export default {
       }
     }
 
+    const clanPaths = {}
+
     clans.map(clan => {
       const clanMembers = members.filter(({ clanId }) => clanId === clan.id)
       const clanCurrentTotals = {}
@@ -181,6 +183,8 @@ export default {
       })
 
       clan.platforms = platforms
+
+      clanPaths[clan.id] = clan.path
 
       routes.push({
         path: clan.path,
@@ -338,7 +342,7 @@ export default {
         component: 'src/containers/Home',
         getData: () => ({
           apiStatus,
-          clans,
+          clans: clanPaths,
           currentEvent,
           previousEvent,
           nextEvent,

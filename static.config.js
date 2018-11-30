@@ -275,6 +275,7 @@ export default {
       leaderboards[eventId] = leaderboards[eventId].map(({ leaderboard, division }, tabIndex) => {
         leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
           const clan = clans.find(({ id }) => id === `${clanId}`)
+          const { path, id, name, avatar, platforms } = clan
           var medal
 
           switch (i) {
@@ -286,7 +287,11 @@ export default {
               }
 
               event.results.push({
-                ...clan,
+                path,
+                id,
+                name,
+                avatar,
+                platforms,
                 medal,
                 division,
                 score

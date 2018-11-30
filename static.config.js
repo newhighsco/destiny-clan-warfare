@@ -222,17 +222,21 @@ export default {
       currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }, tabIndex) => {
         leaderboard = leaderboard.map(({ idStr, rank, totalScore, active, size }, i) => {
           const clan = clans.find(({ id }) => id === idStr)
-          const clanLastChecked = lastChecked[clan.id]
+          const { id, name, tag, avatar, platforms } = clan
+          const clanLastChecked = lastChecked[id]
 
           currentEventSuggestions.push({
             id: `${tabIndex}${constants.blank}${i}`,
-            name: `${clan.name} [${clan.tag}]`
+            name: `${name} [${tag}]`
           })
 
           return {
-            ...clan,
+            path: urlBuilder.currentEventUrl(id),
+            id,
+            name,
+            avatar,
+            platforms,
             updated: clanLastChecked || null,
-            path: urlBuilder.currentEventUrl(clan.id),
             rank: true,
             overall: statsHelper.ranking(rank),
             active,
@@ -275,7 +279,7 @@ export default {
       leaderboards[eventId] = leaderboards[eventId].map(({ leaderboard, division }, tabIndex) => {
         leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
           const clan = clans.find(({ id }) => id === `${clanId}`)
-          const { path, id, name, avatar, platforms } = clan
+          const { path, id, name, tag, avatar, platforms } = clan
           var medal
 
           switch (i) {
@@ -305,11 +309,15 @@ export default {
 
           suggestions[eventId].push({
             id: `${tabIndex}${constants.blank}${i}`,
-            name: `${clan.name} [${clan.tag}]`
+            name: `${name} [${tag}]`
           })
 
           return {
-            ...clan,
+            path,
+            id,
+            name,
+            avatar,
+            platforms,
             medal,
             rank: true,
             overall: statsHelper.ranking(rank),

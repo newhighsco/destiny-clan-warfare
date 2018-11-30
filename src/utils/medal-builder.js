@@ -33,7 +33,7 @@ const parseMedals = (input, type, minimumTier) => {
     name: medal.name,
     description: medal.description,
     count: medal.count || 1,
-    label: medal.awardedTo.length ? [ decode(medal.awardedTo) ] : null
+    label: medal.awardedTo && medal.awardedTo.length ? [ decode(medal.awardedTo) ] : null
   })
 
   if (input) {

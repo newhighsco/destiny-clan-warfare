@@ -435,6 +435,10 @@ export default {
     return routes
   },
   webpack: (config, { defaultLoaders, stage }) => {
+    var { cssLoader, jsLoader, fileLoader } = defaultLoaders
+
+    fileLoader.query.limit = 1
+
     if (stage !== 'dev') config.devtool = false
 
     config.entry = stage === 'dev'
@@ -454,9 +458,9 @@ export default {
             test: /\.svg$/,
             loader: require.resolve('svg-react-loader')
           },
-          defaultLoaders.cssLoader,
-          defaultLoaders.jsLoader,
-          defaultLoaders.fileLoader
+          cssLoader,
+          jsLoader,
+          fileLoader
         ]
       }
     ]

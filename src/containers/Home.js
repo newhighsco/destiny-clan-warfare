@@ -89,7 +89,7 @@ class HomeContainer extends PureComponent {
 
 HomeContainer.propTypes = {
   apiStatus: PropTypes.object,
-  clans: PropTypes.array,
+  clans: PropTypes.object,
   currentEvent: PropTypes.object,
   previousEvent: PropTypes.object,
   nextEvent: PropTypes.object,

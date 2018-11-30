@@ -29,11 +29,11 @@ const meta = {
 
 class HomeContainer extends PureComponent {
   render () {
-    const { apiStatus, clans, currentEvent, previousEvent, nextEvent, currentEventLeaderboards, previousEventLeaderboards } = this.props
+    const { apiStatus, clanIds, currentEvent, previousEvent, nextEvent, currentEventLeaderboards, previousEventLeaderboards } = this.props
 
     return (
       <PageContainer meta={meta}>
-        <Enrollment apiStatus={apiStatus} clans={clans} />
+        <Enrollment apiStatus={apiStatus} ids={clanIds} />
         {apiStatus && apiStatus.alert &&
           <Notification state="notice" html={apiStatus.alert} />
         }
@@ -89,7 +89,7 @@ class HomeContainer extends PureComponent {
 
 HomeContainer.propTypes = {
   apiStatus: PropTypes.object,
-  clans: PropTypes.object,
+  clanIds: PropTypes.array,
   currentEvent: PropTypes.object,
   previousEvent: PropTypes.object,
   nextEvent: PropTypes.object,

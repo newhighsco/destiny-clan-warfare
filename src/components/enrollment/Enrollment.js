@@ -11,6 +11,7 @@ import styles from './Enrollment.styl'
 const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungieHelper = require('../../utils/bungie-helper')
+const urlBuilder = require('../../utils/url-builder')
 
 const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
@@ -106,7 +107,7 @@ class Enrollment extends Component {
   }
 
   render () {
-    const { clans } = this.props
+    const { ids } = this.props
     const { active, open, groups, selectedGroup } = this.state
     const id = constants.prefix.enroll
     const kicker = open ? 'Enroll your clan today' : 'Enrollment closed'
@@ -136,18 +137,18 @@ class Enrollment extends Component {
         </ButtonGroup>
         {groups.length > 0 &&
           <ul className={classNames('list--unstyled', styles[`${baseClassName}__clans`])}>
-            {groups.map((group, i) => {
-              const path = clans[group.groupId]
-              const Group = () => <Fragment>{group.name} <ClanTag>{group.clanInfo.clanCallsign}</ClanTag></Fragment>
+            {groups.map(({ groupId, name, clanInfo }, i) => {
+              const existing = ids.indexOf(groupId) !== -1
+              const Group = () => <Fragment>{name} <ClanTag>{clanInfo.clanCallsign}</ClanTag></Fragment>
 
               return (
                 <li key={i}>
-                  {path ? (
-                    <Link to={path} className={styles[`${baseClassName}__clan`]}>
+                  {existing ? (
+                    <Link to={urlBuilder.clanUrl(groupId)} className={styles[`${baseClassName}__clan`]}>
                       <Group />
                     </Link>
                   ) : (
-                    <button onClick={this.handleEnroll} data-id={group.groupId} className={classNames('text-button', styles[`${baseClassName}__clan`])}>
+                    <button onClick={this.handleEnroll} data-id={groupId} className={classNames('text-button', styles[`${baseClassName}__clan`])}>
                       <Group />
                     </button>
                   )}
@@ -166,7 +167,7 @@ class Enrollment extends Component {
 
 Enrollment.propTypes = {
   apiStatus: PropTypes.object,
-  clans: PropTypes.object
+  ids: PropTypes.array
 }
 
 export default Enrollment

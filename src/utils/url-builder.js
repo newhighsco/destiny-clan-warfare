@@ -18,6 +18,10 @@ module.exports = {
     return `${clanRootUrl}${clanId}${eventHash(eventId)}`
   },
 
+  avatarLayerUrl: (icon) => {
+    return `${constants.bungie.baseUrl}common/destiny2_content/icons/cb_decal_square_${icon}.png`
+  },
+
   currentEventRootUrl,
 
   currentEventUrl: (clanId, profileId) => {

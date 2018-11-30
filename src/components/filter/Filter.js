@@ -17,6 +17,9 @@ const getIds = tags => tags.reduce((ids, tag) => ids.concat(tag.id), []).sort()
 class Filter extends Component {
   render () {
     var { suggestions } = this.props
+
+    if (!suggestions.length) return null
+
     const { className, kicker, placeholder, maxSuggestionsLength, tags, handleAddition, handleDelete } = this.props
     const ids = getIds(tags || [])
 
@@ -55,7 +58,8 @@ class Filter extends Component {
 
 Filter.defaultProps = {
   placeholder: 'Filter',
-  maxSuggestionsLength: 10
+  maxSuggestionsLength: 10,
+  suggestions: []
 }
 
 Filter.propTypes = {

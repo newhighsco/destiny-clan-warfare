@@ -54,7 +54,16 @@ const parseMedals = (input, type, minimumTier) => {
     })
   }
 
-  return { medals, totals }
+  return {
+    medals: medals.map(({ tier, name, description, count, label }) => ({
+      tier,
+      name,
+      description,
+      count,
+      label
+    })),
+    totals
+  }
 }
 
 module.exports = {

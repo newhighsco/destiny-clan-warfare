@@ -47,7 +47,7 @@ class HomeContainer extends PureComponent {
               <Fragment>
                 <Advert />
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <Event event={previousEvent} leaderboards={previousEvent.results} element="h2" summary />
+                <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
               </Fragment>
             }
             {nextEvent &&
@@ -74,7 +74,7 @@ class HomeContainer extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <Event event={previousEvent} leaderboards={previousEvent.results} element="h2" summary />
+                <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
               </Fragment>
             }
           </Fragment>

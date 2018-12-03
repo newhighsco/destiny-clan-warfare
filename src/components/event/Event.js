@@ -140,7 +140,7 @@ class Event extends PureComponent {
             {leaderboards && leaderboards.map(({ leaderboard, division }, index) => {
               return (
                 <Tab key={division.name} name={division.name} title={division.size}>
-                  <Leaderboard overall={event.isPast} data={!summary ? leaderboard : leaderboard.slice(0, 3)} columns={leaderboardColumns} activeIndex={leaderboardIndices[index]} />
+                  <Leaderboard overall={event.isPast} data={leaderboard} columns={leaderboardColumns} activeIndex={leaderboardIndices[index]} />
                 </Tab>
               )
             })}

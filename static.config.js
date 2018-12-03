@@ -7,6 +7,7 @@ require('dotenv').config()
 const path = require('path')
 const fs = require('fs-extra')
 const webpack = require('webpack')
+const moment = require('moment')
 const dataSources = require('./src/lib/data-sources')
 const stylusLoaders = require('./src/utils/stylus-loaders')
 const constants = require('./src/utils/constants')
@@ -216,6 +217,7 @@ export default {
 
     const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
     var currentEventLeaderboards = []
+    var currentEventSummary = []
     const currentEventSuggestions = []
 
     if (currentEventId) {
@@ -245,6 +247,11 @@ export default {
           }
         })
 
+        currentEventSummary.push({
+          leaderboard: leaderboard.slice(0, 3),
+          division
+        })
+
         return {
           leaderboard,
           division
@@ -256,8 +263,8 @@ export default {
 
     events.map(event => {
       const eventId = event.id
+      const results = []
 
-      event.results = []
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
 
@@ -271,7 +278,15 @@ export default {
           }
         }
 
-        return modifier
+        const { name, description, creator, scoringModifier, bonus } = modifier
+
+        return {
+          name,
+          description,
+          creator,
+          scoringModifier,
+          bonus
+        }
       })
 
       suggestions[eventId] = []
@@ -290,7 +305,7 @@ export default {
                 medal = medalBuilder.build(1, 2, division.name)
               }
 
-              event.results.push({
+              results.push({
                 path,
                 id,
                 name,
@@ -331,6 +346,8 @@ export default {
         }
       })
 
+      if (results.length) event.results = results
+
       routes.push({
         path: event.path,
         component: 'src/containers/Event',
@@ -359,8 +376,7 @@ export default {
           currentEvent,
           previousEvent,
           nextEvent,
-          currentEventLeaderboards,
-          previousEventLeaderboards
+          currentEventSummary
         })
       },
       {
@@ -433,9 +449,10 @@ export default {
 
     const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
     const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${apiStatus.formattedDate}/`
+    const formattedDate = moment.utc().format(constants.format.url)
+    const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
     const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
-    const title = `${kicker} - ${apiStatus.formattedDate}`
+    const title = `${kicker} - ${formattedDate}`
     const content = `${kicker}${canonicalUrl}`
 
     feed.item({

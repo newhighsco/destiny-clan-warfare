@@ -58,11 +58,19 @@ class TabContainer extends PureComponent {
     if (!active) this.setState({ active: true })
   }
 
-  componentDidUpdate (prevProps) {
-    const { activeIndex } = this.props
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.activeIndex !== this.props.activeIndex) {
+      this.handleToggle(this.props.activeIndex)
+      return
+    }
 
-    if (prevProps.activeIndex !== activeIndex) {
-      this.handleToggle(activeIndex)
+    if (prevState.activeIndex !== this.state.activeIndex) {
+      this.handleToggle(this.state.activeIndex)
+      return
+    }
+
+    if (this.props.activeIndex !== this.state.activeIndex) {
+      this.handleToggle(this.props.activeIndex)
     }
   }
 

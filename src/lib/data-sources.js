@@ -32,7 +32,6 @@ const fetch = async () => {
   }
   const parsed = {
     apiStatus: {
-      enrollmentOpen: false,
       bungieStatus: constants.bungie.disabledStatusCodes[0],
       updatedDate: updatedDate
     },
@@ -119,7 +118,7 @@ const fetch = async () => {
 
       primaryApi(`Clan/AcceptingNewClans`)
         .then(({ data }) => {
-          parsed.apiStatus.enrollmentOpen = data
+          parsed.apiStatus.enrollmentOpen = data || undefined
 
           console.timeEnd(`fetch enrollment open`)
           console.log(`enrollment open: ${data}`)
@@ -386,7 +385,7 @@ const fetch = async () => {
               medals: Object.keys(medals).length ? medals : undefined
             })
 
-            parsed.leaderboards[id] = leaderboards
+            if (leaderboards.length) parsed.leaderboards[id] = leaderboards
           })
 
           console.timeEnd(`fetch events`)

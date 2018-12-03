@@ -132,7 +132,7 @@ class Event extends PureComponent {
         {summary && hasResults ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.results} columns={[ 'score' ]} />
+              <Leaderboard data={event.winners} columns={[ 'score' ]} />
             </Tab>
           </TabContainer>
         ) : (hasLeaderboards &&

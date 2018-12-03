@@ -263,7 +263,9 @@ export default {
 
     events.map(event => {
       const eventId = event.id
-      const results = []
+      const eventWinners = []
+      const eventSuggestions = []
+      const eventLeaderboards = leaderboards[eventId]
 
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
@@ -289,74 +291,81 @@ export default {
         }
       })
 
-      suggestions[eventId] = []
+      if (eventLeaderboards) {
+        leaderboards[eventId] = eventLeaderboards.map(({ leaderboard, division }, tabIndex) => {
+          leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
+            const clan = clans.find(({ id }) => id === `${clanId}`)
+            const { path, id, name, tag, avatar, platforms } = clan
+            var medal
 
-      leaderboards[eventId] = leaderboards[eventId].map(({ leaderboard, division }, tabIndex) => {
-        leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
-          const clan = clans.find(({ id }) => id === `${clanId}`)
-          const { path, id, name, tag, avatar, platforms } = clan
-          var medal
+            switch (i) {
+              case 0:
+                if (rank === 1) {
+                  medal = {
+                    tier: winnersMedal.tier,
+                    name: winnersMedal.name,
+                    description: winnersMedal.description
+                  }
+                } else {
+                  medal = medalBuilder.build(1, 2, division.name)
+                }
 
-          switch (i) {
-            case 0:
-              if (rank === 1) {
-                medal = winnersMedal
-              } else {
-                medal = medalBuilder.build(1, 2, division.name)
-              }
+                if (eventId === previousEventId) {
+                  eventWinners.push({
+                    path,
+                    id,
+                    name,
+                    avatar,
+                    platforms,
+                    medal,
+                    division,
+                    score
+                  })
+                }
+                break
+              case 1:
+              case 2:
+                medal = medalBuilder.build('top 3', 1, division.name)
+                break
+            }
 
-              results.push({
-                path,
-                id,
-                name,
-                avatar,
-                platforms,
-                medal,
-                division,
-                score
-              })
-              break
-            case 1:
-            case 2:
-              medal = medalBuilder.build('top 3', 1, division.name)
-              break
-          }
+            eventSuggestions.push({
+              id: `${tabIndex}${constants.blank}${i}`,
+              name: `${name} [${tag}]`
+            })
 
-          suggestions[eventId].push({
-            id: `${tabIndex}${constants.blank}${i}`,
-            name: `${name} [${tag}]`
+            return {
+              path,
+              id,
+              name,
+              avatar,
+              platforms,
+              medal,
+              rank: true,
+              overall: statsHelper.ranking(rank),
+              score
+            }
           })
 
           return {
-            path,
-            id,
-            name,
-            avatar,
-            platforms,
-            medal,
-            rank: true,
-            overall: statsHelper.ranking(rank),
-            score
+            leaderboard,
+            division
           }
         })
+      }
 
-        return {
-          leaderboard,
-          division
-        }
-      })
-
-      if (results.length) event.results = results
+      if (eventWinners.length) event.winners = eventWinners
+      if (eventSuggestions.length) suggestions[eventId] = eventSuggestions
 
       routes.push({
         path: event.path,
         component: 'src/containers/Event',
         getData: () => ({
-          event,
+          event: { ...event, winners: undefined },
           leaderboards: event.isCurrent ? currentEventLeaderboards : leaderboards[eventId],
           suggestions: event.isCurrent ? currentEventSuggestions : suggestions[eventId],
-          stats: event.isCurrent ? currentEventStats : null,
-          apiStatus: event.isCurrent ? apiStatus : {}
+          stats: event.isCurrent ? currentEventStats : undefined,
+          apiStatus: event.isCurrent ? apiStatus : undefined
         })
       })
     })
@@ -364,7 +373,7 @@ export default {
     const currentEvent = events.find(({ id }) => id === currentEventId)
     const previousEvent = events.find(({ id }) => id === previousEventId)
     const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
-    const previousEventLeaderboards = previousEventId ? leaderboards[previousEventId] : []
+    const previousEventLeaderboards = previousEventId ? leaderboards[previousEventId] : undefined
 
     routes.push(
       {

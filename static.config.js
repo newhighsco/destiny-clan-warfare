@@ -284,7 +284,7 @@ export default {
           name,
           description,
           creator,
-          scoringModifier,
+          scoringModifier: scoringModifier || undefined,
           bonus
         }
       })
@@ -383,7 +383,15 @@ export default {
         path: urlBuilder.eventRootUrl,
         component: 'src/containers/Events',
         getData: () => ({
-          events
+          events: events.map(({ path, name, startDate, endDate, isCurrent, isPast, modifiers }) => ({
+            path,
+            name,
+            startDate,
+            endDate,
+            isCurrent,
+            isPast,
+            modifiers
+          }))
         })
       },
       {

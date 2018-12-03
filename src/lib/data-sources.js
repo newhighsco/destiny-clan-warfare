@@ -34,8 +34,7 @@ const fetch = async () => {
     apiStatus: {
       enrollmentOpen: false,
       bungieStatus: constants.bungie.disabledStatusCodes[0],
-      updatedDate: updatedDate,
-      formattedDate: utc.format(constants.format.url)
+      updatedDate: updatedDate
     },
     clans: [],
     members: [],
@@ -136,7 +135,7 @@ const fetch = async () => {
 
       primaryApi(`Event/GetCurrentAlert`)
         .then(({ data }) => {
-          parsed.apiStatus.alert = data
+          parsed.apiStatus.alert = data || undefined
 
           console.timeEnd(`fetch current alert`)
           console.log(`current alert: ${data}`)
@@ -364,6 +363,13 @@ const fetch = async () => {
               })
             }
 
+            const clanMedals = medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1).medals
+            const memberMedals = medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1).medals
+            const medals = {}
+
+            if (clanMedals.length) medals.clans = clanMedals
+            if (memberMedals.length) medals.members = memberMedals
+
             parsed.events.push({
               path,
               id,
@@ -372,15 +378,12 @@ const fetch = async () => {
               sponsor: event.sponsoredBy,
               startDate,
               endDate,
-              isCurrent,
-              isPast,
-              isFuture,
-              isCalculated: event.calculated,
+              isCurrent: isCurrent || undefined,
+              isPast: isPast || undefined,
+              isFuture: isFuture || undefined,
+              isCalculated: event.calculated || undefined,
               modifiers: event.modifiers.map(({ id }) => id),
-              medals: {
-                clans: medalBuilder.parseMedals(event.clanMedals, constants.prefix.clan, 1).medals,
-                members: medalBuilder.parseMedals(event.clanMemberMedals, constants.prefix.profile, 1).medals
-              }
+              medals: Object.keys(medals).length ? medals : undefined
             })
 
             parsed.leaderboards[id] = leaderboards

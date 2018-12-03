@@ -29,7 +29,7 @@ const meta = {
 
 class HomeContainer extends PureComponent {
   render () {
-    const { apiStatus, clanIds, currentEvent, previousEvent, nextEvent, currentEventLeaderboards, previousEventLeaderboards } = this.props
+    const { apiStatus, clanIds, currentEvent, previousEvent, nextEvent, currentEventSummary } = this.props
 
     return (
       <PageContainer meta={meta}>
@@ -42,12 +42,12 @@ class HomeContainer extends PureComponent {
             <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
               <RelativeDate apiStatus={apiStatus} />
             </Lockup>
-            <Event event={currentEvent} leaderboards={currentEventLeaderboards} element="h2" summary />
+            <Event event={currentEvent} leaderboards={currentEventSummary} element="h2" summary />
             {previousEvent &&
               <Fragment>
                 <Advert />
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <Event event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
+                <Event event={previousEvent} leaderboards={previousEvent.results} element="h2" summary />
               </Fragment>
             }
             {nextEvent &&
@@ -74,7 +74,7 @@ class HomeContainer extends PureComponent {
                   <Advert />
                 }
                 <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <Event event={previousEvent} leaderboards={previousEventLeaderboards} element="h2" summary />
+                <Event event={previousEvent} leaderboards={previousEvent.results} element="h2" summary />
               </Fragment>
             }
           </Fragment>
@@ -93,8 +93,7 @@ HomeContainer.propTypes = {
   currentEvent: PropTypes.object,
   previousEvent: PropTypes.object,
   nextEvent: PropTypes.object,
-  currentEventLeaderboards: PropTypes.array,
-  previousEventLeaderboards: PropTypes.array
+  currentEventSummary: PropTypes.array
 }
 
 export default withRouteData(HomeContainer)

@@ -68,7 +68,7 @@ class MemberOverall extends PureComponent {
     var stats = {}
     const pastEvents = member.pastEvents
 
-    if (pastEvents.length > 0) stats.events = pastEvents.length
+    if (pastEvents && pastEvents.length > 0) stats.events = pastEvents.length
     if (member.totals && member.totals.games > 0) stats = { ...stats, ...member.totals }
 
     this.state = {
@@ -81,7 +81,7 @@ class MemberOverall extends PureComponent {
   render () {
     const { clan, member } = this.props
     const { pastEvents, stats, meta } = this.state
-    const hasLeaderboard = pastEvents.length > 0
+    const hasLeaderboard = pastEvents && pastEvents.length > 0
 
     return (
       <PageContainer meta={meta}>

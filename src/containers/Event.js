@@ -29,7 +29,7 @@ class EventContainer extends PureComponent {
       {
         '@context': 'http://schema.org',
         '@type': 'Event',
-        url: url,
+        url,
         name: `${constants.meta.name} - ${event.name}`,
         description: event.description,
         startDate: moment(event.startDate).format(),
@@ -40,6 +40,14 @@ class EventContainer extends PureComponent {
           name: constants.meta.name,
           sameAs: process.env.SITE_URL,
           address: url
+        },
+        offers: {
+          '@type': 'Offer',
+          url
+        },
+        performer: {
+          '@type': 'Organization',
+          name: constants.meta.name
         }
       },
       {

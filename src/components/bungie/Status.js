@@ -23,7 +23,7 @@ class Status extends PureComponent {
     if (!active) {
       bungieHelper.api(`/Destiny2/Milestones/`)
         .then(({ data }) => {
-          active = bungieHelper.disabled(data)
+          active = bungieHelper.disabled(data.ErrorCode)
           localStorage.setItem('apiDisabled', active)
           this.setState({ active })
         })

@@ -114,6 +114,8 @@ export default {
       const platforms = []
 
       clanMembers.map(member => {
+        member.clanId = undefined
+
         const memberId = member.id
         const memberName = member.name
         const memberFullName = `${memberName} [${clan.tag}]`
@@ -193,8 +195,8 @@ export default {
         getData: () => ({
           clan,
           members: clanMembers,
-          currentEventId,
-          previousEventId
+          currentEventId: currentEventId || undefined,
+          previousEventId: previousEventId || undefined
         })
       })
 

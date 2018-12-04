@@ -1,4 +1,4 @@
-const Autolinker = require('autolinker')
+const Autolinker = require('autolinker/dist/Autolinker.min')
 const linkOptions = {
   mention: 'twitter'
 }

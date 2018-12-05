@@ -206,6 +206,14 @@ const fetch = async () => {
     new Promise((resolve, reject) => {
       console.time(`fetch members`)
 
+      const parseMemberIcon = (path) => {
+        if (path && path !== constants.bungie.defaultAvatar) {
+          return path.replace(constants.bungie.avatarPath, '')
+        }
+
+        return undefined
+      }
+
       primaryApi(`Clan/GetAllMembers`)
         .then(({ data }) => {
           data.map(member => {
@@ -289,14 +297,15 @@ const fetch = async () => {
             }
 
             const { medals } = medalBuilder.parseMedals(member.medalUnlocks, constants.prefix.profile)
+            const icon = parseMemberIcon(member.icon)
 
             parsed.members.push({
               path,
               id,
               clanId,
               name: member.name || constants.blank,
-              avatar: { icon: member.icon },
-              platforms: [ { id: member.membershipType || constants.bungie.platformDefault, size: 1, active: 1, percentage: 100 } ],
+              avatar: { icon },
+              platforms: [ { id: member.membershipType || constants.bungie.platformDefault, percentage: 10 } ],
               tags: member.bonusUnlocks.length ? member.bonusUnlocks.map(({ name }) => ({ name })) : undefined,
               medals: medals.length ? medals : undefined,
               totals,

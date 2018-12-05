@@ -1,4 +1,5 @@
 const constants = require('./constants')
+const absoluteUrl = require('./absolute-url')
 
 const clanRootUrl = '/clans/'
 const currentEventRootUrl = '/current/'
@@ -18,7 +19,17 @@ module.exports = {
     return `${clanRootUrl}${clanId}${eventHash(eventId)}`
   },
 
+  avatarIconUrl: (icon) => {
+    if (icon) {
+      if (absoluteUrl(icon)) return icon
+      return `${constants.bungie.avatarPath}${icon}`
+    }
+
+    return constants.bungie.defaultAvatar
+  },
+
   avatarLayerUrl: (icon) => {
+    if (absoluteUrl(icon)) return icon
     return `${constants.bungie.baseUrl}common/destiny2_content/icons/cb_decal_square_${icon}.png`
   },
 

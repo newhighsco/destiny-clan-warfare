@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
@@ -47,20 +47,24 @@ const Avatar = class extends PureComponent {
       outline && styles[`${baseClassName}--outline`],
       className
     )
+    const hasLayers = background || foreground
 
     return (
       <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
-        {icon &&
+        {hasLayers ? (
+          <Fragment>
+            {background &&
+              <AvatarLayer id={`${id}-bg`} layer={background} />
+            }
+            {foreground &&
+              <AvatarLayer id={`${id}-fg`} layer={foreground} />
+            }
+          </Fragment>
+        ) : (
           <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
-            <img src={icon} alt="" />
+            <img src={urlBuilder.avatarIconUrl(icon)} alt="" />
           </ResponsiveMedia>
-        }
-        {background &&
-          <AvatarLayer id={`${id}-bg`} layer={background} />
-        }
-        {foreground &&
-          <AvatarLayer id={`${id}-fg`} layer={foreground} />
-        }
+        )}
         {children}
       </div>
     )

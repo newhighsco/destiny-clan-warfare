@@ -1,4 +1,5 @@
 const bungieBaseUrl = 'https://www.bungie.net/'
+const bungieAvatarUrl = `${bungieBaseUrl}img/profile/avatars/`
 
 const constants = {
   meta: {
@@ -69,7 +70,8 @@ const constants = {
     baseUrl: bungieBaseUrl,
     apiUrl: `${bungieBaseUrl}Platform/`,
     disabledStatusCodes: [ 5, 1618 ],
-    iconUrl: `${bungieBaseUrl}img/profile/avatars/default_avatar.gif`,
+    avatarPath: bungieAvatarUrl,
+    defaultAvatar: `${bungieAvatarUrl}default_avatar.gif`,
     platformDefault: -1
   },
   prefix: {

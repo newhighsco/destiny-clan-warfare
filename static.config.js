@@ -175,7 +175,9 @@ export default {
             }
           }
 
-          clanMatchHistory[memberId] = matchHistory[memberId] || []
+          const memberMatchHistory = matchHistory[memberId]
+
+          if (memberMatchHistory) clanMatchHistory[memberId] = memberMatchHistory
         }
 
         if (previousEventId) {

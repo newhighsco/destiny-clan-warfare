@@ -85,7 +85,7 @@ class MemberCurrent extends PureComponent {
   render () {
     const { apiStatus, clan, member, matchHistoryLimit } = this.props
     const { leaderboard, stats, enableMatchHistory, meta } = this.state
-    const hasLeaderboard = leaderboard.length > 0
+    const hasLeaderboard = leaderboard && leaderboard.length > 0
 
     return (
       <PageContainer meta={meta}>

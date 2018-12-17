@@ -104,6 +104,7 @@ export default {
     }
 
     const clanIds = []
+    const clientClans = []
 
     clans.map(clan => {
       const clanMembers = members.filter(({ clanId }) => clanId === clan.id)
@@ -186,6 +187,16 @@ export default {
 
       clanIds.push(clan.id)
 
+      clientClans.push({
+        path: clan.path,
+        id: clan.id,
+        name: clan.name,
+        tag: clan.tag,
+        avatar: clan.avatar,
+        platforms: clan.platforms,
+        medalTotals: clan.medalTotals
+      })
+
       routes.push({
         path: clan.path,
         component: 'src/containers/clan/Overall',
@@ -259,6 +270,7 @@ export default {
     }
 
     const suggestions = {}
+    const clientEvents = []
 
     events.map(event => {
       const eventId = event.id
@@ -356,6 +368,16 @@ export default {
       if (eventWinners.length) event.winners = eventWinners
       if (eventSuggestions.length) suggestions[eventId] = eventSuggestions
 
+      clientEvents.push({
+        path: event.path,
+        name: event.name,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        isCurrent: event.isCurrent,
+        isPast: event.isPast,
+        modifiers: event.modifiers
+      })
+
       routes.push({
         path: event.path,
         component: 'src/containers/Event',
@@ -391,33 +413,32 @@ export default {
         path: urlBuilder.eventRootUrl,
         component: 'src/containers/Events',
         getData: () => ({
-          events: events.map(({ path, name, startDate, endDate, isCurrent, isPast, modifiers }) => ({
-            path,
-            name,
-            startDate,
-            endDate,
-            isCurrent,
-            isPast,
-            modifiers
-          }))
+          events: clientEvents
         })
       },
       {
         path: urlBuilder.clanRootUrl,
         component: 'src/containers/Clans',
         getData: () => ({
-          clans
+          clans: clientClans
         })
-      },
+      }
+    )
+
+    const customLeaderboardData = {
+      apiStatus,
+      clans: clientClans,
+      event: currentEventId ? currentEvent : previousEvent,
+      leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
+      currentEventId
+    }
+
+    routes.push(
       {
         path: urlBuilder.leaderboardRootUrl,
         component: 'src/containers/CustomLeaderboard',
         getData: () => ({
-          apiStatus,
-          clans,
-          event: currentEventId ? currentEvent : previousEvent,
-          leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
-          currentEventId
+          ...customLeaderboardData
         })
       },
       {
@@ -425,12 +446,8 @@ export default {
         component: 'src/containers/CustomLeaderboard',
         noindex: true,
         getData: () => ({
-          apiStatus,
-          clans,
+          ...customLeaderboardData,
           selectedIds: constants.clans.pixelPub,
-          event: currentEventId ? currentEvent : previousEvent,
-          leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
-          currentEventId,
           meta: {
             title: 'PixelPub leaderboard',
             robots: 'noindex,nofollow',

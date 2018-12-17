@@ -51,7 +51,7 @@ class CustomLeaderboardContainer extends PureComponent {
     var tags = []
     var leaderboard = []
 
-    const emptyTotal = {
+    const emptyTotals = {
       path: null,
       rank: false,
       overall: -1,
@@ -70,7 +70,7 @@ class CustomLeaderboardContainer extends PureComponent {
       if (total) {
         total.rank = true
       } else {
-        total = emptyTotal
+        total = emptyTotals
       }
 
       total = {

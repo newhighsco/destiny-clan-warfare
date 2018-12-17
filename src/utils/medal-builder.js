@@ -25,7 +25,7 @@ const build = (rank, tier, division) => {
 const parseMedals = (input, type, minimumTier) => {
   minimumTier = minimumTier || 0
   const medals = []
-  const totals = { total: 0 }
+  const totals = { total: -1 }
   const parseMedal = (medal, type) => ({
     id: medal.id || medal.medalId || medal.unlockId,
     type,
@@ -43,8 +43,10 @@ const parseMedals = (input, type, minimumTier) => {
 
       if (parsed.tier <= minimumTier) return
 
-      totals[parsed.tier] = (totals[parsed.tier] || 0) + parsed.count
-      totals.total += parsed.count
+      if (parsed.count > 0) {
+        totals[parsed.tier] = (totals[parsed.tier] || 0) + parsed.count
+        totals.total = Math.max(0, totals.total) + parsed.count
+      }
 
       if (existing) {
         existing.label = existing.label.concat(parsed.label)

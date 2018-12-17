@@ -118,10 +118,12 @@ const fetch = async () => {
     return process.hrtime()
   }
 
-  const sourceSucceed = (task, timer, info, resolve) => {
+  const sourceSucceed = (task, timer, output, resolve) => {
     const end = convertHrtime(process.hrtime(timer))
 
-    task.title += `: ${info} - ${end.seconds}s`
+    output = Array.isArray(output) ? output : [ output ]
+    output.push(`duration: ${end.seconds.toFixed(3)}s`)
+    output.map(line => { task.output = line })
     resolve()
   }
 
@@ -139,7 +141,7 @@ const fetch = async () => {
           .then(({ data }) => {
             parsed.apiStatus.enrollmentOpen = data || undefined
 
-            sourceSucceed(task, timer, data, resolve)
+            sourceSucceed(task, timer, `enrollment open: ${data}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -155,7 +157,7 @@ const fetch = async () => {
           .then(({ data }) => {
             parsed.apiStatus.alert = data || undefined
 
-            sourceSucceed(task, timer, data, resolve)
+            sourceSucceed(task, timer, `current alert: ${data}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -171,7 +173,7 @@ const fetch = async () => {
           .then(({ data }) => {
             parsed.apiStatus.bungieStatus = data.ErrorCode
 
-            sourceSucceed(task, timer, parsed.apiStatus.bungieStatus, resolve)
+            sourceSucceed(task, timer, `bungie api status: ${parsed.apiStatus.bungieStatus}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -216,7 +218,7 @@ const fetch = async () => {
               })
             })
 
-            sourceSucceed(task, timer, data.length, resolve)
+            sourceSucceed(task, timer, `clans: ${data.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -335,7 +337,7 @@ const fetch = async () => {
               })
             })
 
-            sourceSucceed(task, timer, data.length, resolve)
+            sourceSucceed(task, timer, `members: ${data.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -419,7 +421,7 @@ const fetch = async () => {
               if (leaderboards.length) parsed.leaderboards[id] = leaderboards
             })
 
-            sourceSucceed(task, timer, parsed.events.length, resolve)
+            sourceSucceed(task, timer, `events: ${parsed.events.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -445,7 +447,7 @@ const fetch = async () => {
               })
             })
 
-            sourceSucceed(task, timer, data.length, resolve)
+            sourceSucceed(task, timer, `modifiers: ${data.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -461,7 +463,7 @@ const fetch = async () => {
           .then(({ data }) => {
             parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.profile).medals)
 
-            sourceSucceed(task, timer, data.length, resolve)
+            sourceSucceed(task, timer, `member medals: ${data.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -477,7 +479,7 @@ const fetch = async () => {
           .then(({ data }) => {
             parsed.medals = parsed.medals.concat(medalBuilder.parseMedals(data, constants.prefix.clan).medals)
 
-            sourceSucceed(task, timer, data.length, resolve)
+            sourceSucceed(task, timer, `clan medals: ${data.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -505,7 +507,7 @@ const fetch = async () => {
               }
             })
 
-            sourceSucceed(task, timer, data !== null, resolve)
+            sourceSucceed(task, timer, `event leaderboard: ${data !== null}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -521,7 +523,7 @@ const fetch = async () => {
           .then(({ data }) => {
             parsed.currentClanLeaderboard = parseLeaderboard(data)
 
-            sourceSucceed(task, timer, data.length, resolve)
+            sourceSucceed(task, timer, `current clan leaderboard: ${data.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -543,7 +545,7 @@ const fetch = async () => {
             parsed.previousEventId = eventId
             parsed.previousClanLeaderboard = parseLeaderboard(leaderboardList, eventId)
 
-            sourceSucceed(task, timer, leaderboardList.length, resolve)
+            sourceSucceed(task, timer, `previous clan leaderboard: ${leaderboardList.length}`, resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -590,7 +592,7 @@ const fetch = async () => {
 
             parsed.matchHistoryLimit = matchHistorySize
 
-            sourceSucceed(task, timer, `${history.length} (limit: ${matchHistorySize})`, resolve)
+            sourceSucceed(task, timer, [ `match history: ${history.length}`, `match history limit: ${matchHistorySize}` ], resolve)
           })
           .catch(err => {
             sourceFail(err, reject)
@@ -599,7 +601,7 @@ const fetch = async () => {
     }
   ]
 
-  await new Listr(sources, { concurrent: true, collapse: false })
+  await new Listr(sources, { concurrent: true, collapse: false, dateFormat: false })
     .run()
     .catch(err => {
       throw err

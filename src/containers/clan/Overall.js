@@ -61,8 +61,8 @@ class ClanOverallContainer extends PureComponent {
         ]
       }
     }
-    const overall = members.map(member => ({ ...member, ...member.totals })).sort(firstBy('score', -1).thenBy('games', -1).thenBy('lastPlayed', -1).thenBy('name'))
-    const previous = members.map(member => ({ ...member, ...member.previousTotals })).sort(firstBy('score', -1).thenBy('games', -1).thenBy('name'))
+    const overall = members.map(member => ({ ...member, ...constants.emptyTotals, ...member.totals })).sort(firstBy('score', -1).thenBy('games', -1).thenBy('lastPlayed', -1).thenBy('name'))
+    const previous = members.map(member => ({ ...member, ...constants.emptyTotals, ...member.previousTotals })).sort(firstBy('score', -1).thenBy('games', -1).thenBy('name'))
 
     this.state = {
       overall,

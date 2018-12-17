@@ -34,7 +34,7 @@ export default {
   inlineCss: false,
   disableRouteInfoWarning: true,
   getRoutes: async () => {
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards, emptyTotals } = await dataSources.fetch()
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
 
     const routes = [
       {
@@ -168,11 +168,6 @@ export default {
                 }
               })
             }
-          } else {
-            clanCurrentTotals[memberId] = {
-              ...emptyTotals,
-              updated: null
-            }
           }
 
           const memberMatchHistory = matchHistory[memberId]
@@ -183,7 +178,7 @@ export default {
         if (previousEventId) {
           const previousTotals = previousClanLeaderboard[memberId]
 
-          member.previousTotals = previousTotals || emptyTotals
+          if (previousTotals) member.previousTotals = previousTotals
         }
       })
 

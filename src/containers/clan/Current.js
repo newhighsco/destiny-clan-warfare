@@ -60,7 +60,7 @@ class ClanCurrentContainer extends PureComponent {
       }
     }
     const leaderboard = members.map((member, i) => {
-      const memberCurrentTotals = currentTotals[member.id]
+      const memberCurrentTotals = currentTotals[member.id] || constants.emptyTotals
 
       return {
         ...member,

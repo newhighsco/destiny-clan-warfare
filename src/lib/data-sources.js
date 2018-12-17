@@ -18,20 +18,6 @@ const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADER
 const fetch = async () => {
   const utc = moment.utc()
   const updatedDate = utc.format(constants.format.machineReadable)
-  const emptyTotals = {
-    path: null,
-    rank: false,
-    games: -1,
-    wins: -1,
-    kills: -1,
-    assists: -1,
-    deaths: -1,
-    kd: -1,
-    kda: -1,
-    bonuses: null,
-    ppg: -1,
-    score: -1
-  }
   const parsed = {
     apiStatus: {
       bungieStatus: constants.bungie.disabledStatusCodes[0],
@@ -49,8 +35,7 @@ const fetch = async () => {
     previousClanLeaderboard: {},
     matchHistory: {},
     lastChecked: {},
-    leaderboards: {},
-    emptyTotals
+    leaderboards: {}
   }
 
   const parseLeaderboard = (leaderboard, eventId) => {
@@ -65,7 +50,6 @@ const fetch = async () => {
         const hasPlayed = games > 0
 
         const totals = {
-          ...emptyTotals,
           eventId
         }
 
@@ -86,6 +70,9 @@ const fetch = async () => {
           totals.kda = statsHelper.kda({ kills, deaths, assists })
           totals.ppg = statsHelper.ppg({ games, score })
           totals.score = score
+          totals.bonuses = parseBonuses(member, hasPlayed)
+
+          parsedLeaderboard[id] = totals
         }
 
         if (lastChecked) {
@@ -95,10 +82,6 @@ const fetch = async () => {
 
           if (!clanLastCheckedDate || memberlastCheckedDate > clanLastCheckedDate) parsed.lastChecked[clanId] = memberlastCheckedDate
         }
-
-        totals.bonuses = parseBonuses(member, hasPlayed)
-
-        parsedLeaderboard[id] = totals
       })
     }
 
@@ -245,17 +228,6 @@ const fetch = async () => {
               const clanId = `${member.groupId}`
               const path = urlBuilder.profileUrl(clanId, id)
               const totals = {
-                path: null,
-                rank: false,
-                games: -1,
-                wins: -1,
-                kills: -1,
-                assists: -1,
-                deaths: -1,
-                kd: -1,
-                kda: -1,
-                ppg: -1,
-                score: -1,
                 lastPlayed: '-1'
               }
               const currentScore = member.currentScore

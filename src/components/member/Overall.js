@@ -11,6 +11,7 @@ import { TagList } from '../tag/Tag'
 import Leaderboard from '../leaderboard/Leaderboard'
 import { TabContainer, Tab } from '../tab/Tab'
 import { PlatformList } from '../platform/Platform'
+import Notification from '../notification/Notification'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -65,14 +66,16 @@ class MemberOverall extends PureComponent {
         ]
       }
     }
-    var stats = {}
+    var stats
     const pastEvents = member.pastEvents
+    const platformId = member.platforms ? member.platforms[0].id : constants.bungie.platformDefault
 
     if (pastEvents && pastEvents.length > 0) stats.events = pastEvents.length
     if (member.totals && member.totals.games > 0) stats = { ...stats, ...member.totals }
 
     this.state = {
       pastEvents,
+      platformId,
       stats,
       meta
     }
@@ -80,7 +83,7 @@ class MemberOverall extends PureComponent {
 
   render () {
     const { clan, member } = this.props
-    const { pastEvents, stats, meta } = this.state
+    const { pastEvents, platformId, stats, meta } = this.state
     const hasLeaderboard = pastEvents && pastEvents.length > 0
 
     return (
@@ -91,10 +94,15 @@ class MemberOverall extends PureComponent {
           <Lockup primary center reverse kicker={meta.kicker} kickerHref={meta.kickerHref} heading={member.name} />
           <PlatformList platforms={member.platforms} />
           <ButtonGroup>
-            <Button href={`${constants.bungie.baseUrl}en/Profile/${constants.bungie.platformDefault}/${member.id}`} target="_blank">View profile</Button>
+            <Button href={`${constants.bungie.baseUrl}en/Profile/${platformId}/${member.id}`} target="_blank">View profile</Button>
           </ButtonGroup>
           <MedalList medals={member.medals} kicker="Medals awarded" />
           <StatList stats={stats} kicker="Overall stats" />
+          {!stats &&
+            <Notification>
+              Overall stats are being calculated. Participate in at least one event to be included.
+            </Notification>
+          }
         </Card>
         {hasLeaderboard &&
           <TabContainer cutout>

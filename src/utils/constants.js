@@ -100,6 +100,20 @@ const constants = {
     twitter: 'https://twitter.com/destinyclanwar'
   },
   statsGamesThreshold: 15,
+  emptyTotals: {
+    path: null,
+    rank: false,
+    games: -1,
+    wins: -1,
+    kills: -1,
+    assists: -1,
+    deaths: -1,
+    kd: -1,
+    kda: -1,
+    bonuses: null,
+    ppg: -1,
+    score: -1
+  },
   clans: {
     pixelPub: [
       '2050502',

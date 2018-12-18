@@ -49,7 +49,7 @@ const parseMedals = (input, type, minimumTier) => {
       }
 
       if (existing) {
-        existing.label = existing.label.concat(parsed.label)
+        existing.label = Array.isArray(existing.label) ? existing.label.concat(parsed.label) : parsed.label
       } else {
         medals.push(parsed)
       }

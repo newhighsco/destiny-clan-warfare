@@ -35,7 +35,7 @@ class HomeContainer extends PureComponent {
       <PageContainer meta={meta}>
         <Enrollment apiStatus={apiStatus} ids={clanIds} />
         {apiStatus && apiStatus.alert &&
-          <Notification state="notice" html={apiStatus.alert} />
+          <Notification state="warning" html={apiStatus.alert} />
         }
         {currentEvent ? (
           <Fragment>

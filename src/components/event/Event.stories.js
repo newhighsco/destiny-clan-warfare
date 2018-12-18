@@ -40,7 +40,7 @@ const leaderboards = [
   { leaderboard, division: { name: 'Squad' } }
 ]
 const stats = { games: { stat: 495, label: [ 'Player [CLAN]' ] }, wins: { stat: 343, label: [ 'Player [CLAN]' ] } }
-const results = Array(3).fill(row)
+const winners = Array(3).fill(row)
 const medals = {
   clans: [
     { tier: 3, count: 1, label: [ 'Avalanche UK' ] },
@@ -66,13 +66,13 @@ storiesOf('Events', module)
     <Event event={{ ...event, isFuture: true, startDate: endDate }} />
   ))
   .add('Previous', () => (
-    <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, results, medals }} />
+    <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, winners, medals }} />
   ))
   .add('Previous - Leaderboards', () => (
-    <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, results, medals }} leaderboards={leaderboards} />
+    <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, winners, medals }} leaderboards={leaderboards} />
   ))
   .add('Previous - Summary', () => (
-    <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, results, medals }} leaderboards={leaderboards} summary />
+    <Event event={{ ...event, isPast: true, endDate: startDate, isCalculated: true, winners, medals }} leaderboards={leaderboards} summary />
   ))
   .add('Sponsored', () => (
     <Event event={{ ...event, isFuture: true, startDate: endDate, sponsor: 'Insert Coin' }} />

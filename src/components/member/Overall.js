@@ -70,8 +70,8 @@ class MemberOverall extends PureComponent {
     const pastEvents = member.pastEvents
     const platformId = member.platforms ? member.platforms[0].id : constants.bungie.platformDefault
 
-    if (pastEvents && pastEvents.length > 0) stats.events = pastEvents.length
     if (member.totals && member.totals.games > 0) stats = { ...stats, ...member.totals }
+    if (pastEvents && pastEvents.length > 0) stats.events = pastEvents.length
 
     this.state = {
       pastEvents,

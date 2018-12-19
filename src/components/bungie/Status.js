@@ -5,6 +5,7 @@ import Notification from '../notification/Notification'
 import styles from './Status.styl'
 
 const bungieHelper = require('../../utils/bungie-helper')
+const bungieProxy = bungieHelper.proxy()
 
 class Status extends PureComponent {
   constructor (props) {
@@ -21,7 +22,7 @@ class Status extends PureComponent {
     var { active } = this.state
 
     if (!active) {
-      bungieHelper.api(`/Destiny2/Milestones/`)
+      bungieProxy(`/Destiny2/Milestones/`)
         .then(({ data }) => {
           active = bungieHelper.disabled(data.ErrorCode)
           localStorage.setItem('apiDisabled', active)

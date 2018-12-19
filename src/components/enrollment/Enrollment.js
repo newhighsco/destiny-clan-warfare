@@ -17,6 +17,7 @@ const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
+const bungieProxy = bungieHelper.proxy()
 
 class Enrollment extends Component {
   constructor (props) {
@@ -87,7 +88,7 @@ class Enrollment extends Component {
         const isNumeric = !isNaN(name)
         const endpoint = isNumeric ? `GroupV2/${name}/` : `GroupV2/Name/${name}/${groupType}/`
 
-        bungieHelper.api(endpoint)
+        bungieProxy(endpoint)
           .then(({ data }) => {
             if (data.Response && data.Response.detail) {
               const detail = data.Response.detail

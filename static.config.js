@@ -15,12 +15,10 @@ const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
 const statsHelper = require('./src/utils/stats-helper')
-const apiHelper = require('./src/utils/api-helper')
 
 const distPath = 'public'
 const redirects = [
   { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
-  { from: `${constants.server.proxyUrl}*`, to: `${apiHelper.url()}:splat`, code: 200 },
   { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
   { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
   { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }

@@ -61,7 +61,7 @@ const constants = {
       domain: '.azurewebsites.net/',
       path: 'api/'
     },
-    proxyUrl: 'https://proxy.destinyclanwarfare.com/'
+    proxyUrl: '/api/'
   },
   bungie: {
     baseUrl: 'https://www.bungie.net/',

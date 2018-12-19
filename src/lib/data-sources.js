@@ -12,6 +12,7 @@ const decode = require('../utils/html-entities').decode
 
 const primaryApi = apiHelper.api()
 const secondaryApi = apiHelper.api(1)
+const bungieApi = bungieHelper.api()
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADERBOARDS)
 
@@ -152,7 +153,7 @@ const fetch = async () => {
       task: (ctx, task) => new Promise((resolve, reject) => {
         const timer = sourceStart(task)
 
-        bungieHelper.api(`/Destiny2/Milestones`)
+        bungieApi(`/Destiny2/Milestones`)
           .then(({ data }) => {
             parsed.apiStatus.bungieStatus = data.ErrorCode
 

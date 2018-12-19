@@ -1,12 +1,19 @@
 const axios = require('axios')
 const constants = require('./constants')
 
-const api = axios.create({
-  baseURL: constants.bungie.apiUrl,
+const api = (url = constants.bungie.baseUrl) => axios.create({
+  baseURL: `${url}Platform/`,
   headers: {
     'X-API-Key': process.env.BUNGIE_API_KEY
   }
 })
+
+const proxy = () => {
+  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS)
+  const url = proxyUrls ? constants.bungie.proxyUrl : constants.bungie.baseUrl
+
+  return api(url)
+}
 
 const disabled = (statusCode) => {
   return constants.bungie.disabledStatusCodes.indexOf(statusCode) !== -1
@@ -14,5 +21,6 @@ const disabled = (statusCode) => {
 
 module.exports = {
   api,
+  proxy,
   disabled
 }

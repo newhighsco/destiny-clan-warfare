@@ -1,3 +1,10 @@
+[[redirects]]
+  from = "/bungie"
+  to = "https://www.bungie.net"
+  status = 200
+  force = true
+  headers = {Cache-Control = "public, max-age=31536000, immutable"}
+
 [context.deploy-preview.environment]
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   SITE_URL = "https://beta.destinyclanwarfare.com"

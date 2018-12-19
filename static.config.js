@@ -18,7 +18,6 @@ const statsHelper = require('./src/utils/stats-helper')
 
 const distPath = 'public'
 const redirects = [
-  { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
   { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
   { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
   { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }

@@ -1,7 +1,3 @@
-const bungieBaseUrl = 'https://www.bungie.net/'
-const bungieProxyUrl = '/bungie/'
-const bungieAvatarUrl = `${bungieBaseUrl}img/profile/avatars/`
-
 const constants = {
   meta: {
     name: 'Destiny Clan Warfare',
@@ -68,11 +64,11 @@ const constants = {
     proxyUrl: 'https://proxy.destinyclanwarfare.com/'
   },
   bungie: {
-    baseUrl: bungieBaseUrl,
-    proxyUrl: bungieProxyUrl,
+    baseUrl: 'https://www.bungie.net/',
+    proxyUrl: /bungie/,
     disabledStatusCodes: [ 5, 1618 ],
-    avatarPath: bungieAvatarUrl,
-    defaultAvatar: `${bungieAvatarUrl}default_avatar.gif`,
+    avatarPath: 'img/profile/avatars/',
+    defaultAvatarIcon: 'default_avatar.gif',
     platformDefault: -1
   },
   prefix: {

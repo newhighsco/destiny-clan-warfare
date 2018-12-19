@@ -213,10 +213,11 @@ const fetch = async () => {
       title: 'fetch members',
       task: (ctx, task) => new Promise((resolve, reject) => {
         const timer = sourceStart(task)
+        const avatarUrl = `${constants.bungie.baseUrl}${constants.bungie.avatarPath}`
 
         const parseMemberIcon = (path) => {
-          if (path && path !== constants.bungie.defaultAvatar) {
-            return path.replace(constants.bungie.avatarPath, '')
+          if (path && path !== `${avatarUrl}${constants.bungie.defaultAvatarIcon}`) {
+            return path.replace(avatarUrl, '')
           }
 
           return undefined

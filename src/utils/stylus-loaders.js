@@ -10,12 +10,15 @@ const stylusLoaders = () => ([
     options: {
       minimize: true,
       modules: true,
+      importLoaders: 1,
+      sourceMap: false,
       localIdentName: '[local]'
     }
   },
   {
     loader: require.resolve('stylus-loader'),
     options: {
+      includePaths: [ 'src/' ],
       use: [
         stylusMixins(),
         responsiveGrid(),

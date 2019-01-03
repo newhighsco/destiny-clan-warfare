@@ -18,8 +18,9 @@ Thumbs.db
 # Project Specific
 node_modules
 npm-debug.log
+dist/
 docs/
-public/
+tmp/
 .env*
 .eslintcache
 yarn-error.log

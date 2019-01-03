@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Link } from 'react-static'
-import PropTypes from 'prop-types'
+import { Link } from '@reach/router'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -32,9 +31,8 @@ class ThanksContainer extends PureComponent {
   }
 
   render () {
-    const { history: { location } } = this.props
     const { enrollmentOpen } = this.state
-    const query = queryString.parse(location.search)
+    const query = (typeof location !== 'undefined') ? queryString.parse(location.search) : {}
     const success = query.success ? JSON.parse(query.success.toLowerCase()) : false
     const message = query.message || ''
     const successful = success || (!success && message === constants.enrollment.existing)
@@ -97,10 +95,6 @@ class ThanksContainer extends PureComponent {
       </PageContainer>
     )
   }
-}
-
-ThanksContainer.propTypes = {
-  history: PropTypes.object
 }
 
 export default ThanksContainer

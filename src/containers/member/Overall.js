@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
-import NProgress from 'nprogress'
 import MemberOverall from '../../components/member/Overall'
 import Loading from '../../components/loading/Loading'
 import NotFound from '../../components/not-found/NotFound'
@@ -25,9 +24,8 @@ class MemberOverallContainer extends PureComponent {
     var { member } = this.state
 
     if (!member) {
-      const { match } = this.props
-      const clanId = match.params.clan
-      const memberId = match.params.member.replace(/#.+$/, '')
+      const clanId = this.props.clan
+      const memberId = this.props.member.replace(/#.+$/, '')
 
       prefetch(urlBuilder.clanUrl(clanId))
         .then(({ clan, members }) => {
@@ -46,22 +44,16 @@ class MemberOverallContainer extends PureComponent {
     const { member, notFound } = this.state
 
     if (notFound) {
-      NProgress.done()
-
       return (
         <NotFound />
       )
     }
 
     if (!member) {
-      NProgress.start()
-
       return (
         <Loading />
       )
     }
-
-    NProgress.done()
 
     return (
       <MemberOverall {...this.state} />
@@ -70,7 +62,8 @@ class MemberOverallContainer extends PureComponent {
 }
 
 MemberOverallContainer.propTypes = {
-  match: PropTypes.object,
+  clan: PropTypes.string,
+  member: PropTypes.string,
   location: PropTypes.object
 }
 

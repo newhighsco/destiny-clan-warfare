@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from '../icon/Icon'
@@ -12,7 +12,7 @@ const baseClassName = 'button'
 
 const Button = class extends PureComponent {
   render () {
-    const { children, className, href, target, type, size, solid, prefetch, state, ...remainingProps } = this.props
+    const { children, className, href, target, type, size, solid, state, ...remainingProps } = this.props
     const commonAttributes = {
       className: classNames(
         styles[baseClassName],
@@ -60,8 +60,8 @@ const Button = class extends PureComponent {
       <Link
         {...remainingProps}
         {...commonAttributes}
-        to={{ pathname: href, state: state }}
-        prefetch={prefetch}
+        to={href}
+        state={state}
       >
         <span>{children}</span>
       </Link>
@@ -71,7 +71,6 @@ const Button = class extends PureComponent {
 
 Button.defaultProps = {
   type: 'button',
-  prefetch: true,
   state: {}
 }
 
@@ -83,7 +82,6 @@ Button.propTypes = {
   type: PropTypes.oneOf([ 'button', 'reset', 'submit' ]),
   size: PropTypes.oneOf([ 'small' ]),
   solid: PropTypes.bool,
-  prefetch: PropTypes.bool,
   state: PropTypes.object
 }
 

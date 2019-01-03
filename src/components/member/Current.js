@@ -115,7 +115,7 @@ class MemberCurrent extends PureComponent {
                 <Leaderboard data={leaderboard} columns={columns} />
               </Tab>
               {member.totals && member.totals.games > 0 &&
-                <Tab name="Overall" href={urlBuilder.profileUrl(clan.id, member.id)} prefetch={false} />
+                <Tab name="Overall" href={urlBuilder.profileUrl(clan.id, member.id)} />
               }
             </TabContainer>
           }

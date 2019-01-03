@@ -1,5 +1,5 @@
 import React, { Fragment, PureComponent } from 'react'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Lockup.styl'

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import HoldingPage from '../holding-page/HoldingPage'
 import { Logo } from '../logo/Logo'
 

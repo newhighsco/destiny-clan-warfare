@@ -103,7 +103,7 @@ class ClanCurrentContainer extends PureComponent {
         {hasLeaderboard &&
           <TabContainer cutout>
             <Tab id="current" name={constants.tense.current}>
-              <Leaderboard data={leaderboard} prefetch={false} columns={leaderboardColumns} search placeholder="Find clan member" />
+              <Leaderboard data={leaderboard} columns={leaderboardColumns} search placeholder="Find clan member" />
             </Tab>
             <Tab name="Overall" href={clan.path} />
           </TabContainer>

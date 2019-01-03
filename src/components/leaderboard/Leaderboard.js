@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import { CellMeasurer, CellMeasurerCache } from 'react-virtualized/dist/commonjs/CellMeasurer'
 import List from 'react-virtualized/dist/commonjs/List'
@@ -140,7 +140,7 @@ class Leaderboard extends PureComponent {
   }
 
   render () {
-    const { data, cutout, search, overall, placeholder, columns, extraColumns, medalsSize, className, prefetch } = this.props
+    const { data, cutout, search, overall, placeholder, columns, extraColumns, medalsSize, className } = this.props
     var { active, activeIndex, cache, bonusColumns, overflow, suggestions } = this.state
     const dataCount = data.length
 
@@ -212,8 +212,7 @@ class Leaderboard extends PureComponent {
                               <PlatformList platforms={item.platforms} size="small" className={styles[`${baseClassName}__platforms`]} />
                               {item.path ? (
                                 <Link
-                                  to={{ pathname: item.path }}
-                                  prefetch={prefetch}
+                                  to={item.path}
                                   className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}
                                 >
                                   <LeaderboardName {...item} />
@@ -342,7 +341,6 @@ Leaderboard.propTypes = {
   extraColumns: PropTypes.bool,
   medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),
   className: PropTypes.string,
-  prefetch: PropTypes.bool,
   padding: PropTypes.number
 }
 

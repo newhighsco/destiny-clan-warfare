@@ -16,11 +16,16 @@ export default () => ({
     if (stage === 'dev') {
       // TODO: Check IE 11 support and fix polyfill if needed
       // config.entry = [ 'babel-polyfill', ...config.entry ]
+
       loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
     } else if (stage === 'node') {
-      loaders = [ ...stylusLoaders() ]
+      // TODO: Implement proper fix - https://github.com/nozzle/react-static/blob/master/packages/react-static-plugin-css-modules/src/node.api.js#L26
+      loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
+
+      config.plugins.push(new ExtractCssChunks())
     } else {
       // config.entry = [ 'babel-polyfill', config.entry ]
+
       loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
     }
 

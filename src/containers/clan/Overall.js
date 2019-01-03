@@ -99,12 +99,12 @@ class ClanOverallContainer extends PureComponent {
           <TabContainer cutout>
             {previous.length > 0 &&
               <Tab id={previousEventId} name={constants.tense.previous}>
-                <Leaderboard data={previous} prefetch={false} columns={columns} search placeholder={meta.placeholder} />
+                <Leaderboard data={previous} columns={columns} search placeholder={meta.placeholder} />
               </Tab>
             }
             {overall.length > 0 &&
               <Tab id="overall" name="Overall">
-                <Leaderboard data={overall} prefetch={false} columns={[ ...columns, 'lastPlayed' ]} search placeholder={meta.placeholder} />
+                <Leaderboard data={overall} columns={[ ...columns, 'lastPlayed' ]} search placeholder={meta.placeholder} />
               </Tab>
             }
             {currentEventId &&

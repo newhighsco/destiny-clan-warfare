@@ -1,4 +1,3 @@
-import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
 import RSS from 'rss'
 import Html from './src/Html'
 
@@ -6,10 +5,8 @@ require('dotenv').config()
 
 const path = require('path')
 const fs = require('fs-extra')
-const webpack = require('webpack')
 const moment = require('moment')
 const dataSources = require('./src/lib/data-sources')
-const stylusLoaders = require('./src/utils/stylus-loaders')
 const constants = require('./src/utils/constants')
 const medalBuilder = require('./src/utils/medal-builder')
 const urlBuilder = require('./src/utils/url-builder')
@@ -17,7 +14,7 @@ const feedBuilder = require('./src/utils/feed-builder')
 const statsHelper = require('./src/utils/stats-helper')
 const apiHelper = require('./src/utils/api-helper')
 
-const distPath = 'public'
+const distPath = 'dist'
 const redirects = [
   { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
   { from: `${constants.server.proxyUrl}*`, to: `${apiHelper.url()}:splat`, code: 200 },
@@ -27,11 +24,6 @@ const redirects = [
 ]
 
 export default {
-  paths: {
-    dist: distPath,
-    devDist: distPath,
-    public: 'static'
-  },
   devServer: {
     port: 9000
   },
@@ -40,13 +32,18 @@ export default {
   extractCssChunks: true,
   inlineCss: false,
   disableRouteInfoWarning: true,
-  getRoutes: async () => {
+  disablePreload: false,
+  plugins: [
+    'custom'
+  ],
+  getRoutes: async ({ dev }) => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
 
     const routes = [
       {
-        is404: true,
-        component: 'src/containers/NotFound'
+        path: '404',
+        component: 'src/containers/NotFound',
+        noindex: true
       },
       {
         path: '/branding/',
@@ -63,7 +60,8 @@ export default {
       },
       {
         path: '/thanks/',
-        component: 'src/containers/Thanks'
+        component: 'src/containers/Thanks',
+        noindex: true
       }
     ]
 
@@ -473,76 +471,42 @@ export default {
       redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
     }
 
-    const feedOptions = {
-      title: constants.meta.title,
-      description: constants.meta.description,
-      site_url: process.env.SITE_URL
+    if (!dev) {
+      const feedOptions = {
+        title: constants.meta.title,
+        description: constants.meta.description,
+        site_url: process.env.SITE_URL
+      }
+      var feed = new RSS(feedOptions)
+
+      feedBuilder(events).map(event => feed.item(event))
+
+      await fs.ensureDir(distPath)
+      await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
+
+      feed = new RSS(feedOptions)
+
+      const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
+      const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
+      const formattedDate = moment.utc().format(constants.format.url)
+      const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
+      const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
+      const title = `${kicker} - ${formattedDate}`
+      const content = `${kicker}${canonicalUrl}`
+
+      feed.item({
+        title: title,
+        description: title,
+        url,
+        guid: url,
+        date: apiStatus.updatedDate,
+        custom_elements: [ { 'content:encoded': content } ]
+      })
+
+      await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
     }
-    var feed = new RSS(feedOptions)
-
-    feedBuilder(events).map(event => feed.item(event))
-
-    await fs.ensureDir(distPath)
-    await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
-
-    feed = new RSS(feedOptions)
-
-    const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
-    const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    const formattedDate = moment.utc().format(constants.format.url)
-    const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
-    const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
-    const title = `${kicker} - ${formattedDate}`
-    const content = `${kicker}${canonicalUrl}`
-
-    feed.item({
-      title: title,
-      description: title,
-      url,
-      guid: url,
-      date: apiStatus.updatedDate,
-      custom_elements: [ { 'content:encoded': content } ]
-    })
-
-    await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
 
     return routes
-  },
-  webpack: (config, { defaultLoaders, stage }) => {
-    var { cssLoader, jsLoader, fileLoader } = defaultLoaders
-
-    fileLoader.query.limit = 1
-
-    if (stage !== 'dev') config.devtool = false
-
-    config.entry = stage === 'dev'
-      ? [ require.resolve('babel-polyfill'), ...config.entry ]
-      : [ require.resolve('babel-polyfill'), config.entry ]
-
-    config.module.rules = [
-      {
-        oneOf: [
-          {
-            test: /\.styl$/,
-            use: stage === 'dev'
-              ? [ require.resolve('style-loader'), ...stylusLoaders() ]
-              : ExtractCssChunks.extract({ use: stylusLoaders() })
-          },
-          {
-            test: /\.svg$/,
-            loader: require.resolve('svg-react-loader')
-          },
-          cssLoader,
-          jsLoader,
-          fileLoader
-        ]
-      }
-    ]
-
-    config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-    if (stage === 'node') config.plugins.push(new ExtractCssChunks())
-
-    return config
   },
   Document: Html,
   onBuild: async () => {

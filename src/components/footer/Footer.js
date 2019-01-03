@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import { LogoIcon } from '../logo/Logo'
 import Credit from '../credit/Credit'
 import styles from './Footer.styl'

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
@@ -52,6 +52,10 @@ class Enrollment extends Component {
           this.setState({ open: active })
         })
     }
+  }
+
+  componentWillUnmount () {
+    // TODO: Cancel API request
   }
 
   handleEnroll (e) {

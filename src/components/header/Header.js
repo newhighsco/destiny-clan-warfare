@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import { LogoLockup } from '../logo/Logo'
 import Icon from '../icon/Icon'
 import PatreonSvg from '../../images/patreon.svg'

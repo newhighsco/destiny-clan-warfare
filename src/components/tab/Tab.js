@@ -97,13 +97,13 @@ class TabContainer extends PureComponent {
         {React.Children.map(children, (child, i) => {
           if (!child) return null
 
-          const { id, href, state, prefetch, title, name } = child.props
+          const { id, href, state, title, name } = child.props
           const isActive = i === activeIndex
 
           return (
             <Fragment key={i}>
               <div id={id} className={styles[navigationClassName]}>
-                <Button onClick={this.handleClick} href={href} className={classNames(styles[buttonClassName], isActive && 'is-active')} state={state} prefetch={prefetch} data-index={i} size="small" data-exact={title}>{name}</Button>
+                <Button onClick={this.handleClick} href={href} className={classNames(styles[buttonClassName], isActive && 'is-active')} state={state} data-index={i} size="small" data-exact={title}>{name}</Button>
               </div>
               <div className={classNames(styles[contentClassName], isActive && 'is-active')}>
                 {child}

@@ -31,6 +31,10 @@ class Status extends PureComponent {
     }
   }
 
+  componentWillUnmount () {
+    // TODO: Cancel API request
+  }
+
   render () {
     const { active } = this.state
 

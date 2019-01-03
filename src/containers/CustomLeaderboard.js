@@ -32,7 +32,7 @@ const setHash = tags => {
   const hash = `${ids.length ? constants.prefix.hash : ''}${ids.join(',')}`
 
   if (history.pushState) {
-    history.pushState(null, null, `${window.location.pathname}${hash}`)
+    history.pushState(null, null, `${location.pathname}${hash}`)
   } else {
     location.hash = hash
   }
@@ -42,8 +42,9 @@ class CustomLeaderboardContainer extends PureComponent {
   constructor (props) {
     super(props)
 
+    const hash = (typeof location !== 'undefined') ? location.hash : ''
     var { meta } = this.props
-    const { history: { location: { hash } }, clans, selectedIds, event, leaderboards } = this.props
+    const { clans, selectedIds, event, leaderboards } = this.props
     const ids = selectedIds || (hash.length ? hash.replace(constants.prefix.hash, '').split(',') : [])
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     const kicker = event.isCurrent ? constants.kicker.current : constants.kicker.previous
@@ -190,7 +191,6 @@ class CustomLeaderboardContainer extends PureComponent {
 }
 
 CustomLeaderboardContainer.propTypes = {
-  history: PropTypes.object,
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
   selectedIds: PropTypes.array,

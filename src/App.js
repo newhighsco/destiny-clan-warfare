@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import React, { Component } from 'react'
 import { Root, Routes, Head } from 'react-static'
 import { Router } from '@reach/router'

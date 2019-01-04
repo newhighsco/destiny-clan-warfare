@@ -37,11 +37,7 @@ export default {
     'custom'
   ],
   getRoutes: async ({ dev }) => {
-    const parsed = await dataSources.fetch()
-
-    if (!parsed) return []
-
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = parsed
+    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
 
     const routes = [
       {

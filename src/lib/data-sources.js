@@ -19,7 +19,7 @@ const enablePreviousLeaderboards = JSON.parse(process.env.ENABLE_PREVIOUS_LEADER
 const fetch = async () => {
   const utc = moment.utc()
   const updatedDate = utc.format(constants.format.machineReadable)
-  const parsed = {
+  var parsed = {
     apiStatus: {
       bungieStatus: constants.bungie.disabledStatusCodes[0],
       updatedDate: updatedDate
@@ -577,8 +577,8 @@ const fetch = async () => {
 
   await new Listr(sources, { concurrent: true, collapse: false, dateFormat: false })
     .run()
-    .catch(err => {
-      throw err
+    .catch(() => {
+      parsed = null
     })
 
   return parsed

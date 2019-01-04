@@ -14,17 +14,12 @@ export default () => ({
     var loaders = []
 
     if (stage === 'dev') {
-      // TODO: Check IE 11 support and fix polyfill if needed
-      // config.entry = [ 'babel-polyfill', ...config.entry ]
-
       loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
     } else if (stage === 'node') {
       loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
 
       config.plugins.push(new ExtractCssChunks({ orderWarning: false }))
     } else {
-      // config.entry = [ 'babel-polyfill', config.entry ]
-
       loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
     }
 

@@ -37,6 +37,7 @@ export default {
     'custom'
   ],
   getRoutes: async ({ dev }) => {
+    return []
     throw new Error('blah')
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
 

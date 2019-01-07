@@ -61,11 +61,11 @@ const Avatar = class extends PureComponent {
             }
           </Fragment>
         ) : (
-          <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
-            <img src={urlBuilder.avatarIconUrl(icon)} alt="" />
-          </ResponsiveMedia>
+          children ||
+            <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
+              <img src={urlBuilder.avatarIconUrl(icon)} alt="" />
+            </ResponsiveMedia>
         )}
-        {children}
       </div>
     )
   }

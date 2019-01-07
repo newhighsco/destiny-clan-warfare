@@ -1,7 +1,7 @@
-import React from 'react'
-import { Router } from 'react-static'
+import React, { Fragment } from 'react'
+import { Router } from '@reach/router'
 import { configure, addDecorator } from '@storybook/react'
-import { setOptions } from '@storybook/addon-options'
+import { withOptions } from '@storybook/addon-options'
 
 import '../src/stylus/index.styl'
 import './storybook.styl'
@@ -13,18 +13,24 @@ function loadStories () {
   req.keys().forEach((filename) => req(filename))
 }
 
-addDecorator(story => (
+const PreviewContainer = ({ story }) => (
   <div className="storybook-preview-container">
-    <Router>
-      {story()}
-    </Router>
+    {story()}
   </div>
+)
+
+addDecorator(story => (
+  <Router>
+    <PreviewContainer default story={story} />
+  </Router>
 ))
 
-setOptions({
-  name: constants.meta.name,
-  url: '/',
-  showAddonPanel: false
-})
+addDecorator(
+  withOptions({
+    name: constants.meta.name,
+    url: '/',
+    showAddonPanel: false
+  })
+)
 
 configure(loadStories, module)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Avatar from './Avatar'
+import PatreonSvg from '../../images/patreon.svg'
 
 storiesOf('Avatar', module)
   .addDecorator(story => (
@@ -8,8 +9,11 @@ storiesOf('Avatar', module)
       {story()}
     </div>
   ))
+  .add('Default', () => (
+    <Avatar />
+  ))
   .add('Member', () => (
-    <Avatar icon="https://www.bungie.net/img/profile/avatars/cc18.jpg" />
+    <Avatar icon="cc18.jpg" />
   ))
   .add('Clan', () => (
     <Avatar
@@ -17,4 +21,9 @@ storiesOf('Avatar', module)
       foreground={{ color: '#f0f0f0', icon: 'c0ecd484a44c9aa934f9fb67e1ac1108' }}
       background={{ color: '#5be7de', icon: '53468fe0799b424f995509d03be6bfa8' }}
     />
+  ))
+  .add('Custom', () => (
+    <Avatar>
+      <PatreonSvg />
+    </Avatar>
   ))

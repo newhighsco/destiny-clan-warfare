@@ -7,7 +7,7 @@ const api = (index = 0) => axios.create({
 })
 
 const proxy = () => {
-  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS)
+  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS || false)
 
   return axios.create({
     baseURL: proxyUrls ? constants.server.proxyUrl : `https://proxy.destinyclanwarfare.com/${url()}`

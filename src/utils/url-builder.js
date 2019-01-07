@@ -13,7 +13,7 @@ const eventHash = (eventId) => {
 }
 
 const bungieUrl = () => {
-  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS)
+  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS || false)
   return proxyUrls ? constants.bungie.proxyUrl : constants.bungie.baseUrl
 }
 

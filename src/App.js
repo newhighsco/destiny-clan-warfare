@@ -37,7 +37,7 @@ class App extends Component {
     // )
 
     return (
-      <Root>
+      <Root scrollToHashDuration={0}>
         <Head
           defaultTitle={title}
           titleTemplate={`%s | ${name}`}

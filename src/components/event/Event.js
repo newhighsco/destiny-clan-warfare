@@ -96,7 +96,7 @@ class Event extends PureComponent {
               {hasLeaderboards && statsColumns &&
                 <Fragment>
                   {statsColumns.length > 0 ? (
-                    <StatList stats={stats} columns={statsColumns} top kicker="Top stats" tooltip={tooltip} />
+                    <StatList stats={stats} columns={statsColumns} top kicker="Top stats&#9432;" tooltip={tooltip} />
                   ) : (
                     <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
                   )}

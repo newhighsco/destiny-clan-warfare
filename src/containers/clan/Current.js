@@ -92,7 +92,7 @@ class ClanCurrentContainer extends PureComponent {
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
           {statsColumns.length > 0 ? (
-            <StatList stats={stats} columns={statsColumns} top kicker="Top stats" tooltip={tooltip} />
+            <StatList stats={stats} columns={statsColumns} top kicker="Top stats&#9432;" tooltip={tooltip} />
           ) : (
             <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
           )}

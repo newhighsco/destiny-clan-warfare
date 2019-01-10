@@ -16,7 +16,7 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-class ThanksContainer extends PureComponent {
+class ThanksPage extends PureComponent {
   constructor (props) {
     super(props)
 
@@ -98,4 +98,4 @@ class ThanksContainer extends PureComponent {
   }
 }
 
-export default ThanksContainer
+export default ThanksPage

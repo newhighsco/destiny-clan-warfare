@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import NotFound from '../components/not-found/NotFound'
 
-class NotFoundContainer extends PureComponent {
+class NotFoundPage extends PureComponent {
   constructor (props) {
     super(props)
 
@@ -25,4 +25,4 @@ class NotFoundContainer extends PureComponent {
   }
 }
 
-export default NotFoundContainer
+export default NotFoundPage

@@ -14,7 +14,7 @@ const meta = {
   description: `Support the development of ${constants.meta.name} by becoming a patron or making a donation`
 }
 
-class SupportUsContainer extends PureComponent {
+class SupportUsPage extends PureComponent {
   render () {
     return (
       <PageContainer meta={meta}>
@@ -52,4 +52,4 @@ class SupportUsContainer extends PureComponent {
   }
 }
 
-export default SupportUsContainer
+export default SupportUsPage

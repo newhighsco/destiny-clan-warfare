@@ -12,7 +12,7 @@
     "start": "npm-run-all --parallel start:*",
     "start:dev": "react-static start",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build": "echo ${SITE_URL}",
+    "build": "echo ${INCOMING_HOOK_TITLE}",
     "buildSkip": "npm-run-all build:full",
     "build:full": "react-static build",
     "build:increment": "react-static export",

@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
+import { OutboundLink } from 'react-ga-donottrack'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import { CellMeasurer, CellMeasurerCache } from 'react-virtualized/dist/commonjs/CellMeasurer'
 import List from 'react-virtualized/dist/commonjs/List'
@@ -233,12 +234,12 @@ class Leaderboard extends PureComponent {
                                   {item.game.name &&
                                     <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
                                       {item.game.isExternal ? (
-                                        <a href={item.game.path} target="_blank" rel="noopener noreferrer">
+                                        <OutboundLink to={item.game.path} eventLabel={item.game.path} target="_blank">
                                           <span>{item.game.name}</span>
                                           <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
                                             <ExternalSvg />
                                           </Icon>
-                                        </a>
+                                        </OutboundLink>
                                       ) : (
                                         <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
                                           <span>{item.game.name}</span>
@@ -302,7 +303,7 @@ class Leaderboard extends PureComponent {
                                 return (
                                   <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}>
                                     {href ? (
-                                      <a href={href}>{value}</a>
+                                      <Link to={href}>{value}</Link>
                                     ) : (
                                       <span>{value}</span>
                                     )}

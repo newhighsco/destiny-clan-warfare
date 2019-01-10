@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Stat } from '../stat/Stat'
@@ -142,12 +143,12 @@ class Timer extends PureComponent {
                 <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
               </div>
             }
-            <a href={startHref} target="_blank" rel="noopener noreferrer" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
+            <OutboundLink to={startHref} eventLabel={startHref} target="_blank" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
               {startDate}
-            </a>
-            <a href={endHref} target="_blank" rel="noopener noreferrer" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
+            </OutboundLink>
+            <OutboundLink to={endHref} eventLabel={endHref} target="_blank" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
               {endDate}
-            </a>
+            </OutboundLink>
           </div>
         }
       </div>

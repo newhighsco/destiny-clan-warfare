@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
+import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -58,7 +59,7 @@ class BrandingContainer extends PureComponent {
                     <ul className="list--inline list--comma">
                       {extensions.map((extension, index) => (
                         <li key={index}>
-                          <a href={`/branding/${logo.value}.${extension}`} download title={`Download ${extension.toUpperCase()}`} target="_blank" rel="noopener noreferrer">{extension.toUpperCase()}</a>
+                          <OutboundLink to={`/branding/${logo.value}.${extension}`} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank">{extension.toUpperCase()}</OutboundLink>
                         </li>
                       ))}
                     </ul>

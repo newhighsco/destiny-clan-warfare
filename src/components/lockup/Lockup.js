@@ -1,5 +1,6 @@
 import React, { Fragment, PureComponent } from 'react'
 import { Link } from '@reach/router'
+import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Lockup.styl'
@@ -81,9 +82,9 @@ class LockupElement extends PureComponent {
 
       if (absoluteUrl(href)) {
         return (
-          <a href={href} {...commonAttributes}>
+          <OutboundLink to={href} eventLabel={href} {...commonAttributes}>
             <Element>{children}</Element>
-          </a>
+          </OutboundLink>
         )
       }
 

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { Link } from '@reach/router'
+import { OutboundLink } from 'react-ga-donottrack'
 import { LogoLockup } from '../logo/Logo'
 import Icon from '../icon/Icon'
 import PatreonSvg from '../../images/patreon.svg'
@@ -34,11 +35,11 @@ const Header = class extends PureComponent {
                   {links.map((link, i) => {
                     return (
                       <li key={i} className={styles[`${baseClassName}__item`]}>
-                        <a className={styles[`${baseClassName}__link`]} href={link.href} title={link.text} target="_blank" rel="noopener noreferrer">
+                        <OutboundLink className={styles[`${baseClassName}__link`]} to={link.href} eventLabel={link.href} title={link.text} target="_blank">
                           <Icon className={styles[`${baseClassName}__icon`]} a11yText={link.text}>
                             <link.icon />
                           </Icon>
-                        </a>
+                        </OutboundLink>
                       </li>
                     )
                   })}

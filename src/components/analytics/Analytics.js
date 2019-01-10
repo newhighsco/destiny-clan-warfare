@@ -1,41 +1,41 @@
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import ReactGA from 'react-ga'
+import * as ReactGA from 'react-ga-donottrack'
+import { globalHistory } from '@reach/router'
 
-export default function withAnalytics (WrappedComponent, options = {}) {
-  const trackPage = (page) => {
-    ReactGA.set({
-      page,
-      title: page,
-      ...options
-    })
-    ReactGA.pageview(page)
-  }
+const constants = require('../../utils/constants')
 
-  const Analytics = class extends PureComponent {
-    componentDidMount () {
-      const page = this.props.location.pathname
-
-      trackPage(page)
-    }
-
-    componentWillReceiveProps (nextProps) {
-      const currentPage = this.props.location.pathname
-      const nextPage = nextProps.location.pathname
-
-      if (currentPage !== nextPage) {
-        trackPage(nextPage)
-      }
-    }
-
-    render () {
-      return <WrappedComponent {...this.props} />
-    }
-  }
-
-  Analytics.propTypes = {
-    location: PropTypes.object
-  }
-
-  return Analytics
+const historyListener = ({ location }) => {
+  ReactGA.set({ page: location.pathname })
+  ReactGA.pageview(location.pathname)
 }
+
+const Analytics = class extends PureComponent {
+  constructor (props) {
+    super(props)
+
+    ReactGA.initialize(constants.meta.trackingId)
+    ReactGA.set({
+      transport: 'beacon'
+    })
+  }
+
+  componentDidMount () {
+    historyListener({ location: globalHistory.location, action: 'PUSH' })
+    globalHistory.listen(historyListener)
+  }
+
+  render () {
+    const { children } = this.props
+
+    return (
+      children
+    )
+  }
+}
+
+Analytics.propTypes = {
+  children: PropTypes.node
+}
+
+export default Analytics

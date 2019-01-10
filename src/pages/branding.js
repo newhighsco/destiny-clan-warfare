@@ -35,7 +35,7 @@ const logos = [
 ]
 const extensions = [ 'png', 'psd', 'svg' ]
 
-class BrandingContainer extends PureComponent {
+class BrandingPage extends PureComponent {
   render () {
     return (
       <PageContainer meta={meta}>
@@ -84,4 +84,4 @@ class BrandingContainer extends PureComponent {
   }
 }
 
-export default BrandingContainer
+export default BrandingPage

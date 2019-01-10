@@ -13,7 +13,7 @@ const meta = {
   description: `Frequently asked questions about ${constants.meta.name}`
 }
 
-class FrequentlyAskedQuestions extends PureComponent {
+class FrequentlyAskedQuestionsPage extends PureComponent {
   render () {
     return (
       <PageContainer meta={meta}>
@@ -70,4 +70,4 @@ class FrequentlyAskedQuestions extends PureComponent {
   }
 }
 
-export default FrequentlyAskedQuestions
+export default FrequentlyAskedQuestionsPage

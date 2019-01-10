@@ -38,34 +38,10 @@ export default {
   ],
   getRoutes: async ({ dev }) => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
-
-    const routes = [
-      {
-        path: '404',
-        component: 'src/containers/NotFound',
-        noindex: true
-      },
-      {
-        path: '/branding/',
-        component: 'src/containers/Branding',
-        noindex: true
-      },
-      {
-        path: '/faqs/',
-        component: 'src/containers/FrequentlyAskedQuestions'
-      },
-      {
-        path: '/support-us/',
-        component: 'src/containers/SupportUs'
-      },
-      {
-        path: '/thanks/',
-        component: 'src/containers/Thanks',
-        noindex: true
-      }
-    ]
-
+    const routes = []
     const currentEventStats = {}
+    const clanIds = []
+    const clientClans = []
     const statsColumns = [
       'games',
       'wins',
@@ -107,9 +83,6 @@ export default {
         }
       }
     }
-
-    const clanIds = []
-    const clientClans = []
 
     clans.map(clan => {
       const clanMembers = members.filter(({ clanId }) => clanId === clan.id)

@@ -4,7 +4,9 @@ import classNames from 'classnames'
 import Notification from '../notification/Notification'
 import styles from './Status.styl'
 
+const axios = require('axios')
 const bungieHelper = require('../../utils/bungie-helper')
+
 const bungieProxy = bungieHelper.proxy()
 
 class Status extends PureComponent {
@@ -14,25 +16,32 @@ class Status extends PureComponent {
     const { active } = this.props
 
     this.state = {
-      active
+      active,
+      source: axios.CancelToken.source()
     }
   }
 
-  componentDidMount () {
-    var { active } = this.state
+  async componentDidMount () {
+    var { active, source } = this.state
 
     if (!active) {
-      bungieProxy(`/Destiny2/Milestones/`)
-        .then(({ data }) => {
-          active = bungieHelper.disabled(data.ErrorCode)
-          localStorage.setItem('apiDisabled', active)
-          this.setState({ active })
+      try {
+        await bungieProxy(`/Destiny2/Milestones/`, {
+          cancelToken: source.token
         })
+          .then(({ data }) => {
+            active = bungieHelper.disabled(data.ErrorCode)
+            localStorage.setItem('apiDisabled', active)
+            this.setState({ active })
+          })
+      } catch (err) {}
     }
   }
 
   componentWillUnmount () {
-    // TODO: Cancel API request
+    var { source } = this.state
+
+    source.cancel()
   }
 
   render () {

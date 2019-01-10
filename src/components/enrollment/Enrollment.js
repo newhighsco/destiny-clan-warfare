@@ -9,6 +9,7 @@ import Notification from '../notification/Notification'
 import ClanTag from '../clan-tag/ClanTag'
 import styles from './Enrollment.styl'
 
+const axios = require('axios')
 const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungieHelper = require('../../utils/bungie-helper')
@@ -31,32 +32,39 @@ class Enrollment extends Component {
       open: apiStatus && apiStatus.enrollmentOpen && !bungieHelper.disabled(apiStatus.bungieStatus),
       name: '',
       groups: [],
-      selectedGroup: null
+      selectedGroup: null,
+      source: axios.CancelToken.source()
     }
 
     this.handleEnroll = this.handleEnroll.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     if (this.refs.form) {
-      var { active } = this.state
+      var { active, source } = this.state
 
       if (!active) this.setState({ active: true })
 
-      proxy(`Clan/AcceptingNewClans`)
-        .then(({ data }) => {
-          const apiDisabled = JSON.parse(localStorage.getItem('apiDisabled'))
-          active = data && !apiDisabled
-
-          localStorage.setItem('enrollmentOpen', active)
-          this.setState({ open: active })
+      try {
+        await proxy(`Clan/AcceptingNewClans`, {
+          cancelToken: source.token
         })
+          .then(({ data }) => {
+            const apiDisabled = JSON.parse(localStorage.getItem('apiDisabled'))
+            active = data && !apiDisabled
+
+            localStorage.setItem('enrollmentOpen', active)
+            this.setState({ open: active })
+          })
+      } catch (err) {}
     }
   }
 
   componentWillUnmount () {
-    // TODO: Cancel API request
+    var { source } = this.state
+
+    source.cancel()
   }
 
   handleEnroll (e) {

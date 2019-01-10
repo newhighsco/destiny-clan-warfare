@@ -25,16 +25,15 @@ class Status extends PureComponent {
     var { active, source } = this.state
 
     if (!active) {
-      try {
-        await bungieProxy(`/Destiny2/Milestones/`, {
-          cancelToken: source.token
+      await bungieProxy(`/Destiny2/Milestones/`, {
+        cancelToken: source.token
+      })
+        .then(({ data }) => {
+          active = bungieHelper.disabled(data.ErrorCode)
+          localStorage.setItem('apiDisabled', active)
+          this.setState({ active })
         })
-          .then(({ data }) => {
-            active = bungieHelper.disabled(data.ErrorCode)
-            localStorage.setItem('apiDisabled', active)
-            this.setState({ active })
-          })
-      } catch (err) {}
+        .catch(() => {})
     }
   }
 

@@ -46,18 +46,17 @@ class Enrollment extends Component {
 
       if (!active) this.setState({ active: true })
 
-      try {
-        await proxy(`Clan/AcceptingNewClans`, {
-          cancelToken: source.token
-        })
-          .then(({ data }) => {
-            const apiDisabled = JSON.parse(localStorage.getItem('apiDisabled'))
-            active = data && !apiDisabled
+      await proxy(`Clan/AcceptingNewClans`, {
+        cancelToken: source.token
+      })
+        .then(({ data }) => {
+          const apiDisabled = JSON.parse(localStorage.getItem('apiDisabled'))
+          active = data && !apiDisabled
 
-            localStorage.setItem('enrollmentOpen', active)
-            this.setState({ open: active })
-          })
-      } catch (err) {}
+          localStorage.setItem('enrollmentOpen', active)
+          this.setState({ open: active })
+        })
+        .catch(() => {})
     }
   }
 

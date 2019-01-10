@@ -13,6 +13,7 @@ import Prose from '../prose/Prose'
 import { StatList } from '../../components/stat/Stat'
 import Sponsor from '../../components/sponsor/Sponsor'
 import { Filter } from '../../components/filter/Filter'
+import Landmark from '../../components/landmark/Landmark'
 
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
@@ -93,6 +94,9 @@ class Event extends PureComponent {
           <ModifierList modifiers={event.modifiers} />
           {!summary &&
             <Fragment>
+              {summaryType &&
+                <Landmark id={summaryType} a11yText={summaryType} />
+              }
               {hasLeaderboards && statsColumns &&
                 <Fragment>
                   {statsColumns.length > 0 ? (
@@ -136,7 +140,7 @@ class Event extends PureComponent {
             </Tab>
           </TabContainer>
         ) : (hasLeaderboards &&
-          <TabContainer id={!summary ? summaryType : null} cutout activeIndex={tabIndex}>
+          <TabContainer cutout activeIndex={tabIndex}>
             {leaderboards && leaderboards.map(({ leaderboard, division }, index) => {
               return (
                 <Tab key={division.name} name={division.name} title={division.size}>

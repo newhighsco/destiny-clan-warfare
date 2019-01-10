@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Link } from '@reach/router'
+import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from '../icon/Icon'
@@ -36,13 +37,13 @@ const Button = class extends PureComponent {
 
     if (absoluteUrl(href)) {
       return (
-        <a
+        <OutboundLink
           {...remainingProps}
           {...commonAttributes}
           type={null}
-          href={href}
+          to={href}
+          eventLabel={href}
           {...target && { target }}
-          {...target === '_blank' && { rel: 'noopener noreferrer' }}
         >
           <span>
             {children}
@@ -52,7 +53,7 @@ const Button = class extends PureComponent {
               </Icon>
             }
           </span>
-        </a>
+        </OutboundLink>
       )
     }
 

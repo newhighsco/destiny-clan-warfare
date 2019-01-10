@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from '@reach/router'
+import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
@@ -133,7 +134,7 @@ class Enrollment extends Component {
             {open ? (
               <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
             ) : (
-              <Notification><a href={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</a> to find out first when it reopens.</Notification>
+              <Notification><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank">Follow us on Twitter</OutboundLink> to find out first when it reopens.</Notification>
             )}
           </div>
         </div>

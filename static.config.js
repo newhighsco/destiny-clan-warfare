@@ -36,7 +36,7 @@ export default {
   plugins: [
     'custom'
   ],
-  getRoutes: async ({ dev }) => {
+  getRoutes: async ({ dev, incremental }) => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
     const routes = []
     const currentEventStats = {}

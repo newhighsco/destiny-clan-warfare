@@ -6,6 +6,7 @@ import Footer from '../footer/Footer'
 import Advert from '../advert/Advert'
 import BungieStatus from '../bungie/Status'
 import Meta from '../meta/Meta'
+import Landmark from '../landmark/Landmark'
 import styles from './PageContainer.styl'
 
 const baseClassName = 'page-container'
@@ -17,9 +18,7 @@ class PageContainer extends PureComponent {
     return (
       <Fragment>
         <Meta {...meta} />
-        <a id="top">
-          <span className="is-vhidden">Top of page</span>
-        </a>
+        <Landmark id="top" a11yText="Top of page" />
         <Header />
         <BungieStatus />
         <main id="content" className={styles[baseClassName]} role="main">

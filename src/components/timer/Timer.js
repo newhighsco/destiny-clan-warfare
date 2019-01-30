@@ -100,7 +100,7 @@ class Timer extends PureComponent {
   }
 
   tick () {
-    var { remainingDuration, passedDuration } = this.state
+    var { remainingDuration, passedDuration, showProgress } = this.state
 
     remainingDuration -= tickInterval
     passedDuration += tickInterval
@@ -111,7 +111,29 @@ class Timer extends PureComponent {
         passedDuration
       })
     } else {
-      this.untick()
+      if (showProgress) {
+        this.untick()
+
+        this.setState({
+          label: [ constants.relativeDate.past ],
+          active: false
+        })
+      } else {
+        const { start, end } = this.props
+        const currentDate = moment.utc()
+        const startDate = moment.utc(start)
+        const endDate = moment.utc(end)
+
+        passedDuration = moment.duration(currentDate.diff(startDate)).asMilliseconds()
+        remainingDuration = moment.duration(endDate.diff(currentDate)).asMilliseconds()
+
+        this.setState({
+          showProgress: true,
+          label: [ constants.relativeDate.current ],
+          remainingDuration,
+          passedDuration
+        })
+      }
     }
   }
 

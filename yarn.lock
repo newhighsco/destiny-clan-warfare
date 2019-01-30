@@ -10720,7 +10720,7 @@ react-docgen@^3.0.0-rc.1:
     node-dir "^0.1.10"
     recast "^0.16.0"
 
-react-dom@^16.0.0, react-dom@^16.6.3:
+react-dom@^16.0.0, react-dom@^16.6.3, react-dom@^16.7.0-alpha.2:
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.7.0.tgz#a17b2a7ca89ee7390bc1ed5eb81783c7461748b8"
   dependencies:
@@ -10813,9 +10813,9 @@ react-split-pane@^0.1.84:
     react-lifecycles-compat "^3.0.4"
     react-style-proptype "^3.0.0"
 
-react-static@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/react-static/-/react-static-6.2.0.tgz#3e1a66354f89c5307a9863c8d0a2708d584e187b"
+react-static@^6.3.3:
+  version "6.3.3"
+  resolved "https://registry.yarnpkg.com/react-static/-/react-static-6.3.3.tgz#20f4172338e30f6500928a2ca5c58e3780b7aa56"
   dependencies:
     "@babel/cli" "^7.1.5"
     "@babel/core" "^7.2.2"
@@ -10871,7 +10871,7 @@ react-static@^6.2.0:
     raw-loader "^1.0.0"
     react "^16.7.0-alpha.2"
     react-dev-utils "^6.1.1"
-    react-dom "^16.6.3"
+    react-dom "^16.7.0-alpha.2"
     react-helmet "^5.2.0"
     react-hot-loader "^4.6.1"
     react-universal-component "^3.0.2"

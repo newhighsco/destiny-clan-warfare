@@ -30,6 +30,7 @@ storiesOf('Timer', module)
       <Timer start={moment.utc().add(1, 'd').startOf('d')} end={moment.utc().add(7, 'd').startOf('d')} />
       <Timer start={moment.utc().add(1, 'h').startOf('h')} end={moment.utc().add(7, 'd').startOf('d')} />
       <Timer start={moment.utc().add(1, 'm').startOf('m')} end={moment.utc().add(7, 'd').startOf('d')} />
+      <Timer start={moment.utc().add(1, 's')} end={moment.utc().add(1, 'm').startOf('m')} />
     </Fragment>
   ))
   .add('Past', () => (

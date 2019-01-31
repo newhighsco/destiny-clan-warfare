@@ -49,6 +49,8 @@ import TwentyTwenty from './icons/twenty-twenty.svg'
 import VarietyIsTheSpiceOfLife from './icons/variety-is-the-spice-of-life.svg'
 import WeaponsOfTheBeasts from './icons/weapons-of-the-beasts.svg'
 import WinnerWinnerChickenDinner from './icons/winner-winner-chicken-dinner.svg'
+import YouCantKillMe from './icons/you-cant-kill-me.svg'
+import YouveEarnedIt from './icons/youve-earned-it.svg'
 import ZoneCaptured from './icons/zone-captured.svg'
 
 const svgs = {
@@ -110,6 +112,9 @@ const svgs = {
   WarmindAntiMeta: { svg: AntiMeta, designer: 'TMD' },
   WeaponsOfTheBeasts: { svg: WeaponsOfTheBeasts, designer: 'Lorc' },
   WinnerWinnerChickenDinner: { svg: WinnerWinnerChickenDinner, designer: 'Artem Kovyazin' },
+  WrongGameMode: { svg: AntiMeta, designer: 'TMD' },
+  YouCanTKillMe: { svg: YouCantKillMe, designer: 'Robert Bjurshagen' },
+  YouVeEarnedIt: { svg: YouveEarnedIt, designer: 'Creative Stall' },
   ZoneCaptured: { svg: ZoneCaptured }
 }
 

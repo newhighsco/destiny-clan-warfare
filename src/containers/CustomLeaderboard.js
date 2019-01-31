@@ -45,7 +45,7 @@ class CustomLeaderboardContainer extends PureComponent {
     const hash = (typeof location !== 'undefined') ? location.hash : ''
     var { meta } = this.props
     const { clans, selectedIds, event, leaderboards } = this.props
-    const ids = selectedIds || (hash.length ? hash.replace(constants.prefix.hash, '').split(',') : [])
+    const ids = selectedIds || (hash.length ? hash.replace(constants.prefix.hash, '').replace('top', '').split(',').filter(Boolean) : [])
     const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
     const kicker = event.isCurrent ? constants.kicker.current : constants.kicker.previous
     var suggestions = []

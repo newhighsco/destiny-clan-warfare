@@ -14,4 +14,4 @@ jobs:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - run: yarn test
+      - run: yarn qa

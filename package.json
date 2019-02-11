@@ -16,6 +16,7 @@
     "build:staging": "npm run build:production -- --staging",
     "build:production": "node --max-old-space-size=8192 ./node_modules/.bin/react-static build",
     "build:storybook": "build-storybook -c .storybook -o ./docs",
+    "build:percy": "PERCY_TOKEN=952d8f9ca3bbffa5582f182851cdf98f1f1597300861a9bd94f2434484bbbfa2 percy-storybook --build_dir=./docs --widths=300,550,960",
     "clean": "rm -rf {docs,public}",
     "serve": "serve ./public -p 9000",
     "optimize": "npm-run-all optimize:*",
@@ -25,11 +26,10 @@
     "qa": "npm-run-all --parallel qa:*",
     "qa:lint": "eslint --cache -f unix .",
     "qa:stylint": "stylint ./src",
-    "test": "npm-run-all qa",
-    "test:percy": "PERCY_TOKEN=952d8f9ca3bbffa5582f182851cdf98f1f1597300861a9bd94f2434484bbbfa2 percy-storybook --build_dir=./docs --widths=300,550,960",
+    "test": "npm-run-all --parallel qa test:*",
+    "test:percy": "npm-run-all build:storybook build:percy",
     "deploy": "npm-run-all build deploy:firebase",
-    "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN",
-    "deploy:storybook": "npm-run-all build:storybook test:percy"
+    "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
   "dependencies": {
     "autolinker": "^1.6.2",

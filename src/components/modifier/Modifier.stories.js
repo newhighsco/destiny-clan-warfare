@@ -60,7 +60,7 @@ Loader.propTypes = {
 }
 
 storiesOf('Modifiers', module)
-  .add('All', () => (
+  .addWithPercyOptions('All', { skip: true }, () => (
     <div className="storybook-tooltips-visible">
       <Loader>
         {modifiers => <ModifierList modifiers={modifiers} enableHover={false} tooltipActive />}

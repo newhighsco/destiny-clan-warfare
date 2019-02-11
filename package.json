@@ -1,7 +1,7 @@
 {
   "name": "destiny-clan-warfare",
   "description": "Destiny Clan Warfare",
-  "version": "3.20.4",
+  "version": "3.21.0",
   "author": "New High Score <hello@newhighsco.re>",
   "license": "ISC",
   "engines": {
@@ -16,6 +16,7 @@
     "build:full": "react-static build",
     "build:incremental": "react-static export --incremental",
     "build:storybook": "build-storybook -c .storybook -o ./docs",
+    "build:percy": "percy-storybook --build_dir=./docs --widths=300,550,960",
     "clean": "rm -rf {dist,docs,tmp}",
     "serve": "serve ./dist -p 9000",
     "optimize": "npm-run-all optimize:*",
@@ -25,7 +26,8 @@
     "qa": "npm-run-all --parallel qa:*",
     "qa:lint": "eslint --cache -f unix .",
     "qa:stylint": "stylint ./src",
-    "test": "npm-run-all qa",
+    "test": "npm-run-all --parallel qa test:*",
+    "test:percy": "npm-run-all build:storybook build:percy",
     "deploy": "npm-run-all build deploy:firebase",
     "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
@@ -65,6 +67,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@percy-io/in-percy": "^0.1.11",
+    "@percy-io/percy-storybook": "^2.1.0",
     "@storybook/addon-options": "^4.1.4",
     "@storybook/addons": "^4.1.4",
     "@storybook/react": "^4.1.4",
@@ -81,6 +85,7 @@
     "firebase-tools": "^3.17.4",
     "if-env-defined": "^1.0.0",
     "imagemin-cli": "^3.0.0",
+    "mockdate": "^2.0.2",
     "npm-run-all": "^4.1.1",
     "serve": "^6.1.0",
     "stylint": "^1.5.9"

@@ -45,14 +45,14 @@ Loader.propTypes = {
 }
 
 storiesOf('Medals', module)
-  .add('Clan', () => (
+  .addWithPercyOptions('Clan', { skip: true }, () => (
     <div className="storybook-tooltips-visible">
       <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
         {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}
       </Loader>
     </div>
   ))
-  .add('Member', () => (
+  .addWithPercyOptions('Member', { skip: true }, () => (
     <div className="storybook-tooltips-visible">
       <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
         {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}

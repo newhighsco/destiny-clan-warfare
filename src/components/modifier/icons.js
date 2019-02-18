@@ -1,121 +1,66 @@
-import AbuseOfPower from './icons/abuse-of-power.svg'
-import AllCreaturesGreatAndSmall from './icons/all-creatures-great-and-small.svg'
-import AlwaysByYourSide from './icons/always-by-your-side.svg'
-import AntiMeta from './icons/anti-meta.svg'
-import AnythingYouCanDo from './icons/anything-you-can-do.svg'
-import AutomaticLockdown from './icons/automatic-lockdown.svg'
-import AvengeCayde6 from './icons/avenge-cayde-6.svg'
-import BandTogether from './icons/band-together.svg'
-import BeASuperhero from './icons/be-a-superhero.svg'
-import BownessPoints from './icons/bowness-points.svg'
-import BoyScout from './icons/boy-scout.svg'
-import Bullseye from './icons/bullseye.svg'
-import CleanSweep from './icons/clean-sweep.svg'
-import CompleteTheCycle from './icons/complete-the-cycle.svg'
-import CrimsonDoubleDown from './icons/crimson-double-down.svg'
-import Deathless from './icons/deathless.svg'
-import DoubleDown from './icons/double-down.svg'
-import EfficiencyIsntEverything from './icons/efficiency-isnt-everything.svg'
-import FeelingBlue from './icons/feeling-blue.svg'
-import FlawlessStriker from './icons/flawless-striker.svg'
-import FlyingTheFlag from './icons/flying-the-flag.svg'
-import FragAndTag from './icons/frag-and-tag.svg'
-import HearTheWhisper from './icons/hear-the-whisper.svg'
-import HelpingHand from './icons/helping-hand.svg'
-import IHitARock from './icons/i-hit-a-rock.svg'
-import LetMeHandleThis from './icons/let-me-handle-this.svg'
-import LukeSkywalkersPadawan from './icons/luke-skywalkers-padawan.svg'
-import MakingADeposit from './icons/making-a-deposit.svg'
-import Merciless from './icons/merciless.svg'
-import NiceThrow from './icons/nice-throw.svg'
-import NoApologies from './icons/no-apologies.svg'
-import NotSoSuper from './icons/not-so-super.svg'
-import NotVeryExotic from './icons/not-very-exotic.svg'
-import OhNoYouDont from './icons/oh-no-you-dont.svg'
-import OopsImTrash from './icons/oops-im-trash.svg'
-import Perfection from './icons/perfection.svg'
-import PewPewPew from './icons/pew-pew-pew.svg'
-import PowerHungry from './icons/power-hungry.svg'
-import RaidMaster from './icons/raid-master.svg'
-import RaidTiming from './icons/raid-timing.svg'
-import RockyBalboasTrainee from './icons/rocky-balboas-trainee.svg'
-import StopTheStopper from './icons/stop-the-stopper.svg'
-import StrikeDeathPenalty from './icons/strike-death-penalty.svg'
-import SupersTwoPointZero from './icons/supers-two-point-zero.svg'
-import TakeItEasy from './icons/take-it-easy.svg'
-import TelestoFesto from './icons/telesto-festo.svg'
-import ThisIsMyHouse from './icons/this-is-my-house.svg'
-import TwentyTwenty from './icons/twenty-twenty.svg'
-import VarietyIsTheSpiceOfLife from './icons/variety-is-the-spice-of-life.svg'
-import WeaponsOfTheBeasts from './icons/weapons-of-the-beasts.svg'
-import WinnerWinnerChickenDinner from './icons/winner-winner-chicken-dinner.svg'
-import YouCantKillMe from './icons/you-cant-kill-me.svg'
-import YouveEarnedIt from './icons/youve-earned-it.svg'
-import ZoneCaptured from './icons/zone-captured.svg'
-
-const svgs = {
-  '20_20': { svg: TwentyTwenty, designer: 'Chanut is Industries' },
-  AbuseOfPower: { svg: AbuseOfPower, designer: 'naim' },
-  AllCreaturesGreatSmall: { svg: AllCreaturesGreatAndSmall },
-  AlwaysByYourSide: { svg: AlwaysByYourSide, designer: 'Simon Child' },
-  AntiMeta: { svg: AntiMeta, designer: 'TMD' },
-  AnythingYouCanDo: { svg: AnythingYouCanDo },
-  AutomaticLockdown: { svg: AutomaticLockdown, designer: 'Jaime M. Laurel' },
-  AvengeCayde_6: { svg: AvengeCayde6, designer: 'farias' },
-  BandTogether: { svg: BandTogether, designer: 'Gabriel Vogel' },
-  BeASuperhero: { svg: BeASuperhero },
-  BowNessPoints: { svg: BownessPoints, designer: 'Hat-Tech' },
-  BoyScout: { svg: BoyScout, designer: 'AomAm' },
-  Bullseye: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
-  ChillAtHome: { svg: BandTogether, designer: 'Gabriel Vogel' },
-  CleanSweep: { svg: CleanSweep, designer: 'Rudez Studio' },
-  CompleteTheCycle: { svg: CompleteTheCycle, designer: 'Gregor Cresnar' },
-  CrimsonDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
-  Deathless: { svg: Deathless, designer: 'Robert Bjurshagen' },
-  DoubleDown: { svg: DoubleDown, designer: 'Optimus Prime' },
-  DoublesDoubleDown: { svg: CrimsonDoubleDown, designer: 'Ker\'is & Optimus Prime' },
-  EfficiencyIsnTEverything: { svg: EfficiencyIsntEverything },
-  FeelingBlue: { svg: FeelingBlue, designer: 'rivercon' },
-  FlawlessStriker: { svg: FlawlessStriker, designer: 'iconsphere' },
-  FlyingTheFlag: { svg: FlyingTheFlag },
-  FragAndTag: { svg: FragAndTag, designer: 'Hea Poh Lin, Krish & miza bin' },
-  GuidedGamesRaidTiming: { svg: RaidTiming, designer: 'Pixel Lab' },
-  HearTheWhisper: { svg: HearTheWhisper, designer: 'BGBOXXX Design' },
-  HelpingHand: { svg: HelpingHand, designer: 'Demetria Rose' },
-  IHitARock: { svg: IHitARock, designer: 'Tom Fricker' },
-  LetMeHandleThis: { svg: LetMeHandleThis },
-  LukeSkywalkerSPadawan: { svg: LukeSkywalkersPadawan, designer: 'Colour Block' },
-  MakingADeposit: { svg: MakingADeposit },
-  MakeTheDreamwork: { svg: BandTogether, designer: 'Gabriel Vogel' },
-  MyMotesBringAllTheBoysToTheYard: { svg: AllCreaturesGreatAndSmall },
-  Merciless: { svg: Merciless, designer: 'Optimus Prime' },
-  NiceThrow: { svg: NiceThrow, designer: 'Hea Poh Lin' },
-  NoApologies: { svg: NoApologies, designer: 'Simon Child' },
-  NotSoSuper: { svg: NotSoSuper },
-  NotVeryExotic: { svg: NotVeryExotic, designer: 'iconsphere' },
-  OhNoYouDonT: { svg: OhNoYouDont },
-  OopsIMTrash: { svg: OopsImTrash },
-  Perfection: { svg: Perfection, designer: 'Montu Yadav' },
-  PewPewPew: { svg: PewPewPew, designer: 'Nikol Kokešová' },
-  PowerHungry: { svg: PowerHungry, designer: 'naim' },
-  RaidMaster: { svg: RaidMaster, designer: 'Robert Bjurshagen' },
-  RaidTiming: { svg: RaidTiming, designer: 'Pixel Lab' },
-  RockyBalboaSTrainee: { svg: RockyBalboasTrainee, designer: 'miza bin' },
-  StopTheStopper: { svg: StopTheStopper, designer: 'Optimus Prime' },
-  StrikeDeathPenalty: { svg: StrikeDeathPenalty, designer: 'Robert Bjurshagen' },
-  Supers_2_0: { svg: SupersTwoPointZero },
-  SuperAccurate: { svg: Bullseye, designer: 'Zlatko Najdenovski' },
-  TakeItEasy: { svg: TakeItEasy, designer: 'Pixel Lab' },
-  TelestoFesto: { svg: TelestoFesto, designer: 'Casper Jensen' },
-  ThisIsMyHouse: { svg: ThisIsMyHouse, designer: 'arif fajar yulianto' },
-  VarietyIsTheSpiceOfLife: { svg: VarietyIsTheSpiceOfLife, designer: 'Xela Ub' },
-  WarmindAntiMeta: { svg: AntiMeta, designer: 'TMD' },
-  WeaponsOfTheBeasts: { svg: WeaponsOfTheBeasts, designer: 'Lorc' },
-  WinnerWinnerChickenDinner: { svg: WinnerWinnerChickenDinner, designer: 'Artem Kovyazin' },
-  WrongGameMode: { svg: AntiMeta, designer: 'TMD' },
-  YouCanTKillMe: { svg: YouCantKillMe, designer: 'Robert Bjurshagen' },
-  YouVeEarnedIt: { svg: YouveEarnedIt, designer: 'Creative Stall' },
-  ZoneCaptured: { svg: ZoneCaptured }
+const icons = {
+  '20_20': { svg: 'twenty-twenty', designer: 'Chanut is Industries' },
+  AbuseOfPower: { svg: 'abuse-of-power', designer: 'naim' },
+  AllCreaturesGreatSmall: { svg: 'all-creatures-great-and-small' },
+  AlwaysByYourSide: { svg: 'always-by-your-side', designer: 'Simon Child' },
+  AntiMeta: { svg: 'anti-meta', designer: 'TMD' },
+  AnythingYouCanDo: { svg: 'anything-you-can-do' },
+  AutomaticLockdown: { svg: 'automatic-lockdown', designer: 'Jaime M. Laurel' },
+  AvengeCayde_6: { svg: 'avenge-cayde-6', designer: 'farias' },
+  BandTogether: { svg: 'band-together', designer: 'Gabriel Vogel' },
+  BeASuperhero: { svg: 'be-a-superhero' },
+  BowNessPoints: { svg: 'bowness-points', designer: 'Hat-Tech' },
+  BoyScout: { svg: 'boy-scout', designer: 'AomAm' },
+  Bullseye: { svg: 'bullseye', designer: 'Zlatko Najdenovski' },
+  ChillAtHome: { svg: 'band-together', designer: 'Gabriel Vogel' },
+  CleanSweep: { svg: 'clean-sweep', designer: 'Rudez Studio' },
+  CompleteTheCycle: { svg: 'complete-the-cycle', designer: 'Gregor Cresnar' },
+  CrimsonDoubleDown: { svg: 'crimson-double-down', designer: 'Ker\'is & Optimus Prime' },
+  Deathless: { svg: 'deathless', designer: 'Robert Bjurshagen' },
+  DoubleDown: { svg: 'double-down', designer: 'Optimus Prime' },
+  DoublesDoubleDown: { svg: 'crimson-double-down', designer: 'Ker\'is & Optimus Prime' },
+  EfficiencyIsnTEverything: { svg: 'efficiency-isnt-everything' },
+  FeelingBlue: { svg: 'feeling-blue', designer: 'rivercon' },
+  FlawlessStriker: { svg: 'flawless-striker', designer: 'iconsphere' },
+  FlyingTheFlag: { svg: 'flying-the-flag' },
+  FragAndTag: { svg: 'frag-and-tag', designer: 'Hea Poh Lin, Krish & miza bin' },
+  GuidedGamesRaidTiming: { svg: 'raid-timing', designer: 'Pixel Lab' },
+  HearTheWhisper: { svg: 'hear-the-whisper', designer: 'BGBOXXX Design' },
+  HelpingHand: { svg: 'helping-hand', designer: 'Demetria Rose' },
+  IHitARock: { svg: 'i-hit-a-rock', designer: 'Tom Fricker' },
+  LetMeHandleThis: { svg: 'let-me-handle-this' },
+  LukeSkywalkerSPadawan: { svg: 'luke-skywalkers-padawan', designer: 'Colour Block' },
+  MakingADeposit: { svg: 'making-a-deposit' },
+  MakeTheDreamwork: { svg: 'band-together', designer: 'Gabriel Vogel' },
+  MyMotesBringAllTheBoysToTheYard: { svg: 'all-creatures-great-and-small' },
+  Merciless: { svg: 'merciless', designer: 'Optimus Prime' },
+  NiceThrow: { svg: 'nice-throw', designer: 'Hea Poh Lin' },
+  NoApologies: { svg: 'no-apologies', designer: 'Simon Child' },
+  NotSoSuper: { svg: 'not-so-super' },
+  NotVeryExotic: { svg: 'not-very-exotic', designer: 'iconsphere' },
+  OhNoYouDonT: { svg: 'oh-no-you-dont' },
+  OopsIMTrash: { svg: 'oops-im-trash' },
+  Perfection: { svg: 'perfection', designer: 'Montu Yadav' },
+  PewPewPew: { svg: 'pew-pew-pew', designer: 'Nikol Kokešová' },
+  PowerHungry: { svg: 'power-hungry', designer: 'naim' },
+  RaidMaster: { svg: 'raid-master', designer: 'Robert Bjurshagen' },
+  RaidTiming: { svg: 'raid-timing', designer: 'Pixel Lab' },
+  RockyBalboaSTrainee: { svg: 'rocky-balboas-trainee', designer: 'miza bin' },
+  StopTheStopper: { svg: 'stop-the-stopper', designer: 'Optimus Prime' },
+  StrikeDeathPenalty: { svg: 'strike-death-penalty', designer: 'Robert Bjurshagen' },
+  Supers_2_0: { svg: 'supers-two-point-zero' },
+  SuperAccurate: { svg: 'bullseye', designer: 'Zlatko Najdenovski' },
+  TakeItEasy: { svg: 'take-it-easy', designer: 'Pixel Lab' },
+  TelestoFesto: { svg: 'telesto-festo', designer: 'Casper Jensen' },
+  ThisIsMyHouse: { svg: 'this-is-my-house', designer: 'arif fajar yulianto' },
+  VarietyIsTheSpiceOfLife: { svg: 'variety-is-the-spice-of-life', designer: 'Xela Ub' },
+  WarmindAntiMeta: { svg: 'anti-meta', designer: 'TMD' },
+  WeaponsOfTheBeasts: { svg: 'weapons-of-the-beasts', designer: 'Lorc' },
+  WinnerWinnerChickenDinner: { svg: 'winner-winner-chicken-dinner', designer: 'Artem Kovyazin' },
+  WrongGameMode: { svg: 'anti-meta', designer: 'TMD' },
+  YouCanTKillMe: { svg: 'you-cant-kill-me', designer: 'Robert Bjurshagen' },
+  YouVeEarnedIt: { svg: 'youve-earned-it', designer: 'Creative Stall' },
+  ZoneCaptured: { svg: 'zone-captured' }
 }
 
-export default svgs
+export default icons

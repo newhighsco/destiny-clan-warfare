@@ -9,6 +9,7 @@ import styles from './Modifier.styl'
 const pascalCase = require('pascal-case')
 const constants = require('../../utils/constants')
 const baseClassName = 'modifier'
+const svgs = require.context('./icons', true, /\.svg$/)
 
 class Modifier extends PureComponent {
   render () {
@@ -16,7 +17,7 @@ class Modifier extends PureComponent {
     var { bonus } = this.props
     const iconKey = pascalCase(name || '')
     const icon = Icons.hasOwnProperty(iconKey) ? Icons[iconKey] : null
-    const IconSvg = icon ? icon.svg : null
+    const IconSvg = icon ? svgs(`./${icon.svg}.svg`) : null
     const designer = icon ? icon.designer : null
     var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
     var suffix = ''

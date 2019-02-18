@@ -27,7 +27,7 @@
     "qa:lint": "eslint --cache -f unix .",
     "qa:stylint": "stylint ./src",
     "test": "npm-run-all --parallel qa test:*",
-    "test:jest": "jest",
+    "test:jest": "jest && codecov",
     "test-skip:percy": "npm-run-all build:storybook build:percy",
     "deploy": "npm-run-all build deploy:firebase",
     "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"
@@ -73,6 +73,7 @@
     "@percy-io/percy-storybook": "^2.1.0",
     "@storybook/addon-options": "^3.4.0",
     "@storybook/react": "^3.4.0",
+    "codecov": "^3.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "^3.19.0",

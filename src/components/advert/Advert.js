@@ -6,8 +6,10 @@ class Advert extends PureComponent {
   constructor (props) {
     super(props)
 
+    const { enabled } = this.props
+
     this.state = {
-      active: JSON.parse(process.env.ENABLE_ADVERTS)
+      active: enabled
     }
   }
 
@@ -15,6 +17,7 @@ class Advert extends PureComponent {
     const { active } = this.state
 
     if (active) {
+      /* istanbul ignore next line */
       if (typeof window !== 'undefined' && window) (window.adsbygoogle = window.adsbygoogle || []).push({})
 
       document.body.classList.add(styles['has-advert'])
@@ -37,12 +40,14 @@ class Advert extends PureComponent {
 }
 
 Advert.defaultProps = {
+  enabled: JSON.parse(process.env.ENABLE_ADVERTS || false),
   client: 'ca-pub-5655051109573002',
   slot: '2916154772',
   format: 'auto'
 }
 
 Advert.propTypes = {
+  enabled: PropTypes.bool,
   client: PropTypes.string,
   slot: PropTypes.string,
   format: PropTypes.string

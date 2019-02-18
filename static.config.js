@@ -536,7 +536,7 @@ export default {
           },
           {
             test: /\.svg$/,
-            loader: require.resolve('svg-react-loader')
+            use: [ require.resolve('svg-react-loader'), require.resolve('svgo-loader') ]
           },
           cssLoader,
           jsLoader,

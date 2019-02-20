@@ -57,7 +57,8 @@ const parseMedals = (input, type, minimumTier) => {
   }
 
   return {
-    medals: medals.map(({ tier, name, description, count, label }) => ({
+    medals: medals.map(({ type, tier, name, description, count, label }) => ({
+      type,
       tier,
       name,
       description,

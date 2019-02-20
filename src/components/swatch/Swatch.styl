@@ -11,9 +11,3 @@
 
 .swatch__title
   font-weight bold
-
-$colors = 'terracotta', 'equator', 'lemon', 'black', 'nero', 'nightrider', 'eclipse', 'silver', 'white-smoke', 'white', 'pastel-green', 'cornflower'
-
-for $color in $colors
-  .swatch--{$color}
-    background-color lookup('$color--' + $color)

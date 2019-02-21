@@ -46,7 +46,6 @@
     "moment": "^2.19.2",
     "nprogress": "^0.2.0",
     "number-to-words": "^1.2.3",
-    "pascal-case": "^2.0.1",
     "poststylus": "^1.0.0",
     "query-string": "^5.0.1",
     "react": "^16.0.0",

@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Lockup } from '../lockup/Lockup'
-import Logos from './logos'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 import styles from './Sponsor.styl'
 
-const pascalCase = require('pascal-case')
+const paramCase = require('param-case')
+const svgs = require.context('./logos', false, /\.svg$/)
 
 const baseClassName = 'sponsor'
 
@@ -14,14 +15,17 @@ class Sponsor extends PureComponent {
 
     if (!name) return null
 
-    const logoKey = pascalCase(name || '')
-    const logo = Logos.hasOwnProperty(logoKey) ? Logos[logoKey] : null
-    const LogoSvg = logo ? logo.svg : null
+    const key = paramCase(name || '')
+    const logoKey = `./${key}.svg`
+    const LogoSvg = svgs.keys().find(key => key === logoKey) ? svgs(logoKey) : null
 
     return (
       <div className={styles[baseClassName]}>
         {LogoSvg ? (
-          <LogoSvg className={styles[`${baseClassName}__logo`]} />
+          <Fragment>
+            <VisuallyHidden>{name}</VisuallyHidden>
+            <LogoSvg className={styles[`${baseClassName}__logo`]} />
+          </Fragment>
         ) : (
           <Lockup borderless kicker={name} />
         )}

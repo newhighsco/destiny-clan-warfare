@@ -6,6 +6,7 @@ import Footer from '../footer/Footer'
 import Advert from '../advert/Advert'
 import BungieStatus from '../bungie/Status'
 import Meta from '../meta/Meta'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 import styles from './PageContainer.styl'
 
 const baseClassName = 'page-container'
@@ -18,7 +19,7 @@ class PageContainer extends PureComponent {
       <Fragment>
         <Meta {...meta} />
         <a id="top">
-          <span className="is-vhidden">Top of page</span>
+          <VisuallyHidden>Top of page</VisuallyHidden>
         </a>
         <Header />
         <BungieStatus />

@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
 import Sponsor from './Sponsor'
-import Logos from './logos'
 
-const sponsors = [ ...Object.keys(Logos), 'nonexistent' ]
+const sponsors = [ 'Insert Coin', 'nonexistent' ]
 
 storiesOf('Sponsor', module)
   .add('All', () => (

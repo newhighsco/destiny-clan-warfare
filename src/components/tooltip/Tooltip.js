@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { visuallyHiddenClassName } from '../visually-hidden/VisuallyHidden'
 import styles from './Tooltip.styl'
 
 const baseClassName = 'tooltip'
@@ -77,7 +78,7 @@ class Tooltip extends PureComponent {
             styles[contentClassName],
             styles[`${contentClassName}--${align}`],
             styles[`${contentClassName}--${valign}`],
-            { 'is-vhidden': !active },
+            !active && visuallyHiddenClassName,
             { 'is-hidden': !hasContent }
           )}
           {...active && {

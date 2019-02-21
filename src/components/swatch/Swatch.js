@@ -9,10 +9,14 @@ class Swatch extends PureComponent {
   render () {
     const { name, value } = this.props
 
+    if (!value) return null
+
     return (
-      <div className={classNames(styles[baseClassName], styles[`${baseClassName}--${name.replace(/ /g, '-').toLowerCase()}`])}>
+      <div className={styles[baseClassName]} style={{ backgroundColor: value }}>
         <div className={styles[`${baseClassName}__caption`]}>
-          <div className={styles[`${baseClassName}__title`]}>{name}</div>
+          {name &&
+            <h2 className={styles[`${baseClassName}__title`]}>{name}</h2>
+          }
           <ul className={classNames('list--unstyled', styles[`${baseClassName}__list`])}>
             <li className={styles[`${baseClassName}__value`]}>{value}</li>
           </ul>

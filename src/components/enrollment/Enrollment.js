@@ -7,6 +7,7 @@ import { Lockup } from '../lockup/Lockup'
 import { Button, ButtonGroup } from '../button/Button'
 import Notification from '../notification/Notification'
 import ClanTag from '../clan-tag/ClanTag'
+import { visuallyHiddenClassName } from '../visually-hidden/VisuallyHidden'
 import styles from './Enrollment.styl'
 
 const axios = require('axios')
@@ -145,7 +146,7 @@ class Enrollment extends Component {
             )}
           </div>
         </div>
-        <ButtonGroup className={!open || active ? 'is-vhidden' : null}>
+        <ButtonGroup className={!open || active ? visuallyHiddenClassName : null}>
           <Button solid type="submit">Enroll clan</Button>
         </ButtonGroup>
         {groups.length > 0 &&

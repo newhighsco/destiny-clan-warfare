@@ -6,24 +6,30 @@ import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import { Lockup } from '../lockup/Lockup'
-import BackgroundSvgs from './background'
-import ForegroundSvgs from './foreground'
+import foregrounds from './foregrounds'
 import HighlightSvg from './highlight.svg'
 import styles from './Medal.styl'
 
-const pascalCase = require('pascal-case')
+const paramCase = require('param-case')
+const constants = require('../../utils/constants')
 const sentence = require('../../utils/grammar').sentence
+const backgroundSvgs = require.context('./backgrounds', false, /\.svg$/)
+const foregroundSvgs = require.context('./foregrounds', true, /\.svg$/)
 
 const baseClassName = 'medal'
 
 class Medal extends PureComponent {
   render () {
-    const { name, description, label, tier, count, size, align, valign, className, enableHover, tooltipActive } = this.props
-    const backgroundKey = `Tier${tier}`
-    const foregroundKey = pascalCase(name || '')
-    const BackgroundSvg = BackgroundSvgs.hasOwnProperty(backgroundKey) ? BackgroundSvgs[backgroundKey] : null
-    const foreground = ForegroundSvgs.hasOwnProperty(foregroundKey) ? ForegroundSvgs[foregroundKey] : null
-    const ForegroundSvg = foreground ? foreground.svg : null
+    const { type, name, description, label, tier, count, size, align, valign, className, enableHover, tooltipActive } = this.props
+    var key = paramCase(name)
+    const foreground = foregrounds[type][key]
+
+    if (foreground && foreground.svg) key = foreground.svg
+
+    const backgroundKey = `./tier${tier}.svg`
+    const foregroundKey = `./${type.toLowerCase()}/${key}.svg`
+    const BackgroundSvg = backgroundSvgs.keys().find(key => key === backgroundKey) ? backgroundSvgs(backgroundKey) : null
+    const ForegroundSvg = foregroundSvgs.keys().find(key => key === foregroundKey) ? foregroundSvgs(foregroundKey) : null
     const designer = foreground ? foreground.designer : null
     const tooltip = []
     const labelSentence = sentence(label)
@@ -42,7 +48,7 @@ class Medal extends PureComponent {
             styles[`${baseClassName}--tier-${tier}`],
             size && styles[`${baseClassName}--${size}`]
           )}
-          data-key={foregroundKey}
+          data-key={key}
         >
           <Icon className={styles[`${baseClassName}__icon`]}>
             <ResponsiveMedia ratio="124:129">
@@ -68,11 +74,13 @@ class Medal extends PureComponent {
 }
 
 Medal.defaultProps = {
+  type: constants.prefix.clan,
   tier: 1,
   enableHover: true
 }
 
 Medal.propTypes = {
+  type: PropTypes.oneOf([ constants.prefix.clan, constants.prefix.profile ]),
   name: PropTypes.string,
   description: PropTypes.string,
   label: PropTypes.array,

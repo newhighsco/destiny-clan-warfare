@@ -11,7 +11,8 @@
     "node": true,
     "mocha": true,
     "jquery": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "globals": {
     "adsbygoogle": true

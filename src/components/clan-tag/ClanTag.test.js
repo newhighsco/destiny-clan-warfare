@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Link } from 'react-static'
+import { Link } from '@reach/router'
 import ClanTag from './ClanTag'
 
 const requiredProps = () => ({ children: 'AVA' })

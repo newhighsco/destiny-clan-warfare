@@ -9,7 +9,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: require.resolve('svg-react-loader')
+        use: [ require.resolve('svg-react-loader'), require.resolve('svgo-loader') ]
       },
       {
         test: /\.(png|jpg|gif|eot|ttf|woff(2)?)$/,

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { VisuallyHidden } from '../visually-hidden/VisuallyHidden'
 import styles from './Landmark.styl'
 
 const baseClassName = 'landmark'
@@ -10,7 +11,7 @@ const Landmark = class extends PureComponent {
 
     return (
       <a id={id} className={styles[baseClassName]}>
-        <span className="is-vhidden">{a11yText}</span>
+        <VisuallyHidden>{a11yText}</VisuallyHidden>
       </a>
     )
   }

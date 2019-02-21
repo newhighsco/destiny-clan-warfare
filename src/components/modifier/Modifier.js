@@ -3,20 +3,25 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
-import Icons from './icons'
+import icons from './icons'
 import styles from './Modifier.styl'
 
-const pascalCase = require('pascal-case')
+const paramCase = require('param-case')
 const constants = require('../../utils/constants')
+const svgs = require.context('./icons', false, /\.svg$/)
 const baseClassName = 'modifier'
 
 class Modifier extends PureComponent {
   render () {
     const { name, description, creator, scoringModifier, size, align, valign, enableHover, tooltipActive } = this.props
     var { bonus } = this.props
-    const iconKey = pascalCase(name || '')
-    const icon = Icons.hasOwnProperty(iconKey) ? Icons[iconKey] : null
-    const IconSvg = icon ? icon.svg : null
+    var key = paramCase(name)
+    const icon = icons[key]
+
+    if (icon && icon.svg) key = icon.svg
+
+    const iconKey = `./${key}.svg`
+    const IconSvg = svgs.keys().find(key => key === iconKey) ? svgs(iconKey) : null
     const designer = icon ? icon.designer : null
     var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
     var suffix = ''
@@ -60,7 +65,7 @@ class Modifier extends PureComponent {
             styles[baseClassName],
             size && styles[`${baseClassName}--${size}`]
           )}
-          data-key={iconKey}
+          data-key={key}
         >
           <Icon className={styles[`${baseClassName}__icon`]}>
             {IconSvg &&

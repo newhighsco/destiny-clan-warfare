@@ -12,6 +12,7 @@
     "start": "npm-run-all --parallel start:*",
     "start:dev": "react-static start",
     "start:storybook": "start-storybook -p 9001 -c .storybook",
+    "start:jest": "jest --watch",
     "build": "npm-run-all build:production",
     "build:staging": "npm run build:production -- --staging",
     "build:production": "node --max-old-space-size=8192 ./node_modules/.bin/react-static build",

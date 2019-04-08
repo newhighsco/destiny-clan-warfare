@@ -53,6 +53,7 @@ export default {
     'custom'
   ],
   getRoutes: async ({ stage, incremental, config: { paths: { DIST } } }) => {
+    throw new Error('broken on purpose')
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
     const routes = []
     const currentEventStats = {}

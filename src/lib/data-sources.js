@@ -223,7 +223,7 @@ const fetch = async () => {
           return undefined
         }
 
-        primaryApi(`Clan/GetAllMembers`)
+        primaryApi(`Clan/GetAllMembers222`)
           .then(({ data }) => {
             data.map(member => {
               const id = member.profileIdStr

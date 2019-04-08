@@ -7,9 +7,7 @@ export default () => ({
   webpack: (config, { defaultLoaders, stage }) => {
     var { jsLoader, jsLoaderExt, cssLoader, fileLoader } = defaultLoaders
 
-    fileLoader.query.limit = 1
-
-    if (stage !== 'dev') config.devtool = false
+    if (fileLoader.query) fileLoader.query.limit = 1
 
     var loaders = []
 

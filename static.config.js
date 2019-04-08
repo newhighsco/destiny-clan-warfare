@@ -14,7 +14,6 @@ const feedBuilder = require('./src/utils/feed-builder')
 const statsHelper = require('./src/utils/stats-helper')
 const apiHelper = require('./src/utils/api-helper')
 
-const distPath = 'dist'
 const redirects = [
   { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
   { from: `${constants.server.proxyUrl}*`, to: `${apiHelper.url()}:splat`, code: 200 },
@@ -28,15 +27,32 @@ export default {
     port: 9000
   },
   siteRoot: process.env.SITE_URL,
-  bundleAnalyzer: false,
   extractCssChunks: true,
-  inlineCss: false,
-  disableRouteInfoWarning: true,
-  disablePreload: false,
   plugins: [
+    [
+      require.resolve('react-static-plugin-source-filesystem'),
+      {
+        location: path.resolve('./src/pages')
+      }
+    ],
+    require.resolve('react-static-plugin-reach-router'),
+    require.resolve('react-static-plugin-sitemap'),
+    [
+      'robots',
+      {
+        disallowAll: JSON.parse(process.env.DISALLOW_ROBOTS || false),
+        showSitemap: true
+      }
+    ],
+    [
+      'manifest',
+      {
+        ...constants.meta
+      }
+    ],
     'custom'
   ],
-  getRoutes: async ({ dev, incremental }) => {
+  getRoutes: async ({ stage, incremental, config: { paths: { DIST } } }) => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
     const routes = []
     const currentEventStats = {}
@@ -177,8 +193,8 @@ export default {
 
       routes.push({
         path: clan.path,
-        component: 'src/containers/clan/Overall',
-        getData: () => ({
+        template: 'src/containers/clan/Overall',
+        getData: async () => ({
           clan,
           members: clanMembers,
           currentEventId: currentEventId || undefined,
@@ -189,8 +205,8 @@ export default {
       if (currentEventId) {
         routes.push({
           path: urlBuilder.currentEventUrl(clan.id),
-          component: 'src/containers/clan/Current',
-          getData: () => ({
+          template: 'src/containers/clan/Current',
+          getData: async () => ({
             apiStatus,
             clan,
             members: clanMembers,
@@ -358,8 +374,8 @@ export default {
 
       routes.push({
         path: event.path,
-        component: 'src/containers/Event',
-        getData: () => ({
+        template: 'src/containers/Event',
+        getData: async () => ({
           event: { ...event, winners: undefined },
           leaderboards: event.isCurrent ? currentEventLeaderboards : leaderboards[eventId],
           suggestions: event.isCurrent ? currentEventSuggestions : suggestions[eventId],
@@ -377,8 +393,8 @@ export default {
     routes.push(
       {
         path: '/',
-        component: 'src/containers/Home',
-        getData: () => ({
+        template: 'src/containers/Home',
+        getData: async () => ({
           apiStatus,
           clanIds,
           currentEvent,
@@ -389,15 +405,15 @@ export default {
       },
       {
         path: urlBuilder.eventRootUrl,
-        component: 'src/containers/Events',
-        getData: () => ({
+        template: 'src/containers/Events',
+        getData: async () => ({
           events: clientEvents
         })
       },
       {
         path: urlBuilder.clanRootUrl,
-        component: 'src/containers/Clans',
-        getData: () => ({
+        template: 'src/containers/Clans',
+        getData: async () => ({
           clans: clientClans
         })
       }
@@ -414,16 +430,15 @@ export default {
     routes.push(
       {
         path: urlBuilder.leaderboardRootUrl,
-        component: 'src/containers/CustomLeaderboard',
-        getData: () => ({
+        template: 'src/containers/CustomLeaderboard',
+        getData: async () => ({
           ...customLeaderboardData
         })
       },
       {
         path: '/pixelpub/',
-        component: 'src/containers/CustomLeaderboard',
-        noindex: true,
-        getData: () => ({
+        template: 'src/containers/CustomLeaderboard',
+        getData: async () => ({
           ...customLeaderboardData,
           selectedIds: constants.clans.pixelPub,
           meta: {
@@ -444,7 +459,10 @@ export default {
       redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
     }
 
-    if (!dev) {
+    if (stage !== 'dev') {
+      await fs.ensureDir(DIST)
+      await fs.writeFile(path.join(DIST, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
+
       const feedOptions = {
         title: constants.meta.title,
         description: constants.meta.description,
@@ -454,14 +472,13 @@ export default {
 
       feedBuilder(events).map(event => feed.item(event))
 
-      await fs.ensureDir(distPath)
-      await fs.writeFile(path.join(distPath, '/events.xml'), feed.xml())
+      await fs.writeFile(path.join(DIST, '/events.xml'), feed.xml())
 
       feed = new RSS(feedOptions)
 
       feedBuilder(events, constants.kicker.current).map(event => feed.item(event))
 
-      await fs.writeFile(path.join(distPath, '/events--current.xml'), feed.xml())
+      await fs.writeFile(path.join(DIST, '/events--current.xml'), feed.xml())
 
       feed = new RSS(feedOptions)
 
@@ -482,44 +499,10 @@ export default {
         custom_elements: [ { 'content:encoded': content } ]
       })
 
-      await fs.writeFile(path.join(distPath, '/enrollment.xml'), feed.xml())
+      await fs.writeFile(path.join(DIST, '/enrollment.xml'), feed.xml())
     }
 
     return routes
   },
-  Document: Html,
-  onBuild: async () => {
-    const robots = [ 'User-agent: *' ]
-    const disallowRobots = JSON.parse(process.env.DISALLOW_ROBOTS)
-
-    if (disallowRobots) robots.push('Disallow: /')
-    robots.push(`Sitemap: ${process.env.SITE_URL}/sitemap.xml`)
-
-    await fs.writeFile(path.join(distPath, 'robots.txt'), robots.join('\n'))
-
-    await fs.writeFile(path.join(distPath, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
-
-    const manifest = {
-      name: constants.meta.name,
-      short_name: constants.meta.shortName,
-      start_url: `/`,
-      background_color: constants.meta.themeColor,
-      theme_color: constants.meta.themeColor,
-      display: `minimal-ui`,
-      icons: [
-        {
-          src: `/favicon-192x192.png`,
-          sizes: `192x192`,
-          type: `image/png`
-        },
-        {
-          src: `/favicon-512x512.png`,
-          sizes: `512x512`,
-          type: `image/png`
-        }
-      ]
-    }
-
-    await fs.writeFile(path.join(distPath, 'manifest.webmanifest'), JSON.stringify(manifest))
-  }
+  Document: Html
 }

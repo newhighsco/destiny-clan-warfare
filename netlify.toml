@@ -5,10 +5,12 @@ ID = "destiny-clan-warfare"
   publish = "dist"
   command = "yarn build"
 
+[build.environment]
+  YARN_VERSION = "1.12.3"
+
 [context.deploy-preview.environment]
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"
   SITE_URL = "https://beta.destinyclanwarfare.com"
-  REACT_STATIC_STAGING = "true"
   DISALLOW_ROBOTS = "true"
   ENABLE_MATCH_HISTORY = "true"
   ENABLE_PREVIOUS_LEADERBOARDS = "true"

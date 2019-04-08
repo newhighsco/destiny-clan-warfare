@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 const constants = require('./utils/constants')
-const { name, handle, themeColor } = constants.meta
+const { name, handle } = constants.meta
 
 class Html extends PureComponent {
   render () {
@@ -18,9 +18,6 @@ class Html extends PureComponent {
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
           <link rel="alternate" type="application/rss+xml" href="/events.xml" />
-          <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-          <link rel="manifest" href="/manifest.webmanifest" />
-          <meta name="theme-color" content={themeColor} />
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content={name} />
           <meta name="twitter:card" content="summary" />

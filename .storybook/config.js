@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { Router } from '@reach/router'
 import { configure, addDecorator, getStorybook, setAddon } from '@storybook/react'
-import { withOptions } from '@storybook/addon-options'
 import createPercyAddon from '@percy-io/percy-storybook'
 import inPercy from '@percy-io/in-percy'
 import mockdate from 'mockdate'
@@ -32,14 +31,6 @@ addDecorator(story => (
     <PreviewContainer default story={story} />
   </Router>
 ))
-
-addDecorator(
-  withOptions({
-    name: constants.meta.name,
-    url: '/',
-    showAddonPanel: false
-  })
-)
 
 setAddon(percyAddon)
 

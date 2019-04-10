@@ -70,6 +70,7 @@
     "svgo": "^1.0.3",
     "svgo-loader": "^2.2.0",
     "thenby": "^1.2.6",
+    "webpack-pwa-manifest": "^4.0.0",
     "yarn": "^1.12.3"
   },
   "devDependencies": {

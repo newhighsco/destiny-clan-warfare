@@ -1,56 +1,30 @@
 import React from 'react'
-import fs from 'fs-extra'
-import path from 'path'
-import chalk from 'chalk'
+import WebpackPwaManifest from 'webpack-pwa-manifest'
 
 export default (options = {}) => {
-  const filename = options.filename || 'manifest.webmanifest'
+  const filename = options.filename || 'manifest.json'
+  const iconDestination = 'static'
 
   return ({
+    webpack: (config) => {
+      if (options.icons) {
+        options.icons = options.icons.map(({ destination = iconDestination, ...rest }) => ({ ...rest, destination }))
+      }
+
+      config.plugins.push(
+        new WebpackPwaManifest({ ...options, filename })
+      )
+
+      return config
+    },
     headElements: async (elements, state) => {
-      const { themeColor } = options
+      const themeColor = options.theme_color
 
       return [
         ...elements,
         <link rel="manifest" href={`/${filename}`} />,
-        <meta name="theme-color" content={themeColor} />
+        themeColor && <meta name="theme-color" content={themeColor} />
       ]
-    },
-    afterExport: async state => {
-      const { name, shortName, themeColor } = options
-      const {
-        config: {
-          paths: { DIST }
-        }
-      } = state
-      const manifest = {
-        name,
-        short_name: shortName,
-        start_url: `/`,
-        background_color: themeColor,
-        theme_color: themeColor,
-        display: `minimal-ui`,
-        icons: [
-          {
-            src: `/favicon-192x192.png`,
-            sizes: `192x192`,
-            type: `image/png`
-          },
-          {
-            src: `/favicon-512x512.png`,
-            sizes: `512x512`,
-            type: `image/png`
-          }
-        ]
-      }
-
-      console.log(`Generating ${filename}...`)
-
-      await fs.writeFile(path.join(DIST, filename), JSON.stringify(manifest))
-
-      console.log(chalk.green(`[\u2713] ${filename} generated`))
-
-      return state
     }
   })
 }

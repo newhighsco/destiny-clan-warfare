@@ -53,8 +53,6 @@ export default {
     'custom'
   ],
   getRoutes: async ({ stage, incremental, config: { paths: { DIST } } }) => {
-    console.log(111, JSON.stringify(process.env, null, 2))
-
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
     const routes = []
     const currentEventStats = {}

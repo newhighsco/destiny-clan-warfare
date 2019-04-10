@@ -4,5 +4,5 @@
   Cache-Control: no-cache
 /static/*
   Cache-Control: public, max-age=31536000, immutable
-/staticData/*
+/templates/*
   Cache-Control: public, max-age=31536000, immutable

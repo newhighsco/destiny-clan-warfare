@@ -6,13 +6,12 @@ import chalk from 'chalk'
 export default (options = {}) => {
   const filename = 'robots.txt'
   const sitemapFilename = 'sitemap.xml'
-  const showSitemap = options.showSitemap
 
   return ({
     headElements: async (elements, state) => {
       return [
         ...elements,
-        showSitemap && <link rel="sitemap" type="application/xml" href={`/${sitemapFilename}`} />
+        options.showSitemap && <link rel="sitemap" type="application/xml" href={`/${sitemapFilename}`} />
       ]
     },
     afterExport: async state => {
@@ -26,7 +25,7 @@ export default (options = {}) => {
       const robots = [ 'User-agent: *' ]
 
       if (disallowAll) robots.push('Disallow: /')
-      if (showSitemap && siteRoot) robots.push(`Sitemap: ${siteRoot}/${sitemapFilename}`)
+      if (options.showSitemap && siteRoot) robots.push(`Sitemap: ${siteRoot}/${sitemapFilename}`)
 
       console.log(`Generating ${filename}...`)
 

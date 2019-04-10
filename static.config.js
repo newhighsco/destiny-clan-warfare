@@ -1,4 +1,3 @@
-import RSS from 'rss'
 import Html from './src/Html'
 
 require('dotenv').config()
@@ -59,6 +58,51 @@ export default {
           }
         ]
       }
+    ],
+    [
+      'feeds',
+      [
+        {
+          filename: 'enrollment.xml',
+          title: constants.meta.title,
+          description: constants.meta.description,
+          filter: ({ path }) => path === urlBuilder.rootUrl,
+          embellisher: (route) => {
+            const { apiStatus } = route.data
+            const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
+            const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
+            const formattedDate = moment.utc().format(constants.format.url)
+            const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
+            const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
+            const title = `${kicker} - ${formattedDate}`
+            const content = `${kicker}${canonicalUrl}`
+
+            return {
+              title,
+              description: title,
+              url,
+              guid: url,
+              date: apiStatus.updatedDate,
+              custom_elements: [ { 'content:encoded': content } ]
+            }
+          }
+        },
+        {
+          filename: 'events.xml',
+          title: constants.meta.title,
+          description: constants.meta.description,
+          addToHead: true,
+          filter: ({ template }) => template.match(/src\/containers\/Event$/),
+          embellisher: (route) => feedBuilder(route)
+        },
+        {
+          filename: 'events--current.xml',
+          title: constants.meta.title,
+          description: constants.meta.description,
+          filter: ({ path }) => path === urlBuilder.currentEventRootUrl.replace(/\//g, ''),
+          embellisher: (route) => feedBuilder(route)
+        }
+      ]
     ],
     'custom'
   ],
@@ -275,12 +319,18 @@ export default {
 
     const suggestions = {}
     const clientEvents = []
+    const currentEvent = events.find(({ id }) => id === currentEventId)
+    const previousEvent = events.find(({ id }) => id === previousEventId)
+    const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
 
     events.map(event => {
       const eventId = event.id
       const eventWinners = []
       const eventSuggestions = []
       const eventLeaderboards = leaderboards[eventId]
+
+      if (previousEvent && event.path === previousEvent.path) event.isPrevious = true
+      if (nextEvent && event.path === nextEvent.path) event.isNext = true
 
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
@@ -395,14 +445,11 @@ export default {
       })
     })
 
-    const currentEvent = events.find(({ id }) => id === currentEventId)
-    const previousEvent = events.find(({ id }) => id === previousEventId)
-    const nextEvent = events.filter(({ isFuture }) => isFuture).pop()
     const previousEventLeaderboards = previousEventId ? leaderboards[previousEventId] : undefined
 
     routes.push(
       {
-        path: '/',
+        path: urlBuilder.rootUrl,
         template: 'src/containers/Home',
         getData: async () => ({
           apiStatus,
@@ -472,44 +519,6 @@ export default {
     if (stage !== 'dev') {
       await fs.ensureDir(DIST)
       await fs.writeFile(path.join(DIST, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
-
-      const feedOptions = {
-        title: constants.meta.title,
-        description: constants.meta.description,
-        site_url: process.env.SITE_URL
-      }
-      var feed = new RSS(feedOptions)
-
-      feedBuilder(events).map(event => feed.item(event))
-
-      await fs.writeFile(path.join(DIST, '/events.xml'), feed.xml())
-
-      feed = new RSS(feedOptions)
-
-      feedBuilder(events, constants.kicker.current).map(event => feed.item(event))
-
-      await fs.writeFile(path.join(DIST, '/events--current.xml'), feed.xml())
-
-      feed = new RSS(feedOptions)
-
-      const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
-      const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-      const formattedDate = moment.utc().format(constants.format.url)
-      const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
-      const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
-      const title = `${kicker} - ${formattedDate}`
-      const content = `${kicker}${canonicalUrl}`
-
-      feed.item({
-        title: title,
-        description: title,
-        url,
-        guid: url,
-        date: apiStatus.updatedDate,
-        custom_elements: [ { 'content:encoded': content } ]
-      })
-
-      await fs.writeFile(path.join(DIST, '/enrollment.xml'), feed.xml())
     }
 
     return routes

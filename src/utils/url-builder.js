@@ -1,12 +1,13 @@
 const constants = require('./constants')
 const absoluteUrl = require('./absolute-url')
 
-const clanRootUrl = '/clans/'
-const currentEventRootUrl = '/current/'
-const eventRootUrl = '/events/'
-const leaderboardRootUrl = '/leaderboard/'
+const rootUrl = '/'
+const clanRootUrl = `${rootUrl}clans/`
+const currentEventRootUrl = `${rootUrl}current/`
+const eventRootUrl = `${rootUrl}events/`
+const leaderboardRootUrl = `${rootUrl}leaderboard/`
 const pgrcRootUrl = 'https://destinytracker.com/d2/pgcr/'
-const profileRootUrl = '/members/'
+const profileRootUrl = `${rootUrl}members/`
 
 const eventHash = (eventId) => {
   return eventId ? `${constants.prefix.hash}${eventId}` : ''
@@ -18,6 +19,8 @@ const bungieUrl = () => {
 }
 
 module.exports = {
+  rootUrl,
+
   clanRootUrl,
 
   clanUrl: (clanId, eventId) => {

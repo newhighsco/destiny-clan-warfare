@@ -47,7 +47,17 @@ export default {
     [
       'manifest',
       {
-        ...constants.meta
+        name: constants.meta.name,
+        short_name: constants.meta.shortName,
+        background_color: constants.meta.themeColor,
+        theme_color: constants.meta.themeColor,
+        display: 'minimal-ui',
+        icons: [
+          {
+            src: path.resolve('./src/images/favicon-512x512.png'),
+            sizes: [ 192, 512 ]
+          }
+        ]
       }
     ],
     'custom'

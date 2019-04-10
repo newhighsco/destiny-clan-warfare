@@ -14,7 +14,9 @@ export default () => ({
     if (stage === 'dev') {
       loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
     } else if (stage === 'node') {
-      loaders = [ ...stylusLoaders() ]
+      loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
+
+      config.plugins.push(new ExtractCssChunks({ orderWarning: false }))
     } else {
       loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
     }

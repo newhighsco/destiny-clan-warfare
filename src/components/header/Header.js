@@ -4,9 +4,9 @@ import { Link } from '@reach/router'
 import { OutboundLink } from 'react-ga-donottrack'
 import { LogoLockup } from '../logo/Logo'
 import Icon from '../icon/Icon'
-import PatreonSvg from '../../images/patreon.svg'
-import PayPalSvg from '../../images/paypal.svg'
-import TwitterSvg from '../../images/twitter.svg'
+import { ReactComponent as PatreonSvg } from '../../images/icons/patreon.svg'
+import { ReactComponent as PayPalSvg } from '../../images/icons/paypal.svg'
+import { ReactComponent as TwitterSvg } from '../../images/icons/twitter.svg'
 import styles from './Header.styl'
 
 const constants = require('../../utils/constants')

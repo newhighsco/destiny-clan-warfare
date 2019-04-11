@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Avatar from './Avatar'
-import PatreonSvg from '../../images/patreon.svg'
+import { ReactComponent as PatreonSvg } from '../../images/icons/patreon.svg'
 
 storiesOf('Avatar', module)
   .addDecorator(story => (

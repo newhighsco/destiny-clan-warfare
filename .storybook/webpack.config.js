@@ -1,20 +1,24 @@
-const stylusLoaders = require('../src/utils/stylus-loaders')
+const path = require('path')
+const stylusLoaders = require('../config/webpack/stylus-loaders')
+const svgLoaders = require('../config/webpack/svg-loaders')
 
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.styl$/,
-        use: [ require.resolve('style-loader'), ...stylusLoaders() ]
-      },
-      {
-        test: /\.svg$/,
-        use: [ require.resolve('svg-react-loader'), require.resolve('svgo-loader') ]
-      },
-      {
-        test: /\.(png|jpg|gif|eot|ttf|woff(2)?)$/,
-        use: [ 'file-loader' ]
-      }
-    ]
-  }
+module.exports = async ({ config, mode }) => {
+  const existingSvgRule = config.module.rules.findIndex(rule =>
+    rule.test.toString().includes('svg')
+  )
+
+  config.module.rules[existingSvgRule].exclude = /\.svg$/
+
+  config.module.rules.push(
+    {
+      test: /\.styl$/,
+      use: [ require.resolve('style-loader'), ...stylusLoaders() ]
+    },
+    {
+      test: /\.svg$/,
+      use: svgLoaders()
+    }
+  )
+
+  return config
 }

@@ -14,6 +14,9 @@ const baseClassName = 'button'
 const Button = class extends PureComponent {
   render () {
     const { children, className, href, target, type, size, solid, state, ...remainingProps } = this.props
+
+    if (!children) return null
+
     const commonAttributes = {
       className: classNames(
         styles[baseClassName],
@@ -76,7 +79,7 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
   href: PropTypes.string,
   target: PropTypes.string,

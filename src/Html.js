@@ -18,7 +18,6 @@ class Html extends PureComponent {
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
-          <link rel="alternate" type="application/rss+xml" href="/events.xml" />
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content={name} />
           <meta name="twitter:card" content="summary" />

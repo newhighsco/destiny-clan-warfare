@@ -3,7 +3,6 @@ import Html from './src/Html'
 require('dotenv').config()
 
 const path = require('path')
-const fs = require('fs-extra')
 const moment = require('moment')
 const dataSources = require('./src/lib/data-sources')
 const constants = require('./src/utils/constants')
@@ -12,14 +11,6 @@ const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
 const statsHelper = require('./src/utils/stats-helper')
 const apiHelper = require('./src/utils/api-helper')
-
-const redirects = [
-  { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
-  { from: `${constants.server.proxyUrl}*`, to: `${apiHelper.url()}:splat`, code: 200 },
-  { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
-  { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
-  { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }
-]
 
 export default {
   devServer: {
@@ -104,9 +95,19 @@ export default {
         }
       ]
     ],
+    [
+      '_redirects',
+      [
+        { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
+        { from: `${constants.server.proxyUrl}*`, to: `${apiHelper.url()}:splat`, code: 200 },
+        { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
+        { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
+        { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }
+      ]
+    ],
     'custom'
   ],
-  getRoutes: async ({ stage, incremental, config: { paths: { DIST } } }) => {
+  getRoutes: async ({ incremental }) => {
     const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
     const routes = []
     const currentEventStats = {}
@@ -441,7 +442,11 @@ export default {
           suggestions: event.isCurrent ? currentEventSuggestions : suggestions[eventId],
           stats: event.isCurrent ? currentEventStats : undefined,
           apiStatus: event.isCurrent ? apiStatus : undefined
-        })
+        }),
+        _redirects: event.isCurrent ? [
+          { from: urlBuilder.eventUrl(currentEventId), to: urlBuilder.currentEventRootUrl, code: 302 },
+          { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
+        ] : undefined
       })
     })
 
@@ -458,7 +463,8 @@ export default {
           previousEvent,
           nextEvent,
           currentEventSummary
-        })
+        }),
+        _redirects: !currentEventId ? [ { from: `${urlBuilder.currentEventRootUrl}*`, to: `${urlBuilder.rootUrl}#next`, code: 302 } ] : undefined
       },
       {
         path: urlBuilder.eventRootUrl,
@@ -506,20 +512,6 @@ export default {
         })
       }
     )
-
-    if (currentEventId) {
-      redirects.push(
-        { from: urlBuilder.eventUrl(currentEventId), to: urlBuilder.currentEventRootUrl, code: 302 },
-        { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
-      )
-    } else {
-      redirects.push({ from: `${urlBuilder.currentEventRootUrl}*`, to: '/#next', code: 302 })
-    }
-
-    if (stage !== 'dev') {
-      await fs.ensureDir(DIST)
-      await fs.writeFile(path.join(DIST, '_redirects'), redirects.map(redirect => `${redirect.from} ${redirect.to} ${redirect.code}`).join('\n'))
-    }
 
     return routes
   },

@@ -34,6 +34,7 @@ const logos = [
   { name: 'Lockup', value: 'Logo_Lockup' }
 ]
 const extensions = [ 'png', 'psd', 'svg' ]
+const files = require.context('../images/branding', false, /\.(png|psd|svg)$/)
 
 class BrandingPage extends PureComponent {
   render () {
@@ -43,30 +44,41 @@ class BrandingPage extends PureComponent {
         <Card>
           <Lockup center element="h2" heading="Logos" />
           <div className="grid--bottomed grid grid--reverse grid--stacked">
-            {logos.map((logo, index) => (
-              <Fragment key={index}>
-                {index > 0 &&
-                  <div className="grid__item"><hr /></div>
-                }
-                <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
-                  <div className="text-center">
-                    <img src={`/branding/${logo.value}.png`} alt="" />
+            {logos.map((logo, index) => {
+              const Svg = require(`../images/branding/${logo.value}.svg`).ReactComponent
+
+              // console.log(require(`../images/branding/${logo.value}.svg`))
+
+              return (
+                <Fragment key={index}>
+                  {index > 0 &&
+                    <div className="grid__item"><hr /></div>
+                  }
+                  <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
+                    <div className="text-center">
+                      <Svg />
+                    </div>
                   </div>
-                </div>
-                <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
-                  <Prose className="text-center-mobile">
-                    <h3>{logo.name}</h3>
-                    <ul className="list--inline list--comma">
-                      {extensions.map((extension, index) => (
-                        <li key={index}>
-                          <OutboundLink to={`/branding/${logo.value}.${extension}`} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank">{extension.toUpperCase()}</OutboundLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </Prose>
-                </div>
-              </Fragment>
-            ))}
+                  <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
+                    <Prose className="text-center-mobile">
+                      <h3>{logo.name}</h3>
+                      <ul className="list--inline list--comma">
+                        {extensions.map((extension, index) => {
+                          const fileKey = `./${logo.value}.${extension}`
+                          const file = files.keys().find(key => key === fileKey) ? files(fileKey) : null
+
+                          return (
+                            <li key={index}>
+                              <OutboundLink to={file.default || file} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank">{extension.toUpperCase()}</OutboundLink>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </Prose>
+                  </div>
+                </Fragment>
+              )
+            })}
           </div>
         </Card>
         <Card center>

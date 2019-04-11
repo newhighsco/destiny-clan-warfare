@@ -36,6 +36,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
     "@reach/router": "^1.2.1",
+    "@svgr/webpack": "^4.2.0",
     "autolinker": "^1.6.2",
     "autoprefixer": "^7.2.3",
     "axios": "^0.18.0",
@@ -66,9 +67,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "stylus-mixins": "^0.4.0",
-    "svg-react-loader": "^0.4.5",
     "svgo": "^1.0.3",
-    "svgo-loader": "^2.2.0",
     "thenby": "^1.2.6",
     "webpack-pwa-manifest": "^4.0.0",
     "yarn": "^1.12.3"

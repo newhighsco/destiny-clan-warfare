@@ -14,7 +14,7 @@ import { TagList } from '../tag/Tag'
 import { PlatformList } from '../platform/Platform'
 import RelativeDate from '../relative-date/RelativeDate'
 import { Filter } from '../filter/Filter'
-import ExternalSvg from '../../images/external.svg'
+import { ReactComponent as ExternalSvg } from '../../images/icons/external.svg'
 import styles from './Leaderboard.styl'
 
 const sentenceCase = require('sentence-case')

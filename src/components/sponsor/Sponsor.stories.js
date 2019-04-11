@@ -7,8 +7,8 @@ const sponsors = [ 'Insert Coin', 'nonexistent' ]
 storiesOf('Sponsor', module)
   .add('All', () => (
     <Fragment>
-      {sponsors.map(sponsor => (
-        <Sponsor name={sponsor} />
+      {sponsors.map((sponsor, index) => (
+        <Sponsor key={index} name={sponsor} />
       ))}
     </Fragment>
   ))

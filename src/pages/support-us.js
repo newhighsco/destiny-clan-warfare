@@ -5,8 +5,8 @@ import { Lockup } from '../components/lockup/Lockup'
 import { Button } from '../components/button/Button'
 import Prose from '../components/prose/Prose'
 import Avatar from '../components/avatar/Avatar'
-import PatreonSvg from '../images/patreon.svg'
-import PayPalSvg from '../images/paypal.svg'
+import { ReactComponent as PatreonSvg } from '../images/icons/patreon.svg'
+import { ReactComponent as PayPalSvg } from '../images/icons/paypal.svg'
 
 const constants = require('../utils/constants')
 const meta = {

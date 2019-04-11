@@ -1,11 +1,12 @@
 import ExtractCssChunks from 'extract-css-chunks-webpack-plugin'
 
 const webpack = require('webpack')
-const stylusLoaders = require('../../src/utils/stylus-loaders')
+const stylusLoaders = require('../../config/webpack/stylus-loaders')
+const svgLoaders = require('../../config/webpack/svg-loaders')
 
 export default () => ({
   webpack: (config, { defaultLoaders, stage }) => {
-    var { jsLoader, jsLoaderExt, cssLoader, fileLoader } = defaultLoaders
+    const { jsLoader, jsLoaderExt, cssLoader, fileLoader } = defaultLoaders
 
     fileLoader.query = { limit: 1, name: 'static/[name].[hash:8].[ext]' }
 
@@ -33,7 +34,7 @@ export default () => ({
           },
           {
             test: /\.svg$/,
-            use: [ require.resolve('svg-react-loader'), require.resolve('svgo-loader') ]
+            use: svgLoaders()
           },
           fileLoader
         ]

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
-import LogoSvg from './logo.svg'
+import { ReactComponent as LogoSvg } from './logo.svg'
 import styles from './Logo.styl'
 
 const sizes = [ 'small', 'medium' ]

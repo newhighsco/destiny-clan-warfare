@@ -14,10 +14,7 @@ module.exports = async ({ config, mode }) => {
       test: /\.styl$/,
       use: [ require.resolve('style-loader'), ...stylusLoaders() ]
     },
-    {
-      test: /\.svg$/,
-      use: svgLoaders()
-    }
+    ...svgLoaders()
   )
 
   return config

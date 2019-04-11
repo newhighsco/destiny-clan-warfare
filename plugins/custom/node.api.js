@@ -32,10 +32,7 @@ export default () => ({
             test: /\.styl$/,
             use: loaders
           },
-          {
-            test: /\.svg$/,
-            use: svgLoaders()
-          },
+          ...svgLoaders(),
           fileLoader
         ]
       }

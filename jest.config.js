@@ -6,8 +6,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(styl)$': 'identity-obj-proxy',
     '\\.(svg)$': 'jest-svg-transformer',
-    '\\.(png|jpg|gif|eot|ttf|woff(2)?)$': '<rootDir>/src/utils/file-transform.js'
+    '\\.(png|jpg|gif|eot|ttf|woff(2)?)$': '<rootDir>/config/jest/file-transform.js'
   },
-  setupFiles: [ '<rootDir>/src/utils/setup-tests.js' ],
+  setupFiles: [ '<rootDir>/config/jest/setup-tests.js' ],
   verbose: false
 }

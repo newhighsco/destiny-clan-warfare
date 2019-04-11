@@ -21,7 +21,7 @@ class Modifier extends PureComponent {
     if (icon && icon.svg) key = icon.svg
 
     const iconKey = `./${key}.svg`
-    const IconSvg = svgs.keys().find(key => key === iconKey) ? svgs(iconKey).ReactComponent : null
+    const IconSvg = svgs.keys().find(key => key === iconKey) ? svgs(iconKey).default : null
     const designer = icon ? icon.designer : null
     var prefix = scoringModifier ? constants.prefix.positive : constants.prefix.multiply
     var suffix = ''

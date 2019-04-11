@@ -4,7 +4,7 @@ import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Icon from '../icon/Icon'
-import { ReactComponent as ExternalSvg } from '../../images/icons/external.svg'
+import ExternalSvg from '../../images/icons/external.svg'
 import styles from './Button.styl'
 
 const absoluteUrl = require('../../utils/absolute-url')

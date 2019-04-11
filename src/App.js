@@ -17,8 +17,8 @@ const urlBuilder = require('./utils/url-builder')
 const { title, name, description } = constants.meta
 
 addPrefetchExcludes([
-  new RegExp(urlBuilder.profileUrl('.*', '.*').substring(1), 'i'),
-  new RegExp(urlBuilder.currentEventUrl('.*', '.*').substring(1), 'i')
+  new RegExp(urlBuilder.profileUrl('.*', '.*').replace(/\/(.*)\//, '$1'), 'i'),
+  new RegExp(urlBuilder.currentEventUrl('.*', '.*').replace(/\/(.*)\//, '$1'), 'i')
 ])
 
 class App extends Component {

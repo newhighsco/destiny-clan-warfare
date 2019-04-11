@@ -3,29 +3,29 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { firstBy } from 'thenby'
 import Icon from '../icon/Icon'
-import { ReactComponent as BattlenetSvg } from './icons/battlenet.svg'
-import { ReactComponent as PlaystationSvg } from './icons/playstation.svg'
-import { ReactComponent as XboxSvg } from './icons/xbox.svg'
+import allowedPlatforms from './platforms'
 import styles from './Platform.styl'
 
+const paramCase = require('param-case')
+const svgs = require.context('./icons', false, /\.svg$/)
+
 const baseClassName = 'platform'
-const allowedPlatforms = [
-  { id: 1, Svg: XboxSvg, name: 'Xbox Live' },
-  { id: 2, Svg: PlaystationSvg, name: 'PlayStation Network' },
-  { id: 4, Svg: BattlenetSvg, name: 'Battle.net' }
-]
 
 class Platform extends PureComponent {
   render () {
     const { platform, size } = this.props
-    const { Svg, name } = allowedPlatforms.find(({ id }) => id === platform.id)
+    const { name } = allowedPlatforms.find(({ id }) => id === platform.id)
 
-    if (!Svg) return null
+    const key = paramCase(name || '')
+    const iconKey = `./${key}.svg`
+    const IconSvg = svgs.keys().find(key => key === iconKey) ? svgs(iconKey).default : null
+
+    if (!IconSvg) return null
 
     return (
       <div className={classNames(styles[baseClassName], size && styles[`${baseClassName}--${size}`])}>
         <Icon a11yText={name} className={styles[`${baseClassName}__icon`]}>
-          <Svg />
+          <IconSvg />
         </Icon>
       </div>
     )

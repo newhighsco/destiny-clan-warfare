@@ -6,8 +6,8 @@ import Analytics from './components/analytics/Analytics'
 import MemberCurrent from './containers/member/Current'
 import MemberOverall from './containers/member/Overall'
 import Loading from './components/loading/Loading'
-import appleTouchIcon from './images/apple-touch-icon.png'
-import openGraphImage from './images/favicon-1200x1200.png'
+import appleTouchIcon from './images/meta/apple-touch-icon.png'
+import openGraphImage from './images/meta/favicon-1200x1200.png'
 
 import './stylus/index.styl'
 

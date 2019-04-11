@@ -44,7 +44,7 @@ export default {
         display: 'minimal-ui',
         icons: [
           {
-            src: path.resolve('./src/images/favicon-512x512.png'),
+            src: path.resolve('./src/images/meta/favicon-512x512.png'),
             sizes: [ 192, 512 ]
           }
         ]

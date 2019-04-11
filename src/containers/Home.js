@@ -9,7 +9,7 @@ import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
 import Event from '../components/event/Event'
 import Notification from '../components/notification/Notification'
-import LogoImage from '../images/favicon-512x512.png'
+import LogoImage from '../images/meta/favicon-512x512.png'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')

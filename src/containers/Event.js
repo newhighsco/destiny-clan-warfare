@@ -6,7 +6,7 @@ import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import Event from '../components/event/Event'
 import { ButtonGroup, Button } from '../components/button/Button'
-import SchemaImage from '../images/favicon-1200x1200.png'
+import SchemaImage from '../images/meta/favicon-1200x1200.png'
 
 const moment = require('moment')
 const constants = require('../utils/constants')

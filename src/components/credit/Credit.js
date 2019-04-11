@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { OutboundLink } from 'react-ga-donottrack'
 import Icon from '../icon/Icon'
-import { ReactComponent as CreditSvg } from './new-high-score.svg'
+import CreditSvg from './new-high-score.svg'
 import styles from './Credit.styl'
 
 const baseClassName = 'credit'

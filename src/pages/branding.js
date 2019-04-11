@@ -45,9 +45,7 @@ class BrandingPage extends PureComponent {
           <Lockup center element="h2" heading="Logos" />
           <div className="grid--bottomed grid grid--reverse grid--stacked">
             {logos.map((logo, index) => {
-              const Svg = require(`../images/branding/${logo.value}.svg`).ReactComponent
-
-              // console.log(require(`../images/branding/${logo.value}.svg`))
+              const Svg = files(`./${logo.value}.url.svg`).ReactComponent
 
               return (
                 <Fragment key={index}>
@@ -64,7 +62,7 @@ class BrandingPage extends PureComponent {
                       <h3>{logo.name}</h3>
                       <ul className="list--inline list--comma">
                         {extensions.map((extension, index) => {
-                          const fileKey = `./${logo.value}.${extension}`
+                          const fileKey = `./${logo.value}.${extension === 'svg' ? `url.${extension}` : extension}`
                           const file = files.keys().find(key => key === fileKey) ? files(fileKey) : null
 
                           return (

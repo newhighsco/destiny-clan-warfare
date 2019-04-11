@@ -17,7 +17,7 @@ class Sponsor extends PureComponent {
 
     const key = paramCase(name || '')
     const logoKey = `./${key}.svg`
-    const LogoSvg = svgs.keys().find(key => key === logoKey) ? svgs(logoKey).ReactComponent : null
+    const LogoSvg = svgs.keys().find(key => key === logoKey) ? svgs(logoKey).default : null
 
     return (
       <div className={styles[baseClassName]}>

@@ -7,7 +7,7 @@ import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import { Lockup } from '../lockup/Lockup'
 import foregrounds from './foregrounds'
-import { ReactComponent as HighlightSvg } from './highlight.svg'
+import HighlightSvg from './highlight.svg'
 import styles from './Medal.styl'
 
 const paramCase = require('param-case')
@@ -29,8 +29,8 @@ class Medal extends PureComponent {
     const backgroundKey = `./tier${tier}.svg`
     const foregroundKey = `./${type.toLowerCase()}/${key}.svg`
 
-    const BackgroundSvg = backgroundSvgs.keys().find(key => key === backgroundKey) ? backgroundSvgs(backgroundKey).ReactComponent : null
-    const ForegroundSvg = foregroundSvgs.keys().find(key => key === foregroundKey) ? foregroundSvgs(foregroundKey).ReactComponent : null
+    const BackgroundSvg = backgroundSvgs.keys().find(key => key === backgroundKey) ? backgroundSvgs(backgroundKey).default : null
+    const ForegroundSvg = foregroundSvgs.keys().find(key => key === foregroundKey) ? foregroundSvgs(foregroundKey).default : null
     const designer = foreground ? foreground.designer : null
     const tooltip = []
     const labelSentence = sentence(label)

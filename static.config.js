@@ -1,4 +1,5 @@
 import Html from './src/Html'
+import { createSharedData } from 'react-static/node'
 
 require('dotenv').config()
 
@@ -155,6 +156,8 @@ export default {
       }
     }
 
+    const sharedApiStatus = createSharedData(apiStatus)
+
     clans.map(clan => {
       const clanMembers = members.filter(({ clanId }) => clanId === clan.id)
       const clanCurrentTotals = {}
@@ -246,15 +249,20 @@ export default {
         medalTotals: clan.medalTotals
       })
 
+      const sharedClan = createSharedData(clan)
+      const sharedClanMembers = createSharedData(clanMembers)
+
       routes.push({
         path: clan.path,
         template: 'src/containers/clan/Overall',
         getData: async () => ({
-          clan,
-          members: clanMembers,
           currentEventId: currentEventId || undefined,
           previousEventId: previousEventId || undefined
-        })
+        }),
+        sharedData: {
+          clan: sharedClan,
+          members: sharedClanMembers
+        }
       })
 
       if (currentEventId) {
@@ -262,18 +270,21 @@ export default {
           path: urlBuilder.currentEventUrl(clan.id),
           template: 'src/containers/clan/Current',
           getData: async () => ({
-            apiStatus,
-            clan,
-            members: clanMembers,
             currentTotals: clanCurrentTotals,
             currentStats: clanCurrentStats,
             matchHistory: clanMatchHistory,
             matchHistoryLimit
-          })
+          }),
+          sharedData: {
+            apiStatus: sharedApiStatus,
+            clan: sharedClan,
+            members: sharedClanMembers
+          }
         })
       }
     })
 
+    const sharedClans = createSharedData(clientClans)
     const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
     var currentEventLeaderboards = []
     var currentEventSummary = []
@@ -318,6 +329,7 @@ export default {
       })
     }
 
+    const sharedCurrentEventLeaderboards = createSharedData(currentEventLeaderboards)
     const suggestions = {}
     const clientEvents = []
     const currentEvent = events.find(({ id }) => id === currentEventId)
@@ -433,16 +445,25 @@ export default {
         modifiers: event.modifiers
       })
 
+      const eventSharedData = {}
+
+      if (event.isCurrent) {
+        eventSharedData.apiStatus = sharedApiStatus
+        eventSharedData.leaderboards = sharedCurrentEventLeaderboards
+      }
+
       routes.push({
         path: event.path,
         template: 'src/containers/Event',
         getData: async () => ({
           event: { ...event, winners: undefined },
-          leaderboards: event.isCurrent ? currentEventLeaderboards : leaderboards[eventId],
+          leaderboards: !event.isCurrent ? leaderboards[eventId] : undefined,
           suggestions: event.isCurrent ? currentEventSuggestions : suggestions[eventId],
-          stats: event.isCurrent ? currentEventStats : undefined,
-          apiStatus: event.isCurrent ? apiStatus : undefined
+          stats: event.isCurrent ? currentEventStats : undefined
         }),
+        sharedData: {
+          ...eventSharedData
+        },
         _redirects: event.isCurrent ? [
           { from: urlBuilder.eventUrl(currentEventId), to: urlBuilder.currentEventRootUrl, code: 302 },
           { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
@@ -457,13 +478,15 @@ export default {
         path: urlBuilder.rootUrl,
         template: 'src/containers/Home',
         getData: async () => ({
-          apiStatus,
           clanIds,
           currentEvent,
           previousEvent,
           nextEvent,
           currentEventSummary
         }),
+        sharedData: {
+          apiStatus: sharedApiStatus
+        },
         _redirects: !currentEventId ? [ { from: `${urlBuilder.currentEventRootUrl}*`, to: `${urlBuilder.rootUrl}#next`, code: 302 } ] : undefined
       },
       {
@@ -476,18 +499,21 @@ export default {
       {
         path: urlBuilder.clanRootUrl,
         template: 'src/containers/Clans',
-        getData: async () => ({
-          clans: clientClans
-        })
+        sharedData: {
+          clans: sharedClans
+        }
       }
     )
 
+    const sharedPreviousEventLeaderboards = createSharedData(previousEventLeaderboards)
     const customLeaderboardData = {
-      apiStatus,
-      clans: clientClans,
       event: currentEventId ? currentEvent : previousEvent,
-      leaderboards: currentEventId ? currentEventLeaderboards : previousEventLeaderboards,
       currentEventId
+    }
+    const customLeaderboardSharedData = {
+      apiStatus: sharedApiStatus,
+      clans: sharedClans,
+      leaderboards: currentEventId ? sharedCurrentEventLeaderboards : sharedPreviousEventLeaderboards
     }
 
     routes.push(
@@ -496,7 +522,10 @@ export default {
         template: 'src/containers/CustomLeaderboard',
         getData: async () => ({
           ...customLeaderboardData
-        })
+        }),
+        sharedData: {
+          ...customLeaderboardSharedData
+        }
       },
       {
         path: '/pixelpub/',
@@ -509,7 +538,10 @@ export default {
             robots: 'noindex,nofollow',
             overall: false
           }
-        })
+        }),
+        sharedData: {
+          ...customLeaderboardSharedData
+        }
       }
     )
 

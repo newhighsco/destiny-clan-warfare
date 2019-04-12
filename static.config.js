@@ -60,7 +60,7 @@ export default {
           description: constants.meta.description,
           filter: ({ path }) => path === urlBuilder.rootUrl,
           embellisher: (route) => {
-            const { apiStatus } = route.data
+            const { apiStatus } = route.sharedData
             const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
             const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
             const formattedDate = moment.utc().format(constants.format.url)

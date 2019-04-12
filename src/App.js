@@ -37,7 +37,7 @@ class App extends Component {
             <meta property="og:image" content={openGraphImage} />
           </Head>
           <Suspense fallback={<div className="site-container"><Loading /></div>}>
-            <Router className="site-container">
+            <Router className="site-container" primary={false}>
               <MemberOverall path={urlBuilder.profileUrl(':clan', ':member')} />
               <MemberCurrent path={urlBuilder.currentEventUrl(':clan', ':member')} />
               <Routes default />

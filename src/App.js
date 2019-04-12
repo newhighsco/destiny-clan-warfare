@@ -1,7 +1,7 @@
 import '@babel/polyfill'
 import React, { Component, Suspense } from 'react'
 import { Root, Routes, Head, addPrefetchExcludes } from 'react-static'
-import { Router } from '@reach/router'
+import { Router, Match } from '@reach/router'
 import Analytics from './components/analytics/Analytics'
 import MemberCurrent from './containers/member/Current'
 import MemberOverall from './containers/member/Overall'
@@ -25,6 +25,22 @@ class App extends Component {
   render () {
     return (
       <Root>
+        <Match path="*">
+          {({ location }) => {
+            if (typeof requestAnimationFrame !== 'undefined') {
+              requestAnimationFrame(() => {
+                const { hash } = location
+                const target = hash ? document.getElementById(hash.replace(constants.prefix.hash, '')) : null
+
+                if (target) {
+                  target.scrollIntoView()
+                } else {
+                  window.scrollTo(0, 0)
+                }
+              })
+            }
+          }}
+        </Match>
         <Analytics>
           <Head
             defaultTitle={title}

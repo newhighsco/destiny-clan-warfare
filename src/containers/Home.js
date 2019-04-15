@@ -1,6 +1,5 @@
-import React, { PureComponent, Fragment } from 'react'
-import { withRouteData } from 'react-static'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+import { useRouteData } from 'react-static'
 import PageContainer from '../components/page-container/PageContainer'
 import { Button, ButtonGroup } from '../components/button/Button'
 import { Lockup } from '../components/lockup/Lockup'
@@ -27,73 +26,62 @@ const meta = {
   }
 }
 
-class HomeContainer extends PureComponent {
-  render () {
-    const { apiStatus, clanIds, currentEvent, previousEvent, nextEvent, currentEventSummary } = this.props
+function HomeContainer () {
+  const { apiStatus, clanIds, currentEvent, previousEvent, nextEvent, currentEventSummary } = useRouteData()
 
-    return (
-      <PageContainer meta={meta}>
-        <Enrollment apiStatus={apiStatus} ids={clanIds} />
-        {apiStatus && apiStatus.alert &&
-          <Notification state="warning" html={apiStatus.alert} />
-        }
-        {currentEvent ? (
-          <Fragment>
-            <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
-              <RelativeDate apiStatus={apiStatus} />
-            </Lockup>
-            <Event event={currentEvent} leaderboards={currentEventSummary} element="h2" summary />
-            {previousEvent &&
-              <Fragment>
+  return (
+    <PageContainer meta={meta}>
+      <Enrollment apiStatus={apiStatus} ids={clanIds} />
+      {apiStatus && apiStatus.alert &&
+        <Notification state="warning" html={apiStatus.alert} />
+      }
+      {currentEvent ? (
+        <Fragment>
+          <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
+            <RelativeDate apiStatus={apiStatus} />
+          </Lockup>
+          <Event event={currentEvent} leaderboards={currentEventSummary} element="h2" summary />
+          {previousEvent &&
+            <Fragment>
+              <Advert />
+              <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
+              <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
+            </Fragment>
+          }
+          {nextEvent &&
+            <Fragment>
+              {previousEvent &&
                 <Advert />
-                <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
-              </Fragment>
-            }
-            {nextEvent &&
-              <Fragment>
-                {previousEvent &&
-                  <Advert />
-                }
-                <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
-                <Event event={nextEvent} element="h2" summary />
-              </Fragment>
-            }
-          </Fragment>
-        ) : (
-          <Fragment>
-            {nextEvent &&
-              <Fragment>
-                <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
-                <Event event={nextEvent} element="h2" summary />
-              </Fragment>
-            }
-            {previousEvent &&
-              <Fragment>
-                {nextEvent &&
-                  <Advert />
-                }
-                <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-                <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
-              </Fragment>
-            }
-          </Fragment>
-        )}
-        <ButtonGroup>
-          <Button href={urlBuilder.eventRootUrl}>View all events</Button>
-        </ButtonGroup>
-      </PageContainer>
-    )
-  }
+              }
+              <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
+              <Event event={nextEvent} element="h2" summary />
+            </Fragment>
+          }
+        </Fragment>
+      ) : (
+        <Fragment>
+          {nextEvent &&
+            <Fragment>
+              <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
+              <Event event={nextEvent} element="h2" summary />
+            </Fragment>
+          }
+          {previousEvent &&
+            <Fragment>
+              {nextEvent &&
+                <Advert />
+              }
+              <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
+              <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
+            </Fragment>
+          }
+        </Fragment>
+      )}
+      <ButtonGroup>
+        <Button href={urlBuilder.eventRootUrl}>View all events</Button>
+      </ButtonGroup>
+    </PageContainer>
+  )
 }
 
-HomeContainer.propTypes = {
-  apiStatus: PropTypes.object,
-  clanIds: PropTypes.array,
-  currentEvent: PropTypes.object,
-  previousEvent: PropTypes.object,
-  nextEvent: PropTypes.object,
-  currentEventSummary: PropTypes.array
-}
-
-export default withRouteData(HomeContainer)
+export default HomeContainer

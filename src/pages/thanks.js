@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { Link } from '@reach/router'
 import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
@@ -16,86 +16,75 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-class ThanksPage extends PureComponent {
-  constructor (props) {
-    super(props)
+function ThanksPage () {
+  const [ enrollmentOpen, setEnrollmentOpen ] = useState(false)
 
-    this.state = {
-      enrollmentOpen: false
-    }
-  }
+  useEffect(() => {
+    setEnrollmentOpen(JSON.parse(localStorage.getItem('enrollmentOpen')))
+  })
 
-  componentDidMount () {
-    const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
+  const query = (typeof location !== 'undefined') ? queryString.parse(location.search) : {}
+  const success = query.success ? JSON.parse(query.success.toLowerCase()) : false
+  const message = query.message || ''
+  const successful = success || (!success && message === constants.enrollment.existing)
+  const closed = !success && message === constants.enrollment.closed
+  const optOut = !success && message === constants.enrollment.optOut
 
-    this.setState({ enrollmentOpen: enrollmentOpen })
-  }
+  meta.title = successful ? 'Thanks for enrolling' : (closed ? 'Enrollment closed' : 'Enrollment failed')
 
-  render () {
-    const { enrollmentOpen } = this.state
-    const query = (typeof location !== 'undefined') ? queryString.parse(location.search) : {}
-    const success = query.success ? JSON.parse(query.success.toLowerCase()) : false
-    const message = query.message || ''
-    const successful = success || (!success && message === constants.enrollment.existing)
-    const closed = !success && message === constants.enrollment.closed
-    const optOut = !success && message === constants.enrollment.optOut
-
-    meta.title = successful ? 'Thanks for enrolling' : (closed ? 'Enrollment closed' : 'Enrollment failed')
-
-    return (
-      <PageContainer meta={meta}>
-        <Card center>
-          {successful ? (
+  return (
+    <PageContainer meta={meta}>
+      <Card center>
+        {successful ? (
+          <Fragment>
+            <Lockup primary center kicker="Thanks for" heading="enrolling" />
+            <Prose>
+              <p>Great news, your clan is enrolled and ready to go in the current {constants.meta.name} event!</p>
+              <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards.</p>
+              <p>Why not take a look over our <Link to="/faqs/">Frequently Asked Questions</Link> while you wait.</p>
+            </Prose>
+            <Button href={urlBuilder.currentEventRootUrl}>View current leaderboard</Button>
+          </Fragment>
+        ) : (
+          closed ? (
             <Fragment>
-              <Lockup primary center kicker="Thanks for" heading="enrolling" />
+              <Lockup primary center kicker={meta.title} heading="Sorry we're full" />
               <Prose>
-                <p>Great news, your clan is enrolled and ready to go in the current {constants.meta.name} event!</p>
-                <p>Please allow <strong>60-90</strong> minutes for you clan and clan members to start appearing on the leaderboards.</p>
-                <p>Why not take a look over our <Link to="/faqs/">Frequently Asked Questions</Link> while you wait.</p>
+                <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
+                <p><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</OutboundLink> to find out first when it reopens.</p>
               </Prose>
-              <Button href={urlBuilder.currentEventRootUrl}>View current leaderboard</Button>
+              <Button href="/">Return to the homepage</Button>
             </Fragment>
           ) : (
-            closed ? (
+            optOut ? (
               <Fragment>
-                <Lockup primary center kicker={meta.title} heading="Sorry we're full" />
+                <Lockup primary center kicker={meta.title} heading="Can't enroll clan" />
                 <Prose>
-                  <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
-                  <p><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</OutboundLink> to find out first when it reopens.</p>
+                  <p>This clan has opted-out of participating in {constants.meta.name}, and therefore cannot be enrolled.</p>
+                  <p>If you thing this is a mistake you can <OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</OutboundLink> to discuss the issue with us further.</p>
                 </Prose>
                 <Button href="/">Return to the homepage</Button>
               </Fragment>
             ) : (
-              optOut ? (
-                <Fragment>
-                  <Lockup primary center kicker={meta.title} heading="Can't enroll clan" />
+              <Fragment>
+                <Lockup primary center kicker={meta.title} heading="Please try again" />
+                {message &&
                   <Prose>
-                    <p>This clan has opted-out of participating in {constants.meta.name}, and therefore cannot be enrolled.</p>
-                    <p>If you thing this is a mistake you can <OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</OutboundLink> to discuss the issue with us further.</p>
+                    <p>{message}</p>
                   </Prose>
+                }
+                {enrollmentOpen ? (
+                  <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
+                ) : (
                   <Button href="/">Return to the homepage</Button>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <Lockup primary center kicker={meta.title} heading="Please try again" />
-                  {message &&
-                    <Prose>
-                      <p>{message}</p>
-                    </Prose>
-                  }
-                  {enrollmentOpen ? (
-                    <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
-                  ) : (
-                    <Button href="/">Return to the homepage</Button>
-                  )}
-                </Fragment>
-              )
+                )}
+              </Fragment>
             )
-          )}
-        </Card>
-      </PageContainer>
-    )
-  }
+          )
+        )}
+      </Card>
+    </PageContainer>
+  )
 }
 
 export default ThanksPage

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useState, useEffect } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
 import MemberOverall from '../../components/member/Overall'
@@ -7,58 +7,49 @@ import NotFound from '../../components/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 
-class MemberOverallContainer extends PureComponent {
-  constructor (props) {
-    super(props)
+function MemberOverallContainer (props) {
+  const { location: { state } } = props
+  const [ data, setData ] = useState({
+    clan: state ? state.clan : null,
+    member: state ? state.member : null,
+    notFound: false
+  })
 
-    const { location: { state } } = this.props
+  useEffect(() => {
+    if (!data.member) {
+      const clanId = props.clan
+      const memberId = props.member.replace(/#.+$/, '')
 
-    this.state = {
-      clan: state ? state.clan : null,
-      member: state ? state.member : null,
-      notFound: false
-    }
-  }
-
-  componentDidMount () {
-    var { member } = this.state
-
-    if (!member) {
-      const clanId = this.props.clan
-      const memberId = this.props.member.replace(/#.+$/, '')
-
-      prefetch(urlBuilder.clanUrl(clanId))
+      prefetch(urlBuilder.clanUrl(clanId), { type: 'data' })
         .then(({ clan, members }) => {
-          member = members.find(({ id }) => id === memberId)
+          const member = members.find(({ id }) => id === memberId)
 
-          this.setState({
+          setData({
             clan,
             member,
             notFound: typeof member === 'undefined'
           })
         })
     }
-  }
+  })
 
-  render () {
-    const { member, notFound } = this.state
+  const { member, notFound } = data
 
-    if (notFound) {
-      return (
-        <NotFound />
-      )
-    }
-
-    if (!member) {
-      return (
-        <Loading />
-      )
-    }
-
+  if (notFound) {
     return (
-      <MemberOverall {...this.state} />
+      <NotFound />
     )
   }
+
+  if (!member) {
+    return (
+      <Loading />
+    )
+  }
+
+  return (
+    <MemberOverall {...data} />
+  )
 }
 
 MemberOverallContainer.propTypes = {

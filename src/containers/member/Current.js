@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useState, useEffect } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
 import MemberCurrent from '../../components/member/Current'
@@ -7,34 +7,30 @@ import NotFound from '../../components/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 
-class MemberCurrentContainer extends PureComponent {
-  constructor (props) {
-    super(props)
+function MemberCurrentContainer (props) {
+  const { location: { state } } = props
+  const [ data, setData ] = useState({
+    apiStatus: null,
+    clan: state ? state.clan : null,
+    member: state ? state.member : null,
+    notFound: false
+  })
 
-    const { location: { state } } = this.props
+  useEffect(() => {
+    if (!data.member) {
+      const clanId = props.clan
+      const memberId = props.member.replace(/#.+$/, '')
 
-    this.state = {
-      apiStatus: null,
-      clan: state ? state.clan : null,
-      member: state ? state.member : null,
-      notFound: false
-    }
-  }
-
-  componentDidMount () {
-    var { member } = this.state
-
-    if (!member) {
-      const clanId = this.props.clan
-      const memberId = this.props.member.replace(/#.+$/, '')
-
-      prefetch(urlBuilder.currentEventUrl(clanId))
+      prefetch(urlBuilder.currentEventUrl(clanId), { type: 'data' })
         .then(({ apiStatus, clan, members, currentTotals, matchHistory, matchHistoryLimit }) => {
-          member = members.find(({ id }) => id === memberId)
-          member.currentTotals = currentTotals[memberId]
-          member.matchHistory = matchHistory[memberId]
+          const member = members.find(({ id }) => id === memberId)
 
-          this.setState({
+          if (member) {
+            member.currentTotals = currentTotals[memberId]
+            member.matchHistory = matchHistory[memberId]
+          }
+
+          setData({
             apiStatus,
             clan,
             member,
@@ -43,27 +39,25 @@ class MemberCurrentContainer extends PureComponent {
           })
         })
     }
-  }
+  })
 
-  render () {
-    const { member, notFound } = this.state
+  const { member, notFound } = data
 
-    if (notFound) {
-      return (
-        <NotFound />
-      )
-    }
-
-    if (!member) {
-      return (
-        <Loading />
-      )
-    }
-
+  if (notFound) {
     return (
-      <MemberCurrent {...this.state} />
+      <NotFound />
     )
   }
+
+  if (!member) {
+    return (
+      <Loading />
+    )
+  }
+
+  return (
+    <MemberCurrent {...data} />
+  )
 }
 
 MemberCurrentContainer.propTypes = {

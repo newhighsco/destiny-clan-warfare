@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -36,60 +36,58 @@ const logos = [
 const extensions = [ 'png', 'psd', 'svg' ]
 const files = require.context('../images/branding', false, /\.(png|psd|svg)$/)
 
-class BrandingPage extends PureComponent {
-  render () {
-    return (
-      <PageContainer meta={meta}>
-        <Lockup primary center element="h1" kicker="Branding" />
-        <Card>
-          <Lockup center element="h2" heading="Logos" />
-          <div className="grid--bottomed grid grid--reverse grid--stacked">
-            {logos.map((logo, index) => {
-              return (
-                <Fragment key={index}>
-                  {index > 0 &&
-                    <div className="grid__item"><hr /></div>
-                  }
-                  <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
-                    <div className="text-center">
-                      <img src={files(`./${logo.value}.png`)} alt="" />
-                    </div>
+function BrandingPage () {
+  return (
+    <PageContainer meta={meta}>
+      <Lockup primary center element="h1" kicker="Branding" />
+      <Card>
+        <Lockup center element="h2" heading="Logos" />
+        <div className="grid--bottomed grid grid--reverse grid--stacked">
+          {logos.map((logo, index) => {
+            return (
+              <Fragment key={index}>
+                {index > 0 &&
+                  <div className="grid__item"><hr /></div>
+                }
+                <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
+                  <div className="text-center">
+                    <img src={files(`./${logo.value}.png`)} alt="" />
                   </div>
-                  <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
-                    <Prose className="text-center-mobile">
-                      <h3>{logo.name}</h3>
-                      <ul className="list--inline list--comma">
-                        {extensions.map((extension, index) => {
-                          const fileKey = `./${logo.value}.${extension === 'svg' ? `url.${extension}` : extension}`
-                          const file = files.keys().find(key => key === fileKey) ? files(fileKey) : null
+                </div>
+                <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
+                  <Prose className="text-center-mobile">
+                    <h3>{logo.name}</h3>
+                    <ul className="list--inline list--comma">
+                      {extensions.map((extension, index) => {
+                        const fileKey = `./${logo.value}.${extension === 'svg' ? `url.${extension}` : extension}`
+                        const file = files.keys().find(key => key === fileKey) ? files(fileKey) : null
 
-                          return (
-                            <li key={index}>
-                              <OutboundLink to={file.default || file} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank" rel="noopener noreferrer">{extension.toUpperCase()}</OutboundLink>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </Prose>
-                  </div>
-                </Fragment>
-              )
-            })}
-          </div>
-        </Card>
-        <Card center>
-          <Lockup center element="h2" heading="Colours" />
-          <div className="grid grid--stacked">
-            {colours.map((colour, index) => (
-              <div key={index} className="grid__item one-half tablet-one-third tablet-landscape-one-quarter">
-                <Swatch {...colour} />
-              </div>
-            ))}
-          </div>
-        </Card>
-      </PageContainer>
-    )
-  }
+                        return (
+                          <li key={index}>
+                            <OutboundLink to={file.default || file} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank" rel="noopener noreferrer">{extension.toUpperCase()}</OutboundLink>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </Prose>
+                </div>
+              </Fragment>
+            )
+          })}
+        </div>
+      </Card>
+      <Card center>
+        <Lockup center element="h2" heading="Colours" />
+        <div className="grid grid--stacked">
+          {colours.map((colour, index) => (
+            <div key={index} className="grid__item one-half tablet-one-third tablet-landscape-one-quarter">
+              <Swatch {...colour} />
+            </div>
+          ))}
+        </div>
+      </Card>
+    </PageContainer>
+  )
 }
 
 export default BrandingPage

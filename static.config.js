@@ -1,5 +1,6 @@
 import Html from './src/Html'
-import { createSharedData } from 'react-static/node'
+import { createSharedData, reloadClientData } from 'react-static/node'
+import chokidar from 'chokidar'
 
 require('dotenv').config()
 
@@ -12,6 +13,8 @@ const urlBuilder = require('./src/utils/url-builder')
 const feedBuilder = require('./src/utils/feed-builder')
 const statsHelper = require('./src/utils/stats-helper')
 const apiHelper = require('./src/utils/api-helper')
+
+chokidar.watch('./src/lib').on('all', () => reloadClientData())
 
 export default {
   devServer: {

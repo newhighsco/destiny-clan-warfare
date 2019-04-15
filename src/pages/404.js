@@ -1,28 +1,16 @@
-import React, { PureComponent } from 'react'
+import React, { useState, useEffect } from 'react'
 import NotFound from '../components/not-found/NotFound'
 
-class NotFoundPage extends PureComponent {
-  constructor (props) {
-    super(props)
+function NotFoundPage () {
+  const [ active, setActive ] = useState(false)
 
-    this.state = { active: false }
-  }
+  useEffect(() => {
+    setActive(true)
+  })
 
-  componentDidMount () {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
-  }
-
-  render () {
-    const { active } = this.state
-
-    if (!active) return null
-
-    return (
-      <NotFound />
-    )
-  }
+  return active ? (
+    <NotFound />
+  ) : null
 }
 
 export default NotFoundPage

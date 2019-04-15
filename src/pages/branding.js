@@ -45,8 +45,6 @@ class BrandingPage extends PureComponent {
           <Lockup center element="h2" heading="Logos" />
           <div className="grid--bottomed grid grid--reverse grid--stacked">
             {logos.map((logo, index) => {
-              const Svg = files(`./${logo.value}.url.svg`).ReactComponent
-
               return (
                 <Fragment key={index}>
                   {index > 0 &&
@@ -54,7 +52,7 @@ class BrandingPage extends PureComponent {
                   }
                   <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
                     <div className="text-center">
-                      <Svg />
+                      <img src={files(`./${logo.value}.png`)} alt="" />
                     </div>
                   </div>
                   <div className="grid__item tablet-one-third tablet-landscape-one-quarter">

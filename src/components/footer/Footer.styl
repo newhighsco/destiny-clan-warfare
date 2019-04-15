@@ -47,15 +47,21 @@
     &:after
       border-color $color--terracotta
 
-.footer__logo.logo-icon
-  fill $color--silver
+.footer__logo
   margin 0 auto
   position absolute
   left 0
   right 0
   top spacing(-2)
+  text-align center
   transition margin 0.25s
+  width rem(70)
+
+  .logo-icon
+    fill $color--silver
 
   &:hover
-    fill $color--white
     margin-top spacing(-0.5)
+
+    .logo-icon
+      fill $color--white

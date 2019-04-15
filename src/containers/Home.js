@@ -20,7 +20,7 @@ const meta = {
     '@type': 'Organization',
     name: constants.meta.name,
     url: process.env.SITE_URL,
-    logo: `${LogoImage}`,
+    logo: `${process.env.SITE_URL}${LogoImage}`,
     sameAs: [
       constants.social.twitter
     ]

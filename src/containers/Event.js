@@ -34,7 +34,7 @@ class EventContainer extends PureComponent {
         description: event.description,
         startDate: moment(event.startDate).format(),
         endDate: moment(event.endDate).format(),
-        image: `${SchemaImage}`,
+        image: `${process.env.SITE_URL}${SchemaImage}`,
         location: {
           '@type': 'Place',
           name: constants.meta.name,

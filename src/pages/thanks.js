@@ -61,7 +61,7 @@ class ThanksPage extends PureComponent {
                 <Lockup primary center kicker={meta.title} heading="Sorry we're full" />
                 <Prose>
                   <p>There is a limit on clan participation at this time so please check back each week as we accept more clans.</p>
-                  <p><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank">Follow us on Twitter</OutboundLink> to find out first when it reopens.</p>
+                  <p><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</OutboundLink> to find out first when it reopens.</p>
                 </Prose>
                 <Button href="/">Return to the homepage</Button>
               </Fragment>
@@ -71,7 +71,7 @@ class ThanksPage extends PureComponent {
                   <Lockup primary center kicker={meta.title} heading="Can't enroll clan" />
                   <Prose>
                     <p>This clan has opted-out of participating in {constants.meta.name}, and therefore cannot be enrolled.</p>
-                    <p>If you thing this is a mistake you can <OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank">message us on Twitter</OutboundLink> to discuss the issue with us further.</p>
+                    <p>If you thing this is a mistake you can <OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">message us on Twitter</OutboundLink> to discuss the issue with us further.</p>
                   </Prose>
                   <Button href="/">Return to the homepage</Button>
                 </Fragment>

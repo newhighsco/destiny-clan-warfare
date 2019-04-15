@@ -35,7 +35,7 @@ const Header = class extends PureComponent {
                   {links.map((link, i) => {
                     return (
                       <li key={i} className={styles[`${baseClassName}__item`]}>
-                        <OutboundLink className={styles[`${baseClassName}__link`]} to={link.href} eventLabel={link.href} title={link.text} target="_blank">
+                        <OutboundLink className={styles[`${baseClassName}__link`]} to={link.href} eventLabel={link.href} title={link.text} target="_blank" rel="noopener noreferrer">
                           <Icon className={styles[`${baseClassName}__icon`]} a11yText={link.text}>
                             <link.icon />
                           </Icon>

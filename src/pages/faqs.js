@@ -27,7 +27,7 @@ class FrequentlyAskedQuestionsPage extends PureComponent {
             <p>We will lock your clan member list in place for the duration of the event. A snapshot will be taken when the event starts and any amendments to your roster will not be taken into account until the next event starts.</p>
             <p>Please note - there is a limit on clan participation at this time so if we are full, please check back each week as we accept more clans.</p>
             <h3>When will enrollment be open again?</h3>
-            <p><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank">Follow us on Twitter</OutboundLink> to find out first when it reopens.</p>
+            <p><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</OutboundLink> to find out first when it reopens.</p>
             <h3>Will I have to enroll my clan for every events?</h3>
             <p>No. Once you are enrolled, you will automatically be entered into all future events. Just score some points, and you'll appear on the leaderboards.</p>
             <h2><Link id="points" to="#points" className="anchor" />How do I earn points in {constants.meta.name}?</h2>

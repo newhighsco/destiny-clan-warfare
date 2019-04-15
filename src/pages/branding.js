@@ -65,7 +65,7 @@ class BrandingPage extends PureComponent {
 
                           return (
                             <li key={index}>
-                              <OutboundLink to={file.default || file} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank">{extension.toUpperCase()}</OutboundLink>
+                              <OutboundLink to={file.default || file} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank" rel="noopener noreferrer">{extension.toUpperCase()}</OutboundLink>
                             </li>
                           )
                         })}

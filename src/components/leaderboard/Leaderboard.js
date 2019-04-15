@@ -234,7 +234,7 @@ class Leaderboard extends PureComponent {
                                   {item.game.name &&
                                     <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
                                       {item.game.isExternal ? (
-                                        <OutboundLink to={item.game.path} eventLabel={item.game.path} target="_blank">
+                                        <OutboundLink to={item.game.path} eventLabel={item.game.path} target="_blank" rel="noopener noreferrer">
                                           <span>{item.game.name}</span>
                                           <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
                                             <ExternalSvg />

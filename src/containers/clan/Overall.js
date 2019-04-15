@@ -88,7 +88,7 @@ class ClanOverallContainer extends PureComponent {
             </Prose>
           }
           <ButtonGroup>
-            <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`} target="_blank">Join clan</Button>
+            <Button href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`} target="_blank" rel="noopener noreferrer">Join clan</Button>
           </ButtonGroup>
           <MedalList medals={clan.medals} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
           {!hasLeaderboard &&

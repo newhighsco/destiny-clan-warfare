@@ -94,7 +94,7 @@ class MemberOverall extends PureComponent {
           <Lockup primary center reverse kicker={meta.kicker} kickerHref={meta.kickerHref} heading={member.name} />
           <PlatformList platforms={member.platforms} />
           <ButtonGroup>
-            <Button href={`${constants.bungie.baseUrl}en/Profile/${platformId}/${member.id}`} target="_blank">View profile</Button>
+            <Button href={`${constants.bungie.baseUrl}en/Profile/${platformId}/${member.id}`} target="_blank" rel="noopener noreferrer">View profile</Button>
           </ButtonGroup>
           <MedalList medals={member.medals} kicker="Medals awarded" />
           <StatList stats={stats} kicker="Overall stats" />

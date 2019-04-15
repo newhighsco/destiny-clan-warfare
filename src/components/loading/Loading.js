@@ -4,8 +4,7 @@ import { Lockup } from '../lockup/Lockup'
 
 const meta = {
   title: 'Loading...',
-  description: 'Please be patient, this page is loading',
-  robots: 'noindex,nofollow'
+  description: 'Please be patient, this page is loading'
 }
 
 class Loading extends PureComponent {

@@ -1,5 +1,12 @@
 {
-  "exclude": [ "node_modules/**/*.styl" ],
+  "exclude": [
+    "node_modules/**/*",
+    "artifacts/**/*",
+    "coverage/**/*",
+    "dist/**/*",
+    "docs/**/*",
+    "tmp/**/*"
+  ],
   "blocks": {
     "expect": "never",
     "error": true

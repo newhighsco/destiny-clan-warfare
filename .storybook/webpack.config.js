@@ -1,4 +1,3 @@
-const path = require('path')
 const stylusLoaders = require('../config/webpack/stylus-loaders')
 const svgLoaders = require('../config/webpack/svg-loaders')
 

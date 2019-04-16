@@ -12,7 +12,7 @@ import styles from './PageContainer.styl'
 const baseClassName = 'page-container'
 
 class PageContainer extends PureComponent {
-  render () {
+  render() {
     const { children, meta } = this.props
 
     return (
@@ -22,7 +22,12 @@ class PageContainer extends PureComponent {
         <Header />
         <BungieStatus />
         <main id="content" className={styles[baseClassName]} role="main">
-          <div className={classNames(styles[`${baseClassName}__inner`], 'content-center content-gutter')}>
+          <div
+            className={classNames(
+              styles[`${baseClassName}__inner`],
+              'content-center content-gutter'
+            )}
+          >
             {children}
             <Advert />
           </div>

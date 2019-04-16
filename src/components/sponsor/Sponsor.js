@@ -10,14 +10,16 @@ const svgs = require.context('./logos', false, /\.svg$/)
 const baseClassName = 'sponsor'
 
 class Sponsor extends PureComponent {
-  render () {
+  render() {
     const { name } = this.props
 
     if (!name) return null
 
     const key = paramCase(name || '')
     const logoKey = `./${key}.svg`
-    const LogoSvg = svgs.keys().find(key => key === logoKey) ? svgs(logoKey).default : null
+    const LogoSvg = svgs.keys().find(key => key === logoKey)
+      ? svgs(logoKey).default
+      : null
 
     return (
       <div className={styles[baseClassName]}>

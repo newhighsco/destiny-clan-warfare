@@ -5,10 +5,17 @@ const constants = require('./utils/constants')
 const urlBuilder = require('./utils/url-builder')
 const { name, handle } = constants.meta
 
-function Html (props) {
+function Html(props) {
   const { Html, Head, Body, children, routeInfo } = props
-  const canonicalPath = routeInfo && routeInfo.path !== '404' ? (routeInfo.path.match(/\/$/) ? routeInfo.path : `${routeInfo.path}/`) : null
-  const canonicalUrl = `${process.env.SITE_URL}${canonicalPath === urlBuilder.rootUrl ? canonicalPath : `/${canonicalPath}`}`
+  const canonicalPath =
+    routeInfo && routeInfo.path !== '404'
+      ? routeInfo.path.match(/\/$/)
+        ? routeInfo.path
+        : `${routeInfo.path}/`
+      : null
+  const canonicalUrl = `${process.env.SITE_URL}${
+    canonicalPath === urlBuilder.rootUrl ? canonicalPath : `/${canonicalPath}`
+  }`
   const enableAdverts = JSON.parse(process.env.ENABLE_ADVERTS)
 
   return (
@@ -23,19 +30,20 @@ function Html (props) {
         <meta name="twitter:domain" content={process.env.SITE_URL} />
         <meta name="twitter:site" content={handle} />
         <meta name="twitter:creator" content={handle} />
-        {canonicalPath &&
+        {canonicalPath && (
           <Fragment>
             <link rel="canonical" href={canonicalUrl} />
             <meta property="og:url" key="ogUrl" content={canonicalUrl} />
           </Fragment>
-        }
+        )}
       </Head>
-      <Body>
-        {children}
-      </Body>
-      {enableAdverts &&
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
-      }
+      <Body>{children}</Body>
+      {enableAdverts && (
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        />
+      )}
     </Html>
   )
 }

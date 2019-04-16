@@ -7,14 +7,16 @@ const commonAttributes = {
 }
 
 storiesOf('Button', module)
-  .add('Regular', () => (
-    <Button {...commonAttributes}>Regular button</Button>
-  ))
+  .add('Regular', () => <Button {...commonAttributes}>Regular button</Button>)
   .add('Small', () => (
-    <Button size="small" {...commonAttributes}>Small button</Button>
+    <Button size="small" {...commonAttributes}>
+      Small button
+    </Button>
   ))
   .add('Solid', () => (
-    <Button solid {...commonAttributes}>Solid button</Button>
+    <Button solid {...commonAttributes}>
+      Solid button
+    </Button>
   ))
   .add('Group', () => (
     <ButtonGroup>

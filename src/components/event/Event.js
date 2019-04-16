@@ -19,13 +19,16 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 
 class Event extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { event, leaderboards, stats } = this.props
-    const hasLeaderboards = leaderboards && leaderboards.length === constants.divisions.length
+    const hasLeaderboards =
+      leaderboards && leaderboards.length === constants.divisions.length
     const hasResults = event.isCalculated && hasLeaderboards
-    const leaderboardColumns = hasResults ? [ 'rank', 'overall', 'score' ] : [ 'rank', 'overall', 'active', 'size', 'score' ]
+    const leaderboardColumns = hasResults
+      ? ['rank', 'overall', 'score']
+      : ['rank', 'overall', 'active', 'size', 'score']
 
     this.handleSearch = this.handleSearch.bind(this)
 
@@ -37,11 +40,13 @@ class Event extends PureComponent {
       hasResults,
       leaderboardColumns,
       tabIndex: 0,
-      leaderboardIndices: hasLeaderboards ? Array(leaderboards.length).fill(null) : []
+      leaderboardIndices: hasLeaderboards
+        ? Array(leaderboards.length).fill(null)
+        : []
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { event } = this.props
     var { active } = this.state
 
@@ -54,7 +59,7 @@ class Event extends PureComponent {
     }
   }
 
-  handleSearch (e) {
+  handleSearch(e) {
     const { leaderboardIndices } = this.state
 
     const indices = e.id.split(constants.blank)
@@ -65,90 +70,158 @@ class Event extends PureComponent {
 
     this.setState({
       tabIndex,
-      leaderboardIndices: [ ...leaderboardIndices ]
+      leaderboardIndices: [...leaderboardIndices]
     })
   }
 
-  render () {
-    const { event, leaderboards, suggestions, stats, element, summary } = this.props
-    const { active, enrollmentOpen, statsColumns, hasLeaderboards, hasResults, leaderboardColumns, tabIndex, leaderboardIndices } = this.state
+  render() {
+    const {
+      event,
+      leaderboards,
+      suggestions,
+      stats,
+      element,
+      summary
+    } = this.props
+    const {
+      active,
+      enrollmentOpen,
+      statsColumns,
+      hasLeaderboards,
+      hasResults,
+      leaderboardColumns,
+      tabIndex,
+      leaderboardIndices
+    } = this.state
 
     if (!event) return null
 
-    const tooltip = `Play a minimum of ${constants.statsGamesThreshold} games to be included.`
-    const summaryType = hasLeaderboards ? (hasResults ? 'results' : 'leaderboard') : null
+    const tooltip = `Play a minimum of ${
+      constants.statsGamesThreshold
+    } games to be included.`
+    const summaryType = hasLeaderboards
+      ? hasResults
+        ? 'results'
+        : 'leaderboard'
+      : null
 
     return (
       <Fragment>
         <Card cutout={hasLeaderboards} center>
-          <Lockup center reverse element={element} headingHref={summary && event.path} heading={event.name}>
+          <Lockup
+            center
+            reverse
+            element={element}
+            headingHref={summary && event.path}
+            heading={event.name}
+          >
             {event.sponsor && constants.kicker.sponsor}
           </Lockup>
           <Sponsor name={event.sponsor} />
           <Timer start={event.startDate} end={event.endDate} />
-          {event.description &&
+          {event.description && (
             <Prose>
               <p dangerouslySetInnerHTML={{ __html: event.description }} />
             </Prose>
-          }
+          )}
           <ModifierList modifiers={event.modifiers} />
-          {!summary &&
+          {!summary && (
             <Fragment>
-              {summaryType &&
+              {summaryType && (
                 <Landmark id={summaryType} a11yText={summaryType} />
-              }
-              {hasLeaderboards && statsColumns &&
+              )}
+              {hasLeaderboards && statsColumns && (
                 <Fragment>
                   {statsColumns.length > 0 ? (
-                    <StatList stats={stats} columns={statsColumns} top kicker="Top stats&#9432;" tooltip={tooltip} />
+                    <StatList
+                      stats={stats}
+                      columns={statsColumns}
+                      top
+                      kicker="Top stats&#9432;"
+                      tooltip={tooltip}
+                    />
                   ) : (
-                    <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
+                    <Notification>
+                      Top stats for this event are being calculated. {tooltip}
+                    </Notification>
                   )}
                 </Fragment>
-              }
-              {hasResults && event.medals &&
-                <MedalList medals={event.medals.clans} kicker="Medals awarded" kickerHref={urlBuilder.clanRootUrl} />
-              }
-              {hasLeaderboards && active &&
+              )}
+              {hasResults && event.medals && (
+                <MedalList
+                  medals={event.medals.clans}
+                  kicker="Medals awarded"
+                  kickerHref={urlBuilder.clanRootUrl}
+                />
+              )}
+              {hasLeaderboards && active && (
                 <Filter
                   kicker="Find clan"
                   placeholder="Enter clan name"
                   suggestions={suggestions}
                   handleAddition={this.handleSearch}
                 />
-              }
+              )}
             </Fragment>
-          }
-          {summaryType ? (summary &&
-            <Button href={`${event.path}${constants.prefix.hash}${summaryType}`}>View full {summaryType}</Button>
-          ) : (enrollmentOpen &&
-            <ButtonGroup>
-              <Button href={`/${constants.prefix.hash}${constants.prefix.enroll}`}>Enroll your clan today</Button>
-            </ButtonGroup>
           )}
-          {event.isCurrent && !hasLeaderboards &&
-            <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
-          }
-          {event.isPast && !hasResults &&
-            <Notification>Results for this event are being calculated. Please check back later.</Notification>
-          }
+          {summaryType
+            ? summary && (
+                <Button
+                  href={`${event.path}${constants.prefix.hash}${summaryType}`}
+                >
+                  View full {summaryType}
+                </Button>
+              )
+            : enrollmentOpen && (
+                <ButtonGroup>
+                  <Button
+                    href={`/${constants.prefix.hash}${constants.prefix.enroll}`}
+                  >
+                    Enroll your clan today
+                  </Button>
+                </ButtonGroup>
+              )}
+          {event.isCurrent && !hasLeaderboards && (
+            <Notification>
+              Leaderboards for this event are being calculated. Please check
+              back later.
+            </Notification>
+          )}
+          {event.isPast && !hasResults && (
+            <Notification>
+              Results for this event are being calculated. Please check back
+              later.
+            </Notification>
+          )}
         </Card>
         {summary && hasResults ? (
           <TabContainer cutout>
             <Tab name="Winners">
-              <Leaderboard data={event.winners} columns={[ 'score' ]} />
+              <Leaderboard data={event.winners} columns={['score']} />
             </Tab>
           </TabContainer>
-        ) : (hasLeaderboards &&
-          <TabContainer cutout activeIndex={tabIndex}>
-            {leaderboards && leaderboards.map(({ leaderboard, division }, index) => {
-              return (
-                <Tab key={division.name} name={division.name} title={division.size}>
-                  <Leaderboard overall={event.isPast} data={leaderboard} columns={leaderboardColumns} activeIndex={leaderboardIndices[index]} />
-                </Tab>
-              )
-            })}
-          </TabContainer>
+        ) : (
+          hasLeaderboards && (
+            <TabContainer cutout activeIndex={tabIndex}>
+              {leaderboards &&
+                leaderboards.map(({ leaderboard, division }, index) => {
+                  return (
+                    <Tab
+                      key={division.name}
+                      name={division.name}
+                      title={division.size}
+                    >
+                      <Leaderboard
+                        overall={event.isPast}
+                        data={leaderboard}
+                        columns={leaderboardColumns}
+                        activeIndex={leaderboardIndices[index]}
+                      />
+                    </Tab>
+                  )
+                })}
+            </TabContainer>
+          )
         )}
       </Fragment>
     )

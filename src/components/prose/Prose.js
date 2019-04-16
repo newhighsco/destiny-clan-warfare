@@ -4,11 +4,14 @@ import classNames from 'classnames'
 import styles from './Prose.styl'
 
 class Prose extends PureComponent {
-  render () {
+  render() {
     const { children, className, html } = this.props
 
     return (
-      <div className={classNames(styles.prose, className)} {...html && { dangerouslySetInnerHTML: { __html: html } }}>
+      <div
+        className={classNames(styles.prose, className)}
+        {...html && { dangerouslySetInnerHTML: { __html: html } }}
+      >
         {children}
       </div>
     )

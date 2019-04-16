@@ -10,8 +10,21 @@ const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'lockup'
 
 class Lockup extends PureComponent {
-  render () {
-    const { heading, headingHref, kicker, kickerHref, reverse, center, borderless, primary, className, id, element, children } = this.props
+  render() {
+    const {
+      heading,
+      headingHref,
+      kicker,
+      kickerHref,
+      reverse,
+      center,
+      borderless,
+      primary,
+      className,
+      id,
+      element,
+      children
+    } = this.props
     const commonAttributes = {
       id,
       className: classNames(
@@ -27,9 +40,27 @@ class Lockup extends PureComponent {
     const kickerElement = heading ? 'span' : element
     const headingElement = element || 'h1'
 
-    const Kicker = () => <LockupElement element={kickerElement} elementName="kicker" href={kickerHref}>{kicker}</LockupElement>
-    const Heading = () => <LockupElement element={headingElement} elementName="heading" href={headingHref}>{heading}</LockupElement>
-    const Content = () => <LockupElement elementName="content">{children}</LockupElement>
+    const Kicker = () => (
+      <LockupElement
+        element={kickerElement}
+        elementName="kicker"
+        href={kickerHref}
+      >
+        {kicker}
+      </LockupElement>
+    )
+    const Heading = () => (
+      <LockupElement
+        element={headingElement}
+        elementName="heading"
+        href={headingHref}
+      >
+        {heading}
+      </LockupElement>
+    )
+    const Content = () => (
+      <LockupElement elementName="content">{children}</LockupElement>
+    )
 
     return (
       <span {...commonAttributes}>
@@ -66,7 +97,7 @@ Lockup.propTypes = {
 }
 
 class LockupElement extends PureComponent {
-  render () {
+  render() {
     const { children, element, elementName, href } = this.props
     const Element = element
     const commonAttributes = {
@@ -75,9 +106,7 @@ class LockupElement extends PureComponent {
 
     if (children) {
       if (!href) {
-        return (
-          <Element {...commonAttributes}>{children}</Element>
-        )
+        return <Element {...commonAttributes}>{children}</Element>
       }
 
       if (absoluteUrl(href)) {
@@ -110,7 +139,4 @@ LockupElement.propTypes = {
   href: PropTypes.string
 }
 
-export {
-  Lockup,
-  LockupElement
-}
+export { Lockup, LockupElement }

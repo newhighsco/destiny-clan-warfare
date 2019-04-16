@@ -13,17 +13,23 @@ const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
 class EventContainer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { event } = this.props
-    const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? constants.kicker.past : constants.kicker.future)
+    const kicker = event.isCurrent
+      ? constants.kicker.current
+      : event.isPast
+      ? constants.kicker.past
+      : constants.kicker.future
     const title = `${event.name} | ${kicker}`
     const description = event.isCurrent
-      ? `The divisional leaderboards for the current ${constants.meta.name} event`
-      : (event.isPast
-        ? `The results of past ${event.name} ${constants.meta.name} event`
-        : `Preview of upcoming ${event.name} ${constants.meta.name} event`)
+      ? `The divisional leaderboards for the current ${
+          constants.meta.name
+        } event`
+      : event.isPast
+      ? `The results of past ${event.name} ${constants.meta.name} event`
+      : `Preview of upcoming ${event.name} ${constants.meta.name} event`
     const url = `${process.env.SITE_URL}${event.path}`
     const schema = [
       {
@@ -84,18 +90,21 @@ class EventContainer extends PureComponent {
       meta
     }
   }
-  render () {
+  render() {
     const { apiStatus, event, leaderboards, suggestions, stats } = this.props
     const { meta } = this.state
 
     return (
       <PageContainer meta={meta}>
         <Lockup primary center kicker={meta.kicker}>
-          {event.isCurrent &&
-            <RelativeDate apiStatus={apiStatus} />
-          }
+          {event.isCurrent && <RelativeDate apiStatus={apiStatus} />}
         </Lockup>
-        <Event event={event} leaderboards={leaderboards} suggestions={suggestions} stats={stats} />
+        <Event
+          event={event}
+          leaderboards={leaderboards}
+          suggestions={suggestions}
+          stats={stats}
+        />
         <ButtonGroup>
           <Button href={urlBuilder.eventRootUrl}>View all events</Button>
         </ButtonGroup>

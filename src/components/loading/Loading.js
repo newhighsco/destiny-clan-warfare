@@ -8,7 +8,7 @@ const meta = {
 }
 
 class Loading extends PureComponent {
-  render () {
+  render() {
     return (
       <HoldingPage meta={meta} showBackground={false}>
         <Lockup heading={meta.title} />

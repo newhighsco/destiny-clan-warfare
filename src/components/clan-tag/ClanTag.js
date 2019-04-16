@@ -7,13 +7,15 @@ import styles from './ClanTag.styl'
 const baseClassName = 'clan-tag'
 
 const ClanTag = class extends PureComponent {
-  render () {
+  render() {
     const { children, className, href } = this.props
     const classes = classNames(styles[baseClassName], className)
     const Element = href ? Link : 'span'
 
     return (
-      <Element to={href} className={classes}>{children}</Element>
+      <Element to={href} className={classes}>
+        {children}
+      </Element>
     )
   }
 }

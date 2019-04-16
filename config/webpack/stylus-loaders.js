@@ -4,7 +4,7 @@ const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const poststylus = require('poststylus')
 
-const stylusLoaders = (options) => {
+const stylusLoaders = options => {
   options = options || {
     modules: true,
     importLoaders: 1
@@ -23,12 +23,8 @@ const stylusLoaders = (options) => {
     {
       loader: require.resolve('stylus-loader'),
       options: {
-        includePaths: [ 'src/' ],
-        use: [
-          stylusMixins(),
-          responsiveGrid(),
-          poststylus([ autoprefixer ])
-        ],
+        includePaths: ['src/'],
+        use: [stylusMixins(), responsiveGrid(), poststylus([autoprefixer])],
         import: [
           '~stylus-mixins/index.styl',
           '~responsive-grid/index.styl',

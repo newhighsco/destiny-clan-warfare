@@ -11,7 +11,7 @@ const urlBuilder = require('../../utils/url-builder')
 const baseClassName = 'avatar'
 
 const AvatarLayer = class extends PureComponent {
-  render () {
+  render() {
     const { id, layer } = this.props
 
     if (!layer.color || !layer.icon) return null
@@ -24,9 +24,16 @@ const AvatarLayer = class extends PureComponent {
     return (
       <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">
         <filter id={id} x="0" y="0" width="100%" height="100%">
-          <feColorMatrix values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`} />
+          <feColorMatrix
+            values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`}
+          />
         </filter>
-        <image width="100%" height="100%" filter={`url(${constants.prefix.hash}${id})`} xlinkHref={urlBuilder.avatarLayerUrl(layer.icon)} />
+        <image
+          width="100%"
+          height="100%"
+          filter={`url(${constants.prefix.hash}${id})`}
+          xlinkHref={urlBuilder.avatarLayerUrl(layer.icon)}
+        />
       </svg>
     )
   }
@@ -38,8 +45,18 @@ AvatarLayer.propTypes = {
 }
 
 const Avatar = class extends PureComponent {
-  render () {
-    const { icon, color, foreground, background, className, id, children, cutout, outline } = this.props
+  render() {
+    const {
+      icon,
+      color,
+      foreground,
+      background,
+      className,
+      id,
+      children,
+      cutout,
+      outline
+    } = this.props
     const classes = classNames(
       styles[baseClassName],
       children && styles[`${baseClassName}--inline`],
@@ -50,21 +67,24 @@ const Avatar = class extends PureComponent {
     const hasLayers = background || foreground
 
     return (
-      <div className={classes} style={hexHelper.isHex(color) && { backgroundColor: color }}>
+      <div
+        className={classes}
+        style={hexHelper.isHex(color) && { backgroundColor: color }}
+      >
         {hasLayers ? (
           <Fragment>
-            {background &&
-              <AvatarLayer id={`${id}-bg`} layer={background} />
-            }
-            {foreground &&
-              <AvatarLayer id={`${id}-fg`} layer={foreground} />
-            }
+            {background && <AvatarLayer id={`${id}-bg`} layer={background} />}
+            {foreground && <AvatarLayer id={`${id}-fg`} layer={foreground} />}
           </Fragment>
         ) : (
-          children ||
-            <ResponsiveMedia className={styles[`${baseClassName}__layer`]} ratio="1:1">
+          children || (
+            <ResponsiveMedia
+              className={styles[`${baseClassName}__layer`]}
+              ratio="1:1"
+            >
               <img src={urlBuilder.avatarIconUrl(icon)} alt="" />
             </ResponsiveMedia>
+          )
         )}
       </div>
     )
@@ -77,7 +97,7 @@ Avatar.propTypes = {
   foreground: PropTypes.object,
   background: PropTypes.object,
   className: PropTypes.string,
-  id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   cutout: PropTypes.bool,
   outline: PropTypes.bool,
   children: PropTypes.node

@@ -11,7 +11,7 @@ const historyListener = ({ location }) => {
 }
 
 const Analytics = class extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     ReactGA.initialize(constants.meta.trackingId)
@@ -20,17 +20,15 @@ const Analytics = class extends PureComponent {
     })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     historyListener({ location: globalHistory.location, action: 'PUSH' })
     globalHistory.listen(historyListener)
   }
 
-  render () {
+  render() {
     const { children } = this.props
 
-    return (
-      children
-    )
+    return children
   }
 }
 

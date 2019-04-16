@@ -18,10 +18,13 @@ const { title, name, description } = constants.meta
 
 addPrefetchExcludes([
   new RegExp(urlBuilder.profileUrl('.*', '.*').replace(/\/(.*)\//, '$1'), 'i'),
-  new RegExp(urlBuilder.currentEventUrl('.*', '.*').replace(/\/(.*)\//, '$1'), 'i')
+  new RegExp(
+    urlBuilder.currentEventUrl('.*', '.*').replace(/\/(.*)\//, '$1'),
+    'i'
+  )
 ])
 
-function App () {
+function App() {
   return (
     <Root>
       <Match path="*">
@@ -29,7 +32,11 @@ function App () {
           if (typeof requestAnimationFrame !== 'undefined') {
             requestAnimationFrame(() => {
               const { hash } = location
-              const target = hash ? document.getElementById(hash.replace(constants.prefix.hash, '')) : null
+              const target = hash
+                ? document.getElementById(
+                    hash.replace(constants.prefix.hash, '')
+                  )
+                : null
 
               if (target) {
                 target.scrollIntoView()
@@ -41,20 +48,25 @@ function App () {
         }}
       </Match>
       <Analytics>
-        <Head
-          defaultTitle={title}
-          titleTemplate={`%s | ${name}`}
-        >
+        <Head defaultTitle={title} titleTemplate={`%s | ${name}`}>
           <meta property="og:title" content={title} />
           <meta name="description" content={description} />
           <meta property="og:description" content={description} />
           <link rel="apple-touch-icon" href={appleTouchIcon} />
           <meta property="og:image" content={openGraphImage} />
         </Head>
-        <Suspense fallback={<div className="site-container"><Loading /></div>}>
+        <Suspense
+          fallback={
+            <div className="site-container">
+              <Loading />
+            </div>
+          }
+        >
           <Router className="site-container" primary={false}>
             <MemberOverall path={urlBuilder.profileUrl(':clan', ':member')} />
-            <MemberCurrent path={urlBuilder.currentEventUrl(':clan', ':member')} />
+            <MemberCurrent
+              path={urlBuilder.currentEventUrl(':clan', ':member')}
+            />
             <Routes default />
           </Router>
         </Suspense>

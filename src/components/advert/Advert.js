@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styles from './Advert.styl'
 
 class Advert extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { enabled } = this.props
@@ -13,18 +13,19 @@ class Advert extends PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { active } = this.state
 
     if (active) {
       /* istanbul ignore next line */
-      if (typeof window !== 'undefined' && window) (window.adsbygoogle = window.adsbygoogle || []).push({})
+      if (typeof window !== 'undefined' && window)
+        (window.adsbygoogle = window.adsbygoogle || []).push({})
 
       document.body.classList.add(styles['has-advert'])
     }
   }
 
-  render () {
+  render() {
     const { active } = this.state
 
     if (!active) return null
@@ -33,7 +34,12 @@ class Advert extends PureComponent {
 
     return (
       <div className={styles.advert}>
-        <ins className={styles.adsbygoogle} data-ad-client={client} data-ad-slot={slot} data-ad-format={format} />
+        <ins
+          className={styles.adsbygoogle}
+          data-ad-client={client}
+          data-ad-slot={slot}
+          data-ad-format={format}
+        />
       </div>
     )
   }

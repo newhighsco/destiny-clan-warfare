@@ -13,12 +13,12 @@ const suggestions = [
 
 const tags = suggestions.slice(0, 2)
 
-storiesOf('Layout', module)
-  .add('Filter', () => (
-    <Filter
-      kicker="Filter"
-      suggestions={suggestions}
-      tags={tags}
-      handleAddition={() => {}}
-      handleDelete={() => {}} />
-  ))
+storiesOf('Layout', module).add('Filter', () => (
+  <Filter
+    kicker="Filter"
+    suggestions={suggestions}
+    tags={tags}
+    handleAddition={() => {}}
+    handleDelete={() => {}}
+  />
+))

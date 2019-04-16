@@ -5,15 +5,18 @@ export default (options = {}) => {
   const filename = options.filename || 'manifest.json'
   const iconDestination = 'static'
 
-  return ({
-    webpack: (config) => {
+  return {
+    webpack: config => {
       if (options.icons) {
-        options.icons = options.icons.map(({ destination = iconDestination, ...rest }) => ({ ...rest, destination }))
+        options.icons = options.icons.map(
+          ({ destination = iconDestination, ...rest }) => ({
+            ...rest,
+            destination
+          })
+        )
       }
 
-      config.plugins.push(
-        new WebpackPwaManifest({ ...options, filename })
-      )
+      config.plugins.push(new WebpackPwaManifest({ ...options, filename }))
 
       return config
     },
@@ -26,5 +29,5 @@ export default (options = {}) => {
         themeColor && <meta name="theme-color" content={themeColor} />
       ]
     }
-  })
+  }
 }

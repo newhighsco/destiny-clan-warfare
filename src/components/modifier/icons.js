@@ -1,6 +1,9 @@
 const antiMeta = { svg: 'anti-meta', designer: 'TMD' }
 const bandTogether = { svg: 'band-together', designer: 'Gabriel Vogel' }
-const crimsonDoubleDown = { svg: 'crimson-double-down', designer: 'Ker\'is & Optimus Prime' }
+const crimsonDoubleDown = {
+  svg: 'crimson-double-down',
+  designer: "Ker'is & Optimus Prime"
+}
 const raidTiming = { svg: 'raid-timing', designer: 'Pixel Lab' }
 const bullseye = { svg: 'bullseye', designer: 'Zlatko Najdenovski' }
 
@@ -31,7 +34,9 @@ const icons = {
   'i-hit-a-rock': { designer: 'Tom Fricker' },
   'luke-skywalker-s-padawan': { designer: 'Colour Block' },
   'make-the-dreamwork': bandTogether,
-  'my-motes-bring-all-the-boys-to-the-yard': { svg: 'all-creatures-great-small' },
+  'my-motes-bring-all-the-boys-to-the-yard': {
+    svg: 'all-creatures-great-small'
+  },
   merciless: { designer: 'Optimus Prime' },
   'nice-throw': { designer: 'Hea Poh Lin' },
   'no-apologies': { designer: 'Simon Child' },

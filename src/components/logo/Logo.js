@@ -5,13 +5,13 @@ import { Lockup } from '../lockup/Lockup'
 import LogoSvg from './logo.svg'
 import styles from './Logo.styl'
 
-const sizes = [ 'small', 'medium' ]
+const sizes = ['small', 'medium']
 const baseClassName = 'logo'
 const iconClassName = `${baseClassName}-icon`
 const lockupClassName = `${baseClassName}-lockup`
 
 class Logo extends PureComponent {
-  render () {
+  render() {
     const { kicker, heading, size, className } = this.props
 
     return (
@@ -31,11 +31,17 @@ Logo.propTypes = {
 }
 
 class LogoIcon extends PureComponent {
-  render () {
+  render() {
     const { size, className } = this.props
 
     return (
-      <LogoSvg className={classNames(styles[iconClassName], size && styles[`${iconClassName}--${size}`], className)} />
+      <LogoSvg
+        className={classNames(
+          styles[iconClassName],
+          size && styles[`${iconClassName}--${size}`],
+          className
+        )}
+      />
     )
   }
 }
@@ -46,11 +52,16 @@ LogoIcon.propTypes = {
 }
 
 class LogoLockup extends PureComponent {
-  render () {
+  render() {
     const { kicker, heading, size, className } = this.props
 
     return (
-      <Lockup className={classNames(styles[lockupClassName], size && styles[`${lockupClassName}--${size}`], className)}
+      <Lockup
+        className={classNames(
+          styles[lockupClassName],
+          size && styles[`${lockupClassName}--${size}`],
+          className
+        )}
         heading={heading}
         kicker={kicker}
         element="span"
@@ -71,8 +82,4 @@ LogoLockup.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-export {
-  Logo,
-  LogoIcon,
-  LogoLockup
-}
+export { Logo, LogoIcon, LogoLockup }

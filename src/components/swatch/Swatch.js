@@ -6,7 +6,7 @@ import styles from './Swatch.styl'
 const baseClassName = 'swatch'
 
 class Swatch extends PureComponent {
-  render () {
+  render() {
     const { name, value } = this.props
 
     if (!value) return null
@@ -14,10 +14,15 @@ class Swatch extends PureComponent {
     return (
       <div className={styles[baseClassName]} style={{ backgroundColor: value }}>
         <div className={styles[`${baseClassName}__caption`]}>
-          {name &&
+          {name && (
             <h2 className={styles[`${baseClassName}__title`]}>{name}</h2>
-          }
-          <ul className={classNames('list--unstyled', styles[`${baseClassName}__list`])}>
+          )}
+          <ul
+            className={classNames(
+              'list--unstyled',
+              styles[`${baseClassName}__list`]
+            )}
+          >
             <li className={styles[`${baseClassName}__value`]}>{value}</li>
           </ul>
         </div>

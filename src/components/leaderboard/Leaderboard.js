@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { OutboundLink } from 'react-ga-donottrack'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
-import { CellMeasurer, CellMeasurerCache } from 'react-virtualized/dist/commonjs/CellMeasurer'
+import {
+  CellMeasurer,
+  CellMeasurerCache
+} from 'react-virtualized/dist/commonjs/CellMeasurer'
 import List from 'react-virtualized/dist/commonjs/List'
 import classNames from 'classnames'
 import Avatar from '../avatar/Avatar'
@@ -23,12 +26,13 @@ const statsHelper = require('../../utils/stats-helper')
 const urlBuilder = require('../../utils/url-builder')
 
 const baseClassName = 'leaderboard'
-const emptyCache = () => new CellMeasurerCache({
-  fixedWidth: true
-})
+const emptyCache = () =>
+  new CellMeasurerCache({
+    fixedWidth: true
+  })
 
 class LeaderboardName extends PureComponent {
-  render () {
+  render() {
     const { name, updated, tags } = this.props
     var { startDate, endDate } = this.props
     var label
@@ -43,7 +47,12 @@ class LeaderboardName extends PureComponent {
       <Fragment>
         <span dangerouslySetInnerHTML={{ __html: name }} />
         <TagList tags={tags} className={styles[`${baseClassName}__tags`]} />
-        <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={startDate} end={endDate} label={label} />
+        <RelativeDate
+          className={styles[`${baseClassName}__stat-suffix`]}
+          start={startDate}
+          end={endDate}
+          label={label}
+        />
       </Fragment>
     )
   }
@@ -58,12 +67,20 @@ LeaderboardName.propTypes = {
 }
 
 class Leaderboard extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { data, activeIndex } = this.props
-    const bonusColumns = data.length ? (data[0].bonuses || []).reduce((result, { shortName }) => result.concat(shortName), []) : []
-    const suggestions = data.map(({ name, tag }, index) => ({ id: index, name: `${name}${tag ? ` [${tag}]` : ''}` }))
+    const bonusColumns = data.length
+      ? (data[0].bonuses || []).reduce(
+          (result, { shortName }) => result.concat(shortName),
+          []
+        )
+      : []
+    const suggestions = data.map(({ name, tag }, index) => ({
+      id: index,
+      name: `${name}${tag ? ` [${tag}]` : ''}`
+    }))
 
     this.state = {
       active: false,
@@ -79,17 +96,20 @@ class Leaderboard extends PureComponent {
     this.handleSearch = this.handleSearch.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { active } = this.state
 
     if (!active) {
-      this.setState({
-        active: true
-      }, () => this.handleResize())
+      this.setState(
+        {
+          active: true
+        },
+        () => this.handleResize()
+      )
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { data, activeIndex } = this.props
 
     this.List.measureAllRows()
@@ -104,45 +124,68 @@ class Leaderboard extends PureComponent {
     }
   }
 
-  handleResize (e) {
+  handleResize(e) {
     const { cache, activeIndex } = this.state
 
     if (cache._rowCount > 0) {
-      this.setState({
-        cache: emptyCache()
-      }, () => {
-        if (activeIndex) this.List.scrollToRow(activeIndex)
+      this.setState(
+        {
+          cache: emptyCache()
+        },
+        () => {
+          if (activeIndex) this.List.scrollToRow(activeIndex)
 
-        this.handleScroll(this.List.Grid._scrollingContainer)
-      })
+          this.handleScroll(this.List.Grid._scrollingContainer)
+        }
+      )
     }
   }
 
-  handleScroll (e) {
+  handleScroll(e) {
     const { padding } = this.props
     const { clientHeight, scrollHeight, scrollTop } = e
     const scrollBottom = clientHeight + scrollTop
     const top = scrollTop > padding
-    const bottom = scrollBottom < (scrollHeight - padding)
+    const bottom = scrollBottom < scrollHeight - padding
 
     this.setState({ overflow: { top, bottom } })
   }
 
-  handleSearch (tag) {
+  handleSearch(tag) {
     const id = tag.id
 
     this.List.scrollToRow(id)
 
-    this.setState({
-      activeIndex: id
-    }, () => {
-      this.List.scrollToRow(id)
-    })
+    this.setState(
+      {
+        activeIndex: id
+      },
+      () => {
+        this.List.scrollToRow(id)
+      }
+    )
   }
 
-  render () {
-    const { data, cutout, search, overall, placeholder, columns, extraColumns, medalsSize, className } = this.props
-    var { active, activeIndex, cache, bonusColumns, overflow, suggestions } = this.state
+  render() {
+    const {
+      data,
+      cutout,
+      search,
+      overall,
+      placeholder,
+      columns,
+      extraColumns,
+      medalsSize,
+      className
+    } = this.props
+    var {
+      active,
+      activeIndex,
+      cache,
+      bonusColumns,
+      overflow,
+      suggestions
+    } = this.state
     const dataCount = data.length
 
     if (!data || dataCount < 1) return null
@@ -160,7 +203,7 @@ class Leaderboard extends PureComponent {
         data-overflow-top={overflow.top}
         data-overflow-bottom={overflow.bottom}
       >
-        {active && search &&
+        {active && search && (
           <Filter
             className={classNames(
               styles[`${baseClassName}__search`],
@@ -170,8 +213,13 @@ class Leaderboard extends PureComponent {
             suggestions={suggestions}
             handleAddition={this.handleSearch}
           />
-        }
-        <AutoSizer className={styles[`${baseClassName}__wrapper`]} disableHeight defaultWidth={300} onResize={this.handleResize}>
+        )}
+        <AutoSizer
+          className={styles[`${baseClassName}__wrapper`]}
+          disableHeight
+          defaultWidth={300}
+          onResize={this.handleResize}
+        >
           {({ height, width }) => (
             <List
               ref={instance => (this.List = instance)}
@@ -199,120 +247,274 @@ class Leaderboard extends PureComponent {
                     parent={parent}
                     rowIndex={index}
                   >
-                    <div role="row" style={style} className={styles[`${baseClassName}__row-wrapper`]} {...index === 0 && { 'data-first': true }} {...rank === dataCount && { 'data-last': true }}>
-                      <div role="cell" id={item.id} className={styles[`${baseClassName}__row`]} data-result={item.game && item.game.result} data-rank={rank} {...rank % 2 === 0 && { 'data-even': true }} {...index === activeIndex && { 'data-active': true }}>
-                        {item.name &&
+                    <div
+                      role="row"
+                      style={style}
+                      className={styles[`${baseClassName}__row-wrapper`]}
+                      {...index === 0 && { 'data-first': true }}
+                      {...rank === dataCount && { 'data-last': true }}
+                    >
+                      <div
+                        role="cell"
+                        id={item.id}
+                        className={styles[`${baseClassName}__row`]}
+                        data-result={item.game && item.game.result}
+                        data-rank={rank}
+                        {...rank % 2 === 0 && { 'data-even': true }}
+                        {...index === activeIndex && { 'data-active': true }}
+                      >
+                        {item.name && (
                           <div className={styles[`${baseClassName}__header`]}>
-                            {item.avatar &&
-                              <Avatar id={item.id || index} className={styles[`${baseClassName}__icon`]} {...item.avatar} />
-                            }
+                            {item.avatar && (
+                              <Avatar
+                                id={item.id || index}
+                                className={styles[`${baseClassName}__icon`]}
+                                {...item.avatar}
+                              />
+                            )}
                             <Fragment>
-                              {item.medal &&
-                                <Medal {...item.medal} size="small" align="left" valign="middle" className={styles[`${baseClassName}__medal`]} />
-                              }
-                              <PlatformList platforms={item.platforms} size="small" className={styles[`${baseClassName}__platforms`]} />
+                              {item.medal && (
+                                <Medal
+                                  {...item.medal}
+                                  size="small"
+                                  align="left"
+                                  valign="middle"
+                                  className={styles[`${baseClassName}__medal`]}
+                                />
+                              )}
+                              <PlatformList
+                                platforms={item.platforms}
+                                size="small"
+                                className={
+                                  styles[`${baseClassName}__platforms`]
+                                }
+                              />
                               {item.path ? (
                                 <Link
                                   to={item.path}
-                                  className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}
+                                  className={classNames(
+                                    styles[`${baseClassName}__name`],
+                                    styles[`${baseClassName}__link`]
+                                  )}
                                 >
                                   <LeaderboardName {...item} />
                                 </Link>
                               ) : (
-                                <div className={classNames(styles[`${baseClassName}__name`], styles[`${baseClassName}__link`])}>
+                                <div
+                                  className={classNames(
+                                    styles[`${baseClassName}__name`],
+                                    styles[`${baseClassName}__link`]
+                                  )}
+                                >
                                   <LeaderboardName {...item} />
                                 </div>
                               )}
                             </Fragment>
                           </div>
-                        }
-                        {hasBody &&
-                          <div role="cell" className={classNames(styles[`${baseClassName}__body`])}>
+                        )}
+                        {hasBody && (
+                          <div
+                            role="cell"
+                            className={classNames(
+                              styles[`${baseClassName}__body`]
+                            )}
+                          >
                             <div className={styles[`${baseClassName}__stats`]}>
-                              {item.game &&
+                              {item.game && (
                                 <Fragment>
-                                  {item.game.name &&
-                                    <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--game`])}>
+                                  {item.game.name && (
+                                    <div
+                                      className={classNames(
+                                        styles[`${baseClassName}__stat`],
+                                        styles[`${baseClassName}__stat--game`]
+                                      )}
+                                    >
                                       {item.game.isExternal ? (
-                                        <OutboundLink to={item.game.path} eventLabel={item.game.path} target="_blank" rel="noopener noreferrer">
+                                        <OutboundLink
+                                          to={item.game.path}
+                                          eventLabel={item.game.path}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
                                           <span>{item.game.name}</span>
-                                          <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
+                                          <Icon
+                                            className={
+                                              styles[
+                                                `${baseClassName}__external`
+                                              ]
+                                            }
+                                            a11yText="View permalink"
+                                          >
                                             <ExternalSvg />
                                           </Icon>
                                         </OutboundLink>
                                       ) : (
-                                        <Link to={item.game.path} className={styles[`${baseClassName}__link`]}>
+                                        <Link
+                                          to={item.game.path}
+                                          className={
+                                            styles[`${baseClassName}__link`]
+                                          }
+                                        >
                                           <span>{item.game.name}</span>
                                         </Link>
                                       )}
-                                      <RelativeDate className={styles[`${baseClassName}__stat-suffix`]} start={item.game.startDate} end={item.game.endDate} label={item.game.label ? `${item.game.label} -` : null} />
+                                      <RelativeDate
+                                        className={
+                                          styles[
+                                            `${baseClassName}__stat-suffix`
+                                          ]
+                                        }
+                                        start={item.game.startDate}
+                                        end={item.game.endDate}
+                                        label={
+                                          item.game.label
+                                            ? `${item.game.label} -`
+                                            : null
+                                        }
+                                      />
                                     </div>
-                                  }
-                                  {item.game.medals && item.game.medals.length > 0 &&
-                                    <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--medals`])}>
-                                      <MedalList size={medalsSize} align="left" valign="middle" medals={item.game.medals} />
-                                    </div>
-                                  }
-                                </Fragment>
-                              }
-                              {hasModifiers &&
-                                <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--modifiers`])}>
-                                  <ModifierList size="small" align="right" valign="middle" modifiers={item.modifiers} />
-                                </div>
-                              }
-                              {item.division &&
-                                <div className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--division`])} data-prefix="Division" data-exact={item.division.size}><span>{item.division.name}</span></div>
-                              }
-                              {columns && columns.map((column, i) => {
-                                if (column === 'bonuses' && bonusColumns.length) {
-                                  return bonusColumns.map((shortName, i) => {
-                                    const bonusKey = shortName.toLowerCase()
-
-                                    if (columns.indexOf(bonusKey) !== -1) return null
-
-                                    var bonusValue = item.bonuses ? item.bonuses.find(bonus => bonus.shortName === shortName).count : -1
-                                    if (bonusValue < 0) bonusValue = constants.blank
-
-                                    return (
-                                      <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${bonusKey}`])} data-prefix={shortName}>{bonusValue}</div>
-                                    )
-                                  })
-                                }
-
-                                if (column === 'rank' && typeof item.rank === 'boolean') item.rank = item.rank === true ? statsHelper.ranking(rank) : -1
-
-                                var value = item[column]
-                                var href
-
-                                if (!overall && column === 'overall') href = urlBuilder.leaderboardRootUrl
-
-                                if (typeof value === 'undefined' || value === null) return null
-
-                                var exactValue
-
-                                if (isNaN(value)) {
-                                  value = `${value}`
-                                } else {
-                                  if (value < 0) value = constants.blank
-
-                                  exactValue = value
-                                  value = statsHelper.shortNumber(value)
-                                  if (value === exactValue) exactValue = null
-                                }
-
-                                return (
-                                  <div key={i} className={classNames(styles[`${baseClassName}__stat`], styles[`${baseClassName}__stat--${column}`])} data-prefix={sentenceCase(column)} data-exact={exactValue}>
-                                    {href ? (
-                                      <Link to={href}>{value}</Link>
-                                    ) : (
-                                      <span>{value}</span>
+                                  )}
+                                  {item.game.medals &&
+                                    item.game.medals.length > 0 && (
+                                      <div
+                                        className={classNames(
+                                          styles[`${baseClassName}__stat`],
+                                          styles[
+                                            `${baseClassName}__stat--medals`
+                                          ]
+                                        )}
+                                      >
+                                        <MedalList
+                                          size={medalsSize}
+                                          align="left"
+                                          valign="middle"
+                                          medals={item.game.medals}
+                                        />
+                                      </div>
                                     )}
-                                  </div>
-                                )
-                              })}
+                                </Fragment>
+                              )}
+                              {hasModifiers && (
+                                <div
+                                  className={classNames(
+                                    styles[`${baseClassName}__stat`],
+                                    styles[`${baseClassName}__stat--modifiers`]
+                                  )}
+                                >
+                                  <ModifierList
+                                    size="small"
+                                    align="right"
+                                    valign="middle"
+                                    modifiers={item.modifiers}
+                                  />
+                                </div>
+                              )}
+                              {item.division && (
+                                <div
+                                  className={classNames(
+                                    styles[`${baseClassName}__stat`],
+                                    styles[`${baseClassName}__stat--division`]
+                                  )}
+                                  data-prefix="Division"
+                                  data-exact={item.division.size}
+                                >
+                                  <span>{item.division.name}</span>
+                                </div>
+                              )}
+                              {columns &&
+                                columns.map((column, i) => {
+                                  if (
+                                    column === 'bonuses' &&
+                                    bonusColumns.length
+                                  ) {
+                                    return bonusColumns.map((shortName, i) => {
+                                      const bonusKey = shortName.toLowerCase()
+
+                                      if (columns.indexOf(bonusKey) !== -1)
+                                        return null
+
+                                      var bonusValue = item.bonuses
+                                        ? item.bonuses.find(
+                                            bonus =>
+                                              bonus.shortName === shortName
+                                          ).count
+                                        : -1
+                                      if (bonusValue < 0)
+                                        bonusValue = constants.blank
+
+                                      return (
+                                        <div
+                                          key={i}
+                                          className={classNames(
+                                            styles[`${baseClassName}__stat`],
+                                            styles[
+                                              `${baseClassName}__stat--${bonusKey}`
+                                            ]
+                                          )}
+                                          data-prefix={shortName}
+                                        >
+                                          {bonusValue}
+                                        </div>
+                                      )
+                                    })
+                                  }
+
+                                  if (
+                                    column === 'rank' &&
+                                    typeof item.rank === 'boolean'
+                                  )
+                                    item.rank =
+                                      item.rank === true
+                                        ? statsHelper.ranking(rank)
+                                        : -1
+
+                                  var value = item[column]
+                                  var href
+
+                                  if (!overall && column === 'overall')
+                                    href = urlBuilder.leaderboardRootUrl
+
+                                  if (
+                                    typeof value === 'undefined' ||
+                                    value === null
+                                  )
+                                    return null
+
+                                  var exactValue
+
+                                  if (isNaN(value)) {
+                                    value = `${value}`
+                                  } else {
+                                    if (value < 0) value = constants.blank
+
+                                    exactValue = value
+                                    value = statsHelper.shortNumber(value)
+                                    if (value === exactValue) exactValue = null
+                                  }
+
+                                  return (
+                                    <div
+                                      key={i}
+                                      className={classNames(
+                                        styles[`${baseClassName}__stat`],
+                                        styles[
+                                          `${baseClassName}__stat--${column}`
+                                        ]
+                                      )}
+                                      data-prefix={sentenceCase(column)}
+                                      data-exact={exactValue}
+                                    >
+                                      {href ? (
+                                        <Link to={href}>{value}</Link>
+                                      ) : (
+                                        <span>{value}</span>
+                                      )}
+                                    </div>
+                                  )
+                                })}
                             </div>
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                   </CellMeasurer>
@@ -340,7 +542,7 @@ Leaderboard.propTypes = {
   placeholder: PropTypes.string,
   columns: PropTypes.array,
   extraColumns: PropTypes.bool,
-  medalsSize: PropTypes.oneOf([ 'x-small', 'small' ]),
+  medalsSize: PropTypes.oneOf(['x-small', 'small']),
   className: PropTypes.string,
   padding: PropTypes.number
 }

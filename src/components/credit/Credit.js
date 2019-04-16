@@ -7,11 +7,21 @@ import styles from './Credit.styl'
 const baseClassName = 'credit'
 
 const Credit = class extends PureComponent {
-  render () {
+  render() {
     return (
       <div className={styles[baseClassName]}>
-        <OutboundLink className={styles[`${baseClassName}__link`]} to="https://newhighsco.re" eventLabel="credit" target="_blank" rel="noopener noreferrer" title="New High Score - Extending your favourite end-game">
-          <Icon className={styles[`${baseClassName}__icon`]} a11yText="New High Score">
+        <OutboundLink
+          className={styles[`${baseClassName}__link`]}
+          to="https://newhighsco.re"
+          eventLabel="credit"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="New High Score - Extending your favourite end-game"
+        >
+          <Icon
+            className={styles[`${baseClassName}__icon`]}
+            a11yText="New High Score"
+          >
             <CreditSvg />
           </Icon>
           <div className={styles[`${baseClassName}__details`]}>

@@ -30,7 +30,7 @@ const columns = [
 ]
 
 class MemberOverall extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { clan, member } = this.props
@@ -41,7 +41,9 @@ class MemberOverall extends PureComponent {
       kicker,
       kickerHref,
       title: `${member.name} [${clan.tag}] | Members`,
-      description: `${possessive(member.name)} progress in the war against other clans in Destiny 2`,
+      description: `${possessive(
+        member.name
+      )} progress in the war against other clans in Destiny 2`,
       canonicalUrl,
       schema: {
         '@context': 'http://schema.org',
@@ -68,9 +70,12 @@ class MemberOverall extends PureComponent {
     }
     var stats
     const pastEvents = member.pastEvents
-    const platformId = member.platforms ? member.platforms[0].id : constants.bungie.platformDefault
+    const platformId = member.platforms
+      ? member.platforms[0].id
+      : constants.bungie.platformDefault
 
-    if (member.totals && member.totals.games > 0) stats = { ...stats, ...member.totals }
+    if (member.totals && member.totals.games > 0)
+      stats = { ...stats, ...member.totals }
     if (pastEvents && pastEvents.length > 0) stats.events = pastEvents.length
 
     this.state = {
@@ -81,7 +86,7 @@ class MemberOverall extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { clan, member } = this.props
     const { pastEvents, platformId, stats, meta } = this.state
     const hasLeaderboard = pastEvents && pastEvents.length > 0
@@ -91,29 +96,52 @@ class MemberOverall extends PureComponent {
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline {...member.avatar} />
           <TagList tags={member.tags} className="card__tags" />
-          <Lockup primary center reverse kicker={meta.kicker} kickerHref={meta.kickerHref} heading={member.name} />
+          <Lockup
+            primary
+            center
+            reverse
+            kicker={meta.kicker}
+            kickerHref={meta.kickerHref}
+            heading={member.name}
+          />
           <PlatformList platforms={member.platforms} />
           <ButtonGroup>
-            <Button href={`${constants.bungie.baseUrl}en/Profile/${platformId}/${member.id}`} target="_blank" rel="noopener noreferrer">View profile</Button>
+            <Button
+              href={`${constants.bungie.baseUrl}en/Profile/${platformId}/${
+                member.id
+              }`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View profile
+            </Button>
           </ButtonGroup>
           <MedalList medals={member.medals} kicker="Medals awarded" />
           <StatList stats={stats} kicker="Overall stats" />
-          {!stats &&
+          {!stats && (
             <Notification>
-              Overall stats are being calculated. Participate in at least one event to be included.
+              Overall stats are being calculated. Participate in at least one
+              event to be included.
             </Notification>
-          }
+          )}
         </Card>
-        {hasLeaderboard &&
+        {hasLeaderboard && (
           <TabContainer cutout>
-            <Tab name={`${constants.kicker.past}${pastEvents.length > 1 ? 's' : ''}`}>
+            <Tab
+              name={`${constants.kicker.past}${
+                pastEvents.length > 1 ? 's' : ''
+              }`}
+            >
               <Leaderboard data={pastEvents} columns={columns} extraColumns />
             </Tab>
-            {member.hasCurrentTotals &&
-              <Tab name={constants.tense.current} href={urlBuilder.currentEventUrl(clan.id, member.id)} />
-            }
+            {member.hasCurrentTotals && (
+              <Tab
+                name={constants.tense.current}
+                href={urlBuilder.currentEventUrl(clan.id, member.id)}
+              />
+            )}
           </TabContainer>
-        }
+        )}
       </PageContainer>
     )
   }

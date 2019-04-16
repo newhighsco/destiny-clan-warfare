@@ -7,9 +7,11 @@ import NotFound from '../../components/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 
-function MemberCurrentContainer (props) {
-  const { location: { state } } = props
-  const [ data, setData ] = useState({
+function MemberCurrentContainer(props) {
+  const {
+    location: { state }
+  } = props
+  const [data, setData] = useState({
     apiStatus: null,
     clan: state ? state.clan : null,
     member: state ? state.member : null,
@@ -21,8 +23,15 @@ function MemberCurrentContainer (props) {
       const clanId = props.clan
       const memberId = props.member.replace(/#.+$/, '')
 
-      prefetch(urlBuilder.currentEventUrl(clanId), { type: 'data' })
-        .then(({ apiStatus, clan, members, currentTotals, matchHistory, matchHistoryLimit }) => {
+      prefetch(urlBuilder.currentEventUrl(clanId), { type: 'data' }).then(
+        ({
+          apiStatus,
+          clan,
+          members,
+          currentTotals,
+          matchHistory,
+          matchHistoryLimit
+        }) => {
           const member = members.find(({ id }) => id === memberId)
 
           if (member) {
@@ -37,27 +46,22 @@ function MemberCurrentContainer (props) {
             matchHistoryLimit,
             notFound: typeof member === 'undefined'
           })
-        })
+        }
+      )
     }
   })
 
   const { member, notFound } = data
 
   if (notFound) {
-    return (
-      <NotFound />
-    )
+    return <NotFound />
   }
 
   if (!member) {
-    return (
-      <Loading />
-    )
+    return <Loading />
   }
 
-  return (
-    <MemberCurrent {...data} />
-  )
+  return <MemberCurrent {...data} />
 }
 
 MemberCurrentContainer.propTypes = {

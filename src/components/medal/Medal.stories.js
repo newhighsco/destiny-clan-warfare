@@ -18,7 +18,7 @@ const medals = [
 ]
 
 class Loader extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -26,14 +26,13 @@ class Loader extends PureComponent {
     }
   }
 
-  componentDidMount () {
-    proxy(this.props.url)
-      .then(({ data }) => {
-        this.setState({ ...medalBuilder.parseMedals(data, this.props.type) })
-      })
+  componentDidMount() {
+    proxy(this.props.url).then(({ data }) => {
+      this.setState({ ...medalBuilder.parseMedals(data, this.props.type) })
+    })
   }
 
-  render () {
+  render() {
     return this.props.children(this.state.medals)
   }
 }
@@ -48,14 +47,18 @@ storiesOf('Medals', module)
   .addWithPercyOptions('Clan', { skip: true }, () => (
     <div className="storybook-tooltips-visible">
       <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
-        {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}
+        {medals => (
+          <MedalList medals={medals} enableHover={false} tooltipActive />
+        )}
       </Loader>
     </div>
   ))
   .addWithPercyOptions('Member', { skip: true }, () => (
     <div className="storybook-tooltips-visible">
       <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
-        {medals => <MedalList medals={medals} enableHover={false} tooltipActive />}
+        {medals => (
+          <MedalList medals={medals} enableHover={false} tooltipActive />
+        )}
       </Loader>
     </div>
   ))

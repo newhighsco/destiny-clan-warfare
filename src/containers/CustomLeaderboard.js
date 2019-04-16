@@ -14,17 +14,18 @@ const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 const statsHelper = require('../utils/stats-helper')
 
-const columns = [
-  'rank',
-  'overall',
-  'active',
-  'size',
-  'score'
-]
+const columns = ['rank', 'overall', 'active', 'size', 'score']
 
 const getVisible = (tags, leaderboard) => {
   const ids = getIds(tags)
-  return tags.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)).map((row, i) => ({ ...row, rank: row.rank ? statsHelper.ranking(i + 1) : constants.blank })) : leaderboard
+  return tags.length > 0
+    ? leaderboard
+        .filter(({ id }) => filterById(ids, id))
+        .map((row, i) => ({
+          ...row,
+          rank: row.rank ? statsHelper.ranking(i + 1) : constants.blank
+        }))
+    : leaderboard
 }
 
 const setHash = tags => {
@@ -39,15 +40,28 @@ const setHash = tags => {
 }
 
 class CustomLeaderboardContainer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
-    const hash = (typeof location !== 'undefined') ? location.hash : ''
+    const hash = typeof location !== 'undefined' ? location.hash : ''
     var { meta } = this.props
     const { clans, selectedIds, event, leaderboards } = this.props
-    const ids = selectedIds || (hash.length ? hash.replace(constants.prefix.hash, '').replace('top', '').split(',').filter(Boolean) : [])
-    const totals = leaderboards.reduce((result, { leaderboard }) => result.concat(leaderboard), [])
-    const kicker = event.isCurrent ? constants.kicker.current : constants.kicker.previous
+    const ids =
+      selectedIds ||
+      (hash.length
+        ? hash
+            .replace(constants.prefix.hash, '')
+            .replace('top', '')
+            .split(',')
+            .filter(Boolean)
+        : [])
+    const totals = leaderboards.reduce(
+      (result, { leaderboard }) => result.concat(leaderboard),
+      []
+    )
+    const kicker = event.isCurrent
+      ? constants.kicker.current
+      : constants.kicker.previous
     var suggestions = []
     var tags = []
     var leaderboard = []
@@ -64,8 +78,14 @@ class CustomLeaderboardContainer extends PureComponent {
 
     clans.map(clan => {
       const clanId = clan.id
-      const path = event.isCurrent ? urlBuilder.currentEventUrl(clanId) : urlBuilder.clanUrl(clanId, event.id)
-      const suggestion = { id: clanId, name: `${clan.name} [${clan.tag}]`, shortName: clan.name }
+      const path = event.isCurrent
+        ? urlBuilder.currentEventUrl(clanId)
+        : urlBuilder.clanUrl(clanId, event.id)
+      const suggestion = {
+        id: clanId,
+        name: `${clan.name} [${clan.tag}]`,
+        shortName: clan.name
+      }
       var total = totals.find(({ id }) => id === clanId)
 
       if (total) {
@@ -89,20 +109,28 @@ class CustomLeaderboardContainer extends PureComponent {
 
     leaderboard = leaderboard.sort(firstBy('score', -1).thenBy('name'))
 
-    meta = Object.assign({
-      kicker,
-      kickerHref: event.path,
-      title: 'Overall leaderboard',
-      description: `Create and share custom views of the overall leaderboard for the ${kicker} ${constants.meta.name} event`,
-      overall: true
-    }, meta)
+    meta = Object.assign(
+      {
+        kicker,
+        kickerHref: event.path,
+        title: 'Overall leaderboard',
+        description: `Create and share custom views of the overall leaderboard for the ${kicker} ${
+          constants.meta.name
+        } event`,
+        overall: true
+      },
+      meta
+    )
 
     this.state = {
       active: false,
       meta,
       leaderboard,
       hasLeaderboard: leaderboard.length > 0,
-      visible: ids.length > 0 ? leaderboard.filter(({ id }) => filterById(ids, id)) : leaderboard,
+      visible:
+        ids.length > 0
+          ? leaderboard.filter(({ id }) => filterById(ids, id))
+          : leaderboard,
       suggestions,
       tags
     }
@@ -112,13 +140,13 @@ class CustomLeaderboardContainer extends PureComponent {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { active } = this.state
 
     if (!active) this.setState({ active: true })
   }
 
-  handleAddition (tag) {
+  handleAddition(tag) {
     const { tags } = this.state
     const existing = tags.find(({ id }) => id === tag.id)
 
@@ -129,7 +157,7 @@ class CustomLeaderboardContainer extends PureComponent {
     }
   }
 
-  handleDelete (index) {
+  handleDelete(index) {
     const { tags } = this.state
 
     tags.splice(index, 1)
@@ -137,34 +165,49 @@ class CustomLeaderboardContainer extends PureComponent {
     this.handleChange(tags)
   }
 
-  handleChange (tags) {
+  handleChange(tags) {
     const { leaderboard } = this.state
     const visible = getVisible(tags, leaderboard)
 
-    this.setState({
-      tags,
-      visible
-    }, () => setHash(tags))
+    this.setState(
+      {
+        tags,
+        visible
+      },
+      () => setHash(tags)
+    )
   }
 
-  render () {
+  render() {
     const { apiStatus, event, currentEventId, selectedIds } = this.props
-    const { active, meta, hasLeaderboard, visible, tags, suggestions } = this.state
+    const {
+      active,
+      meta,
+      hasLeaderboard,
+      visible,
+      tags,
+      suggestions
+    } = this.state
     const hasVisible = visible.length > 0
     const title = meta.title.split(' ')
 
     return (
       <PageContainer meta={meta}>
-        <Lockup primary center kicker={meta.kicker} kickerHref={meta.kickerHref}>
-          {currentEventId ? (
-            <RelativeDate apiStatus={apiStatus} />
-          ) : (
-            event.name
-          )}
+        <Lockup
+          primary
+          center
+          kicker={meta.kicker}
+          kickerHref={meta.kickerHref}
+        >
+          {currentEventId ? <RelativeDate apiStatus={apiStatus} /> : event.name}
         </Lockup>
         <Card cutout={hasVisible} center>
-          <Lockup center kicker={title[0]} heading={title.length > 1 && title[1]} />
-          {active && hasLeaderboard && !selectedIds &&
+          <Lockup
+            center
+            kicker={title[0]}
+            heading={title.length > 1 && title[1]}
+          />
+          {active && hasLeaderboard && !selectedIds && (
             <Filter
               kicker="Filter clans"
               placeholder="Enter clan name"
@@ -173,18 +216,28 @@ class CustomLeaderboardContainer extends PureComponent {
               handleAddition={this.handleAddition}
               handleDelete={this.handleDelete}
             />
-          }
+          )}
           {!hasLeaderboard &&
             (currentEventId ? (
-              <Notification>Leaderboards for this event are being calculated. Please check back later.</Notification>
+              <Notification>
+                Leaderboards for this event are being calculated. Please check
+                back later.
+              </Notification>
             ) : (
-              <Notification>Results for this event are being calculated. Please check back later.</Notification>
-            ))
-          }
+              <Notification>
+                Results for this event are being calculated. Please check back
+                later.
+              </Notification>
+            ))}
         </Card>
-        {hasVisible &&
-          <Leaderboard cutout overall={meta.overall} data={visible} columns={columns} />
-        }
+        {hasVisible && (
+          <Leaderboard
+            cutout
+            overall={meta.overall}
+            data={visible}
+            columns={columns}
+          />
+        )}
       </PageContainer>
     )
   }

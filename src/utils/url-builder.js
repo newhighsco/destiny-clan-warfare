@@ -9,7 +9,7 @@ const leaderboardRootUrl = `${rootUrl}leaderboard/`
 const pgrcRootUrl = 'https://destinytracker.com/d2/pgcr/'
 const profileRootUrl = `${rootUrl}members/`
 
-const eventHash = (eventId) => {
+const eventHash = eventId => {
   return eventId ? `${constants.prefix.hash}${eventId}` : ''
 }
 
@@ -27,12 +27,13 @@ module.exports = {
     return `${clanRootUrl}${clanId}/${eventHash(eventId)}`
   },
 
-  avatarIconUrl: (icon) => {
+  avatarIconUrl: icon => {
     if (absoluteUrl(icon)) return icon
-    return `${bungieUrl()}${constants.bungie.avatarPath}${icon || constants.bungie.defaultAvatarIcon}`
+    return `${bungieUrl()}${constants.bungie.avatarPath}${icon ||
+      constants.bungie.defaultAvatarIcon}`
   },
 
-  avatarLayerUrl: (icon) => {
+  avatarLayerUrl: icon => {
     if (absoluteUrl(icon)) return icon
     return `${bungieUrl()}common/destiny2_content/icons/cb_decal_square_${icon}.png`
   },
@@ -43,20 +44,20 @@ module.exports = {
 
   currentEventUrl: (clanId, profileId) => {
     const clanUrl = clanId ? `${clanId}/` : ''
-    const profileUrl = (clanId && profileId) ? `${profileId}/` : ''
+    const profileUrl = clanId && profileId ? `${profileId}/` : ''
 
     return `${currentEventRootUrl}${clanUrl}${profileUrl}`
   },
 
   eventRootUrl,
 
-  eventUrl: (eventId) => {
+  eventUrl: eventId => {
     return `${eventRootUrl}${eventId}/`
   },
 
   leaderboardRootUrl,
 
-  pgcrUrl: (pgcrId) => {
+  pgcrUrl: pgcrId => {
     return `${pgrcRootUrl}${pgcrId}`
   },
 

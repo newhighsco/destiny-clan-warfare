@@ -10,7 +10,7 @@ const meta = {
 }
 
 class NotFound extends PureComponent {
-  render () {
+  render() {
     return (
       <HoldingPage meta={meta}>
         <Link to="/">

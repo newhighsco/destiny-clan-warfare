@@ -10,7 +10,7 @@ const bungieHelper = require('../../utils/bungie-helper')
 const bungieProxy = bungieHelper.proxy()
 
 class Status extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { active } = this.props
@@ -21,7 +21,7 @@ class Status extends PureComponent {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     var { active, source } = this.state
 
     if (!active) {
@@ -37,19 +37,21 @@ class Status extends PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     var { source } = this.state
 
     source.cancel()
   }
 
-  render () {
+  render() {
     const { active } = this.state
 
     if (!active) return null
 
     return (
-      <div className={classNames(styles.status, 'content-center content-gutter')}>
+      <div
+        className={classNames(styles.status, 'content-center content-gutter')}
+      >
         <Notification state="error">
           The Bungie API is currently offline for maintenance.
         </Notification>

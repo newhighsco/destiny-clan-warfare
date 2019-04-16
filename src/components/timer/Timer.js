@@ -31,7 +31,7 @@ const countdown = milliseconds => {
 }
 
 class Timer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     var { active } = this.props
@@ -57,9 +57,15 @@ class Timer extends PureComponent {
       active = false
     }
 
-    const totalDuration = moment.duration(endDate.diff(startDate)).asMilliseconds()
-    const passedDuration = moment.duration(currentDate.diff(startDate)).asMilliseconds()
-    const remainingDuration = moment.duration(displayDate.diff(currentDate)).asMilliseconds()
+    const totalDuration = moment
+      .duration(endDate.diff(startDate))
+      .asMilliseconds()
+    const passedDuration = moment
+      .duration(currentDate.diff(startDate))
+      .asMilliseconds()
+    const remainingDuration = moment
+      .duration(displayDate.diff(currentDate))
+      .asMilliseconds()
 
     this.state = {
       active,
@@ -85,7 +91,7 @@ class Timer extends PureComponent {
     this.untick = this.untick.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { active } = this.state
 
     if (active === undefined) {
@@ -96,11 +102,11 @@ class Timer extends PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.untick()
   }
 
-  tick () {
+  tick() {
     var { remainingDuration, passedDuration, showProgress } = this.state
 
     remainingDuration -= tickInterval
@@ -116,7 +122,7 @@ class Timer extends PureComponent {
         this.untick()
 
         this.setState({
-          label: [ constants.relativeDate.past ],
+          label: [constants.relativeDate.past],
           active: false
         })
       } else {
@@ -125,12 +131,16 @@ class Timer extends PureComponent {
         const startDate = moment.utc(start)
         const endDate = moment.utc(end)
 
-        passedDuration = moment.duration(currentDate.diff(startDate)).asMilliseconds()
-        remainingDuration = moment.duration(endDate.diff(currentDate)).asMilliseconds()
+        passedDuration = moment
+          .duration(currentDate.diff(startDate))
+          .asMilliseconds()
+        remainingDuration = moment
+          .duration(endDate.diff(currentDate))
+          .asMilliseconds()
 
         this.setState({
           showProgress: true,
-          label: [ constants.relativeDate.current ],
+          label: [constants.relativeDate.current],
           remainingDuration,
           passedDuration
         })
@@ -138,18 +148,33 @@ class Timer extends PureComponent {
     }
   }
 
-  untick () {
+  untick() {
     const { interval } = this.state
 
     interval && clearInterval(interval)
   }
 
-  render () {
-    const { active, startDate, startHref, endDate, endHref, displayDate, showProgress, showRange, label, totalDuration, remainingDuration, passedDuration } = this.state
+  render() {
+    const {
+      active,
+      startDate,
+      startHref,
+      endDate,
+      endHref,
+      displayDate,
+      showProgress,
+      showRange,
+      label,
+      totalDuration,
+      remainingDuration,
+      passedDuration
+    } = this.state
 
     if (active && label.length <= 1) label.push(constants.prefix.relative)
 
-    const passedPercentage = active ? statsHelper.percentage(passedDuration, totalDuration, true, 2) : 0
+    const passedPercentage = active
+      ? statsHelper.percentage(passedDuration, totalDuration, true, 2)
+      : 0
     const stat = {
       stat: active ? countdown(remainingDuration) : displayDate.date,
       label: active ? (showRange ? null : displayDate.full) : displayDate.time
@@ -157,30 +182,60 @@ class Timer extends PureComponent {
 
     return (
       <div className={styles[baseClassName]}>
-        <Stat label={label.join(' ')} stat={stat} className={styles[`${baseClassName}__stat`]} size="small" />
-        {active && showRange &&
-          <div className={classNames(styles[`${baseClassName}__range`], showProgress && styles[`${baseClassName}__range--active`])}>
-            {showProgress &&
-              <div className={styles[`${baseClassName}-progress`]} data-value={passedPercentage}>
-                <div className={styles[`${baseClassName}-progress__value`]} style={{ width: `${passedPercentage}%` }} />
+        <Stat
+          label={label.join(' ')}
+          stat={stat}
+          className={styles[`${baseClassName}__stat`]}
+          size="small"
+        />
+        {active && showRange && (
+          <div
+            className={classNames(
+              styles[`${baseClassName}__range`],
+              showProgress && styles[`${baseClassName}__range--active`]
+            )}
+          >
+            {showProgress && (
+              <div
+                className={styles[`${baseClassName}-progress`]}
+                data-value={passedPercentage}
+              >
+                <div
+                  className={styles[`${baseClassName}-progress__value`]}
+                  style={{ width: `${passedPercentage}%` }}
+                />
               </div>
-            }
-            <OutboundLink to={startHref} eventLabel={startHref} target="_blank" rel="noopener noreferrer" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentStart}>
+            )}
+            <OutboundLink
+              to={startHref}
+              eventLabel={startHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles[`${baseClassName}__date`]}
+              data-prefix={constants.relativeDate.currentStart}
+            >
               {startDate}
             </OutboundLink>
-            <OutboundLink to={endHref} eventLabel={endHref} target="_blank" rel="noopener noreferrer" className={styles[`${baseClassName}__date`]} data-prefix={constants.relativeDate.currentEnd}>
+            <OutboundLink
+              to={endHref}
+              eventLabel={endHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles[`${baseClassName}__date`]}
+              data-prefix={constants.relativeDate.currentEnd}
+            >
               {endDate}
             </OutboundLink>
           </div>
-        }
+        )}
       </div>
     )
   }
 }
 
 Timer.propTypes = {
-  start: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
-  end: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
+  start: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  end: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   active: PropTypes.bool
 }
 

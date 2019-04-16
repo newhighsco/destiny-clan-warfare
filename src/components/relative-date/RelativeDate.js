@@ -5,7 +5,7 @@ const moment = require('moment')
 const constants = require('../../utils/constants')
 
 class RelativeDate extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { apiStatus, start, end } = this.props
@@ -34,7 +34,9 @@ class RelativeDate extends PureComponent {
       label = label || constants.relativeDate.past
     }
 
-    const dateTime = value ? value.format(constants.format.machineReadable) : null
+    const dateTime = value
+      ? value.format(constants.format.machineReadable)
+      : null
     const title = value ? value.format(constants.format.humanReadable) : null
 
     this.state = {
@@ -46,28 +48,24 @@ class RelativeDate extends PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { active } = this.state
 
     if (!active) this.setState({ active: true })
   }
 
-  render () {
+  render() {
     const { active, value, dateTime, title, label } = this.state
     const { apiStatus, className } = this.props
 
     if (!value) return null
 
-    const contents = [ label, label && ' ', active ? value.fromNow() : title ]
+    const contents = [label, label && ' ', active ? value.fromNow() : title]
 
-    if (apiStatus) return (<Fragment>{active ? contents : <br />}</Fragment>)
+    if (apiStatus) return <Fragment>{active ? contents : <br />}</Fragment>
 
     return (
-      <time
-        dateTime={dateTime}
-        title={title}
-        className={className}
-      >
+      <time dateTime={dateTime} title={title} className={className}>
         {contents}
       </time>
     )
@@ -76,8 +74,8 @@ class RelativeDate extends PureComponent {
 
 RelativeDate.propTypes = {
   apiStatus: PropTypes.object,
-  start: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
-  end: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
+  start: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  end: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   label: PropTypes.string,
   className: PropTypes.string
 }

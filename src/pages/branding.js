@@ -33,10 +33,10 @@ const logos = [
   { name: 'Icon', value: 'Logo_Icon' },
   { name: 'Lockup', value: 'Logo_Lockup' }
 ]
-const extensions = [ 'png', 'psd', 'svg' ]
+const extensions = ['png', 'psd', 'svg']
 const files = require.context('../images/branding', false, /\.(png|psd|svg)$/)
 
-function BrandingPage () {
+function BrandingPage() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Branding" />
@@ -46,9 +46,11 @@ function BrandingPage () {
           {logos.map((logo, index) => {
             return (
               <Fragment key={index}>
-                {index > 0 &&
-                  <div className="grid__item"><hr /></div>
-                }
+                {index > 0 && (
+                  <div className="grid__item">
+                    <hr />
+                  </div>
+                )}
                 <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
                   <div className="text-center">
                     <img src={files(`./${logo.value}.png`)} alt="" />
@@ -59,12 +61,24 @@ function BrandingPage () {
                     <h3>{logo.name}</h3>
                     <ul className="list--inline list--comma">
                       {extensions.map((extension, index) => {
-                        const fileKey = `./${logo.value}.${extension === 'svg' ? `url.${extension}` : extension}`
-                        const file = files.keys().find(key => key === fileKey) ? files(fileKey) : null
+                        const fileKey = `./${logo.value}.${
+                          extension === 'svg' ? `url.${extension}` : extension
+                        }`
+                        const file = files.keys().find(key => key === fileKey)
+                          ? files(fileKey)
+                          : null
 
                         return (
                           <li key={index}>
-                            <OutboundLink to={file.default || file} eventLabel="branding" title={`Download ${extension.toUpperCase()}`} target="_blank" rel="noopener noreferrer">{extension.toUpperCase()}</OutboundLink>
+                            <OutboundLink
+                              to={file.default || file}
+                              eventLabel="branding"
+                              title={`Download ${extension.toUpperCase()}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {extension.toUpperCase()}
+                            </OutboundLink>
                           </li>
                         )
                       })}
@@ -80,7 +94,10 @@ function BrandingPage () {
         <Lockup center element="h2" heading="Colours" />
         <div className="grid grid--stacked">
           {colours.map((colour, index) => (
-            <div key={index} className="grid__item one-half tablet-one-third tablet-landscape-one-quarter">
+            <div
+              key={index}
+              className="grid__item one-half tablet-one-third tablet-landscape-one-quarter"
+            >
               <Swatch {...colour} />
             </div>
           ))}

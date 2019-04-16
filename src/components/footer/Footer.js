@@ -13,25 +13,38 @@ const links = [
 ]
 
 const Footer = class extends PureComponent {
-  render () {
+  render() {
     return (
       <footer className={styles[baseClassName]} role="contentinfo">
-        <a href="#top" title="Back to top" className={styles[`${baseClassName}__logo`]}>
+        <a
+          href="#top"
+          title="Back to top"
+          className={styles[`${baseClassName}__logo`]}
+        >
           <LogoIcon size="small" />
         </a>
         <div className="content-center content-gutter">
           <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
             <div className="grid__item tablet-one-half">
-              <ul className={classNames('list--inline', `${baseClassName}__list`)}>
+              <ul
+                className={classNames('list--inline', `${baseClassName}__list`)}
+              >
                 {links.map((link, i) => {
                   return (
                     <li key={i} className={styles[`${baseClassName}__item`]}>
-                      <Link className={styles[`${baseClassName}__link`]} to={link.href}>{link.text}</Link>
+                      <Link
+                        className={styles[`${baseClassName}__link`]}
+                        to={link.href}
+                      >
+                        {link.text}
+                      </Link>
                     </li>
                   )
                 })}
                 <li className={styles[`${baseClassName}__item`]}>
-                  <span className={styles[`${baseClassName}__link`]}>&copy;{date.getFullYear()}</span>
+                  <span className={styles[`${baseClassName}__link`]}>
+                    &copy;{date.getFullYear()}
+                  </span>
                 </li>
               </ul>
             </div>

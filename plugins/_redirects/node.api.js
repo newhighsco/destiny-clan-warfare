@@ -5,7 +5,7 @@ import chalk from 'chalk'
 export default (redirects = []) => {
   const filename = '_redirects'
 
-  return ({
+  return {
     afterExport: async state => {
       const {
         config: {
@@ -20,11 +20,16 @@ export default (redirects = []) => {
 
       console.log(`Generating ${filename}...`)
 
-      await fs.writeFile(path.join(DIST, filename), redirects.map(({ from, to, code }) => `${from} ${to} ${code}`).join('\n'))
+      await fs.writeFile(
+        path.join(DIST, filename),
+        redirects
+          .map(({ from, to, code }) => `${from} ${to} ${code}`)
+          .join('\n')
+      )
 
       console.log(chalk.green(`[\u2713] ${filename} generated`))
 
       return state
     }
-  })
+  }
 }

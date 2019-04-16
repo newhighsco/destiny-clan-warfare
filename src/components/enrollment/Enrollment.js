@@ -23,14 +23,17 @@ const proxy = apiHelper.proxy()
 const bungieProxy = bungieHelper.proxy()
 
 class Enrollment extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { apiStatus } = this.props
 
     this.state = {
       active: false,
-      open: apiStatus && apiStatus.enrollmentOpen && !bungieHelper.disabled(apiStatus.bungieStatus),
+      open:
+        apiStatus &&
+        apiStatus.enrollmentOpen &&
+        !bungieHelper.disabled(apiStatus.bungieStatus),
       name: '',
       groups: [],
       selectedGroup: null,
@@ -41,7 +44,7 @@ class Enrollment extends Component {
     this.handleSearch = this.handleSearch.bind(this)
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     if (this.refs.form) {
       var { active, source } = this.state
 
@@ -61,13 +64,13 @@ class Enrollment extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     var { source } = this.state
 
     source.cancel()
   }
 
-  handleEnroll (e) {
+  handleEnroll(e) {
     const { active } = this.state
 
     if (active) {
@@ -83,7 +86,7 @@ class Enrollment extends Component {
     }
   }
 
-  handleSearch (e) {
+  handleSearch(e) {
     const { active, groups } = this.state
 
     if (active) {
@@ -99,70 +102,129 @@ class Enrollment extends Component {
       } else if (name !== this.state.name) {
         const groupType = 1
         const isNumeric = !isNaN(name)
-        const endpoint = isNumeric ? `GroupV2/${name}/` : `GroupV2/Name/${name}/${groupType}/`
+        const endpoint = isNumeric
+          ? `GroupV2/${name}/`
+          : `GroupV2/Name/${name}/${groupType}/`
 
-        bungieProxy(endpoint)
-          .then(({ data }) => {
-            if (data.Response && data.Response.detail) {
-              const detail = data.Response.detail
-              const group = groups.find(({ groupId }) => groupId === detail.groupId)
+        bungieProxy(endpoint).then(({ data }) => {
+          if (data.Response && data.Response.detail) {
+            const detail = data.Response.detail
+            const group = groups.find(
+              ({ groupId }) => groupId === detail.groupId
+            )
 
-              if (!group && detail.groupType === groupType) {
-                groups.unshift(detail)
-              }
-
-              this.setState({ groups: groups })
+            if (!group && detail.groupType === groupType) {
+              groups.unshift(detail)
             }
-          })
+
+            this.setState({ groups: groups })
+          }
+        })
 
         this.setState({ name: name })
       }
     }
   }
 
-  render () {
+  render() {
     const { ids } = this.props
     const { active, open, groups, selectedGroup } = this.state
     const id = constants.prefix.enroll
     const kicker = open ? 'Enroll your clan today' : 'Enrollment closed'
-    const placeholder = active ? 'Enter clan name or ID' : 'Enter Bungie.net group ID'
+    const placeholder = active
+      ? 'Enter clan name or ID'
+      : 'Enter Bungie.net group ID'
     const name = active ? 'clanName' : 'clanId'
 
     return (
-      <form ref="form" id={id} className={styles[baseClassName]} action={action} method="post" onSubmit={this.handleEnroll}>
+      <form
+        ref="form"
+        id={id}
+        className={styles[baseClassName]}
+        action={action}
+        method="post"
+        onSubmit={this.handleEnroll}
+      >
         <input type="hidden" name="redirectUrl" value={redirectUrl} />
-        {selectedGroup &&
+        {selectedGroup && (
           <input type="hidden" name="clanId" value={selectedGroup} />
-        }
+        )}
         <label htmlFor="control--clan">
           <Lockup borderless center kicker={kicker} />
         </label>
         <div className="field" id="field--clan">
-          <div className={classNames('field__answer', styles[`${baseClassName}__field`])}>
+          <div
+            className={classNames(
+              'field__answer',
+              styles[`${baseClassName}__field`]
+            )}
+          >
             {open ? (
-              <input type="search" className="control control--text" name={name} id="control--clan" placeholder={placeholder} onChange={this.handleSearch} required autoComplete="off" />
+              <input
+                type="search"
+                className="control control--text"
+                name={name}
+                id="control--clan"
+                placeholder={placeholder}
+                onChange={this.handleSearch}
+                required
+                autoComplete="off"
+              />
             ) : (
-              <Notification><OutboundLink to={constants.social.twitter} eventLabel={constants.social.twitter} target="_blank" rel="noopener noreferrer">Follow us on Twitter</OutboundLink> to find out first when it reopens.</Notification>
+              <Notification>
+                <OutboundLink
+                  to={constants.social.twitter}
+                  eventLabel={constants.social.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Follow us on Twitter
+                </OutboundLink>{' '}
+                to find out first when it reopens.
+              </Notification>
             )}
           </div>
         </div>
-        <ButtonGroup className={!open || active ? visuallyHiddenClassName : null}>
-          <Button solid type="submit">Enroll clan</Button>
+        <ButtonGroup
+          className={!open || active ? visuallyHiddenClassName : null}
+        >
+          <Button solid type="submit">
+            Enroll clan
+          </Button>
         </ButtonGroup>
-        {groups.length > 0 &&
-          <ul className={classNames('list--unstyled', styles[`${baseClassName}__clans`])}>
+        {groups.length > 0 && (
+          <ul
+            className={classNames(
+              'list--unstyled',
+              styles[`${baseClassName}__clans`]
+            )}
+          >
             {groups.map(({ groupId, name, clanInfo }, i) => {
               const existing = ids.indexOf(groupId) !== -1
-              const Group = () => <Fragment>{name} <ClanTag>{clanInfo.clanCallsign}</ClanTag></Fragment>
+              const Group = () => (
+                <Fragment>
+                  {name} <ClanTag>{clanInfo.clanCallsign}</ClanTag>
+                </Fragment>
+              )
 
               return (
                 <li key={i}>
                   {existing ? (
-                    <Link to={urlBuilder.clanUrl(groupId)} className={styles[`${baseClassName}__clan`]}>
+                    <Link
+                      to={urlBuilder.clanUrl(groupId)}
+                      className={styles[`${baseClassName}__clan`]}
+                    >
                       <Group />
                     </Link>
                   ) : (
-                    <button onClick={this.handleEnroll} data-id={groupId} className={classNames('text-button', styles[`${baseClassName}__clan`])}>
+                    <button
+                      onClick={this.handleEnroll}
+                      data-id={groupId}
+                      className={classNames(
+                        'text-button',
+                        styles[`${baseClassName}__clan`]
+                      )}
+                    >
                       <Group />
                     </button>
                   )}
@@ -170,10 +232,8 @@ class Enrollment extends Component {
               )
             })}
           </ul>
-        }
-        {(!open || active) &&
-          <br />
-        }
+        )}
+        {(!open || active) && <br />}
       </form>
     )
   }

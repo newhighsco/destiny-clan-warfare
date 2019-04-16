@@ -7,7 +7,7 @@ import styles from './Icon.styl'
 const baseClassName = 'icon'
 
 const Icon = class extends PureComponent {
-  render () {
+  render() {
     const { children, a11yText, className, height, width } = this.props
 
     const iconClassNames = classNames(
@@ -25,10 +25,8 @@ const Icon = class extends PureComponent {
           height: height && `${height}px`,
           lineHeight: height && `${height}px`
         }}
-        >
-        {a11yText &&
-          <VisuallyHidden>{a11yText}</VisuallyHidden>
-        }
+      >
+        {a11yText && <VisuallyHidden>{a11yText}</VisuallyHidden>}
         {children}
       </i>
     )

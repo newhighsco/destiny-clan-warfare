@@ -49,7 +49,7 @@ export default {
         icons: [
           {
             src: path.resolve('./src/images/meta/favicon-512x512.png'),
-            sizes: [ 192, 512 ]
+            sizes: [192, 512]
           }
         ]
       }
@@ -62,13 +62,19 @@ export default {
           title: constants.meta.title,
           description: constants.meta.description,
           filter: ({ path }) => path === urlBuilder.rootUrl,
-          embellisher: (route) => {
+          embellisher: route => {
             const { apiStatus } = route.sharedData
-            const kicker = `Enrollment ${apiStatus.enrollmentOpen ? 'is now open' : 'has closed'}`
+            const kicker = `Enrollment ${
+              apiStatus.enrollmentOpen ? 'is now open' : 'has closed'
+            }`
             const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
             const formattedDate = moment.utc().format(constants.format.url)
-            const url = `${process.env.SITE_URL}/${apiStatus.enrollmentOpen ? 'open' : 'closed'}/${formattedDate}/`
-            const canonicalUrl = apiStatus.enrollmentOpen ? ` ${process.env.SITE_URL}/${hash}` : ''
+            const url = `${process.env.SITE_URL}/${
+              apiStatus.enrollmentOpen ? 'open' : 'closed'
+            }/${formattedDate}/`
+            const canonicalUrl = apiStatus.enrollmentOpen
+              ? ` ${process.env.SITE_URL}/${hash}`
+              : ''
             const title = `${kicker} - ${formattedDate}`
             const content = `${kicker}${canonicalUrl}`
 
@@ -78,7 +84,7 @@ export default {
               url,
               guid: url,
               date: apiStatus.updatedDate,
-              custom_elements: [ { 'content:encoded': content } ]
+              custom_elements: [{ 'content:encoded': content }]
             }
           }
         },
@@ -88,31 +94,68 @@ export default {
           description: constants.meta.description,
           addToHead: true,
           filter: ({ template }) => template.match(/src\/containers\/Event$/),
-          embellisher: (route) => feedBuilder(route)
+          embellisher: route => feedBuilder(route)
         },
         {
           filename: 'events--current.xml',
           title: constants.meta.title,
           description: constants.meta.description,
-          filter: ({ path }) => path === urlBuilder.currentEventRootUrl.replace(/\//g, ''),
-          embellisher: (route) => feedBuilder(route)
+          filter: ({ path }) =>
+            path === urlBuilder.currentEventRootUrl.replace(/\//g, ''),
+          embellisher: route => feedBuilder(route)
         }
       ]
     ],
     [
       '_redirects',
       [
-        { from: `${constants.bungie.proxyUrl}*`, to: `${constants.bungie.baseUrl}:splat`, code: 200 },
-        { from: `${constants.server.proxyUrl}*`, to: `${apiHelper.url()}:splat`, code: 200 },
-        { from: `${urlBuilder.clanUrl(':clan')}*`, to: urlBuilder.clanUrl(':clan'), code: 200 },
-        { from: urlBuilder.eventUrl(':event/:clan'), to: urlBuilder.clanUrl(':clan', ':event'), code: 301 },
-        { from: urlBuilder.eventUrl(':event/:clan/:member'), to: urlBuilder.profileUrl(':clan', ':member', ':event'), code: 301 }
+        {
+          from: `${constants.bungie.proxyUrl}*`,
+          to: `${constants.bungie.baseUrl}:splat`,
+          code: 200
+        },
+        {
+          from: `${constants.server.proxyUrl}*`,
+          to: `${apiHelper.url()}:splat`,
+          code: 200
+        },
+        {
+          from: `${urlBuilder.clanUrl(':clan')}*`,
+          to: urlBuilder.clanUrl(':clan'),
+          code: 200
+        },
+        {
+          from: urlBuilder.eventUrl(':event/:clan'),
+          to: urlBuilder.clanUrl(':clan', ':event'),
+          code: 301
+        },
+        {
+          from: urlBuilder.eventUrl(':event/:clan/:member'),
+          to: urlBuilder.profileUrl(':clan', ':member', ':event'),
+          code: 301
+        }
       ]
     ],
     'custom'
   ],
   getRoutes: async ({ incremental }) => {
-    const { apiStatus, clans, events, members, modifiers, medals, currentEventId, currentLeaderboards, currentClanLeaderboard, matchHistory, matchHistoryLimit, previousEventId, previousClanLeaderboard, lastChecked, leaderboards } = await dataSources.fetch()
+    const {
+      apiStatus,
+      clans,
+      events,
+      members,
+      modifiers,
+      medals,
+      currentEventId,
+      currentLeaderboards,
+      currentClanLeaderboard,
+      matchHistory,
+      matchHistoryLimit,
+      previousEventId,
+      previousClanLeaderboard,
+      lastChecked,
+      leaderboards
+    } = await dataSources.fetch()
     const routes = []
     const currentEventStats = {}
     const clanIds = []
@@ -129,7 +172,7 @@ export default {
 
     const addStat = (stats, column, value, name) => {
       if (name) {
-        stats[column] = { stat: value, label: [ name ] }
+        stats[column] = { stat: value, label: [name] }
       } else {
         stats[column] = value
       }
@@ -183,9 +226,16 @@ export default {
         if (existingPlatform) {
           if (hasPlayed) existingPlatform.active++
           existingPlatform.size++
-          existingPlatform.percentage = Math.round((existingPlatform.size / totalSize) * 100)
+          existingPlatform.percentage = Math.round(
+            (existingPlatform.size / totalSize) * 100
+          )
         } else {
-          platforms.push({ id: platformId, size: 1, active: hasPlayed ? 1 : 0, percentage: Math.round((1 / totalSize) * 100) })
+          platforms.push({
+            id: platformId,
+            size: 1,
+            active: hasPlayed ? 1 : 0,
+            percentage: Math.round((1 / totalSize) * 100)
+          })
         }
 
         if (currentEventId) {
@@ -214,7 +264,12 @@ export default {
                 if (column === 'bonuses' && currentTotals.bonuses) {
                   currentTotals.bonuses.map(({ shortName, count }) => {
                     updateStat(clanCurrentStats, shortName, count, memberName)
-                    updateStat(currentEventStats, shortName, count, memberFullName)
+                    updateStat(
+                      currentEventStats,
+                      shortName,
+                      count,
+                      memberFullName
+                    )
                   })
                 } else {
                   const value = currentTotals[column]
@@ -228,7 +283,8 @@ export default {
 
           const memberMatchHistory = matchHistory[memberId]
 
-          if (memberMatchHistory) clanMatchHistory[memberId] = memberMatchHistory
+          if (memberMatchHistory)
+            clanMatchHistory[memberId] = memberMatchHistory
         }
 
         if (previousEventId) {
@@ -288,51 +344,60 @@ export default {
     })
 
     const sharedClans = createSharedData(clientClans)
-    const winnersMedal = medals.find(({ name }) => name.toUpperCase() === constants.result.winnersMedal.toUpperCase())
+    const winnersMedal = medals.find(
+      ({ name }) =>
+        name.toUpperCase() === constants.result.winnersMedal.toUpperCase()
+    )
     var currentEventLeaderboards = []
     var currentEventSummary = []
     const currentEventSuggestions = []
 
     if (currentEventId) {
-      currentEventLeaderboards = currentLeaderboards.map(({ leaderboard, division }, tabIndex) => {
-        leaderboard = leaderboard.map(({ idStr, rank, totalScore, active, size }, i) => {
-          const clan = clans.find(({ id }) => id === idStr)
-          const { id, name, tag, avatar, platforms } = clan
-          const clanLastChecked = lastChecked[id]
+      currentEventLeaderboards = currentLeaderboards.map(
+        ({ leaderboard, division }, tabIndex) => {
+          leaderboard = leaderboard.map(
+            ({ idStr, rank, totalScore, active, size }, i) => {
+              const clan = clans.find(({ id }) => id === idStr)
+              const { id, name, tag, avatar, platforms } = clan
+              const clanLastChecked = lastChecked[id]
 
-          currentEventSuggestions.push({
-            id: `${tabIndex}${constants.blank}${i}`,
-            name: `${name} [${tag}]`
+              currentEventSuggestions.push({
+                id: `${tabIndex}${constants.blank}${i}`,
+                name: `${name} [${tag}]`
+              })
+
+              return {
+                path: urlBuilder.currentEventUrl(id),
+                id,
+                name,
+                avatar,
+                platforms,
+                updated: clanLastChecked || null,
+                rank: true,
+                overall: statsHelper.ranking(rank),
+                active,
+                size,
+                score: totalScore
+              }
+            }
+          )
+
+          currentEventSummary.push({
+            leaderboard: leaderboard.slice(0, 3),
+            division
           })
 
           return {
-            path: urlBuilder.currentEventUrl(id),
-            id,
-            name,
-            avatar,
-            platforms,
-            updated: clanLastChecked || null,
-            rank: true,
-            overall: statsHelper.ranking(rank),
-            active,
-            size,
-            score: totalScore
+            leaderboard,
+            division
           }
-        })
-
-        currentEventSummary.push({
-          leaderboard: leaderboard.slice(0, 3),
-          division
-        })
-
-        return {
-          leaderboard,
-          division
         }
-      })
+      )
     }
 
-    const sharedCurrentEventLeaderboards = createSharedData(currentEventLeaderboards)
+    const sharedCurrentEventLeaderboards = createSharedData(
+      currentEventLeaderboards
+    )
     const suggestions = {}
     const clientEvents = []
     const currentEvent = events.find(({ id }) => id === currentEventId)
@@ -345,7 +410,8 @@ export default {
       const eventSuggestions = []
       const eventLeaderboards = leaderboards[eventId]
 
-      if (previousEvent && event.path === previousEvent.path) event.isPrevious = true
+      if (previousEvent && event.path === previousEvent.path)
+        event.isPrevious = true
       if (nextEvent && event.path === nextEvent.path) event.isNext = true
 
       event.modifiers = event.modifiers.map(id => {
@@ -373,66 +439,68 @@ export default {
       })
 
       if (eventLeaderboards) {
-        leaderboards[eventId] = eventLeaderboards.map(({ leaderboard, division }, tabIndex) => {
-          leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
-            const clan = clans.find(({ id }) => id === `${clanId}`)
-            const { path, id, name, tag, avatar, platforms } = clan
-            var medal
+        leaderboards[eventId] = eventLeaderboards.map(
+          ({ leaderboard, division }, tabIndex) => {
+            leaderboard = leaderboard.map(({ clanId, rank, score }, i) => {
+              const clan = clans.find(({ id }) => id === `${clanId}`)
+              const { path, id, name, tag, avatar, platforms } = clan
+              var medal
 
-            switch (i) {
-              case 0:
-                if (rank === 1) {
-                  medal = {
-                    tier: winnersMedal.tier,
-                    name: winnersMedal.name,
-                    description: winnersMedal.description
+              switch (i) {
+                case 0:
+                  if (rank === 1) {
+                    medal = {
+                      tier: winnersMedal.tier,
+                      name: winnersMedal.name,
+                      description: winnersMedal.description
+                    }
+                  } else {
+                    medal = medalBuilder.build(1, 2, division.name)
                   }
-                } else {
-                  medal = medalBuilder.build(1, 2, division.name)
-                }
 
-                if (eventId === previousEventId) {
-                  eventWinners.push({
-                    path,
-                    id,
-                    name,
-                    avatar,
-                    platforms,
-                    medal,
-                    division,
-                    score
-                  })
-                }
-                break
-              case 1:
-              case 2:
-                medal = medalBuilder.build('top 3', 1, division.name)
-                break
-            }
+                  if (eventId === previousEventId) {
+                    eventWinners.push({
+                      path,
+                      id,
+                      name,
+                      avatar,
+                      platforms,
+                      medal,
+                      division,
+                      score
+                    })
+                  }
+                  break
+                case 1:
+                case 2:
+                  medal = medalBuilder.build('top 3', 1, division.name)
+                  break
+              }
 
-            eventSuggestions.push({
-              id: `${tabIndex}${constants.blank}${i}`,
-              name: `${name} [${tag}]`
+              eventSuggestions.push({
+                id: `${tabIndex}${constants.blank}${i}`,
+                name: `${name} [${tag}]`
+              })
+
+              return {
+                path,
+                id,
+                name,
+                avatar,
+                platforms,
+                medal,
+                rank: true,
+                overall: statsHelper.ranking(rank),
+                score
+              }
             })
 
             return {
-              path,
-              id,
-              name,
-              avatar,
-              platforms,
-              medal,
-              rank: true,
-              overall: statsHelper.ranking(rank),
-              score
+              leaderboard,
+              division
             }
-          })
-
-          return {
-            leaderboard,
-            division
           }
-        })
+        )
       }
 
       if (eventWinners.length) event.winners = eventWinners
@@ -461,20 +529,34 @@ export default {
         getData: async () => ({
           event: { ...event, winners: undefined },
           leaderboards: !event.isCurrent ? leaderboards[eventId] : undefined,
-          suggestions: event.isCurrent ? currentEventSuggestions : suggestions[eventId],
+          suggestions: event.isCurrent
+            ? currentEventSuggestions
+            : suggestions[eventId],
           stats: event.isCurrent ? currentEventStats : undefined
         }),
         sharedData: {
           ...eventSharedData
         },
-        _redirects: event.isCurrent ? [
-          { from: urlBuilder.eventUrl(currentEventId), to: urlBuilder.currentEventRootUrl, code: 302 },
-          { from: `${urlBuilder.currentEventUrl(':clan')}*`, to: urlBuilder.currentEventUrl(':clan'), code: 200 }
-        ] : undefined
+        _redirects: event.isCurrent
+          ? [
+              {
+                from: urlBuilder.eventUrl(currentEventId),
+                to: urlBuilder.currentEventRootUrl,
+                code: 302
+              },
+              {
+                from: `${urlBuilder.currentEventUrl(':clan')}*`,
+                to: urlBuilder.currentEventUrl(':clan'),
+                code: 200
+              }
+            ]
+          : undefined
       })
     })
 
-    const previousEventLeaderboards = previousEventId ? leaderboards[previousEventId] : undefined
+    const previousEventLeaderboards = previousEventId
+      ? leaderboards[previousEventId]
+      : undefined
 
     routes.push(
       {
@@ -490,7 +572,15 @@ export default {
         sharedData: {
           apiStatus: sharedApiStatus
         },
-        _redirects: !currentEventId ? [ { from: `${urlBuilder.currentEventRootUrl}*`, to: `${urlBuilder.rootUrl}#next`, code: 302 } ] : undefined
+        _redirects: !currentEventId
+          ? [
+              {
+                from: `${urlBuilder.currentEventRootUrl}*`,
+                to: `${urlBuilder.rootUrl}#next`,
+                code: 302
+              }
+            ]
+          : undefined
       },
       {
         path: urlBuilder.eventRootUrl,
@@ -508,7 +598,9 @@ export default {
       }
     )
 
-    const sharedPreviousEventLeaderboards = createSharedData(previousEventLeaderboards)
+    const sharedPreviousEventLeaderboards = createSharedData(
+      previousEventLeaderboards
+    )
     const customLeaderboardData = {
       event: currentEventId ? currentEvent : previousEvent,
       currentEventId
@@ -516,7 +608,9 @@ export default {
     const customLeaderboardSharedData = {
       apiStatus: sharedApiStatus,
       clans: sharedClans,
-      leaderboards: currentEventId ? sharedCurrentEventLeaderboards : sharedPreviousEventLeaderboards
+      leaderboards: currentEventId
+        ? sharedCurrentEventLeaderboards
+        : sharedPreviousEventLeaderboards
     }
 
     routes.push(

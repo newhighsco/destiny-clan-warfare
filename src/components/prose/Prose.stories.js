@@ -68,22 +68,22 @@ const ProseText = () => (
     <h6>Heading 6 as text</h6>
     <hr />
     <h1>
-      <a href="#">Heading 1 as a link</a>
+      <a href="#top">Heading 1 as a link</a>
     </h1>
     <h2>
-      <a href="#">Heading 2 as a link</a>
+      <a href="#top">Heading 2 as a link</a>
     </h2>
     <h3>
-      <a href="#">Heading 3 as a link</a>
+      <a href="#top">Heading 3 as a link</a>
     </h3>
     <h4>
-      <a href="#">Heading 4 as a link</a>
+      <a href="#top">Heading 4 as a link</a>
     </h4>
     <h5>
-      <a href="#">Heading 5 as a link</a>
+      <a href="#top">Heading 5 as a link</a>
     </h5>
     <h6>
-      <a href="#">Heading 6 as a link</a>
+      <a href="#top">Heading 6 as a link</a>
     </h6>
     <hr />
     <ol>
@@ -138,7 +138,7 @@ const ProseText = () => (
     </dl>
     <hr />
     <p>
-      <a href="#">This is a text link</a>
+      <a href="#top">This is a text link</a>
     </p>
     <p>
       <strong>Strong is used to indicate strong importance</strong>
@@ -196,8 +196,8 @@ stories.add('Inline HTML overrides', () => (
         textDecoration: 'underline'
       }}
     >
-      This HTML has inline styles similar to the ones left in by copying
-      text into WYSIWYG editors. It should look like regular prose text.
+      This HTML has inline styles similar to the ones left in by copying text
+      into WYSIWYG editors. It should look like regular prose text.
     </p>
   </Prose>
 ))

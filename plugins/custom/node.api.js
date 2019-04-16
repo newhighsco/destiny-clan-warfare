@@ -13,13 +13,13 @@ export default () => ({
     var loaders = []
 
     if (stage === 'dev') {
-      loaders = [ require.resolve('style-loader'), ...stylusLoaders() ]
+      loaders = [require.resolve('style-loader'), ...stylusLoaders()]
     } else if (stage === 'node') {
-      loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
+      loaders = [ExtractCssChunks.loader, ...stylusLoaders()]
 
       config.plugins.push(new ExtractCssChunks({ orderWarning: false }))
     } else {
-      loaders = [ ExtractCssChunks.loader, ...stylusLoaders() ]
+      loaders = [ExtractCssChunks.loader, ...stylusLoaders()]
     }
 
     config.module.rules = [

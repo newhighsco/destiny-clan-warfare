@@ -3,9 +3,7 @@ const svgLoaders = () => {
     loader: require.resolve('@svgr/webpack'),
     options: {
       svgoConfig: {
-        plugins: [
-          { prefixIds: false }
-        ]
+        plugins: [{ prefixIds: false }]
       }
     }
   }

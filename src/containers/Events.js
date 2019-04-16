@@ -13,12 +13,16 @@ const meta = {
 }
 
 class EventsContainer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { events } = this.props
     const leaderboard = events.map(event => {
-      const kicker = event.isCurrent ? constants.kicker.current : (event.isPast ? null : constants.kicker.future)
+      const kicker = event.isCurrent
+        ? constants.kicker.current
+        : event.isPast
+        ? null
+        : constants.kicker.future
 
       return {
         game: {
@@ -34,7 +38,7 @@ class EventsContainer extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { leaderboard } = this.state
 
     return (

@@ -1,13 +1,14 @@
 module.exports = {
   collectCoverage: true,
-  collectCoverageFrom: [ 'src/components/**/*.js' ],
-  coveragePathIgnorePatterns: [ '.stories.js' ],
-  coverageReporters: [ 'text' ],
+  collectCoverageFrom: ['src/components/**/*.js'],
+  coveragePathIgnorePatterns: ['.stories.js'],
+  coverageReporters: ['text'],
   moduleNameMapper: {
     '\\.(styl)$': 'identity-obj-proxy',
     '\\.(svg)$': 'jest-svg-transformer',
-    '\\.(png|jpg|gif|eot|ttf|woff(2)?)$': '<rootDir>/config/jest/file-transform.js'
+    '\\.(png|jpg|gif|eot|ttf|woff(2)?)$':
+      '<rootDir>/config/jest/file-transform.js'
   },
-  setupFiles: [ '<rootDir>/config/jest/setup-tests.js' ],
+  setupFiles: ['<rootDir>/config/jest/setup-tests.js'],
   verbose: false
 }

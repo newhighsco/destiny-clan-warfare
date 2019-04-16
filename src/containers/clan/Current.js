@@ -29,13 +29,15 @@ const leaderboardColumns = [
 ]
 
 class ClanCurrentContainer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { clan, members, currentTotals, currentStats } = this.props
     const meta = {
       title: `${clan.name} | ${constants.kicker.current}`,
-      description: `${possessive(clan.name)} clan standings in the current ${constants.meta.name} event`,
+      description: `${possessive(clan.name)} clan standings in the current ${
+        constants.meta.name
+      } event`,
       schema: {
         '@context': 'http://schema.org',
         '@type': 'BreadcrumbList',
@@ -52,21 +54,30 @@ class ClanCurrentContainer extends PureComponent {
             '@type': 'ListItem',
             position: 2,
             item: {
-              '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(clan.id)}`,
+              '@id': `${process.env.SITE_URL}${urlBuilder.currentEventUrl(
+                clan.id
+              )}`,
               name: clan.name
             }
           }
         ]
       }
     }
-    const leaderboard = members.map((member, i) => {
-      const memberCurrentTotals = currentTotals[member.id] || constants.emptyTotals
+    const leaderboard = members
+      .map((member, i) => {
+        const memberCurrentTotals =
+          currentTotals[member.id] || constants.emptyTotals
 
-      return {
-        ...member,
-        ...memberCurrentTotals
-      }
-    }).sort(firstBy('score', -1).thenBy('games', -1).thenBy('name'))
+        return {
+          ...member,
+          ...memberCurrentTotals
+        }
+      })
+      .sort(
+        firstBy('score', -1)
+          .thenBy('games', -1)
+          .thenBy('name')
+      )
 
     this.state = {
       leaderboard,
@@ -76,15 +87,22 @@ class ClanCurrentContainer extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { apiStatus, clan } = this.props
     const { leaderboard, stats, statsColumns, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
-    const tooltip = `Play a minimum of ${constants.statsGamesThreshold} games to be included.`
+    const tooltip = `Play a minimum of ${
+      constants.statsGamesThreshold
+    } games to be included.`
 
     return (
       <PageContainer meta={meta}>
-        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
+        <Lockup
+          primary
+          center
+          kicker={constants.kicker.current}
+          kickerHref={urlBuilder.currentEventUrl()}
+        >
           <RelativeDate apiStatus={apiStatus} />
         </Lockup>
         <Card cutout={hasLeaderboard} center>
@@ -92,22 +110,38 @@ class ClanCurrentContainer extends PureComponent {
           <Lockup center reverse kicker={clan.motto} heading={clan.name} />
           <PlatformList platforms={clan.platforms} />
           {statsColumns.length > 0 ? (
-            <StatList stats={stats} columns={statsColumns} top kicker="Top stats&#9432;" tooltip={tooltip} />
+            <StatList
+              stats={stats}
+              columns={statsColumns}
+              top
+              kicker="Top stats&#9432;"
+              tooltip={tooltip}
+            />
           ) : (
-            <Notification>Top stats for this event are being calculated. {tooltip}</Notification>
+            <Notification>
+              Top stats for this event are being calculated. {tooltip}
+            </Notification>
           )}
-          {!hasLeaderboard &&
-            <Notification>Leaderboard for this event is being calculated. Please check back later.</Notification>
-          }
+          {!hasLeaderboard && (
+            <Notification>
+              Leaderboard for this event is being calculated. Please check back
+              later.
+            </Notification>
+          )}
         </Card>
-        {hasLeaderboard &&
+        {hasLeaderboard && (
           <TabContainer cutout>
             <Tab id="current" name={constants.tense.current}>
-              <Leaderboard data={leaderboard} columns={leaderboardColumns} search placeholder="Find clan member" />
+              <Leaderboard
+                data={leaderboard}
+                columns={leaderboardColumns}
+                search
+                placeholder="Find clan member"
+              />
             </Tab>
             <Tab name="Overall" href={clan.path} />
           </TabContainer>
-        }
+        )}
       </PageContainer>
     )
   }

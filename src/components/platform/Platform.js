@@ -12,18 +12,25 @@ const svgs = require.context('./icons', false, /\.svg$/)
 const baseClassName = 'platform'
 
 class Platform extends PureComponent {
-  render () {
+  render() {
     const { platform, size } = this.props
     const { name } = allowedPlatforms.find(({ id }) => id === platform.id)
 
     const key = paramCase(name || '')
     const iconKey = `./${key}.svg`
-    const IconSvg = svgs.keys().find(key => key === iconKey) ? svgs(iconKey).default : null
+    const IconSvg = svgs.keys().find(key => key === iconKey)
+      ? svgs(iconKey).default
+      : null
 
     if (!IconSvg) return null
 
     return (
-      <div className={classNames(styles[baseClassName], size && styles[`${baseClassName}--${size}`])}>
+      <div
+        className={classNames(
+          styles[baseClassName],
+          size && styles[`${baseClassName}--${size}`]
+        )}
+      >
         <Icon a11yText={name} className={styles[`${baseClassName}__icon`]}>
           <IconSvg />
         </Icon>
@@ -34,22 +41,34 @@ class Platform extends PureComponent {
 
 Platform.propTypes = {
   platform: PropTypes.object,
-  size: PropTypes.oneOf([ 'small' ])
+  size: PropTypes.oneOf(['small'])
 }
 
 class PlatformList extends PureComponent {
-  render () {
+  render() {
     const { size, className } = this.props
     var { platforms } = this.props
 
     if (!platforms || platforms.length < 1) return null
 
-    platforms = platforms.filter(platform => platform.percentage >= 10).sort(firstBy('size', -1).thenBy('active', -1).thenBy('id'))
+    platforms = platforms
+      .filter(platform => platform.percentage >= 10)
+      .sort(
+        firstBy('size', -1)
+          .thenBy('active', -1)
+          .thenBy('id')
+      )
 
     if (!platforms || platforms.length < 1) return null
 
     return (
-      <ul className={classNames('list--inline', styles[`${baseClassName}-list`], className)}>
+      <ul
+        className={classNames(
+          'list--inline',
+          styles[`${baseClassName}-list`],
+          className
+        )}
+      >
         {platforms.map((platform, i) => (
           <li key={i}>
             <Platform platform={platform} size={size} />
@@ -62,11 +81,8 @@ class PlatformList extends PureComponent {
 
 PlatformList.propTypes = {
   platforms: PropTypes.arrayOf(PropTypes.object),
-  size: PropTypes.oneOf([ 'small' ]),
+  size: PropTypes.oneOf(['small']),
   className: PropTypes.string
 }
 
-export {
-  Platform,
-  PlatformList
-}
+export { Platform, PlatformList }

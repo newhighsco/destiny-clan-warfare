@@ -10,21 +10,13 @@ const row = {
   },
   name: 'Avalanche UK',
   path: '/#',
-  platforms: [
-    { id: 1, percentage: 100 }
-  ],
+  platforms: [{ id: 1, percentage: 100 }],
   medal: { tier: 3 }
 }
 var data = Array(25).fill(row)
 data = data.map((row, index) => ({ ...row, name: `${row.name} ${index}` }))
 
 storiesOf('Leaderboard', module)
-  .add('Short', () => (
-    <Leaderboard data={data.slice(0, 3)} />
-  ))
-  .add('Long', () => (
-    <Leaderboard data={data} />
-  ))
-  .add('Search', () => (
-    <Leaderboard data={data} search />
-  ))
+  .add('Short', () => <Leaderboard data={data.slice(0, 3)} />)
+  .add('Long', () => <Leaderboard data={data} />)
+  .add('Search', () => <Leaderboard data={data} search />)

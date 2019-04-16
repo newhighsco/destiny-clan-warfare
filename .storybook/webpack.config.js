@@ -12,7 +12,7 @@ module.exports = async ({ config, mode }) => {
   config.module.rules.push(
     {
       test: /\.styl$/,
-      use: [ require.resolve('style-loader'), ...stylusLoaders() ]
+      use: [require.resolve('style-loader'), ...stylusLoaders()]
     },
     ...svgLoaders()
   )

@@ -11,10 +11,12 @@ import PayPalSvg from '../images/icons/paypal.svg'
 const constants = require('../utils/constants')
 const meta = {
   title: 'Support us',
-  description: `Support the development of ${constants.meta.name} by becoming a patron or making a donation`
+  description: `Support the development of ${
+    constants.meta.name
+  } by becoming a patron or making a donation`
 }
 
-function SupportUsPage () {
+function SupportUsPage() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Support us" />
@@ -24,12 +26,27 @@ function SupportUsPage () {
             <Avatar cutout>
               <PatreonSvg />
             </Avatar>
-            <Lockup center element="h2" headingHref={constants.social.patreon} heading="Become a Patron" />
+            <Lockup
+              center
+              element="h2"
+              headingHref={constants.social.patreon}
+              heading="Become a Patron"
+            />
             <Prose>
               <h3>Stand out from the crowd -</h3>
-              <p>Join our Insider Programme and gain exclusive previews to new features before anyone else and an exclusive badge of honour everywhere your name appears on the site.</p>
+              <p>
+                Join our Insider Programme and gain exclusive previews to new
+                features before anyone else and an exclusive badge of honour
+                everywhere your name appears on the site.
+              </p>
             </Prose>
-            <Button href={constants.social.patreon} target="_blank" rel="noopener noreferrer">Visit Patreon</Button>
+            <Button
+              href={constants.social.patreon}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Patreon
+            </Button>
           </Card>
         </div>
         <div className="grid__item tablet-landscape-one-half">
@@ -37,12 +54,29 @@ function SupportUsPage () {
             <Avatar cutout>
               <PayPalSvg />
             </Avatar>
-            <Lockup center element="h2" headingHref={constants.social.paypal} heading="Make a donation" />
+            <Lockup
+              center
+              element="h2"
+              headingHref={constants.social.paypal}
+              heading="Make a donation"
+            />
             <Prose>
-              <h3>Help us in creating the ultimate website for clan battles &amp; competition in Destiny 2 -</h3>
-              <p>100% of your donation will go towards supporting the hosting infrastructure and continued development of the site.</p>
+              <h3>
+                Help us in creating the ultimate website for clan battles &amp;
+                competition in Destiny 2 -
+              </h3>
+              <p>
+                100% of your donation will go towards supporting the hosting
+                infrastructure and continued development of the site.
+              </p>
             </Prose>
-            <Button href={constants.social.paypal} target="_blank" rel="noopener noreferrer">Visit PayPal</Button>
+            <Button
+              href={constants.social.paypal}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit PayPal
+            </Button>
           </Card>
         </div>
       </div>

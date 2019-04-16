@@ -20,61 +20,107 @@ const meta = {
     name: constants.meta.name,
     url: process.env.SITE_URL,
     logo: `${process.env.SITE_URL}${LogoImage}`,
-    sameAs: [
-      constants.social.twitter
-    ]
+    sameAs: [constants.social.twitter]
   }
 }
 
-function HomeContainer () {
-  const { apiStatus, clanIds, currentEvent, previousEvent, nextEvent, currentEventSummary } = useRouteData()
+function HomeContainer() {
+  const {
+    apiStatus,
+    clanIds,
+    currentEvent,
+    previousEvent,
+    nextEvent,
+    currentEventSummary
+  } = useRouteData()
 
   return (
     <PageContainer meta={meta}>
       <Enrollment apiStatus={apiStatus} ids={clanIds} />
-      {apiStatus && apiStatus.alert &&
+      {apiStatus && apiStatus.alert && (
         <Notification state="warning" html={apiStatus.alert} />
-      }
+      )}
       {currentEvent ? (
         <Fragment>
-          <Lockup id="current" primary center element="h1" kicker={constants.kicker.current}>
+          <Lockup
+            id="current"
+            primary
+            center
+            element="h1"
+            kicker={constants.kicker.current}
+          >
             <RelativeDate apiStatus={apiStatus} />
           </Lockup>
-          <Event event={currentEvent} leaderboards={currentEventSummary} element="h2" summary />
-          {previousEvent &&
+          <Event
+            event={currentEvent}
+            leaderboards={currentEventSummary}
+            element="h2"
+            summary
+          />
+          {previousEvent && (
             <Fragment>
               <Advert />
-              <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-              <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
+              <Lockup
+                id="previous"
+                center
+                primary
+                element="h1"
+                kicker={constants.kicker.previous}
+              />
+              <Event
+                event={previousEvent}
+                leaderboards={previousEvent.winners}
+                element="h2"
+                summary
+              />
             </Fragment>
-          }
-          {nextEvent &&
+          )}
+          {nextEvent && (
             <Fragment>
-              {previousEvent &&
-                <Advert />
-              }
-              <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
+              {previousEvent && <Advert />}
+              <Lockup
+                id="next"
+                center
+                primary
+                element="h1"
+                kicker={constants.kicker.next}
+              />
               <Event event={nextEvent} element="h2" summary />
             </Fragment>
-          }
+          )}
         </Fragment>
       ) : (
         <Fragment>
-          {nextEvent &&
+          {nextEvent && (
             <Fragment>
-              <Lockup id="next" center primary element="h1" kicker={constants.kicker.next} />
+              <Lockup
+                id="next"
+                center
+                primary
+                element="h1"
+                kicker={constants.kicker.next}
+              />
               <Event event={nextEvent} element="h2" summary />
             </Fragment>
-          }
-          {previousEvent &&
+          )}
+          {previousEvent && (
             <Fragment>
-              {nextEvent &&
-                <Advert />
-              }
-              <Lockup id="previous" center primary element="h1" kicker={constants.kicker.previous} />
-              <Event event={previousEvent} leaderboards={previousEvent.winners} element="h2" summary />
+              {nextEvent && <Advert />}
+              <Lockup
+                id="previous"
+                center
+                primary
+                element="h1"
+                kicker={constants.kicker.previous}
+              />
+              <Event
+                event={previousEvent}
+                leaderboards={previousEvent.winners}
+                element="h2"
+                summary
+              />
             </Fragment>
-          }
+          )}
         </Fragment>
       )}
       <ButtonGroup>

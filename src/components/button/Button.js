@@ -12,8 +12,18 @@ const absoluteUrl = require('../../utils/absolute-url')
 const baseClassName = 'button'
 
 const Button = class extends PureComponent {
-  render () {
-    const { children, className, href, target, type, size, solid, state, ...remainingProps } = this.props
+  render() {
+    const {
+      children,
+      className,
+      href,
+      target,
+      type,
+      size,
+      solid,
+      state,
+      ...remainingProps
+    } = this.props
 
     if (!children) return null
 
@@ -28,11 +38,7 @@ const Button = class extends PureComponent {
 
     if (!href) {
       return (
-        <button
-          {...remainingProps}
-          {...commonAttributes}
-          type={type}
-        >
+        <button {...remainingProps} {...commonAttributes} type={type}>
           <span>{children}</span>
         </button>
       )
@@ -50,23 +56,21 @@ const Button = class extends PureComponent {
         >
           <span>
             {children}
-            {target === '_blank' &&
-              <Icon className={styles[`${baseClassName}__external`]} a11yText="View permalink">
+            {target === '_blank' && (
+              <Icon
+                className={styles[`${baseClassName}__external`]}
+                a11yText="View permalink"
+              >
                 <ExternalSvg />
               </Icon>
-            }
+            )}
           </span>
         </OutboundLink>
       )
     }
 
     return (
-      <Link
-        {...remainingProps}
-        {...commonAttributes}
-        to={href}
-        state={state}
-      >
+      <Link {...remainingProps} {...commonAttributes} to={href} state={state}>
         <span>{children}</span>
       </Link>
     )
@@ -83,23 +87,20 @@ Button.propTypes = {
   className: PropTypes.string,
   href: PropTypes.string,
   target: PropTypes.string,
-  type: PropTypes.oneOf([ 'button', 'reset', 'submit' ]),
-  size: PropTypes.oneOf([ 'small' ]),
+  type: PropTypes.oneOf(['button', 'reset', 'submit']),
+  size: PropTypes.oneOf(['small']),
   solid: PropTypes.bool,
   state: PropTypes.object
 }
 
 const ButtonGroup = class extends PureComponent {
-  render () {
+  render() {
     const { children, className } = this.props
 
     if (!children) return null
 
     return (
-      <div className={classNames(
-        styles[`${baseClassName}-group`],
-        className
-      )}>
+      <div className={classNames(styles[`${baseClassName}-group`], className)}>
         {children}
       </div>
     )
@@ -111,7 +112,4 @@ ButtonGroup.propTypes = {
   className: PropTypes.string
 }
 
-export {
-  Button,
-  ButtonGroup
-}
+export { Button, ButtonGroup }

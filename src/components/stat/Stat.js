@@ -13,7 +13,7 @@ const sentence = require('../../utils/grammar').sentence
 const baseClassName = 'stat'
 
 class Stat extends PureComponent {
-  render () {
+  render() {
     const { label, prefix, stat, size, className } = this.props
     var value = stat
     var valueLabel
@@ -26,30 +26,40 @@ class Stat extends PureComponent {
 
     value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)
 
-    if (valueLabel && typeof valueLabel === 'string') valueLabel = [ valueLabel ]
+    if (valueLabel && typeof valueLabel === 'string') valueLabel = [valueLabel]
     const enableHover = valueLabel && valueLabel.length > 1
 
     return (
-      <Tooltip text={enableHover ? `<strong>Tied between:</strong> ${sentence(valueLabel)}` : null} className={className} valign="bottom" enableHover={enableHover}>
-        <div className={classNames(
-          styles[baseClassName],
-          size && styles[`${baseClassName}--${size}`]
-        )}>
+      <Tooltip
+        text={
+          enableHover
+            ? `<strong>Tied between:</strong> ${sentence(valueLabel)}`
+            : null
+        }
+        className={className}
+        valign="bottom"
+        enableHover={enableHover}
+      >
+        <div
+          className={classNames(
+            styles[baseClassName],
+            size && styles[`${baseClassName}--${size}`]
+          )}
+        >
           <div className={styles[`${baseClassName}__label`]}>
-            {prefix &&
-              <span>{prefix} </span>
-            }
+            {prefix && <span>{prefix} </span>}
             {label}
           </div>
-          <div className={styles[`${baseClassName}__value`]}>
-            {value}
-          </div>
-          {valueLabel &&
+          <div className={styles[`${baseClassName}__value`]}>{value}</div>
+          {valueLabel && (
             <div
-              className={classNames(styles[`${baseClassName}__label`], styles[`${baseClassName}__label--simple`])}
+              className={classNames(
+                styles[`${baseClassName}__label`],
+                styles[`${baseClassName}__label--simple`]
+              )}
               dangerouslySetInnerHTML={{ __html: sentence(valueLabel) }}
             />
-          }
+          )}
         </div>
       </Tooltip>
     )
@@ -59,25 +69,38 @@ class Stat extends PureComponent {
 Stat.propTypes = {
   label: PropTypes.string,
   prefix: PropTypes.string,
-  stat: PropTypes.oneOfType([ PropTypes.string, PropTypes.number, PropTypes.object ]),
-  size: PropTypes.oneOf([ 'small' ]),
+  stat: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object
+  ]),
+  size: PropTypes.oneOf(['small']),
   className: PropTypes.string
 }
 
 class StatList extends PureComponent {
-  render () {
+  render() {
     const { stats, columns, kicker, tooltip, top, size } = this.props
 
     if (!stats || Object.keys(stats).length < 1) return null
 
     return (
       <Fragment>
-        {kicker &&
-          <Tooltip text={tooltip} className={styles[`${baseClassName}-lockup`]} enableHover>
+        {kicker && (
+          <Tooltip
+            text={tooltip}
+            className={styles[`${baseClassName}-lockup`]}
+            enableHover
+          >
             <Lockup kicker={kicker} borderless />
           </Tooltip>
-        }
-        <ul className={classNames('list--inline', styles[`${baseClassName}-list`])}>
+        )}
+        <ul
+          className={classNames(
+            'list--inline',
+            styles[`${baseClassName}-list`]
+          )}
+        >
           {columns.map((column, i) => {
             var prefix
 
@@ -104,7 +127,12 @@ class StatList extends PureComponent {
 
                 return (
                   <li key={i}>
-                    <Stat label={shortName} stat={bonusStat} prefix={prefix} size={size} />
+                    <Stat
+                      label={shortName}
+                      stat={bonusStat}
+                      prefix={prefix}
+                      size={size}
+                    />
                   </li>
                 )
               })
@@ -129,16 +157,7 @@ class StatList extends PureComponent {
 }
 
 StatList.defaultProps = {
-  columns: [
-    'events',
-    'games',
-    'wins',
-    'kd',
-    'kda',
-    'bonuses',
-    'ppg',
-    'score'
-  ]
+  columns: ['events', 'games', 'wins', 'kd', 'kda', 'bonuses', 'ppg', 'score']
 }
 
 StatList.propTypes = {
@@ -147,10 +166,7 @@ StatList.propTypes = {
   kicker: PropTypes.string,
   tooltip: PropTypes.string,
   top: PropTypes.bool,
-  size: PropTypes.oneOf([ 'small' ])
+  size: PropTypes.oneOf(['small'])
 }
 
-export {
-  Stat,
-  StatList
-}
+export { Stat, StatList }

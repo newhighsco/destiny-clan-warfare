@@ -10,68 +10,85 @@ import { Filter } from '../components/filter/Filter'
 
 const meta = {
   title: 'Clan leaderboard',
-  description: 'All clans battling their way to the top of the Destiny 2 clan leaderboard'
+  description:
+    'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 }
 
 class ClansContainer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     var { clans } = this.props
 
-    clans = clans.map(({ medalTotals, ...rest }) => {
-      return {
-        ...rest,
-        ...medalTotals,
-        game: {
-          medals: Object.keys(medalTotals).map(key => {
-            const tier = !isNaN(key) ? parseInt(key) : null
+    clans = clans
+      .map(({ medalTotals, ...rest }) => {
+        return {
+          ...rest,
+          ...medalTotals,
+          game: {
+            medals: Object.keys(medalTotals).map(key => {
+              const tier = !isNaN(key) ? parseInt(key) : null
 
-            return { tier, count: medalTotals[key] }
-          })
+              return { tier, count: medalTotals[key] }
+            })
+          }
         }
-      }
-    }).sort(firstBy('total', -1).thenBy('3', -1).thenBy('2', -1).thenBy('1', -1))
+      })
+      .sort(
+        firstBy('total', -1)
+          .thenBy('3', -1)
+          .thenBy('2', -1)
+          .thenBy('1', -1)
+      )
 
     this.state = {
       active: false,
       activeIndex: null,
       clans,
-      suggestions: clans.map(({ name, tag }, index) => ({ id: index, name: `${name} [${tag}]` }))
+      suggestions: clans.map(({ name, tag }, index) => ({
+        id: index,
+        name: `${name} [${tag}]`
+      }))
     }
 
     this.handleSearch = this.handleSearch.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { active } = this.state
 
     if (!active) this.setState({ active: true })
   }
 
-  handleSearch (tag) {
+  handleSearch(tag) {
     this.setState({
       activeIndex: tag.id
     })
   }
 
-  render () {
+  render() {
     const { active, activeIndex, clans, suggestions } = this.state
 
     return (
       <PageContainer meta={meta}>
         <Card cutout center>
           <Lockup primary center kicker="Clan" heading="leaderboard" />
-          {active &&
+          {active && (
             <Filter
               kicker="Find clan"
               placeholder="Enter clan name"
               suggestions={suggestions}
               handleAddition={this.handleSearch}
             />
-          }
+          )}
         </Card>
-        <Leaderboard cutout data={clans} activeIndex={activeIndex} columns={[ 'total' ]} medalsSize="small" />
+        <Leaderboard
+          cutout
+          data={clans}
+          activeIndex={activeIndex}
+          columns={['total']}
+          medalsSize="small"
+        />
       </PageContainer>
     )
   }

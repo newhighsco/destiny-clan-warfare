@@ -27,7 +27,7 @@ const modifiers = [
 ]
 
 class Loader extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -35,22 +35,32 @@ class Loader extends PureComponent {
     }
   }
 
-  componentDidMount () {
-    proxy(`Component/GetAllModifiers`)
-      .then(({ data }) => {
-        const modifiers = data.map(({ name, description, createdBy, scoringModifier, scoringBonus, multiplierBonus }) => ({
-          name,
-          description,
-          creator: createdBy,
-          scoringModifier,
-          bonus: scoringBonus || multiplierBonus
-        })).sort(firstBy('name'))
+  componentDidMount() {
+    proxy(`Component/GetAllModifiers`).then(({ data }) => {
+      const modifiers = data
+        .map(
+          ({
+            name,
+            description,
+            createdBy,
+            scoringModifier,
+            scoringBonus,
+            multiplierBonus
+          }) => ({
+            name,
+            description,
+            creator: createdBy,
+            scoringModifier,
+            bonus: scoringBonus || multiplierBonus
+          })
+        )
+        .sort(firstBy('name'))
 
-        this.setState({ modifiers })
-      })
+      this.setState({ modifiers })
+    })
   }
 
-  render () {
+  render() {
     return this.props.children(this.state.modifiers)
   }
 }
@@ -63,7 +73,13 @@ storiesOf('Modifiers', module)
   .addWithPercyOptions('All', { skip: true }, () => (
     <div className="storybook-tooltips-visible">
       <Loader>
-        {modifiers => <ModifierList modifiers={modifiers} enableHover={false} tooltipActive />}
+        {modifiers => (
+          <ModifierList
+            modifiers={modifiers}
+            enableHover={false}
+            tooltipActive
+          />
+        )}
       </Loader>
     </div>
   ))

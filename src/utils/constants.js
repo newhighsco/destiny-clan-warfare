@@ -3,7 +3,8 @@ const constants = {
     name: 'Destiny Clan Warfare',
     shortName: 'Clan Warfare',
     title: 'Destiny Clan Warfare - Band together, Guardians',
-    description: 'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard',
+    description:
+      'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard',
     handle: '@destinyclanwar',
     themeColor: '#404040',
     trackingId: 'UA-109161360-1'
@@ -29,8 +30,8 @@ const constants = {
     winnersMedal: 'The Best of the Best'
   },
   modifiers: {
-    tbc: [ 'Modifier TBC', 'Multiplier TBC' ],
-    notApplicable: [ 'No Modifier', 'No Multiplier' ]
+    tbc: ['Modifier TBC', 'Multiplier TBC'],
+    notApplicable: ['No Modifier', 'No Multiplier']
   },
   tense: {
     current: 'Current',
@@ -57,7 +58,7 @@ const constants = {
   server: {
     apiUrl: {
       protocol: 'https://',
-      subdomains: [ 'destinyclanwarfareapi' ],
+      subdomains: ['destinyclanwarfareapi'],
       domain: '.azurewebsites.net/',
       path: 'api/'
     },
@@ -66,7 +67,7 @@ const constants = {
   bungie: {
     baseUrl: 'https://www.bungie.net/',
     proxyUrl: /bungie/,
-    disabledStatusCodes: [ 5, 1618 ],
+    disabledStatusCodes: [5, 1618],
     avatarPath: 'img/profile/avatars/',
     defaultAvatarIcon: 'default_avatar.gif',
     platformDefault: -1

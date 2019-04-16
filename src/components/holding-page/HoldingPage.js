@@ -7,11 +7,16 @@ import styles from './HoldingPage.styl'
 const baseClassName = 'holding-page'
 
 const HoldingPage = class extends PureComponent {
-  render () {
+  render() {
     const { children, meta, showBackground } = this.props
 
     return (
-      <div className={classNames(styles[baseClassName], showBackground && styles[`${baseClassName}--background`])}>
+      <div
+        className={classNames(
+          styles[baseClassName],
+          showBackground && styles[`${baseClassName}--background`]
+        )}
+      >
         <Meta {...meta} />
         <div className="content-center content-gutter text-center">
           {children}

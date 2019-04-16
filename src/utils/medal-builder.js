@@ -33,13 +33,18 @@ const parseMedals = (input, type, minimumTier) => {
     name: medal.name,
     description: medal.description,
     count: medal.count || 1,
-    label: medal.awardedTo && medal.awardedTo.length ? [ decode(medal.awardedTo) ] : undefined
+    label:
+      medal.awardedTo && medal.awardedTo.length
+        ? [decode(medal.awardedTo)]
+        : undefined
   })
 
   if (input) {
     input.map(medal => {
       const parsed = parseMedal(medal, type)
-      const existing = medals.find(({ id, type }) => id === parsed.id && type === parsed.type)
+      const existing = medals.find(
+        ({ id, type }) => id === parsed.id && type === parsed.type
+      )
 
       if (parsed.tier <= minimumTier) return
 
@@ -49,7 +54,9 @@ const parseMedals = (input, type, minimumTier) => {
       }
 
       if (existing) {
-        existing.label = Array.isArray(existing.label) ? existing.label.concat(parsed.label) : parsed.label
+        existing.label = Array.isArray(existing.label)
+          ? existing.label.concat(parsed.label)
+          : parsed.label
       } else {
         medals.push(parsed)
       }

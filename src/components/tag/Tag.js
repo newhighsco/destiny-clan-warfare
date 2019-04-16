@@ -12,9 +12,11 @@ const allowedTags = [
 ]
 
 class Tag extends PureComponent {
-  render () {
+  render() {
     const { name } = this.props
-    const allowed = allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
+    const allowed = allowedTags.find(
+      tag => tag.name.toLowerCase() === name.toLowerCase()
+    )
 
     if (!allowed) return null
 
@@ -35,12 +37,18 @@ Tag.propTypes = {
 }
 
 class TagList extends PureComponent {
-  render () {
+  render() {
     const { tags, className } = this.props
     if (!tags || tags.length < 1) return null
 
     return (
-      <ul className={classNames('list--inline', styles[`${baseClassName}-list`], className)}>
+      <ul
+        className={classNames(
+          'list--inline',
+          styles[`${baseClassName}-list`],
+          className
+        )}
+      >
         {tags.map((tag, i) => (
           <li key={i}>
             <Tag {...tag} />
@@ -56,8 +64,4 @@ TagList.propTypes = {
   className: PropTypes.string
 }
 
-export {
-  allowedTags,
-  Tag,
-  TagList
-}
+export { allowedTags, Tag, TagList }

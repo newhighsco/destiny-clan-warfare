@@ -8,10 +8,9 @@ const platforms = [
   { id: 4, percentage: 33.3 }
 ]
 
-storiesOf('Platform', module)
-  .add('List', () => (
-    <Fragment>
-      <PlatformList platforms={platforms} />
-      <PlatformList platforms={platforms} size="small" />
-    </Fragment>
-  ))
+storiesOf('Platform', module).add('List', () => (
+  <Fragment>
+    <PlatformList platforms={platforms} />
+    <PlatformList platforms={platforms} size="small" />
+  </Fragment>
+))

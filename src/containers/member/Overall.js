@@ -7,9 +7,11 @@ import NotFound from '../../components/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 
-function MemberOverallContainer (props) {
-  const { location: { state } } = props
-  const [ data, setData ] = useState({
+function MemberOverallContainer(props) {
+  const {
+    location: { state }
+  } = props
+  const [data, setData] = useState({
     clan: state ? state.clan : null,
     member: state ? state.member : null,
     notFound: false
@@ -20,8 +22,8 @@ function MemberOverallContainer (props) {
       const clanId = props.clan
       const memberId = props.member.replace(/#.+$/, '')
 
-      prefetch(urlBuilder.clanUrl(clanId), { type: 'data' })
-        .then(({ clan, members }) => {
+      prefetch(urlBuilder.clanUrl(clanId), { type: 'data' }).then(
+        ({ clan, members }) => {
           const member = members.find(({ id }) => id === memberId)
 
           setData({
@@ -29,27 +31,22 @@ function MemberOverallContainer (props) {
             member,
             notFound: typeof member === 'undefined'
           })
-        })
+        }
+      )
     }
   })
 
   const { member, notFound } = data
 
   if (notFound) {
-    return (
-      <NotFound />
-    )
+    return <NotFound />
   }
 
   if (!member) {
-    return (
-      <Loading />
-    )
+    return <Loading />
   }
 
-  return (
-    <MemberOverall {...data} />
-  )
+  return <MemberOverall {...data} />
 }
 
 MemberOverallContainer.propTypes = {

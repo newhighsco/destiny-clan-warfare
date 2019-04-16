@@ -3,9 +3,7 @@ import { storiesOf } from '@storybook/react'
 import Notification from './Notification'
 
 storiesOf('Notification', module)
-  .add('Regular', () => (
-    <Notification>Regular notification</Notification>
-  ))
+  .add('Regular', () => <Notification>Regular notification</Notification>)
   .add('Warning', () => (
     <Notification state="warning">Warning notification</Notification>
   ))

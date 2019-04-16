@@ -6,7 +6,7 @@ import styles from './Card.styl'
 const baseClassName = 'card'
 
 const Card = class extends PureComponent {
-  render () {
+  render() {
     const { cutout, center, children, className } = this.props
     const classes = classNames(
       styles[baseClassName],
@@ -15,11 +15,7 @@ const Card = class extends PureComponent {
       className
     )
 
-    return (
-      <div className={classes}>
-        {children}
-      </div>
-    )
+    return <div className={classes}>{children}</div>
   }
 }
 

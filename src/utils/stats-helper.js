@@ -39,11 +39,11 @@ const percentage = (current, total, limit, precision) => {
   return round(result, precision)
 }
 
-const ranking = (rank) => {
+const ranking = rank => {
   return `${constants.prefix.hash}${rank}`
 }
 
-const total = (value) => {
+const total = value => {
   return Math.max(parseInt(Math.round(value)), 0)
 }
 

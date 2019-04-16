@@ -16,28 +16,27 @@ const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 const possessive = require('../../utils/grammar').possessive
 
-const columns = [
-  'kills',
-  'assists',
-  'deaths',
-  'bonuses',
-  'score'
-]
+const columns = ['kills', 'assists', 'deaths', 'bonuses', 'score']
 
 class MemberCurrent extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { clan, member } = this.props
 
     const kicker = clan.name
     const kickerHref = urlBuilder.currentEventUrl(clan.id)
-    const canonicalUrl = `${process.env.SITE_URL}${urlBuilder.currentEventUrl(clan.id, member.id)}`
+    const canonicalUrl = `${process.env.SITE_URL}${urlBuilder.currentEventUrl(
+      clan.id,
+      member.id
+    )}`
     const meta = {
       kicker,
       kickerHref,
       title: `${member.name} [${clan.tag}] | ${constants.kicker.current}`,
-      description: `${possessive(member.name)} stats and match history in the current ${constants.meta.name} event`,
+      description: `${possessive(
+        member.name
+      )} stats and match history in the current ${constants.meta.name} event`,
       canonicalUrl,
       schema: {
         '@context': 'http://schema.org',
@@ -71,7 +70,10 @@ class MemberCurrent extends PureComponent {
       }
     }
     const leaderboard = member.matchHistory
-    const stats = member.currentTotals && member.currentTotals.games > 0 ? member.currentTotals : null
+    const stats =
+      member.currentTotals && member.currentTotals.games > 0
+        ? member.currentTotals
+        : null
     const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 
     this.state = {
@@ -82,43 +84,58 @@ class MemberCurrent extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { apiStatus, clan, member, matchHistoryLimit } = this.props
     const { leaderboard, stats, enableMatchHistory, meta } = this.state
     const hasLeaderboard = leaderboard && leaderboard.length > 0
 
     return (
       <PageContainer meta={meta}>
-        <Lockup primary center kicker={constants.kicker.current} kickerHref={urlBuilder.currentEventUrl()}>
+        <Lockup
+          primary
+          center
+          kicker={constants.kicker.current}
+          kickerHref={urlBuilder.currentEventUrl()}
+        >
           <RelativeDate apiStatus={apiStatus} />
         </Lockup>
         <Fragment>
           <Card cutout={hasLeaderboard} center>
             <Avatar cutout outline {...member.avatar} />
             <TagList tags={member.tags} className="card__tags" />
-            <Lockup center reverse kicker={meta.kicker} kickerHref={meta.kickerHref} heading={member.name} />
+            <Lockup
+              center
+              reverse
+              kicker={meta.kicker}
+              kickerHref={meta.kickerHref}
+              heading={member.name}
+            />
             <PlatformList platforms={member.platforms} />
-            <StatList stats={stats} kicker={`${constants.tense.current} stats`} />
-            {!hasLeaderboard &&
+            <StatList
+              stats={stats}
+              kicker={`${constants.tense.current} stats`}
+            />
+            {!hasLeaderboard && (
               <Notification>
-                {enableMatchHistory ? (
-                  `Match history is being calculated. Please check back later.`
-                ) : (
-                  `Match history is currently disabled due to high volume.`
-                )}
+                {enableMatchHistory
+                  ? `Match history is being calculated. Please check back later.`
+                  : `Match history is currently disabled due to high volume.`}
               </Notification>
-            }
+            )}
           </Card>
-          {hasLeaderboard &&
+          {hasLeaderboard && (
             <TabContainer cutout>
               <Tab name={`Last ${matchHistoryLimit} games`}>
                 <Leaderboard data={leaderboard} columns={columns} />
               </Tab>
-              {member.totals && member.totals.games > 0 &&
-                <Tab name="Overall" href={urlBuilder.profileUrl(clan.id, member.id)} />
-              }
+              {member.totals && member.totals.games > 0 && (
+                <Tab
+                  name="Overall"
+                  href={urlBuilder.profileUrl(clan.id, member.id)}
+                />
+              )}
             </TabContainer>
-          }
+          )}
         </Fragment>
       </PageContainer>
     )

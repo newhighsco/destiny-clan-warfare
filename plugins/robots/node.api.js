@@ -7,11 +7,17 @@ export default (options = {}) => {
   const filename = 'robots.txt'
   const sitemapFilename = 'sitemap.xml'
 
-  return ({
+  return {
     headElements: async (elements, state) => {
       return [
         ...elements,
-        options.showSitemap && <link rel="sitemap" type="application/xml" href={`/${sitemapFilename}`} />
+        options.showSitemap && (
+          <link
+            rel="sitemap"
+            type="application/xml"
+            href={`/${sitemapFilename}`}
+          />
+        )
       ]
     },
     afterExport: async state => {
@@ -22,10 +28,11 @@ export default (options = {}) => {
           siteRoot
         }
       } = state
-      const robots = [ 'User-agent: *' ]
+      const robots = ['User-agent: *']
 
       if (disallowAll) robots.push('Disallow: /')
-      if (options.showSitemap && siteRoot) robots.push(`Sitemap: ${siteRoot}/${sitemapFilename}`)
+      if (options.showSitemap && siteRoot)
+        robots.push(`Sitemap: ${siteRoot}/${sitemapFilename}`)
 
       console.log(`Generating ${filename}...`)
 
@@ -35,5 +42,5 @@ export default (options = {}) => {
 
       return state
     }
-  })
+  }
 }

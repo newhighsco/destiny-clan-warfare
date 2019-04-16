@@ -5,14 +5,12 @@ import styles from './VisuallyHidden.styl'
 const baseClassName = 'visually-hidden'
 
 class VisuallyHidden extends PureComponent {
-  render () {
+  render() {
     const { children } = this.props
 
     if (!children) return null
 
-    return (
-      <span className={styles[baseClassName]}>{children}</span>
-    )
+    return <span className={styles[baseClassName]}>{children}</span>
   }
 }
 
@@ -20,7 +18,4 @@ VisuallyHidden.propTypes = {
   children: node
 }
 
-export {
-  VisuallyHidden,
-  baseClassName as visuallyHiddenClassName
-}
+export { VisuallyHidden, baseClassName as visuallyHiddenClassName }

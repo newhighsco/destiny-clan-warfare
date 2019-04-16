@@ -15,21 +15,39 @@ const filterById = (all, id) => all.indexOf(id) !== -1
 const getIds = tags => tags.reduce((ids, tag) => ids.concat(tag.id), []).sort()
 
 class Filter extends Component {
-  render () {
+  render() {
     var { suggestions } = this.props
 
     if (!suggestions.length) return null
 
-    const { className, kicker, placeholder, maxSuggestionsLength, tags, handleAddition, handleDelete } = this.props
+    const {
+      className,
+      kicker,
+      placeholder,
+      maxSuggestionsLength,
+      tags,
+      handleAddition,
+      handleDelete
+    } = this.props
     const ids = getIds(tags || [])
 
-    suggestions = suggestions.map(suggestion => ({ ...suggestion, disabled: filterById(ids, suggestion.id) })).sort(firstBy('disabled'))
+    suggestions = suggestions
+      .map(suggestion => ({
+        ...suggestion,
+        disabled: filterById(ids, suggestion.id)
+      }))
+      .sort(firstBy('disabled'))
 
     return (
       <div className={classNames('field', className)}>
-        {kicker &&
-          <Lockup borderless center kicker={kicker} className={styles[`${baseClassName}__lockup`]} />
-        }
+        {kicker && (
+          <Lockup
+            borderless
+            center
+            kicker={kicker}
+            className={styles[`${baseClassName}__lockup`]}
+          />
+        )}
         <ReactTags
           autofocus={false}
           placeholder={placeholder}
@@ -73,8 +91,4 @@ Filter.propTypes = {
   handleDelete: PropTypes.func
 }
 
-export {
-  Filter,
-  getIds,
-  filterById
-}
+export { Filter, getIds, filterById }

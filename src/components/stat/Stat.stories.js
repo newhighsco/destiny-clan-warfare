@@ -29,9 +29,5 @@ const empty = {
 }
 
 storiesOf('Stat', module)
-  .add('List', () => (
-    <StatList stats={stats} />
-  ))
-  .add('List (empty)', () => (
-    <StatList stats={empty} />
-  ))
+  .add('List', () => <StatList stats={stats} />)
+  .add('List (empty)', () => <StatList stats={empty} />)

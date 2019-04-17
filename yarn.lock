@@ -13165,28 +13165,28 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
-react-static-plugin-reach-router@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-static-plugin-reach-router/-/react-static-plugin-reach-router-7.0.0.tgz#4a2a9d5c43291fe29cebc88235a7641a1f8c247c"
-  integrity sha512-54lGGgYthTVLYmPqeUBrv1sAHjxXKXm8Fg8vNEoTGapDS4nq6Hi+IwC0tLljxgAzk3Noh7tn1FcUCIs7YGPjeA==
+react-static-plugin-reach-router@^7.0.8:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/react-static-plugin-reach-router/-/react-static-plugin-reach-router-7.0.8.tgz#39f0c9f5857983c59d2b9fb25c75f51d74c2d044"
+  integrity sha512-2Da7rJSBtJYq0SR/gI8dxAsagNFJuwrCTzRmgGdBrCN2dW7Cv8T++DMZ2q0IK7gQkMmOYGq9cCLUeCOQ5K0M9A==
 
-react-static-plugin-sitemap@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-static-plugin-sitemap/-/react-static-plugin-sitemap-7.0.0.tgz#4bf43db91cad21fedbeb02c8db02cc1dd168867c"
-  integrity sha512-mIi5wzJoizMJlt9sEZuzr6dDXOWAqE2mKMdW2X9jhStZlgaKDjQ1AwtAF7IhsfwhYZfEeZQuYa3lq+gojFXqvg==
+react-static-plugin-sitemap@^7.0.8:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/react-static-plugin-sitemap/-/react-static-plugin-sitemap-7.0.8.tgz#ec1ebea9e69cf490ce2ab78cb05033cbd14cb992"
+  integrity sha512-2JlXyXVK4iQ3cu1wODZu9Bw3UXyTVwEyP3+Dv/7zC/J2tTFf1hvn9DgJIHmhXhXqEZeKq3vuOd1qe6r7qWiGtA==
 
-react-static-plugin-source-filesystem@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-static-plugin-source-filesystem/-/react-static-plugin-source-filesystem-7.0.0.tgz#865c76748d038a8d1bccdd005bec04c3c674f61a"
-  integrity sha512-lV/xo4913komwJgq7vHJhspPttU3+qIXUDVTQKASOcrihcrZno3bZlbqMx88ajv8br0KfVEVGjM14iXTDj2Iuw==
+react-static-plugin-source-filesystem@^7.0.8:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/react-static-plugin-source-filesystem/-/react-static-plugin-source-filesystem-7.0.8.tgz#c0027412e8bb272723890db3ff02efad453ded92"
+  integrity sha512-6c51dtS05MooAoDYRAR6C4gaZK1f/EzdntjD/V4HIbhBkuYt13C3hGIGBvr0YDFi9zwm7xtHcoljx9UrRCJQAA==
   dependencies:
     chokidar "^2.1.5"
     glob "^7.1.3"
 
-react-static@^7.0.6:
-  version "7.0.6"
-  resolved "https://registry.yarnpkg.com/react-static/-/react-static-7.0.6.tgz#d895d113dab5974637302f3fd941be5bf1fa5c6f"
-  integrity sha512-ao9Ak+ME0RlO/ob8hF08MHVKXZe5YpEIbqwIEIFIqspfDE2ot5OK5Q1Dkq52kQbv+uJAlYPHrRRnyaTpjjAm7Q==
+react-static@^7.0.9:
+  version "7.0.9"
+  resolved "https://registry.yarnpkg.com/react-static/-/react-static-7.0.9.tgz#840045eda8f839a59be838bb41eee656b51d48ab"
+  integrity sha512-1KnagoLgn4VXRQBvwGYgaQHNKQ2mxvNZZCFvk3SEju31vrkdYCKfmTudCDr1dKdSt9tYaCSjmtYaBocrpCkXtg==
   dependencies:
     "@babel/cli" "^7.1.5"
     "@babel/core" "^7.4.0"

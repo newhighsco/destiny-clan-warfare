@@ -44,11 +44,14 @@ class Filter extends Component {
           <Lockup
             borderless
             center
+            element={'label'}
             kicker={kicker}
             className={styles[`${baseClassName}__lockup`]}
+            kickerAttributes={{ htmlFor: baseClassName }}
           />
         )}
         <ReactTags
+          inputAttributes={{ id: baseClassName }}
           autofocus={false}
           placeholder={placeholder}
           suggestions={suggestions}

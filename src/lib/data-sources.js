@@ -434,7 +434,7 @@ const fetch = async () => {
 
                   stats = {
                     totalClans,
-                    totalPlayers,
+                    totalActive: totalPlayers,
                     totalGames
                   }
                 }

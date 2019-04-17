@@ -529,7 +529,7 @@ export default {
           suggestions: event.isCurrent
             ? currentEventSuggestions
             : suggestions[eventId],
-          stats: event.isCurrent ? currentEventStats : undefined
+          stats: event.isCurrent ? currentEventStats : event.stats
         }),
         sharedData: {
           ...eventSharedData

@@ -114,7 +114,7 @@ class ClanCurrentContainer extends PureComponent {
               stats={stats}
               columns={statsColumns}
               top
-              kicker="Top stats&#9432;"
+              kicker="Top stats"
               tooltip={tooltip}
             />
           ) : (

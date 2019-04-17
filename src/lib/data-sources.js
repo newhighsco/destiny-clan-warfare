@@ -427,6 +427,18 @@ const fetch = async () => {
                   })
                 }
 
+                var stats = event.stats
+
+                if (stats) {
+                  const { totalClans, totalPlayers, totalGames } = stats
+
+                  stats = {
+                    totalClans,
+                    totalPlayers,
+                    totalGames
+                  }
+                }
+
                 const clanMedals = medalBuilder.parseMedals(
                   event.clanMedals,
                   constants.prefix.clan,
@@ -455,7 +467,8 @@ const fetch = async () => {
                   isFuture: isFuture || undefined,
                   isCalculated: event.calculated || undefined,
                   modifiers: event.modifiers.map(({ id }) => id),
-                  medals: Object.keys(medals).length ? medals : undefined
+                  medals: Object.keys(medals).length ? medals : undefined,
+                  stats: stats || undefined
                 })
 
                 if (leaderboards.length) parsed.leaderboards[id] = leaderboards

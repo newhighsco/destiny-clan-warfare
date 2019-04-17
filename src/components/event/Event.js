@@ -96,9 +96,12 @@ class Event extends PureComponent {
 
     if (!event) return null
 
-    const tooltip = `Play a minimum of ${
-      constants.statsGamesThreshold
-    } games to be included.`
+    const kicker = event.isCurrent ? 'Top stats' : 'Overall stats'
+    const tooltip = event.isCurrent
+      ? `Play a minimum of ${
+          constants.statsGamesThreshold
+        } games to be included.`
+      : null
     const summaryType = hasLeaderboards
       ? hasResults
         ? 'results'
@@ -137,7 +140,7 @@ class Event extends PureComponent {
                       stats={stats}
                       columns={statsColumns}
                       top
-                      kicker="Top stats&#9432;"
+                      kicker={kicker}
                       tooltip={tooltip}
                     />
                   ) : (

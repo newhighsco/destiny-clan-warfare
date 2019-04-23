@@ -595,9 +595,9 @@ export default {
       }
     )
 
-    const sharedPreviousEventLeaderboards = createSharedData(
-      previousEventLeaderboards
-    )
+    const sharedPreviousEventLeaderboards = previousEventLeaderboards
+      ? createSharedData(previousEventLeaderboards)
+      : null
     const customLeaderboardData = {
       event: currentEventId ? currentEvent : previousEvent,
       currentEventId

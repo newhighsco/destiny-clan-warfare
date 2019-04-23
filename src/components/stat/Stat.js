@@ -93,8 +93,9 @@ class StatList extends PureComponent {
             enableHover
           >
             <Lockup
-              kicker={`${kicker}${tooltip ? '&#9432;' : ''}`}
+              kicker={kicker}
               borderless
+              className={tooltip && styles[`${baseClassName}-tooltip`]}
             />
           </Tooltip>
         )}

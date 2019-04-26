@@ -1,5 +1,6 @@
 [build.environment]
   YARN_VERSION = "1.12.3"
+  RUBY_VERSION = "2.6.2"
 
 [context.deploy-preview.environment]
   BUNGIE_API_KEY = "a426c047234646c4ac8ebe9394260bd7"

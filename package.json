@@ -14,7 +14,7 @@
     "start:storybook": "start-storybook -p 9001 -c .storybook",
     "start:jest": "jest --watch",
     "build": "if-env-defined INCOMING_HOOK_TITLE && npm-run-all build:update || npm-run-all build:full",
-    "build:full": "npm-run-all build:static build:storybook",
+    "build:full": "npm-run-all build:static",
     "build:update": "npm-run-all build:static",
     "build:static": "react-static build",
     "build:storybook": "build-storybook -c .storybook -o ./dist/storybook",

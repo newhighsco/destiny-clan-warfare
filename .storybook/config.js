@@ -1,16 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
-import {
-  addDecorator,
-  addParameters,
-  configure,
-  getStorybook,
-  setAddon
-} from '@storybook/react'
+import { addDecorator, addParameters, configure } from '@storybook/react'
 import { withA11y } from '@storybook/addon-a11y'
 import { withInfo } from '@storybook/addon-info'
-import createPercyAddon from '@percy-io/percy-storybook'
 import inPercy from '@percy-io/in-percy'
 import mockdate from 'mockdate'
 import theme from './theme'
@@ -23,7 +16,6 @@ if (inPercy()) {
 }
 
 const req = require.context('../src/components', true, /\.stories\.js$/)
-const { percyAddon, serializeStories } = createPercyAddon()
 
 function loadStories() {
   req.keys().forEach(filename => req(filename))
@@ -85,8 +77,4 @@ addDecorator(story => (
   </Router>
 ))
 
-setAddon(percyAddon)
-
 configure(loadStories, module)
-
-serializeStories(getStorybook)

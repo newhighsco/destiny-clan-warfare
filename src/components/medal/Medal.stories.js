@@ -44,24 +44,32 @@ Loader.propTypes = {
 }
 
 storiesOf('Medals', module)
-  .addWithPercyOptions('Clan', { skip: true }, () => (
-    <div className="storybook-tooltips-visible">
-      <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
-        {medals => (
-          <MedalList medals={medals} enableHover={false} tooltipActive />
-        )}
-      </Loader>
-    </div>
-  ))
-  .addWithPercyOptions('Member', { skip: true }, () => (
-    <div className="storybook-tooltips-visible">
-      <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
-        {medals => (
-          <MedalList medals={medals} enableHover={false} tooltipActive />
-        )}
-      </Loader>
-    </div>
-  ))
+  .add(
+    'Clan',
+    () => (
+      <div className="storybook-tooltips-visible">
+        <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
+          {medals => (
+            <MedalList medals={medals} enableHover={false} tooltipActive />
+          )}
+        </Loader>
+      </div>
+    ),
+    { percy: { skip: true } }
+  )
+  .add(
+    'Member',
+    () => (
+      <div className="storybook-tooltips-visible">
+        <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
+          {medals => (
+            <MedalList medals={medals} enableHover={false} tooltipActive />
+          )}
+        </Loader>
+      </div>
+    ),
+    { percy: { skip: true } }
+  )
   .add('Sizes', () => (
     <Fragment>
       <p>Regular</p>

@@ -4,7 +4,6 @@
     "artifacts/**/*",
     "coverage/**/*",
     "dist/**/*",
-    "docs/**/*",
     "tmp/**/*"
   ],
   "blocks": {

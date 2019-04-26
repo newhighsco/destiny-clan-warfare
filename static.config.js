@@ -130,6 +130,11 @@ export default {
           from: urlBuilder.eventUrl(':event/:clan/:member'),
           to: urlBuilder.profileUrl(':clan', ':member', ':event'),
           code: 301
+        },
+        {
+          from: 'https://storybook.destinyclanwarfare.com/*',
+          to: `${constants.bungie.baseUrl}storybook/:splat`,
+          code: 200
         }
       ]
     ],

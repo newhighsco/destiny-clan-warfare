@@ -29,9 +29,9 @@
     "qa:js": "eslint --cache -f unix .",
     "qa:css": "stylint .",
     "prettier": "prettier --write '**/*.js*'",
-    "test": "npm-run-all qa test:*",
+    "test": "npm-run-all --parallel qa test:*",
     "test:jest": "jest && codecov",
-    "test:percy": "npm-run-all build:storybook build:percy",
+    "test-skip:percy": "npm-run-all build:storybook build:percy",
     "deploy": "npm-run-all build deploy:firebase",
     "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },

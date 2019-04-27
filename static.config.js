@@ -18,6 +18,7 @@ export default {
     port: 9000
   },
   siteRoot: process.env.SITE_URL,
+  extractCssChunks: true,
   plugins: [
     [
       require.resolve('react-static-plugin-source-filesystem'),

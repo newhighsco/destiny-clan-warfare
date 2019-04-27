@@ -29,14 +29,14 @@ export default {
     require.resolve('react-static-plugin-reach-router'),
     require.resolve('react-static-plugin-sitemap'),
     [
-      'robots',
+      'plugin-robots',
       {
         disallowAll: JSON.parse(process.env.DISALLOW_ROBOTS || false),
         showSitemap: true
       }
     ],
     [
-      'manifest',
+      'plugin-manifest',
       {
         name: constants.meta.name,
         short_name: constants.meta.shortName,
@@ -52,7 +52,7 @@ export default {
       }
     ],
     [
-      'feeds',
+      'plugin-feeds',
       [
         {
           filename: 'enrollment.xml',
@@ -104,7 +104,7 @@ export default {
       ]
     ],
     [
-      '_redirects',
+      'plugin-netlify-redirects',
       [
         {
           from: `${constants.bungie.proxyUrl}*`,
@@ -138,7 +138,9 @@ export default {
         }
       ]
     ],
-    'custom'
+    'plugin-webpack',
+    'plugin-stylus',
+    'plugin-svg'
   ],
   getRoutes: async ({ incremental }) => {
     const {

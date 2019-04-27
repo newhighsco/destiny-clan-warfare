@@ -28,7 +28,11 @@ const stylusLoaders = options => {
         import: [
           '~stylus-mixins/index.styl',
           '~responsive-grid/index.styl',
-          path.resolve(__dirname, '../../src/stylus/_______settings/index.styl')
+          path.resolve(
+            __dirname,
+            '../../src/stylus/_______settings/index.styl'
+          ),
+          path.resolve(__dirname, '../../src/stylus/______tools/index.styl')
         ]
       }
     }

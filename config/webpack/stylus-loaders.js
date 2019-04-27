@@ -27,7 +27,6 @@ const stylusLoaders = options => {
         use: [stylusMixins(), responsiveGrid(), poststylus([autoprefixer])],
         import: [
           '~stylus-mixins/index.styl',
-          '~responsive-grid/index.styl',
           path.resolve(
             __dirname,
             '../../src/stylus/_______settings/index.styl'

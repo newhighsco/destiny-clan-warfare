@@ -1,7 +1,7 @@
 const stylusLoaders = require('../config/webpack/stylus-loaders')
 const svgLoaders = require('../config/webpack/svg-loaders')
 
-module.exports = async ({ config, mode }) => {
+module.exports = async ({ config }) => {
   const existingSvgRule = config.module.rules.findIndex(rule =>
     rule.test.toString().includes('svg')
   )
@@ -11,7 +11,7 @@ module.exports = async ({ config, mode }) => {
   config.module.rules.push(
     {
       test: /\.styl$/,
-      use: [require.resolve('style-loader'), ...stylusLoaders()]
+      use: [...stylusLoaders('dev')]
     },
     ...svgLoaders()
   )

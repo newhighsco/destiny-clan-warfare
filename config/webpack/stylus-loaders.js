@@ -1,23 +1,32 @@
 const path = require('path')
+const semver = require('semver')
 const autoprefixer = require('autoprefixer')
 const stylusMixins = require('stylus-mixins')
 const responsiveGrid = require('responsive-grid')
 const poststylus = require('poststylus')
 
-const stylusLoaders = options => {
+const stylusLoaders = (stage, options) => {
   options = options || {
     modules: true,
     importLoaders: 1
   }
 
+  if (stage === 'prod') {
+    const cssLoaderVersion = require('css-loader/package.json').version
+
+    if (semver.satisfies(cssLoaderVersion, '<2') === true) {
+      options.minimize = true
+    }
+  }
+
   return [
+    stage === 'dev' && require.resolve('style-loader'),
     {
       loader: require.resolve('css-loader'),
       options: {
-        ...options,
-        minimize: true,
         sourceMap: false,
-        localIdentName: '[local]'
+        localIdentName: '[local]',
+        ...options
       }
     },
     {
@@ -35,7 +44,7 @@ const stylusLoaders = options => {
         ]
       }
     }
-  ]
+  ].filter(d => d)
 }
 
 module.exports = stylusLoaders

@@ -112,15 +112,17 @@ class Leaderboard extends PureComponent {
   componentDidUpdate(prevProps) {
     const { data, activeIndex } = this.props
 
-    this.List.measureAllRows()
+    if (this.List) {
+      this.List.measureAllRows()
 
-    if (prevProps.data.length !== data.length) {
-      this.handleResize()
-      this.List.scrollToPosition(0)
-    }
+      if (prevProps.data.length !== data.length) {
+        this.handleResize()
+        this.List.scrollToPosition(0)
+      }
 
-    if (prevProps.activeIndex !== activeIndex) {
-      this.handleSearch({ id: activeIndex })
+      if (prevProps.activeIndex !== activeIndex) {
+        this.handleSearch({ id: activeIndex })
+      }
     }
   }
 

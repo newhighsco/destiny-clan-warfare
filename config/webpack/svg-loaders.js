@@ -1,4 +1,4 @@
-const svgLoaders = () => {
+const svgLoaders = urlLoaderOptions => {
   const svgrLoader = {
     loader: require.resolve('@svgr/webpack'),
     options: {
@@ -16,8 +16,7 @@ const svgLoaders = () => {
         {
           loader: 'url-loader',
           options: {
-            limit: 1,
-            name: 'static/[name].[hash:8].[ext]'
+            ...urlLoaderOptions
           }
         }
       ]

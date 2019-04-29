@@ -19,6 +19,8 @@
     "build:static": "react-static build",
     "build:storybook": "build-storybook -c .storybook -o ./dist/storybook",
     "build:percy": "percy-storybook --build_dir=./dist/storybook --widths=300,550,960",
+    "build:bundle": "react-static bundle",
+    "build:export": "react-static export",
     "clean": "rm -rf {artifacts,dist,tmp}",
     "serve": "serve ./dist -p 9000",
     "optimize": "npm-run-all optimize:*",

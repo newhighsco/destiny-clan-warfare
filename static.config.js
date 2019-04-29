@@ -138,7 +138,12 @@ export default {
     //     }
     //   ]
     // ],
-    'plugin-netlify-cache',
+    [
+      'plugin-netlify-cache',
+      {
+        extraDirs: ['dist']
+      }
+    ],
     'plugin-webpack',
     'plugin-stylus',
     'plugin-svg'

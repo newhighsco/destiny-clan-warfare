@@ -25,3 +25,4 @@ tmp/
 .env*
 .eslintcache
 yarn-error.log
+.netlify/cache/

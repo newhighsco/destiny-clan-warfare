@@ -27,130 +27,122 @@ export default {
       }
     ],
     require.resolve('react-static-plugin-reach-router'),
-    // require.resolve('react-static-plugin-sitemap'),
-    // [
-    //   'plugin-robots',
-    //   {
-    //     disallowAll: JSON.parse(process.env.DISALLOW_ROBOTS || false),
-    //     showSitemap: true
-    //   }
-    // ],
-    // [
-    //   'plugin-manifest',
-    //   {
-    //     name: constants.meta.name,
-    //     short_name: constants.meta.shortName,
-    //     background_color: constants.meta.themeColor,
-    //     theme_color: constants.meta.themeColor,
-    //     display: 'minimal-ui',
-    //     icons: [
-    //       {
-    //         src: path.resolve('./src/images/meta/favicon-512x512.png'),
-    //         sizes: [192, 512]
-    //       }
-    //     ]
-    //   }
-    // ],
-    // [
-    //   'plugin-feeds',
-    //   [
-    //     {
-    //       filename: 'enrollment.xml',
-    //       title: constants.meta.title,
-    //       description: constants.meta.description,
-    //       filter: ({ path }) => path === urlBuilder.rootUrl,
-    //       embellisher: route => {
-    //         const { apiStatus = {} } = route.sharedData
-    //         const kicker = `Enrollment ${
-    //           apiStatus.enrollmentOpen ? 'is now open' : 'has closed'
-    //         }`
-    //         const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
-    //         const formattedDate = moment.utc().format(constants.format.url)
-    //         const url = `${process.env.SITE_URL}/${
-    //           apiStatus.enrollmentOpen ? 'open' : 'closed'
-    //         }/${formattedDate}/`
-    //         const canonicalUrl = apiStatus.enrollmentOpen
-    //           ? ` ${process.env.SITE_URL}/${hash}`
-    //           : ''
-    //         const title = `${kicker} - ${formattedDate}`
-    //         const content = `${kicker}${canonicalUrl}`
-
-    //         return {
-    //           title,
-    //           description: title,
-    //           url,
-    //           guid: url,
-    //           date: apiStatus.updatedDate,
-    //           custom_elements: [{ 'content:encoded': content }]
-    //         }
-    //       }
-    //     },
-    //     {
-    //       filename: 'events.xml',
-    //       title: constants.meta.title,
-    //       description: constants.meta.description,
-    //       addToHead: true,
-    //       filter: ({ template }) => template.match(/src\/containers\/Event$/),
-    //       embellisher: route => feedBuilder(route)
-    //     },
-    //     {
-    //       filename: 'events--current.xml',
-    //       title: constants.meta.title,
-    //       description: constants.meta.description,
-    //       filter: ({ path }) =>
-    //         path === urlBuilder.currentEventRootUrl.replace(/\//g, ''),
-    //       embellisher: route => feedBuilder(route)
-    //     }
-    //   ]
-    // ],
-    // [
-    //   'plugin-netlify-redirects',
-    //   [
-    //     {
-    //       from: `${constants.bungie.proxyUrl}*`,
-    //       to: `${constants.bungie.baseUrl}:splat`,
-    //       code: 200
-    //     },
-    //     {
-    //       from: `${constants.server.proxyUrl}*`,
-    //       to: `${apiHelper.url()}:splat`,
-    //       code: 200
-    //     },
-    //     {
-    //       from: `${urlBuilder.clanUrl(':clan')}*`,
-    //       to: urlBuilder.clanUrl(':clan'),
-    //       code: 200
-    //     },
-    //     {
-    //       from: urlBuilder.eventUrl(':event/:clan'),
-    //       to: urlBuilder.clanUrl(':clan', ':event'),
-    //       code: 301
-    //     },
-    //     {
-    //       from: urlBuilder.eventUrl(':event/:clan/:member'),
-    //       to: urlBuilder.profileUrl(':clan', ':member', ':event'),
-    //       code: 301
-    //     },
-    //     {
-    //       from: 'https://storybook.destinyclanwarfare.com/*',
-    //       to: `${constants.bungie.baseUrl}storybook/:splat`,
-    //       code: 200
-    //     }
-    //   ]
-    // ],
+    require.resolve('react-static-plugin-sitemap'),
     [
-      'plugin-netlify-cache',
+      'plugin-robots',
       {
-        extraDirs: ['dist']
+        disallowAll: JSON.parse(process.env.DISALLOW_ROBOTS || false),
+        showSitemap: true
       }
+    ],
+    [
+      'plugin-manifest',
+      {
+        name: constants.meta.name,
+        short_name: constants.meta.shortName,
+        background_color: constants.meta.themeColor,
+        theme_color: constants.meta.themeColor,
+        display: 'minimal-ui',
+        icons: [
+          {
+            src: path.resolve('./src/images/meta/favicon-512x512.png'),
+            sizes: [192, 512]
+          }
+        ]
+      }
+    ],
+    [
+      'plugin-feeds',
+      [
+        {
+          filename: 'enrollment.xml',
+          title: constants.meta.title,
+          description: constants.meta.description,
+          filter: ({ path }) => path === urlBuilder.rootUrl,
+          embellisher: route => {
+            const { apiStatus = {} } = route.sharedData
+            const kicker = `Enrollment ${
+              apiStatus.enrollmentOpen ? 'is now open' : 'has closed'
+            }`
+            const hash = `${constants.prefix.hash}${constants.prefix.enroll}`
+            const formattedDate = moment.utc().format(constants.format.url)
+            const url = `${process.env.SITE_URL}/${
+              apiStatus.enrollmentOpen ? 'open' : 'closed'
+            }/${formattedDate}/`
+            const canonicalUrl = apiStatus.enrollmentOpen
+              ? ` ${process.env.SITE_URL}/${hash}`
+              : ''
+            const title = `${kicker} - ${formattedDate}`
+            const content = `${kicker}${canonicalUrl}`
+
+            return {
+              title,
+              description: title,
+              url,
+              guid: url,
+              date: apiStatus.updatedDate,
+              custom_elements: [{ 'content:encoded': content }]
+            }
+          }
+        },
+        {
+          filename: 'events.xml',
+          title: constants.meta.title,
+          description: constants.meta.description,
+          addToHead: true,
+          filter: ({ template }) => template.match(/src\/containers\/Event$/),
+          embellisher: route => feedBuilder(route)
+        },
+        {
+          filename: 'events--current.xml',
+          title: constants.meta.title,
+          description: constants.meta.description,
+          filter: ({ path }) =>
+            path === urlBuilder.currentEventRootUrl.replace(/\//g, ''),
+          embellisher: route => feedBuilder(route)
+        }
+      ]
+    ],
+    [
+      'plugin-netlify-redirects',
+      [
+        {
+          from: `${constants.bungie.proxyUrl}*`,
+          to: `${constants.bungie.baseUrl}:splat`,
+          code: 200
+        },
+        {
+          from: `${constants.server.proxyUrl}*`,
+          to: `${apiHelper.url()}:splat`,
+          code: 200
+        },
+        {
+          from: `${urlBuilder.clanUrl(':clan')}*`,
+          to: urlBuilder.clanUrl(':clan'),
+          code: 200
+        },
+        {
+          from: urlBuilder.eventUrl(':event/:clan'),
+          to: urlBuilder.clanUrl(':clan', ':event'),
+          code: 301
+        },
+        {
+          from: urlBuilder.eventUrl(':event/:clan/:member'),
+          to: urlBuilder.profileUrl(':clan', ':member', ':event'),
+          code: 301
+        },
+        {
+          from: 'https://storybook.destinyclanwarfare.com/*',
+          to: `${constants.bungie.baseUrl}storybook/:splat`,
+          code: 200
+        }
+      ]
     ],
     'plugin-webpack',
     'plugin-stylus',
     'plugin-svg'
   ],
   getRoutes: async ({ incremental }) => {
-    return [{ path: urlBuilder.rootUrl, template: 'src/containers/Home' }]
-
     const {
       apiStatus,
       clans,

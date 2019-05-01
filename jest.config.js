@@ -2,7 +2,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/components/**/*.js'],
   coveragePathIgnorePatterns: ['.stories.js'],
-  coverageReporters: ['text'],
   moduleNameMapper: {
     '\\.(styl)$': 'identity-obj-proxy',
     '\\.(svg)$': 'jest-svg-transformer',

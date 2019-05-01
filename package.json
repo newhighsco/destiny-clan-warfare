@@ -32,7 +32,7 @@
     "qa:css": "stylint .",
     "prettier": "prettier --write '**/*.js*'",
     "test": "npm-run-all --parallel qa test:jest",
-    "test:jest": "jest && codecov",
+    "test:jest": "jest",
     "test:percy": "npm-run-all build:storybook build:percy",
     "deploy": "npm-run-all build deploy:firebase",
     "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"

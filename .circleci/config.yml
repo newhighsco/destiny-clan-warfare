@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.4
 jobs:
   build:
     docker:
@@ -15,3 +17,4 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn test
+      - codecov/upload:

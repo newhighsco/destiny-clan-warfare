@@ -133,7 +133,7 @@ export default {
         },
         {
           from: 'https://storybook.destinyclanwarfare.com/*',
-          to: `${constants.bungie.baseUrl}storybook/:splat`,
+          to: `${urlBuilder.rootUrl}storybook/:splat`,
           code: 200
         }
       ]

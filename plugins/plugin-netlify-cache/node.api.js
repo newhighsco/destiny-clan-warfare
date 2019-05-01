@@ -9,6 +9,10 @@ export default ({ extraDirs = [] }) => {
     'react-static'
   )
 
+  readdirSync(resolve(process.env.NETLIFY_BUILD_BASE, 'cache')).map(dir => {
+    console.log(111, dir)
+  })
+
   const directoriesToCache = state => {
     const {
       config: {

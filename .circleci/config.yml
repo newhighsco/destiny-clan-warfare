@@ -17,4 +17,4 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn test
-      - codecov/upload:
+      - codecov/upload

@@ -2,6 +2,10 @@
 
 https://destinyclanwarfare.com
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/acc3f52f-e7a8-459a-a789-9443b224b703/deploy-status)](https://app.netlify.com/sites/destiny-clan-warfare/deploys)
+[![CircleCI](https://circleci.com/gh/newhighsco/destiny-clan-warfare.svg?style=svg)](https://circleci.com/gh/newhighsco/destiny-clan-warfare)
+[![codecov](https://codecov.io/gh/newhighsco/destiny-clan-warfare/branch/master/graph/badge.svg)](https://codecov.io/gh/newhighsco/destiny-clan-warfare)
+
 ## Setup
 
 Install dependencies

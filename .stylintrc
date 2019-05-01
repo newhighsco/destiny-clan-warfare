@@ -2,8 +2,10 @@
   "exclude": [
     "node_modules/**/*",
     "artifacts/**/*",
+    "cache/**/*",
     "coverage/**/*",
     "dist/**/*",
+    "public/storybook/**/*",
     "tmp/**/*"
   ],
   "blocks": {

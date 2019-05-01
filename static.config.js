@@ -138,6 +138,12 @@ export default {
         }
       ]
     ],
+    [
+      'plugin-netlify-cache',
+      {
+        extraDirs: ['public/storybook']
+      }
+    ],
     'plugin-webpack',
     'plugin-stylus',
     'plugin-svg'

@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
+import inPercy from '@percy-io/in-percy'
 import Timer from './Timer'
 
 const moment = require('moment')
+const tickInterval = inPercy() ? null : undefined
 
 storiesOf('Timer', module)
   .add('Current', () => (
@@ -10,6 +12,7 @@ storiesOf('Timer', module)
       <p>{`state = { active: false }`}</p>
       <Timer
         active={false}
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -21,6 +24,7 @@ storiesOf('Timer', module)
       />
       <p>{`state = { active: true }`}</p>
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -31,6 +35,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -41,6 +46,7 @@ storiesOf('Timer', module)
           .add(2, 's')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -51,6 +57,7 @@ storiesOf('Timer', module)
           .add(2, 's')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -61,6 +68,7 @@ storiesOf('Timer', module)
           .startOf('h')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -71,6 +79,7 @@ storiesOf('Timer', module)
           .startOf('h')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -81,6 +90,7 @@ storiesOf('Timer', module)
           .startOf('m')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(1, 'd')
@@ -93,6 +103,7 @@ storiesOf('Timer', module)
     <Fragment>
       <p>{`state = { active: false }`}</p>
       <Timer
+        tickInterval={tickInterval}
         active={false}
         start={moment
           .utc()
@@ -105,6 +116,7 @@ storiesOf('Timer', module)
       />
       <p>{`state = { active: true }`}</p>
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .add(11, 'd')
@@ -115,6 +127,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .add(48, 'h')
@@ -125,6 +138,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .add(24, 'h')
@@ -135,6 +149,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .add(1, 'd')
@@ -145,6 +160,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .add(1, 'h')
@@ -155,6 +171,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .add(1, 'm')
@@ -165,6 +182,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        tickInterval={tickInterval}
         start={moment.utc().add(1, 's')}
         end={moment
           .utc()
@@ -177,6 +195,7 @@ storiesOf('Timer', module)
     <Fragment>
       <p>{`state = { active: false }`}</p>
       <Timer
+        tickInterval={tickInterval}
         active={false}
         start={moment
           .utc()
@@ -189,6 +208,7 @@ storiesOf('Timer', module)
       />
       <p>{`state = { active: true }`}</p>
       <Timer
+        tickInterval={tickInterval}
         start={moment
           .utc()
           .subtract(7, 'd')

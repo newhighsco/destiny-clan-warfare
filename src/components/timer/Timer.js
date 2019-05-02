@@ -9,7 +9,6 @@ const moment = require('moment')
 const constants = require('../../utils/constants')
 const statsHelper = require('../../utils/stats-helper')
 const baseClassName = 'timer'
-const tickInterval = 1000
 
 const countdown = milliseconds => {
   const duration = moment.duration(milliseconds)
@@ -35,7 +34,7 @@ class Timer extends PureComponent {
     super(props)
 
     var { active } = this.props
-    const { start, end } = this.props
+    const { start, end, tickInterval } = this.props
     const currentDate = moment.utc()
     const startDate = moment.utc(start)
     const endDate = moment.utc(end)
@@ -84,6 +83,7 @@ class Timer extends PureComponent {
       totalDuration,
       passedDuration,
       remainingDuration,
+      tickInterval,
       interval: null
     }
 
@@ -92,7 +92,7 @@ class Timer extends PureComponent {
   }
 
   componentDidMount() {
-    const { active } = this.state
+    const { active, tickInterval } = this.state
 
     if (active === undefined) {
       this.setState({
@@ -107,7 +107,12 @@ class Timer extends PureComponent {
   }
 
   tick() {
-    var { remainingDuration, passedDuration, showProgress } = this.state
+    var {
+      remainingDuration,
+      passedDuration,
+      showProgress,
+      tickInterval
+    } = this.state
 
     remainingDuration -= tickInterval
     passedDuration += tickInterval
@@ -233,10 +238,15 @@ class Timer extends PureComponent {
   }
 }
 
+Timer.defaultProps = {
+  tickInterval: 1000
+}
+
 Timer.propTypes = {
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   end: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  tickInterval: PropTypes.number
 }
 
 export default Timer

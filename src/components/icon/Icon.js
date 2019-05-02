@@ -17,9 +17,15 @@ const Icon = class extends PureComponent {
     )
 
     return (
-      <i
+      <span
         className={iconClassNames}
-        aria-hidden={!a11yText ? 'true' : null}
+        {...a11yText && {
+          role: 'img',
+          'aria-label': a11yText
+        }}
+        {...!a11yText && {
+          'aria-hidden': 'true'
+        }}
         style={{
           width: width && `${width}px`,
           height: height && `${height}px`,
@@ -28,7 +34,7 @@ const Icon = class extends PureComponent {
       >
         {a11yText && <VisuallyHidden>{a11yText}</VisuallyHidden>}
         {children}
-      </i>
+      </span>
     )
   }
 }

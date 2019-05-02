@@ -34,7 +34,6 @@ const logos = [
   { name: 'Lockup', value: 'Logo_Lockup' }
 ]
 const extensions = ['png', 'psd', 'svg']
-const files = require.context('../images/branding', false, /\.(png|psd|svg)$/)
 
 function BrandingPage() {
   return (
@@ -53,7 +52,10 @@ function BrandingPage() {
                 )}
                 <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
                   <div className="text-center">
-                    <img src={files(`./${logo.value}.png`)} alt="" />
+                    <img
+                      src={`/images/branding/${logo.value}.${extensions[0]}`}
+                      alt=""
+                    />
                   </div>
                 </div>
                 <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
@@ -61,17 +63,10 @@ function BrandingPage() {
                     <h3>{logo.name}</h3>
                     <ul className="list--inline list--comma">
                       {extensions.map((extension, index) => {
-                        const fileKey = `./${logo.value}.${
-                          extension === 'svg' ? `url.${extension}` : extension
-                        }`
-                        const file = files.keys().find(key => key === fileKey)
-                          ? files(fileKey)
-                          : null
-
                         return (
                           <li key={index}>
                             <OutboundLink
-                              to={file.default || file}
+                              to={`/images/branding/${logo.value}.${extension}`}
                               eventLabel="branding"
                               title={`Download ${extension.toUpperCase()}`}
                               target="_blank"

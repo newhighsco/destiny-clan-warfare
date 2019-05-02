@@ -1,5 +1,11 @@
 import { resolve } from 'path'
-import { ensureDirSync, existsSync, readdirSync, copySync } from 'fs-extra'
+import {
+  copySync,
+  ensureDirSync,
+  emptyDirSync,
+  existsSync,
+  readdirSync
+} from 'fs-extra'
 import chalk from 'chalk'
 
 export default ({ extraDirs = [] }) => {
@@ -8,10 +14,6 @@ export default ({ extraDirs = [] }) => {
     'cache',
     'react-static'
   )
-
-  readdirSync(resolve(process.env.NETLIFY_BUILD_BASE, 'cache')).map(dir => {
-    console.log(111, dir)
-  })
 
   const directoriesToCache = state => {
     const {
@@ -49,33 +51,36 @@ export default ({ extraDirs = [] }) => {
         const { dirs, cacheDestination } = directoriesToCache(state)
 
         dirs.map(({ name, path }) => {
-          ensureDirSync(path)
+          if (!existsSync(path)) {
+            ensureDirSync(path)
 
-          const source = resolve(cacheDestination, name)
+            const source = resolve(cacheDestination, name)
 
-          if (existsSync(source)) {
-            const sourceFiles = readdirSync(source)
-            const destinationFiles = readdirSync(path)
+            if (existsSync(source)) {
+              const sourceFiles = readdirSync(source)
 
-            copySync(source, path)
+              copySync(source, path)
 
-            console.log(
-              chalk`Copied {bold ${
-                sourceFiles.length
-              }} cached items from {bold ${source}} to {bold ${path}} which contained {bold ${
-                destinationFiles.length
-              }} existing items.`
-            )
+              console.log(
+                chalk`Restored {bold ${path}} <= {bold ${source}} {gray ${
+                  sourceFiles.length
+                } items}`
+              )
+            } else {
+              console.log(
+                chalk`{yellow Skipped {bold ${path}}} {gray not previously cached}`
+              )
+            }
           } else {
             console.log(
-              chalk`{yellow WARNING skipped empty cached directory {bold ${source}}}`
+              chalk`{yellow Skipped {bold ${path}}} {gray non-empty directory}`
             )
           }
         })
 
         state.isCacheRestored = true
 
-        console.log(chalk.green('[\u2713] Netlify cache restored'))
+        console.log(chalk`{green [\u2713] Netlify cache restored}`)
       }
 
       return state
@@ -95,24 +100,22 @@ export default ({ extraDirs = [] }) => {
           const destination = resolve(cacheDestination, name)
 
           ensureDirSync(destination)
-
-          const destinationFiles = readdirSync(destination)
-
+          emptyDirSync(destination)
           copySync(path, destination)
 
           console.log(
-            chalk`Copied {bold ${
+            chalk`Cached {bold ${path}} => {bold ${destination}} {gray ${
               sourceFiles.length
-            }} items from {bold ${path}} to {bold ${destination}} which contains {bold ${
-              destinationFiles.length
-            }} existing cached items.`
+            } items}`
           )
         } else {
-          console.log(chalk`{yellow WARNING missing directory {bold ${path}}}`)
+          console.log(
+            chalk`{yellow Skipped {bold ${path}}} {gray non-existent directory}`
+          )
         }
       })
 
-      console.log(chalk.green('[\u2713] Netlify cache filled'))
+      console.log(chalk`{green [\u2713] Netlify cache filled'}`)
 
       return state
     }

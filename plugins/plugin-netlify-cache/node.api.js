@@ -115,7 +115,7 @@ export default ({ extraDirs = [] }) => {
         }
       })
 
-      console.log(chalk`{green [\u2713] Netlify cache filled'}`)
+      console.log(chalk`{green [\u2713] Netlify cache filled}`)
 
       return state
     }

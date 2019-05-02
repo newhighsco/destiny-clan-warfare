@@ -134,7 +134,7 @@ export default {
         {
           from: 'https://storybook.destinyclanwarfare.com/*',
           to: `${urlBuilder.rootUrl}storybook/:splat`,
-          code: 200
+          code: '200!'
         }
       ]
     ],

@@ -6,6 +6,8 @@ const crimsonDoubleDown = {
 }
 const raidTiming = { svg: 'raid-timing', designer: 'Pixel Lab' }
 const bullseye = { svg: 'bullseye', designer: 'Zlatko Najdenovski' }
+const pinnacleKills = { svg: 'pinnacle-kills', designer: 'Creative Stall' }
+const pulsating = { svg: 'pulsating', designer: 'Nikol Kokešová' }
 
 const icons = {
   '20-20': { svg: 'twenty-twenty', designer: 'Chanut is Industries' },
@@ -28,6 +30,7 @@ const icons = {
   'feeling-blue': { designer: 'rivercon' },
   'flawless-striker': { designer: 'iconsphere' },
   'frag-and-tag': { designer: 'Hea Poh Lin, Krish & miza bin' },
+  'fully-stacked': bandTogether,
   'guided-games-raid-timing': raidTiming,
   'hear-the-whisper': { designer: 'BGBOXXX Design' },
   'helping-hand': { designer: 'Demetria Rose' },
@@ -42,11 +45,14 @@ const icons = {
   'no-apologies': { designer: 'Simon Child' },
   'not-very-exotic': { designer: 'iconsphere' },
   perfection: { designer: 'Montu Yadav' },
-  'pew-pew-pew': { designer: 'Nikol Kokešová' },
+  'pew-pew-pew': pulsating,
+  pinnacleKills,
   'power-hungry': { designer: 'naim' },
+  pulsating,
   'raid-master': { designer: 'Robert Bjurshagen' },
   'raid-timing': raidTiming,
   'rocky-balboa-s-trainee': { designer: 'miza bin' },
+  scrublord: { designer: 'Nikita Kozin' },
   'stop-the-stopper': { designer: 'Optimus Prime' },
   'strike-death-penalty': { designer: 'Robert Bjurshagen' },
   'super-accurate': bullseye,
@@ -59,7 +65,7 @@ const icons = {
   'winner-winner-chicken-dinner': { designer: 'Artem Kovyazin' },
   'wrong-game-mode': antiMeta,
   'you-can-t-kill-me': { designer: 'Robert Bjurshagen' },
-  'you-ve-earned-it': { designer: 'Creative Stall' }
+  'you-ve-earned-it': pinnacleKills
 }
 
 export default icons

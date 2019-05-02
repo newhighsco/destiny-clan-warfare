@@ -21,7 +21,7 @@
     "build:percy": "percy-storybook --build_dir=./public/storybook --widths=300,550,960",
     "build:bundle": "react-static bundle",
     "build:export": "react-static export",
-    "clean": "rm -rf {artifacts,cache,dist,public/storybook,tmp}",
+    "clean": "rm -rf {artifacts,cache,coverage,dist,public/storybook,tmp}",
     "serve": "serve ./dist -p 9000",
     "optimize": "npm-run-all optimize:*",
     "optimize:svg": "find ./src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo --enable=removeXMLNS --enable=removeTitle --enable=removeStyleElement --multipass",

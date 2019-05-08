@@ -1,7 +1,9 @@
 import webpack from 'webpack'
 
 export default () => ({
-  webpack: (config, { defaultLoaders }) => {
+  webpack: (config, { defaultLoaders, stage }) => {
+    config.entry = [require.resolve('babel-polyfill'), ...config.entry]
+
     const { fileLoader } = defaultLoaders
     const existingUrlLoaderRule = config.module.rules[0].oneOf.findIndex(
       ({ loader, query }) => loader === 'url-loader'

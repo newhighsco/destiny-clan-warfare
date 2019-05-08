@@ -38,7 +38,6 @@
     "deploy:firebase": "firebase deploy --non-interactive --token $FIREBASE_TOKEN"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.3",
     "@svgr/webpack": "^4.2.0",
     "autolinker": "^1.6.2",
     "classnames": "^2.2.5",

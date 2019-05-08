@@ -1,4 +1,3 @@
-import '@babel/polyfill'
 import React, { Suspense } from 'react'
 import { Root, Routes, Head, addPrefetchExcludes } from 'react-static'
 import { Router, Match } from '@reach/router'

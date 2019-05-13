@@ -4,7 +4,7 @@ module.exports = {
   coveragePathIgnorePatterns: ['.stories.js'],
   moduleNameMapper: {
     '\\.(styl)$': 'identity-obj-proxy',
-    '\\.(svg)$': 'jest-svg-transformer',
+    '\\.(svg)$': '<rootDir>/__mocks__/svg.js',
     '\\.(png|jpg|gif|eot|ttf|woff(2)?)$':
       '<rootDir>/config/jest/file-transform.js'
   },

@@ -9134,10 +9134,6 @@ jest-snapshot@^24.1.0:
     pretty-format "^24.0.0"
     semver "^5.5.0"
 
-jest-svg-transformer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/jest-svg-transformer/-/jest-svg-transformer-1.0.0.tgz#e38884ca4cd8b2295cdfa2a0b24667920c3a8a6d"
-
 jest-util@^24.0.0:
   version "24.0.0"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-24.0.0.tgz#fd38fcafd6dedbd0af2944d7a227c0d91b68f7d6"

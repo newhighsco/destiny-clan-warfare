@@ -13,7 +13,7 @@ const Landmark = class extends PureComponent {
       <Fragment>
         {/* eslint-disable jsx-a11y/anchor-is-valid */}
         <a id={id} className={styles[baseClassName]}>
-          <VisuallyHidden>{a11yText}</VisuallyHidden>
+          {a11yText && <VisuallyHidden>{a11yText}</VisuallyHidden>}
         </a>
         {/* eslint-enable jsx-a11y/anchor-is-valid */}
       </Fragment>

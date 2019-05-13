@@ -52,7 +52,10 @@ function App() {
           <meta name="description" content={description} />
           <meta property="og:description" content={description} />
           <link rel="apple-touch-icon" href={appleTouchIcon} />
-          <meta property="og:image" content={openGraphImage} />
+          <meta
+            property="og:image"
+            content={`${process.env.SITE_URL}${openGraphImage}`}
+          />
         </Head>
         <Suspense
           fallback={

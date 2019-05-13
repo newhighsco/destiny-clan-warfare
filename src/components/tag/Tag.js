@@ -11,12 +11,17 @@ const allowedTags = [
   { name: 'Rockstar', tier: 3 }
 ]
 
+const isAllowed = name => {
+  return allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
+}
+
 class Tag extends PureComponent {
   render() {
     const { name } = this.props
-    const allowed = allowedTags.find(
-      tag => tag.name.toLowerCase() === name.toLowerCase()
-    )
+
+    if (!name) return null
+
+    const allowed = isAllowed(name)
 
     if (!allowed) return null
 
@@ -39,7 +44,12 @@ Tag.propTypes = {
 class TagList extends PureComponent {
   render() {
     const { tags, className } = this.props
+
     if (!tags || tags.length < 1) return null
+
+    const allowed = tags.filter(({ name }) => isAllowed(name))
+
+    if (allowed.length < 1) return null
 
     return (
       <ul
@@ -49,7 +59,7 @@ class TagList extends PureComponent {
           className
         )}
       >
-        {tags.map((tag, i) => (
+        {allowed.map((tag, i) => (
           <li key={i}>
             <Tag {...tag} />
           </li>

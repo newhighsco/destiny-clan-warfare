@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 import Advert from '../advert/Advert'
-import BungieStatus from '../bungie/Status'
+import Status from '../status/Status'
 import Meta from '../meta/Meta'
 import Landmark from '../landmark/Landmark'
 import styles from './PageContainer.styl'
@@ -20,7 +20,7 @@ class PageContainer extends PureComponent {
         <Meta {...meta} />
         <Landmark id="top" a11yText="Top of page" />
         <Header />
-        <BungieStatus />
+        <Status />
         <main id="content" className={styles[baseClassName]} role="main">
           <div
             className={classNames(

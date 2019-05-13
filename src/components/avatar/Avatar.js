@@ -13,11 +13,11 @@ const baseClassName = 'avatar'
 
 const AvatarLayer = class extends PureComponent {
   render() {
-    const { id, layer } = this.props
+    const { id, color, icon } = this.props
 
-    if (!layer.color || !layer.icon) return null
+    if (!color || !icon) return null
 
-    const hex = hexHelper.hexToRgb(layer.color)
+    const hex = hexHelper.hexToRgb(color)
     const r = statsHelper.round(hex.r / 255, 3)
     const g = statsHelper.round(hex.g / 255, 3)
     const b = statsHelper.round(hex.b / 255, 3)
@@ -33,7 +33,7 @@ const AvatarLayer = class extends PureComponent {
           width="100%"
           height="100%"
           filter={`url(${constants.prefix.hash}${id})`}
-          xlinkHref={urlBuilder.avatarLayerUrl(layer.icon)}
+          xlinkHref={urlBuilder.avatarLayerUrl(icon)}
         />
       </svg>
     )
@@ -42,7 +42,8 @@ const AvatarLayer = class extends PureComponent {
 
 AvatarLayer.propTypes = {
   id: PropTypes.string,
-  layer: PropTypes.object
+  color: PropTypes.string,
+  icon: PropTypes.string
 }
 
 const Avatar = class extends PureComponent {
@@ -74,8 +75,8 @@ const Avatar = class extends PureComponent {
       >
         {hasLayers ? (
           <Fragment>
-            {background && <AvatarLayer id={`${id}-bg`} layer={background} />}
-            {foreground && <AvatarLayer id={`${id}-fg`} layer={foreground} />}
+            {background && <AvatarLayer id={`${id}-bg`} {...background} />}
+            {foreground && <AvatarLayer id={`${id}-fg`} {...foreground} />}
           </Fragment>
         ) : (
           children || (

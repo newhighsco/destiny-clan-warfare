@@ -8,6 +8,9 @@ const baseClassName = 'card'
 const Card = class extends PureComponent {
   render() {
     const { cutout, center, children, className } = this.props
+
+    if (!children) return null
+
     const classes = classNames(
       styles[baseClassName],
       cutout && styles[`${baseClassName}--cutout`],

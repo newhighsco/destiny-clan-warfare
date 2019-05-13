@@ -7,6 +7,7 @@ import styles from './Avatar.styl'
 const hexHelper = require('./lib/hex-helper')
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
+const statsHelper = require('../../utils/stats-helper')
 
 const baseClassName = 'avatar'
 
@@ -17,9 +18,9 @@ const AvatarLayer = class extends PureComponent {
     if (!layer.color || !layer.icon) return null
 
     const hex = hexHelper.hexToRgb(layer.color)
-    const r = hex.r / 255
-    const g = hex.g / 255
-    const b = hex.b / 255
+    const r = statsHelper.round(hex.r / 255, 3)
+    const g = statsHelper.round(hex.g / 255, 3)
+    const b = statsHelper.round(hex.b / 255, 3)
 
     return (
       <svg className={styles[`${baseClassName}__layer`]} viewBox="0 0 512 512">

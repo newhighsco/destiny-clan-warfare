@@ -78,6 +78,7 @@ module.exports = {
   ppg,
   percentage,
   ranking,
+  round,
   shortNumber,
   total
 }

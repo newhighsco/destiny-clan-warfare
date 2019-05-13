@@ -6,7 +6,6 @@ import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
 import Event from '../components/event/Event'
 import { ButtonGroup, Button } from '../components/button/Button'
-import SchemaImage from '../images/meta/favicon-1200x1200.png'
 
 const moment = require('moment')
 const constants = require('../utils/constants')
@@ -40,7 +39,7 @@ class EventContainer extends PureComponent {
         description: event.description,
         startDate: moment(event.startDate).format(),
         endDate: moment(event.endDate).format(),
-        image: `${process.env.SITE_URL}${SchemaImage}`,
+        image: `${process.env.SITE_URL}/images/meta/sharing.png`,
         location: {
           '@type': 'Place',
           name: constants.meta.name,

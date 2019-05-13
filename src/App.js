@@ -5,8 +5,6 @@ import Analytics from './components/analytics/Analytics'
 import MemberCurrent from './containers/member/Current'
 import MemberOverall from './containers/member/Overall'
 import Loading from './components/loading/Loading'
-import appleTouchIcon from './images/meta/apple-touch-icon.png'
-import openGraphImage from './images/meta/favicon-1200x1200.png'
 
 import './stylus/index.styl'
 
@@ -51,10 +49,13 @@ function App() {
           <meta property="og:title" content={title} />
           <meta name="description" content={description} />
           <meta property="og:description" content={description} />
-          <link rel="apple-touch-icon" href={appleTouchIcon} />
+          <link
+            rel="apple-touch-icon"
+            href="/images/meta/apple-touch-icon.png"
+          />
           <meta
             property="og:image"
-            content={`${process.env.SITE_URL}${openGraphImage}`}
+            content={`${process.env.SITE_URL}/images/meta/sharing.png`}
           />
         </Head>
         <Suspense

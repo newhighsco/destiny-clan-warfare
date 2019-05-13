@@ -8,7 +8,6 @@ import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
 import Event from '../components/event/Event'
 import Notification from '../components/notification/Notification'
-import LogoImage from '../images/meta/favicon-512x512.png'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -19,7 +18,7 @@ const meta = {
     '@type': 'Organization',
     name: constants.meta.name,
     url: process.env.SITE_URL,
-    logo: `${process.env.SITE_URL}${LogoImage}`,
+    logo: `${process.env.SITE_URL}/images/meta/logo.png`,
     sameAs: [constants.social.twitter]
   }
 }

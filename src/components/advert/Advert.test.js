@@ -9,7 +9,7 @@ const requiredProps = () => ({
 })
 
 describe('Component: Advert', function() {
-  test('should output no markup with default props', function() {
+  test('should output the expected markup with default props', function() {
     const wrapper = shallow(<Advert {...requiredProps()} />)
 
     expect(wrapper.type()).toEqual(null)

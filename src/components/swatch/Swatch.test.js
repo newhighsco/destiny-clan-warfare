@@ -5,7 +5,7 @@ import Swatch from './Swatch'
 const requiredProps = () => ({ name: 'Red', value: '#ff0000' })
 
 describe('Component: Swatch', function() {
-  test('should output no markup with default props', function() {
+  test('should output the expected markup with no props', function() {
     const wrapper = shallow(<Swatch />)
 
     expect(wrapper.type()).toEqual(null)

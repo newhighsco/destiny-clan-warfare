@@ -9,6 +9,8 @@ class Notification extends PureComponent {
   render() {
     const { children, state, id, html } = this.props
 
+    if (!children && !html) return null
+
     return (
       <div
         id={id}

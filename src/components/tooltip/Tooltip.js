@@ -71,7 +71,7 @@ class Tooltip extends PureComponent {
           className={classNames(
             'text-button',
             styles[triggerClassName],
-            hasContent && styles[`${triggerClassName}--enabled`]
+            hasContent && enableHover && styles[`${triggerClassName}--enabled`]
           )}
           aria-label="Open tooltip"
           {...enableHover && {
@@ -82,34 +82,35 @@ class Tooltip extends PureComponent {
         >
           {children}
         </button>
-        <span
-          className={classNames(
-            styles[contentClassName],
-            styles[`${contentClassName}--${align}`],
-            styles[`${contentClassName}--${valign}`],
-            !active && visuallyHiddenClassName,
-            { 'is-hidden': !hasContent }
-          )}
-          {...active && {
-            tabIndex: 0,
-            onBlur: this.hideTooltip
-          }}
-          ref={span => {
-            this.content = span
-          }}
-        >
-          {heading && (
-            <span className={styles[`${baseClassName}__heading`]}>
-              {heading}
-            </span>
-          )}
-          {text && (
-            <span
-              className={styles[`${baseClassName}__text`]}
-              dangerouslySetInnerHTML={{ __html: text }}
-            />
-          )}
-        </span>
+        {hasContent && (
+          <span
+            className={classNames(
+              styles[contentClassName],
+              styles[`${contentClassName}--${align}`],
+              styles[`${contentClassName}--${valign}`],
+              !active && visuallyHiddenClassName
+            )}
+            {...active && {
+              tabIndex: 0,
+              onBlur: this.hideTooltip
+            }}
+            ref={span => {
+              this.content = span
+            }}
+          >
+            {heading && (
+              <span className={styles[`${baseClassName}__heading`]}>
+                {heading}
+              </span>
+            )}
+            {text && (
+              <span
+                className={styles[`${baseClassName}__text`]}
+                dangerouslySetInnerHTML={{ __html: text }}
+              />
+            )}
+          </span>
+        )}
       </span>
     )
   }

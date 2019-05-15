@@ -13,7 +13,8 @@ describe('Component: Card', function() {
     const wrapper = shallow(<Card>Children</Card>)
 
     expect(wrapper.prop('className')).toEqual('card')
-    expect(wrapper.text()).toEqual('Children')
+    expect(wrapper.prop('center')).toEqual(undefined)
+    expect(wrapper.prop('children')).toEqual('Children')
   })
 
   test('should output the expected markup when `className` prop passed', function() {
@@ -31,6 +32,7 @@ describe('Component: Card', function() {
   test('should output the expected markup when `center` prop passed', function() {
     const wrapper = shallow(<Card center>Children</Card>)
 
-    expect(wrapper.prop('className')).toEqual('card text-center')
+    expect(wrapper.prop('className')).toEqual('card')
+    expect(wrapper.prop('center')).toEqual(true)
   })
 })

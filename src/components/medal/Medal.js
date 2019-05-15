@@ -153,7 +153,6 @@ class MedalList extends PureComponent {
       size,
       align,
       valign,
-      center,
       enableHover,
       tooltipActive
     } = this.props
@@ -181,13 +180,7 @@ class MedalList extends PureComponent {
             borderless
           />
         )}
-        <List
-          inline
-          className={classNames(
-            styles[`${baseClassName}-list`],
-            center && 'text-center'
-          )}
-        >
+        <List inline className={styles[`${baseClassName}-list`]}>
           {medals.map((medal, i) => (
             <li key={i}>
               <Medal
@@ -219,7 +212,6 @@ MedalList.propTypes = {
   size: PropTypes.oneOf(['x-small', 'small']),
   align: PropTypes.oneOf(['left', 'right', 'center']),
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
-  center: PropTypes.bool,
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool
 }

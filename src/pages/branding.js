@@ -3,6 +3,7 @@ import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
+import TextAlign from '../components/text-align/TextAlign'
 import Swatch from '../components/swatch/Swatch'
 import Prose from '../components/prose/Prose'
 import List from '../components/list/List'
@@ -52,15 +53,15 @@ function BrandingPage() {
                   </div>
                 )}
                 <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
-                  <div className="text-center">
+                  <TextAlign center>
                     <img
                       src={`/images/branding/${logo.value}.${extensions[0]}`}
                       alt=""
                     />
-                  </div>
+                  </TextAlign>
                 </div>
                 <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
-                  <Prose className="text-center-mobile">
+                  <Prose>
                     <h3>{logo.name}</h3>
                     <List inline commaSeparated>
                       {extensions.map((extension, index) => {

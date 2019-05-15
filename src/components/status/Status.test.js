@@ -12,9 +12,7 @@ describe('Component: Status', function() {
   test('should output the expected markup when `active` prop passed', function() {
     const wrapper = shallow(<Status active />)
 
-    expect(wrapper.prop('className')).toEqual(
-      'status content-center content-gutter'
-    )
+    expect(wrapper.prop('className')).toEqual('status')
     expect(wrapper.find('Notification').prop('state')).toEqual('error')
   })
 })

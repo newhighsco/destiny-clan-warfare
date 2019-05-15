@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from '@reach/router'
 import { LogoIcon } from '../logo/Logo'
+import ContentContainer from '../content-container/ContentContainer'
 import List from '../list/List'
 import Credit from '../credit/Credit'
 import styles from './Footer.styl'
@@ -23,7 +24,7 @@ const Footer = class extends PureComponent {
         >
           <LogoIcon size="small" />
         </a>
-        <div className="content-center content-gutter">
+        <ContentContainer gutter>
           <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
             <div className="grid__item tablet-one-half">
               <List inline className={styles[`${baseClassName}__list`]}>
@@ -50,7 +51,7 @@ const Footer = class extends PureComponent {
               <Credit />
             </div>
           </div>
-        </div>
+        </ContentContainer>
       </footer>
     )
   }

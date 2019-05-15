@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
 import { Link } from '@reach/router'
 import { OutboundLink } from 'react-ga-donottrack'
+import ContentContainer from '../content-container/ContentContainer'
 import { LogoLockup } from '../logo/Logo'
 import List from '../list/List'
 import Icon from '../icon/Icon'
@@ -35,11 +35,9 @@ const Header = class extends PureComponent {
   render() {
     return (
       <header className={styles[baseClassName]} role="banner">
-        <div
-          className={classNames(
-            styles[`${baseClassName}__container`],
-            'content-center content-gutter'
-          )}
+        <ContentContainer
+          gutter
+          className={styles[`${baseClassName}__container`]}
         >
           <div className="grid">
             <div className="grid__item one-half">
@@ -78,7 +76,7 @@ const Header = class extends PureComponent {
               </div>
             )}
           </div>
-        </div>
+        </ContentContainer>
       </header>
     )
   }

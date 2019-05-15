@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import ContentContainer from '../content-container/ContentContainer'
 import Notification from '../notification/Notification'
 import styles from './Status.styl'
 
@@ -49,13 +49,11 @@ class Status extends PureComponent {
     if (!active) return null
 
     return (
-      <div
-        className={classNames(styles.status, 'content-center content-gutter')}
-      >
+      <ContentContainer gutter className={styles.status}>
         <Notification state="error">
           The Bungie API is currently offline for maintenance.
         </Notification>
-      </div>
+      </ContentContainer>
     )
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import List from './List'
 
-describe('Component: Header', function() {
+describe('Component: List', function() {
   test('should output the expected markup with no props', function() {
     const wrapper = shallow(<List />)
 

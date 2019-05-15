@@ -52,7 +52,7 @@ describe('Component: TagList', function() {
   test('should output the expected markup when `tags` prop passed', function() {
     const wrapper = shallow(<TagList tags={tags} />)
 
-    expect(wrapper.prop('className')).toEqual('list--inline tag-list')
+    expect(wrapper.prop('className')).toEqual('tag-list')
     expect(wrapper.find('Tag').length).toEqual(2)
     expect(
       wrapper

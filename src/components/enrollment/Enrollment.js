@@ -4,6 +4,7 @@ import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
+import List from '../list/List'
 import { Button, ButtonGroup } from '../button/Button'
 import Notification from '../notification/Notification'
 import ClanTag from '../clan-tag/ClanTag'
@@ -193,12 +194,7 @@ class Enrollment extends Component {
           </Button>
         </ButtonGroup>
         {groups.length > 0 && (
-          <ul
-            className={classNames(
-              'list--unstyled',
-              styles[`${baseClassName}__clans`]
-            )}
-          >
+          <List unstyled className={styles[`${baseClassName}__clans`]}>
             {groups.map(({ groupId, name, clanInfo }, i) => {
               const existing = ids.indexOf(groupId) !== -1
               const Group = () => (
@@ -231,7 +227,7 @@ class Enrollment extends Component {
                 </li>
               )
             })}
-          </ul>
+          </List>
         )}
         {(!open || active) && <br />}
       </form>

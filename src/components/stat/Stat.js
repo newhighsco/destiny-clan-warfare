@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import { Lockup } from '../lockup/Lockup'
+import List from '../list/List'
 import styles from './Stat.styl'
 
 const sentenceCase = require('sentence-case')
@@ -99,12 +100,7 @@ class StatList extends PureComponent {
             />
           </Tooltip>
         )}
-        <ul
-          className={classNames(
-            'list--inline',
-            styles[`${baseClassName}-list`]
-          )}
-        >
+        <List inline className={styles[`${baseClassName}-list`]}>
           {columns.map((column, i) => {
             var prefix
 
@@ -154,7 +150,7 @@ class StatList extends PureComponent {
               </li>
             )
           })}
-        </ul>
+        </List>
       </Fragment>
     )
   }

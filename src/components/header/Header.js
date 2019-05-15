@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { Link } from '@reach/router'
 import { OutboundLink } from 'react-ga-donottrack'
 import { LogoLockup } from '../logo/Logo'
+import List from '../list/List'
 import Icon from '../icon/Icon'
 import PatreonSvg from '../../images/icons/patreon.svg'
 import PayPalSvg from '../../images/icons/paypal.svg'
@@ -51,12 +52,7 @@ const Header = class extends PureComponent {
             </div>
             {links.length && (
               <div className="grid__item one-half">
-                <ul
-                  className={classNames(
-                    'list--inline',
-                    styles[`${baseClassName}__list`]
-                  )}
-                >
+                <List inline className={styles[`${baseClassName}__list`]}>
                   {links.map((link, i) => {
                     return (
                       <li key={i} className={styles[`${baseClassName}__item`]}>
@@ -78,7 +74,7 @@ const Header = class extends PureComponent {
                       </li>
                     )
                   })}
-                </ul>
+                </List>
               </div>
             )}
           </div>

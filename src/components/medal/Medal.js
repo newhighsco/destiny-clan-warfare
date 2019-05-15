@@ -6,6 +6,7 @@ import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import { Lockup } from '../lockup/Lockup'
+import List from '../list/List'
 import foregrounds from './foregrounds'
 import HighlightSvg from './highlight.svg'
 import styles from './Medal.styl'
@@ -180,9 +181,9 @@ class MedalList extends PureComponent {
             borderless
           />
         )}
-        <ul
+        <List
+          inline
           className={classNames(
-            'list--inline',
             styles[`${baseClassName}-list`],
             center && 'text-center'
           )}
@@ -199,7 +200,7 @@ class MedalList extends PureComponent {
               />
             </li>
           ))}
-        </ul>
+        </List>
       </Fragment>
     )
   }

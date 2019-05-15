@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
+import List from '../list/List'
 import icons from './icons'
 import styles from './Modifier.styl'
 
@@ -131,9 +132,7 @@ class ModifierList extends PureComponent {
     if (!modifiers || modifiers.length < 1) return null
 
     return (
-      <ul
-        className={classNames('list--inline', styles[`${baseClassName}-list`])}
-      >
+      <List inline className={styles[`${baseClassName}-list`]}>
         {modifiers.map((modifier, i) => (
           <li key={i}>
             <Modifier
@@ -146,7 +145,7 @@ class ModifierList extends PureComponent {
             />
           </li>
         ))}
-      </ul>
+      </List>
     )
   }
 }

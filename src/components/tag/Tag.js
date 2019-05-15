@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import List from '../list/List'
 import styles from './Tag.styl'
 
 const baseClassName = 'tag'
@@ -52,19 +53,16 @@ class TagList extends PureComponent {
     if (allowed.length < 1) return null
 
     return (
-      <ul
-        className={classNames(
-          'list--inline',
-          styles[`${baseClassName}-list`],
-          className
-        )}
+      <List
+        inline
+        className={classNames(styles[`${baseClassName}-list`], className)}
       >
         {allowed.map((tag, i) => (
           <li key={i}>
             <Tag {...tag} />
           </li>
         ))}
-      </ul>
+      </List>
     )
   }
 }

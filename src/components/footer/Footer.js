@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
 import { Link } from '@reach/router'
 import { LogoIcon } from '../logo/Logo'
+import List from '../list/List'
 import Credit from '../credit/Credit'
 import styles from './Footer.styl'
 
@@ -26,9 +26,7 @@ const Footer = class extends PureComponent {
         <div className="content-center content-gutter">
           <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
             <div className="grid__item tablet-one-half">
-              <ul
-                className={classNames('list--inline', `${baseClassName}__list`)}
-              >
+              <List inline className={styles[`${baseClassName}__list`]}>
                 {links.map((link, i) => {
                   return (
                     <li key={i} className={styles[`${baseClassName}__item`]}>
@@ -46,7 +44,7 @@ const Footer = class extends PureComponent {
                     &copy;{date.getFullYear()}
                   </span>
                 </li>
-              </ul>
+              </List>
             </div>
             <div className="grid__item tablet-one-half">
               <Credit />

@@ -5,6 +5,7 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Swatch from '../components/swatch/Swatch'
 import Prose from '../components/prose/Prose'
+import List from '../components/list/List'
 
 const constants = require('../utils/constants')
 const meta = {
@@ -61,7 +62,7 @@ function BrandingPage() {
                 <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
                   <Prose className="text-center-mobile">
                     <h3>{logo.name}</h3>
-                    <ul className="list--inline list--comma">
+                    <List inline commaSeparated>
                       {extensions.map((extension, index) => {
                         return (
                           <li key={index}>
@@ -77,7 +78,7 @@ function BrandingPage() {
                           </li>
                         )
                       })}
-                    </ul>
+                    </List>
                   </Prose>
                 </div>
               </Fragment>

@@ -5,7 +5,7 @@ import ClanTag from './ClanTag'
 
 const requiredProps = () => ({ children: 'AVA' })
 
-describe('Component: ClanTag', function() {
+describe('Component: Clan tag', function() {
   test('should output the expected markup with default props', function() {
     const wrapper = shallow(<ClanTag {...requiredProps()} />)
 

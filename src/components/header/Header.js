@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from '@reach/router'
 import { OutboundLink } from 'react-ga-donottrack'
 import ContentContainer from '../content-container/ContentContainer'
+import { Grid, GridItem } from '../grid/Grid'
 import { LogoLockup } from '../logo/Logo'
 import List from '../list/List'
 import Icon from '../icon/Icon'
@@ -39,17 +40,17 @@ const Header = class extends PureComponent {
           gutter
           className={styles[`${baseClassName}__container`]}
         >
-          <div className="grid">
-            <div className="grid__item one-half">
+          <Grid>
+            <GridItem sizes={['one-half']}>
               <Link className={styles[`${baseClassName}__logo-link`]} to="/">
                 <LogoLockup
                   size="small"
                   className={styles[`${baseClassName}__logo-lockup`]}
                 />
               </Link>
-            </div>
+            </GridItem>
             {links.length && (
-              <div className="grid__item one-half">
+              <GridItem sizes={['one-half']}>
                 <List inline className={styles[`${baseClassName}__list`]}>
                   {links.map((link, i) => {
                     return (
@@ -73,9 +74,9 @@ const Header = class extends PureComponent {
                     )
                   })}
                 </List>
-              </div>
+              </GridItem>
             )}
-          </div>
+          </Grid>
         </ContentContainer>
       </header>
     )

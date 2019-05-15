@@ -2,6 +2,7 @@ import React from 'react'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
+import { Grid, GridItem } from '../components/grid/Grid'
 import { Button } from '../components/button/Button'
 import Prose from '../components/prose/Prose'
 import Avatar from '../components/avatar/Avatar'
@@ -20,8 +21,8 @@ function SupportUsPage() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Support us" />
-      <div className="grid grid--flex grid--stacked">
-        <div className="grid__item tablet-landscape-one-half">
+      <Grid flex stacked>
+        <GridItem sizes={['tablet-landscape-one-half']}>
           <Card center>
             <Avatar cutout>
               <PatreonSvg />
@@ -48,8 +49,8 @@ function SupportUsPage() {
               Visit Patreon
             </Button>
           </Card>
-        </div>
-        <div className="grid__item tablet-landscape-one-half">
+        </GridItem>
+        <GridItem sizes={['tablet-landscape-one-half']}>
           <Card center>
             <Avatar cutout>
               <PayPalSvg />
@@ -78,8 +79,8 @@ function SupportUsPage() {
               Visit PayPal
             </Button>
           </Card>
-        </div>
-      </div>
+        </GridItem>
+      </Grid>
     </PageContainer>
   )
 }

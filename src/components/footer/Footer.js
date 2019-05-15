@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from '@reach/router'
 import { LogoIcon } from '../logo/Logo'
 import ContentContainer from '../content-container/ContentContainer'
+import { Grid, GridItem } from '../grid/Grid'
 import List from '../list/List'
 import Credit from '../credit/Credit'
 import styles from './Footer.styl'
@@ -25,8 +26,8 @@ const Footer = class extends PureComponent {
           <LogoIcon size="small" />
         </a>
         <ContentContainer gutter>
-          <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
-            <div className="grid__item tablet-one-half">
+          <Grid reverse middled gutter="quadruple">
+            <GridItem sizes={['tablet-one-half']}>
               <List inline className={styles[`${baseClassName}__list`]}>
                 {links.map((link, i) => {
                   return (
@@ -46,11 +47,11 @@ const Footer = class extends PureComponent {
                   </span>
                 </li>
               </List>
-            </div>
-            <div className="grid__item tablet-one-half">
+            </GridItem>
+            <GridItem sizes={['tablet-one-half']}>
               <Credit />
-            </div>
-          </div>
+            </GridItem>
+          </Grid>
         </ContentContainer>
       </footer>
     )

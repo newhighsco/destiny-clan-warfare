@@ -1,5 +1,11 @@
 .avatar
   background $color--nero
+  width rem(75)
+  height rem(75)
+
+  +width-min($mq--tablet)
+    width rem(96)
+    height rem(96)
 
 .avatar__layer
   display block
@@ -9,14 +15,20 @@
   & + &
     margin-top -100%
 
-.avatar--cutout
-  margin spacing(-3) auto 0
-  width rem(75)
-  height rem(75)
+.avatar--small
+  height rem(48)
+  width rem(48)
 
   +width-min($mq--tablet)
-    width rem(96)
-    height rem(96)
+    height rem(60)
+    width rem(60)
+
+  +width-min($mq--desktop)
+    height rem(75)
+    width rem(75)
+
+.avatar--cutout
+  margin spacing(-3) auto 0
 
 .avatar--inline
   background none

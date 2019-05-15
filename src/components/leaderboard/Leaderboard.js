@@ -269,6 +269,7 @@ class Leaderboard extends PureComponent {
                           <div className={styles[`${baseClassName}__header`]}>
                             {item.avatar && (
                               <Avatar
+                                size="small"
                                 id={item.id || index}
                                 className={styles[`${baseClassName}__icon`]}
                                 {...item.avatar}

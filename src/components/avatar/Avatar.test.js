@@ -22,6 +22,12 @@ describe('Component: Avatar', function() {
     )
   })
 
+  test('should output the expected markup when `size` prop passed', function() {
+    const wrapper = shallow(<Avatar size="small" />)
+
+    expect(wrapper.prop('className')).toEqual('avatar avatar--small')
+  })
+
   test('should output the expected markup when `cutout` prop passed', function() {
     const wrapper = shallow(<Avatar cutout />)
 

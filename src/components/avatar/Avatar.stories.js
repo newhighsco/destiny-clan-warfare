@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react'
 import Avatar from './Avatar'
 import PatreonSvg from '../../images/icons/patreon.svg'
 
-storiesOf('Avatar', module)
-  .addDecorator(story => <div style={{ width: 96 }}>{story()}</div>)
+storiesOf('Components|Avatar', module)
+  .addParameters({ jest: 'Avatar' })
   .add('Default', () => <Avatar />)
   .add('Member', () => <Avatar icon="cc18.jpg" />)
   .add('Clan', () => (

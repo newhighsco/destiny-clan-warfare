@@ -5,9 +5,11 @@ import styles from './Notification.styl'
 
 const baseClassName = 'notification'
 
-class Notification extends PureComponent {
+const Notification = class extends PureComponent {
   render() {
     const { children, state, id, html } = this.props
+
+    if (!children && !html) return null
 
     return (
       <div

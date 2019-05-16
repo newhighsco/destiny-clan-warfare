@@ -7,7 +7,7 @@ const meta = {
   description: 'Please be patient, this page is loading'
 }
 
-class Loading extends PureComponent {
+const Loading = class extends PureComponent {
   render() {
     return (
       <HoldingPage meta={meta} showBackground={false}>

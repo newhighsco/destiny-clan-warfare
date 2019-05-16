@@ -1,17 +1,17 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 import Advert from '../advert/Advert'
 import Status from '../status/Status'
+import ContentContainer from '../content-container/ContentContainer'
 import Meta from '../meta/Meta'
 import Landmark from '../landmark/Landmark'
 import styles from './PageContainer.styl'
 
 const baseClassName = 'page-container'
 
-class PageContainer extends PureComponent {
+const PageContainer = class extends PureComponent {
   render() {
     const { children, meta } = this.props
 
@@ -22,15 +22,13 @@ class PageContainer extends PureComponent {
         <Header />
         <Status />
         <main id="content" className={styles[baseClassName]} role="main">
-          <div
-            className={classNames(
-              styles[`${baseClassName}__inner`],
-              'content-center content-gutter'
-            )}
+          <ContentContainer
+            gutter
+            className={styles[`${baseClassName}__inner`]}
           >
             {children}
             <Advert />
-          </div>
+          </ContentContainer>
         </main>
         <Footer />
       </Fragment>

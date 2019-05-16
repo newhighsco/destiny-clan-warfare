@@ -9,7 +9,7 @@ const svgs = require.context('./logos', false, /\.svg$/)
 
 const baseClassName = 'sponsor'
 
-class Sponsor extends PureComponent {
+const Sponsor = class extends PureComponent {
   render() {
     const { name } = this.props
 

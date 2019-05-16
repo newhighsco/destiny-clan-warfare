@@ -146,16 +146,6 @@
 .leaderboard__icon
   display inline-block
   vertical-align middle
-  height rem(48)
-  width rem(48)
-
-  +width-min($mq--tablet)
-    height rem(60)
-    width rem(60)
-
-  +width-min($mq--desktop)
-    height rem(75)
-    width rem(75)
 
 .leaderboard__link
   display inline-block
@@ -177,7 +167,7 @@
     padding-left spacing(0.75)
     margin-right spacing(-0.25)
 
-    .medal
+    div[data-key]
       padding spacing(0.25)
 
 .leaderboard__name
@@ -290,7 +280,7 @@
     text-align left
     width 33.333%
 
-  .medal
+  div[data-key]
     margin 0 spacing(0.5)
 
   +width-min($mq--tablet--landscape)
@@ -313,21 +303,6 @@
     max-height none
     padding spacing(0.5)
     width 65%
-
-.leaderboard__external
-  display inline-block
-  fill currentColor
-  margin-left spacing(0.25)
-  vertical-align bottom
-  width rem(20)
-  height rem(20)
-
-  &:first-child
-    margin-left 0
-
-  a[href]:hover &
-    fill $color--terracotta
-    transform scale(1.25)
 
 .leaderboard--active
   .leaderboard__wrapper
@@ -401,7 +376,7 @@
     li
       width auto
 
-    .medal
+    div[data-key]
       margin spacing(0.5)
 
   .leaderboard__stat--game

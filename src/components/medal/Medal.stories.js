@@ -17,7 +17,7 @@ const medals = [
   { name: 'Z Nonexistent', tier: 1, count: 1 }
 ]
 
-class Loader extends PureComponent {
+const Loader = class extends PureComponent {
   constructor(props) {
     super(props)
 

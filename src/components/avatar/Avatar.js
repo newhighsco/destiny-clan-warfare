@@ -56,12 +56,14 @@ const Avatar = class extends PureComponent {
       className,
       id,
       children,
+      size,
       cutout,
       outline
     } = this.props
     const classes = classNames(
       styles[baseClassName],
       children && styles[`${baseClassName}--inline`],
+      size && styles[`${baseClassName}--${size}`],
       cutout && styles[`${baseClassName}--cutout`],
       outline && styles[`${baseClassName}--outline`],
       className
@@ -100,6 +102,7 @@ Avatar.propTypes = {
   background: PropTypes.object,
   className: PropTypes.string,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  size: PropTypes.oneOf(['small']),
   cutout: PropTypes.bool,
   outline: PropTypes.bool,
   children: PropTypes.node

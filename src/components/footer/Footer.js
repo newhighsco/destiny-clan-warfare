@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
-import { Link } from '@reach/router'
 import { LogoIcon } from '../logo/Logo'
+import ContentContainer from '../content-container/ContentContainer'
+import { Grid, GridItem } from '../grid/Grid'
+import List from '../list/List'
+import SmartLink from '../smart-link/SmartLink'
 import Credit from '../credit/Credit'
 import styles from './Footer.styl'
 
@@ -21,23 +23,24 @@ const Footer = class extends PureComponent {
           title="Back to top"
           className={styles[`${baseClassName}__logo`]}
         >
-          <LogoIcon size="small" />
+          <LogoIcon
+            size="small"
+            className={styles[`${baseClassName}__logo-icon`]}
+          />
         </a>
-        <div className="content-center content-gutter">
-          <div className="grid grid--reverse grid--middled grid--gutter-quadruple">
-            <div className="grid__item tablet-one-half">
-              <ul
-                className={classNames('list--inline', `${baseClassName}__list`)}
-              >
+        <ContentContainer gutter>
+          <Grid reverse middled gutter="quadruple">
+            <GridItem sizes={['tablet-one-half']}>
+              <List inline className={styles[`${baseClassName}__list`]}>
                 {links.map((link, i) => {
                   return (
                     <li key={i} className={styles[`${baseClassName}__item`]}>
-                      <Link
+                      <SmartLink
                         className={styles[`${baseClassName}__link`]}
-                        to={link.href}
+                        href={link.href}
                       >
                         {link.text}
-                      </Link>
+                      </SmartLink>
                     </li>
                   )
                 })}
@@ -46,13 +49,13 @@ const Footer = class extends PureComponent {
                     &copy;{date.getFullYear()}
                   </span>
                 </li>
-              </ul>
-            </div>
-            <div className="grid__item tablet-one-half">
+              </List>
+            </GridItem>
+            <GridItem sizes={['tablet-one-half']}>
               <Credit />
-            </div>
-          </div>
-        </div>
+            </GridItem>
+          </Grid>
+        </ContentContainer>
       </footer>
     )
   }

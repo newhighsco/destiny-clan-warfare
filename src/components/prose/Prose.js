@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './Prose.styl'
 
-class Prose extends PureComponent {
+const Prose = class extends PureComponent {
   render() {
     const { children, className, html } = this.props
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Advert.styl'
 
-class Advert extends PureComponent {
+const Advert = class extends PureComponent {
   constructor(props) {
     super(props)
 

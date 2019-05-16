@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { VisuallyHidden } from './VisuallyHidden'
 
-describe('Component: VisuallyHidden', function() {
+describe('Component: Visually hidden', function() {
   test('should output the expected markup with no props', function() {
     const wrapper = shallow(<VisuallyHidden />)
 

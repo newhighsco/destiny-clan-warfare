@@ -5,7 +5,7 @@
   z-index 3
 
 .enrollment__field
-  margin-top spacing(1)
+  margin spacing(1) 0
   position relative
   z-index 2
 
@@ -50,9 +50,9 @@
     color $color--black !important // @stylint ignore
 
     &[data-id]:after
-    .clan-tag:after
-    .clan-tag:before
+    .enrollment__clan-tag:after
+    .enrollment__clan-tag:before
       color $color--terracotta
 
-  .clan-tag
-    pointer-events none
+.enrollment__clan-tag
+  pointer-events none

@@ -6,6 +6,7 @@ import Icon from '../icon/Icon'
 import Tooltip from '../tooltip/Tooltip'
 import ResponsiveMedia from '../responsive-media/ResponsiveMedia'
 import { Lockup } from '../lockup/Lockup'
+import List from '../list/List'
 import foregrounds from './foregrounds'
 import HighlightSvg from './highlight.svg'
 import styles from './Medal.styl'
@@ -18,7 +19,7 @@ const foregroundSvgs = require.context('./foregrounds', true, /\.svg$/)
 
 const baseClassName = 'medal'
 
-class Medal extends PureComponent {
+const Medal = class extends PureComponent {
   render() {
     const {
       type,
@@ -88,7 +89,7 @@ class Medal extends PureComponent {
                 <ForegroundSvg
                   className={classNames(
                     styles[`${baseClassName}__layer`],
-                    'foreground'
+                    styles['foreground']
                   )}
                 />
               )}
@@ -111,10 +112,10 @@ class Medal extends PureComponent {
               className={classNames(
                 styles[`${baseClassName}__count`],
                 ForegroundSvg && styles[`${baseClassName}__count--small`],
-                'foreground'
+                styles['foreground']
               )}
             >
-              <span className="background">{count}</span>
+              <span className={styles['background']}>{count}</span>
             </div>
           )}
         </div>
@@ -144,7 +145,7 @@ Medal.propTypes = {
   tooltipActive: PropTypes.bool
 }
 
-class MedalList extends PureComponent {
+const MedalList = class extends PureComponent {
   render() {
     const {
       kicker,
@@ -152,7 +153,6 @@ class MedalList extends PureComponent {
       size,
       align,
       valign,
-      center,
       enableHover,
       tooltipActive
     } = this.props
@@ -180,13 +180,7 @@ class MedalList extends PureComponent {
             borderless
           />
         )}
-        <ul
-          className={classNames(
-            'list--inline',
-            styles[`${baseClassName}-list`],
-            center && 'text-center'
-          )}
-        >
+        <List inline className={styles[`${baseClassName}-list`]}>
           {medals.map((medal, i) => (
             <li key={i}>
               <Medal
@@ -199,7 +193,7 @@ class MedalList extends PureComponent {
               />
             </li>
           ))}
-        </ul>
+        </List>
       </Fragment>
     )
   }
@@ -218,7 +212,6 @@ MedalList.propTypes = {
   size: PropTypes.oneOf(['x-small', 'small']),
   align: PropTypes.oneOf(['left', 'right', 'center']),
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
-  center: PropTypes.bool,
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool
 }

@@ -11,7 +11,7 @@ const moment = require('moment')
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
 
-class EventContainer extends PureComponent {
+const EventContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

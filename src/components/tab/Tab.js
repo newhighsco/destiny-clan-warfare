@@ -11,7 +11,7 @@ const navigationClassName = `${baseClassName}-navigation`
 const contentClassName = `${baseClassName}-content`
 const buttonClassName = `${baseClassName}-button`
 
-class Tab extends PureComponent {
+const Tab = class extends PureComponent {
   render() {
     const { children } = this.props
 
@@ -23,7 +23,7 @@ Tab.propTypes = {
   children: PropTypes.node
 }
 
-class TabContainer extends PureComponent {
+const TabContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -101,7 +101,7 @@ class TabContainer extends PureComponent {
         className={classNames(
           styles[containerClassName],
           cutout && styles[`${containerClassName}--cutout`],
-          active && 'is-active'
+          active && styles['is-active']
         )}
       >
         {React.Children.map(children, (child, i) => {
@@ -118,7 +118,7 @@ class TabContainer extends PureComponent {
                   href={href}
                   className={classNames(
                     styles[buttonClassName],
-                    isActive && 'is-active'
+                    isActive && styles['is-active']
                   )}
                   state={state}
                   data-index={i}
@@ -131,7 +131,7 @@ class TabContainer extends PureComponent {
               <div
                 className={classNames(
                   styles[contentClassName],
-                  isActive && 'is-active'
+                  isActive && styles['is-active']
                 )}
               >
                 {child}

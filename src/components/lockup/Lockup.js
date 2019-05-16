@@ -1,15 +1,12 @@
 import React, { Fragment, PureComponent } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import SmartLink from '../smart-link/SmartLink'
 import styles from './Lockup.styl'
-
-const absoluteUrl = require('../../utils/absolute-url')
 
 const baseClassName = 'lockup'
 
-class Lockup extends PureComponent {
+const Lockup = class extends PureComponent {
   render() {
     const {
       heading,
@@ -99,12 +96,22 @@ Lockup.propTypes = {
   children: PropTypes.node
 }
 
-class LockupElement extends PureComponent {
+const LockupElement = class extends PureComponent {
   render() {
-    const { children, element, elementName, href, ...rest } = this.props
+    const {
+      children,
+      element,
+      elementName,
+      href,
+      className,
+      ...rest
+    } = this.props
     const Element = element
     const commonAttributes = {
-      className: styles[`${baseClassName}__${elementName}`],
+      className: classNames(
+        styles[`${baseClassName}__${elementName}`],
+        className
+      ),
       ...rest
     }
 
@@ -113,18 +120,10 @@ class LockupElement extends PureComponent {
         return <Element {...commonAttributes}>{children}</Element>
       }
 
-      if (absoluteUrl(href)) {
-        return (
-          <OutboundLink to={href} eventLabel={href} {...commonAttributes}>
-            <Element>{children}</Element>
-          </OutboundLink>
-        )
-      }
-
       return (
-        <Link to={href} {...commonAttributes}>
+        <SmartLink href={href} {...commonAttributes}>
           <Element>{children}</Element>
-        </Link>
+        </SmartLink>
       )
     }
 
@@ -140,6 +139,7 @@ LockupElement.propTypes = {
   children: PropTypes.node,
   element: PropTypes.string,
   elementName: PropTypes.string,
+  className: PropTypes.string,
   href: PropTypes.string
 }
 

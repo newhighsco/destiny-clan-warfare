@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
+import ContentContainer from '../content-container/ContentContainer'
+import { Grid, GridItem } from '../grid/Grid'
 import { LogoLockup } from '../logo/Logo'
+import List from '../list/List'
+import SmartLink from '../smart-link/SmartLink'
 import Icon from '../icon/Icon'
 import PatreonSvg from '../../images/icons/patreon.svg'
 import PayPalSvg from '../../images/icons/paypal.svg'
@@ -34,39 +35,33 @@ const Header = class extends PureComponent {
   render() {
     return (
       <header className={styles[baseClassName]} role="banner">
-        <div
-          className={classNames(
-            styles[`${baseClassName}__container`],
-            'content-center content-gutter'
-          )}
+        <ContentContainer
+          gutter
+          className={styles[`${baseClassName}__container`]}
         >
-          <div className="grid">
-            <div className="grid__item one-half">
-              <Link className={styles[`${baseClassName}__logo-link`]} to="/">
+          <Grid>
+            <GridItem sizes={['one-half']}>
+              <SmartLink
+                className={styles[`${baseClassName}__logo-link`]}
+                href="/"
+              >
                 <LogoLockup
                   size="small"
                   className={styles[`${baseClassName}__logo-lockup`]}
                 />
-              </Link>
-            </div>
+              </SmartLink>
+            </GridItem>
             {links.length && (
-              <div className="grid__item one-half">
-                <ul
-                  className={classNames(
-                    'list--inline',
-                    styles[`${baseClassName}__list`]
-                  )}
-                >
+              <GridItem sizes={['one-half']}>
+                <List inline className={styles[`${baseClassName}__list`]}>
                   {links.map((link, i) => {
                     return (
                       <li key={i} className={styles[`${baseClassName}__item`]}>
-                        <OutboundLink
+                        <SmartLink
                           className={styles[`${baseClassName}__link`]}
-                          to={link.href}
-                          eventLabel={link.href}
+                          href={link.href}
                           title={link.text}
                           target="_blank"
-                          rel="noopener noreferrer"
                         >
                           <Icon
                             className={styles[`${baseClassName}__icon`]}
@@ -74,15 +69,15 @@ const Header = class extends PureComponent {
                           >
                             <link.icon />
                           </Icon>
-                        </OutboundLink>
+                        </SmartLink>
                       </li>
                     )
                   })}
-                </ul>
-              </div>
+                </List>
+              </GridItem>
             )}
-          </div>
-        </div>
+          </Grid>
+        </ContentContainer>
       </header>
     )
   }

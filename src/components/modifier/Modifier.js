@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
+import List from '../list/List'
 import icons from './icons'
 import styles from './Modifier.styl'
 
@@ -11,7 +12,7 @@ const constants = require('../../utils/constants')
 const svgs = require.context('./icons', false, /\.svg$/)
 const baseClassName = 'modifier'
 
-class Modifier extends PureComponent {
+const Modifier = class extends PureComponent {
   render() {
     const {
       name,
@@ -117,7 +118,7 @@ Modifier.propTypes = {
   tooltipActive: PropTypes.bool
 }
 
-class ModifierList extends PureComponent {
+const ModifierList = class extends PureComponent {
   render() {
     const {
       modifiers,
@@ -131,9 +132,7 @@ class ModifierList extends PureComponent {
     if (!modifiers || modifiers.length < 1) return null
 
     return (
-      <ul
-        className={classNames('list--inline', styles[`${baseClassName}-list`])}
-      >
+      <List inline className={styles[`${baseClassName}-list`]}>
         {modifiers.map((modifier, i) => (
           <li key={i}>
             <Modifier
@@ -146,7 +145,7 @@ class ModifierList extends PureComponent {
             />
           </li>
         ))}
-      </ul>
+      </List>
     )
   }
 }

@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import List from '../list/List'
 import styles from './Swatch.styl'
 
 const baseClassName = 'swatch'
 
-class Swatch extends PureComponent {
+const Swatch = class extends PureComponent {
   render() {
     const { name, value } = this.props
 
@@ -17,14 +17,9 @@ class Swatch extends PureComponent {
           {name && (
             <h2 className={styles[`${baseClassName}__title`]}>{name}</h2>
           )}
-          <ul
-            className={classNames(
-              'list--unstyled',
-              styles[`${baseClassName}__list`]
-            )}
-          >
+          <List unstyled className={styles[`${baseClassName}__list`]}>
             <li className={styles[`${baseClassName}__value`]}>{value}</li>
-          </ul>
+          </List>
         </div>
       </div>
     )

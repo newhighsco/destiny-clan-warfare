@@ -5,7 +5,7 @@ import styles from './ResponsiveMedia.styl'
 
 const ratioRegex = /^\d+:\d+$/
 
-class ResponsiveMedia extends PureComponent {
+const ResponsiveMedia = class extends PureComponent {
   render() {
     const { children, ratio, className } = this.props
 

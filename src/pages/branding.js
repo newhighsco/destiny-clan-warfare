@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react'
-import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
+import { Grid, GridItem } from '../components/grid/Grid'
+import TextAlign from '../components/text-align/TextAlign'
 import Swatch from '../components/swatch/Swatch'
 import Prose from '../components/prose/Prose'
+import List from '../components/list/List'
+import SmartLink from '../components/smart-link/SmartLink'
 
 const constants = require('../utils/constants')
 const meta = {
@@ -41,62 +44,74 @@ function BrandingPage() {
       <Lockup primary center element="h1" kicker="Branding" />
       <Card>
         <Lockup center element="h2" heading="Logos" />
-        <div className="grid--bottomed grid grid--reverse grid--stacked">
+        <Grid reverse bottomed stacked>
           {logos.map((logo, index) => {
             return (
               <Fragment key={index}>
                 {index > 0 && (
-                  <div className="grid__item">
+                  <GridItem>
                     <hr />
-                  </div>
+                  </GridItem>
                 )}
-                <div className="grid__item tablet-two-thirds tablet-landscape-three-quarters">
-                  <div className="text-center">
+                <GridItem
+                  sizes={[
+                    'tablet-two-thirds',
+                    'tablet-landscape-three-quarters'
+                  ]}
+                >
+                  <TextAlign center>
                     <img
                       src={`/images/branding/${logo.value}.${extensions[0]}`}
                       alt=""
                     />
-                  </div>
-                </div>
-                <div className="grid__item tablet-one-third tablet-landscape-one-quarter">
-                  <Prose className="text-center-mobile">
+                  </TextAlign>
+                </GridItem>
+                <GridItem
+                  sizes={['tablet-one-third', 'tablet-landscape-one-quarter']}
+                >
+                  <Prose>
                     <h3>{logo.name}</h3>
-                    <ul className="list--inline list--comma">
+                    <List inline commaSeparated>
                       {extensions.map((extension, index) => {
                         return (
                           <li key={index}>
-                            <OutboundLink
-                              to={`/images/branding/${logo.value}.${extension}`}
+                            <SmartLink
+                              href={`/images/branding/${
+                                logo.value
+                              }.${extension}`}
                               eventLabel="branding"
                               title={`Download ${extension.toUpperCase()}`}
                               target="_blank"
-                              rel="noopener noreferrer"
                             >
                               {extension.toUpperCase()}
-                            </OutboundLink>
+                            </SmartLink>
                           </li>
                         )
                       })}
-                    </ul>
+                    </List>
                   </Prose>
-                </div>
+                </GridItem>
               </Fragment>
             )
           })}
-        </div>
+        </Grid>
       </Card>
       <Card center>
         <Lockup center element="h2" heading="Colours" />
-        <div className="grid grid--stacked">
+        <Grid stacked>
           {colours.map((colour, index) => (
-            <div
+            <GridItem
               key={index}
-              className="grid__item one-half tablet-one-third tablet-landscape-one-quarter"
+              sizes={[
+                'one-half',
+                'tablet-one-third',
+                'tablet-landscape-one-quarter'
+              ]}
             >
               <Swatch {...colour} />
-            </div>
+            </GridItem>
           ))}
-        </div>
+        </Grid>
       </Card>
     </PageContainer>
   )

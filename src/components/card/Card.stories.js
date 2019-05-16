@@ -12,7 +12,8 @@ const content = (
   </p>
 )
 
-storiesOf('Card', module)
+storiesOf('Components|Card', module)
+  .addParameters({ jest: 'Card' })
   .add('Left aligned text', () => <Card>{content}</Card>)
   .add('Center aligned text', () => <Card center>{content}</Card>)
   .add('With cut-out sibling', () => (

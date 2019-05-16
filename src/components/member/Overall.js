@@ -29,7 +29,7 @@ const columns = [
   'score'
 ]
 
-class MemberOverall extends PureComponent {
+const MemberOverall = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -95,7 +95,7 @@ class MemberOverall extends PureComponent {
       <PageContainer meta={meta}>
         <Card cutout={hasLeaderboard} center>
           <Avatar cutout outline {...member.avatar} />
-          <TagList tags={member.tags} className="card__tags" />
+          <TagList tags={member.tags} cutout stacked size="large" />
           <Lockup
             primary
             center
@@ -111,7 +111,6 @@ class MemberOverall extends PureComponent {
                 member.id
               }`}
               target="_blank"
-              rel="noopener noreferrer"
             >
               View profile
             </Button>

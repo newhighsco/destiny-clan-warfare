@@ -18,7 +18,7 @@ const possessive = require('../../utils/grammar').possessive
 
 const columns = ['kills', 'assists', 'deaths', 'bonuses', 'score']
 
-class MemberCurrent extends PureComponent {
+const MemberCurrent = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -102,7 +102,7 @@ class MemberCurrent extends PureComponent {
         <Fragment>
           <Card cutout={hasLeaderboard} center>
             <Avatar cutout outline {...member.avatar} />
-            <TagList tags={member.tags} className="card__tags" />
+            <TagList tags={member.tags} cutout stacked size="large" />
             <Lockup
               center
               reverse

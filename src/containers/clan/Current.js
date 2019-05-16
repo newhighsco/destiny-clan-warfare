@@ -28,7 +28,7 @@ const leaderboardColumns = [
   'score'
 ]
 
-class ClanCurrentContainer extends PureComponent {
+const ClanCurrentContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

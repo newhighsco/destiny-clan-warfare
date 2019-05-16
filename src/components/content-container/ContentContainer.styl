@@ -1,0 +1,14 @@
+.content-container
+  clearfix()
+  margin-left auto
+  margin-right auto
+  width 100%
+  max-width $mq--resize-max
+
+.content-container--gutter
+  padding-left spacing(0.5)
+  padding-right spacing(0.5)
+
+  +width-min($mq--tablet)
+    padding-left spacing(1)
+    padding-right spacing(1)

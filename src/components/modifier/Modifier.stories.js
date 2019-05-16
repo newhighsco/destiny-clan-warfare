@@ -26,7 +26,7 @@ const modifiers = [
   { name: 'No Modifier', bonus: 0, scoringModifier: true }
 ]
 
-class Loader extends PureComponent {
+const Loader = class extends PureComponent {
   constructor(props) {
     super(props)
 

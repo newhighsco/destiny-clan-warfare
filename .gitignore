@@ -26,4 +26,5 @@ public/storybook/
 tmp/
 .env*
 .eslintcache
+.jestcache.json
 yarn-error.log

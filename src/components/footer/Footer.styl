@@ -48,6 +48,7 @@
       border-color $color--terracotta
 
 .footer__logo
+  color $color--silver
   margin 0 auto
   position absolute
   left 0
@@ -57,11 +58,9 @@
   transition margin 0.25s
   width rem(70)
 
-  .logo-icon
-    fill $color--silver
-
   &:hover
+    color $color--white
     margin-top spacing(-0.5)
 
-    .logo-icon
-      fill $color--white
+.footer__logo-icon
+  fill currentColor

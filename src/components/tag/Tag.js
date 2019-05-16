@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import List from '../list/List'
 import styles from './Tag.styl'
 
 const baseClassName = 'tag'
@@ -15,9 +16,9 @@ const isAllowed = name => {
   return allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
 }
 
-class Tag extends PureComponent {
+const Tag = class extends PureComponent {
   render() {
-    const { name } = this.props
+    const { name, size } = this.props
 
     if (!name) return null
 
@@ -29,7 +30,8 @@ class Tag extends PureComponent {
       <div
         className={classNames(
           styles[baseClassName],
-          allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`]
+          allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`],
+          size && styles[`${baseClassName}--${size}`]
         )}
         data-label={allowed.shortName || allowed.name}
       />
@@ -38,12 +40,13 @@ class Tag extends PureComponent {
 }
 
 Tag.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  size: PropTypes.oneOf(['large'])
 }
 
-class TagList extends PureComponent {
+const TagList = class extends PureComponent {
   render() {
-    const { tags, className } = this.props
+    const { tags, cutout, stacked, size, className } = this.props
 
     if (!tags || tags.length < 1) return null
 
@@ -51,27 +54,34 @@ class TagList extends PureComponent {
 
     if (allowed.length < 1) return null
 
+    const listClassName = `${baseClassName}-list`
+
     return (
-      <ul
+      <List
+        inline
         className={classNames(
-          'list--inline',
-          styles[`${baseClassName}-list`],
+          styles[listClassName],
+          cutout && styles[`${listClassName}--cutout`],
+          stacked && styles[`${listClassName}--stacked`],
           className
         )}
       >
         {allowed.map((tag, i) => (
           <li key={i}>
-            <Tag {...tag} />
+            <Tag {...tag} size={size} />
           </li>
         ))}
-      </ul>
+      </List>
     )
   }
 }
 
 TagList.propTypes = {
   tags: PropTypes.array,
-  className: PropTypes.string
+  className: PropTypes.string,
+  cutout: PropTypes.bool,
+  stacked: PropTypes.bool,
+  size: PropTypes.oneOf(['large'])
 }
 
 export { allowedTags, Tag, TagList }

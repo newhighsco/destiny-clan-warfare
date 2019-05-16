@@ -29,7 +29,7 @@ const columns = [
   'score'
 ]
 
-class ClanOverallContainer extends PureComponent {
+const ClanOverallContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -120,7 +120,6 @@ class ClanOverallContainer extends PureComponent {
             <Button
               href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`}
               target="_blank"
-              rel="noopener noreferrer"
             >
               Join clan
             </Button>

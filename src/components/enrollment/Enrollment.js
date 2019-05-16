@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
+import List from '../list/List'
+import SmartLink from '../smart-link/SmartLink'
 import { Button, ButtonGroup } from '../button/Button'
+import TextControl from '../text-control/TextControl'
 import Notification from '../notification/Notification'
 import ClanTag from '../clan-tag/ClanTag'
+import TextButton from '../text-button/TextButton'
 import { visuallyHiddenClassName } from '../visually-hidden/VisuallyHidden'
 import styles from './Enrollment.styl'
 
@@ -22,7 +24,7 @@ const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
 const bungieProxy = bungieHelper.proxy()
 
-class Enrollment extends Component {
+const Enrollment = class extends Component {
   constructor(props) {
     super(props)
 
@@ -152,38 +154,25 @@ class Enrollment extends Component {
         <label htmlFor="control--clan">
           <Lockup borderless center kicker={kicker} />
         </label>
-        <div className="field" id="field--clan">
-          <div
-            className={classNames(
-              'field__answer',
-              styles[`${baseClassName}__field`]
-            )}
-          >
-            {open ? (
-              <input
-                type="search"
-                className="control control--text"
-                name={name}
-                id="control--clan"
-                placeholder={placeholder}
-                onChange={this.handleSearch}
-                required
-                autoComplete="off"
-              />
-            ) : (
-              <Notification>
-                <OutboundLink
-                  to={constants.social.twitter}
-                  eventLabel={constants.social.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Follow us on Twitter
-                </OutboundLink>{' '}
-                to find out first when it reopens.
-              </Notification>
-            )}
-          </div>
+        <div className={classNames(styles[`${baseClassName}__field`])}>
+          {open ? (
+            <TextControl
+              type="search"
+              name={name}
+              id="control--clan"
+              placeholder={placeholder}
+              onChange={this.handleSearch}
+              required
+              autoComplete="off"
+            />
+          ) : (
+            <Notification>
+              <SmartLink href={constants.social.twitter} target="_blank">
+                Follow us on Twitter
+              </SmartLink>{' '}
+              to find out first when it reopens.
+            </Notification>
+          )}
         </div>
         <ButtonGroup
           className={!open || active ? visuallyHiddenClassName : null}
@@ -193,45 +182,40 @@ class Enrollment extends Component {
           </Button>
         </ButtonGroup>
         {groups.length > 0 && (
-          <ul
-            className={classNames(
-              'list--unstyled',
-              styles[`${baseClassName}__clans`]
-            )}
-          >
+          <List unstyled className={styles[`${baseClassName}__clans`]}>
             {groups.map(({ groupId, name, clanInfo }, i) => {
               const existing = ids.indexOf(groupId) !== -1
               const Group = () => (
                 <Fragment>
-                  {name} <ClanTag>{clanInfo.clanCallsign}</ClanTag>
+                  {name}{' '}
+                  <ClanTag className={styles[`${baseClassName}__clan-tag`]}>
+                    {clanInfo.clanCallsign}
+                  </ClanTag>
                 </Fragment>
               )
 
               return (
                 <li key={i}>
                   {existing ? (
-                    <Link
-                      to={urlBuilder.clanUrl(groupId)}
+                    <TextButton
+                      href={urlBuilder.clanUrl(groupId)}
                       className={styles[`${baseClassName}__clan`]}
                     >
                       <Group />
-                    </Link>
+                    </TextButton>
                   ) : (
-                    <button
+                    <TextButton
                       onClick={this.handleEnroll}
                       data-id={groupId}
-                      className={classNames(
-                        'text-button',
-                        styles[`${baseClassName}__clan`]
-                      )}
+                      className={styles[`${baseClassName}__clan`]}
                     >
                       <Group />
-                    </button>
+                    </TextButton>
                   )}
                 </li>
               )
             })}
-          </ul>
+          </List>
         )}
         {(!open || active) && <br />}
       </form>

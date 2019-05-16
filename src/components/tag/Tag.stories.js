@@ -5,4 +5,6 @@ import { allowedTags, TagList } from './Tag'
 
 const tags = [...allowedTags, { name: 'Invalid' }].sort(firstBy('tier'))
 
-storiesOf('Tag', module).add('List', () => <TagList tags={tags} />)
+storiesOf('Components|Tag', module)
+  .addParameters({ jest: 'Tag' })
+  .add('List', () => <TagList tags={tags} />)

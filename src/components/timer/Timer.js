@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Stat } from '../stat/Stat'
+import SmartLink from '../smart-link/SmartLink'
 import styles from './Timer.styl'
 
 const moment = require('moment')
@@ -29,7 +29,7 @@ const countdown = milliseconds => {
   return countdown.join(' ')
 }
 
-class Timer extends PureComponent {
+const Timer = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -211,26 +211,22 @@ class Timer extends PureComponent {
                 />
               </div>
             )}
-            <OutboundLink
-              to={startHref}
-              eventLabel={startHref}
+            <SmartLink
+              href={startHref}
               target="_blank"
-              rel="noopener noreferrer"
               className={styles[`${baseClassName}__date`]}
               data-prefix={constants.relativeDate.currentStart}
             >
               {startDate}
-            </OutboundLink>
-            <OutboundLink
-              to={endHref}
-              eventLabel={endHref}
+            </SmartLink>
+            <SmartLink
+              href={endHref}
               target="_blank"
-              rel="noopener noreferrer"
               className={styles[`${baseClassName}__date`]}
               data-prefix={constants.relativeDate.currentEnd}
             >
               {endDate}
-            </OutboundLink>
+            </SmartLink>
           </div>
         )}
       </div>

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import TextAlign from '../text-align/TextAlign'
 import styles from './Card.styl'
 
 const baseClassName = 'card'
@@ -14,11 +15,14 @@ const Card = class extends PureComponent {
     const classes = classNames(
       styles[baseClassName],
       cutout && styles[`${baseClassName}--cutout`],
-      center && 'text-center',
       className
     )
 
-    return <div className={classes}>{children}</div>
+    return (
+      <TextAlign center={center} className={classes}>
+        {children}
+      </TextAlign>
+    )
   }
 }
 

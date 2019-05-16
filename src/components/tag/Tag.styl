@@ -24,6 +24,18 @@
   background $color--lemon
   color $color--black
 
+.tag--large
+  font-size rem(14)
+  padding spacing(0.25) spacing(0.5)
+
 .tag-list
   .tag
     margin spacing(0.25)
+
+.tag-list--cutout
+  margin-top -1.25em
+  position relative
+
+.tag-list--stacked
+  > li
+    display block !important // @stylint ignore

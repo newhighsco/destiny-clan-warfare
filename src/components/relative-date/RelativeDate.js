@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const moment = require('moment')
 const constants = require('../../utils/constants')
 
-class RelativeDate extends PureComponent {
+const RelativeDate = class extends PureComponent {
   constructor(props) {
     super(props)
 

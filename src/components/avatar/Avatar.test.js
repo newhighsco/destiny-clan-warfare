@@ -2,6 +2,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Avatar from './Avatar'
 
+const urlBuilder = require('../../utils/url-builder')
+
 const color = '#5be7de'
 const background = {
   color: '#5be7de',
@@ -17,9 +19,7 @@ describe('Component: Avatar', function() {
     const wrapper = shallow(<Avatar />)
 
     expect(wrapper.prop('className')).toEqual('avatar')
-    expect(wrapper.find('img').prop('src')).toEqual(
-      'https://www.bungie.net/img/profile/avatars/default_avatar.gif'
-    )
+    expect(wrapper.find('img').prop('src')).toEqual(urlBuilder.avatarIconUrl())
   })
 
   test('should output the expected markup when `size` prop passed', function() {
@@ -86,7 +86,7 @@ describe('Component: Avatar', function() {
       '0.357 0 0 0 0 0 0.906 0 0 0 0 0 0.871 0 0 0 0 0 1 0'
     )
     expect(layerWrapper.find('image').prop('xlinkHref')).toEqual(
-      'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_53468fe0799b424f995509d03be6bfa8.png'
+      urlBuilder.avatarLayerUrl(background.icon)
     )
   })
 
@@ -117,7 +117,7 @@ describe('Component: Avatar', function() {
       '0.941 0 0 0 0 0 0.941 0 0 0 0 0 0.941 0 0 0 0 0 1 0'
     )
     expect(layerWrapper.find('image').prop('xlinkHref')).toEqual(
-      'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_c0ecd484a44c9aa934f9fb67e1ac1108.png'
+      urlBuilder.avatarLayerUrl(foreground.icon)
     )
   })
 })

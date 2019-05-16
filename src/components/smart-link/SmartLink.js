@@ -18,8 +18,6 @@ const SmartLink = class extends PureComponent {
       ...rest
     } = this.props
 
-    if (!children) return null
-
     if (!href) {
       return (
         <button className={className} type={type} {...rest}>

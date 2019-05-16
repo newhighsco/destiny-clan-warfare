@@ -23,7 +23,10 @@ const Footer = class extends PureComponent {
           title="Back to top"
           className={styles[`${baseClassName}__logo`]}
         >
-          <LogoIcon size="small" />
+          <LogoIcon
+            size="small"
+            className={styles[`${baseClassName}__logo-icon`]}
+          />
         </a>
         <ContentContainer gutter>
           <Grid reverse middled gutter="quadruple">

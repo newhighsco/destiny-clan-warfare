@@ -95,6 +95,9 @@ const StatList = class extends PureComponent {
           >
             <Lockup
               kicker={kicker}
+              kickerAttributes={{
+                className: styles[`${baseClassName}-kicker`]
+              }}
               borderless
               className={tooltip && styles[`${baseClassName}-tooltip`]}
             />

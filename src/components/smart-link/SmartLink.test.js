@@ -8,7 +8,7 @@ describe('Component: Button', function() {
   test('should output the expected markup with no props', function() {
     const wrapper = shallow(<SmartLink />)
 
-    expect(wrapper.type()).toEqual(null)
+    expect(wrapper.type()).toEqual('button')
   })
 
   test('should output the expected markup when `children` prop passed', function() {

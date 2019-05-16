@@ -18,7 +18,7 @@ const isAllowed = name => {
 
 const Tag = class extends PureComponent {
   render() {
-    const { name } = this.props
+    const { name, size } = this.props
 
     if (!name) return null
 
@@ -30,7 +30,8 @@ const Tag = class extends PureComponent {
       <div
         className={classNames(
           styles[baseClassName],
-          allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`]
+          allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`],
+          size && styles[`${baseClassName}--${size}`]
         )}
         data-label={allowed.shortName || allowed.name}
       />
@@ -39,12 +40,13 @@ const Tag = class extends PureComponent {
 }
 
 Tag.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  size: PropTypes.oneOf(['large'])
 }
 
 const TagList = class extends PureComponent {
   render() {
-    const { tags, className } = this.props
+    const { tags, cutout, stacked, size, className } = this.props
 
     if (!tags || tags.length < 1) return null
 
@@ -52,14 +54,21 @@ const TagList = class extends PureComponent {
 
     if (allowed.length < 1) return null
 
+    const listClassName = `${baseClassName}-list`
+
     return (
       <List
         inline
-        className={classNames(styles[`${baseClassName}-list`], className)}
+        className={classNames(
+          styles[listClassName],
+          cutout && styles[`${listClassName}--cutout`],
+          stacked && styles[`${listClassName}--stacked`],
+          className
+        )}
       >
         {allowed.map((tag, i) => (
           <li key={i}>
-            <Tag {...tag} />
+            <Tag {...tag} size={size} />
           </li>
         ))}
       </List>
@@ -69,7 +78,10 @@ const TagList = class extends PureComponent {
 
 TagList.propTypes = {
   tags: PropTypes.array,
-  className: PropTypes.string
+  className: PropTypes.string,
+  cutout: PropTypes.bool,
+  stacked: PropTypes.bool,
+  size: PropTypes.oneOf(['large'])
 }
 
 export { allowedTags, Tag, TagList }

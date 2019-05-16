@@ -64,6 +64,7 @@ const LogoLockup = class extends PureComponent {
         )}
         heading={heading}
         kicker={kicker}
+        kickerAttributes={{ className: styles[`${lockupClassName}__kicker`] }}
         element="span"
       />
     )

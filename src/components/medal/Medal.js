@@ -89,7 +89,7 @@ const Medal = class extends PureComponent {
                 <ForegroundSvg
                   className={classNames(
                     styles[`${baseClassName}__layer`],
-                    'foreground'
+                    styles['foreground']
                   )}
                 />
               )}
@@ -112,10 +112,10 @@ const Medal = class extends PureComponent {
               className={classNames(
                 styles[`${baseClassName}__count`],
                 ForegroundSvg && styles[`${baseClassName}__count--small`],
-                'foreground'
+                styles['foreground']
               )}
             >
-              <span className="background">{count}</span>
+              <span className={styles['background']}>{count}</span>
             </div>
           )}
         </div>

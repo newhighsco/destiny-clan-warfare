@@ -32,6 +32,12 @@ describe('Component: Tag', function() {
     expect(wrapper.prop('className')).toEqual('tag tag--tier-1')
     expect(wrapper.prop('data-label')).toEqual('Creator')
   })
+
+  test('should output the expected markup when `size` prop passed', function() {
+    var wrapper = shallow(<Tag {...tags[1]} size="large" />)
+
+    expect(wrapper.prop('className')).toEqual('tag tag--tier-3 tag--large')
+  })
 })
 
 describe('Component: TagList', function() {
@@ -60,5 +66,17 @@ describe('Component: TagList', function() {
         .first()
         .prop('name')
     ).toEqual(tags[1].name)
+  })
+
+  test('should output the expected markup when `cutout` prop passed', function() {
+    const wrapper = shallow(<TagList tags={tags} cutout />)
+
+    expect(wrapper.prop('className')).toEqual('tag-list tag-list--cutout')
+  })
+
+  test('should output the expected markup when `stacked` prop passed', function() {
+    const wrapper = shallow(<TagList tags={tags} stacked />)
+
+    expect(wrapper.prop('className')).toEqual('tag-list tag-list--stacked')
   })
 })

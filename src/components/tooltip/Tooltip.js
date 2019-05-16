@@ -62,8 +62,8 @@ const Tooltip = class extends PureComponent {
     return (
       <span
         className={classNames(
-          baseClassName,
-          { 'is-active': active },
+          styles[baseClassName],
+          active && styles['is-active'],
           className
         )}
       >

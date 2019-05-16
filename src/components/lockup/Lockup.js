@@ -98,10 +98,20 @@ Lockup.propTypes = {
 
 const LockupElement = class extends PureComponent {
   render() {
-    const { children, element, elementName, href, ...rest } = this.props
+    const {
+      children,
+      element,
+      elementName,
+      href,
+      className,
+      ...rest
+    } = this.props
     const Element = element
     const commonAttributes = {
-      className: styles[`${baseClassName}__${elementName}`],
+      className: classNames(
+        styles[`${baseClassName}__${elementName}`],
+        className
+      ),
       ...rest
     }
 
@@ -110,9 +120,9 @@ const LockupElement = class extends PureComponent {
         return <Element {...commonAttributes}>{children}</Element>
       }
 
-        return (
+      return (
         <SmartLink href={href} {...commonAttributes}>
-            <Element>{children}</Element>
+          <Element>{children}</Element>
         </SmartLink>
       )
     }
@@ -129,6 +139,7 @@ LockupElement.propTypes = {
   children: PropTypes.node,
   element: PropTypes.string,
   elementName: PropTypes.string,
+  className: PropTypes.string,
   href: PropTypes.string
 }
 

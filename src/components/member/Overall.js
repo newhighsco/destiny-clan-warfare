@@ -29,7 +29,7 @@ const columns = [
   'score'
 ]
 
-class MemberOverall extends PureComponent {
+const MemberOverall = class extends PureComponent {
   constructor(props) {
     super(props)
 

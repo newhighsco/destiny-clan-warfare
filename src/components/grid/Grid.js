@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import './Grid.styl'
 
-class Grid extends PureComponent {
+const Grid = class extends PureComponent {
   render() {
     const {
       children,
@@ -52,7 +52,7 @@ Grid.propTypes = {
   className: PropTypes.string
 }
 
-class GridItem extends PureComponent {
+const GridItem = class extends PureComponent {
   render() {
     const { children, sizes, className } = this.props
 

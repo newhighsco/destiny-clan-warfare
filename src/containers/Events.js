@@ -12,7 +12,7 @@ const meta = {
   description: `All upcoming, current, and, past ${constants.meta.name} events`
 }
 
-class EventsContainer extends PureComponent {
+const EventsContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

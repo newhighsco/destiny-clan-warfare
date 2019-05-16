@@ -12,7 +12,7 @@ const svgs = require.context('./icons', false, /\.svg$/)
 
 const baseClassName = 'platform'
 
-class Platform extends PureComponent {
+const Platform = class extends PureComponent {
   render() {
     const { platform, size } = this.props
     const { name } = allowedPlatforms.find(({ id }) => id === platform.id)
@@ -45,7 +45,7 @@ Platform.propTypes = {
   size: PropTypes.oneOf(['small'])
 }
 
-class PlatformList extends PureComponent {
+const PlatformList = class extends PureComponent {
   render() {
     const { size, className } = this.props
     var { platforms } = this.props

@@ -29,7 +29,7 @@ const columns = [
   'score'
 ]
 
-class ClanOverallContainer extends PureComponent {
+const ClanOverallContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

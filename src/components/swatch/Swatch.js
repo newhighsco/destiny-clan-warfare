@@ -5,7 +5,7 @@ import styles from './Swatch.styl'
 
 const baseClassName = 'swatch'
 
-class Swatch extends PureComponent {
+const Swatch = class extends PureComponent {
   render() {
     const { name, value } = this.props
 

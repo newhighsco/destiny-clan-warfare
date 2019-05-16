@@ -9,7 +9,7 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-class NotFound extends PureComponent {
+const NotFound = class extends PureComponent {
   render() {
     return (
       <HoldingPage meta={meta}>

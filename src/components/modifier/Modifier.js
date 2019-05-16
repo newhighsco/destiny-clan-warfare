@@ -12,7 +12,7 @@ const constants = require('../../utils/constants')
 const svgs = require.context('./icons', false, /\.svg$/)
 const baseClassName = 'modifier'
 
-class Modifier extends PureComponent {
+const Modifier = class extends PureComponent {
   render() {
     const {
       name,
@@ -118,7 +118,7 @@ Modifier.propTypes = {
   tooltipActive: PropTypes.bool
 }
 
-class ModifierList extends PureComponent {
+const ModifierList = class extends PureComponent {
   render() {
     const {
       modifiers,

@@ -5,7 +5,7 @@ import styles from './SiteContainer.styl'
 
 const baseClassName = 'site-container'
 
-class SiteContainer extends PureComponent {
+const SiteContainer = class extends PureComponent {
   render() {
     const { children, element, ...rest } = this.props
 

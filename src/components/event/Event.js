@@ -18,7 +18,7 @@ import Landmark from '../../components/landmark/Landmark'
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 
-class Event extends PureComponent {
+const Event = class extends PureComponent {
   constructor(props) {
     super(props)
 

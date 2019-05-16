@@ -9,7 +9,7 @@ const bungieHelper = require('../../utils/bungie-helper')
 
 const bungieProxy = bungieHelper.proxy()
 
-class Status extends PureComponent {
+const Status = class extends PureComponent {
   constructor(props) {
     super(props)
 

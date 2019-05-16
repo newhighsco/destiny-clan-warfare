@@ -23,7 +23,7 @@ const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
 const bungieProxy = bungieHelper.proxy()
 
-class Enrollment extends Component {
+const Enrollment = class extends Component {
   constructor(props) {
     super(props)
 

@@ -31,7 +31,7 @@ const emptyCache = () =>
     fixedWidth: true
   })
 
-class LeaderboardName extends PureComponent {
+const LeaderboardName = class extends PureComponent {
   render() {
     const { name, updated, tags } = this.props
     var { startDate, endDate } = this.props

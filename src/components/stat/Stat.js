@@ -13,7 +13,7 @@ const sentence = require('../../utils/grammar').sentence
 
 const baseClassName = 'stat'
 
-class Stat extends PureComponent {
+const Stat = class extends PureComponent {
   render() {
     const { label, prefix, stat, size, className } = this.props
     var value = stat
@@ -79,7 +79,7 @@ Stat.propTypes = {
   className: PropTypes.string
 }
 
-class StatList extends PureComponent {
+const StatList = class extends PureComponent {
   render() {
     const { stats, columns, kicker, tooltip, top, size } = this.props
 

@@ -99,7 +99,7 @@ Lockup.propTypes = {
   children: PropTypes.node
 }
 
-class LockupElement extends PureComponent {
+const LockupElement = class extends PureComponent {
   render() {
     const { children, element, elementName, href, ...rest } = this.props
     const Element = element

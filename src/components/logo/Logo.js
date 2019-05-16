@@ -10,7 +10,7 @@ const baseClassName = 'logo'
 const iconClassName = `${baseClassName}-icon`
 const lockupClassName = `${baseClassName}-lockup`
 
-class Logo extends PureComponent {
+const Logo = class extends PureComponent {
   render() {
     const { kicker, heading, size, className } = this.props
 
@@ -30,7 +30,7 @@ Logo.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-class LogoIcon extends PureComponent {
+const LogoIcon = class extends PureComponent {
   render() {
     const { size, className } = this.props
 
@@ -51,7 +51,7 @@ LogoIcon.propTypes = {
   size: PropTypes.oneOf(sizes)
 }
 
-class LogoLockup extends PureComponent {
+const LogoLockup = class extends PureComponent {
   render() {
     const { kicker, heading, size, className } = this.props
 

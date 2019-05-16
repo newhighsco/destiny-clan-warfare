@@ -16,7 +16,7 @@ const isAllowed = name => {
   return allowedTags.find(tag => tag.name.toLowerCase() === name.toLowerCase())
 }
 
-class Tag extends PureComponent {
+const Tag = class extends PureComponent {
   render() {
     const { name } = this.props
 
@@ -42,7 +42,7 @@ Tag.propTypes = {
   name: PropTypes.string
 }
 
-class TagList extends PureComponent {
+const TagList = class extends PureComponent {
   render() {
     const { tags, className } = this.props
 

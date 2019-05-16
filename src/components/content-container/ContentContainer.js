@@ -5,7 +5,7 @@ import styles from './ContentContainer.styl'
 
 const baseClassName = 'content-container'
 
-class ContentContainer extends PureComponent {
+const ContentContainer = class extends PureComponent {
   render() {
     const { children, gutter, className } = this.props
 

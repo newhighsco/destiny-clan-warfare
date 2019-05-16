@@ -11,7 +11,7 @@ const navigationClassName = `${baseClassName}-navigation`
 const contentClassName = `${baseClassName}-content`
 const buttonClassName = `${baseClassName}-button`
 
-class Tab extends PureComponent {
+const Tab = class extends PureComponent {
   render() {
     const { children } = this.props
 
@@ -23,7 +23,7 @@ Tab.propTypes = {
   children: PropTypes.node
 }
 
-class TabContainer extends PureComponent {
+const TabContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

@@ -14,7 +14,7 @@ const meta = {
     'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 }
 
-class ClansContainer extends PureComponent {
+const ClansContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

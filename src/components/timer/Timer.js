@@ -29,7 +29,7 @@ const countdown = milliseconds => {
   return countdown.join(' ')
 }
 
-class Timer extends PureComponent {
+const Timer = class extends PureComponent {
   constructor(props) {
     super(props)
 

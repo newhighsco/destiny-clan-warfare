@@ -39,7 +39,7 @@ const setHash = tags => {
   }
 }
 
-class CustomLeaderboardContainer extends PureComponent {
+const CustomLeaderboardContainer = class extends PureComponent {
   constructor(props) {
     super(props)
 

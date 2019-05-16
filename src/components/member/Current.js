@@ -18,7 +18,7 @@ const possessive = require('../../utils/grammar').possessive
 
 const columns = ['kills', 'assists', 'deaths', 'bonuses', 'score']
 
-class MemberCurrent extends PureComponent {
+const MemberCurrent = class extends PureComponent {
   constructor(props) {
     super(props)
 

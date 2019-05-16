@@ -5,7 +5,7 @@ import styles from './List.styl'
 
 const baseClassName = 'list'
 
-class List extends PureComponent {
+const List = class extends PureComponent {
   render() {
     const {
       children,

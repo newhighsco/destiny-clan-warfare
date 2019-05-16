@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Head } from 'react-static'
 import PropTypes from 'prop-types'
 
-class Meta extends PureComponent {
+const Meta = class extends PureComponent {
   render() {
     const {
       children,

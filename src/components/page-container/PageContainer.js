@@ -11,7 +11,7 @@ import styles from './PageContainer.styl'
 
 const baseClassName = 'page-container'
 
-class PageContainer extends PureComponent {
+const PageContainer = class extends PureComponent {
   render() {
     const { children, meta } = this.props
 

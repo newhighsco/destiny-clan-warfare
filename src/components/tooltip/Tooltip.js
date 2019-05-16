@@ -6,7 +6,7 @@ import styles from './Tooltip.styl'
 
 const baseClassName = 'tooltip'
 
-class Tooltip extends PureComponent {
+const Tooltip = class extends PureComponent {
   constructor(props) {
     super(props)
 

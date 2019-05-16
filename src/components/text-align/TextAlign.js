@@ -6,7 +6,7 @@ import styles from './TextAlign.styl'
 
 const baseClassName = 'text'
 
-class TextAlign extends PureComponent {
+const TextAlign = class extends PureComponent {
   getAlignment() {
     const { center, justify, left, right } = this.props
 

@@ -19,7 +19,7 @@ const foregroundSvgs = require.context('./foregrounds', true, /\.svg$/)
 
 const baseClassName = 'medal'
 
-class Medal extends PureComponent {
+const Medal = class extends PureComponent {
   render() {
     const {
       type,
@@ -145,7 +145,7 @@ Medal.propTypes = {
   tooltipActive: PropTypes.bool
 }
 
-class MedalList extends PureComponent {
+const MedalList = class extends PureComponent {
   render() {
     const {
       kicker,

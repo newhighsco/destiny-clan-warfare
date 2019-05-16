@@ -4,7 +4,7 @@ import styles from './VisuallyHidden.styl'
 
 const baseClassName = 'visually-hidden'
 
-class VisuallyHidden extends PureComponent {
+const VisuallyHidden = class extends PureComponent {
   render() {
     const { children } = this.props
 

@@ -3,12 +3,15 @@ import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import { addDecorator, addParameters, configure } from '@storybook/react'
 import { withA11y } from '@storybook/addon-a11y'
+import { withTests } from '@storybook/addon-jest'
 import inPercy from '@percy-io/in-percy'
 import mockdate from 'mockdate'
 import theme from './theme'
 
 import '../src/stylus/index.styl'
 import './storybook.styl'
+
+import results from '../.jestcache.json'
 
 if (inPercy()) {
   mockdate.set('October 21, 2015 04:19:00')
@@ -35,6 +38,8 @@ addParameters({
 })
 
 addDecorator(withA11y)
+
+addDecorator(withTests({ results }))
 
 addDecorator(story => (
   <Router>

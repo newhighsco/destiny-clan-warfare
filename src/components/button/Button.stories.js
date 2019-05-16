@@ -6,7 +6,8 @@ const commonAttributes = {
   href: '#'
 }
 
-storiesOf('Button', module)
+storiesOf('Components|Button', module)
+  .addParameters({ jest: 'Button' })
   .add('Regular', () => <Button {...commonAttributes}>Regular button</Button>)
   .add('Small', () => (
     <Button size="small" {...commonAttributes}>

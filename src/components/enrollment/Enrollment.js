@@ -5,6 +5,7 @@ import { Lockup } from '../lockup/Lockup'
 import List from '../list/List'
 import SmartLink from '../smart-link/SmartLink'
 import { Button, ButtonGroup } from '../button/Button'
+import TextControl from '../text-control/TextControl'
 import Notification from '../notification/Notification'
 import ClanTag from '../clan-tag/ClanTag'
 import TextButton from '../text-button/TextButton'
@@ -155,9 +156,8 @@ const Enrollment = class extends Component {
         </label>
         <div className={classNames(styles[`${baseClassName}__field`])}>
           {open ? (
-            <input
+            <TextControl
               type="search"
-              className="control control--text"
               name={name}
               id="control--clan"
               placeholder={placeholder}
@@ -187,7 +187,10 @@ const Enrollment = class extends Component {
               const existing = ids.indexOf(groupId) !== -1
               const Group = () => (
                 <Fragment>
-                  {name} <ClanTag>{clanInfo.clanCallsign}</ClanTag>
+                  {name}{' '}
+                  <ClanTag className={styles[`${baseClassName}__clan-tag`]}>
+                    {clanInfo.clanCallsign}
+                  </ClanTag>
                 </Fragment>
               )
 

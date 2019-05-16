@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
-import { Link } from '@reach/router'
 import { LogoIcon } from '../logo/Logo'
 import ContentContainer from '../content-container/ContentContainer'
 import { Grid, GridItem } from '../grid/Grid'
 import List from '../list/List'
+import SmartLink from '../smart-link/SmartLink'
 import Credit from '../credit/Credit'
 import styles from './Footer.styl'
 
@@ -32,12 +32,12 @@ const Footer = class extends PureComponent {
                 {links.map((link, i) => {
                   return (
                     <li key={i} className={styles[`${baseClassName}__item`]}>
-                      <Link
+                      <SmartLink
                         className={styles[`${baseClassName}__link`]}
-                        to={link.href}
+                        href={link.href}
                       >
                         {link.text}
-                      </Link>
+                      </SmartLink>
                     </li>
                   )
                 })}

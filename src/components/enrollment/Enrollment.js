@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Lockup } from '../lockup/Lockup'
 import List from '../list/List'
+import SmartLink from '../smart-link/SmartLink'
 import { Button, ButtonGroup } from '../button/Button'
 import Notification from '../notification/Notification'
 import ClanTag from '../clan-tag/ClanTag'
+import TextButton from '../text-button/TextButton'
 import { visuallyHiddenClassName } from '../visually-hidden/VisuallyHidden'
 import styles from './Enrollment.styl'
 
@@ -167,14 +167,9 @@ const Enrollment = class extends Component {
             />
           ) : (
             <Notification>
-              <OutboundLink
-                to={constants.social.twitter}
-                eventLabel={constants.social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <SmartLink href={constants.social.twitter} target="_blank">
                 Follow us on Twitter
-              </OutboundLink>{' '}
+              </SmartLink>{' '}
               to find out first when it reopens.
             </Notification>
           )}
@@ -199,23 +194,20 @@ const Enrollment = class extends Component {
               return (
                 <li key={i}>
                   {existing ? (
-                    <Link
-                      to={urlBuilder.clanUrl(groupId)}
+                    <TextButton
+                      href={urlBuilder.clanUrl(groupId)}
                       className={styles[`${baseClassName}__clan`]}
                     >
                       <Group />
-                    </Link>
+                    </TextButton>
                   ) : (
-                    <button
+                    <TextButton
                       onClick={this.handleEnroll}
                       data-id={groupId}
-                      className={classNames(
-                        'text-button',
-                        styles[`${baseClassName}__clan`]
-                      )}
+                      className={styles[`${baseClassName}__clan`]}
                     >
                       <Group />
-                    </button>
+                    </TextButton>
                   )}
                 </li>
               )

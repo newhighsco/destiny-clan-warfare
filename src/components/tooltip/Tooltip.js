@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import TextButton from '../text-button/TextButton'
 import { visuallyHiddenClassName } from '../visually-hidden/VisuallyHidden'
 import styles from './Tooltip.styl'
 
@@ -66,10 +67,8 @@ const Tooltip = class extends PureComponent {
           className
         )}
       >
-        <button
-          type="button"
+        <TextButton
           className={classNames(
-            'text-button',
             styles[triggerClassName],
             hasContent && enableHover && styles[`${triggerClassName}--enabled`]
           )}
@@ -81,7 +80,7 @@ const Tooltip = class extends PureComponent {
           }}
         >
           {children}
-        </button>
+        </TextButton>
         {hasContent && (
           <span
             className={classNames(

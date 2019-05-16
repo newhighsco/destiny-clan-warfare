@@ -111,7 +111,6 @@ const MemberOverall = class extends PureComponent {
                 member.id
               }`}
               target="_blank"
-              rel="noopener noreferrer"
             >
               View profile
             </Button>

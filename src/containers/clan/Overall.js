@@ -120,7 +120,6 @@ const ClanOverallContainer = class extends PureComponent {
             <Button
               href={`${constants.bungie.baseUrl}en/ClanV2?groupid=${clan.id}`}
               target="_blank"
-              rel="noopener noreferrer"
             >
               Join clan
             </Button>

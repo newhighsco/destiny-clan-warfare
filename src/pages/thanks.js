@@ -1,11 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import { Button } from '../components/button/Button'
 import Prose from '../components/prose/Prose'
+import SmartLink from '../components/smart-link/SmartLink'
 
 const queryString = require('query-string')
 const constants = require('../utils/constants')
@@ -57,8 +56,8 @@ function ThanksPage() {
               </p>
               <p>
                 Why not take a look over our{' '}
-                <Link to="/faqs/">Frequently Asked Questions</Link> while you
-                wait.
+                <SmartLink href="/faqs/">Frequently Asked Questions</SmartLink>{' '}
+                while you wait.
               </p>
             </Prose>
             <Button href={urlBuilder.currentEventRootUrl}>
@@ -79,14 +78,9 @@ function ThanksPage() {
                 check back each week as we accept more clans.
               </p>
               <p>
-                <OutboundLink
-                  to={constants.social.twitter}
-                  eventLabel={constants.social.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <SmartLink href={constants.social.twitter} target="_blank">
                   Follow us on Twitter
-                </OutboundLink>{' '}
+                </SmartLink>{' '}
                 to find out first when it reopens.
               </p>
             </Prose>
@@ -107,14 +101,9 @@ function ThanksPage() {
               </p>
               <p>
                 If you thing this is a mistake you can{' '}
-                <OutboundLink
-                  to={constants.social.twitter}
-                  eventLabel={constants.social.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <SmartLink href={constants.social.twitter} target="_blank">
                   message us on Twitter
-                </OutboundLink>{' '}
+                </SmartLink>{' '}
                 to discuss the issue with us further.
               </p>
             </Prose>

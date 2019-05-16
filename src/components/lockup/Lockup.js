@@ -1,15 +1,12 @@
 import React, { Fragment, PureComponent } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import SmartLink from '../smart-link/SmartLink'
 import styles from './Lockup.styl'
-
-const absoluteUrl = require('../../utils/absolute-url')
 
 const baseClassName = 'lockup'
 
-class Lockup extends PureComponent {
+const Lockup = class extends PureComponent {
   render() {
     const {
       heading,
@@ -113,18 +110,10 @@ const LockupElement = class extends PureComponent {
         return <Element {...commonAttributes}>{children}</Element>
       }
 
-      if (absoluteUrl(href)) {
         return (
-          <OutboundLink to={href} eventLabel={href} {...commonAttributes}>
+        <SmartLink href={href} {...commonAttributes}>
             <Element>{children}</Element>
-          </OutboundLink>
-        )
-      }
-
-      return (
-        <Link to={href} {...commonAttributes}>
-          <Element>{children}</Element>
-        </Link>
+        </SmartLink>
       )
     }
 

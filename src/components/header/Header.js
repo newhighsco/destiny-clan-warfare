@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import ContentContainer from '../content-container/ContentContainer'
 import { Grid, GridItem } from '../grid/Grid'
 import { LogoLockup } from '../logo/Logo'
 import List from '../list/List'
+import SmartLink from '../smart-link/SmartLink'
 import Icon from '../icon/Icon'
 import PatreonSvg from '../../images/icons/patreon.svg'
 import PayPalSvg from '../../images/icons/paypal.svg'
@@ -42,12 +41,15 @@ const Header = class extends PureComponent {
         >
           <Grid>
             <GridItem sizes={['one-half']}>
-              <Link className={styles[`${baseClassName}__logo-link`]} to="/">
+              <SmartLink
+                className={styles[`${baseClassName}__logo-link`]}
+                href="/"
+              >
                 <LogoLockup
                   size="small"
                   className={styles[`${baseClassName}__logo-lockup`]}
                 />
-              </Link>
+              </SmartLink>
             </GridItem>
             {links.length && (
               <GridItem sizes={['one-half']}>
@@ -55,13 +57,11 @@ const Header = class extends PureComponent {
                   {links.map((link, i) => {
                     return (
                       <li key={i} className={styles[`${baseClassName}__item`]}>
-                        <OutboundLink
+                        <SmartLink
                           className={styles[`${baseClassName}__link`]}
-                          to={link.href}
-                          eventLabel={link.href}
+                          href={link.href}
                           title={link.text}
                           target="_blank"
-                          rel="noopener noreferrer"
                         >
                           <Icon
                             className={styles[`${baseClassName}__icon`]}
@@ -69,7 +69,7 @@ const Header = class extends PureComponent {
                           >
                             <link.icon />
                           </Icon>
-                        </OutboundLink>
+                        </SmartLink>
                       </li>
                     )
                   })}

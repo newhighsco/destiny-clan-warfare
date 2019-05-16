@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import { shallow } from 'enzyme'
 import { Button, ButtonGroup } from './Button'
 
@@ -14,9 +12,8 @@ describe('Component: Button', function() {
   test('should output the expected markup when `children` prop passed', function() {
     const wrapper = shallow(<Button>Children</Button>)
 
-    expect(wrapper.type()).toEqual('button')
     expect(wrapper.prop('className')).toEqual('button')
-    expect(wrapper.text()).toEqual('Children')
+    expect(wrapper.find('Icon').length).toEqual(0)
   })
 
   test('should output the expected markup when `size` prop passed', function() {
@@ -37,27 +34,9 @@ describe('Component: Button', function() {
     expect(wrapper.prop('className')).toEqual('button additional')
   })
 
-  test('should output the expected markup when internal `href` prop passed', function() {
-    const wrapper = shallow(<Button href="/test">Children</Button>)
+  test('should output the expected markup when `target` prop passed `_blank`', function() {
+    const wrapper = shallow(<Button target="_blank">Children</Button>)
 
-    expect(wrapper.type()).toEqual(Link)
-    expect(wrapper.prop('className')).toEqual('button')
-    expect(wrapper.prop('to')).toEqual('/test')
-    expect(wrapper.prop('target')).toEqual(undefined)
-    expect(wrapper.find('Icon').length).toEqual(0)
-  })
-
-  test('should output the expected markup when `target` prop passed', function() {
-    const wrapper = shallow(
-      <Button href="http://test.com" target="_blank">
-        Children
-      </Button>
-    )
-
-    expect(wrapper.type()).toEqual(OutboundLink)
-    expect(wrapper.prop('className')).toEqual('button')
-    expect(wrapper.prop('to')).toEqual('http://test.com')
-    expect(wrapper.prop('target')).toEqual('_blank')
     expect(wrapper.find('Icon').length).toEqual(1)
   })
 })

@@ -41,11 +41,7 @@ function SupportUsPage() {
                 everywhere your name appears on the site.
               </p>
             </Prose>
-            <Button
-              href={constants.social.patreon}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Button href={constants.social.patreon} target="_blank">
               Visit Patreon
             </Button>
           </Card>
@@ -71,11 +67,7 @@ function SupportUsPage() {
                 infrastructure and continued development of the site.
               </p>
             </Prose>
-            <Button
-              href={constants.social.paypal}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Button href={constants.social.paypal} target="_blank">
               Visit PayPal
             </Button>
           </Card>

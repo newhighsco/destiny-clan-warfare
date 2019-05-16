@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
-import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import SmartLink from '../smart-link/SmartLink'
 import styles from './ClanTag.styl'
 
 const baseClassName = 'clan-tag'
@@ -10,10 +10,10 @@ const ClanTag = class extends PureComponent {
   render() {
     const { children, className, href } = this.props
     const classes = classNames(styles[baseClassName], className)
-    const Element = href ? Link : 'span'
+    const Element = href ? SmartLink : 'span'
 
     return (
-      <Element to={href} className={classes}>
+      <Element href={href} className={classes}>
         {children}
       </Element>
     )

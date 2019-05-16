@@ -1,96 +1,52 @@
 import React, { PureComponent } from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import SmartLink from '../smart-link/SmartLink'
 import Icon from '../icon/Icon'
 import ExternalSvg from '../../images/icons/external.svg'
 import styles from './Button.styl'
-
-const absoluteUrl = require('../../utils/absolute-url')
 
 const baseClassName = 'button'
 
 const Button = class extends PureComponent {
   render() {
-    const {
-      children,
-      className,
-      href,
-      target,
-      type,
-      size,
-      solid,
-      state,
-      ...remainingProps
-    } = this.props
+    const { children, className, size, solid, target, ...rest } = this.props
 
     if (!children) return null
 
-    const commonAttributes = {
-      className: classNames(
-        styles[baseClassName],
-        size && styles[`${baseClassName}--${size}`],
-        solid && styles[`${baseClassName}--solid`],
-        className
-      )
-    }
-
-    if (!href) {
-      return (
-        <button {...remainingProps} {...commonAttributes} type={type}>
-          <span>{children}</span>
-        </button>
-      )
-    }
-
-    if (absoluteUrl(href)) {
-      return (
-        <OutboundLink
-          {...remainingProps}
-          {...commonAttributes}
-          type={null}
-          to={href}
-          eventLabel={href}
-          {...target && { target }}
-        >
-          <span>
-            {children}
-            {target === '_blank' && (
-              <Icon
-                className={styles[`${baseClassName}__external`]}
-                a11yText="View permalink"
-              >
-                <ExternalSvg />
-              </Icon>
-            )}
-          </span>
-        </OutboundLink>
-      )
-    }
-
     return (
-      <Link {...remainingProps} {...commonAttributes} to={href} state={state}>
-        <span>{children}</span>
-      </Link>
+      <SmartLink
+        className={classNames(
+          styles[baseClassName],
+          size && styles[`${baseClassName}--${size}`],
+          solid && styles[`${baseClassName}--solid`],
+          className
+        )}
+        target={target}
+        {...rest}
+      >
+        <span>
+          {children}
+          {target === '_blank' && (
+            <Icon
+              className={styles[`${baseClassName}__external`]}
+              a11yText="View permalink"
+            >
+              <ExternalSvg />
+            </Icon>
+          )}
+        </span>
+      </SmartLink>
     )
   }
-}
-
-Button.defaultProps = {
-  type: 'button',
-  state: {}
 }
 
 Button.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  href: PropTypes.string,
   target: PropTypes.string,
-  type: PropTypes.oneOf(['button', 'reset', 'submit']),
   size: PropTypes.oneOf(['small']),
-  solid: PropTypes.bool,
-  state: PropTypes.object
+  solid: PropTypes.bool
 }
 
 const ButtonGroup = class extends PureComponent {

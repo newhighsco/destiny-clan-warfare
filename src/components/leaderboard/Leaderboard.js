@@ -1,7 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import {
   CellMeasurer,
@@ -10,14 +8,13 @@ import {
 import List from 'react-virtualized/dist/commonjs/List'
 import classNames from 'classnames'
 import Avatar from '../avatar/Avatar'
-import Icon from '../icon/Icon'
 import { ModifierList } from '../modifier/Modifier'
 import { Medal, MedalList } from '../medal/Medal'
 import { TagList } from '../tag/Tag'
 import { PlatformList } from '../platform/Platform'
 import RelativeDate from '../relative-date/RelativeDate'
 import { Filter } from '../filter/Filter'
-import ExternalSvg from '../../images/icons/external.svg'
+import TextButton from '../text-button/TextButton'
 import styles from './Leaderboard.styl'
 
 const sentenceCase = require('sentence-case')
@@ -66,7 +63,7 @@ LeaderboardName.propTypes = {
   tags: PropTypes.array
 }
 
-class Leaderboard extends PureComponent {
+const Leaderboard = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -293,15 +290,15 @@ class Leaderboard extends PureComponent {
                                 }
                               />
                               {item.path ? (
-                                <Link
-                                  to={item.path}
+                                <TextButton
+                                  href={item.path}
                                   className={classNames(
                                     styles[`${baseClassName}__name`],
                                     styles[`${baseClassName}__link`]
                                   )}
                                 >
                                   <LeaderboardName {...item} />
-                                </Link>
+                                </TextButton>
                               ) : (
                                 <div
                                   className={classNames(
@@ -332,35 +329,18 @@ class Leaderboard extends PureComponent {
                                         styles[`${baseClassName}__stat--game`]
                                       )}
                                     >
-                                      {item.game.isExternal ? (
-                                        <OutboundLink
-                                          to={item.game.path}
-                                          eventLabel={item.game.path}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                        >
-                                          <span>{item.game.name}</span>
-                                          <Icon
-                                            className={
-                                              styles[
-                                                `${baseClassName}__external`
-                                              ]
-                                            }
-                                            a11yText="View permalink"
-                                          >
-                                            <ExternalSvg />
-                                          </Icon>
-                                        </OutboundLink>
-                                      ) : (
-                                        <Link
-                                          to={item.game.path}
-                                          className={
-                                            styles[`${baseClassName}__link`]
-                                          }
-                                        >
-                                          <span>{item.game.name}</span>
-                                        </Link>
-                                      )}
+                                      <TextButton
+                                        href={item.game.path}
+                                        target={
+                                          item.game.isExternal && '_blank'
+                                        }
+                                        className={
+                                          !item.game.isExternal &&
+                                          styles[`${baseClassName}__link`]
+                                        }
+                                      >
+                                        <span>{item.game.name}</span>
+                                      </TextButton>
                                       <RelativeDate
                                         className={
                                           styles[
@@ -508,7 +488,9 @@ class Leaderboard extends PureComponent {
                                       data-exact={exactValue}
                                     >
                                       {href ? (
-                                        <Link to={href}>{value}</Link>
+                                        <TextButton href={href}>
+                                          {value}
+                                        </TextButton>
                                       ) : (
                                         <span>{value}</span>
                                       )}

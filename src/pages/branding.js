@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -8,6 +7,7 @@ import TextAlign from '../components/text-align/TextAlign'
 import Swatch from '../components/swatch/Swatch'
 import Prose from '../components/prose/Prose'
 import List from '../components/list/List'
+import SmartLink from '../components/smart-link/SmartLink'
 
 const constants = require('../utils/constants')
 const meta = {
@@ -75,15 +75,16 @@ function BrandingPage() {
                       {extensions.map((extension, index) => {
                         return (
                           <li key={index}>
-                            <OutboundLink
-                              to={`/images/branding/${logo.value}.${extension}`}
+                            <SmartLink
+                              href={`/images/branding/${
+                                logo.value
+                              }.${extension}`}
                               eventLabel="branding"
                               title={`Download ${extension.toUpperCase()}`}
                               target="_blank"
-                              rel="noopener noreferrer"
                             >
                               {extension.toUpperCase()}
-                            </OutboundLink>
+                            </SmartLink>
                           </li>
                         )
                       })}

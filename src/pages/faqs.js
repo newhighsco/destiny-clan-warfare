@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from '@reach/router'
-import { OutboundLink } from 'react-ga-donottrack'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Prose from '../components/prose/Prose'
+import SmartLink from '../components/smart-link/SmartLink'
 
 const constants = require('../utils/constants')
 
@@ -20,7 +19,7 @@ function FrequentlyAskedQuestionsPage() {
         <Lockup primary center kicker="Frequently asked" heading="Questions" />
         <Prose>
           <h2>
-            <Link id="what" to="#what" className="anchor" />
+            <SmartLink id="what" href="#what" className="anchor" />
             What is {constants.meta.name}?
           </h2>
           <p>
@@ -29,7 +28,7 @@ function FrequentlyAskedQuestionsPage() {
             modifiers to keep it new and exciting each week.
           </p>
           <h2>
-            <Link id="enrollment" to="#enrollment" className="anchor" />
+            <SmartLink id="enrollment" href="#enrollment" className="anchor" />
             How do I enroll into {constants.meta.name}?
           </h2>
           <p>
@@ -51,14 +50,9 @@ function FrequentlyAskedQuestionsPage() {
           </p>
           <h3>When will enrollment be open again?</h3>
           <p>
-            <OutboundLink
-              to={constants.social.twitter}
-              eventLabel={constants.social.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <SmartLink href={constants.social.twitter} target="_blank">
               Follow us on Twitter
-            </OutboundLink>{' '}
+            </SmartLink>{' '}
             to find out first when it reopens.
           </p>
           <h3>Will I have to enroll my clan for every events?</h3>
@@ -68,7 +62,7 @@ function FrequentlyAskedQuestionsPage() {
             leaderboards.
           </p>
           <h2>
-            <Link id="points" to="#points" className="anchor" />
+            <SmartLink id="points" href="#points" className="anchor" />
             How do I earn points in {constants.meta.name}?
           </h2>
           <p>
@@ -98,7 +92,7 @@ function FrequentlyAskedQuestionsPage() {
             be visible on the homepage.
           </p>
           <h3>
-            <Link id="strikes" to="#strikes" className="anchor" />
+            <SmartLink id="strikes" href="#strikes" className="anchor" />
             How do I earn points in Strikes?
           </h3>
           <p>
@@ -118,7 +112,7 @@ function FrequentlyAskedQuestionsPage() {
             starts from when you first load in and not when the strike started.
           </p>
           <h3>
-            <Link id="raids" to="#raids" className="anchor" />
+            <SmartLink id="raids" href="#raids" className="anchor" />
             How do I earn points in Raids?
           </h3>
           <p>
@@ -164,7 +158,7 @@ function FrequentlyAskedQuestionsPage() {
             what you see in games but sadly, that's out of our control.
           </p>
           <h2>
-            <Link id="size" to="#size" className="anchor" />
+            <SmartLink id="size" href="#size" className="anchor" />
             What if my clan is only small, I’ll never win anything?
           </h2>
           <p>

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { OutboundLink } from 'react-ga-donottrack'
+import SmartLink from '../smart-link/SmartLink'
 import Icon from '../icon/Icon'
 import CreditSvg from './new-high-score.svg'
 import styles from './Credit.styl'
@@ -10,12 +10,11 @@ const Credit = class extends PureComponent {
   render() {
     return (
       <div className={styles[baseClassName]}>
-        <OutboundLink
+        <SmartLink
           className={styles[`${baseClassName}__link`]}
-          to="https://newhighsco.re"
+          href="https://newhighsco.re"
           eventLabel="credit"
           target="_blank"
-          rel="noopener noreferrer"
           title="New High Score - Extending your favourite end-game"
         >
           <Icon
@@ -29,7 +28,7 @@ const Credit = class extends PureComponent {
             <br />
             <small>New High Score</small>
           </div>
-        </OutboundLink>
+        </SmartLink>
       </div>
     )
   }

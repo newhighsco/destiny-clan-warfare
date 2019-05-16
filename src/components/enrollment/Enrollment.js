@@ -153,38 +153,31 @@ class Enrollment extends Component {
         <label htmlFor="control--clan">
           <Lockup borderless center kicker={kicker} />
         </label>
-        <div className="field" id="field--clan">
-          <div
-            className={classNames(
-              'field__answer',
-              styles[`${baseClassName}__field`]
-            )}
-          >
-            {open ? (
-              <input
-                type="search"
-                className="control control--text"
-                name={name}
-                id="control--clan"
-                placeholder={placeholder}
-                onChange={this.handleSearch}
-                required
-                autoComplete="off"
-              />
-            ) : (
-              <Notification>
-                <OutboundLink
-                  to={constants.social.twitter}
-                  eventLabel={constants.social.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Follow us on Twitter
-                </OutboundLink>{' '}
-                to find out first when it reopens.
-              </Notification>
-            )}
-          </div>
+        <div className={classNames(styles[`${baseClassName}__field`])}>
+          {open ? (
+            <input
+              type="search"
+              className="control control--text"
+              name={name}
+              id="control--clan"
+              placeholder={placeholder}
+              onChange={this.handleSearch}
+              required
+              autoComplete="off"
+            />
+          ) : (
+            <Notification>
+              <OutboundLink
+                to={constants.social.twitter}
+                eventLabel={constants.social.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Follow us on Twitter
+              </OutboundLink>{' '}
+              to find out first when it reopens.
+            </Notification>
+          )}
         </div>
         <ButtonGroup
           className={!open || active ? visuallyHiddenClassName : null}

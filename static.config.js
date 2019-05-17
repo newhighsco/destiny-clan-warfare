@@ -140,6 +140,16 @@ export default {
           from: 'https://discord.destinyclanwarfare.com/*',
           to: 'https://discordapp.com/invite/tu8JdRr',
           code: '301!'
+        },
+        {
+          from: 'https://api.destinyclanwarfare.com/*',
+          to: 'https://destinyclanwarfareapi.azurewebsites.net/api/:splat',
+          code: '200!'
+        },
+        {
+          from: 'https://bungie.destinyclanwarfare.com/*',
+          to: `${constants.bungie.baseUrl}:splat`,
+          code: '200!'
         }
       ]
     ],

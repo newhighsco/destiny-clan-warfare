@@ -42,7 +42,7 @@ const Loader = class extends PureComponent {
     const { children, type } = this.props
     const { loading, medals } = this.state
 
-    if (loading) return <p>Loading {type.toLowerCase()} meals from API...</p>
+    if (loading) return <p>Loading {type.toLowerCase()} medals from API...</p>
 
     return children(medals)
   }

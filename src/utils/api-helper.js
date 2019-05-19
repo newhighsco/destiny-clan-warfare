@@ -8,10 +8,8 @@ const api = (index = 0) =>
   })
 
 const proxy = () => {
-  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS || false)
-
   return axios.create({
-    baseURL: proxyUrls ? constants.server.proxyUrl : url()
+    baseURL: constants.server.proxyUrl
   })
 }
 
@@ -22,8 +20,16 @@ const url = (index = 0, url = null) => {
   return `${protocol}${subdomains[index]}${domain}${url || path}`
 }
 
+const proxyOptions = {
+  target: url(),
+  pathRewrite: { [`^${constants.server.proxyUrl}`]: '' },
+  changeOrigin: true,
+  secure: false
+}
+
 module.exports = {
   api,
   proxy,
+  proxyOptions,
   url
 }

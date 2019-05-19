@@ -10,8 +10,7 @@ const statsHelper = require('../utils/stats-helper')
 const description = require('../utils/grammar').description
 const decode = require('../utils/html-entities').decode
 
-const primaryApi = apiHelper.api()
-const secondaryApi = apiHelper.api(1)
+const api = apiHelper.api()
 const bungieApi = bungieHelper.api()
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(
@@ -138,7 +137,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Clan/AcceptingNewClans`)
+          api(`Clan/AcceptingNewClans`)
             .then(({ data }) => {
               parsed.apiStatus.enrollmentOpen = data || undefined
 
@@ -155,7 +154,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Event/GetCurrentAlert`)
+          api(`Event/GetCurrentAlert`)
             .then(({ data }) => {
               parsed.apiStatus.alert = data || undefined
 
@@ -198,7 +197,7 @@ const fetch = async () => {
             return path.replace(/^.*_(\w*).*$/, '$1')
           }
 
-          primaryApi(`Clan/GetAllClans`)
+          api(`Clan/GetAllClans`)
             .then(({ data }) => {
               data.map(clan => {
                 const id = `${clan.groupId}`
@@ -257,7 +256,7 @@ const fetch = async () => {
             return undefined
           }
 
-          primaryApi(`Clan/GetAllMembers`)
+          api(`Clan/GetAllMembers`)
             .then(({ data }) => {
               data.map(member => {
                 const id = member.profileIdStr
@@ -377,7 +376,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Event/GetAllEvents`)
+          api(`Event/GetAllEvents`)
             .then(({ data }) => {
               data.map(event => {
                 const id = event.eventId
@@ -492,7 +491,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Component/GetAllModifiers`)
+          api(`Component/GetAllModifiers`)
             .then(({ data }) => {
               data.map(
                 ({
@@ -530,7 +529,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Component/GetAllMedals`)
+          api(`Component/GetAllMedals`)
             .then(({ data }) => {
               parsed.medals = parsed.medals.concat(
                 medalBuilder.parseMedals(data, constants.prefix.profile).medals
@@ -554,7 +553,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Component/GetAllClanMedals`)
+          api(`Component/GetAllClanMedals`)
             .then(({ data }) => {
               parsed.medals = parsed.medals.concat(
                 medalBuilder.parseMedals(data, constants.prefix.clan).medals
@@ -573,7 +572,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Leaderboard/GetLeaderboard`)
+          api(`Leaderboard/GetLeaderboard`)
             .then(({ data }) => {
               constants.divisions.map(({ key, name, size }) => {
                 const leaderboard = data[`${key}Leaderboard`]
@@ -607,7 +606,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Leaderboard/GetClanLeaderboard`)
+          api(`Leaderboard/GetClanLeaderboard`)
             .then(({ data }) => {
               parsed.currentClanLeaderboard = parseLeaderboard(data)
 
@@ -632,7 +631,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          primaryApi(`Leaderboard/GetPreviousClanLeaderboard`)
+          api(`Leaderboard/GetPreviousClanLeaderboard`)
             .then(({ data }) => {
               const { eventId, leaderboardList } = data[0]
 
@@ -663,7 +662,7 @@ const fetch = async () => {
         new Promise((resolve, reject) => {
           const timer = sourceStart(task)
 
-          secondaryApi(`Leaderboard/GetAllPlayersHistory`)
+          api(`Leaderboard/GetAllPlayersHistory`)
             .then(({ data }) => {
               const { history, matchHistorySize } = data
 

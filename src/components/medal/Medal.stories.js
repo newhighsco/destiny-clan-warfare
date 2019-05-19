@@ -22,18 +22,29 @@ const Loader = class extends PureComponent {
     super(props)
 
     this.state = {
+      loading: true,
       medals: []
     }
   }
 
   componentDidMount() {
+    const { type } = this.props
+
     proxy(this.props.url).then(({ data }) => {
-      this.setState({ ...medalBuilder.parseMedals(data, this.props.type) })
+      this.setState({
+        loading: false,
+        ...medalBuilder.parseMedals(data, type)
+      })
     })
   }
 
   render() {
-    return this.props.children(this.state.medals)
+    const { children, type } = this.props
+    const { loading, medals } = this.state
+
+    if (loading) return <p>Loading {type.toLowerCase()} meals from API...</p>
+
+    return children(medals)
   }
 }
 

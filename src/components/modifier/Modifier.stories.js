@@ -31,6 +31,7 @@ const Loader = class extends PureComponent {
     super(props)
 
     this.state = {
+      loading: true,
       modifiers: []
     }
   }
@@ -56,12 +57,17 @@ const Loader = class extends PureComponent {
         )
         .sort(firstBy('name'))
 
-      this.setState({ modifiers })
+      this.setState({ loading: false, modifiers })
     })
   }
 
   render() {
-    return this.props.children(this.state.modifiers)
+    const { children } = this.props
+    const { loading, modifiers } = this.state
+
+    if (loading) return <p>Loading modifiers from API...</p>
+
+    return children(modifiers)
   }
 }
 

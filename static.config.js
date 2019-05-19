@@ -17,7 +17,10 @@ export default {
   devServer: {
     port: 9000,
     host: 'localhost.destinyclanwarfare.com',
-    disableHostCheck: true
+    disableHostCheck: true,
+    proxy: {
+      [constants.server.proxyUrl]: apiHelper.proxyOptions
+    }
   },
   siteRoot: process.env.SITE_URL,
   extractCssChunks: true,
@@ -116,7 +119,7 @@ export default {
         {
           from: `${constants.server.proxyUrl}*`,
           to: `${apiHelper.url()}:splat`,
-          code: 200
+          code: '200!'
         },
         {
           from: `${urlBuilder.clanUrl(':clan')}*`,

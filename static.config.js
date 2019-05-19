@@ -114,12 +114,12 @@ export default {
         {
           from: `${constants.bungie.proxyUrl}*`,
           to: `${constants.bungie.baseUrl}:splat`,
-          code: '200!'
+          code: 200
         },
         {
           from: `${constants.server.proxyUrl}*`,
           to: `${apiHelper.url()}:splat`,
-          code: '200!'
+          code: 200
         },
         {
           from: `${urlBuilder.clanUrl(':clan')}*`,

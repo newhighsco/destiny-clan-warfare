@@ -19,7 +19,7 @@ export default {
     host: 'localhost.destinyclanwarfare.com',
     disableHostCheck: true,
     proxy: {
-      [constants.server.proxyUrl]: apiHelper.proxyOptions
+      [constants.server.proxyUrl]: apiHelper.proxyOptions()
     }
   },
   siteRoot: process.env.SITE_URL,
@@ -112,11 +112,6 @@ export default {
       'plugin-netlify-redirects',
       [
         {
-          from: `${constants.bungie.proxyUrl}*`,
-          to: `${constants.bungie.baseUrl}:splat`,
-          code: 200
-        },
-        {
           from: `${constants.server.proxyUrl}*`,
           to: `${apiHelper.url()}:splat`,
           code: 200
@@ -135,6 +130,11 @@ export default {
           from: urlBuilder.eventUrl(':event/:clan/:member'),
           to: urlBuilder.profileUrl(':clan', ':member', ':event'),
           code: 301
+        },
+        {
+          from: `${constants.bungie.proxyUrl}*`,
+          to: `${constants.bungie.baseUrl}:splat`,
+          code: '200!'
         },
         {
           from: 'https://storybook.destinyclanwarfare.com/*',

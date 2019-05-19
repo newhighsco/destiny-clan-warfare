@@ -20,11 +20,17 @@ const url = (index = 0, url = null) => {
   return `${protocol}${subdomains[index]}${domain}${url || path}`
 }
 
-const proxyOptions = {
-  target: url(),
-  pathRewrite: { [`^${constants.server.proxyUrl}`]: '' },
-  changeOrigin: true,
-  secure: false
+const proxyOptions = () => {
+  const pathRewrite = {}
+
+  pathRewrite[constants.server.proxyUrl] = ''
+
+  return {
+    target: url(),
+    pathRewrite,
+    changeOrigin: true,
+    secure: false
+  }
 }
 
 module.exports = {

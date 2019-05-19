@@ -66,7 +66,7 @@ const constants = {
   },
   bungie: {
     baseUrl: 'https://www.bungie.net/',
-    proxyUrl: /bungie/,
+    proxyUrl: 'https://bungie.destinyclanwarfare.com/',
     disabledStatusCodes: [5, 1618],
     avatarPath: 'img/profile/avatars/',
     defaultAvatarIcon: 'default_avatar.gif',

@@ -13,11 +13,6 @@ const eventHash = eventId => {
   return eventId ? `${constants.prefix.hash}${eventId}` : ''
 }
 
-const bungieUrl = () => {
-  const proxyUrls = JSON.parse(process.env.ENABLE_PROXY_URLS || false)
-  return proxyUrls ? constants.bungie.proxyUrl : constants.bungie.baseUrl
-}
-
 module.exports = {
   rootUrl,
 
@@ -29,16 +24,16 @@ module.exports = {
 
   avatarIconUrl: icon => {
     if (absoluteUrl(icon)) return icon
-    return `${bungieUrl()}${constants.bungie.avatarPath}${icon ||
+    return `${constants.bungie.proxyUrl}${constants.bungie.avatarPath}${icon ||
       constants.bungie.defaultAvatarIcon}`
   },
 
   avatarLayerUrl: icon => {
     if (absoluteUrl(icon)) return icon
-    return `${bungieUrl()}common/destiny2_content/icons/cb_decal_square_${icon}.png`
+    return `${
+      constants.bungie.proxyUrl
+    }common/destiny2_content/icons/cb_decal_square_${icon}.png`
   },
-
-  bungieUrl,
 
   currentEventRootUrl,
 

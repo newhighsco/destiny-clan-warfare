@@ -7,7 +7,7 @@ import styles from './Status.styl'
 const axios = require('axios')
 const bungieHelper = require('../../utils/bungie-helper')
 
-const bungieProxy = bungieHelper.proxy()
+const bungieApi = bungieHelper.api()
 
 const Status = class extends PureComponent {
   constructor(props) {
@@ -25,7 +25,7 @@ const Status = class extends PureComponent {
     var { active, source } = this.state
 
     if (!active) {
-      await bungieProxy(`/Destiny2/Milestones/`, {
+      await bungieApi(`/Destiny2/Milestones/`, {
         cancelToken: source.token
       })
         .then(({ data }) => {

@@ -15,7 +15,9 @@ const apiHelper = require('./src/utils/api-helper')
 
 export default {
   devServer: {
-    port: 9000
+    port: 9000,
+    host: 'localhost.destinyclanwarfare.com',
+    disableHostCheck: true
   },
   siteRoot: process.env.SITE_URL,
   extractCssChunks: true,
@@ -109,7 +111,7 @@ export default {
         {
           from: `${constants.bungie.proxyUrl}*`,
           to: `${constants.bungie.baseUrl}:splat`,
-          code: 200
+          code: '200!'
         },
         {
           from: `${constants.server.proxyUrl}*`,
@@ -140,16 +142,6 @@ export default {
           from: 'https://discord.destinyclanwarfare.com/*',
           to: 'https://discordapp.com/invite/tu8JdRr',
           code: '301!'
-        },
-        {
-          from: 'https://api.destinyclanwarfare.com/*',
-          to: 'https://destinyclanwarfareapi.azurewebsites.net/api/:splat',
-          code: '200!'
-        },
-        {
-          from: 'https://bungie.destinyclanwarfare.com/*',
-          to: `${constants.bungie.baseUrl}:splat`,
-          code: '200!'
         }
       ]
     ],

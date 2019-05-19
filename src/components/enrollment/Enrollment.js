@@ -22,7 +22,7 @@ const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
 const proxy = apiHelper.proxy()
-const bungieProxy = bungieHelper.proxy()
+const bungieApi = bungieHelper.api()
 
 const Enrollment = class extends Component {
   constructor(props) {
@@ -108,7 +108,7 @@ const Enrollment = class extends Component {
           ? `GroupV2/${name}/`
           : `GroupV2/Name/${name}/${groupType}/`
 
-        bungieProxy(endpoint).then(({ data }) => {
+        bungieApi(endpoint).then(({ data }) => {
           if (data.Response && data.Response.detail) {
             const detail = data.Response.detail
             const group = groups.find(

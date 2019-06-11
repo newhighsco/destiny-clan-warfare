@@ -55,7 +55,10 @@ const parseMedals = (input, type, minimumTier) => {
 
       if (existing) {
         existing.label = Array.isArray(existing.label)
-          ? existing.label.concat(parsed.label)
+          ? [
+              ...existing.label,
+              ...parsed.label.filter(item => !~existing.label.indexOf(item))
+            ]
           : parsed.label
       } else {
         medals.push(parsed)

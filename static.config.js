@@ -466,35 +466,37 @@ export default {
               const { path, id, name, tag, avatar, platforms } = clan
               var medal
 
-              switch (i) {
-                case 0:
-                  if (rank === 1) {
-                    medal = {
-                      tier: winnersMedal.tier,
-                      name: winnersMedal.name,
-                      description: winnersMedal.description
+              if (score > 0) {
+                switch (i) {
+                  case 0:
+                    if (rank === 1) {
+                      medal = {
+                        tier: winnersMedal.tier,
+                        name: winnersMedal.name,
+                        description: winnersMedal.description
+                      }
+                    } else {
+                      medal = medalBuilder.build(1, 2, division.name)
                     }
-                  } else {
-                    medal = medalBuilder.build(1, 2, division.name)
-                  }
 
-                  if (eventId === previousEventId) {
-                    eventWinners.push({
-                      path,
-                      id,
-                      name,
-                      avatar,
-                      platforms,
-                      medal,
-                      division,
-                      score
-                    })
-                  }
-                  break
-                case 1:
-                case 2:
-                  medal = medalBuilder.build('top 3', 1, division.name)
-                  break
+                    if (eventId === previousEventId) {
+                      eventWinners.push({
+                        path,
+                        id,
+                        name,
+                        avatar,
+                        platforms,
+                        medal,
+                        division,
+                        score
+                      })
+                    }
+                    break
+                  case 1:
+                  case 2:
+                    medal = medalBuilder.build('top 3', 1, division.name)
+                    break
+                }
               }
 
               eventSuggestions.push({

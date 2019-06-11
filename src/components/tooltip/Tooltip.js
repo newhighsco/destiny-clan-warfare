@@ -37,7 +37,6 @@ const Tooltip = class extends PureComponent {
   }
 
   hideTooltip() {
-    this.content.style = {}
     this.setState({ active: false })
   }
 

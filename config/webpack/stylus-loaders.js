@@ -11,6 +11,10 @@ const stylusLoaders = (stage, options) => {
     importLoaders: 1
   }
 
+  if (stage === 'node') {
+    options.exportOnlyLocals = true
+  }
+
   if (stage === 'prod') {
     const cssLoaderVersion = require('css-loader/package.json').version
 
@@ -20,7 +24,6 @@ const stylusLoaders = (stage, options) => {
   }
 
   return [
-    stage === 'dev' && require.resolve('style-loader'),
     {
       loader: require.resolve('css-loader'),
       options: {

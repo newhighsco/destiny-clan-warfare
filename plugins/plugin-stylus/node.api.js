@@ -7,16 +7,15 @@ export default () => ({
     var loaders = []
 
     if (stage === 'dev') {
-      loaders = [...stylusLoaders(stage)]
+      loaders = [
+        {
+          loader: ExtractCssChunks.loader,
+          options: { hot: true, reloadAll: true }
+        },
+        ...stylusLoaders(stage)
+      ]
     } else if (stage === 'node') {
-      loaders = [ExtractCssChunks.loader, ...stylusLoaders(stage)]
-
-      config.plugins.push(
-        new ExtractCssChunks({
-          filename: '[name].[chunkHash:8].css',
-          orderWarning: false
-        })
-      )
+      loaders = [...stylusLoaders(stage)]
     } else {
       loaders = [ExtractCssChunks.loader, ...stylusLoaders(stage)]
     }

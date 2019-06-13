@@ -84,6 +84,7 @@ storiesOf('Modifiers', module)
           {modifiers => (
             <ModifierList
               modifiers={modifiers}
+              showAdvert
               enableHover={false}
               tooltipActive
             />

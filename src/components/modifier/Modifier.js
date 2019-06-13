@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
 import List from '../list/List'
+import { Tag } from '../tag/Tag'
 import icons from './icons'
 import styles from './Modifier.styl'
 
@@ -156,11 +157,31 @@ const ModifierList = class extends PureComponent {
       align,
       valign,
       enableHover,
-      tooltipActive
+      tooltipActive,
+      showAdvert
     } = this.props
     var { modifiers } = this.props
 
     if (!modifiers || modifiers.length < 1) return null
+
+    if (showAdvert)
+      modifiers = [
+        ...modifiers,
+        {
+          name: 'Shape the Battlefield',
+          description: (
+            <Fragment>
+              Put your flair for battle tactics to the test - Create your own
+              event modifier and wear the exclusive <Tag name="Insider" /> badge
+              of honour everywhere your name appears on the site.
+            </Fragment>
+          ),
+          href:
+            'https://www.patreon.com/join/destinyclanwarfare/checkout?rid=2200985',
+          target: '_blank',
+          className: styles[`${baseClassName}--promoted`]
+        }
+      ]
 
     return (
       <List inline className={styles[`${baseClassName}-list`]}>
@@ -193,7 +214,8 @@ ModifierList.propTypes = {
   align: PropTypes.oneOf(['left', 'right', 'center']),
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
   enableHover: PropTypes.bool,
-  tooltipActive: PropTypes.bool
+  tooltipActive: PropTypes.bool,
+  showAdvert: PropTypes.bool
 }
 
 export { Modifier, ModifierList }

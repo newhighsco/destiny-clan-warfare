@@ -13,8 +13,14 @@ $tooltip--width = rem(250)
   cursor default !important // @stylint ignore
   display inline-block
 
+  *[aria-label]
+    display none
+
 .tooltip__trigger--enabled
   cursor help !important // @stylint ignore
+
+  &[href]
+    cursor pointer !important // @stylint ignore
 
 .tooltip__content
   background-color $color--white-smoke

@@ -17,9 +17,25 @@ const event = {
   name: 'Competitive',
   description: 'Score points by completing matches in the Competitive playlist',
   modifiers: [
-    { name: 'Merciless', bonus: 50, scoringModifier: true },
-    { name: 'Abuse of power', bonus: -150, scoringModifier: true },
-    { name: 'Perfection', bonus: 3 }
+    {
+      name: 'Merciless',
+      description: 'Get bonus points for each 5x killing spree',
+      bonus: 50,
+      scoringModifier: true,
+      creator: 'Some creator'
+    },
+    {
+      name: 'Anything you can do',
+      description:
+        "Bonus points for shutting down an enemy's Super using your own Super",
+      bonus: -150,
+      scoringModifier: true,
+      creator: 'Test'
+    },
+    {
+      name: 'Perfection',
+      bonus: 3
+    }
   ]
 }
 const row = {

@@ -52,7 +52,15 @@ const Tooltip = class extends PureComponent {
   }
 
   render() {
-    const { children, className, enableHover, heading, text } = this.props
+    const {
+      children,
+      className,
+      enableHover,
+      href,
+      target,
+      heading,
+      text
+    } = this.props
     const { active, align, valign } = this.state
     const hasContent = heading || text
     const triggerClassName = `${baseClassName}__trigger`
@@ -67,6 +75,8 @@ const Tooltip = class extends PureComponent {
         )}
       >
         <TextButton
+          href={href}
+          target={target}
           className={classNames(
             styles[triggerClassName],
             hasContent && enableHover && styles[`${triggerClassName}--enabled`]
@@ -102,10 +112,7 @@ const Tooltip = class extends PureComponent {
               </span>
             )}
             {text && (
-              <span
-                className={styles[`${baseClassName}__text`]}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
+              <span className={styles[`${baseClassName}__text`]}>{text}</span>
             )}
           </span>
         )}
@@ -124,8 +131,10 @@ Tooltip.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   enableHover: PropTypes.bool,
+  href: PropTypes.string,
+  target: PropTypes.string,
   heading: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.node,
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
   active: PropTypes.bool
 }

@@ -16,7 +16,7 @@ module.exports = async ({ config }) => {
     },
     {
       test: /\.styl$/,
-      use: [...stylusLoaders('dev')]
+      use: [require.resolve('style-loader'), ...stylusLoaders('dev')]
     },
     ...svgLoaders()
   )

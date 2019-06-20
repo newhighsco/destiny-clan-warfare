@@ -18,8 +18,9 @@ const Platform = class extends PureComponent {
 
     if (!id) return null
 
-    const platform = allowedPlatforms.find(platform => id === platform.id)
-    const key = paramCase(platform ? platform.name : '')
+    const platform = allowedPlatforms.find(platform => platform.id === id) 
+    const name = platform ? platform.name : ''
+    const key = paramCase(name)
     const iconKey = `./${key}.svg`
     const IconSvg = svgs.keys().find(key => key === iconKey)
       ? svgs(iconKey).default

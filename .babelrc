@@ -1,3 +1,6 @@
 {
-  "presets": ["react-static/babel-preset.js"]
+  "presets": ["react-static/babel-preset.js"],
+  "env": {
+    "test": { "plugins": ["require-context-hook"] }
+  }
 }

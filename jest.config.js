@@ -8,6 +8,7 @@ module.exports = {
     '\\.(png|jpg|gif|eot|ttf|woff(2)?)$':
       '<rootDir>/config/jest/file-transform.js'
   },
-  setupFiles: ['<rootDir>/config/jest/setup-tests.js'],
+  setupFiles: ['<rootDir>/config/jest/register-context.js'],
+  setupFilesAfterEnv: ['<rootDir>/config/jest/setup-tests.js'],
   verbose: false
 }

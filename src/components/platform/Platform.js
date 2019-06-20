@@ -14,10 +14,12 @@ const baseClassName = 'platform'
 
 const Platform = class extends PureComponent {
   render() {
-    const { platform, size } = this.props
-    const { name } = allowedPlatforms.find(({ id }) => id === platform.id)
+    const { id, size } = this.props
 
-    const key = paramCase(name || '')
+    if (!id) return null
+
+    const platform = allowedPlatforms.find(platform => id === platform.id)
+    const key = paramCase(platform ? platform.name : '')
     const iconKey = `./${key}.svg`
     const IconSvg = svgs.keys().find(key => key === iconKey)
       ? svgs(iconKey).default
@@ -41,7 +43,7 @@ const Platform = class extends PureComponent {
 }
 
 Platform.propTypes = {
-  platform: PropTypes.object,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   size: PropTypes.oneOf(['small'])
 }
 
@@ -69,7 +71,7 @@ const PlatformList = class extends PureComponent {
       >
         {platforms.map((platform, i) => (
           <li key={i}>
-            <Platform platform={platform} size={size} />
+            <Platform {...platform} size={size} />
           </li>
         ))}
       </List>

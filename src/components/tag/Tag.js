@@ -18,7 +18,7 @@ const isAllowed = name => {
 
 const Tag = class extends PureComponent {
   render() {
-    const { name, size } = this.props
+    const { element, name, size } = this.props
 
     if (!name) return null
 
@@ -26,8 +26,10 @@ const Tag = class extends PureComponent {
 
     if (!allowed) return null
 
+    const Element = element
+
     return (
-      <div
+      <Element
         className={classNames(
           styles[baseClassName],
           allowed.tier && styles[`${baseClassName}--tier-${allowed.tier}`],
@@ -39,7 +41,12 @@ const Tag = class extends PureComponent {
   }
 }
 
+Tag.defaultProps = {
+  element: 'div'
+}
+
 Tag.propTypes = {
+  element: PropTypes.string,
   name: PropTypes.string,
   size: PropTypes.oneOf(['large'])
 }

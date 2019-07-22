@@ -129,7 +129,7 @@ const Event = class extends PureComponent {
           )}
           <ModifierList
             modifiers={event.modifiers}
-            showAdvert={event.isFuture}
+            showAdvert={!event.isCurrent}
           />
           {!summary && (
             <Fragment>

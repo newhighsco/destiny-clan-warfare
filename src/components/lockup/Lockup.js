@@ -10,9 +10,8 @@ const Lockup = class extends PureComponent {
   render() {
     const {
       heading,
-      headingHref,
+      headingAttributes,
       kicker,
-      kickerHref,
       kickerAttributes,
       reverse,
       center,
@@ -42,7 +41,6 @@ const Lockup = class extends PureComponent {
       <LockupElement
         element={kickerElement}
         elementName="kicker"
-        href={kickerHref}
         {...kickerAttributes}
       >
         {kicker}
@@ -52,7 +50,7 @@ const Lockup = class extends PureComponent {
       <LockupElement
         element={headingElement}
         elementName="heading"
-        href={headingHref}
+        {...headingAttributes}
       >
         {heading}
       </LockupElement>
@@ -82,9 +80,8 @@ const Lockup = class extends PureComponent {
 
 Lockup.propTypes = {
   heading: PropTypes.string,
-  headingHref: PropTypes.string,
+  headingAttributes: PropTypes.object,
   kicker: PropTypes.string,
-  kickerHref: PropTypes.string,
   kickerAttributes: PropTypes.object,
   reverse: PropTypes.bool,
   center: PropTypes.bool,

@@ -101,7 +101,7 @@ const MemberOverall = class extends PureComponent {
             center
             reverse
             kicker={meta.kicker}
-            kickerHref={meta.kickerHref}
+            kickerAttributes={{ href: meta.kickerHref }}
             heading={member.name}
           />
           <PlatformList platforms={member.platforms} />

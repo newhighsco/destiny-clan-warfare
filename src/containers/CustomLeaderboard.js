@@ -197,7 +197,7 @@ const CustomLeaderboardContainer = class extends PureComponent {
           primary
           center
           kicker={meta.kicker}
-          kickerHref={meta.kickerHref}
+          kickerAttributes={{ href: meta.kickerHref }}
         >
           {currentEventId ? <RelativeDate apiStatus={apiStatus} /> : event.name}
         </Lockup>

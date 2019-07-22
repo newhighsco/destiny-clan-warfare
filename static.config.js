@@ -466,7 +466,7 @@ export default {
               const { path, id, name, tag, avatar, platforms } = clan
               var medal
 
-              if (score > 0) {
+              if (event.isCalculated && score > 0) {
                 switch (i) {
                   case 0:
                     if (rank === 1) {

@@ -95,7 +95,7 @@ const MemberCurrent = class extends PureComponent {
           primary
           center
           kicker={constants.kicker.current}
-          kickerHref={urlBuilder.currentEventUrl()}
+          kickerAttributes={{ href: urlBuilder.currentEventUrl() }}
         >
           <RelativeDate apiStatus={apiStatus} />
         </Lockup>
@@ -107,7 +107,7 @@ const MemberCurrent = class extends PureComponent {
               center
               reverse
               kicker={meta.kicker}
-              kickerHref={meta.kickerHref}
+              kickerAttributes={{ href: meta.kickerHref }}
               heading={member.name}
             />
             <PlatformList platforms={member.platforms} />

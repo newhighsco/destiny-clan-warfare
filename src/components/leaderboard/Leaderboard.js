@@ -68,16 +68,19 @@ const Leaderboard = class extends PureComponent {
     super(props)
 
     const { data, activeIndex } = this.props
-    const bonusColumns = data.length
-      ? (data[0].bonuses || []).reduce(
-          (result, { shortName }) => result.concat(shortName),
-          []
-        )
+    const bonusColumns =
+      data && data.length
+        ? (data[0].bonuses || []).reduce(
+            (result, { shortName }) => result.concat(shortName),
+            []
+          )
+        : []
+    const suggestions = data
+      ? data.map(({ name, tag }, index) => ({
+          id: index,
+          name: `${name}${tag ? ` [${tag}]` : ''}`
+        }))
       : []
-    const suggestions = data.map(({ name, tag }, index) => ({
-      id: index,
-      name: `${name}${tag ? ` [${tag}]` : ''}`
-    }))
 
     this.state = {
       active: false,
@@ -185,9 +188,12 @@ const Leaderboard = class extends PureComponent {
       overflow,
       suggestions
     } = this.state
+
+    if (!data) return null
+
     const dataCount = data.length
 
-    if (!data || dataCount < 1) return null
+    if (dataCount < 1) return null
 
     return (
       <div

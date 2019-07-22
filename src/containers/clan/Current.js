@@ -101,7 +101,7 @@ const ClanCurrentContainer = class extends PureComponent {
           primary
           center
           kicker={constants.kicker.current}
-          kickerHref={urlBuilder.currentEventUrl()}
+          kickerAttributes={{ href: urlBuilder.currentEventUrl() }}
         >
           <RelativeDate apiStatus={apiStatus} />
         </Lockup>

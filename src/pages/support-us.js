@@ -30,8 +30,8 @@ function SupportUsPage() {
             <Lockup
               center
               element="h2"
-              headingHref={constants.social.patreon}
               heading="Become a Patron"
+              headingAttributes={{ href: constants.social.patreon }}
             />
             <Prose>
               <h3>Stand out from the crowd -</h3>
@@ -54,8 +54,8 @@ function SupportUsPage() {
             <Lockup
               center
               element="h2"
-              headingHref={constants.social.paypal}
               heading="Make a donation"
+              headingAttributes={{ href: constants.social.paypal }}
             />
             <Prose>
               <h3>

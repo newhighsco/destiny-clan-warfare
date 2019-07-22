@@ -127,7 +127,7 @@ const ClanOverallContainer = class extends PureComponent {
           <MedalList
             medals={clan.medals}
             kicker="Medals awarded"
-            kickerHref={urlBuilder.clanRootUrl}
+            kickerAttributes={{ href: urlBuilder.clanRootUrl }}
           />
           {!hasLeaderboard && (
             <Notification>

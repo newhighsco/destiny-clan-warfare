@@ -115,8 +115,8 @@ const Event = class extends PureComponent {
             center
             reverse
             element={element}
-            headingHref={summary && event.path}
             heading={event.name}
+            headingAttributes={summary && { href: event.path }}
           >
             {event.sponsor && constants.kicker.sponsor}
           </Lockup>
@@ -154,7 +154,7 @@ const Event = class extends PureComponent {
                 <MedalList
                   medals={event.medals.clans}
                   kicker="Medals awarded"
-                  kickerHref={urlBuilder.clanRootUrl}
+                  kickerAttributes={{ href: urlBuilder.clanRootUrl }}
                 />
               )}
               {hasLeaderboards && active && (

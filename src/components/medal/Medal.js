@@ -149,7 +149,7 @@ const MedalList = class extends PureComponent {
   render() {
     const {
       kicker,
-      kickerHref,
+      kickerAttributes,
       size,
       align,
       valign,
@@ -175,7 +175,7 @@ const MedalList = class extends PureComponent {
         {kicker && (
           <Lockup
             kicker={kicker}
-            kickerHref={kickerHref}
+            kickerAttributes={kickerAttributes}
             className={styles[`${baseClassName}-lockup`]}
             borderless
           />
@@ -208,7 +208,7 @@ MedalList.defaultProps = {
 MedalList.propTypes = {
   medals: PropTypes.array,
   kicker: PropTypes.string,
-  kickerHref: PropTypes.string,
+  kickerAttributes: PropTypes.object,
   size: PropTypes.oneOf(['x-small', 'small']),
   align: PropTypes.oneOf(['left', 'right', 'center']),
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),

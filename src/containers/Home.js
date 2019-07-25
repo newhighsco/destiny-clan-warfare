@@ -75,35 +75,31 @@ function HomeContainer() {
               />
             </Fragment>
           )}
+          {previousEvent && <Advert />}
+          <Lockup
+            id="next"
+            center
+            primary
+            element="h1"
+            kicker={constants.kicker.next}
+          />
           {nextEvent ? (
-            <Fragment>
-              {previousEvent && <Advert />}
-              <Lockup
-                id="next"
-                center
-                primary
-                element="h1"
-                kicker={constants.kicker.next}
-              />
-              <Event event={nextEvent} element="h2" summary />
-            </Fragment>
+            <Event event={nextEvent} element="h2" summary />
           ) : (
             <Sponsorship />
           )}
         </Fragment>
       ) : (
         <Fragment>
+          <Lockup
+            id="next"
+            center
+            primary
+            element="h1"
+            kicker={constants.kicker.next}
+          />
           {nextEvent ? (
-            <Fragment>
-              <Lockup
-                id="next"
-                center
-                primary
-                element="h1"
-                kicker={constants.kicker.next}
-              />
-              <Event event={nextEvent} element="h2" summary />
-            </Fragment>
+            <Event event={nextEvent} element="h2" summary />
           ) : (
             <Sponsorship />
           )}

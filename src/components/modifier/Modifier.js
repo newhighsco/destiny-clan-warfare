@@ -10,6 +10,7 @@ import styles from './Modifier.styl'
 
 const paramCase = require('param-case')
 const constants = require('../../utils/constants')
+const urlBuilder = require('../../utils/url-builder')
 const svgs = require.context('./icons', false, /\.svg$/)
 const baseClassName = 'modifier'
 
@@ -27,6 +28,7 @@ const Modifier = class extends PureComponent {
       valign,
       enableHover,
       tooltipActive,
+      promoted,
       className
     } = this.props
     var { bonus } = this.props
@@ -114,6 +116,7 @@ const Modifier = class extends PureComponent {
           className={classNames(
             styles[baseClassName],
             size && styles[`${baseClassName}--${size}`],
+            promoted && styles[`${baseClassName}--promoted`],
             className
           )}
           data-key={key}
@@ -147,6 +150,7 @@ Modifier.propTypes = {
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool,
+  promoted: PropTypes.bool,
   className: PropTypes.string
 }
 
@@ -158,17 +162,19 @@ const ModifierList = class extends PureComponent {
       valign,
       enableHover,
       tooltipActive,
-      showAdvert
+      showPromoted
     } = this.props
     var { modifiers } = this.props
 
     if (!modifiers || modifiers.length < 1) return null
 
-    if (showAdvert)
+    if (showPromoted) {
+      const patreonTier = constants.patreon.modifierCreator
+
       modifiers = [
         ...modifiers,
         {
-          name: 'Shape the Battlefield',
+          name: patreonTier.name,
           description: (
             <Fragment>
               Put your flair for battle tactics to the test - Create your own
@@ -176,12 +182,12 @@ const ModifierList = class extends PureComponent {
               of honour everywhere your name appears on the site.
             </Fragment>
           ),
-          href:
-            'https://www.patreon.com/join/destinyclanwarfare/checkout?rid=2200985',
+          href: urlBuilder.patreonUrl(patreonTier),
           target: '_blank',
-          className: styles[`${baseClassName}--promoted`]
+          promoted: true
         }
       ]
+    }
 
     return (
       <List inline className={styles[`${baseClassName}-list`]}>
@@ -215,7 +221,7 @@ ModifierList.propTypes = {
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
   enableHover: PropTypes.bool,
   tooltipActive: PropTypes.bool,
-  showAdvert: PropTypes.bool
+  showPromoted: PropTypes.bool
 }
 
 export { Modifier, ModifierList }

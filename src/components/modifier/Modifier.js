@@ -63,7 +63,7 @@ const Modifier = class extends PureComponent {
     if (constants.modifiers.tbc.indexOf(name) !== -1) {
       prefix = ''
       suffix = ''
-      bonus = 'TBC'
+      bonus = undefined
     }
 
     if (constants.modifiers.notApplicable.indexOf(name) !== -1) {

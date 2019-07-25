@@ -8,6 +8,7 @@ const raidTiming = { svg: 'raid-timing', designer: 'Pixel Lab' }
 const bullseye = { svg: 'bullseye', designer: 'Zlatko Najdenovski' }
 const pinnacleKills = { svg: 'pinnacle-kills', designer: 'Creative Stall' }
 const pulsating = { svg: 'pulsating', designer: 'Nikol Kokešová' }
+const modifierTBC = { svg: 'modifier-tbc' }
 
 const icons = {
   '20-20': { svg: 'twenty-twenty', designer: 'Chanut is Industries' },
@@ -41,6 +42,8 @@ const icons = {
     svg: 'all-creatures-great-small'
   },
   merciless: { designer: 'Optimus Prime' },
+  modifierTBC,
+  'multiplier-tbc': modifierTBC,
   'nice-throw': { designer: 'Hea Poh Lin' },
   'no-apologies': { designer: 'Simon Child' },
   'not-very-exotic': { designer: 'iconsphere' },

@@ -4,6 +4,7 @@ import { firstBy } from 'thenby'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
 
+const constants = require('../../utils/constants')
 const proxy = require('../../utils/api-helper').proxy()
 const modifiers = [
   { name: '20/20' },
@@ -20,10 +21,14 @@ const modifiers = [
   { name: 'Nonexistent', bonus: 0, scoringModifier: true },
   { name: 'Nonexistent', bonus: 50, scoringModifier: true },
   { name: 'Nonexistent', bonus: -50, scoringModifier: true },
-  { name: 'Multiplier TBC', bonus: 0 },
-  { name: 'Modifier TBC', bonus: 0, scoringModifier: true },
-  { name: 'No Multiplier', bonus: 0 },
-  { name: 'No Modifier', bonus: 0, scoringModifier: true }
+  { name: constants.modifiers.tbc[1], bonus: 0 },
+  { name: constants.modifiers.tbc[0], bonus: 0, scoringModifier: true },
+  { name: constants.modifiers.notApplicable[1], bonus: 0 },
+  {
+    name: constants.modifiers.notApplicable[0],
+    bonus: 0,
+    scoringModifier: true
+  }
 ]
 
 const Loader = class extends PureComponent {

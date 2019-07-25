@@ -9,7 +9,8 @@ const allowedTags = [
   { name: 'Beta Tester', shortName: 'Beta', tier: 3 },
   { name: 'Creator', tier: 1 },
   { name: 'Insider', tier: 2 },
-  { name: 'Rockstar', tier: 3 }
+  { name: 'Rockstar', tier: 3 },
+  { name: 'Banned' }
 ]
 
 const isAllowed = name => {

@@ -145,6 +145,11 @@ export default {
           from: 'https://discord.destinyclanwarfare.com/*',
           to: 'https://discordapp.com/invite/tu8JdRr',
           code: '301!'
+        },
+        {
+          from: urlBuilder.patreonUrl({ id: ':id' }),
+          to: urlBuilder.patreonUrl({ id: ':id' }, true),
+          code: '301!'
         }
       ]
     ],

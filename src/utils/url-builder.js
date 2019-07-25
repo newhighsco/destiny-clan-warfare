@@ -52,6 +52,15 @@ module.exports = {
 
   leaderboardRootUrl,
 
+  patreonUrl: (tier, isAbsolute) => {
+    if (isAbsolute)
+      return `https://www.patreon.com/join/destinyclanwarfare/checkout?rid=${
+        tier.id
+      }`
+
+    return `https://patreon.destinyclanwarfare.com/${tier.id}`
+  },
+
   pgcrUrl: pgcrId => {
     return `${pgrcRootUrl}${pgcrId}`
   },

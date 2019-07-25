@@ -97,6 +97,12 @@ const constants = {
     paypal: 'https://www.paypal.me/destinyclanwarfare',
     twitter: 'https://twitter.com/destinyclanwar'
   },
+  patreon: {
+    donor: { name: 'Signing up for Duty', id: '2983215' },
+    insider: { name: 'Inside Edge', id: '2228028' },
+    modifierCreator: { name: 'Shape the Battlefield', id: '2200985' },
+    eventCreator: { name: 'Command the Warfare', id: '2409387' }
+  },
   statsGamesThreshold: 15,
   emptyTotals: {
     path: null,

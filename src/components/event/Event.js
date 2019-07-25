@@ -123,7 +123,7 @@ const Event = class extends PureComponent {
           <Sponsor name={event.sponsor} />
           <Timer start={event.startDate} end={event.endDate} />
           {event.description && (
-            <Prose>
+            <Prose contained>
               <p dangerouslySetInnerHTML={{ __html: event.description }} />
             </Prose>
           )}

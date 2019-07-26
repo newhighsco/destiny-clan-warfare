@@ -180,6 +180,12 @@ stories.add('Default', () => (
   </Prose>
 ))
 
+stories.add('Contained', () => (
+  <Prose contained>
+    <ProseText />
+  </Prose>
+))
+
 stories.add('Inline HTML overrides', () => (
   <Prose>
     <p

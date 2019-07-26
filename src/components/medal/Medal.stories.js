@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { MedalList } from './Medal'
+import withTooltips from '../../../.storybook/decorators/tooltips'
 
 const proxy = require('../../utils/api-helper').proxy()
 const medalBuilder = require('../../utils/medal-builder')
@@ -54,40 +55,40 @@ Loader.propTypes = {
   url: PropTypes.string
 }
 
-storiesOf('Medals', module)
+const stories = storiesOf('Medals', module)
+
+stories
+  .addDecorator(withTooltips)
   .add(
     'Clan',
     () => (
-      <div className="storybook-tooltips-visible">
-        <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
-          {medals => (
-            <MedalList medals={medals} enableHover={false} tooltipActive />
-          )}
-        </Loader>
-      </div>
+      <Loader type={constants.prefix.clan} url="Component/GetAllClanMedals">
+        {medals => (
+          <MedalList medals={medals} enableHover={false} tooltipActive />
+        )}
+      </Loader>
     ),
     { percy: { skip: true } }
   )
   .add(
     'Member',
     () => (
-      <div className="storybook-tooltips-visible">
-        <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
-          {medals => (
-            <MedalList medals={medals} enableHover={false} tooltipActive />
-          )}
-        </Loader>
-      </div>
+      <Loader type={constants.prefix.profile} url="Component/GetAllMedals">
+        {medals => (
+          <MedalList medals={medals} enableHover={false} tooltipActive />
+        )}
+      </Loader>
     ),
     { percy: { skip: true } }
   )
-  .add('Sizes', () => (
-    <Fragment>
-      <p>Regular</p>
-      <MedalList medals={medals} enableHover={false} />
-      <p>Small</p>
-      <MedalList medals={medals} enableHover={false} size="small" />
-      <p>X-Small</p>
-      <MedalList medals={medals} enableHover={false} size="x-small" />
-    </Fragment>
-  ))
+
+stories.add('Sizes', () => (
+  <Fragment>
+    <p>Regular</p>
+    <MedalList medals={medals} enableHover={false} />
+    <p>Small</p>
+    <MedalList medals={medals} enableHover={false} size="small" />
+    <p>X-Small</p>
+    <MedalList medals={medals} enableHover={false} size="x-small" />
+  </Fragment>
+))

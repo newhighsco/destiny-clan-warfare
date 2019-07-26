@@ -4,7 +4,7 @@ import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import { Grid, GridItem } from '../components/grid/Grid'
 import TextAlign from '../components/text-align/TextAlign'
-import Swatch from '../components/swatch/Swatch'
+import { SwatchList } from '../components/swatch/Swatch'
 import Prose from '../components/prose/Prose'
 import List from '../components/list/List'
 import SmartLink from '../components/smart-link/SmartLink'
@@ -15,20 +15,6 @@ const meta = {
   description: `Branding guidelines for ${constants.meta.name}`,
   robots: 'noindex,nofollow'
 }
-const colours = [
-  { name: 'Terracotta', value: '#e27365' },
-  { name: 'Equator', value: '#e2b265' },
-  { name: 'Lemon', value: '#d6da2a' },
-  { name: 'Pastel green', value: '#65e273' },
-  { name: 'Cornflower', value: '#6596e2' },
-  { name: 'White', value: '#fff' },
-  { name: 'White smoke', value: '#f4f4f4' },
-  { name: 'Silver', value: '#b3b3b3' },
-  { name: 'Eclipse', value: '#404040' },
-  { name: 'Nightrider', value: '#333' },
-  { name: 'Nero', value: '#262626' },
-  { name: 'Black', value: '#000' }
-]
 const logos = [
   { name: 'Combined - small', value: 'Logo_Small' },
   { name: 'Combined - medium', value: 'Logo_Medium' },
@@ -98,20 +84,7 @@ function BrandingPage() {
       </Card>
       <Card center>
         <Lockup center element="h2" heading="Colours" />
-        <Grid stacked>
-          {colours.map((colour, index) => (
-            <GridItem
-              key={index}
-              sizes={[
-                'one-half',
-                'tablet-one-third',
-                'tablet-landscape-one-quarter'
-              ]}
-            >
-              <Swatch {...colour} />
-            </GridItem>
-          ))}
-        </Grid>
+        <SwatchList />
       </Card>
     </PageContainer>
   )

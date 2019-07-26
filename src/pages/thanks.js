@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -15,15 +16,16 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-function ThanksPage() {
+function ThanksPage({ search }) {
   const [enrollmentOpen, setEnrollmentOpen] = useState(false)
 
   useEffect(() => {
     setEnrollmentOpen(JSON.parse(localStorage.getItem('enrollmentOpen')))
   })
 
-  const query =
-    typeof location !== 'undefined' ? queryString.parse(location.search) : {}
+  if (!search && typeof location !== 'undefined') search = location.search
+
+  const query = queryString.parse(search)
   const success = query.success
     ? JSON.parse(query.success.toLowerCase())
     : false
@@ -136,6 +138,10 @@ function ThanksPage() {
       </Card>
     </PageContainer>
   )
+}
+
+ThanksPage.propTypes = {
+  search: PropTypes.string
 }
 
 export default ThanksPage

@@ -81,7 +81,9 @@ Loader.propTypes = {
   children: PropTypes.func
 }
 
-storiesOf('Modifiers', module)
+const stories = storiesOf('Modifiers', module)
+
+stories
   .addDecorator(withTooltips)
   .add(
     'All',
@@ -99,7 +101,7 @@ storiesOf('Modifiers', module)
     { percy: { skip: true } }
   )
 
-storiesOf('Modifiers', module).add('Sizes', () => (
+stories.add('Sizes', () => (
   <Fragment>
     <p>Regular</p>
     <ModifierList modifiers={modifiers} enableHover={false} />

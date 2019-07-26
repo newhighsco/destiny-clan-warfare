@@ -55,7 +55,9 @@ Loader.propTypes = {
   url: PropTypes.string
 }
 
-storiesOf('Medals', module)
+const stories = storiesOf('Medals', module)
+
+stories
   .addDecorator(withTooltips)
   .add(
     'Clan',
@@ -80,7 +82,7 @@ storiesOf('Medals', module)
     { percy: { skip: true } }
   )
 
-storiesOf('Medals', module).add('Sizes', () => (
+stories.add('Sizes', () => (
   <Fragment>
     <p>Regular</p>
     <MedalList medals={medals} enableHover={false} />

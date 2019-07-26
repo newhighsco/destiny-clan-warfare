@@ -14,7 +14,7 @@ const Tooltip = class extends PureComponent {
     const { active } = this.props
 
     this.state = {
-      active: active,
+      active,
       align: props.align,
       valign: props.valign
     }

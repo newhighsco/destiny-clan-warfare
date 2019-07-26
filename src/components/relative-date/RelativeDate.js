@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { withIsEnhanced } from 'react-progressive-enhancement'
 
 const moment = require('moment')
 const constants = require('../../utils/constants')
@@ -40,7 +41,6 @@ const RelativeDate = class extends PureComponent {
     const title = value ? value.format(constants.format.humanReadable) : null
 
     this.state = {
-      active: false,
       value,
       dateTime,
       title,
@@ -48,21 +48,15 @@ const RelativeDate = class extends PureComponent {
     }
   }
 
-  componentDidMount() {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
-  }
-
   render() {
-    const { active, value, dateTime, title, label } = this.state
-    const { apiStatus, className } = this.props
+    const { value, dateTime, title, label } = this.state
+    const { isEnhanced, apiStatus, className } = this.props
 
     if (!value) return null
 
-    const contents = [label, label && ' ', active ? value.fromNow() : title]
+    const contents = [label, label && ' ', isEnhanced ? value.fromNow() : title]
 
-    if (apiStatus) return <Fragment>{active ? contents : <br />}</Fragment>
+    if (apiStatus) return <Fragment>{isEnhanced ? contents : <br />}</Fragment>
 
     return (
       <time dateTime={dateTime} title={title} className={className}>
@@ -73,6 +67,7 @@ const RelativeDate = class extends PureComponent {
 }
 
 RelativeDate.propTypes = {
+  isEnhanced: PropTypes.bool,
   apiStatus: PropTypes.object,
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   end: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -80,4 +75,4 @@ RelativeDate.propTypes = {
   className: PropTypes.string
 }
 
-export default RelativeDate
+export default withIsEnhanced(RelativeDate)

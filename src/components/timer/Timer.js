@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { withIsEnhanced } from 'react-progressive-enhancement'
 import { Stat } from '../stat/Stat'
 import SmartLink from '../smart-link/SmartLink'
 import styles from './Timer.styl'
@@ -33,7 +34,6 @@ const Timer = class extends PureComponent {
   constructor(props) {
     super(props)
 
-    var { active } = this.props
     const { start, end, tickInterval } = this.props
     const currentDate = moment.utc()
     const startDate = moment.utc(start)
@@ -42,6 +42,7 @@ const Timer = class extends PureComponent {
     var showProgress = false
     var showRange = false
     var label = []
+    var disabled = false
 
     if (startDate < currentDate && endDate > currentDate) {
       showProgress = true
@@ -53,7 +54,7 @@ const Timer = class extends PureComponent {
       displayDate = startDate
     } else if (endDate < currentDate) {
       label.push(constants.relativeDate.past)
-      active = false
+      disabled = true
     }
 
     const totalDuration = moment
@@ -67,7 +68,7 @@ const Timer = class extends PureComponent {
       .asMilliseconds()
 
     this.state = {
-      active,
+      disabled,
       startDate: startDate.format(constants.format.humanReadable),
       startHref: startDate.format(constants.format.timeIs),
       endDate: endDate.format(constants.format.humanReadable),
@@ -92,11 +93,10 @@ const Timer = class extends PureComponent {
   }
 
   componentDidMount() {
-    const { active, tickInterval } = this.state
+    const { disabled, tickInterval } = this.state
 
-    if (active === undefined) {
+    if (!disabled) {
       this.setState({
-        active: true,
         interval: setInterval(this.tick, tickInterval)
       })
     }
@@ -128,7 +128,7 @@ const Timer = class extends PureComponent {
 
         this.setState({
           label: [constants.relativeDate.past],
-          active: false
+          disabled: true
         })
       } else {
         const { start, end } = this.props
@@ -160,8 +160,9 @@ const Timer = class extends PureComponent {
   }
 
   render() {
+    var { isEnhanced } = this.props
     const {
-      active,
+      disabled,
       startDate,
       startHref,
       endDate,
@@ -175,14 +176,20 @@ const Timer = class extends PureComponent {
       passedDuration
     } = this.state
 
-    if (active && label.length <= 1) label.push(constants.prefix.relative)
+    if (disabled) isEnhanced = false
 
-    const passedPercentage = active
+    if (isEnhanced && label.length <= 1) label.push(constants.prefix.relative)
+
+    const passedPercentage = isEnhanced
       ? statsHelper.percentage(passedDuration, totalDuration, true, 2)
       : 0
     const stat = {
-      stat: active ? countdown(remainingDuration) : displayDate.date,
-      label: active ? (showRange ? null : displayDate.full) : displayDate.time
+      stat: isEnhanced ? countdown(remainingDuration) : displayDate.date,
+      label: isEnhanced
+        ? showRange
+          ? null
+          : displayDate.full
+        : displayDate.time
     }
 
     return (
@@ -193,7 +200,7 @@ const Timer = class extends PureComponent {
           className={styles[`${baseClassName}__stat`]}
           size="small"
         />
-        {active && showRange && (
+        {isEnhanced && showRange && (
           <div
             className={classNames(
               styles[`${baseClassName}__range`],
@@ -239,10 +246,10 @@ Timer.defaultProps = {
 }
 
 Timer.propTypes = {
+  isEnhanced: PropTypes.bool,
   start: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   end: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  active: PropTypes.bool,
   tickInterval: PropTypes.number
 }
 
-export default Timer
+export default withIsEnhanced(Timer)

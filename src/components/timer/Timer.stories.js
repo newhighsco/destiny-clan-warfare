@@ -9,20 +9,7 @@ const tickInterval = inPercy() ? null : undefined
 storiesOf('Timer', module)
   .add('Current', () => (
     <Fragment>
-      <p>{`state = { active: false }`}</p>
-      <Timer
-        active={false}
-        tickInterval={tickInterval}
-        start={moment
-          .utc()
-          .subtract(1, 'd')
-          .startOf('d')}
-        end={moment
-          .utc()
-          .add(7, 'd')
-          .startOf('d')}
-      />
-      <p>{`state = { active: true }`}</p>
+      <p>Default</p>
       <Timer
         tickInterval={tickInterval}
         start={moment
@@ -34,7 +21,21 @@ storiesOf('Timer', module)
           .add(7, 'd')
           .startOf('d')}
       />
+      <p>Progressively enhanced</p>
       <Timer
+        isEnhanced
+        tickInterval={tickInterval}
+        start={moment
+          .utc()
+          .subtract(1, 'd')
+          .startOf('d')}
+        end={moment
+          .utc()
+          .add(7, 'd')
+          .startOf('d')}
+      />
+      <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -46,6 +47,7 @@ storiesOf('Timer', module)
           .add(2, 's')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -57,6 +59,7 @@ storiesOf('Timer', module)
           .add(2, 's')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -68,6 +71,7 @@ storiesOf('Timer', module)
           .startOf('h')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -79,6 +83,7 @@ storiesOf('Timer', module)
           .startOf('h')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -90,6 +95,7 @@ storiesOf('Timer', module)
           .startOf('m')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -101,20 +107,7 @@ storiesOf('Timer', module)
   ))
   .add('Future', () => (
     <Fragment>
-      <p>{`state = { active: false }`}</p>
-      <Timer
-        tickInterval={tickInterval}
-        active={false}
-        start={moment
-          .utc()
-          .add(11, 'd')
-          .startOf('d')}
-        end={moment
-          .utc()
-          .add(17, 'd')
-          .startOf('d')}
-      />
-      <p>{`state = { active: true }`}</p>
+      <p>Default</p>
       <Timer
         tickInterval={tickInterval}
         start={moment
@@ -126,7 +119,21 @@ storiesOf('Timer', module)
           .add(17, 'd')
           .startOf('d')}
       />
+      <p>Progressively enhanced</p>
       <Timer
+        isEnhanced
+        tickInterval={tickInterval}
+        start={moment
+          .utc()
+          .add(11, 'd')
+          .startOf('d')}
+        end={moment
+          .utc()
+          .add(17, 'd')
+          .startOf('d')}
+      />
+      <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -138,6 +145,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -149,6 +157,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -160,6 +169,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -171,6 +181,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()
@@ -182,6 +193,7 @@ storiesOf('Timer', module)
           .startOf('d')}
       />
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment.utc().add(1, 's')}
         end={moment
@@ -193,10 +205,9 @@ storiesOf('Timer', module)
   ))
   .add('Past', () => (
     <Fragment>
-      <p>{`state = { active: false }`}</p>
+      <p>Default</p>
       <Timer
         tickInterval={tickInterval}
-        active={false}
         start={moment
           .utc()
           .subtract(7, 'd')
@@ -206,8 +217,9 @@ storiesOf('Timer', module)
           .subtract(1, 'd')
           .startOf('d')}
       />
-      <p>{`state = { active: true }`}</p>
+      <p>Progressively enhanced</p>
       <Timer
+        isEnhanced
         tickInterval={tickInterval}
         start={moment
           .utc()

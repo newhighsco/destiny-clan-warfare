@@ -50,6 +50,7 @@
     "poststylus": "^1.0.0",
     "query-string": "^5.0.1",
     "react-ga-donottrack": "^1.0.0",
+    "react-progressive-enhancement": "^0.0.5",
     "react-static": "^7.1.0",
     "react-static-plugin-reach-router": "^7.0.10",
     "react-static-plugin-sitemap": "^7.0.10",

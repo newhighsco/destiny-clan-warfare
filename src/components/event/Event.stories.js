@@ -1,8 +1,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import { context as ProgressiveEnhancementContext } from 'react-progressive-enhancement'
 import Event from './Event'
 
 const moment = require('moment')
+const { Provider } = ProgressiveEnhancementContext
 
 const startDate = moment
   .utc()
@@ -57,6 +59,9 @@ const medals = {
 }
 
 storiesOf('Events', module)
+  .addDecorator(story => (
+    <Provider value={{ isEnhanced: true }}>{story()}</Provider>
+  ))
   .add('Current', () => (
     <Event
       event={{

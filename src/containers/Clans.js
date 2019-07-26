@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
+import { withIsEnhanced } from 'react-progressive-enhancement'
 import { firstBy } from 'thenby'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -42,7 +43,6 @@ const ClansContainer = class extends PureComponent {
       )
 
     this.state = {
-      active: false,
       activeIndex: null,
       clans,
       suggestions: clans.map(({ name, tag }, index) => ({
@@ -54,12 +54,6 @@ const ClansContainer = class extends PureComponent {
     this.handleSearch = this.handleSearch.bind(this)
   }
 
-  componentDidMount() {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
-  }
-
   handleSearch(tag) {
     this.setState({
       activeIndex: tag.id
@@ -67,13 +61,14 @@ const ClansContainer = class extends PureComponent {
   }
 
   render() {
-    const { active, activeIndex, clans, suggestions } = this.state
+    const { isEnhanced } = this.props
+    const { activeIndex, clans, suggestions } = this.state
 
     return (
       <PageContainer meta={meta}>
         <Card cutout center>
           <Lockup primary center kicker="Clan" heading="leaderboard" />
-          {active && (
+          {isEnhanced && (
             <Filter
               kicker="Find clan"
               placeholder="Enter clan name"
@@ -95,7 +90,8 @@ const ClansContainer = class extends PureComponent {
 }
 
 ClansContainer.propTypes = {
+  isEnhanced: PropTypes.bool,
   clans: PropTypes.array
 }
 
-export default withRouteData(ClansContainer)
+export default withIsEnhanced(withRouteData(ClansContainer))

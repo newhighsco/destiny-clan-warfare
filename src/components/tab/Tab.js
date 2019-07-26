@@ -1,6 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { withIsEnhanced } from 'react-progressive-enhancement'
 import { Button } from '../button/Button'
 import styles from './Tab.styl'
 
@@ -47,18 +48,11 @@ const TabContainer = class extends PureComponent {
     }
 
     this.state = {
-      active: false,
       activeIndex
     }
 
     this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
-  }
-
-  componentDidMount() {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -90,8 +84,8 @@ const TabContainer = class extends PureComponent {
   }
 
   render() {
-    const { id, cutout, children } = this.props
-    const { active, activeIndex } = this.state
+    const { isEnhanced, id, cutout, children } = this.props
+    const { activeIndex } = this.state
 
     if (!children) return null
 
@@ -101,14 +95,14 @@ const TabContainer = class extends PureComponent {
         className={classNames(
           styles[containerClassName],
           cutout && styles[`${containerClassName}--cutout`],
-          active && styles['is-active']
+          isEnhanced && styles['is-enhanced']
         )}
       >
         {React.Children.map(children, (child, i) => {
           if (!child) return null
 
           const { id, href, state, title, name } = child.props
-          const isActive = i === activeIndex
+          const active = i === activeIndex
 
           return (
             <Fragment key={i}>
@@ -118,7 +112,7 @@ const TabContainer = class extends PureComponent {
                   href={href}
                   className={classNames(
                     styles[buttonClassName],
-                    isActive && styles['is-active']
+                    active && styles['is-active']
                   )}
                   state={state}
                   data-index={i}
@@ -131,7 +125,7 @@ const TabContainer = class extends PureComponent {
               <div
                 className={classNames(
                   styles[contentClassName],
-                  isActive && styles['is-active']
+                  active && styles['is-active']
                 )}
               >
                 {child}
@@ -149,10 +143,13 @@ TabContainer.defaultProps = {
 }
 
 TabContainer.propTypes = {
+  isEnhanced: PropTypes.bool,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   children: PropTypes.node,
   activeIndex: PropTypes.number,
   cutout: PropTypes.bool
 }
 
-export { Tab, TabContainer }
+const ProgressivelyEnhancedTabContainer = withIsEnhanced(TabContainer)
+
+export { Tab, ProgressivelyEnhancedTabContainer as TabContainer }

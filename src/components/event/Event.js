@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { withIsEnhanced } from 'react-progressive-enhancement'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import Timer from '../timer/Timer'
@@ -33,7 +34,6 @@ const Event = class extends PureComponent {
     this.handleSearch = this.handleSearch.bind(this)
 
     this.state = {
-      active: false,
       enrollmentOpen: false,
       statsColumns: stats ? Object.keys(stats) : null,
       hasLeaderboards,
@@ -48,9 +48,6 @@ const Event = class extends PureComponent {
 
   componentDidMount() {
     const { event } = this.props
-    var { active } = this.state
-
-    if (!active) this.setState({ active: true })
 
     if (!event.isPast) {
       const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
@@ -76,6 +73,7 @@ const Event = class extends PureComponent {
 
   render() {
     const {
+      isEnhanced,
       event,
       leaderboards,
       suggestions,
@@ -84,7 +82,6 @@ const Event = class extends PureComponent {
       summary
     } = this.props
     const {
-      active,
       enrollmentOpen,
       statsColumns,
       hasLeaderboards,
@@ -157,7 +154,7 @@ const Event = class extends PureComponent {
                   kickerAttributes={{ href: urlBuilder.clanRootUrl }}
                 />
               )}
-              {hasLeaderboards && active && (
+              {hasLeaderboards && isEnhanced && (
                 <Filter
                   kicker="Find clan"
                   placeholder="Enter clan name"
@@ -236,6 +233,7 @@ Event.defaultProps = {
 }
 
 Event.propTypes = {
+  isEnhanced: PropTypes.bool,
   event: PropTypes.object,
   leaderboards: PropTypes.array,
   suggestions: PropTypes.array,
@@ -244,4 +242,4 @@ Event.propTypes = {
   summary: PropTypes.bool
 }
 
-export default Event
+export default withIsEnhanced(Event)

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
+import { withIsEnhanced } from 'react-progressive-enhancement'
 import { firstBy } from 'thenby'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -123,7 +124,6 @@ const CustomLeaderboardContainer = class extends PureComponent {
     )
 
     this.state = {
-      active: false,
       meta,
       leaderboard,
       hasLeaderboard: leaderboard.length > 0,
@@ -138,12 +138,6 @@ const CustomLeaderboardContainer = class extends PureComponent {
     this.handleAddition = this.handleAddition.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleChange = this.handleChange.bind(this)
-  }
-
-  componentDidMount() {
-    const { active } = this.state
-
-    if (!active) this.setState({ active: true })
   }
 
   handleAddition(tag) {
@@ -179,15 +173,14 @@ const CustomLeaderboardContainer = class extends PureComponent {
   }
 
   render() {
-    const { apiStatus, event, currentEventId, selectedIds } = this.props
     const {
-      active,
-      meta,
-      hasLeaderboard,
-      visible,
-      tags,
-      suggestions
-    } = this.state
+      isEnhanced,
+      apiStatus,
+      event,
+      currentEventId,
+      selectedIds
+    } = this.props
+    const { meta, hasLeaderboard, visible, tags, suggestions } = this.state
     const hasVisible = visible.length > 0
     const title = meta.title.split(' ')
 
@@ -207,7 +200,7 @@ const CustomLeaderboardContainer = class extends PureComponent {
             kicker={title[0]}
             heading={title.length > 1 && title[1]}
           />
-          {active && hasLeaderboard && !selectedIds && (
+          {isEnhanced && hasLeaderboard && !selectedIds && (
             <Filter
               kicker="Filter clans"
               placeholder="Enter clan name"
@@ -244,6 +237,7 @@ const CustomLeaderboardContainer = class extends PureComponent {
 }
 
 CustomLeaderboardContainer.propTypes = {
+  isEnhanced: PropTypes.bool,
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
   selectedIds: PropTypes.array,
@@ -253,4 +247,4 @@ CustomLeaderboardContainer.propTypes = {
   meta: PropTypes.object
 }
 
-export default withRouteData(CustomLeaderboardContainer)
+export default withIsEnhanced(withRouteData(CustomLeaderboardContainer))

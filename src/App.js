@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Root, Routes, Head, addPrefetchExcludes } from 'react-static'
 import { Router, Match } from '@reach/router'
+import { enableProgressiveEnhancementsOnMount } from 'react-progressive-enhancement'
 import Analytics from './components/analytics/Analytics'
 import SiteContainer from './components/site-container/SiteContainer'
 import MemberCurrent from './containers/member/Current'
@@ -79,4 +80,4 @@ function App() {
   )
 }
 
-export default App
+export default enableProgressiveEnhancementsOnMount(App)

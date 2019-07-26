@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { firstBy } from 'thenby'
 import { storiesOf } from '@storybook/react'
 import { ModifierList } from './Modifier'
+import withTooltips from '../../../.storybook/decorators/tooltips'
 
 const constants = require('../../utils/constants')
 const proxy = require('../../utils/api-helper').proxy()
@@ -81,28 +82,28 @@ Loader.propTypes = {
 }
 
 storiesOf('Modifiers', module)
+  .addDecorator(withTooltips)
   .add(
     'All',
     () => (
-      <div className="storybook-tooltips-visible">
-        <Loader>
-          {modifiers => (
-            <ModifierList
-              modifiers={modifiers}
-              enableHover={false}
-              tooltipActive
-            />
-          )}
-        </Loader>
-      </div>
+      <Loader>
+        {modifiers => (
+          <ModifierList
+            modifiers={modifiers}
+            enableHover={false}
+            tooltipActive
+          />
+        )}
+      </Loader>
     ),
     { percy: { skip: true } }
   )
-  .add('Sizes', () => (
-    <Fragment>
-      <p>Regular</p>
-      <ModifierList modifiers={modifiers} enableHover={false} />
-      <p>Small</p>
-      <ModifierList modifiers={modifiers} enableHover={false} size="small" />
-    </Fragment>
-  ))
+
+storiesOf('Modifiers', module).add('Sizes', () => (
+  <Fragment>
+    <p>Regular</p>
+    <ModifierList modifiers={modifiers} enableHover={false} />
+    <p>Small</p>
+    <ModifierList modifiers={modifiers} enableHover={false} size="small" />
+  </Fragment>
+))

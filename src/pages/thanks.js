@@ -1,5 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { withAPIStatus } from '../contexts/APIStatusContext'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -16,13 +17,7 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-function ThanksPage({ search }) {
-  const [enrollmentOpen, setEnrollmentOpen] = useState(false)
-
-  useEffect(() => {
-    setEnrollmentOpen(JSON.parse(localStorage.getItem('enrollmentOpen')))
-  })
-
+function ThanksPage({ enrollmentOpen, search }) {
   if (!search && typeof location !== 'undefined') search = location.search
 
   const query = queryString.parse(search)
@@ -141,7 +136,8 @@ function ThanksPage({ search }) {
 }
 
 ThanksPage.propTypes = {
+  enrollmentOpen: PropTypes.bool,
   search: PropTypes.string
 }
 
-export default ThanksPage
+export default withAPIStatus(ThanksPage)

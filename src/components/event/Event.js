@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withAPIStatus } from '../../contexts/APIStatusContext'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import Timer from '../timer/Timer'
@@ -34,7 +35,6 @@ const Event = class extends PureComponent {
     this.handleSearch = this.handleSearch.bind(this)
 
     this.state = {
-      enrollmentOpen: false,
       statsColumns: stats ? Object.keys(stats) : null,
       hasLeaderboards,
       hasResults,
@@ -43,16 +43,6 @@ const Event = class extends PureComponent {
       leaderboardIndices: hasLeaderboards
         ? Array(leaderboards.length).fill(null)
         : []
-    }
-  }
-
-  componentDidMount() {
-    const { event } = this.props
-
-    if (!event.isPast) {
-      const enrollmentOpen = JSON.parse(localStorage.getItem('enrollmentOpen'))
-
-      this.setState({ enrollmentOpen })
     }
   }
 
@@ -74,6 +64,7 @@ const Event = class extends PureComponent {
   render() {
     const {
       isEnhanced,
+      enrollmentOpen,
       event,
       leaderboards,
       suggestions,
@@ -82,7 +73,6 @@ const Event = class extends PureComponent {
       summary
     } = this.props
     const {
-      enrollmentOpen,
       statsColumns,
       hasLeaderboards,
       hasResults,
@@ -234,6 +224,7 @@ Event.defaultProps = {
 
 Event.propTypes = {
   isEnhanced: PropTypes.bool,
+  enrollmentOpen: PropTypes.bool,
   event: PropTypes.object,
   leaderboards: PropTypes.array,
   suggestions: PropTypes.array,
@@ -242,4 +233,4 @@ Event.propTypes = {
   summary: PropTypes.bool
 }
 
-export default withIsEnhanced(Event)
+export default withIsEnhanced(withAPIStatus(Event))

@@ -94,7 +94,7 @@ const EventContainer = class extends PureComponent {
     const { meta } = this.state
 
     return (
-      <PageContainer meta={meta}>
+      <PageContainer meta={meta} apiStatus={apiStatus}>
         <Lockup primary center kicker={meta.kicker}>
           {event.isCurrent && <RelativeDate apiStatus={apiStatus} />}
         </Lockup>

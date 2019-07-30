@@ -90,7 +90,7 @@ const MemberCurrent = class extends PureComponent {
     const hasLeaderboard = leaderboard && leaderboard.length > 0
 
     return (
-      <PageContainer meta={meta}>
+      <PageContainer meta={meta} apiStatus={apiStatus}>
         <Lockup
           primary
           center

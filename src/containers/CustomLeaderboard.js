@@ -185,7 +185,7 @@ const CustomLeaderboardContainer = class extends PureComponent {
     const title = meta.title.split(' ')
 
     return (
-      <PageContainer meta={meta}>
+      <PageContainer meta={meta} apiStatus={apiStatus}>
         <Lockup
           primary
           center

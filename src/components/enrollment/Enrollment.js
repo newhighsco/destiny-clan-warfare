@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withAPIStatus } from '../../contexts/APIStatusContext'
 import { Lockup } from '../lockup/Lockup'
 import List from '../list/List'
 import SmartLink from '../smart-link/SmartLink'
@@ -21,21 +23,13 @@ const urlBuilder = require('../../utils/url-builder')
 const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
 const redirectUrl = `${process.env.SITE_URL}/thanks`
-const proxy = apiHelper.proxy()
 const bungieApi = bungieHelper.api()
 
 const Enrollment = class extends Component {
   constructor(props) {
     super(props)
 
-    const { apiStatus } = this.props
-
     this.state = {
-      active: false,
-      open:
-        apiStatus &&
-        apiStatus.enrollmentOpen &&
-        !bungieHelper.disabled(apiStatus.bungieStatus),
       name: '',
       groups: [],
       selectedGroup: null,
@@ -44,32 +38,6 @@ const Enrollment = class extends Component {
 
     this.handleEnroll = this.handleEnroll.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
-  }
-
-  async componentDidMount() {
-    if (this.refs.form) {
-      var { active, source } = this.state
-
-      if (!active) this.setState({ active: true })
-
-      await proxy(`Clan/AcceptingNewClans`, {
-        cancelToken: source.token
-      })
-        .then(({ data }) => {
-          const apiDisabled = JSON.parse(localStorage.getItem('apiDisabled'))
-          active = data && !apiDisabled
-
-          localStorage.setItem('enrollmentOpen', active)
-          this.setState({ open: active })
-        })
-        .catch(() => {})
-    }
-  }
-
-  componentWillUnmount() {
-    var { source } = this.state
-
-    source.cancel()
   }
 
   handleEnroll(e) {
@@ -89,9 +57,10 @@ const Enrollment = class extends Component {
   }
 
   handleSearch(e) {
-    const { active, groups } = this.state
+    const { isEnhanced } = this.props
+    const { groups } = this.state
 
-    if (active) {
+    if (isEnhanced) {
       e.preventDefault()
 
       const name = e.target.value.trim()
@@ -129,14 +98,16 @@ const Enrollment = class extends Component {
   }
 
   render() {
-    const { ids } = this.props
-    const { active, open, groups, selectedGroup } = this.state
+    const { isEnhanced, enrollmentOpen, ids } = this.props
+    const { groups, selectedGroup } = this.state
     const id = constants.prefix.enroll
-    const kicker = open ? 'Enroll your clan today' : 'Enrollment closed'
-    const placeholder = active
+    const kicker = enrollmentOpen
+      ? 'Enroll your clan today'
+      : 'Enrollment closed'
+    const placeholder = isEnhanced
       ? 'Enter clan name or ID'
       : 'Enter Bungie.net group ID'
-    const name = active ? 'clanName' : 'clanId'
+    const name = isEnhanced ? 'clanName' : 'clanId'
 
     return (
       <form
@@ -155,7 +126,7 @@ const Enrollment = class extends Component {
           <Lockup borderless center kicker={kicker} />
         </label>
         <div className={classNames(styles[`${baseClassName}__field`])}>
-          {open ? (
+          {enrollmentOpen ? (
             <TextControl
               type="search"
               name={name}
@@ -175,7 +146,9 @@ const Enrollment = class extends Component {
           )}
         </div>
         <ButtonGroup
-          className={!open || active ? visuallyHiddenClassName : null}
+          className={
+            !enrollmentOpen || isEnhanced ? visuallyHiddenClassName : null
+          }
         >
           <Button solid type="submit">
             Enroll clan
@@ -217,15 +190,16 @@ const Enrollment = class extends Component {
             })}
           </List>
         )}
-        {(!open || active) && <br />}
+        {(!enrollmentOpen || isEnhanced) && <br />}
       </form>
     )
   }
 }
 
 Enrollment.propTypes = {
-  apiStatus: PropTypes.object,
+  isEnhanced: PropTypes.bool,
+  enrollmentOpen: PropTypes.bool,
   ids: PropTypes.array
 }
 
-export default Enrollment
+export default withIsEnhanced(withAPIStatus(Enrollment))

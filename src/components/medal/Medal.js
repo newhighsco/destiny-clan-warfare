@@ -55,19 +55,41 @@ const Medal = class extends PureComponent {
       : null
     const designer = foreground ? foreground.designer : null
     const tooltip = []
+    const hasLabel = label && label.length > 1
     const labelSentence = sentence(label)
 
-    if (description) tooltip.push(description, '')
-    if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
-    if (label && label.length > 1)
-      tooltip.push(`<strong>Awarded to:</strong> ${labelSentence}`)
+    if (description) {
+      tooltip.push(description)
+      if (designer || hasLabel) tooltip.push(' ')
+    }
+
+    if (designer) {
+      tooltip.push(
+        <Fragment>
+          <strong>Icon:</strong> {designer}
+        </Fragment>
+      )
+    }
+
+    if (hasLabel) {
+      tooltip.push(
+        <Fragment>
+          <strong>Awarded to:</strong> {labelSentence}
+        </Fragment>
+      )
+    }
 
     if (!BackgroundSvg) return null
 
     return (
       <Tooltip
         heading={name}
-        text={tooltip.join('<br />')}
+        text={tooltip.map((line, i) => (
+          <Fragment key={`tooltip-${i}`}>
+            {i > 0 && <br />}
+            {line}
+          </Fragment>
+        ))}
         className={className}
         align={align}
         valign={valign}

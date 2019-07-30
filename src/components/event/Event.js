@@ -114,7 +114,10 @@ const Event = class extends PureComponent {
               <p dangerouslySetInnerHTML={{ __html: event.description }} />
             </Prose>
           )}
-          <ModifierList modifiers={event.modifiers} />
+          <ModifierList
+            modifiers={event.modifiers}
+            showPromoted={!event.isCurrent}
+          />
           {!summary && (
             <Fragment>
               {summaryType && (

@@ -1,14 +1,16 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../tooltip/Tooltip'
 import Icon from '../icon/Icon'
 import List from '../list/List'
+import { Tag } from '../tag/Tag'
 import icons from './icons'
 import styles from './Modifier.styl'
 
 const paramCase = require('param-case')
 const constants = require('../../utils/constants')
+const urlBuilder = require('../../utils/url-builder')
 const svgs = require.context('./icons', false, /\.svg$/)
 const baseClassName = 'modifier'
 
@@ -16,6 +18,8 @@ const Modifier = class extends PureComponent {
   render() {
     const {
       name,
+      href,
+      target,
       description,
       creator,
       scoringModifier,
@@ -23,7 +27,9 @@ const Modifier = class extends PureComponent {
       align,
       valign,
       enableHover,
-      tooltipActive
+      tooltipActive,
+      promoted,
+      className
     } = this.props
     var { bonus } = this.props
     var key = paramCase(name)
@@ -69,14 +75,38 @@ const Modifier = class extends PureComponent {
     const label = `${prefix}${bonus}${suffix}`
     const tooltip = []
 
-    if (description) tooltip.push(description, '')
-    if (creator) tooltip.push(`<strong>Creator:</strong> ${creator}`)
-    if (designer) tooltip.push(`<strong>Icon:</strong> ${designer}`)
+    if (description) {
+      tooltip.push(description)
+      if (creator || designer) tooltip.push(' ')
+    }
+
+    if (creator) {
+      tooltip.push(
+        <Fragment>
+          <strong>Creator:</strong> {creator}
+        </Fragment>
+      )
+    }
+
+    if (designer) {
+      tooltip.push(
+        <Fragment>
+          <strong>Icon:</strong> {designer}
+        </Fragment>
+      )
+    }
 
     return (
       <Tooltip
         heading={name}
-        text={tooltip.join('<br />')}
+        href={href}
+        target={target}
+        text={tooltip.map((line, i) => (
+          <Fragment key={`tooltip-${i}`}>
+            {i > 0 && <br />}
+            {line}
+          </Fragment>
+        ))}
         align={align}
         valign={valign}
         enableHover={enableHover}
@@ -85,7 +115,9 @@ const Modifier = class extends PureComponent {
         <div
           className={classNames(
             styles[baseClassName],
-            size && styles[`${baseClassName}--${size}`]
+            size && styles[`${baseClassName}--${size}`],
+            promoted && styles[`${baseClassName}--promoted`],
+            className
           )}
           data-key={key}
         >
@@ -107,7 +139,9 @@ Modifier.defaultProps = {
 
 Modifier.propTypes = {
   name: PropTypes.string,
-  description: PropTypes.string,
+  href: PropTypes.string,
+  target: PropTypes.string,
+  description: PropTypes.node,
   creator: PropTypes.string,
   scoringModifier: PropTypes.bool,
   bonus: PropTypes.number,
@@ -115,21 +149,45 @@ Modifier.propTypes = {
   align: PropTypes.oneOf(['left', 'right', 'center']),
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
   enableHover: PropTypes.bool,
-  tooltipActive: PropTypes.bool
+  tooltipActive: PropTypes.bool,
+  promoted: PropTypes.bool,
+  className: PropTypes.string
 }
 
 const ModifierList = class extends PureComponent {
   render() {
     const {
-      modifiers,
       size,
       align,
       valign,
       enableHover,
-      tooltipActive
+      tooltipActive,
+      showPromoted
     } = this.props
+    var { modifiers } = this.props
 
     if (!modifiers || modifiers.length < 1) return null
+
+    if (showPromoted) {
+      const patreonTier = constants.patreon.modifierCreator
+
+      modifiers = [
+        ...modifiers,
+        {
+          name: patreonTier.name,
+          description: (
+            <Fragment>
+              Put your flair for battle tactics to the test - Create your own
+              event modifier and wear the exclusive <Tag name="Insider" /> badge
+              of honour everywhere your name appears on the site.
+            </Fragment>
+          ),
+          href: urlBuilder.patreonUrl(patreonTier),
+          target: '_blank',
+          promoted: true
+        }
+      ]
+    }
 
     return (
       <List inline className={styles[`${baseClassName}-list`]}>
@@ -162,7 +220,8 @@ ModifierList.propTypes = {
   align: PropTypes.oneOf(['left', 'right', 'center']),
   valign: PropTypes.oneOf(['top', 'bottom', 'middle']),
   enableHover: PropTypes.bool,
-  tooltipActive: PropTypes.bool
+  tooltipActive: PropTypes.bool,
+  showPromoted: PropTypes.bool
 }
 
 export { Modifier, ModifierList }

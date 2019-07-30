@@ -56,6 +56,7 @@ const icons = {
   'raid-timing': raidTiming,
   'rocky-balboa-s-trainee': { designer: 'miza bin' },
   scrublord: { designer: 'Nikita Kozin' },
+  'shape-the-battlefield': modifierTBC,
   'stop-the-stopper': { designer: 'Optimus Prime' },
   'strike-death-penalty': { designer: 'Robert Bjurshagen' },
   'super-accurate': bullseye,

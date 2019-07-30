@@ -92,6 +92,7 @@ stories
         {modifiers => (
           <ModifierList
             modifiers={modifiers}
+            showPromoted
             enableHover={false}
             tooltipActive
           />

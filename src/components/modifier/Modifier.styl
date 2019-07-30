@@ -46,6 +46,26 @@
   svg + .modifier__label
     display none
 
+.modifier--promoted
+  background $color--equator
+  color $color--eclipse
+  position relative
+
+  &:after
+    content ''
+    border 1px solid $color--equator
+    border-radius 100%
+    position absolute
+    top -3px
+    bottom @top
+    left @top
+    right @top
+    z-index 1
+
+  .modifier__icon
+    position relative
+    z-index 2
+
 .modifier-list
   position relative
 

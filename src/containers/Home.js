@@ -8,6 +8,7 @@ import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
 import Event from '../components/event/Event'
 import Notification from '../components/notification/Notification'
+import Sponsorship from '../components/sponsorship/Sponsorship'
 
 const constants = require('../utils/constants')
 const urlBuilder = require('../utils/url-builder')
@@ -74,37 +75,37 @@ function HomeContainer() {
               />
             </Fragment>
           )}
-          {nextEvent && (
-            <Fragment>
-              {previousEvent && <Advert />}
-              <Lockup
-                id="next"
-                center
-                primary
-                element="h1"
-                kicker={constants.kicker.next}
-              />
-              <Event event={nextEvent} element="h2" summary />
-            </Fragment>
+          {previousEvent && <Advert />}
+          <Lockup
+            id="next"
+            center
+            primary
+            element="h1"
+            kicker={constants.kicker.next}
+          />
+          {nextEvent ? (
+            <Event event={nextEvent} element="h2" summary />
+          ) : (
+            <Sponsorship />
           )}
         </Fragment>
       ) : (
         <Fragment>
-          {nextEvent && (
-            <Fragment>
-              <Lockup
-                id="next"
-                center
-                primary
-                element="h1"
-                kicker={constants.kicker.next}
-              />
-              <Event event={nextEvent} element="h2" summary />
-            </Fragment>
+          <Lockup
+            id="next"
+            center
+            primary
+            element="h1"
+            kicker={constants.kicker.next}
+          />
+          {nextEvent ? (
+            <Event event={nextEvent} element="h2" summary />
+          ) : (
+            <Sponsorship />
           )}
           {previousEvent && (
             <Fragment>
-              {nextEvent && <Advert />}
+              <Advert />
               <Lockup
                 id="previous"
                 center

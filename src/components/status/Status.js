@@ -1,30 +1,23 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { withIsEnhanced } from 'react-progressive-enhancement'
-import { withAPIStatus } from '../../contexts/APIStatusContext'
+import React, { useContext } from 'react'
+import { context as ProgressiveEnhancementContext } from 'react-progressive-enhancement'
+import { APIStatusContext } from '../../contexts/APIStatusContext'
 import ContentContainer from '../content-container/ContentContainer'
 import Notification from '../notification/Notification'
 import styles from './Status.styl'
 
-const Status = class extends PureComponent {
-  render() {
-    const { isEnhanced, apiDisabled } = this.props
+function Status() {
+  const { isEnhanced } = useContext(ProgressiveEnhancementContext)
+  const { apiDisabled } = useContext(APIStatusContext)
 
-    if (!isEnhanced || !apiDisabled) return null
+  if (!isEnhanced || !apiDisabled) return null
 
-    return (
-      <ContentContainer gutter className={styles.status}>
-        <Notification state="error">
-          The Bungie API is currently offline for maintenance.
-        </Notification>
-      </ContentContainer>
-    )
-  }
+  return (
+    <ContentContainer gutter className={styles.status}>
+      <Notification state="error">
+        The Bungie API is currently offline for maintenance.
+      </Notification>
+    </ContentContainer>
+  )
 }
 
-Status.propTypes = {
-  isEnhanced: PropTypes.bool,
-  apiDisabled: PropTypes.bool
-}
-
-export default withIsEnhanced(withAPIStatus(Status))
+export default Status

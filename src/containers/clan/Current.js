@@ -96,7 +96,7 @@ const ClanCurrentContainer = class extends PureComponent {
     } games to be included.`
 
     return (
-      <PageContainer meta={meta} apiStatus={apiStatus}>
+      <PageContainer meta={meta}>
         <Lockup
           primary
           center

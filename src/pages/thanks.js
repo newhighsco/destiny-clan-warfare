@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { withAPIStatus } from '../contexts/APIStatusContext'
+import { APIStatusContext } from '../contexts/APIStatusContext'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -17,9 +17,10 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-function ThanksPage({ enrollmentOpen, search }) {
+function ThanksPage({ search }) {
   if (!search && typeof location !== 'undefined') search = location.search
 
+  const apiStatus = useContext(APIStatusContext)
   const query = queryString.parse(search)
   const success = query.success
     ? JSON.parse(query.success.toLowerCase())
@@ -119,7 +120,7 @@ function ThanksPage({ enrollmentOpen, search }) {
                 <p>{message}</p>
               </Prose>
             )}
-            {enrollmentOpen ? (
+            {apiStatus && apiStatus.enrollmentOpen ? (
               <Button
                 href={`/${constants.prefix.hash}${constants.prefix.enroll}`}
               >
@@ -136,8 +137,7 @@ function ThanksPage({ enrollmentOpen, search }) {
 }
 
 ThanksPage.propTypes = {
-  enrollmentOpen: PropTypes.bool,
   search: PropTypes.string
 }
 
-export default withAPIStatus(ThanksPage)
+export default ThanksPage

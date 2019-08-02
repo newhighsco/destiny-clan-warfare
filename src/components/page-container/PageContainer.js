@@ -1,6 +1,5 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { APIStatusProvider } from '../../contexts/APIStatusContext'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 import Advert from '../advert/Advert'
@@ -14,10 +13,10 @@ const baseClassName = 'page-container'
 
 const PageContainer = class extends PureComponent {
   render() {
-    const { children, apiStatus, meta } = this.props
+    const { children, meta } = this.props
 
     return (
-      <APIStatusProvider apiStatus={apiStatus}>
+      <Fragment>
         <Meta {...meta} />
         <Landmark id="top" a11yText="Top of page" />
         <Header />
@@ -32,14 +31,13 @@ const PageContainer = class extends PureComponent {
           </ContentContainer>
         </main>
         <Footer />
-      </APIStatusProvider>
+      </Fragment>
     )
   }
 }
 
 PageContainer.propTypes = {
   children: PropTypes.node,
-  apiStatus: PropTypes.object,
   meta: PropTypes.object
 }
 

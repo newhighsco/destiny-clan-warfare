@@ -35,7 +35,7 @@ function HomeContainer() {
   } = useRouteData()
 
   return (
-    <PageContainer meta={meta} apiStatus={apiStatus}>
+    <PageContainer meta={meta}>
       <Enrollment ids={clanIds} />
       {apiStatus && apiStatus.alert && (
         <Notification state="warning" html={apiStatus.alert} />

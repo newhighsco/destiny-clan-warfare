@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React, { createContext, Component } from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 
 const apiHelper = require('../utils/api-helper')
 const bungieHelper = require('../utils/bungie-helper')
@@ -8,7 +7,13 @@ const bungieHelper = require('../utils/bungie-helper')
 const proxy = apiHelper.proxy()
 const bungieApi = bungieHelper.api()
 
-const APIStatusContext = React.createContext()
+const defaultValue = {
+  apiDisabled: false,
+  enrollmentOpen: true
+}
+
+const APIStatusContext = createContext(defaultValue)
+
 const { Consumer, Provider } = APIStatusContext
 
 function withAPIStatus(Component) {
@@ -23,33 +28,24 @@ const APIStatusProvider = class extends Component {
   constructor(props) {
     super(props)
 
-    const { apiStatus = {} } = this.props
-    const apiDisabled = bungieHelper.disabled(apiStatus.bungieStatus)
-    const enrollmentOpen = apiStatus.enrollmentOpen && !apiDisabled
-
-    this.state = {
-      apiDisabled,
-      enrollmentOpen,
-      sources: {
-        bungie: axios.CancelToken.source(),
-        api: axios.CancelToken.source()
-      }
-    }
+    this.state = defaultValue
   }
 
   async componentDidMount() {
-    var { apiDisabled, enrollmentOpen, sources } = this.state
+    var { apiDisabled, enrollmentOpen } = this.state
 
-    if (!apiDisabled) {
-      await bungieApi(`/Destiny2/Milestones/`, { cancelToken: sources.bungie })
-        .then(({ data }) => {
-          apiDisabled = bungieHelper.disabled(data.ErrorCode)
-        })
-        .catch(() => {})
+    await bungieApi(`/Destiny2/Milestones/`)
+      .then(({ data }) => {
+        apiDisabled = bungieHelper.disabled(data.ErrorCode)
+      })
+      .catch(() => {})
 
-      await proxy(`Clan/AcceptingNewClans`, { cancelToken: sources.api })
+    if (apiDisabled) {
+      enrollmentOpen = false
+    } else {
+      await proxy(`Clan/AcceptingNewClans`)
         .then(({ data }) => {
-          enrollmentOpen = data && !apiDisabled
+          enrollmentOpen = data
         })
         .catch(() => {})
     }
@@ -57,23 +53,14 @@ const APIStatusProvider = class extends Component {
     this.setState({ apiDisabled, enrollmentOpen })
   }
 
-  componentWillUnmount() {
-    var { sources } = this.state
-
-    sources.bungie.cancel()
-    sources.api.cancel()
-  }
-
   render() {
     const { children } = this.props
-    const { sources, ...rest } = this.state
 
-    return <Provider value={rest}>{children}</Provider>
+    return <Provider value={this.state}>{children}</Provider>
   }
 }
 
 APIStatusProvider.propTypes = {
-  apiStatus: PropTypes.object,
   children: PropTypes.node
 }
 

@@ -164,6 +164,12 @@ export default {
     'plugin-svg'
   ],
   getRoutes: async ({ incremental }) => {
+    const disableDataFetch = JSON.parse(process.env.DISABLE_DATA_FETCH || false)
+
+    if (disableDataFetch) {
+      return [{ path: urlBuilder.rootUrl, template: 'src/containers/Home' }]
+    }
+
     const {
       apiStatus,
       clans,

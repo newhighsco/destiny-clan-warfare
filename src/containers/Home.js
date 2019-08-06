@@ -4,7 +4,6 @@ import PageContainer from '../components/page-container/PageContainer'
 import { Button, ButtonGroup } from '../components/button/Button'
 import { Lockup } from '../components/lockup/Lockup'
 import RelativeDate from '../components/relative-date/RelativeDate'
-import Advert from '../components/advert/Advert'
 import Enrollment from '../components/enrollment/Enrollment'
 import Event from '../components/event/Event'
 import Notification from '../components/notification/Notification'
@@ -59,7 +58,6 @@ function HomeContainer() {
           />
           {previousEvent && (
             <Fragment>
-              <Advert />
               <Lockup
                 id="previous"
                 center
@@ -75,7 +73,6 @@ function HomeContainer() {
               />
             </Fragment>
           )}
-          {previousEvent && <Advert />}
           <Lockup
             id="next"
             center
@@ -105,7 +102,6 @@ function HomeContainer() {
           )}
           {previousEvent && (
             <Fragment>
-              <Advert />
               <Lockup
                 id="previous"
                 center

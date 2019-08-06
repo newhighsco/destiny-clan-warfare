@@ -16,7 +16,6 @@ function Html(props) {
   const canonicalUrl = `${process.env.SITE_URL}${
     canonicalPath === urlBuilder.rootUrl ? canonicalPath : `/${canonicalPath}`
   }`
-  const enableAdverts = JSON.parse(process.env.ENABLE_ADVERTS)
 
   return (
     <Html lang="en">
@@ -38,12 +37,6 @@ function Html(props) {
         )}
       </Head>
       <Body>{children}</Body>
-      {enableAdverts && (
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-        />
-      )}
     </Html>
   )
 }

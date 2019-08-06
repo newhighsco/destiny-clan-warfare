@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
-import Advert from '../advert/Advert'
 import Status from '../status/Status'
 import ContentContainer from '../content-container/ContentContainer'
 import Meta from '../meta/Meta'
@@ -27,7 +26,6 @@ const PageContainer = class extends PureComponent {
             className={styles[`${baseClassName}__inner`]}
           >
             {children}
-            <Advert />
           </ContentContainer>
         </main>
         <Footer />

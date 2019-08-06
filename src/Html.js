@@ -6,7 +6,13 @@ const urlBuilder = require('./utils/url-builder')
 const { name, handle } = constants.meta
 
 function Html(props) {
-  const { Html, Head, Body, children, routeInfo } = props
+  const {
+    Html,
+    Head,
+    Body,
+    children,
+    state: { routeInfo }
+  } = props
   const canonicalPath =
     routeInfo && routeInfo.path !== '404'
       ? routeInfo.path.match(/\/$/)
@@ -46,7 +52,7 @@ Html.propTypes = {
   Head: PropTypes.func,
   Body: PropTypes.func,
   children: PropTypes.node,
-  routeInfo: PropTypes.object
+  state: PropTypes.object
 }
 
 export default Html

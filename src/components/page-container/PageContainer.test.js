@@ -7,13 +7,13 @@ describe('Component: Page container', function() {
     const wrapper = shallow(<PageContainer />)
 
     expect(wrapper.find('main').prop('className')).toEqual('page-container')
-    expect(wrapper.find('ContentContainer').children().length).toEqual(1)
+    expect(wrapper.find('ContentContainer').children().length).toEqual(0)
   })
 
   test('should output the expected markup when `children` prop passed', function() {
     const wrapper = shallow(<PageContainer>Children</PageContainer>)
 
-    expect(wrapper.find('ContentContainer').children().length).toEqual(2)
+    expect(wrapper.find('ContentContainer').children().length).toEqual(1)
     expect(
       wrapper
         .find('ContentContainer')

@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withApp } from '../../contexts/App'
 import { Button } from '../button/Button'
 import styles from './Tab.styl'
 
@@ -150,6 +150,6 @@ TabContainer.propTypes = {
   cutout: PropTypes.bool
 }
 
-const ProgressivelyEnhancedTabContainer = withIsEnhanced(TabContainer)
+const ProgressivelyEnhancedTabContainer = withApp(TabContainer)
 
 export { Tab, ProgressivelyEnhancedTabContainer as TabContainer }

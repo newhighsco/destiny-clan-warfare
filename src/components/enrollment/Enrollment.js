@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { withIsEnhanced } from 'react-progressive-enhancement'
-import { withAPIStatus } from '../../contexts/APIStatusContext'
+import { withApp } from '../../contexts/App'
 import { Lockup } from '../lockup/Lockup'
 import List from '../list/List'
 import SmartLink from '../smart-link/SmartLink'
@@ -41,9 +40,9 @@ const Enrollment = class extends Component {
   }
 
   handleEnroll(e) {
-    const { active } = this.state
+    const { isEnhanced } = this.props
 
-    if (active) {
+    if (isEnhanced) {
       e.preventDefault()
 
       const id = e.target.dataset.id
@@ -202,4 +201,4 @@ Enrollment.propTypes = {
   ids: PropTypes.array
 }
 
-export default withIsEnhanced(withAPIStatus(Enrollment))
+export default withApp(Enrollment)

@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { withIsEnhanced } from 'react-progressive-enhancement'
-import { withAPIStatus } from '../../contexts/APIStatusContext'
+import { withApp } from '../../contexts/App'
 import Card from '../card/Card'
 import { Lockup } from '../lockup/Lockup'
 import Timer from '../timer/Timer'
@@ -236,4 +235,4 @@ Event.propTypes = {
   summary: PropTypes.bool
 }
 
-export default withIsEnhanced(withAPIStatus(Event))
+export default withApp(Event)

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
-import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withApp } from '../contexts/App'
 import { firstBy } from 'thenby'
 import PropTypes from 'prop-types'
 import PageContainer from '../components/page-container/PageContainer'
@@ -94,4 +94,4 @@ ClansContainer.propTypes = {
   clans: PropTypes.array
 }
 
-export default withIsEnhanced(withRouteData(ClansContainer))
+export default withApp(withRouteData(ClansContainer))

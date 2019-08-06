@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../contexts/App'
 import NotFound from '../components/not-found/NotFound'
 
 function NotFoundPage() {
-  const [active, setActive] = useState(false)
+  const { isEnhanced } = useContext(AppContext)
 
-  useEffect(() => {
-    setActive(true)
-  })
-
-  return active ? <NotFound /> : null
+  return isEnhanced ? <NotFound /> : null
 }
 
 export default NotFoundPage

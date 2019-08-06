@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react'
 import { Root, Routes, Head, addPrefetchExcludes } from 'react-static'
 import { Router, Match } from '@reach/router'
-import { enableProgressiveEnhancementsOnMount } from 'react-progressive-enhancement'
 import Analytics from './components/analytics/Analytics'
 import SiteContainer from './components/site-container/SiteContainer'
 import MemberCurrent from './containers/member/Current'
@@ -9,7 +8,7 @@ import MemberOverall from './containers/member/Overall'
 import Loading from './components/loading/Loading'
 
 import './stylus/index.styl'
-import { APIStatusProvider } from './contexts/APIStatusContext'
+import { AppProvider } from './contexts/App'
 
 const constants = require('./utils/constants')
 const urlBuilder = require('./utils/url-builder')
@@ -26,7 +25,7 @@ addPrefetchExcludes([
 
 function App() {
   return (
-    <APIStatusProvider>
+    <AppProvider>
       <Root>
         <Match path="*">
           {({ location }) => {
@@ -80,8 +79,8 @@ function App() {
           </Suspense>
         </Analytics>
       </Root>
-    </APIStatusProvider>
+    </AppProvider>
   )
 }
 
-export default enableProgressiveEnhancementsOnMount(App)
+export default App

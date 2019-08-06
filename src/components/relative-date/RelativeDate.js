@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withApp } from '../../contexts/App'
 
 const moment = require('moment')
 const constants = require('../../utils/constants')
@@ -75,4 +75,4 @@ RelativeDate.propTypes = {
   className: PropTypes.string
 }
 
-export default withIsEnhanced(RelativeDate)
+export default withApp(RelativeDate)

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
-import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withApp } from '../contexts/App'
 import { firstBy } from 'thenby'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
@@ -247,4 +247,4 @@ CustomLeaderboardContainer.propTypes = {
   meta: PropTypes.object
 }
 
-export default withIsEnhanced(withRouteData(CustomLeaderboardContainer))
+export default withApp(withRouteData(CustomLeaderboardContainer))

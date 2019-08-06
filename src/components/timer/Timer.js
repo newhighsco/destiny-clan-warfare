@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { withIsEnhanced } from 'react-progressive-enhancement'
+import { withApp } from '../../contexts/App'
 import { Stat } from '../stat/Stat'
 import SmartLink from '../smart-link/SmartLink'
 import styles from './Timer.styl'
@@ -252,4 +252,4 @@ Timer.propTypes = {
   tickInterval: PropTypes.number
 }
 
-export default withIsEnhanced(Timer)
+export default withApp(Timer)

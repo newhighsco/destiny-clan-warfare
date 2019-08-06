@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { APIStatusContext } from '../contexts/APIStatusContext'
+import { AppContext } from '../contexts/App'
 import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
@@ -20,7 +20,7 @@ const meta = {
 function ThanksPage({ search }) {
   if (!search && typeof location !== 'undefined') search = location.search
 
-  const apiStatus = useContext(APIStatusContext)
+  const apiStatus = useContext(AppContext)
   const query = queryString.parse(search)
   const success = query.success
     ? JSON.parse(query.success.toLowerCase())

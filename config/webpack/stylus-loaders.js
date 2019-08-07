@@ -28,7 +28,7 @@ const stylusLoaders = (stage, options) => {
       loader: require.resolve('css-loader'),
       options: {
         sourceMap: false,
-        localIdentName: '[local]',
+        localIdentName: stage === 'dev' ? '[local]' : '[hash:base64:5]',
         ...options
       }
     },

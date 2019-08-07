@@ -1,13 +1,13 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import SiteContainer from '../components/site-container/SiteContainer'
-import NotFoundPage from './404'
-import BrandingPage from './branding'
-import FrequentlyAskedQuestionsPage from './faqs'
-import SupportUsPage from './support-us'
-import ThanksPage from './thanks'
+import SiteContainer from './components/site-container/SiteContainer'
+import NotFoundPage from './pages/404'
+import BrandingPage from './pages/branding'
+import FrequentlyAskedQuestionsPage from './pages/faqs'
+import SupportUsPage from './pages/support-us'
+import ThanksPage from './pages/thanks'
 
-const constants = require('../utils/constants')
+const constants = require('./utils/constants')
 
 storiesOf('Pages|Static', module)
   .addParameters({ gutter: { disable: true } })

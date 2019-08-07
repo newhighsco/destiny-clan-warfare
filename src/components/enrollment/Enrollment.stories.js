@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
+import { AppProvider } from '../../contexts/App'
 import Enrollment from './Enrollment'
 
 storiesOf('Layout/Enrollment', module)
@@ -9,6 +10,8 @@ storiesOf('Layout/Enrollment', module)
       <p>Default</p>
       <Enrollment enrollmentOpen />
       <p>Progressively enhanced</p>
-      <Enrollment enrollmentOpen isEnhanced />
+      <AppProvider value={{ isEnhanced: true }}>
+        <Enrollment enrollmentOpen />
+      </AppProvider>
     </Fragment>
   ))

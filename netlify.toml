@@ -22,4 +22,4 @@
   SITE_URL = "https://destinyclanwarfare.com"
   DISALLOW_ROBOTS = "false"
   ENABLE_MATCH_HISTORY = "false"
-  ENABLE_PREVIOUS_LEADERBOARDS = "false"
+  ENABLE_PREVIOUS_LEADERBOARDS = "true"

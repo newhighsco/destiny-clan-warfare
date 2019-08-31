@@ -11,7 +11,7 @@ const description = require('../utils/grammar').description
 const decode = require('../utils/html-entities').decode
 
 const api = apiHelper.api()
-const bungieApi = bungieHelper.api()
+const bungieApi = bungieHelper.api(false)
 const enableMatchHistory = JSON.parse(process.env.ENABLE_MATCH_HISTORY)
 const enablePreviousLeaderboards = JSON.parse(
   process.env.ENABLE_PREVIOUS_LEADERBOARDS

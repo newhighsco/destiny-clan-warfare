@@ -1,9 +1,11 @@
 const axios = require('axios')
 const constants = require('./constants')
 
-const api = () =>
+const api = (proxy = true) =>
   axios.create({
-    baseURL: `${constants.bungie.proxyUrl}Platform/`,
+    baseURL: `${
+      proxy ? constants.bungie.proxyUrl : constants.bungie.baseUrl
+    }Platform/`,
     headers: {
       'X-API-Key': process.env.BUNGIE_API_KEY
     }

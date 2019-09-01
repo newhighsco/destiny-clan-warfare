@@ -22,7 +22,10 @@ const Stat = class extends PureComponent {
     if (typeof value === 'object') {
       valueLabel = value.label
       value = typeof value.stat !== 'undefined' ? value.stat : constants.blank
-      if (value < 0) value = constants.blank
+      if (value <= 0) {
+        value = constants.blank
+        valueLabel = undefined
+      }
     }
 
     value = isNaN(value) ? `${value}` : statsHelper.shortNumber(value)
@@ -126,7 +129,7 @@ const StatList = class extends PureComponent {
                 if (columns.indexOf(bonusKey) !== -1) return null
 
                 var bonusStat = count
-                if (bonusStat < 0) bonusStat = constants.blank
+                if (bonusStat <= 0) bonusStat = constants.blank
 
                 return (
                   <li key={i}>
@@ -145,7 +148,7 @@ const StatList = class extends PureComponent {
             var stat = stats[column]
 
             if (typeof stat === 'undefined' || stat === null) return null
-            if (stat < 0) stat = constants.blank
+            if (stat <= 0) stat = constants.blank
 
             return (
               <li key={i}>

@@ -202,7 +202,7 @@ export default {
     ]
 
     const addStat = (stats, column, value, name) => {
-      if (name) {
+      if (name && value > 0) {
         stats[column] = { stat: value, label: [name] }
       } else {
         stats[column] = value

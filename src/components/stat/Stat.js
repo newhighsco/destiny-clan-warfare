@@ -36,9 +36,11 @@ const Stat = class extends PureComponent {
     return (
       <Tooltip
         text={
-          enableHover
-            ? `<strong>Tied between:</strong> ${sentence(valueLabel)}`
-            : null
+          enableHover ? (
+            <Fragment>
+              <strong>Tied between:</strong> {sentence(valueLabel)}
+            </Fragment>
+          ) : null
         }
         className={className}
         valign="bottom"

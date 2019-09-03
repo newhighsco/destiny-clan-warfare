@@ -97,7 +97,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "firebase-tools": "^3.17.4",
     "identity-obj-proxy": "^3.0.0",
-    "if-env-defined": "^1.0.0",
     "imagemin-cli": "^3.0.0",
     "jest": "^24.1.0",
     "mockdate": "^2.0.2",

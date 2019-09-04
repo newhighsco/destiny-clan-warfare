@@ -164,7 +164,8 @@ const Event = class extends PureComponent {
                   View full {summaryType}
                 </Button>
               )
-            : enrollmentOpen && (
+            : enrollmentOpen &&
+              !event.isPast && (
                 <ButtonGroup>
                   <Button
                     href={`/${constants.prefix.hash}${constants.prefix.enroll}`}

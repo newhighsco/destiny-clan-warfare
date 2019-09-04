@@ -112,7 +112,7 @@ const fetch = async () => {
             : bonus
           : -1
       }))
-      .filter(({ shortName }) => excluded.indexOf(shortName === -1))
+      .filter(({ shortName }) => excluded.indexOf(shortName) === -1)
   }
 
   const sourceStart = task => {

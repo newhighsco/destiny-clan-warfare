@@ -12,6 +12,7 @@ const endAllExistence = {
   designer: 'Maciej Świerczek'
 }
 const elementary = { svg: 'elementary' }
+const flawlessStiker = { svg: 'flawless-striker', designer: 'iconsphere' }
 const modifierTBC = { svg: 'modifier-tbc' }
 const pinnacleKills = { svg: 'pinnacle-kills', designer: 'Creative Stall' }
 const pulsating = { svg: 'pulsating', designer: 'Nikol Kokešová' }
@@ -34,18 +35,22 @@ const icons = {
   'complete-the-cycle': { designer: 'Gregor Cresnar' },
   'crimson-double-down': crimsonDoubleDown,
   deathless,
+  'destroy-the-invaders': { svg: 'oh-no-you-don-t' },
   'double-down': { designer: 'Optimus Prime' },
   'doubles-double-down': crimsonDoubleDown,
   'end-all-existence': endAllExistence,
   elementary,
   'feeling-blue': { designer: 'rivercon' },
-  'flawless-striker': { designer: 'iconsphere' },
+  'flawless-striker': flawlessStiker,
   'frag-and-tag': { designer: 'Hea Poh Lin, Krish & miza bin' },
   'fully-stacked': bandTogether,
+  'gambit-runaway': { designer: 'heathersabrina' },
   'guided-games-raid-timing': raidTiming,
   'hear-the-whisper': { designer: 'BGBOXXX Design' },
   'helping-hand': { designer: 'Demetria Rose' },
+  'how-exotic': flawlessStiker,
   'i-hit-a-rock': { designer: 'Tom Fricker' },
+  'key-play': { svg: 'let-me-handle-this' },
   'kiss-from-a-row': { designer: 'estuhartono' },
   'luke-skywalker-s-padawan': { designer: 'Colour Block' },
   'make-the-dreamwork': bandTogether,

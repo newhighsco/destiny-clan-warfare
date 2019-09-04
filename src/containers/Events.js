@@ -42,7 +42,8 @@ const EventsContainer = class extends PureComponent {
     }
     const unknownModifier = {
       ...constants.modifiers.eventCreator,
-      ...linkAttributes
+      ...linkAttributes,
+      promoted: true
     }
 
     leaderboard.unshift({

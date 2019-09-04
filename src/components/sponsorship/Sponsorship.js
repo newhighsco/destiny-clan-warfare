@@ -15,7 +15,8 @@ const linkAttributes = {
 }
 const unknownModifier = {
   ...constants.modifiers.eventCreator,
-  ...linkAttributes
+  ...linkAttributes,
+  promoted: true
 }
 
 const Sponsorship = class extends PureComponent {

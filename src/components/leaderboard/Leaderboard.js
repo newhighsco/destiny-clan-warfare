@@ -345,8 +345,9 @@ const Leaderboard = class extends PureComponent {
                                           item.game.isExternal && '_blank'
                                         }
                                         className={
-                                          !item.game.isExternal &&
-                                          styles[`${baseClassName}__link`]
+                                          !item.game.isExternal
+                                            ? styles[`${baseClassName}__link`]
+                                            : null
                                         }
                                       >
                                         <span>{item.game.name}</span>

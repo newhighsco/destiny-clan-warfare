@@ -411,6 +411,9 @@ const fetch = async () => {
                           .utc(event.scoringEndTime)
                           .format(constants.format.machineReadable)
                         const tense = event.eventTense
+                        const statsGamesThreshold =
+                          event.statsGamesThreshold ||
+                          constants.statsGamesThreshold
                         var isCurrent = tense === constants.tense.current
                         var isPast = tense === constants.tense.past
                         var isFuture = tense === constants.tense.future
@@ -429,6 +432,7 @@ const fetch = async () => {
                         if (isCurrent) {
                           path = urlBuilder.currentEventRootUrl
                           parsed.currentEventId = id
+                          parsed.currentEventStatsGamesThreshold = statsGamesThreshold
                         }
 
                         const leaderboards = []
@@ -493,7 +497,8 @@ const fetch = async () => {
                           medals: Object.keys(medals).length
                             ? medals
                             : undefined,
-                          stats: stats || undefined
+                          stats: stats || undefined,
+                          statsGamesThreshold
                         })
 
                         if (leaderboards.length)

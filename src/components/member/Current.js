@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { firstBy } from 'thenby'
 import PageContainer from '../page-container/PageContainer'
 import Card from '../card/Card'
 import Avatar from '../avatar/Avatar'
@@ -69,7 +70,15 @@ const MemberCurrent = class extends PureComponent {
         ]
       }
     }
-    const leaderboard = member.matchHistory
+    const leaderboard = member.matchHistory.sort(
+      firstBy((a, b) =>
+        b.game.endDate > a.game.endDate
+          ? 1
+          : b.game.endDate < a.game.endDate
+          ? -1
+          : 0
+      )
+    )
     const stats =
       member.currentTotals && member.currentTotals.games > 0
         ? member.currentTotals

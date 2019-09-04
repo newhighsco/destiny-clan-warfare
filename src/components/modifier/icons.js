@@ -52,6 +52,7 @@ const icons = {
   'how-exotic': flawlessStiker,
   'i-hit-a-rock': { designer: 'Tom Fricker' },
   'key-play': { svg: 'let-me-handle-this' },
+  'kills-only': { designer: 'Optimus Prime' },
   'kiss-from-a-row': { designer: 'estuhartono' },
   'luke-skywalker-s-padawan': { designer: 'Colour Block' },
   'make-the-dreamwork': bandTogether,

@@ -77,36 +77,38 @@ const CustomLeaderboardContainer = class extends PureComponent {
       updated: null
     }
 
-    clans.map(clan => {
-      const clanId = clan.id
-      const path = event.isCurrent
-        ? urlBuilder.currentEventUrl(clanId)
-        : urlBuilder.clanUrl(clanId, event.id)
-      const suggestion = {
-        id: clanId,
-        name: `${clan.name} [${clan.tag}]`,
-        shortName: clan.name
-      }
-      var total = totals.find(({ id }) => id === clanId)
+    if (totals.length > 0) {
+      clans.map(clan => {
+        const clanId = clan.id
+        const path = event.isCurrent
+          ? urlBuilder.currentEventUrl(clanId)
+          : urlBuilder.clanUrl(clanId, event.id)
+        const suggestion = {
+          id: clanId,
+          name: `${clan.name} [${clan.tag}]`,
+          shortName: clan.name
+        }
+        var total = totals.find(({ id }) => id === clanId)
 
-      if (total) {
-        total.rank = true
-      } else {
-        total = emptyTotals
-      }
+        if (total) {
+          total.rank = true
+        } else {
+          total = emptyTotals
+        }
 
-      total = {
-        ...clan,
-        ...total,
-        path,
-        medal: null
-      }
+        total = {
+          ...clan,
+          ...total,
+          path,
+          medal: null
+        }
 
-      suggestions.push(suggestion)
-      leaderboard.push(total)
+        suggestions.push(suggestion)
+        leaderboard.push(total)
 
-      if (filterById(ids, clanId)) tags.push(suggestion)
-    })
+        if (filterById(ids, clanId)) tags.push(suggestion)
+      })
+    }
 
     leaderboard = leaderboard.sort(firstBy('score', -1).thenBy('name'))
 

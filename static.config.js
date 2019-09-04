@@ -587,9 +587,10 @@ export default {
       })
     })
 
-    const previousEventLeaderboards = previousEventId
-      ? leaderboards[previousEventId]
-      : undefined
+    const previousEventLeaderboards =
+      previousEventId && leaderboards[previousEventId]
+        ? leaderboards[previousEventId]
+        : []
 
     routes.push(
       {
@@ -631,9 +632,9 @@ export default {
       }
     )
 
-    const sharedPreviousEventLeaderboards = previousEventLeaderboards
-      ? createSharedData(previousEventLeaderboards)
-      : null
+    const sharedPreviousEventLeaderboards = createSharedData(
+      previousEventLeaderboards
+    )
     const customLeaderboardData = {
       event: currentEventId ? currentEvent : previousEvent,
       currentEventId

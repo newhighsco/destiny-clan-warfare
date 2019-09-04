@@ -14,9 +14,10 @@ const linkAttributes = {
   target: '_blank'
 }
 const unknownModifier = {
-  ...constants.modifiers.eventCreator,
-  ...linkAttributes,
-  promoted: true
+  name: patreonTier.name,
+  description: patreonTier.description,
+  promoted: true,
+  ...linkAttributes
 }
 
 const Sponsorship = class extends PureComponent {

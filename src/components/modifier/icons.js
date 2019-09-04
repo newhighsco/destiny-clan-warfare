@@ -32,6 +32,7 @@ const icons = {
   bullseye,
   'chill-at-home': bandTogether,
   'clean-sweep': { designer: 'Rudez Studio' },
+  'command-the-warfare': modifierTBC,
   'complete-the-cycle': { designer: 'Gregor Cresnar' },
   'crimson-double-down': crimsonDoubleDown,
   deathless,
@@ -88,7 +89,6 @@ const icons = {
   'winner-winner-chicken-dinner': { designer: 'Artem Kovyazin' },
   'wrong-game-mode': antiMeta,
   'you-can-t-kill-me': { designer: 'Robert Bjurshagen' },
-  'you-pick-the-modifiers': modifierTBC,
   'you-ve-earned-it': pinnacleKills
 }
 

@@ -41,9 +41,10 @@ const EventsContainer = class extends PureComponent {
       target: '_blank'
     }
     const unknownModifier = {
-      ...constants.modifiers.eventCreator,
-      ...linkAttributes,
-      promoted: true
+      name: patreonTier.name,
+      description: patreonTier.description,
+      promoted: true,
+      ...linkAttributes
     }
 
     leaderboard.unshift({

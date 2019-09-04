@@ -183,7 +183,7 @@ const ModifierList = class extends PureComponent {
             <Fragment>
               Put your flair for battle tactics to the test - Create your own
               event modifier and wear the exclusive <Tag name="Insider" /> badge
-              of honour everywhere your name appears on the site.
+              of honour everywhere your name appears on the site
             </Fragment>
           ),
           href: urlBuilder.patreonUrl(patreonTier),

@@ -31,11 +31,7 @@ const constants = {
   },
   modifiers: {
     tbc: ['Modifier TBC', 'Multiplier TBC'],
-    notApplicable: ['No Modifier', 'No Multiplier'],
-    eventCreator: {
-      name: 'You pick the modifiers',
-      description: 'Pick all the modifiers and create your own modifier'
-    }
+    notApplicable: ['No Modifier', 'No Multiplier']
   },
   tense: {
     current: 'Current',
@@ -105,7 +101,11 @@ const constants = {
     donor: { name: 'Signing up for Duty', id: '2983215' },
     insider: { name: 'Inside Edge', id: '2228028' },
     modifierCreator: { name: 'Shape the Battlefield', id: '2200985' },
-    eventCreator: { name: 'Command the Warfare', id: '2409387' }
+    eventCreator: {
+      name: 'Command the Warfare',
+      description: 'Pick all the modifiers and create your own modifier',
+      id: '2409387'
+    }
   },
   statsGamesThreshold: 15,
   emptyTotals: {

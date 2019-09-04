@@ -49,6 +49,7 @@ const EventsContainer = class extends PureComponent {
       promoted: true,
       game: {
         path: linkAttributes.href,
+        isExternal: true,
         name: `${patreonTier.name} - Create your own event`,
         description: (
           <span>

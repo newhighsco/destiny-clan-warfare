@@ -88,12 +88,10 @@ const ClanCurrentContainer = class extends PureComponent {
   }
 
   render() {
-    const { apiStatus, clan } = this.props
+    const { apiStatus, clan, statsGamesThreshold } = this.props
     const { leaderboard, stats, statsColumns, meta } = this.state
     const hasLeaderboard = leaderboard.length > 0
-    const tooltip = `Play a minimum of ${
-      constants.statsGamesThreshold
-    } games to be included.`
+    const tooltip = `Play a minimum of ${statsGamesThreshold} games to be included.`
 
     return (
       <PageContainer meta={meta}>
@@ -152,7 +150,8 @@ ClanCurrentContainer.propTypes = {
   clan: PropTypes.object,
   members: PropTypes.array,
   currentTotals: PropTypes.object,
-  currentStats: PropTypes.object
+  currentStats: PropTypes.object,
+  statsGamesThreshold: PropTypes.number
 }
 
 export default withRouteData(ClanCurrentContainer)

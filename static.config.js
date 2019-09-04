@@ -178,6 +178,7 @@ export default {
       modifiers,
       medals,
       currentEventId,
+      currentEventStatsGamesThreshold,
       currentLeaderboards,
       currentClanLeaderboard,
       matchHistory,
@@ -290,7 +291,7 @@ export default {
               updated: hasCurrentTotals ? memberLastChecked : null
             }
 
-            if (games >= constants.statsGamesThreshold) {
+            if (games >= currentEventStatsGamesThreshold) {
               statsColumns.map(column => {
                 if (column === 'bonuses' && currentTotals.bonuses) {
                   currentTotals.bonuses.map(({ shortName, count }) => {
@@ -362,6 +363,7 @@ export default {
           getData: async () => ({
             currentTotals: clanCurrentTotals,
             currentStats: clanCurrentStats,
+            statsGamesThreshold: currentEventStatsGamesThreshold,
             matchHistory: clanMatchHistory,
             matchHistoryLimit
           }),

@@ -101,15 +101,18 @@ const fetch = async () => {
 
   const parseBonuses = (item, hasPlayed) => {
     const bonuses = [item.bonusPoints1, item.bonusPoints2]
+    const excluded = [constants.prefix.notApplicable, constants.prefix.tbc]
 
-    return bonuses.map((bonus, i) => ({
-      shortName: bonus.shortName || `Bonus ${i + 1}`,
-      count: hasPlayed
-        ? typeof bonus === 'object'
-          ? bonus.bonusPoints
-          : bonus
-        : -1
-    }))
+    return bonuses
+      .map((bonus, i) => ({
+        shortName: bonus.shortName || `Bonus ${i + 1}`,
+        count: hasPlayed
+          ? typeof bonus === 'object'
+            ? bonus.bonusPoints
+            : bonus
+          : -1
+      }))
+      .filter(({ shortName }) => excluded.indexOf(shortName === -1))
   }
 
   const sourceStart = task => {

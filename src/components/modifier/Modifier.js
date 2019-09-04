@@ -69,7 +69,7 @@ const Modifier = class extends PureComponent {
     if (constants.modifiers.notApplicable.indexOf(name) !== -1) {
       prefix = ''
       suffix = ''
-      bonus = 'N/A'
+      bonus = constants.prefix.notApplicable
     }
 
     const label = `${prefix}${bonus}${suffix}`

@@ -85,7 +85,9 @@ const constants = {
     most: 'most',
     highest: 'highest',
     relative: 'in',
-    enroll: 'enroll'
+    enroll: 'enroll',
+    tbc: 'TBC',
+    notApplicable: 'N/A'
   },
   enrollment: {
     existing: 'Clan already exists',

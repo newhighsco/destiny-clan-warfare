@@ -83,6 +83,7 @@ const icons = {
   'winner-winner-chicken-dinner': { designer: 'Artem Kovyazin' },
   'wrong-game-mode': antiMeta,
   'you-can-t-kill-me': { designer: 'Robert Bjurshagen' },
+  'you-pick-the-modifiers': modifierTBC,
   'you-ve-earned-it': pinnacleKills
 }
 

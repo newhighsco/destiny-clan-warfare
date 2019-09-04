@@ -101,12 +101,16 @@ const Modifier = class extends PureComponent {
         heading={name}
         href={href}
         target={target}
-        text={tooltip.map((line, i) => (
-          <Fragment key={`tooltip-${i}`}>
-            {i > 0 && <br />}
-            {line}
-          </Fragment>
-        ))}
+        text={
+          tooltip.length
+            ? tooltip.map((line, i) => (
+                <Fragment key={`tooltip-${i}`}>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))
+            : null
+        }
         align={align}
         valign={valign}
         enableHover={enableHover}

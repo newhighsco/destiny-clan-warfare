@@ -5,8 +5,10 @@ import PageContainer from '../components/page-container/PageContainer'
 import Card from '../components/card/Card'
 import { Lockup } from '../components/lockup/Lockup'
 import Leaderboard from '../components/leaderboard/Leaderboard'
+import { Tag } from '../components/tag/Tag'
 
 const constants = require('../utils/constants')
+const urlBuilder = require('../utils/url-builder')
 const meta = {
   title: 'Events',
   description: `All upcoming, current, and, past ${constants.meta.name} events`
@@ -31,6 +33,31 @@ const EventsContainer = class extends PureComponent {
         },
         modifiers: event.modifiers
       }
+    })
+
+    const patreonTier = constants.patreon.eventCreator
+    const linkAttributes = {
+      href: urlBuilder.patreonUrl(patreonTier),
+      target: '_blank'
+    }
+    const unknownModifier = {
+      ...constants.modifiers.eventCreator,
+      ...linkAttributes
+    }
+
+    leaderboard.unshift({
+      promoted: true,
+      game: {
+        path: linkAttributes.href,
+        name: `${patreonTier.name} - Create your own event`,
+        description: (
+          <span>
+            And wear the exclusive <Tag element="span" name="Insider" /> badge
+            of honour.
+          </span>
+        )
+      },
+      modifiers: [unknownModifier, unknownModifier, unknownModifier]
     })
 
     this.state = {

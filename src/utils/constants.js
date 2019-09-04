@@ -31,7 +31,11 @@ const constants = {
   },
   modifiers: {
     tbc: ['Modifier TBC', 'Multiplier TBC'],
-    notApplicable: ['No Modifier', 'No Multiplier']
+    notApplicable: ['No Modifier', 'No Multiplier'],
+    eventCreator: {
+      name: 'You pick the modifiers',
+      description: 'Pick all the modifiers and create your own modifier'
+    }
   },
   tense: {
     current: 'Current',

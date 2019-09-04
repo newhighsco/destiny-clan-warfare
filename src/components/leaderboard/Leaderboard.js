@@ -262,7 +262,11 @@ const Leaderboard = class extends PureComponent {
                       <div
                         role="cell"
                         id={item.id}
-                        className={styles[`${baseClassName}__row`]}
+                        className={classNames(
+                          styles[`${baseClassName}__row`],
+                          item.promoted &&
+                            styles[`${baseClassName}__row--promoted`]
+                        )}
                         data-result={item.game && item.game.result}
                         data-rank={rank}
                         {...rank % 2 === 0 && { 'data-even': true }}
@@ -361,6 +365,17 @@ const Leaderboard = class extends PureComponent {
                                             : null
                                         }
                                       />
+                                      {item.game.description && (
+                                        <div
+                                          className={
+                                            styles[
+                                              `${baseClassName}__stat-suffix`
+                                            ]
+                                          }
+                                        >
+                                          {item.game.description}
+                                        </div>
+                                      )}
                                     </div>
                                   )}
                                   {item.game.medals &&

@@ -14,7 +14,7 @@ const linkAttributes = {
   target: '_blank'
 }
 const unknownModifier = {
-  name: constants.modifiers.tbc[0],
+  ...constants.modifiers.eventCreator,
   ...linkAttributes
 }
 

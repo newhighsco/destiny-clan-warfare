@@ -51,7 +51,7 @@ const Filter = class extends Component {
           />
         )}
         <ReactTags
-          inputAttributes={{ id: baseClassName }}
+          inputAttributes={{ id: baseClassName, autoComplete: 'off' }}
           autofocus={false}
           placeholder={placeholder}
           suggestions={suggestions}

@@ -51,6 +51,7 @@
     "query-string": "^5.0.1",
     "react-ga-donottrack": "^1.0.0",
     "react-static": "^7.1.0",
+    "react-static-plugin-preact": "^7.2.2",
     "react-static-plugin-reach-router": "^7.0.10",
     "react-static-plugin-sitemap": "^7.0.10",
     "react-static-plugin-source-filesystem": "^7.1.0",

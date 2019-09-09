@@ -25,6 +25,7 @@ export default {
   siteRoot: process.env.SITE_URL,
   extractCssChunks: true,
   plugins: [
+    require.resolve('react-static-plugin-preact'),
     [
       require.resolve('react-static-plugin-source-filesystem'),
       {

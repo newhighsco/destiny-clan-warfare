@@ -3664,10 +3664,11 @@ basic-auth-connect@^1.0.0:
   resolved "https://registry.yarnpkg.com/basic-auth-connect/-/basic-auth-connect-1.0.0.tgz#fdb0b43962ca7b40456a7c2bb48fe173da2d2122"
 
 basic-auth@~2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.0.tgz#015db3f353e02e56377755f962742e8981e7bbba"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.1.tgz#b998279bf47ce38344b4f3cf916d4679bbf51e3a"
+  integrity sha512-NF+epuEdnUYVlGuhaxbbq+dvJttwLnGY+YixlXlME5KpQ5W3CnXA5cVTneY3SPbPDRkcjMbifrwmFYcClgOZeg==
   dependencies:
-    safe-buffer "5.1.1"
+    safe-buffer "5.1.2"
 
 batch-processor@^1.0.0:
   version "1.0.0"
@@ -4871,7 +4872,7 @@ compression@1.7.3:
 
 compression@^1.7.0:
   version "1.7.2"
-  resolved "http://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
+  resolved "https://registry.npmjs.org/compression/-/compression-1.7.2.tgz#aaffbcd6aaf854b44ebb280353d5ad1651f59a69"
   dependencies:
     accepts "~1.3.4"
     bytes "3.0.0"
@@ -5569,11 +5570,11 @@ dateformat@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-2.2.0.tgz#4065e2013cf9fb916ddfd82efb506ad4c6769062"
 
-debug@*, debug@^3.0.0, debug@^3.1.0, debug@~3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
+debug@*, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@~4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
-    ms "2.0.0"
+    ms "^2.1.1"
 
 debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
@@ -5581,17 +5582,17 @@ debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.
   dependencies:
     ms "2.0.0"
 
-debug@^3.2.5:
+debug@^3.0.0, debug@^3.1.0, debug@^3.2.5:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   dependencies:
     ms "^2.1.1"
 
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@~4.1.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
+debug@~3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:
-    ms "^2.1.1"
+    ms "2.0.0"
 
 decamelize@^1.1.1, decamelize@^1.1.2, decamelize@^1.2.0:
   version "1.2.0"
@@ -5824,6 +5825,7 @@ depd@1.1.1:
 depd@~1.1.1, depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
+  integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
 
 des.js@^1.0.0:
   version "1.0.0"
@@ -6138,6 +6140,7 @@ ecdsa-sig-formatter@1.0.10:
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
+  integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 ejs@^2.6.1:
   version "2.6.1"
@@ -6696,7 +6699,7 @@ event-emitter@~0.3.5:
 
 event-stream@~3.3.0:
   version "3.3.4"
-  resolved "http://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
+  resolved "https://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
   dependencies:
     duplexer "~0.1.1"
     from "~0"
@@ -8536,7 +8539,7 @@ html-minifier@^3.5.20:
 
 html-webpack-plugin@^3.2.0:
   version "3.2.0"
-  resolved "http://registry.npmjs.org/html-webpack-plugin/-/html-webpack-plugin-3.2.0.tgz#b01abbd723acaaa7b37b6af4492ebda03d9dd37b"
+  resolved "https://registry.npmjs.org/html-webpack-plugin/-/html-webpack-plugin-3.2.0.tgz#b01abbd723acaaa7b37b6af4492ebda03d9dd37b"
   dependencies:
     html-minifier "^3.2.3"
     loader-utils "^0.2.16"
@@ -11234,12 +11237,13 @@ moo@^0.4.3:
   resolved "https://registry.yarnpkg.com/moo/-/moo-0.4.3.tgz#3f847a26f31cf625a956a87f2b10fbc013bfd10e"
 
 morgan@^1.8.2:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.0.tgz#d01fa6c65859b76fcf31b3cb53a3821a311d8051"
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.1.tgz#0a8d16734a1d9afbc824b99df87e738e58e2da59"
+  integrity sha512-HQStPIV4y3afTiCYVxirakhlCfGkI161c76kKFca7Fk1JusM//Qeo1ej2XaMniiNeaZklMVrh3vTtIzpzwbpmA==
   dependencies:
     basic-auth "~2.0.0"
     debug "2.6.9"
-    depd "~1.1.1"
+    depd "~1.1.2"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
 
@@ -11261,6 +11265,7 @@ move-concurrently@^1.0.1:
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
+  integrity sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
 
 ms@2.1.1, ms@^2.1.1:
   version "2.1.1"
@@ -11783,14 +11788,11 @@ obuf@^1.0.0, obuf@^1.1.2:
 on-finished@^2.2.0, on-finished@~2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
+  integrity sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=
   dependencies:
     ee-first "1.1.1"
 
-on-headers@^1.0.0, on-headers@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.1.tgz#928f5d0f470d49342651ea6794b0857c100693f7"
-
-on-headers@~1.0.2:
+on-headers@^1.0.0, on-headers@~1.0.1, on-headers@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.2.tgz#772b0ae6aaa525c399e489adfad90c403eb3c28f"
   integrity sha512-pZAE+FJLoyITytdqK0U5s+FIpjN0JP3OzFi/u8Rx+EV5/W+JTWGXG8xFzevE7AjBfDqHv/8vL8qQsIhHnqRkrA==
@@ -11803,7 +11805,7 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
 
 onetime@^1.0.0:
   version "1.1.0"
-  resolved "http://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
+  resolved "https://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
 
 onetime@^2.0.0:
   version "2.0.1"
@@ -12057,7 +12059,7 @@ package-json@^2.0.0:
 
 pako@~0.2.0:
   version "0.2.9"
-  resolved "http://registry.npmjs.org/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
+  resolved "https://registry.npmjs.org/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
 
 pako@~1.0.5:
   version "1.0.6"
@@ -14349,7 +14351,7 @@ rgb-regex@^1.0.1:
 
 rgba-regex@^1.0.0:
   version "1.0.0"
-  resolved "http://registry.npmjs.org/rgba-regex/-/rgba-regex-1.0.0.tgz#43374e2e2ca0968b0ef1523460b7d730ff22eeb3"
+  resolved "https://registry.npmjs.org/rgba-regex/-/rgba-regex-1.0.0.tgz#43374e2e2ca0968b0ef1523460b7d730ff22eeb3"
 
 rimraf@2.6.2, rimraf@2.x.x, rimraf@^2.2.6, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.2"
@@ -16811,7 +16813,7 @@ webpack-log@^2.0.0:
 
 webpack-node-externals@^1.7.2:
   version "1.7.2"
-  resolved "http://registry.npmjs.org/webpack-node-externals/-/webpack-node-externals-1.7.2.tgz#6e1ee79ac67c070402ba700ef033a9b8d52ac4e3"
+  resolved "https://registry.npmjs.org/webpack-node-externals/-/webpack-node-externals-1.7.2.tgz#6e1ee79ac67c070402ba700ef033a9b8d52ac4e3"
 
 webpack-pwa-manifest@^4.0.0:
   version "4.0.0"

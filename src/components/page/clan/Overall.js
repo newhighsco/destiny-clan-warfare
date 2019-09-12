@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
 import { firstBy } from 'thenby'
 import PageContainer from '../../page-container/PageContainer'
@@ -177,4 +176,4 @@ ClanOverall.propTypes = {
   previousEventId: PropTypes.number
 }
 
-export default withRouteData(ClanOverall)
+export default ClanOverall

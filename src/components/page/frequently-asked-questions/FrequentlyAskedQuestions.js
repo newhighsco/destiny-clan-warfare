@@ -11,7 +11,7 @@ const meta = {
   description: `Frequently asked questions about ${constants.meta.name}`
 }
 
-function PageFrequentlyAskedQuestions() {
+function FrequentlyAskedQuestions() {
   return (
     <PageContainer meta={meta}>
       <Card>
@@ -179,4 +179,4 @@ function PageFrequentlyAskedQuestions() {
   )
 }
 
-export default PageFrequentlyAskedQuestions
+export default FrequentlyAskedQuestions

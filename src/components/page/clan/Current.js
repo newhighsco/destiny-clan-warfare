@@ -28,7 +28,7 @@ const leaderboardColumns = [
   'score'
 ]
 
-const PageClanCurrent = class extends PureComponent {
+const ClanCurrent = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -145,7 +145,7 @@ const PageClanCurrent = class extends PureComponent {
   }
 }
 
-PageClanCurrent.propTypes = {
+ClanCurrent.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
   members: PropTypes.array,
@@ -154,4 +154,4 @@ PageClanCurrent.propTypes = {
   statsGamesThreshold: PropTypes.number
 }
 
-export default withRouteData(PageClanCurrent)
+export default withRouteData(ClanCurrent)

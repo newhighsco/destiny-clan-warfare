@@ -9,7 +9,7 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-const PageNotFound = class extends PureComponent {
+const NotFound = class extends PureComponent {
   render() {
     return (
       <HoldingPage meta={meta}>
@@ -21,4 +21,4 @@ const PageNotFound = class extends PureComponent {
   }
 }
 
-export default PageNotFound
+export default NotFound

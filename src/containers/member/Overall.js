@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
-import PageMemberOverall from '../../components/page/member/Overall'
+import MemberOverall from '../../components/page/member/Overall'
 import Loading from '../../components/loading/Loading'
-import PageNotFound from '../../components/page/not-found/NotFound'
+import NotFound from '../../components/page/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 
@@ -39,14 +39,14 @@ function MemberOverallContainer(props) {
   const { member, notFound } = data
 
   if (notFound) {
-    return <PageNotFound />
+    return <NotFound />
   }
 
   if (!member) {
     return <Loading />
   }
 
-  return <PageMemberOverall {...data} />
+  return <MemberOverall {...data} />
 }
 
 MemberOverallContainer.propTypes = {

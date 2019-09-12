@@ -17,7 +17,7 @@ const meta = {
   } by becoming a patron or making a donation`
 }
 
-function PageSupportUs() {
+function SupportUs() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Support us" />
@@ -77,4 +77,4 @@ function PageSupportUs() {
   )
 }
 
-export default PageSupportUs
+export default SupportUs

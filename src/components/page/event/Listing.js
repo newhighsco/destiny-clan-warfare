@@ -13,7 +13,7 @@ const meta = {
   description: `All upcoming, current, and, past ${constants.meta.name} events`
 }
 
-const PageEventListing = class extends PureComponent {
+const EventListing = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -84,8 +84,8 @@ const PageEventListing = class extends PureComponent {
   }
 }
 
-PageEventListing.propTypes = {
+EventListing.propTypes = {
   events: PropTypes.array
 }
 
-export default PageEventListing
+export default EventListing

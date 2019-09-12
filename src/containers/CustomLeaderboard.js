@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouteData } from 'react-static'
-import PageCustomLeaderboard from '../components/page/custom-leaderboard/CustomLeaderboard'
+import CustomLeaderboard from '../components/page/custom-leaderboard/CustomLeaderboard'
 
 function CustomLeaderboardContainer() {
-  return <PageCustomLeaderboard {...useRouteData()} />
+  return <CustomLeaderboard {...useRouteData()} />
 }
 
 export default CustomLeaderboardContainer

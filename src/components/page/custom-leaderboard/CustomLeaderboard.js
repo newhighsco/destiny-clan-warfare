@@ -39,7 +39,7 @@ const setHash = tags => {
   }
 }
 
-const PageCustomLeaderboard = class extends PureComponent {
+const CustomLeaderboard = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -237,7 +237,7 @@ const PageCustomLeaderboard = class extends PureComponent {
   }
 }
 
-PageCustomLeaderboard.propTypes = {
+CustomLeaderboard.propTypes = {
   isEnhanced: PropTypes.bool,
   apiStatus: PropTypes.object,
   clans: PropTypes.array,
@@ -248,4 +248,4 @@ PageCustomLeaderboard.propTypes = {
   meta: PropTypes.object
 }
 
-export default withApp(PageCustomLeaderboard)
+export default withApp(CustomLeaderboard)

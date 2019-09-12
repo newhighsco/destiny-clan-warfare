@@ -29,7 +29,7 @@ const columns = [
   'score'
 ]
 
-const PageClanOverall = class extends PureComponent {
+const ClanOverall = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -170,11 +170,11 @@ const PageClanOverall = class extends PureComponent {
   }
 }
 
-PageClanOverall.propTypes = {
+ClanOverall.propTypes = {
   clan: PropTypes.object,
   members: PropTypes.array,
   currentEventId: PropTypes.number,
   previousEventId: PropTypes.number
 }
 
-export default withRouteData(PageClanOverall)
+export default withRouteData(ClanOverall)

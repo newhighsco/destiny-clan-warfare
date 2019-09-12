@@ -14,7 +14,7 @@ const meta = {
     'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 }
 
-const PageClanListing = class extends PureComponent {
+const ClanListing = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -88,9 +88,9 @@ const PageClanListing = class extends PureComponent {
   }
 }
 
-PageClanListing.propTypes = {
+ClanListing.propTypes = {
   isEnhanced: PropTypes.bool,
   clans: PropTypes.array
 }
 
-export default withApp(PageClanListing)
+export default withApp(ClanListing)

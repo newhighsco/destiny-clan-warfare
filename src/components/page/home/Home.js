@@ -23,7 +23,7 @@ const meta = {
   }
 }
 
-function PageHome({
+function Home({
   apiStatus,
   clanIds,
   currentEvent,
@@ -124,7 +124,7 @@ function PageHome({
   )
 }
 
-PageHome.propTypes = {
+Home.propTypes = {
   apiStatus: PropTypes.object,
   clanIds: PropTypes.array,
   currentEvent: PropTypes.object,
@@ -133,4 +133,4 @@ PageHome.propTypes = {
   currentEventSummary: PropTypes.array
 }
 
-export default PageHome
+export default Home

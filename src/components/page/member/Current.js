@@ -19,7 +19,7 @@ const possessive = require('../../../utils/grammar').possessive
 
 const columns = ['kills', 'assists', 'deaths', 'bonuses', 'score']
 
-const PageMemberCurrent = class extends PureComponent {
+const MemberCurrent = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -156,11 +156,11 @@ const PageMemberCurrent = class extends PureComponent {
   }
 }
 
-PageMemberCurrent.propTypes = {
+MemberCurrent.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
   member: PropTypes.object,
   matchHistoryLimit: PropTypes.number
 }
 
-export default PageMemberCurrent
+export default MemberCurrent

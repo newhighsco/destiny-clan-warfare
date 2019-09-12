@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouteData } from 'react-static'
-import PageEventDetails from '../../components/page/event/Details'
+import EventDetails from '../../components/page/event/Details'
 
 function EventDetailsContainer() {
-  return <PageEventDetails {...useRouteData()} />
+  return <EventDetails {...useRouteData()} />
 }
 
 export default EventDetailsContainer

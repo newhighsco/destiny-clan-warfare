@@ -24,7 +24,7 @@ const logos = [
 ]
 const extensions = ['png', 'psd', 'svg']
 
-function PageBranding() {
+function Branding() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Branding" />
@@ -90,4 +90,4 @@ function PageBranding() {
   )
 }
 
-export default PageBranding
+export default Branding

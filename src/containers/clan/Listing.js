@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouteData } from 'react-static'
-import PageClanListing from '../../components/page/clan/Listing'
+import ClanListing from '../../components/page/clan/Listing'
 
 function ClanListingContainer() {
-  return <PageClanListing {...useRouteData()} />
+  return <ClanListing {...useRouteData()} />
 }
 
 export default ClanListingContainer

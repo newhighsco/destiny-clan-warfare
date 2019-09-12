@@ -1,8 +1,8 @@
 import React from 'react'
-import PageBranding from '../components/page/branding/Branding'
+import Branding from '../components/page/branding/Branding'
 
 function BrandingPage() {
-  return <PageBranding />
+  return <Branding />
 }
 
 export default BrandingPage

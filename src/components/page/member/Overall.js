@@ -29,7 +29,7 @@ const columns = [
   'score'
 ]
 
-const PageMemberOverall = class extends PureComponent {
+const MemberOverall = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -152,9 +152,9 @@ const PageMemberOverall = class extends PureComponent {
   }
 }
 
-PageMemberOverall.propTypes = {
+MemberOverall.propTypes = {
   clan: PropTypes.object,
   member: PropTypes.object
 }
 
-export default PageMemberOverall
+export default MemberOverall

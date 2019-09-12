@@ -1,18 +1,18 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import SiteContainer from '../../site-container/SiteContainer'
-import PageThanks from './Thanks'
+import Thanks from './Thanks'
 
 const constants = require('../../../utils/constants')
 
 storiesOf('Pages|Thanks', module)
   .addParameters({ gutter: { disable: true } })
   .addDecorator(storyFn => <SiteContainer>{storyFn()}</SiteContainer>)
-  .add('Failed', () => <PageThanks />)
+  .add('Failed', () => <Thanks />)
   .add('Closed', () => (
-    <PageThanks search={`?message=${constants.enrollment.closed}`} />
+    <Thanks search={`?message=${constants.enrollment.closed}`} />
   ))
-  .add('Successful', () => <PageThanks search="?success=true" />)
+  .add('Successful', () => <Thanks search="?success=true" />)
   .add('Opt-out', () => (
-    <PageThanks search={`?message=${constants.enrollment.optOut}`} />
+    <Thanks search={`?message=${constants.enrollment.optOut}`} />
   ))

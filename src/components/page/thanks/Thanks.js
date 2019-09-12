@@ -17,7 +17,7 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-function PageThanks({ search }) {
+function Thanks({ search }) {
   const apiStatus = useContext(AppContext)
   const query = queryString.parse(search)
   const success = query.success
@@ -134,8 +134,8 @@ function PageThanks({ search }) {
   )
 }
 
-PageThanks.propTypes = {
+Thanks.propTypes = {
   search: PropTypes.string
 }
 
-export default PageThanks
+export default Thanks

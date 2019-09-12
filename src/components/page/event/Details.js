@@ -10,7 +10,7 @@ const moment = require('moment')
 const constants = require('../../../utils/constants')
 const urlBuilder = require('../../../utils/url-builder')
 
-const PageEventDetails = class extends PureComponent {
+const EventDetails = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -117,7 +117,7 @@ const PageEventDetails = class extends PureComponent {
   }
 }
 
-PageEventDetails.propTypes = {
+EventDetails.propTypes = {
   apiStatus: PropTypes.object,
   event: PropTypes.object,
   leaderboards: PropTypes.array,
@@ -125,4 +125,4 @@ PageEventDetails.propTypes = {
   stats: PropTypes.object
 }
 
-export default PageEventDetails
+export default EventDetails

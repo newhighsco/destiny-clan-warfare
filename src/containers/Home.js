@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouteData } from 'react-static'
-import PageHome from '../components/page/home/Home'
+import Home from '../components/page/home/Home'
 
 function HomeContainer() {
-  return <PageHome {...useRouteData()} />
+  return <Home {...useRouteData()} />
 }
 
 export default HomeContainer

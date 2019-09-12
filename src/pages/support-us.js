@@ -1,8 +1,8 @@
 import React from 'react'
-import SupportUs from '../components/support-us/SupportUs'
+import PageSupportUs from '../components/page/support-us/SupportUs'
 
 function SupportUsPage() {
-  return <SupportUs />
+  return <PageSupportUs />
 }
 
 export default SupportUsPage

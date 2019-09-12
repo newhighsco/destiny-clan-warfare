@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react'
-import { withRouteData } from 'react-static'
-import { withApp } from '../contexts/App'
 import { firstBy } from 'thenby'
 import PropTypes from 'prop-types'
-import PageContainer from '../components/page-container/PageContainer'
-import Card from '../components/card/Card'
-import { Lockup } from '../components/lockup/Lockup'
-import Leaderboard from '../components/leaderboard/Leaderboard'
-import { Filter } from '../components/filter/Filter'
+import { withApp } from '../../../contexts/App'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import { Lockup } from '../../lockup/Lockup'
+import Leaderboard from '../../leaderboard/Leaderboard'
+import { Filter } from '../../filter/Filter'
 
 const meta = {
   title: 'Clan leaderboard',
@@ -15,7 +14,7 @@ const meta = {
     'All clans battling their way to the top of the Destiny 2 clan leaderboard'
 }
 
-const ClansContainer = class extends PureComponent {
+const PageClanListing = class extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -89,9 +88,9 @@ const ClansContainer = class extends PureComponent {
   }
 }
 
-ClansContainer.propTypes = {
+PageClanListing.propTypes = {
   isEnhanced: PropTypes.bool,
   clans: PropTypes.array
 }
 
-export default withApp(withRouteData(ClansContainer))
+export default withApp(PageClanListing)

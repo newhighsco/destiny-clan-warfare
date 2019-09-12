@@ -561,7 +561,7 @@ export default {
 
       routes.push({
         path: event.path,
-        template: 'src/containers/Event',
+        template: 'src/containers/event/Details',
         getData: async () => ({
           event: { ...event, winners: undefined },
           leaderboards: !event.isCurrent ? leaderboards[eventId] : undefined,
@@ -621,14 +621,14 @@ export default {
       },
       {
         path: urlBuilder.eventRootUrl,
-        template: 'src/containers/Events',
+        template: 'src/containers/event/Listing',
         getData: async () => ({
           events: clientEvents
         })
       },
       {
         path: urlBuilder.clanRootUrl,
-        template: 'src/containers/Clans',
+        template: 'src/containers/clan/Listing',
         sharedData: {
           clans: sharedClans
         }

@@ -1,21 +1,23 @@
 import React, { PureComponent } from 'react'
-import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
-import PageContainer from '../components/page-container/PageContainer'
-import { Lockup } from '../components/lockup/Lockup'
-import RelativeDate from '../components/relative-date/RelativeDate'
-import Event from '../components/event/Event'
-import { ButtonGroup, Button } from '../components/button/Button'
+import PageContainer from '../../page-container/PageContainer'
+import { Lockup } from '../../lockup/Lockup'
+import RelativeDate from '../../relative-date/RelativeDate'
+import Event from '../../event/Event'
+import { ButtonGroup, Button } from '../../button/Button'
 
 const moment = require('moment')
-const constants = require('../utils/constants')
-const urlBuilder = require('../utils/url-builder')
+const constants = require('../../../utils/constants')
+const urlBuilder = require('../../../utils/url-builder')
 
-const EventContainer = class extends PureComponent {
+const PageEventDetails = class extends PureComponent {
   constructor(props) {
     super(props)
 
     const { event } = this.props
+
+    if (!event) return
+
     const kicker = event.isCurrent
       ? constants.kicker.current
       : event.isPast
@@ -91,6 +93,9 @@ const EventContainer = class extends PureComponent {
   }
   render() {
     const { apiStatus, event, leaderboards, suggestions, stats } = this.props
+
+    if (!event) return null
+
     const { meta } = this.state
 
     return (
@@ -112,7 +117,7 @@ const EventContainer = class extends PureComponent {
   }
 }
 
-EventContainer.propTypes = {
+PageEventDetails.propTypes = {
   apiStatus: PropTypes.object,
   event: PropTypes.object,
   leaderboards: PropTypes.array,
@@ -120,4 +125,4 @@ EventContainer.propTypes = {
   stats: PropTypes.object
 }
 
-export default withRouteData(EventContainer)
+export default PageEventDetails

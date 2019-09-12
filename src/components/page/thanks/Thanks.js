@@ -1,23 +1,23 @@
 import React, { Fragment, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { AppContext } from '../../contexts/App'
-import PageContainer from '../page-container/PageContainer'
-import Card from '../card/Card'
-import { Lockup } from '../lockup/Lockup'
-import { Button } from '../button/Button'
-import Prose from '../prose/Prose'
-import SmartLink from '../smart-link/SmartLink'
+import { AppContext } from '../../../contexts/App'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import { Lockup } from '../../lockup/Lockup'
+import { Button } from '../../button/Button'
+import Prose from '../../prose/Prose'
+import SmartLink from '../../smart-link/SmartLink'
 
 const queryString = require('query-string')
-const constants = require('../../utils/constants')
-const urlBuilder = require('../../utils/url-builder')
+const constants = require('../../../utils/constants')
+const urlBuilder = require('../../../utils/url-builder')
 
 const meta = {
   description: `Clan enrollment for ${constants.meta.name}`,
   robots: 'noindex,nofollow'
 }
 
-function Thanks({ search }) {
+function PageThanks({ search }) {
   const apiStatus = useContext(AppContext)
   const query = queryString.parse(search)
   const success = query.success
@@ -134,8 +134,8 @@ function Thanks({ search }) {
   )
 }
 
-Thanks.propTypes = {
+PageThanks.propTypes = {
   search: PropTypes.string
 }
 
-export default Thanks
+export default PageThanks

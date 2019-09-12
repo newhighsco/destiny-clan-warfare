@@ -1,17 +1,17 @@
 import React from 'react'
-import PageContainer from '../page-container/PageContainer'
-import Card from '../card/Card'
-import { Lockup } from '../lockup/Lockup'
-import Prose from '../prose/Prose'
-import SmartLink from '../smart-link/SmartLink'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import { Lockup } from '../../lockup/Lockup'
+import Prose from '../../prose/Prose'
+import SmartLink from '../../smart-link/SmartLink'
 
-const constants = require('../../utils/constants')
+const constants = require('../../../utils/constants')
 const meta = {
   title: 'FAQs',
   description: `Frequently asked questions about ${constants.meta.name}`
 }
 
-function FrequentlyAskedQuestions() {
+function PageFrequentlyAskedQuestions() {
   return (
     <PageContainer meta={meta}>
       <Card>
@@ -179,4 +179,4 @@ function FrequentlyAskedQuestions() {
   )
 }
 
-export default FrequentlyAskedQuestions
+export default PageFrequentlyAskedQuestions

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
-import HoldingPage from '../holding-page/HoldingPage'
-import SmartLink from '../smart-link/SmartLink'
-import { Logo } from '../logo/Logo'
+import HoldingPage from '../../holding-page/HoldingPage'
+import SmartLink from '../../smart-link/SmartLink'
+import { Logo } from '../../logo/Logo'
 
 const meta = {
   title: 'Page not found',
@@ -9,7 +9,7 @@ const meta = {
   robots: 'noindex,nofollow'
 }
 
-const NotFound = class extends PureComponent {
+const PageNotFound = class extends PureComponent {
   render() {
     return (
       <HoldingPage meta={meta}>
@@ -21,4 +21,4 @@ const NotFound = class extends PureComponent {
   }
 }
 
-export default NotFound
+export default PageNotFound

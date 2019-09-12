@@ -3,8 +3,8 @@ import { Root, Routes, Head, addPrefetchExcludes } from 'react-static'
 import { Router, Match } from '@reach/router'
 import Analytics from './components/analytics/Analytics'
 import SiteContainer from './components/site-container/SiteContainer'
-import MemberCurrent from './containers/member/Current'
-import MemberOverall from './containers/member/Overall'
+import MemberCurrentContainer from './containers/member/Current'
+import MemberOverallContainer from './containers/member/Overall'
 import Loading from './components/loading/Loading'
 
 import './stylus/index.styl'
@@ -70,8 +70,10 @@ function App() {
             }
           >
             <SiteContainer element={Router} primary={false}>
-              <MemberOverall path={urlBuilder.profileUrl(':clan', ':member')} />
-              <MemberCurrent
+              <MemberOverallContainer
+                path={urlBuilder.profileUrl(':clan', ':member')}
+              />
+              <MemberCurrentContainer
                 path={urlBuilder.currentEventUrl(':clan', ':member')}
               />
               <Routes default />

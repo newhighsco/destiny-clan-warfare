@@ -1,21 +1,21 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import PageContainer from '../page-container/PageContainer'
-import Card from '../card/Card'
-import Avatar from '../avatar/Avatar'
-import { Lockup } from '../lockup/Lockup'
-import { MedalList } from '../medal/Medal'
-import { StatList } from '../stat/Stat'
-import { Button, ButtonGroup } from '../button/Button'
-import { TagList } from '../tag/Tag'
-import Leaderboard from '../leaderboard/Leaderboard'
-import { TabContainer, Tab } from '../tab/Tab'
-import { PlatformList } from '../platform/Platform'
-import Notification from '../notification/Notification'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import Avatar from '../../avatar/Avatar'
+import { Lockup } from '../../lockup/Lockup'
+import { MedalList } from '../../medal/Medal'
+import { StatList } from '../../stat/Stat'
+import { Button, ButtonGroup } from '../../button/Button'
+import { TagList } from '../../tag/Tag'
+import Leaderboard from '../../leaderboard/Leaderboard'
+import { TabContainer, Tab } from '../../tab/Tab'
+import { PlatformList } from '../../platform/Platform'
+import Notification from '../../notification/Notification'
 
-const constants = require('../../utils/constants')
-const urlBuilder = require('../../utils/url-builder')
-const possessive = require('../../utils/grammar').possessive
+const constants = require('../../../utils/constants')
+const urlBuilder = require('../../../utils/url-builder')
+const possessive = require('../../../utils/grammar').possessive
 
 const columns = [
   'rank',
@@ -29,11 +29,14 @@ const columns = [
   'score'
 ]
 
-const MemberOverall = class extends PureComponent {
+const PageMemberOverall = class extends PureComponent {
   constructor(props) {
     super(props)
 
     const { clan, member } = this.props
+
+    if (!member) return
+
     const kicker = clan.name
     const kickerHref = urlBuilder.clanUrl(clan.id)
     const canonicalUrl = `${process.env.SITE_URL}${member.path}`
@@ -88,6 +91,9 @@ const MemberOverall = class extends PureComponent {
 
   render() {
     const { clan, member } = this.props
+
+    if (!member) return null
+
     const { pastEvents, platformId, stats, meta } = this.state
     const hasLeaderboard = pastEvents && pastEvents.length > 0
 
@@ -146,9 +152,9 @@ const MemberOverall = class extends PureComponent {
   }
 }
 
-MemberOverall.propTypes = {
+PageMemberOverall.propTypes = {
   clan: PropTypes.object,
   member: PropTypes.object
 }
 
-export default MemberOverall
+export default PageMemberOverall

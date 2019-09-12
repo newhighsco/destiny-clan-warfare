@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { prefetch } from 'react-static'
 import PropTypes from 'prop-types'
-import MemberCurrent from '../../components/member/Current'
+import PageMemberCurrent from '../../components/page/member/Current'
 import Loading from '../../components/loading/Loading'
-import NotFound from '../../components/not-found/NotFound'
+import PageNotFound from '../../components/page/not-found/NotFound'
 
 const urlBuilder = require('../../utils/url-builder')
 
@@ -54,14 +54,14 @@ function MemberCurrentContainer(props) {
   const { member, notFound } = data
 
   if (notFound) {
-    return <NotFound />
+    return <PageNotFound />
   }
 
   if (!member) {
     return <Loading />
   }
 
-  return <MemberCurrent {...data} />
+  return <PageMemberCurrent {...data} />
 }
 
 MemberCurrentContainer.propTypes = {

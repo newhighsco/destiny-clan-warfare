@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react'
-import PageContainer from '../page-container/PageContainer'
-import Card from '../card/Card'
-import { Lockup } from '../lockup/Lockup'
-import { Grid, GridItem } from '../grid/Grid'
-import TextAlign from '../text-align/TextAlign'
-import { SwatchList } from '../swatch/Swatch'
-import Prose from '../prose/Prose'
-import List from '../list/List'
-import SmartLink from '../smart-link/SmartLink'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import { Lockup } from '../../lockup/Lockup'
+import { Grid, GridItem } from '../../grid/Grid'
+import TextAlign from '../../text-align/TextAlign'
+import { SwatchList } from '../../swatch/Swatch'
+import Prose from '../../prose/Prose'
+import List from '../../list/List'
+import SmartLink from '../../smart-link/SmartLink'
 
-const constants = require('../../utils/constants')
+const constants = require('../../../utils/constants')
 const meta = {
   title: 'Branding',
   description: `Branding guidelines for ${constants.meta.name}`,
@@ -24,7 +24,7 @@ const logos = [
 ]
 const extensions = ['png', 'psd', 'svg']
 
-function Branding() {
+function PageBranding() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Branding" />
@@ -90,4 +90,4 @@ function Branding() {
   )
 }
 
-export default Branding
+export default PageBranding

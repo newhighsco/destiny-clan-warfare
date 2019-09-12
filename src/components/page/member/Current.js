@@ -1,29 +1,31 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { firstBy } from 'thenby'
-import PageContainer from '../page-container/PageContainer'
-import Card from '../card/Card'
-import Avatar from '../avatar/Avatar'
-import { Lockup } from '../lockup/Lockup'
-import Leaderboard from '../leaderboard/Leaderboard'
-import RelativeDate from '../relative-date/RelativeDate'
-import { StatList } from '../stat/Stat'
-import { TagList } from '../tag/Tag'
-import Notification from '../notification/Notification'
-import { TabContainer, Tab } from '../tab/Tab'
-import { PlatformList } from '../platform/Platform'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import Avatar from '../../avatar/Avatar'
+import { Lockup } from '../../lockup/Lockup'
+import Leaderboard from '../../leaderboard/Leaderboard'
+import RelativeDate from '../../relative-date/RelativeDate'
+import { StatList } from '../../stat/Stat'
+import { TagList } from '../../tag/Tag'
+import Notification from '../../notification/Notification'
+import { TabContainer, Tab } from '../../tab/Tab'
+import { PlatformList } from '../../platform/Platform'
 
-const constants = require('../../utils/constants')
-const urlBuilder = require('../../utils/url-builder')
-const possessive = require('../../utils/grammar').possessive
+const constants = require('../../../utils/constants')
+const urlBuilder = require('../../../utils/url-builder')
+const possessive = require('../../../utils/grammar').possessive
 
 const columns = ['kills', 'assists', 'deaths', 'bonuses', 'score']
 
-const MemberCurrent = class extends PureComponent {
+const PageMemberCurrent = class extends PureComponent {
   constructor(props) {
     super(props)
 
     const { clan, member } = this.props
+
+    if (!member) return
 
     const kicker = clan.name
     const kickerHref = urlBuilder.currentEventUrl(clan.id)
@@ -95,6 +97,9 @@ const MemberCurrent = class extends PureComponent {
 
   render() {
     const { apiStatus, clan, member, matchHistoryLimit } = this.props
+
+    if (!member) return null
+
     const { leaderboard, stats, enableMatchHistory, meta } = this.state
     const hasLeaderboard = leaderboard && leaderboard.length > 0
 
@@ -151,11 +156,11 @@ const MemberCurrent = class extends PureComponent {
   }
 }
 
-MemberCurrent.propTypes = {
+PageMemberCurrent.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
   member: PropTypes.object,
   matchHistoryLimit: PropTypes.number
 }
 
-export default MemberCurrent
+export default PageMemberCurrent

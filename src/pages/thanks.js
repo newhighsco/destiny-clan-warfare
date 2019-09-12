@@ -1,8 +1,10 @@
 import React from 'react'
-import Thanks from '../components/thanks/Thanks'
+import PageThanks from '../components/page/thanks/Thanks'
 
 function ThanksPage() {
-  return <Thanks search={typeof location !== 'undefined' && location.search} />
+  return (
+    <PageThanks search={typeof location !== 'undefined' && location.search} />
+  )
 }
 
 export default ThanksPage

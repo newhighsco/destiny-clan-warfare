@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../contexts/App'
-import NotFound from '../components/not-found/NotFound'
+import PageNotFound from '../components/page/not-found/NotFound'
 
 function NotFoundPage() {
   const { isEnhanced } = useContext(AppContext)
 
-  return isEnhanced ? <NotFound /> : null
+  return isEnhanced ? <PageNotFound /> : null
 }
 
 export default NotFoundPage

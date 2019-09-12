@@ -1,39 +1,41 @@
 import React, { PureComponent } from 'react'
-import { withRouteData } from 'react-static'
 import PropTypes from 'prop-types'
-import PageContainer from '../components/page-container/PageContainer'
-import Card from '../components/card/Card'
-import { Lockup } from '../components/lockup/Lockup'
-import Leaderboard from '../components/leaderboard/Leaderboard'
-import { Tag } from '../components/tag/Tag'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import { Lockup } from '../../lockup/Lockup'
+import Leaderboard from '../../leaderboard/Leaderboard'
+import { Tag } from '../../tag/Tag'
 
-const constants = require('../utils/constants')
-const urlBuilder = require('../utils/url-builder')
+const constants = require('../../../utils/constants')
+const urlBuilder = require('../../../utils/url-builder')
 const meta = {
   title: 'Events',
   description: `All upcoming, current, and, past ${constants.meta.name} events`
 }
 
-const EventsContainer = class extends PureComponent {
+const PageEventListing = class extends PureComponent {
   constructor(props) {
     super(props)
 
     const { events } = this.props
-    const leaderboard = events.map(event => {
-      const kicker = event.isCurrent
-        ? constants.kicker.current
-        : event.isPast
-        ? null
-        : constants.kicker.future
 
-      return {
-        game: {
-          ...event,
-          name: `${event.name}${kicker ? ` - ${kicker}` : ''}`
-        },
-        modifiers: event.modifiers
-      }
-    })
+    const leaderboard = events
+      ? events.map(event => {
+          const kicker = event.isCurrent
+            ? constants.kicker.current
+            : event.isPast
+            ? null
+            : constants.kicker.future
+
+          return {
+            game: {
+              ...event,
+              name: `${event.name}${kicker ? ` - ${kicker}` : ''}`
+            },
+            modifiers: event.modifiers
+          }
+        })
+      : []
 
     const patreonTier = constants.patreon.eventCreator
     const linkAttributes = {
@@ -82,8 +84,8 @@ const EventsContainer = class extends PureComponent {
   }
 }
 
-EventsContainer.propTypes = {
+PageEventListing.propTypes = {
   events: PropTypes.array
 }
 
-export default withRouteData(EventsContainer)
+export default PageEventListing

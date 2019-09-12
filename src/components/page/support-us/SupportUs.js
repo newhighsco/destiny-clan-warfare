@@ -1,15 +1,15 @@
 import React from 'react'
-import PageContainer from '../page-container/PageContainer'
-import Card from '../card/Card'
-import { Lockup } from '../lockup/Lockup'
-import { Grid, GridItem } from '../grid/Grid'
-import { Button } from '../button/Button'
-import Prose from '../prose/Prose'
-import Avatar from '../avatar/Avatar'
-import PatreonSvg from '../../images/icons/patreon.svg'
-import PayPalSvg from '../../images/icons/paypal.svg'
+import PageContainer from '../../page-container/PageContainer'
+import Card from '../../card/Card'
+import { Lockup } from '../../lockup/Lockup'
+import { Grid, GridItem } from '../../grid/Grid'
+import { Button } from '../../button/Button'
+import Prose from '../../prose/Prose'
+import Avatar from '../../avatar/Avatar'
+import PatreonSvg from '../../../images/icons/patreon.svg'
+import PayPalSvg from '../../../images/icons/paypal.svg'
 
-const constants = require('../../utils/constants')
+const constants = require('../../../utils/constants')
 const meta = {
   title: 'Support us',
   description: `Support the development of ${
@@ -17,7 +17,7 @@ const meta = {
   } by becoming a patron or making a donation`
 }
 
-function SupportUs() {
+function PageSupportUs() {
   return (
     <PageContainer meta={meta}>
       <Lockup primary center element="h1" kicker="Support us" />
@@ -77,4 +77,4 @@ function SupportUs() {
   )
 }
 
-export default SupportUs
+export default PageSupportUs

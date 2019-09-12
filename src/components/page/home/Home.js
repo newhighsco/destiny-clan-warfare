@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import PageContainer from '../page-container/PageContainer'
-import { Button, ButtonGroup } from '../button/Button'
-import { Lockup } from '../lockup/Lockup'
-import RelativeDate from '../relative-date/RelativeDate'
-import Enrollment from '../enrollment/Enrollment'
-import Event from '../event/Event'
-import Notification from '../notification/Notification'
-import Sponsorship from '../sponsorship/Sponsorship'
+import PageContainer from '../../page-container/PageContainer'
+import { Button, ButtonGroup } from '../../button/Button'
+import { Lockup } from '../../lockup/Lockup'
+import RelativeDate from '../../relative-date/RelativeDate'
+import Enrollment from '../../enrollment/Enrollment'
+import Event from '../../event/Event'
+import Notification from '../../notification/Notification'
+import Sponsorship from '../../sponsorship/Sponsorship'
 
-const constants = require('../../utils/constants')
-const urlBuilder = require('../../utils/url-builder')
+const constants = require('../../../utils/constants')
+const urlBuilder = require('../../../utils/url-builder')
 
 const meta = {
   schema: {
@@ -23,7 +23,7 @@ const meta = {
   }
 }
 
-function Home({
+function PageHome({
   apiStatus,
   clanIds,
   currentEvent,
@@ -124,7 +124,7 @@ function Home({
   )
 }
 
-Home.propTypes = {
+PageHome.propTypes = {
   apiStatus: PropTypes.object,
   clanIds: PropTypes.array,
   currentEvent: PropTypes.object,
@@ -133,4 +133,4 @@ Home.propTypes = {
   currentEventSummary: PropTypes.array
 }
 
-export default Home
+export default PageHome

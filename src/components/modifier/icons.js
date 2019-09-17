@@ -14,6 +14,7 @@ const endAllExistence = {
 const elementary = { svg: 'elementary' }
 const flawlessStiker = { svg: 'flawless-striker', designer: 'iconsphere' }
 const modifierTBC = { svg: 'modifier-tbc' }
+const noApologies = { svg: 'no-apologies', designer: 'Simon Child' }
 const pinnacleKills = { svg: 'pinnacle-kills', designer: 'Creative Stall' }
 const pulsating = { svg: 'pulsating', designer: 'Nikol Kokešová' }
 const raidTiming = { svg: 'raid-timing', designer: 'Pixel Lab' }
@@ -48,14 +49,16 @@ const icons = {
   'gambit-runaway': { designer: 'heathersabrina' },
   'guided-games-raid-timing': raidTiming,
   'hear-the-whisper': { designer: 'BGBOXXX Design' },
+  'heavy-medal': { designer: 'Lorc' },
   'helping-hand': { designer: 'Demetria Rose' },
   'how-exotic': flawlessStiker,
   'i-hit-a-rock': { designer: 'Tom Fricker' },
   'key-play': { svg: 'let-me-handle-this' },
   'kills-only': { designer: 'Optimus Prime' },
   'kiss-from-a-row': { designer: 'estuhartono' },
-  'luke-skywalker-s-padawan': { designer: 'Colour Block' },
+  'luke-skywalker-s-padawan': { designer: 'Guilherme Furtado' },
   'make-the-dreamwork': bandTogether,
+  'medieval-bonus': { designer: 'Guilherme Furtado & Hat-Tech' },
   'my-motes-bring-all-the-boys-to-the-yard': {
     svg: 'all-creatures-great-small'
   },
@@ -63,7 +66,8 @@ const icons = {
   'modifier-tbc': modifierTBC,
   'multiplier-tbc': modifierTBC,
   'nice-throw': { designer: 'Hea Poh Lin' },
-  'no-apologies': { designer: 'Simon Child' },
+  'no-apologies': noApologies,
+  'no-sweat': noApologies,
   'not-very-exotic': { designer: 'iconsphere' },
   perfection: { designer: 'Montu Yadav' },
   'pew-pew-pew': pulsating,
@@ -87,6 +91,7 @@ const icons = {
   'variety-is-the-spice-of-life': { designer: 'Xela Ub' },
   'warmind-anti-meta': antiMeta,
   'weapons-of-the-beasts': { designer: 'Lorc' },
+  'who-needs-guns': { designer: 'miza bin & TMD' },
   'winner-winner-chicken-dinner': { designer: 'Artem Kovyazin' },
   'wrong-game-mode': antiMeta,
   'you-can-t-kill-me': { designer: 'Robert Bjurshagen' },

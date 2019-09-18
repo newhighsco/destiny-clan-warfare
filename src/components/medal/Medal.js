@@ -22,7 +22,6 @@ const baseClassName = 'medal'
 const Medal = class extends PureComponent {
   render() {
     const {
-      type,
       name,
       description,
       label,
@@ -157,7 +156,6 @@ Medal.defaultProps = {
 }
 
 Medal.propTypes = {
-  type: PropTypes.oneOf([constants.prefix.clan, constants.prefix.profile]),
   name: PropTypes.string,
   description: PropTypes.string,
   label: PropTypes.array,

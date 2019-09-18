@@ -84,12 +84,16 @@ const Medal = class extends PureComponent {
     return (
       <Tooltip
         heading={name}
-        text={tooltip.map((line, i) => (
-          <Fragment key={`tooltip-${i}`}>
-            {i > 0 && <br />}
-            {line}
-          </Fragment>
-        ))}
+        text={
+          tooltip.length > 0
+            ? tooltip.map((line, i) => (
+                <Fragment key={`tooltip-${i}`}>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))
+            : null
+        }
         className={className}
         align={align}
         valign={valign}

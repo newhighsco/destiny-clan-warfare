@@ -36,12 +36,12 @@ const Medal = class extends PureComponent {
       tooltipActive
     } = this.props
     var key = paramCase(name)
-    const foreground = foregrounds[type][key]
+    const foreground = foregrounds[key]
 
     if (foreground && foreground.svg) key = foreground.svg
 
     const backgroundKey = `./tier${tier}.svg`
-    const foregroundKey = `./${type.toLowerCase()}/${key}.svg`
+    const foregroundKey = `./${key}.svg`
 
     const BackgroundSvg = backgroundSvgs
       .keys()

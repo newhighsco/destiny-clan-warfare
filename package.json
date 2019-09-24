@@ -13,7 +13,7 @@
     "start:jest": "npm run test:jest -- --watch",
     "start:storybook": "start-storybook -h localhost.destinyclanwarfare.com -p 9001 --ci --quiet",
     "start:static": "react-static start",
-    "build": "if [[ -z ${INCOMING_HOOK_TITLE} ]]; then npm-run-all build:full; else npm-run-all build:update; fi",
+    "build": "if test -z \"$INCOMING_HOOK_TITLE\"; then npm-run-all build:full; else npm-run-all build:update; fi",
     "build:full": "npm-run-all build:jest build:storybook build:static",
     "build:update": "npm-run-all build:static",
     "build:static": "react-static build",

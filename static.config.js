@@ -157,20 +157,14 @@ export default {
     [
       'plugin-netlify-cache',
       {
-        extraDirs: ['public/storybook']
+        extraDirs: ['data', 'public/storybook']
       }
     ],
     'plugin-webpack',
     'plugin-stylus',
     'plugin-svg'
   ],
-  getRoutes: async ({ incremental }) => {
-    const disableDataFetch = JSON.parse(process.env.DISABLE_DATA_FETCH || false)
-
-    if (disableDataFetch) {
-      return [{ path: urlBuilder.rootUrl, template: 'src/containers/Home' }]
-    }
-
+  getRoutes: async ({ config, incremental }) => {
     const {
       apiStatus,
       clans,
@@ -188,7 +182,7 @@ export default {
       previousClanLeaderboard,
       lastChecked,
       leaderboards
-    } = await dataSources.fetch()
+    } = await dataSources.fetch(config, incremental)
     const routes = []
     const currentEventStats = {}
     const clanIds = []

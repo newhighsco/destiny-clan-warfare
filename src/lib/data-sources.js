@@ -153,7 +153,7 @@ const fetch = async (config, incremental) => {
           .catch(err => {
             if (err.code !== 'ENOENT') reject(err)
 
-            task.output = 'Filling cache'
+            task.output = 'Updating cache from API'
 
             resolve(sourceUpdate(url))
           })

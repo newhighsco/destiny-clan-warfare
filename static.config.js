@@ -33,8 +33,7 @@ export default {
       }
     ],
     require.resolve('react-static-plugin-reach-router'),
-    'plugin-sitemap-patch',
-    require.resolve('react-static-plugin-sitemap'),
+    'plugin-sitemap',
     [
       'plugin-robots',
       {

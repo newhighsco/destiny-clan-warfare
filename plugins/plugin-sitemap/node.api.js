@@ -1,5 +1,6 @@
 export default () => {
   return {
+    plugins: [require.resolve('react-static-plugin-sitemap')],
     afterExport: async state => {
       const {
         config: { publicPath }

@@ -1,16 +1,15 @@
 import webpack from 'webpack'
 
 export default () => ({
-  webpack: (config, { defaultLoaders, stage }) => {
-    const { fileLoader } = defaultLoaders
-    const existingUrlLoaderRule = config.module.rules[0].oneOf.findIndex(
-      ({ loader, query }) => loader === 'url-loader'
+  webpack: config => {
+    const existingUrlLoaderRuleIndex = config.module.rules[0].oneOf.findIndex(
+      ({ loader }) => loader === 'url-loader'
     )
+    const existingUrlLoaderRule =
+      config.module.rules[0].oneOf[existingUrlLoaderRuleIndex]
 
-    config.module.rules[0].oneOf[existingUrlLoaderRule].query = {
-      ...fileLoader.query,
-      limit: 1
-    }
+    if (existingUrlLoaderRule.query) existingUrlLoaderRule.query.limit = 1
+    if (existingUrlLoaderRule.options) existingUrlLoaderRule.options.limit = 1
 
     config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
 

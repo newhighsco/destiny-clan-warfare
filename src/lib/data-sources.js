@@ -22,7 +22,7 @@ const enablePreviousLeaderboards = JSON.parse(
 
 const fetch = async (config, incremental) => {
   const {
-    paths: { ROOT }
+    paths: { ARTIFACTS, DIST, ROOT }
   } = config
   const dataPath = path.join(ROOT, 'data')
   const utc = moment.utc()
@@ -177,13 +177,15 @@ const fetch = async (config, incremental) => {
     const filePath = path.join(dataPath, `${url}.json`)
 
     return new Promise((resolve, reject) => {
-      api(url).then(({ data }) => {
-        fs.outputJson(filePath, data)
-          .then(() => {
-            resolve(data)
-          })
-          .catch(err => reject(err))
-      })
+      api(url)
+        .then(({ data }) => {
+          fs.outputJson(filePath, data)
+            .then(() => {
+              resolve(data)
+            })
+            .catch(err => reject(err))
+        })
+        .catch(err => reject(err))
     })
   }
 
@@ -932,6 +934,9 @@ const fetch = async (config, incremental) => {
       console.log(output.join('\n'))
     })
     .catch(err => {
+      fs.removeSync(ARTIFACTS)
+      fs.removeSync(DIST)
+
       throw err
     })
 

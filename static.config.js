@@ -351,24 +351,23 @@ export default {
         }
       })
 
-      if (currentEventId) {
-        routes.push({
-          path: urlBuilder.currentEventUrl(clan.id),
-          template: 'src/containers/clan/Current',
-          getData: async () => ({
-            currentTotals: clanCurrentTotals,
-            currentStats: clanCurrentStats,
-            statsGamesThreshold: currentEventStatsGamesThreshold,
-            matchHistory: clanMatchHistory,
-            matchHistoryLimit
-          }),
-          sharedData: {
-            apiStatus: sharedApiStatus,
-            clan: sharedClan,
-            members: sharedClanMembers
-          }
-        })
-      }
+      routes.push({
+        path: urlBuilder.currentEventUrl(clan.id),
+        template: 'src/containers/clan/Current',
+        getData: async () => ({
+          currentEventId: currentEventId || undefined,
+          currentTotals: clanCurrentTotals,
+          currentStats: clanCurrentStats,
+          statsGamesThreshold: currentEventStatsGamesThreshold,
+          matchHistory: clanMatchHistory,
+          matchHistoryLimit
+        }),
+        sharedData: {
+          apiStatus: sharedApiStatus,
+          clan: sharedClan,
+          members: sharedClanMembers
+        }
+      })
     })
 
     const sharedClans = createSharedData(clientClans)
@@ -608,7 +607,7 @@ export default {
               {
                 from: `${urlBuilder.currentEventRootUrl}*`,
                 to: `${urlBuilder.rootUrl}#next`,
-                code: 302
+                code: '302!'
               }
             ]
           : undefined

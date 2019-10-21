@@ -18,6 +18,7 @@ const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungieHelper = require('../../utils/bungie-helper')
 const urlBuilder = require('../../utils/url-builder')
+const decode = require('../../utils/html-entities').decode
 
 const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
@@ -159,9 +160,9 @@ const Enrollment = class extends Component {
               const existing = ids.indexOf(groupId) !== -1
               const Group = () => (
                 <Fragment>
-                  {name}{' '}
+                  {decode(name)}{' '}
                   <ClanTag className={styles[`${baseClassName}__clan-tag`]}>
-                    {clanInfo.clanCallsign}
+                    {decode(clanInfo.clanCallsign)}
                   </ClanTag>
                 </Fragment>
               )

@@ -72,15 +72,17 @@ const MemberCurrent = class extends PureComponent {
         ]
       }
     }
-    const leaderboard = member.matchHistory.sort(
-      firstBy((a, b) =>
-        b.game.endDate > a.game.endDate
-          ? 1
-          : b.game.endDate < a.game.endDate
-          ? -1
-          : 0
-      )
-    )
+    const leaderboard = member.matchHistory
+      ? member.matchHistory.sort(
+          firstBy((a, b) =>
+            b.game.endDate > a.game.endDate
+              ? 1
+              : b.game.endDate < a.game.endDate
+              ? -1
+              : 0
+          )
+        )
+      : null
     const stats =
       member.currentTotals && member.currentTotals.games > 0
         ? member.currentTotals

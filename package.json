@@ -29,7 +29,7 @@
     "optimize:public": "imagemin public/* --out-dir=public",
     "qa": "npm-run-all --parallel qa:*",
     "qa:js": "eslint --cache -f unix .",
-    "qa:css": "stylint .",
+    "qa:css": "stylint ./src",
     "prettier": "prettier --write '**/*.js*'",
     "test": "npm-run-all --parallel qa test:jest",
     "test:jest": "jest",

@@ -19,7 +19,6 @@ jobs:
       - run: yarn test
       - codecov/upload
 workflows:
-  version: 2
   build:
     jobs:
       - build

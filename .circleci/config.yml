@@ -10,11 +10,11 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yarn-{{ checksum "yarn.lock" }}
-      - run: yarn install --cache-folder ~/.cache/yarn
+            - dependency-cache-{{ checksum "yarn.lock" }}
+      - run: yarn install
       - save_cache:
-          key: yarn-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - ./node_modules
       - run: yarn test
       - codecov/upload

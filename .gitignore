@@ -22,7 +22,6 @@ artifacts/
 cache/
 coverage/
 dist/
-public/storybook/
 tmp/
 .env*
 .eslintcache

@@ -157,7 +157,7 @@ export default {
     [
       'plugin-netlify-cache',
       {
-        extraDirs: ['public/storybook']
+        extraDirs: []
       }
     ],
     'plugin-webpack',

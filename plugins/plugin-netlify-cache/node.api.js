@@ -75,6 +75,29 @@ export default ({ extraDirs = [] }) => {
         return state
       }
 
+      const {
+        isBuildCommand,
+        config: { siteRoot, basePath, publicPath, assetsPath }
+      } = state
+
+      if (!isBuildCommand) {
+        if (!process.env.REACT_STATIC_SITE_ROOT) {
+          process.env.REACT_STATIC_SITE_ROOT = siteRoot
+        }
+
+        if (!process.env.REACT_STATIC_BASE_PATH) {
+          process.env.REACT_STATIC_BASE_PATH = basePath
+        }
+
+        if (!process.env.REACT_STATIC_PUBLIC_PATH) {
+          process.env.REACT_STATIC_PUBLIC_PATH = publicPath
+        }
+
+        if (!process.env.REACT_STATIC_ASSETS_PATH) {
+          process.env.REACT_STATIC_ASSETS_PATH = assetsPath
+        }
+      }
+
       const { isCacheRestored } = state
 
       if (!isCacheRestored) {

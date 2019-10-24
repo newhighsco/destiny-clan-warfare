@@ -138,11 +138,6 @@ export default {
           code: '200!'
         },
         {
-          from: 'https://storybook.destinyclanwarfare.com/*',
-          to: `${urlBuilder.rootUrl}storybook/:splat`,
-          code: '200!'
-        },
-        {
           from: 'https://discord.destinyclanwarfare.com/*',
           to: 'https://discordapp.com/invite/tu8JdRr',
           code: '301!'
@@ -157,7 +152,7 @@ export default {
     [
       'plugin-netlify-cache',
       {
-        extraDirs: ['data', 'public/storybook']
+        extraDirs: ['data']
       }
     ],
     'plugin-webpack',

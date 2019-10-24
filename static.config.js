@@ -363,7 +363,6 @@ export default {
           matchHistoryLimit
         }),
         sharedData: {
-          apiStatus: sharedApiStatus,
           clan: sharedClan,
           members: sharedClanMembers
         }
@@ -548,7 +547,6 @@ export default {
       const eventSharedData = {}
 
       if (event.isCurrent) {
-        eventSharedData.apiStatus = sharedApiStatus
         eventSharedData.leaderboards = sharedCurrentEventLeaderboards
       }
 
@@ -636,7 +634,6 @@ export default {
       currentEventId
     }
     const customLeaderboardSharedData = {
-      apiStatus: sharedApiStatus,
       clans: sharedClans,
       leaderboards: currentEventId
         ? sharedCurrentEventLeaderboards

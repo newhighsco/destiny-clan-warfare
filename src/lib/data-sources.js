@@ -30,7 +30,7 @@ const fetch = async (config, incremental) => {
   const parsed = {
     apiStatus: {
       bungieStatus: constants.bungie.disabledStatusCodes[0],
-      updatedDate: updatedDate
+      updatedDate
     },
     clans: [],
     members: [],

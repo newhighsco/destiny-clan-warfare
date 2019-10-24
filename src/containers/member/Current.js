@@ -12,42 +12,44 @@ function MemberCurrentContainer(props) {
     location: { state }
   } = props
   const [data, setData] = useState({
-    apiStatus: null,
+    apiStatus: {},
     clan: state ? state.clan : null,
     member: state ? state.member : null,
     notFound: false
   })
 
   useEffect(() => {
-    if (!data.member) {
+    async function fetchData() {
       const clanId = props.clan
       const memberId = props.member.replace(/#.+$/, '')
+      const { apiStatus } = await prefetch(urlBuilder.rootUrl, {
+        type: 'data'
+      })
+      const {
+        clan,
+        members,
+        currentTotals,
+        matchHistory,
+        matchHistoryLimit
+      } = await prefetch(urlBuilder.currentEventUrl(clanId), { type: 'data' })
+      const member = members.find(({ id }) => id === memberId)
 
-      prefetch(urlBuilder.currentEventUrl(clanId), { type: 'data' }).then(
-        ({
-          apiStatus,
-          clan,
-          members,
-          currentTotals,
-          matchHistory,
-          matchHistoryLimit
-        }) => {
-          const member = members.find(({ id }) => id === memberId)
+      if (member) {
+        member.currentTotals = currentTotals[memberId]
+        member.matchHistory = matchHistory[memberId]
+      }
 
-          if (member) {
-            member.currentTotals = currentTotals[memberId]
-            member.matchHistory = matchHistory[memberId]
-          }
+      setData({
+        apiStatus,
+        clan,
+        member,
+        matchHistoryLimit,
+        notFound: typeof member === 'undefined'
+      })
+    }
 
-          setData({
-            apiStatus,
-            clan,
-            member,
-            matchHistoryLimit,
-            notFound: typeof member === 'undefined'
-          })
-        }
-      )
+    if (!data.member) {
+      fetchData()
     }
   })
 

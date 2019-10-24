@@ -18,7 +18,7 @@
     "build:update": "npm-run-all build:static",
     "build:static": "react-static build",
     "build:jest": "npm run test:jest --scripts-prepend-node-path -- --json --outputFile=.jestcache.json",
-    "build:storybook": "build-storybook -o ./dist/.storybook --quiet",
+    "build:storybook": "build-storybook -o ./dist/.storybook -s ./public  --quiet",
     "build:percy": "percy-storybook --build_dir=./dist/.storybook --widths=300,550,960",
     "build:bundle": "react-static bundle",
     "build:export": "react-static export",

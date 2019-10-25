@@ -1,3 +1,5 @@
+const fs = require('fs-extra')
+const path = require('path')
 const moment = require('moment')
 const Listr = require('listr')
 const chalk = require('chalk')
@@ -18,13 +20,17 @@ const enablePreviousLeaderboards = JSON.parse(
   process.env.ENABLE_PREVIOUS_LEADERBOARDS
 )
 
-const fetch = async () => {
+const fetch = async (config, incremental) => {
+  const {
+    paths: { ARTIFACTS, DIST, ROOT }
+  } = config
+  const dataPath = path.join(ROOT, 'data')
   const utc = moment.utc()
   const updatedDate = utc.format(constants.format.machineReadable)
   const parsed = {
     apiStatus: {
       bungieStatus: constants.bungie.disabledStatusCodes[0],
-      updatedDate: updatedDate
+      updatedDate
     },
     clans: [],
     members: [],
@@ -131,12 +137,91 @@ const fetch = async () => {
     reject(err)
   }
 
+  const sourceLoad = (task, url, update) => {
+    return new Promise((resolve, reject) => {
+      if (update) {
+        task.output = 'Fetching from API'
+
+        resolve(sourceUpdate(url))
+      } else {
+        task.output = 'Restoring cache'
+
+        sourceRead(url)
+          .then(data => {
+            resolve(data)
+          })
+          .catch(err => {
+            if (err.code !== 'ENOENT') reject(err)
+
+            task.output = 'Updating cache from API'
+
+            resolve(sourceUpdate(url))
+          })
+      }
+    })
+  }
+
+  const sourceRead = url => {
+    const filePath = path.join(dataPath, `${url}.json`)
+
+    return new Promise((resolve, reject) => {
+      fs.readJSON(filePath)
+        .then(data => {
+          resolve(data)
+        })
+        .catch(err => reject(err))
+    })
+  }
+
+  const sourceUpdate = url => {
+    const filePath = path.join(dataPath, `${url}.json`)
+
+    return new Promise((resolve, reject) => {
+      api(url)
+        .then(({ data }) => {
+          fs.outputJson(filePath, data)
+            .then(() => {
+              resolve(data)
+            })
+            .catch(err => reject(err))
+        })
+        .catch(err => reject(err))
+    })
+  }
+
   const sourceOptions = {
     concurrent: true,
     collapse: false,
     dateFormat: false
   }
   const sources = [
+    {
+      title: 'Last updated',
+      task: (ctx, task) => {
+        return new Promise((resolve, reject) => {
+          const url = 'Component/GetLastUpdatedTimes'
+          const timer = sourceStart(task)
+
+          sourceRead(url)
+            .then(data => {
+              ctx.cache = data.endpoints
+            })
+            .catch(() => {
+              ctx.cache = {}
+            })
+
+          sourceUpdate(url)
+            .then(data => {
+              ctx.current = data.endpoints
+
+              sourceSucceed(task, timer, resolve)
+            })
+            .catch(err => {
+              sourceFail(err, reject)
+            })
+        })
+      }
+    },
     {
       title: 'Bungie',
       task: () =>
@@ -148,7 +233,7 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  bungieApi(`/Destiny2/Milestones`)
+                  bungieApi('/Destiny2/Milestones')
                     .then(({ data }) => {
                       parsed.apiStatus.bungieStatus = data.ErrorCode
 
@@ -174,8 +259,8 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Clan/AcceptingNewClans`)
-                    .then(({ data }) => {
+                  sourceLoad(task, 'Clan/AcceptingNewClans', true)
+                    .then(data => {
                       parsed.apiStatus.enrollmentOpen = data || undefined
 
                       sourceSucceed(task, timer, resolve)
@@ -191,8 +276,8 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Event/GetCurrentAlert`)
-                    .then(({ data }) => {
+                  sourceLoad(task, 'Event/GetCurrentAlert', true)
+                    .then(data => {
                       parsed.apiStatus.alert = data || undefined
 
                       sourceSucceed(task, timer, resolve)
@@ -212,8 +297,14 @@ const fetch = async () => {
                     return path.replace(/^.*_(\w*).*$/, '$1')
                   }
 
-                  api(`Clan/GetAllClans`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Clan/GetAllClans',
+                    !ctx.cache.Clan ||
+                      ctx.cache.Clan.GetAllClans !==
+                        ctx.current.Clan.GetAllClans
+                  )
+                    .then(data => {
                       data.map(clan => {
                         const id = `${clan.groupId}`
                         const { medals, totals } = medalBuilder.parseMedals(
@@ -272,8 +363,14 @@ const fetch = async () => {
                     return undefined
                   }
 
-                  api(`Clan/GetAllMembers`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Clan/GetAllMembers',
+                    !ctx.cache.Clan ||
+                      ctx.cache.Clan.GetAllMembers !==
+                        ctx.current.Clan.GetAllMembers
+                  )
+                    .then(data => {
                       data.map(member => {
                         const id = member.profileIdStr
                         const clanId = `${member.groupId}`
@@ -400,8 +497,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Event/GetAllEvents`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Event/GetAllEvents',
+                    !ctx.cache.Tournament ||
+                      ctx.cache.Tournament.GetAllEvents !==
+                        ctx.current.Tournament.GetAllEvents
+                  )
+                    .then(data => {
                       data.map(event => {
                         const id = event.eventId
                         const startDate = moment
@@ -518,8 +621,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Component/GetAllModifiers`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Component/GetAllModifiers',
+                    !ctx.cache.Component ||
+                      ctx.cache.Component.GetAllModifiers !==
+                        ctx.current.Component.GetAllModifiers
+                  )
+                    .then(data => {
                       data.map(
                         ({
                           id,
@@ -556,8 +665,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Component/GetAllMedals`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Component/GetAllMedals',
+                    !ctx.cache.Component ||
+                      ctx.cache.Component.GetAllMedals !==
+                        ctx.current.Component.GetAllMedals
+                  )
+                    .then(data => {
                       parsed.medals = parsed.medals.concat(
                         medalBuilder.parseMedals(data, constants.prefix.profile)
                           .medals
@@ -576,8 +691,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Component/GetAllClanMedals`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Component/GetAllClanMedals',
+                    !ctx.cache.Component ||
+                      ctx.cache.Component.GetAllClanMedals !==
+                        ctx.current.Component.GetAllClanMedals
+                  )
+                    .then(data => {
                       parsed.medals = parsed.medals.concat(
                         medalBuilder.parseMedals(data, constants.prefix.clan)
                           .medals
@@ -596,8 +717,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Leaderboard/GetLeaderboard`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Leaderboard/GetLeaderboard',
+                    !ctx.cache.Leaderboard ||
+                      ctx.cache.Leaderboard.GetLeaderboard !==
+                        ctx.current.Leaderboard.GetLeaderboard
+                  )
+                    .then(data => {
                       constants.divisions.map(({ key, name, size }) => {
                         const leaderboard = data[`${key}Leaderboard`]
 
@@ -625,8 +752,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Leaderboard/GetClanLeaderboard`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Leaderboard/GetClanLeaderboard',
+                    !ctx.cache.Leaderboard ||
+                      ctx.cache.Leaderboard.GetClanLeaderboard !==
+                        ctx.current.Leaderboard.GetClanLeaderboard
+                  )
+                    .then(data => {
                       parsed.currentClanLeaderboard = parseLeaderboard(data)
 
                       sourceSucceed(task, timer, resolve)
@@ -645,8 +778,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Leaderboard/GetAllPlayersHistory`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Leaderboard/GetAllPlayersHistory',
+                    !ctx.cache.Leaderboard ||
+                      ctx.cache.Leaderboard.GetAllPlayersHistory !==
+                        ctx.current.Leaderboard.GetAllPlayersHistory
+                  )
+                    .then(data => {
                       const { history, matchHistorySize } = data
 
                       history.map(match => {
@@ -701,8 +840,14 @@ const fetch = async () => {
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)
 
-                  api(`Leaderboard/GetPreviousClanLeaderboard`)
-                    .then(({ data }) => {
+                  sourceLoad(
+                    task,
+                    'Leaderboard/GetPreviousClanLeaderboard',
+                    !ctx.cache.Leaderboard ||
+                      ctx.cache.Leaderboard.GetPreviousClanLeaderboard !==
+                        ctx.current.Leaderboard.GetPreviousClanLeaderboard
+                  )
+                    .then(data => {
                       const { eventId, leaderboardList } = data[0]
 
                       parsed.previousEventId = eventId
@@ -726,7 +871,7 @@ const fetch = async () => {
 
   console.log('Retrieving Data...')
 
-  await new Listr(sources, sourceOptions)
+  await new Listr(sources, { ...sourceOptions, concurrent: false })
     .run()
     .then(() => {
       const {
@@ -789,6 +934,9 @@ const fetch = async () => {
       console.log(output.join('\n'))
     })
     .catch(err => {
+      fs.removeSync(ARTIFACTS)
+      fs.removeSync(DIST)
+
       throw err
     })
 

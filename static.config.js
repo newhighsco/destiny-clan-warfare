@@ -437,14 +437,19 @@ export default {
 
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
+        const creatorId = modifier.creatorId
 
-        if (modifier.creatorId) {
-          const member = members.find(({ id }) => id === modifier.creatorId)
+        if (creatorId) {
+          if (creatorId === constants.modifiers.anonymousCreator.key) {
+            modifier.creator = constants.modifiers.anonymousCreator.value
+          } else {
+            const member = members.find(({ id }) => id === creatorId)
 
-          if (member) {
-            const clan = clans.find(({ id }) => id === member.clanId)
+            if (member) {
+              const clan = clans.find(({ id }) => id === member.clanId)
 
-            modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+              modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+            }
           }
         }
 

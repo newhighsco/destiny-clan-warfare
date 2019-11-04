@@ -31,7 +31,8 @@ const constants = {
   },
   modifiers: {
     tbc: ['Modifier TBC', 'Multiplier TBC'],
-    notApplicable: ['No Modifier', 'No Multiplier']
+    notApplicable: ['No Modifier', 'No Multiplier'],
+    anonymousCreator: { key: 'anon', value: 'Anonymous' }
   },
   tense: {
     current: 'Current',

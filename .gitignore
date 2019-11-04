@@ -21,8 +21,8 @@ npm-debug.log
 artifacts/
 cache/
 coverage/
+data/
 dist/
-public/storybook/
 tmp/
 .env*
 .eslintcache

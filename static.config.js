@@ -138,11 +138,6 @@ export default {
           code: '200!'
         },
         {
-          from: 'https://storybook.destinyclanwarfare.com/*',
-          to: `${urlBuilder.rootUrl}storybook/:splat`,
-          code: '200!'
-        },
-        {
           from: 'https://discord.destinyclanwarfare.com/*',
           to: 'https://discordapp.com/invite/tu8JdRr',
           code: '301!'
@@ -157,20 +152,14 @@ export default {
     [
       'plugin-netlify-cache',
       {
-        extraDirs: ['public/storybook']
+        extraDirs: ['data']
       }
     ],
     'plugin-webpack',
     'plugin-stylus',
     'plugin-svg'
   ],
-  getRoutes: async ({ incremental }) => {
-    const disableDataFetch = JSON.parse(process.env.DISABLE_DATA_FETCH || false)
-
-    if (disableDataFetch) {
-      return [{ path: urlBuilder.rootUrl, template: 'src/containers/Home' }]
-    }
-
+  getRoutes: async ({ config, incremental }) => {
     const {
       apiStatus,
       clans,
@@ -188,7 +177,7 @@ export default {
       previousClanLeaderboard,
       lastChecked,
       leaderboards
-    } = await dataSources.fetch()
+    } = await dataSources.fetch(config, incremental)
     const routes = []
     const currentEventStats = {}
     const clanIds = []
@@ -357,24 +346,22 @@ export default {
         }
       })
 
-      if (currentEventId) {
-        routes.push({
-          path: urlBuilder.currentEventUrl(clan.id),
-          template: 'src/containers/clan/Current',
-          getData: async () => ({
-            currentTotals: clanCurrentTotals,
-            currentStats: clanCurrentStats,
-            statsGamesThreshold: currentEventStatsGamesThreshold,
-            matchHistory: clanMatchHistory,
-            matchHistoryLimit
-          }),
-          sharedData: {
-            apiStatus: sharedApiStatus,
-            clan: sharedClan,
-            members: sharedClanMembers
-          }
-        })
-      }
+      routes.push({
+        path: urlBuilder.currentEventUrl(clan.id),
+        template: 'src/containers/clan/Current',
+        getData: async () => ({
+          currentEventId: currentEventId || undefined,
+          currentTotals: clanCurrentTotals,
+          currentStats: clanCurrentStats,
+          statsGamesThreshold: currentEventStatsGamesThreshold,
+          matchHistory: clanMatchHistory,
+          matchHistoryLimit
+        }),
+        sharedData: {
+          clan: sharedClan,
+          members: sharedClanMembers
+        }
+      })
     })
 
     const sharedClans = createSharedData(clientClans)
@@ -450,14 +437,19 @@ export default {
 
       event.modifiers = event.modifiers.map(id => {
         const modifier = modifiers.find(modifier => modifier.id === id)
+        const creatorId = modifier.creatorId
 
-        if (modifier.creatorId) {
-          const member = members.find(({ id }) => id === modifier.creatorId)
+        if (creatorId) {
+          if (creatorId === constants.modifiers.anonymousCreator.key) {
+            modifier.creator = constants.modifiers.anonymousCreator.value
+          } else {
+            const member = members.find(({ id }) => id === creatorId)
 
-          if (member) {
-            const clan = clans.find(({ id }) => id === member.clanId)
+            if (member) {
+              const clan = clans.find(({ id }) => id === member.clanId)
 
-            modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+              modifier.creator = `${member.name}${clan ? ` [${clan.tag}]` : ''}`
+            }
           }
         }
 
@@ -555,7 +547,6 @@ export default {
       const eventSharedData = {}
 
       if (event.isCurrent) {
-        eventSharedData.apiStatus = sharedApiStatus
         eventSharedData.leaderboards = sharedCurrentEventLeaderboards
       }
 
@@ -614,7 +605,7 @@ export default {
               {
                 from: `${urlBuilder.currentEventRootUrl}*`,
                 to: `${urlBuilder.rootUrl}#next`,
-                code: 302
+                code: '302!'
               }
             ]
           : undefined
@@ -643,7 +634,6 @@ export default {
       currentEventId
     }
     const customLeaderboardSharedData = {
-      apiStatus: sharedApiStatus,
       clans: sharedClans,
       leaderboards: currentEventId
         ? sharedCurrentEventLeaderboards

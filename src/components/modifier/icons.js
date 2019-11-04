@@ -1,4 +1,8 @@
 const antiMeta = { svg: 'anti-meta', designer: 'TMD' }
+const antiPinnacleKills = {
+  svg: 'anti-pinnacle-kills',
+  designer: 'Creative Stall'
+}
 const beASuperhero = { svg: 'be-a-superhero' }
 const bandTogether = { svg: 'band-together', designer: 'Gabriel Vogel' }
 const bullseye = { svg: 'bullseye', designer: 'Zlatko Najdenovski' }
@@ -28,6 +32,7 @@ const icons = {
   'avenge-cayde-6': { designer: 'farias' },
   'band-together': bandTogether,
   'be-a-superhero': beASuperhero,
+  'bringing-the-death': { designer: 'Vectors Market' },
   'bow-ness-points': { designer: 'Hat-Tech' },
   'boy-scout': { designer: 'AomAm' },
   bullseye,
@@ -42,6 +47,7 @@ const icons = {
   'doubles-double-down': crimsonDoubleDown,
   'end-all-existence': endAllExistence,
   elementary,
+  'excuse-recluse': antiPinnacleKills,
   'feeling-blue': { designer: 'rivercon' },
   'flawless-striker': flawlessStiker,
   'frag-and-tag': { designer: 'Hea Poh Lin, Krish & miza bin' },
@@ -78,6 +84,7 @@ const icons = {
   'raid-master': { designer: 'Robert Bjurshagen' },
   'raid-timing': raidTiming,
   'rocky-balboa-s-trainee': { designer: 'miza bin' },
+  'say-no-to-randy': antiPinnacleKills,
   scrublord: { designer: 'Nikita Kozin' },
   'shape-the-battlefield': modifierTBC,
   'stop-the-stopper': { designer: 'Optimus Prime' },

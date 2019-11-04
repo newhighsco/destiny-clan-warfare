@@ -31,7 +31,13 @@ const ClanCurrent = class extends PureComponent {
   constructor(props) {
     super(props)
 
-    const { clan, members, currentTotals, currentStats } = this.props
+    const {
+      clan,
+      members,
+      currentEventId,
+      currentTotals,
+      currentStats
+    } = this.props
     const meta = {
       title: `${clan.name} | ${constants.kicker.current}`,
       description: `${possessive(clan.name)} clan standings in the current ${
@@ -62,21 +68,23 @@ const ClanCurrent = class extends PureComponent {
         ]
       }
     }
-    const leaderboard = members
-      .map((member, i) => {
-        const memberCurrentTotals =
-          currentTotals[member.id] || constants.emptyTotals
+    const leaderboard = currentEventId
+      ? members
+          .map((member, i) => {
+            const memberCurrentTotals =
+              currentTotals[member.id] || constants.emptyTotals
 
-        return {
-          ...member,
-          ...memberCurrentTotals
-        }
-      })
-      .sort(
-        firstBy('score', -1)
-          .thenBy('games', -1)
-          .thenBy('name')
-      )
+            return {
+              ...member,
+              ...memberCurrentTotals
+            }
+          })
+          .sort(
+            firstBy('score', -1)
+              .thenBy('games', -1)
+              .thenBy('name')
+          )
+      : []
 
     this.state = {
       leaderboard,
@@ -148,6 +156,7 @@ ClanCurrent.propTypes = {
   apiStatus: PropTypes.object,
   clan: PropTypes.object,
   members: PropTypes.array,
+  currentEventId: PropTypes.number,
   currentTotals: PropTypes.object,
   currentStats: PropTypes.object,
   statsGamesThreshold: PropTypes.number

@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve, basename } from 'path'
 import {
   copySync,
   ensureDirSync,
@@ -15,19 +15,28 @@ export default ({ extraDirs = [] }) => {
     'react-static'
   )
 
-  const directoriesToCache = state => {
+  const directoriesToCache = (state, stage) => {
     const {
+      isBuildCommand,
       config: {
-        paths: { ROOT }
+        paths: { ARTIFACTS, DIST, ROOT }
       }
     } = state
 
-    const defaultDirs = []
+    const internalDirs = [ARTIFACTS, DIST]
+    const dirs = []
 
-    const dirs = [
-      ...defaultDirs.map(dir => ({ name: dir, path: resolve(ROOT, dir) })),
-      ...extraDirs.map(dir => ({ name: dir, path: resolve(ROOT, dir) }))
-    ]
+    if (stage !== 'bundle') {
+      dirs.push(
+        ...extraDirs.map(dir => ({ name: dir, path: resolve(ROOT, dir) }))
+      )
+    }
+
+    if (stage === 'bundle' || (stage === 'restore' && !isBuildCommand)) {
+      dirs.push(
+        ...internalDirs.map(dir => ({ name: basename(dir), path: dir }))
+      )
+    }
 
     ensureDirSync(cacheDestination)
 
@@ -37,10 +46,56 @@ export default ({ extraDirs = [] }) => {
     }
   }
 
+  const fillCache = ({ dirs, cacheDestination }) => {
+    dirs.map(({ name, path }) => {
+      if (existsSync(path)) {
+        const sourceFiles = readdirSync(path)
+        const destination = resolve(cacheDestination, name)
+
+        ensureDirSync(destination)
+        emptyDirSync(destination)
+        copySync(path, destination)
+
+        console.log(
+          chalk`Cached {bold ${path}} => {bold ${destination}} {gray ${
+            sourceFiles.length
+          } items}`
+        )
+      } else {
+        console.log(
+          chalk`{yellow Skipped {bold ${path}}} {gray non-existent directory}`
+        )
+      }
+    })
+  }
+
   return {
     beforePrepareRoutes: state => {
       if (!process.env.NETLIFY_BUILD_BASE) {
         return state
+      }
+
+      const {
+        isBuildCommand,
+        config: { siteRoot, basePath, publicPath, assetsPath }
+      } = state
+
+      if (!isBuildCommand) {
+        if (!process.env.REACT_STATIC_SITE_ROOT) {
+          process.env.REACT_STATIC_SITE_ROOT = siteRoot
+        }
+
+        if (!process.env.REACT_STATIC_BASE_PATH) {
+          process.env.REACT_STATIC_BASE_PATH = basePath
+        }
+
+        if (!process.env.REACT_STATIC_PUBLIC_PATH) {
+          process.env.REACT_STATIC_PUBLIC_PATH = publicPath
+        }
+
+        if (!process.env.REACT_STATIC_ASSETS_PATH) {
+          process.env.REACT_STATIC_ASSETS_PATH = assetsPath
+        }
       }
 
       const { isCacheRestored } = state
@@ -48,7 +103,7 @@ export default ({ extraDirs = [] }) => {
       if (!isCacheRestored) {
         console.log('Restoring Netlify cache...')
 
-        const { dirs, cacheDestination } = directoriesToCache(state)
+        const { dirs, cacheDestination } = directoriesToCache(state, 'restore')
 
         dirs.map(({ name, path }) => {
           if (!existsSync(path)) {
@@ -85,6 +140,19 @@ export default ({ extraDirs = [] }) => {
 
       return state
     },
+    afterBundle: async state => {
+      if (!process.env.NETLIFY_BUILD_BASE) {
+        return state
+      }
+
+      console.log('Filling Netlify cache...')
+
+      fillCache(directoriesToCache(state, 'bundle'))
+
+      console.log(chalk`{green [\u2713] Netlify cache filled}`)
+
+      return state
+    },
     afterExport: async state => {
       if (!process.env.NETLIFY_BUILD_BASE) {
         return state
@@ -92,28 +160,7 @@ export default ({ extraDirs = [] }) => {
 
       console.log('Filling Netlify cache...')
 
-      const { dirs, cacheDestination } = directoriesToCache(state)
-
-      dirs.map(({ name, path }) => {
-        if (existsSync(path)) {
-          const sourceFiles = readdirSync(path)
-          const destination = resolve(cacheDestination, name)
-
-          ensureDirSync(destination)
-          emptyDirSync(destination)
-          copySync(path, destination)
-
-          console.log(
-            chalk`Cached {bold ${path}} => {bold ${destination}} {gray ${
-              sourceFiles.length
-            } items}`
-          )
-        } else {
-          console.log(
-            chalk`{yellow Skipped {bold ${path}}} {gray non-existent directory}`
-          )
-        }
-      })
+      fillCache(directoriesToCache(state, 'export'))
 
       console.log(chalk`{green [\u2713] Netlify cache filled}`)
 

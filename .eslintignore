@@ -2,8 +2,8 @@
 artifacts
 cache
 coverage
+data
 dist
-public/storybook
 tmp
 !.circleci
 !.storybook

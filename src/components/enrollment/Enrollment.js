@@ -18,6 +18,7 @@ const constants = require('../../utils/constants')
 const apiHelper = require('../../utils/api-helper')
 const bungieHelper = require('../../utils/bungie-helper')
 const urlBuilder = require('../../utils/url-builder')
+const decode = require('../../utils/html-entities').decode
 
 const baseClassName = 'enrollment'
 const action = apiHelper.url(0, 'Home/AddClan/')
@@ -72,24 +73,28 @@ const Enrollment = class extends Component {
       } else if (name !== this.state.name) {
         const groupType = 1
         const isNumeric = !isNaN(name)
-        const endpoint = isNumeric
-          ? `GroupV2/${name}/`
-          : `GroupV2/Name/${name}/${groupType}/`
+        const endpoint = {
+          method: isNumeric ? 'get' : 'post',
+          url: isNumeric ? `GroupV2/${name}/` : 'GroupV2/NameV2/',
+          data: isNumeric ? null : { groupName: name, groupType: 1 }
+        }
 
-        bungieApi(endpoint).then(({ data }) => {
-          if (data.Response && data.Response.detail) {
-            const detail = data.Response.detail
-            const group = groups.find(
-              ({ groupId }) => groupId === detail.groupId
-            )
+        bungieApi(endpoint)
+          .then(({ data }) => {
+            if (data.Response && data.Response.detail) {
+              const detail = data.Response.detail
+              const group = groups.find(
+                ({ groupId }) => groupId === detail.groupId
+              )
 
-            if (!group && detail.groupType === groupType) {
-              groups.unshift(detail)
+              if (!group && detail.groupType === groupType) {
+                groups.unshift(detail)
+              }
+
+              this.setState({ groups: groups })
             }
-
-            this.setState({ groups: groups })
-          }
-        })
+          })
+          .catch(() => {})
 
         this.setState({ name: name })
       }
@@ -159,9 +164,9 @@ const Enrollment = class extends Component {
               const existing = ids.indexOf(groupId) !== -1
               const Group = () => (
                 <Fragment>
-                  {name}{' '}
+                  {decode(name)}{' '}
                   <ClanTag className={styles[`${baseClassName}__clan-tag`]}>
-                    {clanInfo.clanCallsign}
+                    {decode(clanInfo.clanCallsign)}
                   </ClanTag>
                 </Fragment>
               )

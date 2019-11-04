@@ -138,7 +138,7 @@ export default {
           code: '200!'
         },
         {
-          from: 'https://discord.destinyclanwarfare.com/*',
+          from: `${constants.social.discord}*`,
           to: 'https://discordapp.com/invite/tu8JdRr',
           code: '301!'
         },

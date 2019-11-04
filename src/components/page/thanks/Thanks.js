@@ -76,6 +76,10 @@ function Thanks({ search }) {
               <p>
                 <SmartLink href={constants.social.twitter} target="_blank">
                   Follow us on Twitter
+                </SmartLink>
+                , or{' '}
+                <SmartLink href={constants.social.discord} target="_blank">
+                  join our Discord server
                 </SmartLink>{' '}
                 to find out first when it reopens.
               </p>
@@ -99,6 +103,10 @@ function Thanks({ search }) {
                 If you thing this is a mistake you can{' '}
                 <SmartLink href={constants.social.twitter} target="_blank">
                   message us on Twitter
+                </SmartLink>
+                , or{' '}
+                <SmartLink href={constants.social.discord} target="_blank">
+                  join our Discord server
                 </SmartLink>{' '}
                 to discuss the issue with us further.
               </p>

@@ -5,6 +5,7 @@ import { LogoLockup } from '../logo/Logo'
 import List from '../list/List'
 import SmartLink from '../smart-link/SmartLink'
 import Icon from '../icon/Icon'
+import DiscordSvg from '../../images/icons/discord.svg'
 import PatreonSvg from '../../images/icons/patreon.svg'
 import PayPalSvg from '../../images/icons/paypal.svg'
 import TwitterSvg from '../../images/icons/twitter.svg'
@@ -18,6 +19,11 @@ const links = [
     href: constants.social.twitter,
     text: 'Follow us on Twitter',
     icon: TwitterSvg
+  },
+  {
+    href: constants.social.discord,
+    text: 'Join our Discord server',
+    icon: DiscordSvg
   },
   {
     href: constants.social.patreon,

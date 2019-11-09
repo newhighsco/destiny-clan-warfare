@@ -4,7 +4,13 @@ import { AppProvider } from '../../contexts/App'
 import Enrollment from './Enrollment'
 
 storiesOf('Layout/Enrollment', module)
-  .add('Closed', () => <Enrollment />)
+  .add('Closed', () => (
+    <AppProvider
+      value={{ apiDisabled: true, enrollmentOpen: false, isEnhanced: true }}
+    >
+      <Enrollment enrollmentOpen={false} />
+    </AppProvider>
+  ))
   .add('Open', () => (
     <Fragment>
       <p>Default</p>

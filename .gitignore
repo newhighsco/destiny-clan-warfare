@@ -24,7 +24,6 @@ coverage/
 data/
 dist/
 tmp/
-.env*
 .eslintcache
 .jestcache.json
 yarn-error.log

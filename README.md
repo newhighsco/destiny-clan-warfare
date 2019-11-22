@@ -12,7 +12,7 @@ https://destinyclanwarfare.com
 Install dependencies
 
 ```
-nvm use
+nvm install
 yarn install
 ```
 

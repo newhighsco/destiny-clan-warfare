@@ -15,7 +15,9 @@ import { StatList } from '../../components/stat/Stat'
 import Sponsor from '../../components/sponsor/Sponsor'
 import { Filter } from '../../components/filter/Filter'
 import Landmark from '../../components/landmark/Landmark'
+import styles from './Event.styl'
 
+const baseClassName = 'event'
 const constants = require('../../utils/constants')
 const urlBuilder = require('../../utils/url-builder')
 
@@ -101,6 +103,7 @@ const Event = class extends PureComponent {
             element={element}
             heading={event.name}
             headingAttributes={summary && { href: event.path }}
+            className={styles[`${baseClassName}__lockup`]}
           >
             {event.sponsor && constants.kicker.sponsor}
           </Lockup>

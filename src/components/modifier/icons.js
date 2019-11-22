@@ -17,6 +17,7 @@ const endAllExistence = {
 }
 const elementary = { svg: 'elementary' }
 const flawlessStiker = { svg: 'flawless-striker', designer: 'iconsphere' }
+const merciless = { svg: 'merciless', designer: 'Optimus Prime' }
 const modifierTBC = { svg: 'modifier-tbc' }
 const noApologies = { svg: 'no-apologies', designer: 'Simon Child' }
 const pinnacleKills = { svg: 'pinnacle-kills', designer: 'Creative Stall' }
@@ -68,7 +69,7 @@ const icons = {
   'my-motes-bring-all-the-boys-to-the-yard': {
     svg: 'all-creatures-great-small'
   },
-  merciless: { designer: 'Optimus Prime' },
+  merciless,
   'modifier-tbc': modifierTBC,
   'multiplier-tbc': modifierTBC,
   'nice-throw': { designer: 'Hea Poh Lin' },
@@ -90,11 +91,13 @@ const icons = {
   'stop-the-stopper': { designer: 'Optimus Prime' },
   'strike-death-penalty': { designer: 'Robert Bjurshagen' },
   solstice: elementary,
+  spree: merciless,
   'super-accurate': bullseye,
   superman: beASuperhero,
   'take-it-easy': { designer: 'Pixel Lab' },
   'telesto-festo': { designer: 'Casper Jensen' },
   'this-is-my-house': { designer: 'arif fajar yulianto' },
+  'unleash-the-light': beASuperhero,
   'variety-is-the-spice-of-life': { designer: 'Xela Ub' },
   'warmind-anti-meta': antiMeta,
   'weapons-of-the-beasts': { designer: 'Lorc' },

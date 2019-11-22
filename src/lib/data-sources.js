@@ -140,11 +140,11 @@ const fetch = async (config, incremental) => {
   const sourceLoad = (task, url, update) => {
     return new Promise((resolve, reject) => {
       if (update) {
-        task.output = 'Fetching from API'
+        task.output = `Fetching '${task.title}' from API`
 
         resolve(sourceUpdate(url))
       } else {
-        task.output = 'Restoring cache'
+        task.output = `Restoring '${task.title}' from cache`
 
         sourceRead(url)
           .then(data => {
@@ -153,7 +153,7 @@ const fetch = async (config, incremental) => {
           .catch(err => {
             if (err.code !== 'ENOENT') reject(err)
 
-            task.output = 'Updating cache from API'
+            task.output = `Updating '${task.title}' cache from API`
 
             resolve(sourceUpdate(url))
           })

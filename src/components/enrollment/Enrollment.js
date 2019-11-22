@@ -148,7 +148,8 @@ const Enrollment = class extends Component {
               , or{' '}
               <SmartLink href={constants.social.discord} target="_blank">
                 join our Discord server
-              </SmartLink>
+              </SmartLink>{' '}
+              to find out first when it reopens.
             </Notification>
           )}
         </div>

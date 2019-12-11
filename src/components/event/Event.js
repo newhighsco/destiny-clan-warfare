@@ -84,6 +84,7 @@ const Event = class extends PureComponent {
 
     if (!event) return null
 
+    const enableSponsorship = JSON.parse(process.env.ENABLE_SPONSORSHIP || true)
     const kicker = event.isCurrent ? 'Top stats' : 'Overall stats'
     const tooltip = event.isCurrent
       ? `Play a minimum of ${event.statsGamesThreshold} games to be included.`
@@ -116,7 +117,7 @@ const Event = class extends PureComponent {
           )}
           <ModifierList
             modifiers={event.modifiers}
-            showPromoted={!event.isCurrent}
+            showPromoted={enableSponsorship && !event.isCurrent}
           />
           {!summary && (
             <Fragment>

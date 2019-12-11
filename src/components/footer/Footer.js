@@ -8,10 +8,11 @@ import Credit from '../credit/Credit'
 import styles from './Footer.styl'
 
 const baseClassName = 'footer'
+const enableSponsorship = JSON.parse(process.env.ENABLE_SPONSORSHIP || true)
 const date = new Date()
 const links = [
   { href: '/faqs/', text: 'FAQs' },
-  { href: '/support-us/', text: 'Support us' }
+  { href: '/support-us/', text: 'Support us', hidden: !enableSponsorship }
 ]
 
 const Footer = class extends PureComponent {
@@ -32,18 +33,20 @@ const Footer = class extends PureComponent {
           <Grid reverse middled gutter="quadruple">
             <GridItem sizes={['tablet-one-half']}>
               <List inline className={styles[`${baseClassName}__list`]}>
-                {links.map((link, i) => {
-                  return (
-                    <li key={i} className={styles[`${baseClassName}__item`]}>
-                      <SmartLink
-                        className={styles[`${baseClassName}__link`]}
-                        href={link.href}
-                      >
-                        {link.text}
-                      </SmartLink>
-                    </li>
-                  )
-                })}
+                {links
+                  .filter(({ hidden }) => !hidden)
+                  .map((link, i) => {
+                    return (
+                      <li key={i} className={styles[`${baseClassName}__item`]}>
+                        <SmartLink
+                          className={styles[`${baseClassName}__link`]}
+                          href={link.href}
+                        >
+                          {link.text}
+                        </SmartLink>
+                      </li>
+                    )
+                  })}
                 <li className={styles[`${baseClassName}__item`]}>
                   <span className={styles[`${baseClassName}__link`]}>
                     &copy;{date.getFullYear()}

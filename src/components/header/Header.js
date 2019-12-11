@@ -13,6 +13,7 @@ import styles from './Header.styl'
 
 const constants = require('../../utils/constants')
 
+const enableSponsorship = JSON.parse(process.env.ENABLE_SPONSORSHIP || true)
 const baseClassName = 'header'
 const links = [
   {
@@ -28,12 +29,14 @@ const links = [
   {
     href: constants.social.patreon,
     text: 'Become a Patron via Patreon',
-    icon: PatreonSvg
+    icon: PatreonSvg,
+    hidden: !enableSponsorship
   },
   {
     href: constants.social.paypal,
     text: 'Make a donation via PayPal',
-    icon: PayPalSvg
+    icon: PayPalSvg,
+    hidden: !enableSponsorship
   }
 ]
 
@@ -60,25 +63,30 @@ const Header = class extends PureComponent {
             {links.length && (
               <GridItem sizes={['one-half']}>
                 <List inline className={styles[`${baseClassName}__list`]}>
-                  {links.map((link, i) => {
-                    return (
-                      <li key={i} className={styles[`${baseClassName}__item`]}>
-                        <SmartLink
-                          className={styles[`${baseClassName}__link`]}
-                          href={link.href}
-                          title={link.text}
-                          target="_blank"
+                  {links
+                    .filter(({ hidden }) => !hidden)
+                    .map((link, i) => {
+                      return (
+                        <li
+                          key={i}
+                          className={styles[`${baseClassName}__item`]}
                         >
-                          <Icon
-                            className={styles[`${baseClassName}__icon`]}
-                            a11yText={link.text}
+                          <SmartLink
+                            className={styles[`${baseClassName}__link`]}
+                            href={link.href}
+                            title={link.text}
+                            target="_blank"
                           >
-                            <link.icon />
-                          </Icon>
-                        </SmartLink>
-                      </li>
-                    )
-                  })}
+                            <Icon
+                              className={styles[`${baseClassName}__icon`]}
+                              a11yText={link.text}
+                            >
+                              <link.icon />
+                            </Icon>
+                          </SmartLink>
+                        </li>
+                      )
+                    })}
                 </List>
               </GridItem>
             )}

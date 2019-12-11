@@ -37,6 +37,7 @@ const EventListing = class extends PureComponent {
         })
       : []
 
+    const enableSponsorship = JSON.parse(process.env.ENABLE_SPONSORSHIP || true)
     const patreonTier = constants.patreon.eventCreator
     const linkAttributes = {
       href: urlBuilder.patreonUrl(patreonTier),
@@ -49,21 +50,23 @@ const EventListing = class extends PureComponent {
       ...linkAttributes
     }
 
-    leaderboard.unshift({
-      promoted: true,
-      game: {
-        path: linkAttributes.href,
-        isExternal: true,
-        name: `${patreonTier.name} - Create your own event`,
-        description: (
-          <span>
-            And wear the exclusive <Tag element="span" name="Insider" /> badge
-            of honour.
-          </span>
-        )
-      },
-      modifiers: [unknownModifier, unknownModifier, unknownModifier]
-    })
+    if (enableSponsorship) {
+      leaderboard.unshift({
+        promoted: true,
+        game: {
+          path: linkAttributes.href,
+          isExternal: true,
+          name: `${patreonTier.name} - Create your own event`,
+          description: (
+            <span>
+              And wear the exclusive <Tag element="span" name="Insider" /> badge
+              of honour.
+            </span>
+          )
+        },
+        modifiers: [unknownModifier, unknownModifier, unknownModifier]
+      })
+    }
 
     this.state = {
       leaderboard

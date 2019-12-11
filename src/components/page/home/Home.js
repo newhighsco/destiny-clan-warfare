@@ -31,6 +31,8 @@ function Home({
   nextEvent,
   currentEventSummary
 }) {
+  const enableSponsorship = JSON.parse(process.env.ENABLE_SPONSORSHIP || true)
+
   return (
     <PageContainer meta={meta}>
       <Enrollment ids={clanIds} />
@@ -71,32 +73,40 @@ function Home({
               />
             </Fragment>
           )}
-          <Lockup
-            id="next"
-            center
-            primary
-            element="h1"
-            kicker={constants.kicker.next}
-          />
-          {nextEvent ? (
-            <Event event={nextEvent} element="h2" summary />
-          ) : (
-            <Sponsorship />
+          {(nextEvent || enableSponsorship) && (
+            <Fragment>
+              <Lockup
+                id="next"
+                center
+                primary
+                element="h1"
+                kicker={constants.kicker.next}
+              />
+              {nextEvent ? (
+                <Event event={nextEvent} element="h2" summary />
+              ) : (
+                <Sponsorship />
+              )}
+            </Fragment>
           )}
         </Fragment>
       ) : (
         <Fragment>
-          <Lockup
-            id="next"
-            center
-            primary
-            element="h1"
-            kicker={constants.kicker.next}
-          />
-          {nextEvent ? (
-            <Event event={nextEvent} element="h2" summary />
-          ) : (
-            <Sponsorship />
+          {(nextEvent || enableSponsorship) && (
+            <Fragment>
+              <Lockup
+                id="next"
+                center
+                primary
+                element="h1"
+                kicker={constants.kicker.next}
+              />
+              {nextEvent ? (
+                <Event event={nextEvent} element="h2" summary />
+              ) : (
+                <Sponsorship />
+              )}
+            </Fragment>
           )}
           {previousEvent && (
             <Fragment>

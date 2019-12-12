@@ -160,6 +160,14 @@ export default {
     'plugin-svg'
   ],
   getRoutes: async ({ config, incremental }) => {
+    const enableMaintenance = JSON.parse(
+      process.env.ENABLE_MAINTENANCE || false
+    )
+
+    if (enableMaintenance) {
+      return [{ path: urlBuilder.rootUrl, template: 'src/pages/404' }]
+    }
+
     const {
       apiStatus,
       clans,

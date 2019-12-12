@@ -44,7 +44,7 @@ function Farewell() {
           <p>
             To anyone that became a Patron, sponsored an event, created a
             modifier, gave us a little something to buy a beer, helped promote
-            us in any way, or simply participated in an event; Will we always be
+            us in any way, or simply participated in an event; We will always be
             thankful from the bottom of our hearts.
           </p>
           <p>

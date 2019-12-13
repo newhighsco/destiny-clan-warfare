@@ -3,6 +3,7 @@ const antiPinnacleKills = {
   svg: 'anti-pinnacle-kills',
   designer: 'Creative Stall'
 }
+const armoury = { svg: 'armoury', designer: 'Simon Child' }
 const beASuperhero = { svg: 'be-a-superhero' }
 const bandTogether = { svg: 'band-together', designer: 'Gabriel Vogel' }
 const bullseye = { svg: 'bullseye', designer: 'Zlatko Najdenovski' }
@@ -22,13 +23,15 @@ const modifierTBC = { svg: 'modifier-tbc' }
 const noApologies = { svg: 'no-apologies', designer: 'Simon Child' }
 const pinnacleKills = { svg: 'pinnacle-kills', designer: 'Creative Stall' }
 const pulsating = { svg: 'pulsating', designer: 'Nikol Kokešová' }
+const raidMaster = { svg: 'raid-master', designer: 'Robert Bjurshagen' }
 const raidTiming = { svg: 'raid-timing', designer: 'Pixel Lab' }
 
 const icons = {
   '20-20': { svg: 'twenty-twenty', designer: 'Chanut is Industries' },
   'abuse-of-power': { designer: 'naim' },
-  'always-by-your-side': { designer: 'Simon Child' },
+  'always-by-your-side': armoury,
   'anti-meta': antiMeta,
+  armoury,
   'automatic-lockdown': { designer: 'Jaime M. Laurel' },
   'avenge-cayde-6': { designer: 'farias' },
   'band-together': bandTogether,
@@ -41,6 +44,7 @@ const icons = {
   'clean-sweep': { designer: 'Rudez Studio' },
   'command-the-warfare': modifierTBC,
   'complete-the-cycle': { designer: 'Gregor Cresnar' },
+  completionist: raidMaster,
   'crimson-double-down': crimsonDoubleDown,
   deathless,
   'destroy-the-invaders': { svg: 'oh-no-you-don-t' },
@@ -82,7 +86,7 @@ const icons = {
   'playing-cautiously': deathless,
   'power-hungry': { designer: 'naim' },
   pulsating,
-  'raid-master': { designer: 'Robert Bjurshagen' },
+  'raid-master': raidMaster,
   'raid-timing': raidTiming,
   'rocky-balboa-s-trainee': { designer: 'miza bin' },
   'say-no-to-randy': antiPinnacleKills,

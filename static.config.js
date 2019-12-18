@@ -103,6 +103,7 @@ export default {
         },
         {
           filename: 'events--current.xml',
+          skip: true,
           title: constants.meta.title,
           description: constants.meta.description,
           filter: ({ path }) =>

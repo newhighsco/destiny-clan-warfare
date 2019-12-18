@@ -11,7 +11,7 @@ const baseClassName = 'footer'
 const enableSponsorship = JSON.parse(process.env.ENABLE_SPONSORSHIP || true)
 const date = new Date()
 const links = [
-  { href: '/faqs/', text: 'FAQs' },
+  { href: '/faqs/', text: 'FAQs', hidden: true },
   { href: '/support-us/', text: 'Support us', hidden: !enableSponsorship }
 ]
 

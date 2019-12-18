@@ -4,7 +4,6 @@ import PageContainer from '../../page-container/PageContainer'
 import { Button, ButtonGroup } from '../../button/Button'
 import { Lockup } from '../../lockup/Lockup'
 import RelativeDate from '../../relative-date/RelativeDate'
-import Enrollment from '../../enrollment/Enrollment'
 import Event from '../../event/Event'
 import Notification from '../../notification/Notification'
 import Sponsorship from '../../sponsorship/Sponsorship'
@@ -25,7 +24,6 @@ const meta = {
 
 function Home({
   apiStatus,
-  clanIds,
   currentEvent,
   previousEvent,
   nextEvent,
@@ -35,7 +33,6 @@ function Home({
 
   return (
     <PageContainer meta={meta}>
-      <Enrollment ids={clanIds} />
       {apiStatus && apiStatus.alert && (
         <Notification state="warning" html={apiStatus.alert} />
       )}
@@ -136,7 +133,6 @@ function Home({
 
 Home.propTypes = {
   apiStatus: PropTypes.object,
-  clanIds: PropTypes.array,
   currentEvent: PropTypes.object,
   previousEvent: PropTypes.object,
   nextEvent: PropTypes.object,

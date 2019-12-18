@@ -10,7 +10,7 @@ const bungieApi = bungieHelper.api()
 const defaultValue = {
   isEnhanced: false,
   apiDisabled: false,
-  enrollmentOpen: true
+  enrollmentOpen: false
 }
 
 const AppContext = createContext(defaultValue)
@@ -48,14 +48,6 @@ function AppProvider({ children, value }) {
 
         if (apiDisabled) {
           enrollmentOpen = false
-        } else {
-          await proxy(`Clan/AcceptingNewClans`)
-            .then(({ data }) => {
-              enrollmentOpen = data
-            })
-            .catch(() => {
-              enrollmentOpen = false
-            })
         }
 
         setState(state => ({ ...state, apiDisabled, enrollmentOpen }))

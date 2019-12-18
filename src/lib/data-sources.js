@@ -30,7 +30,8 @@ const fetch = async (config, incremental) => {
   const parsed = {
     apiStatus: {
       bungieStatus: constants.bungie.disabledStatusCodes[0],
-      updatedDate
+      updatedDate,
+      enrollmentOpen: false
     },
     clans: [],
     members: [],
@@ -255,6 +256,9 @@ const fetch = async (config, incremental) => {
           [
             {
               title: 'Enrollment open',
+              skip: () => {
+                return 'Permanently disable enrollment'
+              },
               task: (ctx, task) =>
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)

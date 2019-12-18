@@ -599,7 +599,6 @@ export default {
         path: urlBuilder.rootUrl,
         template: 'src/containers/Home',
         getData: async () => ({
-          clanIds,
           currentEvent,
           previousEvent,
           nextEvent,

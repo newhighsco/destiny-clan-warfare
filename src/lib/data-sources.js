@@ -511,6 +511,10 @@ const fetch = async (config, incremental) => {
                     .then(data => {
                       data.map(event => {
                         const id = event.eventId
+
+                        // Ignore Iron Banner event
+                        if (id === 130) return
+
                         const startDate = moment
                           .utc(event.startTime)
                           .format(constants.format.machineReadable)

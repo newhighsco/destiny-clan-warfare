@@ -22,11 +22,7 @@ function Farewell() {
             After over a <strong>hundred</strong> events,{' '}
             <strong>21,803,457</strong> tracked games from{' '}
             <strong>thousands</strong> of clans, and lots of lessons learned,
-            we've decided to hold our{' '}
-            <SmartLink href="/events/130/">
-              final {constants.meta.name} event
-            </SmartLink>
-            .
+            we've decided to hold our final {constants.meta.name} event.
           </p>
           <p>
             It wasn't an easy decision, but a number of factors meant this was

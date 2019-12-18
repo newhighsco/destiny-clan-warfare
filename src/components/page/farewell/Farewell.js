@@ -39,7 +39,9 @@ function Farewell() {
             On top of that the increasing infrastructure costs of supporting
             such a fast-paced platform has meant that we regularly exceed your
             generous contributions via Patreon and PayPal each month, leaving us
-            out of pocket.
+            out of pocket. This has been further compounded this month by our
+            hosting provider introducing a new pricing model that would see our
+            costs increase 10-fold.
           </p>
           <p>
             To anyone that became a Patron, sponsored an event, created a

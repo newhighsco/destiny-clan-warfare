@@ -62,6 +62,7 @@ export default {
       [
         {
           filename: 'enrollment.xml',
+          skip: true,
           title: constants.meta.title,
           description: constants.meta.description,
           filter: ({ path }) => path === urlBuilder.rootUrl,
@@ -93,6 +94,7 @@ export default {
         },
         {
           filename: 'events.xml',
+          skip: true,
           title: constants.meta.title,
           description: constants.meta.description,
           addToHead: true,

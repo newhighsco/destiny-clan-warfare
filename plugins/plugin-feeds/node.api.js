@@ -34,7 +34,10 @@ export default (feeds = []) => {
 
       await Promise.all(
         feeds.map(async feed => {
-          const { filename, filter, embellisher, ...options } = feed
+          const { skip, filename, filter, embellisher, ...options } = feed
+
+          if (skip) return
+
           const rss = new RSS({
             ...options,
             site_url: siteRoot

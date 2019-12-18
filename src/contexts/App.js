@@ -34,6 +34,9 @@ function AppProvider({ children, value }) {
     var { isEnhanced, apiDisabled, enrollmentOpen } = state
     var complete = isEnhanced
 
+    // Disable API lookups
+    complete = true
+
     async function fetchData() {
       if (!complete) {
         setState(state => ({ ...state, isEnhanced: true }))
@@ -48,6 +51,14 @@ function AppProvider({ children, value }) {
 
         if (apiDisabled) {
           enrollmentOpen = false
+        } else {
+          await proxy(`Clan/AcceptingNewClans`)
+            .then(({ data }) => {
+              enrollmentOpen = data
+            })
+            .catch(() => {
+              enrollmentOpen = false
+            })
         }
 
         setState(state => ({ ...state, apiDisabled, enrollmentOpen }))

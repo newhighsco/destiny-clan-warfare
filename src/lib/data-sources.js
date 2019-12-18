@@ -230,6 +230,9 @@ const fetch = async (config, incremental) => {
           [
             {
               title: 'API status',
+              skip: () => {
+                return 'Permanently skip Bungie API status check'
+              },
               task: (ctx, task) =>
                 new Promise((resolve, reject) => {
                   const timer = sourceStart(task)

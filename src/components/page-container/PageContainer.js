@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
-import Status from '../status/Status'
 import ContentContainer from '../content-container/ContentContainer'
 import Meta from '../meta/Meta'
 import Landmark from '../landmark/Landmark'
@@ -19,7 +18,6 @@ const PageContainer = class extends PureComponent {
         <Meta {...meta} />
         <Landmark id="top" a11yText="Top of page" />
         <Header />
-        <Status />
         <main id="content" className={styles[baseClassName]} role="main">
           <ContentContainer
             gutter

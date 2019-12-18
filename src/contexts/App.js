@@ -33,35 +33,35 @@ function AppProvider({ children, value }) {
   useEffect(() => {
     var { isEnhanced, apiDisabled, enrollmentOpen } = state
     var complete = isEnhanced
-
-    // Disable API lookups
-    complete = true
+    var disableApiLookup = true
 
     async function fetchData() {
       if (!complete) {
         setState(state => ({ ...state, isEnhanced: true }))
 
-        await bungieApi(`/Destiny2/Milestones/`)
-          .then(({ data }) => {
-            apiDisabled = bungieHelper.disabled(data.ErrorCode)
-          })
-          .catch(() => {
-            apiDisabled = true
-          })
-
-        if (apiDisabled) {
-          enrollmentOpen = false
-        } else {
-          await proxy(`Clan/AcceptingNewClans`)
+        if (!disableApiLookup) {
+          await bungieApi(`/Destiny2/Milestones/`)
             .then(({ data }) => {
-              enrollmentOpen = data
+              apiDisabled = bungieHelper.disabled(data.ErrorCode)
             })
             .catch(() => {
-              enrollmentOpen = false
+              apiDisabled = true
             })
-        }
 
-        setState(state => ({ ...state, apiDisabled, enrollmentOpen }))
+          if (apiDisabled) {
+            enrollmentOpen = false
+          } else {
+            await proxy(`Clan/AcceptingNewClans`)
+              .then(({ data }) => {
+                enrollmentOpen = data
+              })
+              .catch(() => {
+                enrollmentOpen = false
+              })
+          }
+
+          setState(state => ({ ...state, apiDisabled, enrollmentOpen }))
+        }
       }
     }
 

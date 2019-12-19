@@ -116,6 +116,21 @@ export default {
       'plugin-netlify-redirects',
       [
         {
+          from: `${constants.bungie.proxyUrl}*`,
+          to: `${constants.bungie.baseUrl}:splat`,
+          code: '200!'
+        },
+        {
+          from: `${constants.social.discord}*`,
+          to: 'https://discordapp.com/invite/tu8JdRr',
+          code: '301!'
+        },
+        {
+          from: urlBuilder.patreonUrl({ id: '*' }),
+          to: `${process.env.SITE_URL}/:splat`,
+          code: '301!'
+        },
+        {
           from: `${constants.server.proxyUrl}*`,
           to: `${apiHelper.url()}:splat`,
           code: 200
@@ -134,21 +149,6 @@ export default {
           from: urlBuilder.eventUrl(':event/:clan/:member'),
           to: urlBuilder.profileUrl(':clan', ':member', ':event'),
           code: 301
-        },
-        {
-          from: `${constants.bungie.proxyUrl}*`,
-          to: `${constants.bungie.baseUrl}:splat`,
-          code: '200!'
-        },
-        {
-          from: `${constants.social.discord}*`,
-          to: 'https://discordapp.com/invite/tu8JdRr',
-          code: '301!'
-        },
-        {
-          from: urlBuilder.patreonUrl({ id: ':id' }),
-          to: urlBuilder.patreonUrl({ id: ':id' }, true),
-          code: '301!'
         }
       ]
     ],

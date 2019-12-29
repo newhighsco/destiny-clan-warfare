@@ -122,12 +122,12 @@ export default {
         },
         {
           from: `${constants.social.discord}*`,
-          to: 'https://discordapp.com/invite/tu8JdRr',
+          to: process.env.SITE_URL,
           code: '301!'
         },
         {
           from: urlBuilder.patreonUrl({ id: '*' }),
-          to: `${process.env.SITE_URL}/:splat`,
+          to: process.env.SITE_URL,
           code: '301!'
         },
         {
@@ -245,134 +245,136 @@ export default {
       const totalSize = clanMembers.length
       const platforms = []
 
-      clanMembers.map(member => {
-        member.clanId = undefined
+      if (totalSize > 0) {
+        clanMembers.map(member => {
+          member.clanId = undefined
 
-        const memberId = member.id
-        const memberName = member.name
-        const memberFullName = `${memberName} [${clan.tag}]`
-        const hasPlayed = member.totals ? member.totals.games > 0 : false
-        const platformId = member.platforms[0].id
-        const existingPlatform = platforms.find(({ id }) => id === platformId)
-        const memberLastChecked = lastChecked[memberId]
+          const memberId = member.id
+          const memberName = member.name
+          const memberFullName = `${memberName} [${clan.tag}]`
+          const hasPlayed = member.totals ? member.totals.games > 0 : false
+          const platformId = member.platforms[0].id
+          const existingPlatform = platforms.find(({ id }) => id === platformId)
+          const memberLastChecked = lastChecked[memberId]
 
-        if (existingPlatform) {
-          if (hasPlayed) existingPlatform.active++
-          existingPlatform.size++
-          existingPlatform.percentage = Math.round(
-            (existingPlatform.size / totalSize) * 100
-          )
-        } else {
-          platforms.push({
-            id: platformId,
-            size: 1,
-            active: hasPlayed ? 1 : 0,
-            percentage: Math.round((1 / totalSize) * 100)
-          })
-        }
-
-        if (currentEventId) {
-          const currentTotals = currentClanLeaderboard[memberId]
-
-          if (currentTotals) {
-            const { games } = currentTotals
-            const hasCurrentTotals = games > 0
-
-            member.hasCurrentTotals = hasCurrentTotals
-
-            if (hasCurrentTotals) {
-              incrementStat(clanCurrentStats, 'totalActive', 1)
-              incrementStat(currentEventStats, 'totalActive', 1)
-              incrementStat(clanCurrentStats, 'totalGames', games)
-              incrementStat(currentEventStats, 'totalGames', games)
-            }
-
-            clanCurrentTotals[memberId] = {
-              ...currentTotals,
-              updated: hasCurrentTotals ? memberLastChecked : null
-            }
-
-            if (games >= currentEventStatsGamesThreshold) {
-              statsColumns.map(column => {
-                if (column === 'bonuses' && currentTotals.bonuses) {
-                  currentTotals.bonuses.map(({ shortName, count }) => {
-                    updateStat(clanCurrentStats, shortName, count, memberName)
-                    updateStat(
-                      currentEventStats,
-                      shortName,
-                      count,
-                      memberFullName
-                    )
-                  })
-                } else {
-                  const value = currentTotals[column]
-
-                  updateStat(clanCurrentStats, column, value, memberName)
-                  updateStat(currentEventStats, column, value, memberFullName)
-                }
-              })
-            }
+          if (existingPlatform) {
+            if (hasPlayed) existingPlatform.active++
+            existingPlatform.size++
+            existingPlatform.percentage = Math.round(
+              (existingPlatform.size / totalSize) * 100
+            )
+          } else {
+            platforms.push({
+              id: platformId,
+              size: 1,
+              active: hasPlayed ? 1 : 0,
+              percentage: Math.round((1 / totalSize) * 100)
+            })
           }
 
-          const memberMatchHistory = matchHistory[memberId]
+          if (currentEventId) {
+            const currentTotals = currentClanLeaderboard[memberId]
 
-          if (memberMatchHistory)
-            clanMatchHistory[memberId] = memberMatchHistory
-        }
+            if (currentTotals) {
+              const { games } = currentTotals
+              const hasCurrentTotals = games > 0
 
-        if (previousEventId) {
-          const previousTotals = previousClanLeaderboard[memberId]
+              member.hasCurrentTotals = hasCurrentTotals
 
-          if (previousTotals) member.previousTotals = previousTotals
-        }
-      })
+              if (hasCurrentTotals) {
+                incrementStat(clanCurrentStats, 'totalActive', 1)
+                incrementStat(currentEventStats, 'totalActive', 1)
+                incrementStat(clanCurrentStats, 'totalGames', games)
+                incrementStat(currentEventStats, 'totalGames', games)
+              }
 
-      clan.platforms = platforms
+              clanCurrentTotals[memberId] = {
+                ...currentTotals,
+                updated: hasCurrentTotals ? memberLastChecked : null
+              }
 
-      clanIds.push(clan.id)
+              if (games >= currentEventStatsGamesThreshold) {
+                statsColumns.map(column => {
+                  if (column === 'bonuses' && currentTotals.bonuses) {
+                    currentTotals.bonuses.map(({ shortName, count }) => {
+                      updateStat(clanCurrentStats, shortName, count, memberName)
+                      updateStat(
+                        currentEventStats,
+                        shortName,
+                        count,
+                        memberFullName
+                      )
+                    })
+                  } else {
+                    const value = currentTotals[column]
 
-      clientClans.push({
-        path: clan.path,
-        id: clan.id,
-        name: clan.name,
-        tag: clan.tag,
-        avatar: clan.avatar,
-        platforms: clan.platforms,
-        medalTotals: clan.medalTotals
-      })
+                    updateStat(clanCurrentStats, column, value, memberName)
+                    updateStat(currentEventStats, column, value, memberFullName)
+                  }
+                })
+              }
+            }
 
-      const sharedClan = createSharedData(clan)
-      const sharedClanMembers = createSharedData(clanMembers)
+            const memberMatchHistory = matchHistory[memberId]
 
-      routes.push({
-        path: clan.path,
-        template: 'src/containers/clan/Overall',
-        getData: async () => ({
-          currentEventId: currentEventId || undefined,
-          previousEventId: previousEventId || undefined
-        }),
-        sharedData: {
-          clan: sharedClan,
-          members: sharedClanMembers
-        }
-      })
+            if (memberMatchHistory)
+              clanMatchHistory[memberId] = memberMatchHistory
+          }
 
-      routes.push({
-        path: urlBuilder.currentEventUrl(clan.id),
-        template: 'src/containers/clan/Current',
-        getData: async () => ({
-          currentEventId: currentEventId || undefined,
-          currentTotals: clanCurrentTotals,
-          currentStats: clanCurrentStats,
-          statsGamesThreshold: currentEventStatsGamesThreshold,
-          matchHistory: clanMatchHistory,
-          matchHistoryLimit
-        }),
-        sharedData: {
-          clan: sharedClan,
-          members: sharedClanMembers
-        }
-      })
+          if (previousEventId) {
+            const previousTotals = previousClanLeaderboard[memberId]
+
+            if (previousTotals) member.previousTotals = previousTotals
+          }
+        })
+
+        clan.platforms = platforms
+
+        clanIds.push(clan.id)
+
+        clientClans.push({
+          path: clan.path,
+          id: clan.id,
+          name: clan.name,
+          tag: clan.tag,
+          avatar: clan.avatar,
+          platforms: clan.platforms,
+          medalTotals: clan.medalTotals
+        })
+
+        const sharedClan = createSharedData(clan)
+        const sharedClanMembers = createSharedData(clanMembers)
+
+        routes.push({
+          path: clan.path,
+          template: 'src/containers/clan/Overall',
+          getData: async () => ({
+            currentEventId: currentEventId || undefined,
+            previousEventId: previousEventId || undefined
+          }),
+          sharedData: {
+            clan: sharedClan,
+            members: sharedClanMembers
+          }
+        })
+
+        routes.push({
+          path: urlBuilder.currentEventUrl(clan.id),
+          template: 'src/containers/clan/Current',
+          getData: async () => ({
+            currentEventId: currentEventId || undefined,
+            currentTotals: clanCurrentTotals,
+            currentStats: clanCurrentStats,
+            statsGamesThreshold: currentEventStatsGamesThreshold,
+            matchHistory: clanMatchHistory,
+            matchHistoryLimit
+          }),
+          sharedData: {
+            clan: sharedClan,
+            members: sharedClanMembers
+          }
+        })
+      }
     })
 
     const sharedClans = createSharedData(clientClans)

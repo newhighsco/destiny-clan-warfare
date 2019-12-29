@@ -24,7 +24,8 @@ const links = [
   {
     href: constants.social.discord,
     text: 'Join our Discord server',
-    icon: DiscordSvg
+    icon: DiscordSvg,
+    hidden: true
   },
   {
     href: constants.social.patreon,

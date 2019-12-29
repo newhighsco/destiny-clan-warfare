@@ -29,7 +29,7 @@ const fetch = async (config, incremental) => {
   const updatedDate = utc.format(constants.format.machineReadable)
   const parsed = {
     apiStatus: {
-      alert: `It's with a heavy heart we announce that this is our last event. <a href="/farewell">For more information please read our farewell statement</a>. Thanks for the memories Guardians.`,
+      alert: `It's with a heavy heart we announce that we have hosted our last event. <a href="/farewell">For more information please read our farewell statement</a>. Thanks for the memories Guardians.`,
       bungieStatus: constants.bungie.disabledStatusCodes[0],
       updatedDate,
       enrollmentOpen: false

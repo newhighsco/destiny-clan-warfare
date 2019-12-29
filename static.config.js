@@ -122,12 +122,12 @@ export default {
         },
         {
           from: `${constants.social.discord}*`,
-          to: 'https://discordapp.com/invite/tu8JdRr',
+          to: process.env.SITE_URL,
           code: '301!'
         },
         {
           from: urlBuilder.patreonUrl({ id: '*' }),
-          to: `${process.env.SITE_URL}/:splat`,
+          to: process.env.SITE_URL,
           code: '301!'
         },
         {

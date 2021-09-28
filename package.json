@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "4.0.3",
+    "@netlify/plugin-nextjs": "3.9.0",
     "@newhighsco/chipset": "6.8.1",
     "@newhighsco/next-plugin-svgr": "3.0.27",
     "next": "11.1.2",

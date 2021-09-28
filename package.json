@@ -92,7 +92,7 @@
       "@newhighsco"
     ],
     "baseBranches": [
-      "main"
+      "next"
     ]
   },
   "stylelint": {

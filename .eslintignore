@@ -1,9 +1,0 @@
-**/node_modules
-artifacts
-cache
-coverage
-data
-dist
-tmp
-!.circleci
-!.storybook

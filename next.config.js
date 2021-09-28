@@ -8,7 +8,8 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
-  poweredByHeader: false
+  poweredByHeader: false,
+  target: 'serverless'
 }
 
 module.exports = withPlugins(

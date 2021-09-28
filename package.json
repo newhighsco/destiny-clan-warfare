@@ -16,17 +16,16 @@
   "files": [],
   "scripts": {
     "clean": "rm -rf {.next}",
-    "dev": "next dev",
+    "start": "next dev",
+    "start:storybook": "start-storybook --docs",
     "build": "next build",
-    "start": "next start",
     "test": "yarn lint",
     "lint": "npm-run-all --parallel lint:*",
     "lint:js": "eslint --cache --ext .js,.json,.jsx,.mdx .",
     "lint:css": "stylelint '**/*.{css,scss}' --cache",
     "format": "npm-run-all --parallel format:*",
     "format:js": "yarn lint:js --fix",
-    "format:css": "yarn lint:css --fix",
-    "storybook": "start-storybook --docs"
+    "format:css": "yarn lint:css --fix"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "4.0.3",

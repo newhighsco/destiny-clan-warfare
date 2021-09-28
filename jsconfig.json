@@ -15,7 +15,9 @@
   },
   "exclude": [
     ".next",
+    "data",
     "node_modules",
-    "public"
+    "public",
+    "storybook"
   ]
 }

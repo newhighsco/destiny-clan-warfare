@@ -12,7 +12,9 @@ export const decorators = [
 ]
 
 export const parameters = {
-  docs: {
-    theme
+  darkMode: {
+    current: 'light',
+    dark: theme,
+    light: theme
   }
 }

@@ -4,6 +4,7 @@
 # production
 /.next
 /data
+/storybook
 
 # misc
 npm-debug.log*

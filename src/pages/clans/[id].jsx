@@ -22,8 +22,9 @@ export async function getStaticProps({ params }) {
     props: {
       // TODO: Load data from API
       id: params.id
-    },
-    revalidate: 60
+    }
+    // TODO: Not currently supported by Next on Netlify
+    // revalidate: 60
   }
 }
 

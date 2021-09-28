@@ -1,0 +1,9 @@
+# dependencies
+/node_modules
+
+# production
+/.next
+/data
+
+# misc
+npm-debug.log*

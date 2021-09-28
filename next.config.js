@@ -8,6 +8,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  generateBuildId: () => 'build',
   poweredByHeader: false,
   target: 'serverless'
 }

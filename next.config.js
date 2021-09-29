@@ -4,6 +4,9 @@ const withTranspileModules = require('next-transpile-modules')([
 ])
 const withSvgr = require('@newhighsco/next-plugin-svgr')
 
+/**
+ * @type {import('next').NextConfig}
+ **/
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true

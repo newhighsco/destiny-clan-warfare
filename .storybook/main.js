@@ -4,7 +4,7 @@ module.exports = {
   core: {
     builder: 'webpack5'
   },
-  stories: ['../src/**/*.stories.@(js|mdx)'],
+  stories: ['../src/**/*.stories.@(js|mdx|ts|tsx)'],
   addons: ['@newhighsco/storybook-preset'],
   webpackFinal: async config => {
     config.resolve.alias = {

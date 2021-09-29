@@ -3,6 +3,8 @@ import { ThemeProvider } from '@newhighsco/chipset'
 import componentTheme from '@components/theme'
 import theme from './theme'
 
+import './preview.scss'
+
 export const decorators = [
   Story => (
     <ThemeProvider themes={componentTheme}>
@@ -13,7 +15,7 @@ export const decorators = [
 
 export const parameters = {
   darkMode: {
-    current: 'light',
+    current: theme.base,
     dark: theme,
     light: theme
   }

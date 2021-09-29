@@ -1,0 +1,30 @@
+@use 'sass:color';
+
+$black: #000;
+$nero: lighten($black, 15%);
+$nero: color.adjust($black, $lightness: 15%);
+$nightrider: color.adjust($black, $lightness: 20%);
+$eclipse: color.adjust($black, $lightness: 25%);
+$silver: color.adjust($black, $lightness: 70%);
+$white: #fff;
+$smoke: color.adjust($white, $lightness: -4.5%);
+$terracotta: #e27365;
+$equator: #e2b265;
+$lemon: #d6da2a;
+$pastel-green: #65e273;
+$cornflower: #6596e2;
+
+:export {
+  black: $black;
+  nero: $nero;
+  nightrider: $nightrider;
+  eclipse: $eclipse;
+  silver: $silver;
+  smoke: $smoke;
+  white: $white;
+  terracotta: $terracotta;
+  equator: $equator;
+  lemon: $lemon;
+  pastel-green: $pastel-green;
+  cornflower: $cornflower;
+}

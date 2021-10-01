@@ -1,6 +1,7 @@
 const withPlugins = require('next-compose-plugins')
 const withTranspileModules = require('next-transpile-modules')([
-  '@newhighsco/chipset'
+  '@newhighsco/chipset',
+  '@newhighsco/press-start'
 ])
 const withSvgr = require('@newhighsco/next-plugin-svgr')
 
@@ -12,6 +13,13 @@ const nextConfig = {
     ignoreDuringBuilds: true
   },
   generateBuildId: () => 'build',
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en'
+  },
+  images: {
+    disableStaticImages: true
+  },
   poweredByHeader: false,
   target: 'serverless'
 }

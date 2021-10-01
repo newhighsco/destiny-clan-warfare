@@ -1656,14 +1656,14 @@
   resolved "https://registry.yarnpkg.com/@newhighsco/browserslist-config/-/browserslist-config-1.0.3.tgz#e4a8ee575fbe5a21bc9df809a4998e1959713524"
   integrity sha512-iV6oB/iFrObsOBVQIAsV2PBDPSm2cLktnKEvT0k9AjiL15+R6I40OIddzBDve0buW1i/zDNtWJj5WH/P9ugQcw==
 
-"@newhighsco/chipset@6.8.1":
-  version "6.8.1"
-  resolved "https://registry.yarnpkg.com/@newhighsco/chipset/-/chipset-6.8.1.tgz#7c8ea41480990594757c8aa3ef38269eda60741a"
-  integrity sha512-kuZd6QOwz9FdULlOfJfQRKGaclBWPX82x6OmL1g+W58c6NlatkKwZZm0Mql1KgnLOLjOx9pVXaf1uyCyCHnirA==
+"@newhighsco/chipset@6.10.0":
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/@newhighsco/chipset/-/chipset-6.10.0.tgz#8fc3b3518fc441c6a4dca4fa25bef1b1661c7e70"
+  integrity sha512-zDyYNgh/klh0B3vb9fj2UoIkfQjsJWkX3lg/x4Mgt+p9/Z7gQprxS2y6sW3cIPLF5sgu1SZCYUdBN0KT8UaICA==
   dependencies:
     "@dr.pogodin/react-themes" "1.3.3"
     classnames "2.3.1"
-    react-device-detect "1.17.0"
+    react-device-detect "2.0.0"
     react-ga "3.3.0"
 
 "@newhighsco/commitlint-config@1.0.15":
@@ -1706,17 +1706,24 @@
     file-loader "6.2.0"
     url-loader "4.1.1"
 
-"@newhighsco/postcss-config@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.2.0.tgz#f3a475a151c74d3d38c6104fe768510a454f864b"
-  integrity sha512-syLz7zSE+M5tAofJzTypSlRnUEhqy5/pd/VfWrTvaqb0hwTOFl9+tVn5Iqr3lsatUeQ80S/km/rY8DkHfw9ZDA==
+"@newhighsco/postcss-config@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.4.0.tgz#75b0a9182be5c4e9c1c9adfe8f21e4f6a9098d88"
+  integrity sha512-SujJvKFc4s3gtVvOtVRsOXqfme/XWaBQWu7gUWTNQqvyIAqHoWCXEAuVRGC8pY0O74ctLROSfWbrGglPIc90ag==
   dependencies:
     "@fullhuman/postcss-purgecss" "4.0.3"
-    autoprefixer "10.3.4"
-    caniuse-lite "1.0.30001257"
-    postcss "8.3.6"
+    autoprefixer "10.3.6"
+    caniuse-lite "1.0.30001261"
+    postcss "8.3.8"
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "6.7.0"
+
+"@newhighsco/press-start@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.0.3.tgz#fe6c0f48d12a3f70d9eb35f8f740c6df37deb19e"
+  integrity sha512-8HXublazXwSJCyEggqsl3MK5wiaB90vSuHRby8ym2rIcbG33R2NhAZ7xmDSOPE/Lmk4fNfIOqqJEZOovXySruQ==
+  dependencies:
+    next-seo "4.27.0"
 
 "@newhighsco/prettier-config@2.0.14":
   version "2.0.14"
@@ -4304,15 +4311,15 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-autoprefixer@10.3.4:
-  version "10.3.4"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.3.4.tgz#29efe5d19f51c281953178ddb5b84c5f1ca24c86"
-  integrity sha512-EKjKDXOq7ug+jagLzmnoTRpTT0q1KVzEJqrJd0hCBa7FiG0WbFOBCcJCy2QkW1OckpO3qgttA1aWjVbeIPAecw==
+autoprefixer@10.3.6:
+  version "10.3.6"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.3.6.tgz#537c8a046e32ec46bfe528bcc9e2a5f2d87cd4c4"
+  integrity sha512-3bDjTfF0MfZntwVCSd18XAT2Zndufh3Mep+mafbzdIQEeWbncVRUVDjH8/EPANV9Hq40seJ24QcYAyhUsFz7gQ==
   dependencies:
-    browserslist "^4.16.8"
-    caniuse-lite "^1.0.30001252"
-    colorette "^1.3.0"
+    browserslist "^4.17.1"
+    caniuse-lite "^1.0.30001260"
     fraction.js "^4.1.1"
+    nanocolors "^0.2.8"
     normalize-range "^0.1.2"
     postcss-value-parser "^4.1.0"
 
@@ -4767,7 +4774,7 @@ browserslist@4.16.6:
     escalade "^3.1.1"
     node-releases "^1.1.71"
 
-browserslist@^4.12.0, browserslist@^4.14.5, browserslist@^4.16.6, browserslist@^4.16.8, browserslist@^4.17.1, browserslist@^4.6.4:
+browserslist@^4.12.0, browserslist@^4.14.5, browserslist@^4.16.6, browserslist@^4.17.1, browserslist@^4.6.4:
   version "4.17.1"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.17.1.tgz#a98d104f54af441290b7d592626dd541fa642eb9"
   integrity sha512-aLD0ZMDSnF4lUt4ZDNgqi5BUn9BZ7YdQdI/cYlILrhdSSZJLU9aNZoD5/NBmM4SK34APB2e83MOsRt1EnkuyaQ==
@@ -4968,15 +4975,15 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
   integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
 
-caniuse-lite@1.0.30001257:
-  version "1.0.30001257"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001257.tgz#150aaf649a48bee531104cfeda57f92ce587f6e5"
-  integrity sha512-JN49KplOgHSXpIsVSF+LUyhD8PUp6xPpAXeRrrcBh4KBeP7W864jHn6RvzJgDlrReyeVjMFJL3PLpPvKIxlIHA==
-
-caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228, caniuse-lite@^1.0.30001252, caniuse-lite@^1.0.30001259:
+caniuse-lite@1.0.30001261, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228, caniuse-lite@^1.0.30001259:
   version "1.0.30001261"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001261.tgz#96d89813c076ea061209a4e040d8dcf0c66a1d01"
   integrity sha512-vM8D9Uvp7bHIN0fZ2KQ4wnmYFpJo/Etb4Vwsuc+ka0tfGDHvOPrFm6S/7CCNLSOkAUjenT2HnUPESdOIL91FaA==
+
+caniuse-lite@^1.0.30001260:
+  version "1.0.30001263"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001263.tgz#7ce7a6fb482a137585cbc908aaf38e90c53a16a4"
+  integrity sha512-doiV5dft6yzWO1WwU19kt8Qz8R0/8DgEziz6/9n2FxUasteZNwNNYSmJO3GLBH8lCVE73AB1RPDPAeYbcO5Cvw==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -5385,7 +5392,7 @@ color@^4.0.1:
     color-convert "^2.0.1"
     color-string "^1.6.0"
 
-colorette@^1.2.2, colorette@^1.3.0:
+colorette@^1.2.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
@@ -10664,6 +10671,11 @@ next-compose-plugins@2.2.1:
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.1.tgz#020fc53f275a7e719d62521bef4300fbb6fde5ab"
   integrity sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==
 
+next-seo@4.27.0:
+  version "4.27.0"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.27.0.tgz#9e6d1b9b49c09c3f5e1e86443dc04854b4edbd48"
+  integrity sha512-nodRrdEePRjFBo+2osYpDCVi+EbO45/MmCnLQpmS59HuEXBDePa3gpM67kJk9cCJ9dKkfp/MwYtmNbhDImMvmg==
+
 next-transpile-modules@8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-8.0.0.tgz#56375cdc25ae5d23a834195f277fc2737b26cb97"
@@ -12257,15 +12269,6 @@ postcss@8.2.15:
     nanoid "^3.1.23"
     source-map "^0.6.1"
 
-postcss@8.3.6:
-  version "8.3.6"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.6.tgz#2730dd76a97969f37f53b9a6096197be311cc4ea"
-  integrity sha512-wG1cc/JhRgdqB6WHEuyLTedf3KIRuD0hG6ldkFEZNCjRxiC+3i6kkWUUbiJQayP28iwG35cEmAbe98585BYV0A==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.23"
-    source-map-js "^0.6.2"
-
 postcss@8.3.8, postcss@^8.2.1, postcss@^8.2.15:
   version "8.3.8"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.8.tgz#9ebe2a127396b4b4570ae9f7770e7fb83db2bac1"
@@ -12713,12 +12716,12 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-device-detect@1.17.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-1.17.0.tgz#a00b4fd6880cebfab3fd8a42a79dc0290cdddca9"
-  integrity sha512-bBblIStwpHmoS281JFIVqeimcN3LhpoP5YKDWzxQdBIUP8S2xPvHDgizLDhUq2ScguLfVPmwfF5y268EEQR60w==
+react-device-detect@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.0.0.tgz#768a30eb3e871829c891bde85e25aadc408ecd2c"
+  integrity sha512-tXHRYaPGSOPU+gcbmFHnkZdZqC4Cn/VcnGrQEcjem+qjEg4lfKtCoBAIA+MmbPtoHXcxrny4+hJIOD9AnEowYQ==
   dependencies:
-    ua-parser-js "^0.7.24"
+    ua-parser-js "^0.7.28"
 
 react-docgen-typescript@^2.0.0:
   version "2.1.0"
@@ -15068,7 +15071,7 @@ typescript@4.4.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.3.tgz#bdc5407caa2b109efd4f82fe130656f977a29324"
   integrity sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==
 
-ua-parser-js@^0.7.24:
+ua-parser-js@^0.7.28:
   version "0.7.28"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
   integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==

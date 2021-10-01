@@ -2,7 +2,7 @@ import React from 'react'
 import PageContainer from '@components/PageContainer'
 
 const HomePage: React.FC = () => {
-  return <PageContainer>Coming soon</PageContainer>
+  return <PageContainer>&nbsp;</PageContainer>
 }
 
 export default HomePage

@@ -18,11 +18,20 @@
       "@components/*": [
         "src/components/*"
       ],
+      "@config": [
+        "site.config"
+      ],
+      "@images/*": [
+        "src/images/*"
+      ],
       "@layouts/*": [
         "src/layouts/*"
       ],
       "@styles/*": [
         "src/styles/*"
+      ],
+      "@theme": [
+        "src/theme"
       ]
     },
     "skipLibCheck": true,

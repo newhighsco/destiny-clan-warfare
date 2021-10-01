@@ -1,6 +1,6 @@
 import React from 'react'
 import { ThemeProvider } from '@newhighsco/chipset'
-import componentTheme from '@components/theme'
+import componentTheme from '@theme'
 import theme from './theme'
 
 import './preview.scss'

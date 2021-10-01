@@ -1,5 +1,7 @@
-export const config = {
+const config = {
   name: 'Destiny Clan Warfare',
   shortName: 'Clan Warfare',
-  handle: 'destinyclanwar'
+  twitterHandle: 'destinyclanwar'
 }
+
+export default config

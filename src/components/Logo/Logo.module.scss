@@ -1,0 +1,62 @@
+@use '@styles/breakpoints.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  display: inline-block;
+  text-align: center;
+}
+
+.icon {
+  $icon-width-small: functions.rem(70);
+  $icon-width-medium: functions.rem(100);
+  $icon-width-large: functions.rem(200);
+
+  display: inline-block;
+  fill: currentColor;
+  height: auto;
+  max-width: $icon-width-small;
+
+  @include mixins.mq(breakpoints.$tablet) {
+    max-width: $icon-width-medium;
+  }
+
+  @include mixins.mq(breakpoints.$desktop) {
+    max-width: $icon-width-large;
+  }
+
+  .root & {
+    display: table;
+    margin: auto;
+  }
+
+  &.small {
+    max-width: $icon-width-small;
+  }
+
+  &.medium {
+    max-width: $icon-width-medium;
+  }
+}
+
+.lockup {
+  .root & {
+    display: table;
+  }
+
+  .icon + & {
+    margin-top: -0.8em;
+  }
+
+  .kicker::after {
+    opacity: 0.75;
+  }
+
+  &.small {
+    font-size: functions.rem(30);
+  }
+
+  &.medium {
+    font-size: functions.rem(40);
+  }
+}

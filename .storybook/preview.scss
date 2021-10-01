@@ -1,5 +1,12 @@
 /*! purgecss start ignore */
 @use '~@newhighsco/chipset/styles/normalize';
+@use '@styles/fonts.module';
 @use '@styles/font-faces';
+
+:global {
+  .docs-story {
+    font-family: fonts.$body;
+  }
+}
 
 /*! purgecss end ignore */

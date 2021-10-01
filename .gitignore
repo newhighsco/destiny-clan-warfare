@@ -24,5 +24,4 @@ yarn-error.log
 .eslintcache
 .stylelintcache
 .next
-data
 storybook

@@ -1,0 +1,135 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/fonts.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  display: inline-block;
+  font-family: fonts.$heading;
+  font-size: functions.rem(30);
+  line-height: 1;
+  max-width: 100%;
+  text-align: left;
+
+  @include mixins.mq(breakpoints.$tablet) {
+    font-size: functions.rem(40);
+  }
+
+  @include mixins.mq(breakpoints.$desktop) {
+    font-size: functions.rem(50);
+  }
+
+  & + & {
+    margin-top: 0;
+  }
+}
+
+.kicker {
+  display: block;
+  font-size: 0.4em;
+  letter-spacing: 0.4em;
+  margin: auto;
+  max-width: 100%;
+  padding: 0 functions.spacing(0.25);
+  padding-right: 0;
+  text-transform: uppercase;
+  word-wrap: break-word;
+
+  .reverse & {
+    display: table;
+  }
+
+  &[href]:hover {
+    transform: scale(1.05);
+  }
+
+  &[href]:active,
+  &[href]:focus {
+    transform: scale(1);
+  }
+
+  &::after {
+    border-bottom: 5px solid currentColor;
+    content: '';
+    display: block;
+    margin: 0.25em auto 0.5em functions.spacing(-0.25);
+    opacity: 0.5;
+
+    .primary & {
+      border-color: colors.$terracotta;
+      opacity: 0.75;
+    }
+  }
+
+  &:last-child {
+    margin-top: 0.5em;
+
+    &:only-child {
+      margin-top: 0;
+    }
+
+    &::after {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.heading {
+  display: inline-block;
+  font-weight: bold;
+  margin: auto;
+  max-width: 100%;
+  position: relative;
+  text-transform: uppercase;
+  word-wrap: break-word;
+
+  &[href]:hover {
+    transform: scale(1.1);
+  }
+
+  &[href]:active,
+  &[href]:focus {
+    transform: scale(1);
+  }
+
+  &::after {
+    border: 1px solid currentColor;
+    content: '';
+    opacity: 0.5;
+    position: absolute;
+    top: 0.2em;
+    right: functions.spacing(-0.25);
+    bottom: 0.275em;
+    left: functions.spacing(-0.25);
+  }
+}
+
+.content {
+  display: block;
+  font-family: fonts.$body;
+  font-size: functions.rem(12);
+  font-weight: normal;
+  opacity: 0.75;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+}
+
+.borderless .kicker::after,
+.borderless .heading::after {
+  border: 0;
+}
+
+.center {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.right {
+  display: table;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: right;
+}

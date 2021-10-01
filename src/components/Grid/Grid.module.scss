@@ -1,0 +1,19 @@
+@use '~@newhighsco/chipset/styles/mixins/grid';
+@use '@styles/breakpoints.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+@include grid.gutter('', functions.spacing(1));
+@include grid.gutter('quadruple', functions.spacing(4));
+@include grid.flex();
+@include grid.reverse();
+@include grid.valign(middle bottom);
+@include grid.widths('', 2);
+
+@include mixins.mq(breakpoints.$tablet) {
+  @include grid.widths('tablet', 2 3);
+}
+
+@include mixins.mq(breakpoints.$tabletLandscape) {
+  @include grid.widths('tablet-landscape', 2 4);
+}

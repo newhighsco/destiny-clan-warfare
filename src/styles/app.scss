@@ -13,3 +13,9 @@ body {
   font-weight: normal;
   min-width: breakpoints.$mobile;
 }
+
+::selection {
+  color: colors.$white;
+  background: colors.$terracotta;
+  text-shadow: none;
+}

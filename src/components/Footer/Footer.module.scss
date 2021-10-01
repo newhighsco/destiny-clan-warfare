@@ -1,0 +1,108 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  border-top: 1px solid colors.$eclipse;
+  margin-top: functions.spacing(2);
+  position: relative;
+}
+
+.content {
+  padding: functions.spacing(4) 0 functions.spacing(1);
+
+  @include mixins.mq(breakpoints.$tablet) {
+    padding-top: functions.spacing(3);
+  }
+
+  @include mixins.mq(breakpoints.$tabletLandscape) {
+    padding-top: functions.spacing(1);
+  }
+}
+
+.links {
+  padding: functions.spacing(1) 0;
+  text-align: center;
+  text-transform: uppercase;
+
+  @include mixins.mq(breakpoints.$tablet) {
+    text-align: right;
+  }
+}
+
+.item {
+  margin: 0 functions.spacing(0.5);
+
+  @include mixins.mq(breakpoints.$tablet) {
+    margin: 0;
+
+    & + & {
+      margin-left: functions.spacing(1);
+    }
+  }
+}
+
+.link {
+  color: colors.$silver;
+  display: block;
+  font-size: smaller;
+  letter-spacing: 0.4em;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    display: block;
+    border-bottom: 1px solid transparent;
+    margin-right: 0.4em;
+  }
+
+  &[href]:focus,
+  &[href]:hover {
+    &::after {
+      border-color: colors.$terracotta;
+    }
+  }
+}
+
+.creditLogo {
+  opacity: 0.75;
+}
+
+.credit {
+  white-space: nowrap;
+
+  @include mixins.mq($max: breakpoints.$tablet - 1) {
+    text-align: center;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    .creditLogo {
+      opacity: 1;
+    }
+  }
+}
+
+.creditText {
+  color: colors.$silver;
+  font-size: smaller;
+}
+
+.logo {
+  color: colors.$silver;
+  margin: 0 auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: functions.spacing(-2);
+  text-align: center;
+  transition: margin 0.25s;
+  width: functions.rem(70);
+
+  &:hover {
+    color: colors.$white;
+    margin-top: functions.spacing(-0.5);
+  }
+}

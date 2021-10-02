@@ -3,6 +3,7 @@ const withTranspileModules = require('next-transpile-modules')([
   '@newhighsco/chipset',
   '@newhighsco/press-start'
 ])
+const withImages = require('next-optimized-images')
 const withSvgr = require('@newhighsco/next-plugin-svgr')
 
 /**
@@ -27,6 +28,15 @@ const nextConfig = {
 module.exports = withPlugins(
   [
     [withTranspileModules],
+    [
+      withImages,
+      {
+        imagesFolder: 'chunks/images',
+        inlineImageLimit: -1,
+        handleImages: ['jpeg', 'png', 'webp', 'gif', 'ico'],
+        removeOriginalExtension: true
+      }
+    ],
     [
       withSvgr,
       {

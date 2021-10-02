@@ -6,8 +6,18 @@ import theme from '@theme'
 
 import '@styles/app.scss'
 
+const meta = {
+  additionalLinkTags: ['montserrat'].map(font => ({
+    rel: 'preload',
+    href: `/fonts/${font}.woff2`,
+    as: 'font',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous'
+  }))
+}
+
 const App: React.FC<AppProps> = props => (
-  <AppPage {...props} theme={theme} config={config} />
+  <AppPage {...props} theme={theme} config={config} meta={meta} />
 )
 
 export default App

@@ -26,6 +26,7 @@
     "lint": "npm-run-all --parallel lint:*",
     "lint:js": "eslint --cache --ext .js,.json,.jsx,.mdx.ts,.tsx .",
     "lint:css": "stylelint '**/*.{css,scss}' --cache",
+    "lint:ts": "tsc --noEmit",
     "format": "npm-run-all --parallel format:*",
     "format:js": "yarn lint:js --fix",
     "format:css": "yarn lint:css --fix"

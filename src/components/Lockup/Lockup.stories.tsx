@@ -22,13 +22,15 @@ source.parameters = {
 export const heading = Template.bind({})
 
 heading.args = {
-  heading: 'Avalanche UK'
+  heading: 'Avalanche UK',
+  headingAttributes: { href: '#' }
 }
 
 export const kicker = Template.bind({})
 
 kicker.args = {
-  kicker: 'Hardcore Casuals / Laidback Diehards'
+  kicker: 'Hardcore Casuals / Laidback Diehards',
+  kickerAttributes: { href: '#' }
 }
 
 export const both = Template.bind({})

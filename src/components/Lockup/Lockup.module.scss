@@ -23,6 +23,11 @@
   & + & {
     margin-top: 0;
   }
+
+  a[href] {
+    color: currentColor;
+    text-decoration: none;
+  }
 }
 
 .kicker {

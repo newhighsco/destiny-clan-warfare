@@ -21,10 +21,7 @@ const LogoIcon: React.FC<LogoIconProps> = ({ size, className }) => (
   />
 )
 
-interface LogoLockupProps extends LogoIconProps {
-  kicker?: LockupProps['kicker']
-  heading?: LockupProps['heading']
-}
+interface LogoLockupProps extends LogoIconProps, Partial<LockupProps> {}
 
 const LogoLockup: React.FC<LogoLockupProps> = ({
   kicker = 'Destiny',

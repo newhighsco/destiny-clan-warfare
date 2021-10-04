@@ -16,13 +16,15 @@ const nextConfig = {
   generateBuildId: () => 'build',
   i18n: {
     locales: ['en'],
-    defaultLocale: 'en'
+    defaultLocale: 'en',
+    localeDetection: false
   },
   images: {
     disableStaticImages: true
   },
   poweredByHeader: false,
-  target: 'serverless'
+  target: 'serverless',
+  trailingSlash: true
 }
 
 module.exports = withPlugins(
@@ -31,7 +33,6 @@ module.exports = withPlugins(
     [
       withImages,
       {
-        imagesFolder: 'chunks/images',
         inlineImageLimit: -1,
         handleImages: ['jpeg', 'png', 'webp', 'gif', 'ico'],
         removeOriginalExtension: true

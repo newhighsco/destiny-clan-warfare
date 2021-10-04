@@ -1,17 +1,30 @@
 import React from 'react'
-import { PageContainer as ThemedPageContainer } from '@newhighsco/chipset'
+import {
+  ContentContainer,
+  PageContainer as ThemedPageContainer
+} from '@newhighsco/chipset'
 import { Meta } from '@newhighsco/press-start'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
 
 export interface PageContainerProps {
   meta?: unknown
+  size?: string
 }
 
-const PageContainer: React.FC<PageContainerProps> = ({ meta, children }) => (
-  <ThemedPageContainer header={<Header />} footer={<Footer />} gutter>
+const PageContainer: React.FC<PageContainerProps> = ({
+  size = 'desktopLarge',
+  meta,
+  children
+}) => (
+  <ThemedPageContainer
+    header={<Header size={size} />}
+    footer={<Footer size={size} />}
+  >
     <Meta {...meta} />
-    {children}
+    <ContentContainer gutter size={size}>
+      {children}
+    </ContentContainer>
   </ThemedPageContainer>
 )
 

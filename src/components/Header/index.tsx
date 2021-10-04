@@ -10,9 +10,13 @@ import { LogoLockup, LogoSize } from '@components/Logo'
 
 import styles from './Header.module.scss'
 
-const Header: React.FC = () => (
+interface HeaderProps {
+  size?: string
+}
+
+const Header: React.FC<HeaderProps> = ({ size }) => (
   <HeaderContainer theme={{ root: styles.root, content: styles.content }}>
-    <ContentContainer gutter size="desktop">
+    <ContentContainer gutter size={size}>
       <Grid>
         <Grid.Item sizes={['one-half']}>
           <Link href="/" passHref>

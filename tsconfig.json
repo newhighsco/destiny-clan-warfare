@@ -24,6 +24,9 @@
       "@images/*": [
         "src/images/*"
       ],
+      "@libs/*": [
+        "src/libs/*"
+      ],
       "@layouts/*": [
         "src/layouts/*"
       ],

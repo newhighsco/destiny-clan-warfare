@@ -12,6 +12,10 @@ import { LogoIcon, LogoSize } from '@components/Logo'
 
 import styles from './Footer.module.scss'
 
+interface FooterProps {
+  size?: string
+}
+
 const year = new Date().getFullYear()
 const links = [
   {
@@ -19,14 +23,12 @@ const links = [
   }
 ]
 
-const Footer: React.FC = () => (
+const Footer: React.FC<FooterProps> = ({ size }) => (
   <FooterContainer theme={{ root: styles.root, content: styles.content }}>
-    <Link href="#top" passHref>
-      <SmartLink title="Back to top" className={styles.logo}>
-        <LogoIcon size={LogoSize.Small} />
-      </SmartLink>
-    </Link>
-    <ContentContainer gutter size="desktop">
+    <SmartLink href="#top" title="Back to top" className={styles.logo}>
+      <LogoIcon size={LogoSize.Small} />
+    </SmartLink>
+    <ContentContainer gutter size={size}>
       <Grid reverse valign="middle" gutter="quadruple">
         <Grid.Item sizes={['tablet-one-half']}>
           <Navigation

@@ -46,7 +46,7 @@ export interface LockupProps extends Omit<LockupElementProps, 'href'> {
     className?: string
   }
   kicker: string
-  kickerAttributes: {
+  kickerAttributes?: {
     className?: string
   }
   primary?: boolean

@@ -1,28 +1,44 @@
 import React from 'react'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useRouter } from 'next/router'
+import { getClan } from '@libs/bungie'
 import PageContainer from '@components/PageContainer'
+import Lockup from '@components/Lockup'
 
-interface ClanPageProps {
-  id: string
-}
-
-const ClanPage: React.FC<ClanPageProps> = ({ id }) => {
+const ClanPage: React.FC = ({
+  name,
+  motto,
+  meta = { title: 'Loading...' }
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
 
   return (
-    <PageContainer>
-      <div>ID: {id}</div>
+    <PageContainer meta={meta}>
+      <Lockup heading={name} kicker={motto} align="center" reverse primary />
       <footer>{isFallback ? 'loading' : 'cached'}</footer>
     </PageContainer>
   )
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { id } = params
+  const { detail } = await getClan(id as string)
+
+  if (!detail) {
+    return { notFound: true }
+  }
+
+  const { groupId, name, motto = null } = detail
+
   return {
     props: {
-      // TODO: Load data from API
-      id: params.id
+      id: groupId,
+      name,
+      motto,
+      meta: {
+        title: `${name} | Clans`,
+        description: `${name}'s progress battling their way to the top of the Destiny 2 clan leaderboard`
+      }
     }
     // TODO: Not currently supported by Next on Netlify
     // revalidate: 60

@@ -16,8 +16,8 @@
   "files": [],
   "scripts": {
     "clean": "rm -rf {.next}",
-    "start": "next dev",
-    "start:storybook": "start-storybook --static-dir public --docs --no-manager-cache",
+    "start": "next dev --hostname localhost.destinyclanwarfare.com --port 9000",
+    "start:storybook": "start-storybook --host localhost.destinyclanwarfare.com --port 9001 --static-dir public --docs --no-manager-cache",
     "build": "next build",
     "prebuild:storybook": "rm -rf storybook",
     "build:storybook": "build-storybook --output-dir storybook --static-dir public --docs --quiet",

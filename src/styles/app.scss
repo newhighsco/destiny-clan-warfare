@@ -4,6 +4,10 @@
 @use '@styles/fonts.module';
 @use '@styles/font-faces';
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: colors.$nero;
   color: colors.$white;

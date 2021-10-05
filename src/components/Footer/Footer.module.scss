@@ -32,13 +32,13 @@
 }
 
 .item {
-  margin: 0 functions.spacing(0.5);
+  padding: 0 functions.spacing(0.5);
 
   @include mixins.mq(breakpoints.$tablet) {
-    margin: 0;
+    padding: 0;
 
     & + & {
-      margin-left: functions.spacing(1);
+      padding-left: functions.spacing(1);
     }
   }
 }

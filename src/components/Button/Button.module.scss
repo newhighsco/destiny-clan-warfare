@@ -1,0 +1,34 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/fonts.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  border: 1px solid currentColor;
+  color: currentColor;
+  font-family: fonts.$heading;
+  font-size: functions.rem(18);
+  padding: functions.spacing(0.5) functions.spacing(1);
+  text-transform: uppercase;
+
+  @include mixins.mq(breakpoints.$tablet) {
+    padding: functions.spacing(0.5) functions.spacing(2);
+  }
+
+  &:hover,
+  &:focus {
+    transform: scale(1.05);
+    outline: 0;
+  }
+
+  &:active {
+    transform: scale(1.01);
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    user-select: none;
+    pointer-events: none;
+  }
+}

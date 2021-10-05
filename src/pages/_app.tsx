@@ -1,5 +1,6 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
+import { Provider } from 'next-auth/client'
 import { AppPage } from '@newhighsco/press-start'
 import config from '@config'
 import theme from '@theme'
@@ -17,7 +18,9 @@ const meta = {
 }
 
 const App: React.FC<AppProps> = props => (
-  <AppPage {...props} theme={theme} config={config} meta={meta} />
+  <Provider session={props.pageProps.session}>
+    <AppPage {...props} theme={theme} config={config} meta={meta} />
+  </Provider>
 )
 
 export default App

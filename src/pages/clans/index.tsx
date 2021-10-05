@@ -5,8 +5,9 @@ import urlJoin from 'url-join'
 import { List, SmartLink } from '@newhighsco/chipset'
 import PageContainer, { PageContainerProps } from '@components/PageContainer'
 import Lockup from '@components/Lockup'
+import config from '@config'
 
-const url = process.env.NEXT_PUBLIC_SITE_URL
+const { url } = config
 
 const ClanListingPage: React.FC<PageContainerProps> = ({ meta }) => {
   return (

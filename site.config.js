@@ -4,6 +4,7 @@ import logoVector from '@images/logo-avatar.svg'
 import openGraphImage from '@images/sharing.png'
 
 const config = {
+  url: process.env.NEXT_PUBLIC_SITE_URL,
   name: 'Destiny Clan Warfare',
   shortName: 'Clan Warfare',
   title: 'Destiny Clan Warfare - Band together, Guardians',

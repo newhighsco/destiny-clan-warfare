@@ -6,8 +6,7 @@ import { getUser } from '@libs/bungie'
 import PageContainer, { PageContainerProps } from '@components/PageContainer'
 import config from '@config'
 
-const { title } = config
-const url = process.env.NEXT_PUBLIC_SITE_URL
+const { title, url } = config
 
 const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
   const [session] = useSession()

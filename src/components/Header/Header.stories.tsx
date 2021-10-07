@@ -1,8 +1,6 @@
 import React from 'react'
 import Header from '@components/Header'
 
-import colors from '@styles/_colors.module.scss'
-
 export default {
   title: 'Components/Header',
   component: Header
@@ -19,10 +17,8 @@ source.parameters = {
 export const example = Template.bind({})
 
 example.storyName = ' '
-example.decorators = [
-  Story => (
-    <div style={{ background: colors.nero, color: colors.white }}>
-      <Story />
-    </div>
-  )
-]
+example.parameters = {
+  backgrounds: {
+    default: 'dark'
+  }
+}

@@ -5,7 +5,8 @@
 
 .root {
   color: colors.$white;
-  margin-bottom: functions.spacing(2);
+  margin-bottom: functions.spacing(-10);
+  padding-bottom: functions.spacing(10);
   position: relative;
 }
 

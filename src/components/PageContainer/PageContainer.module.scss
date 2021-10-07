@@ -1,0 +1,6 @@
+@use '@styles/functions';
+
+.root {
+  margin-top: functions.spacing(2);
+  position: relative;
+}

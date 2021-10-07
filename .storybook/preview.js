@@ -1,4 +1,5 @@
 import React from 'react'
+import * as NextImage from 'next/image'
 import { ThemeProvider } from '@newhighsco/chipset'
 import componentTheme from '@theme'
 import theme from './theme'
@@ -20,3 +21,10 @@ export const parameters = {
     light: theme
   }
 }
+
+const OriginalNextImage = NextImage.default
+
+Object.defineProperty(NextImage, 'default', {
+  configurable: true,
+  value: props => <OriginalNextImage {...props} unoptimized />
+})

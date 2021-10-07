@@ -25,4 +25,6 @@ yarn-error.log
 .stylelintcache
 .next
 .env.*
+public/robots.txt
+public/sitemap.xml
 storybook

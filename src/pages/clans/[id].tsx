@@ -28,11 +28,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return { notFound: true }
   }
 
-  const { groupId, name, motto = null } = detail
+  const { name, motto = null } = detail
 
   return {
     props: {
-      id: groupId,
+      id,
       name,
       motto,
       meta: {

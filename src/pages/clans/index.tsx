@@ -1,15 +1,19 @@
 import React from 'react'
-import { GetStaticProps } from 'next'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import urlJoin from 'url-join'
 import { List, SmartLink } from '@newhighsco/chipset'
-import PageContainer, { PageContainerProps } from '@components/PageContainer'
+import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import config from '@config'
 
 const { url } = config
 
-const ClanListingPage: React.FC<PageContainerProps> = ({ meta }) => {
+const ClanListingPage: React.FC = ({
+  leaderboard,
+  members,
+  meta
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <PageContainer meta={meta}>
       <Lockup kicker="Clan" heading="leaderboard" align="center" primary />
@@ -25,13 +29,31 @@ const ClanListingPage: React.FC<PageContainerProps> = ({ meta }) => {
           </Link>
         </li>
       </List>
+      <p>
+        https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json:
+      </p>
+      <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
+      <p>
+        https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json:
+      </p>
+      <pre>{JSON.stringify(members, null, 2)}</pre>
     </PageContainer>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+  const leaderboard = await fetch(
+    'https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json'
+  ).then(res => res.json())
+
+  const members = await fetch(
+    'https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json'
+  ).then(res => res.json())
+
   return {
     props: {
+      leaderboard,
+      members,
       meta: {
         canonical: urlJoin(url, '/clans/'),
         title: 'Clan leaderboard',

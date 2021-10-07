@@ -4,9 +4,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[[redirects]]
-  from = "https://storybook.destinyclanwarfare.com/*"
-  to = "https://next--61531de3bb5649003ab4f605.chromatic.com/:splat"
-  status = 200
-  force = true

@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useSession, signIn, signOut } from 'next-auth/client'
 import {
@@ -21,12 +22,16 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
   const [session] = useSession()
 
   return (
-    <HeaderContainer
-      theme={{ root: styles.root, content: styles.content }}
-      style={{ backgroundImage: `url(${backgroundImage.src})` }}
-    >
-      <ContentContainer gutter size={size}>
-        <Grid>
+    <HeaderContainer theme={{ root: styles.root }}>
+      <Image
+        src={backgroundImage}
+        layout="fill"
+        objectFit="cover"
+        objectPosition="50% 0"
+        className={styles.background}
+      />
+      <ContentContainer gutter size={size} theme={{ root: styles.content }}>
+        <Grid valign="middle">
           <Grid.Item sizes={['one-half']}>
             <Link href="/" passHref>
               <SmartLink className={styles.logo}>

@@ -10,7 +10,7 @@
 }
 
 .content {
-  padding: functions.spacing(4) 0 functions.spacing(1);
+  padding: functions.spacing(5) 0 functions.spacing(1);
 
   @include mixins.mq(breakpoints.$tablet) {
     padding-top: functions.spacing(3);
@@ -46,7 +46,7 @@
 .link {
   color: colors.$silver;
   display: block;
-  font-size: smaller;
+  font-size: functions.rem(14);
   letter-spacing: 0.4em;
   text-decoration: none;
 
@@ -87,7 +87,7 @@
 
 .creditText {
   color: colors.$silver;
-  font-size: smaller;
+  font-size: functions.rem(14);
 }
 
 .logo {

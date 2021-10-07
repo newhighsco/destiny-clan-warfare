@@ -14,6 +14,9 @@
     "url": "https://github.com/newhighsco/destiny-clan-warfare/issues"
   },
   "files": [],
+  "storybook": {
+    "url": "https://next--61531de3bb5649003ab4f605.chromatic.com"
+  },
   "scripts": {
     "clean": "rm -rf {.next}",
     "start": "npm-run-all --parallel start:ssl start:next",

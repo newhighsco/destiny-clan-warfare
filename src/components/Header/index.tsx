@@ -25,6 +25,8 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
     <HeaderContainer theme={{ root: styles.root }}>
       <Image
         src={backgroundImage}
+        alt=""
+        placeholder="blur"
         layout="fill"
         objectFit="cover"
         objectPosition="50% 0"

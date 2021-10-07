@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { GetStaticProps } from 'next'
 import { useSession } from 'next-auth/client'
+import { LogoJsonLd, SocialProfileJsonLd } from 'next-seo'
 import urlJoin from 'url-join'
 import { getUser } from '@libs/bungie'
 import PageContainer, { PageContainerProps } from '@components/PageContainer'
 import config from '@config'
 
-const { title, url } = config
+const { logo, name, socialLinks, title, url } = config
 
 const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
   const [session] = useSession()
@@ -24,6 +25,15 @@ const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
 
   return (
     <PageContainer meta={meta}>
+      <SocialProfileJsonLd
+        type="Organization"
+        name={name}
+        url={url}
+        sameAs={[socialLinks.twitter]}
+      />
+      {logo?.bitmap && (
+        <LogoJsonLd url={url} logo={urlJoin(url, logo.bitmap)} />
+      )}
       {user && (
         <>
           <p>Signed in as: {session.user.name}</p>

@@ -9,6 +9,7 @@ import {
   SmartLink
 } from '@newhighsco/chipset'
 import { LogoLockup, LogoSize } from '@components/Logo'
+import backgroundImage from '@images/header.jpg'
 
 import styles from './Header.module.scss'
 
@@ -20,7 +21,10 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
   const [session] = useSession()
 
   return (
-    <HeaderContainer theme={{ root: styles.root, content: styles.content }}>
+    <HeaderContainer
+      theme={{ root: styles.root, content: styles.content }}
+      style={{ backgroundImage: `url(${backgroundImage.src})` }}
+    >
       <ContentContainer gutter size={size}>
         <Grid>
           <Grid.Item sizes={['one-half']}>

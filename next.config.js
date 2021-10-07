@@ -3,7 +3,6 @@ const withTranspileModules = require('next-transpile-modules')([
   '@newhighsco/chipset',
   '@newhighsco/press-start'
 ])
-const withImages = require('next-optimized-images')
 const withSvgr = require('@newhighsco/next-plugin-svgr')
 
 /**
@@ -19,9 +18,6 @@ const nextConfig = {
     defaultLocale: 'en',
     localeDetection: false
   },
-  images: {
-    disableStaticImages: true
-  },
   poweredByHeader: false,
   target: 'serverless',
   trailingSlash: true
@@ -31,16 +27,9 @@ module.exports = withPlugins(
   [
     [withTranspileModules],
     [
-      withImages,
-      {
-        inlineImageLimit: -1,
-        handleImages: ['jpeg', 'png', 'webp', 'gif', 'ico'],
-        removeOriginalExtension: true
-      }
-    ],
-    [
       withSvgr,
       {
+        inlineImageLimit: -1,
         svgrOptions: {
           svgoConfig: {
             plugins: [{ prefixIds: false }]

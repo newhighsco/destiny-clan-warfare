@@ -11,12 +11,15 @@ const config = {
   description:
     'Wage war against other clans in Destiny 2 and battle your way to the top of the Destiny 2 clan leaderboard',
   logo: {
-    bitmap: logoBitmap,
+    bitmap: logoBitmap.src,
     vector: logoVector
   },
-  openGraphImage,
+  openGraphImage: openGraphImage.src,
   themeColor: colors.eclipse,
-  twitterHandle: 'destinyclanwar'
+  twitterHandle: 'destinyclanwar',
+  socialLinks: {
+    twitter: 'https://twitter.com/destinyclanwar'
+  }
 }
 
 export default config

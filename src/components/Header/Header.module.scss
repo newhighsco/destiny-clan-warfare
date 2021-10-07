@@ -7,10 +7,6 @@
   color: colors.$white;
   margin-bottom: functions.spacing(2);
   position: relative;
-
-  @include mixins.mq(breakpoints.$tablet) {
-    margin-bottom: functions.spacing(3);
-  }
 }
 
 .content {

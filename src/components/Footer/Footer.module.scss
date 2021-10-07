@@ -10,11 +10,7 @@
 }
 
 .content {
-  padding: functions.spacing(5) 0 functions.spacing(1);
-
-  @include mixins.mq(breakpoints.$tablet) {
-    padding-top: functions.spacing(3);
-  }
+  padding: functions.spacing(4) 0 functions.spacing(1);
 
   @include mixins.mq(breakpoints.$tabletLandscape) {
     padding-top: functions.spacing(1);
@@ -27,6 +23,7 @@
   text-transform: uppercase;
 
   @include mixins.mq(breakpoints.$tablet) {
+    padding: 0;
     text-align: right;
   }
 }
@@ -70,6 +67,7 @@
 }
 
 .credit {
+  display: inline-block;
   white-space: nowrap;
 
   @include mixins.mq($max: breakpoints.$tablet - 1) {
@@ -99,7 +97,7 @@
   top: functions.spacing(-2);
   text-align: center;
   transition: margin 0.25s;
-  width: functions.rem(70);
+  width: functions.rem(60);
 
   &:hover {
     color: colors.$white;

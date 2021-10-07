@@ -29,7 +29,7 @@ const Footer: React.FC<FooterProps> = ({ size }) => (
       <LogoIcon size={LogoSize.Small} />
     </SmartLink>
     <ContentContainer gutter size={size}>
-      <Grid reverse valign="middle" gutter="quadruple">
+      <Grid reverse valign="middle">
         <Grid.Item sizes={['tablet-one-half']}>
           <Navigation
             title="Footer navigation"

@@ -8,6 +8,7 @@ import PageContainer, { PageContainerProps } from '@components/PageContainer'
 
 const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
   const [session] = useSession()
+  const [loading, setLoading] = useState(true)
   const [member, setMember] = useState(null)
   const [clans, setClans] = useState(null)
 
@@ -18,6 +19,7 @@ const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
       const fetchData = async () => {
         setMember(await getMember(membershipId as string))
         setClans(await getMemberClans(membershipId as string))
+        setLoading(false)
       }
 
       fetchData()
@@ -26,7 +28,9 @@ const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
 
   return (
     <PageContainer meta={meta}>
-      {member && (
+      {loading ? (
+        <p>loading...</p>
+      ) : (
         <Prose>
           <p>{member.bungieNetUser.displayName}</p>
           <ul>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSession } from 'next-auth/client'
 import {
   ContentContainer,
   PageContainer as ThemedPageContainer
@@ -16,17 +17,21 @@ const PageContainer: React.FC<PageContainerProps> = ({
   size = 'desktopLarge',
   meta,
   children
-}) => (
-  <ThemedPageContainer
-    header={<Header size={size} />}
-    footer={<Footer size={size} />}
-  >
-    <Meta {...meta} />
-    <ContentContainer gutter size={size}>
-      {children}
-    </ContentContainer>
-  </ThemedPageContainer>
-)
+}) => {
+  const [session] = useSession()
+
+  return (
+    <ThemedPageContainer
+      header={<Header size={size} user={session?.user} />}
+      footer={<Footer size={size} />}
+    >
+      <Meta {...meta} />
+      <ContentContainer gutter size={size}>
+        {children}
+      </ContentContainer>
+    </ThemedPageContainer>
+  )
+}
 
 export default PageContainer
 export { PageContainer }

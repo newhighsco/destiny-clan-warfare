@@ -21,6 +21,9 @@
       "@config": [
         "site.config"
       ],
+      "@helpers/*": [
+        "src/helpers/*"
+      ],
       "@images/*": [
         "src/images/*"
       ],

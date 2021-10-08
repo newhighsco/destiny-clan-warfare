@@ -8,13 +8,8 @@
   border: 1px solid currentColor;
   color: currentColor;
   font-family: fonts.$heading;
-  font-size: functions.rem(18);
   padding: functions.spacing(0.5) functions.spacing(1);
   text-transform: uppercase;
-
-  @include mixins.mq(breakpoints.$tablet) {
-    padding: functions.spacing(0.5) functions.spacing(2);
-  }
 
   &:hover,
   &:focus {

@@ -18,6 +18,9 @@ const nextConfig = {
     defaultLocale: 'en',
     localeDetection: false
   },
+  images: {
+    domains: ['www.bungie.net']
+  },
   poweredByHeader: false,
   target: 'serverless',
   trailingSlash: true

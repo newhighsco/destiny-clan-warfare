@@ -3,7 +3,12 @@ import Footer from '@components/Footer'
 
 export default {
   title: 'Components/Footer',
-  component: Footer
+  component: Footer,
+  parameters: {
+    backgrounds: {
+      default: 'dark'
+    }
+  }
 }
 
 const Template = args => <Footer {...args} />
@@ -17,8 +22,3 @@ source.parameters = {
 export const example = Template.bind({})
 
 example.storyName = ' '
-example.parameters = {
-  backgrounds: {
-    default: 'dark'
-  }
-}

@@ -26,6 +26,10 @@
 }
 
 .logo {
+  width: auto;
+}
+
+.logoLink {
   color: currentColor;
   display: inline-block;
 
@@ -42,5 +46,13 @@
 .logoLockup {
   @include mixins.mq(breakpoints.$desktop) {
     font-size: functions.rem(40) !important;
+  }
+}
+
+.navigation {
+  @include mixins.mq(breakpoints.$tablet) {
+    flex-grow: 1;
+    text-align: right;
+    width: auto;
   }
 }

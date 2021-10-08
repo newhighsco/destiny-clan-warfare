@@ -3,7 +3,12 @@ import Header from '@components/Header'
 
 export default {
   title: 'Components/Header',
-  component: Header
+  component: Header,
+  parameters: {
+    backgrounds: {
+      default: 'dark'
+    }
+  }
 }
 
 const Template = args => <Header {...args} />
@@ -14,11 +19,13 @@ source.parameters = {
   chromatic: { disable: true }
 }
 
-export const example = Template.bind({})
+export const withNoUser = Template.bind({})
 
-example.storyName = ' '
-example.parameters = {
-  backgrounds: {
-    default: 'dark'
+export const withUser = Template.bind({})
+
+withUser.args = {
+  user: {
+    name: 'benedfit',
+    image: 'https://www.bungie.net/img/profile/avatars/cc13.jpg'
   }
 }

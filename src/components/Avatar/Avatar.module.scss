@@ -1,0 +1,37 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  $avatar-width-small: functions.rem(48);
+  $avatar-width-medium: functions.rem(75);
+  $avatar-width-large: functions.rem(96);
+
+  background: colors.$nero;
+  display: inline-block;
+  fill: currentColor;
+  position: relative;
+  width: $avatar-width-medium;
+
+  @include mixins.mq(breakpoints.$tablet) {
+    width: $avatar-width-large;
+  }
+
+  &.small {
+    width: $avatar-width-small;
+  }
+}
+
+.layer {
+  display: block;
+  color-interpolation-filters: sRGB;
+
+  & + & {
+    margin-top: -100%;
+  }
+}
+
+.outline {
+  outline: 2px solid colors.$white;
+}

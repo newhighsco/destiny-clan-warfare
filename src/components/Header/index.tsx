@@ -1,7 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession, signIn, signOut } from 'next-auth/client'
+import { User } from 'next-auth'
+import { signIn } from 'next-auth/client'
 import {
   Button,
   ContentContainer,
@@ -13,14 +14,14 @@ import { LogoLockup, LogoSize } from '@components/Logo'
 import backgroundImage from '@images/header.jpg'
 
 import styles from './Header.module.scss'
+import Avatar, { AvatarSize } from '@components/Avatar'
 
 interface HeaderProps {
   size?: string
+  user?: User
 }
 
-const Header: React.FC<HeaderProps> = ({ size }) => {
-  const [session] = useSession()
-
+const Header: React.FC<HeaderProps> = ({ size, user }) => {
   return (
     <HeaderContainer theme={{ root: styles.root }}>
       <Image
@@ -33,10 +34,10 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
         className={styles.background}
       />
       <ContentContainer gutter size={size} theme={{ root: styles.content }}>
-        <Grid valign="middle">
-          <Grid.Item sizes={['one-half']}>
+        <Grid flex valign="middle">
+          <Grid.Item className={styles.logo}>
             <Link href="/" passHref>
-              <SmartLink className={styles.logo}>
+              <SmartLink className={styles.logoLink}>
                 <LogoLockup
                   size={LogoSize.Small}
                   className={styles.logoLockup}
@@ -44,21 +45,24 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
               </SmartLink>
             </Link>
           </Grid.Item>
-          <Grid.Item sizes={['one-half']} align="right">
-            <Button
-              href={`/api/auth/${session ? 'signout' : 'signin'}`}
-              onClick={e => {
-                e.preventDefault()
-
-                if (session) {
-                  signOut()
-                } else {
+          <Grid.Item className={styles.navigation}>
+            {user ? (
+              <Link href="/user" passHref>
+                <SmartLink>
+                  <Avatar src={user.image} size={AvatarSize.Small} />
+                </SmartLink>
+              </Link>
+            ) : (
+              <Button
+                href="/api/auth/signin"
+                onClick={e => {
+                  e.preventDefault()
                   signIn('bungie')
-                }
-              }}
-            >
-              Sign {session ? 'out' : 'in'}
-            </Button>
+                }}
+              >
+                Sign in
+              </Button>
+            )}
           </Grid.Item>
         </Grid>
       </ContentContainer>

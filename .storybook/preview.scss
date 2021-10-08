@@ -4,7 +4,7 @@
 @use '@styles/font-faces';
 
 :global {
-  .docs-story {
+  body {
     font-family: fonts.$body;
   }
 }

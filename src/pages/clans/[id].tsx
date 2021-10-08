@@ -1,6 +1,7 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useRouter } from 'next/router'
+import { Prose } from '@newhighsco/chipset'
 import { getClan } from '@libs/bungie'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
@@ -15,7 +16,7 @@ const ClanPage: React.FC = ({
   return (
     <PageContainer meta={meta}>
       <Lockup heading={name} kicker={motto} align="center" reverse primary />
-      <footer>{isFallback ? 'loading' : 'cached'}</footer>
+      <Prose>{isFallback ? 'loading' : 'cached'}</Prose>
     </PageContainer>
   )
 }

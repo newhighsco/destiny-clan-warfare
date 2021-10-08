@@ -1,0 +1,19 @@
+@use '@styles/colors.module';
+@use '@styles/fonts.module';
+
+.root {
+  font-family: fonts.$body;
+
+  a {
+    color: inherit;
+
+    &[href] {
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        text-decoration-color: colors.$terracotta;
+      }
+    }
+  }
+}

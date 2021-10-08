@@ -2,7 +2,7 @@ import React from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import urlJoin from 'url-join'
-import { List, SmartLink } from '@newhighsco/chipset'
+import { List, Prose, SmartLink } from '@newhighsco/chipset'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import config from '@config'
@@ -17,26 +17,28 @@ const ClanListingPage: React.FC = ({
   return (
     <PageContainer meta={meta}>
       <Lockup kicker="Clan" heading="leaderboard" align="center" primary />
-      <List>
-        <li>
-          <Link href="/clans/123" passHref>
-            <SmartLink>Cached clan</SmartLink>
-          </Link>
-        </li>
-        <li>
-          <Link href="/clans/1486166" passHref>
-            <SmartLink>Un-cached clan</SmartLink>
-          </Link>
-        </li>
-      </List>
-      <p>
-        https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json:
-      </p>
-      <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
-      <p>
-        https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json:
-      </p>
-      <pre>{JSON.stringify(members, null, 2)}</pre>
+      <Prose>
+        <List>
+          <li>
+            <Link href="/clans/123" passHref>
+              <SmartLink>Cached clan</SmartLink>
+            </Link>
+          </li>
+          <li>
+            <Link href="/clans/1486166" passHref>
+              <SmartLink>Un-cached clan</SmartLink>
+            </Link>
+          </li>
+        </List>
+        <p>
+          https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json:
+        </p>
+        <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
+        <p>
+          https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json:
+        </p>
+        <pre>{JSON.stringify(members, null, 2)}</pre>
+      </Prose>
     </PageContainer>
   )
 }

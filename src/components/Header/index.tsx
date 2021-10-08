@@ -23,7 +23,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ size, user }) => {
   return (
-    <HeaderContainer theme={{ root: styles.root }}>
+    <HeaderContainer theme={{ content: styles.root }}>
       <Image
         src={backgroundImage}
         alt=""
@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
         objectPosition="50% 0"
         className={styles.background}
       />
-      <ContentContainer gutter size={size} theme={{ root: styles.content }}>
+      <ContentContainer gutter size={size} theme={{ content: styles.content }}>
         <Grid flex valign="middle">
           <Grid.Item className={styles.logo}>
             <Link href="/" passHref>

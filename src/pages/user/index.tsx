@@ -1,29 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/client'
-import { Button } from '@newhighsco/chipset'
-import { getUser } from '@libs/bungie'
+import { Button, Prose, SmartLink } from '@newhighsco/chipset'
+import { getMember, getMemberClans } from '@libs/bungie'
 import PageContainer, { PageContainerProps } from '@components/PageContainer'
 
 const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
   const [session] = useSession()
-  const [user, setUser] = useState(null)
+  const [member, setMember] = useState(null)
+  const [clans, setClans] = useState(null)
 
   useEffect(() => {
     if (session) {
-      const fetchUser = async () => {
-        setUser(await getUser(session.membershipId as string))
+      const { membershipId } = session
+
+      const fetchData = async () => {
+        setMember(await getMember(membershipId as string))
+        setClans(await getMemberClans(membershipId as string))
       }
 
-      fetchUser()
+      fetchData()
     }
   }, [session])
 
   return (
     <PageContainer meta={meta}>
-      {user && (
-        <>
-          <p>Signed in as: {session.user.name}</p>
+      {member && (
+        <Prose>
+          <p>{member.bungieNetUser.displayName}</p>
+          <ul>
+            {clans?.results?.map(({ group }) => (
+              <li key={group.groupId}>
+                <Link href={`/clans/${group.groupId}`} passHref>
+                  <SmartLink>{group.name}</SmartLink>
+                </Link>
+              </li>
+            ))}
+          </ul>
           <Button
             href="/api/auth/signout"
             onClick={e => {
@@ -33,8 +47,7 @@ const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
           >
             Sign Out
           </Button>
-          <pre>{JSON.stringify(user, null, 1)}</pre>
-        </>
+        </Prose>
       )}
     </PageContainer>
   )

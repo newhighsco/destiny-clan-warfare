@@ -26,6 +26,7 @@
 }
 
 .logo {
+  max-width: 50%;
   width: auto;
 }
 
@@ -50,9 +51,7 @@
 }
 
 .navigation {
-  @include mixins.mq(breakpoints.$tablet) {
-    flex-grow: 1;
-    text-align: right;
-    width: auto;
-  }
+  flex-grow: 1;
+  text-align: right;
+  width: auto;
 }

@@ -54,6 +54,7 @@ const Footer: React.FC<FooterProps> = ({ size }) => (
             theme={{
               root: styles.credit,
               logo: styles.creditLogo,
+              link: styles.creditLink,
               text: styles.creditText
             }}
           />

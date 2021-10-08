@@ -5,9 +5,14 @@
 
 .root {
   color: colors.$white;
-  margin-bottom: functions.spacing(-10);
-  padding-bottom: functions.spacing(10);
+  margin-bottom: functions.spacing(-8);
+  padding-bottom: functions.spacing(8);
   position: relative;
+
+  @include mixins.mq(breakpoints.$tablet) {
+    margin-bottom: functions.spacing(-10);
+    padding-bottom: functions.spacing(10);
+  }
 }
 
 .content {

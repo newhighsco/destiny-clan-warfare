@@ -63,18 +63,19 @@
   }
 }
 
-.creditLogo {
-  opacity: 0.75;
-}
-
 .credit {
-  display: inline-block;
   white-space: nowrap;
 
   @include mixins.mq($max: breakpoints.$tablet - 1) {
     text-align: center;
   }
+}
 
+.creditLogo {
+  opacity: 0.75;
+}
+
+.creditLink {
   &:hover,
   &:focus,
   &:active {

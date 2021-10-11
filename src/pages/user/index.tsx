@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { GetStaticProps } from 'next'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/client'
 import { Button, Prose, SmartLink } from '@newhighsco/chipset'
 import { getMember, getMemberClans } from '@libs/bungie'
-import PageContainer, { PageContainerProps } from '@components/PageContainer'
+import PageContainer from '@components/PageContainer'
 
-const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
+const HomePage: React.FC = ({
+  meta
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [session] = useSession()
   const [loading, setLoading] = useState(true)
   const [member, setMember] = useState(null)
@@ -60,7 +62,10 @@ const HomePage: React.FC<PageContainerProps> = ({ meta }) => {
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      meta: {}
+      meta: {
+        noindex: true,
+        nofollow: true
+      }
     }
   }
 }

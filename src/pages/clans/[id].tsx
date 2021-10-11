@@ -5,6 +5,7 @@ import { Prose } from '@newhighsco/chipset'
 import { getClan } from '@libs/bungie'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
+import { canonicalUrl, clanUrl } from '@helpers/urls'
 
 const ClanPage: React.FC = ({
   name,
@@ -37,6 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       name,
       motto,
       meta: {
+        canonical: canonicalUrl(clanUrl(id as string)),
         title: `${name} | Clans`,
         description: `${name}'s progress battling their way to the top of the Destiny 2 clan leaderboard`
       }

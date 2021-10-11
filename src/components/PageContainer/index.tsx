@@ -8,7 +8,7 @@ import { Meta } from '@newhighsco/press-start'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
 
-export interface PageContainerProps {
+interface PageContainerProps {
   meta?: unknown
   size?: string
 }

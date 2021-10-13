@@ -1,8 +1,9 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useRouter } from 'next/router'
+import { BreadcrumbJsonLd } from 'next-seo'
 import { Prose } from '@newhighsco/chipset'
-import { getClan } from '@libs/bungie'
+// import { getClan } from '@libs/bungie'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import { canonicalUrl, clanUrl } from '@helpers/urls'
@@ -16,6 +17,20 @@ const ClanPage: React.FC = ({
 
   return (
     <PageContainer meta={meta}>
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Clans',
+            item: canonicalUrl(clanUrl())
+          },
+          {
+            position: 2,
+            name,
+            item: meta.canonical
+          }
+        ]}
+      />
       <Lockup heading={name} kicker={motto} align="center" reverse primary />
       <Prose>{isFallback ? 'loading' : 'cached'}</Prose>
     </PageContainer>
@@ -23,22 +38,25 @@ const ClanPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { id } = params
-  const { detail } = await getClan(id as string)
+  const { clanId } = params
+  // const { detail } = await getClan(clanId as string)
 
-  if (!detail) {
-    return { notFound: true }
+  // if (!detail) {
+  //   return { notFound: true }
+  // }
+  const detail = {
+    name: 'Avalanche UK',
+    motto: 'TBC'
   }
 
   const { name, motto = null } = detail
 
   return {
     props: {
-      id,
       name,
       motto,
       meta: {
-        canonical: canonicalUrl(clanUrl(id as string)),
+        canonical: canonicalUrl(clanUrl(clanId as string)),
         title: `${name} | Clans`,
         description: `${name}'s progress battling their way to the top of the Destiny 2 clan leaderboard`
       }
@@ -50,9 +68,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // TODO: Only load top clans
-  const clans = [`123`, `234`, `345`]
-  const paths = clans.map(id => ({
-    params: { id }
+  const clans = Array.from(Array(1900).keys()).map(key => `${key}`)
+  const paths = clans.map(clanId => ({
+    params: { clanId }
   }))
 
   return { paths, fallback: true }

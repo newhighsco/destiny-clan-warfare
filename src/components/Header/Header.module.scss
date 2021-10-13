@@ -49,12 +49,6 @@
   }
 }
 
-.logoLockup {
-  @include mixins.mq(breakpoints.$desktop) {
-    font-size: functions.rem(40) !important;
-  }
-}
-
 .navigation {
   flex-grow: 1;
   text-align: right;

@@ -38,10 +38,7 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
           <Grid.Item className={styles.logo}>
             <Link href="/" passHref>
               <SmartLink className={styles.logoLink}>
-                <LogoLockup
-                  size={LogoSize.Small}
-                  className={styles.logoLockup}
-                />
+                <LogoLockup size={LogoSize.Small} />
               </SmartLink>
             </Link>
           </Grid.Item>

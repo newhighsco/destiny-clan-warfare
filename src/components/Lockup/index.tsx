@@ -41,13 +41,15 @@ const LockupElement: React.FC<LockupElementProps> = ({
 }
 
 export interface LockupProps extends Omit<LockupElementProps, 'href'> {
-  heading: string
+  heading?: string
   headingAttributes?: {
     className?: string
+    href?: string
   }
-  kicker: string
+  kicker?: string
   kickerAttributes?: {
     className?: string
+    href?: string
   }
   primary?: boolean
   align?: 'left' | 'right' | 'center'

@@ -106,5 +106,13 @@
     "prettier": "^1.16.4",
     "react-hot-loader": "^4.12.11",
     "stylint": "^1.5.9"
+  },
+  "renovate": {
+    "extends": [
+      "@newhighsco"
+    ],
+    "baseBranches": [
+      "next"
+    ]
   }
 }

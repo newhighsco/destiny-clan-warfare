@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // TODO: Only load top clans
-  const clans = Array.from(Array(1900).keys()).map(key => `${key}`)
+  const clans = Array.from(Array(5).keys()).map(key => `${key}`)
   const paths = clans.map(clanId => ({
     params: { clanId }
   }))

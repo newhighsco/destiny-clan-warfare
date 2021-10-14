@@ -89,7 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // TODO: Get all events
-  const events = Array.from(Array(50).keys()).map(key => `${key}`)
+  const events = Array.from(Array(5).keys()).map(key => `${key}`)
   const paths = events.map(eventId => ({
     params: { eventId }
   }))

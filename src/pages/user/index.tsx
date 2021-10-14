@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/client'
+import { getSession, signOut, useSession } from 'next-auth/client'
 import { Button, Prose, SmartLink } from '@newhighsco/chipset'
-import { getMember, getMemberClans } from '@libs/bungie'
+import { getMemberClans } from '@libs/bungie'
+import { canonicalUrl, clanUrl, signInUrl, signOutUrl } from '@helpers/urls'
 import PageContainer from '@components/PageContainer'
-import { clanUrl } from '@helpers/urls'
 
-const HomePage: React.FC = ({
+const UserPage: React.FC = ({
   meta
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [session] = useSession()
   const [loading, setLoading] = useState(true)
-  const [member, setMember] = useState(null)
   const [clans, setClans] = useState(null)
 
   useEffect(() => {
@@ -20,7 +19,6 @@ const HomePage: React.FC = ({
       const { membershipId } = session
 
       const fetchData = async () => {
-        setMember(await getMember(membershipId as string))
         setClans(await getMemberClans(membershipId as string))
         setLoading(false)
       }
@@ -31,6 +29,7 @@ const HomePage: React.FC = ({
 
   return (
     <PageContainer meta={meta}>
+      {/* TODO: Loading state */}
       {loading ? (
         <p>loading...</p>
       ) : (
@@ -43,11 +42,11 @@ const HomePage: React.FC = ({
                     <Link
                       href={clanUrl(
                         group.groupId,
-                        member.bungieNetUser.membershipId
+                        session.membershipId as string
                       )}
                       passHref
                     >
-                      <SmartLink>{member.bungieNetUser.displayName}</SmartLink>
+                      <SmartLink>{session.user.name}</SmartLink>
                     </Link>
                   </li>
                   <li>
@@ -59,27 +58,42 @@ const HomePage: React.FC = ({
               ))}
             </ul>
           </Prose>
-          <br />
-          <Link href="/api/auth/signout" passHref>
-            <Button
-              onClick={e => {
-                e.preventDefault()
-                signOut()
-              }}
-            >
-              Sign out
-            </Button>
-          </Link>
+          <Button.Group>
+            <Link href={signOutUrl} passHref>
+              <Button
+                onClick={e => {
+                  e.preventDefault()
+                  signOut({ callbackUrl: canonicalUrl() })
+                }}
+              >
+                Sign out
+              </Button>
+            </Link>
+          </Button.Group>
         </>
       )}
     </PageContainer>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async context => {
+  const session = await getSession(context)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: signInUrl,
+        permanent: false
+      }
+    }
+  }
+
   return {
     props: {
+      session,
       meta: {
+        // TODO: Add title and description
+        title: 'User profile',
         noindex: true,
         nofollow: true
       }
@@ -87,4 +101,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default HomePage
+export default UserPage

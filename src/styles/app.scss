@@ -18,6 +18,10 @@ body {
   min-width: breakpoints.$mobile;
 }
 
+a {
+  color: inherit;
+}
+
 ::selection {
   color: colors.$white;
   background: colors.$terracotta;

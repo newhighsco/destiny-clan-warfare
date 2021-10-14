@@ -10,12 +10,12 @@ import {
   HeaderContainer,
   SmartLink
 } from '@newhighsco/chipset'
+import Avatar, { AvatarSize } from '@components/Avatar'
 import { LogoLockup, LogoSize } from '@components/Logo'
+import { userUrl } from '@helpers/urls'
 import backgroundImage from '@images/header.jpg'
 
 import styles from './Header.module.scss'
-import Avatar, { AvatarSize } from '@components/Avatar'
-
 interface HeaderProps {
   size?: string
   user?: User
@@ -43,14 +43,12 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
             </Link>
           </Grid.Item>
           <Grid.Item className={styles.navigation}>
-            {user ? (
-              <Link href="/user" passHref>
+            <Link href={userUrl()} passHref>
+              {user ? (
                 <SmartLink>
                   <Avatar src={user.image} size={AvatarSize.Small} />
                 </SmartLink>
-              </Link>
-            ) : (
-              <Link href="/api/auth/signin" passHref>
+              ) : (
                 <Button
                   onClick={e => {
                     e.preventDefault()
@@ -59,8 +57,8 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
                 >
                   Sign in
                 </Button>
-              </Link>
-            )}
+              )}
+            </Link>
           </Grid.Item>
         </Grid>
       </ContentContainer>

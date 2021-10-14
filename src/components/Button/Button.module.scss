@@ -27,3 +27,9 @@
     pointer-events: none;
   }
 }
+
+.group {
+  .root {
+    margin: functions.spacing(1);
+  }
+}

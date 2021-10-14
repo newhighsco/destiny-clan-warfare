@@ -8,6 +8,7 @@ import Lockup from '@components/Lockup'
 const ClanMemberPage: React.FC = ({
   name,
   clan,
+  // TODO: Loading state
   meta = { title: 'Loading...' }
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const kicker = clan?.name
@@ -64,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       meta: {
         canonical: canonicalUrl(clanUrl(clanId as string, memberId as string)),
         title: `${name} [${clan.tag}] | Members`,
-        description: 'TBC'
+        description: 'TODO: Add meta description'
       }
     }
   }

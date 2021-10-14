@@ -64,6 +64,7 @@ const EventPage: React.FC = ({
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { eventId } = params
 
+  // TODO: Get data
   const name = 'TBC name'
   const description = 'TBC description'
   const startDate = new Date()

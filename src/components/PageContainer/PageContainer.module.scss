@@ -4,3 +4,14 @@
   margin-top: functions.spacing(2);
   position: relative;
 }
+
+.holding {
+  flex-grow: 0;
+  margin: auto;
+  padding: functions.spacing(2);
+}
+
+.backdrop {
+  filter: blur(functions.rem(2)) !important;
+  position: relative;
+}

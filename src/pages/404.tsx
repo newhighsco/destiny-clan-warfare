@@ -1,11 +1,25 @@
 import React from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import PageContainer from '@components/PageContainer'
+import Link from 'next/link'
+import { Button, SmartLink } from '@newhighsco/chipset'
+import { HoldingPageContainer } from '@components/PageContainer'
+import { Logo, LogoSize } from '@components/Logo'
 
 const NotFoundPage: React.FC = ({
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return <PageContainer meta={meta}>&nbsp;</PageContainer>
+  return (
+    <HoldingPageContainer meta={meta}>
+      <Link href="/" passHref>
+        <SmartLink>
+          <Logo size={LogoSize.Medium} />
+          <Button.Group>
+            <Button>Return to homepage</Button>
+          </Button.Group>
+        </SmartLink>
+      </Link>
+    </HoldingPageContainer>
+  )
 }
 
 export const getStaticProps: GetStaticProps = async () => {

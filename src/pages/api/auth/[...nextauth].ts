@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { signInUrl, signOutUrl } from '@helpers/urls'
 
 export default NextAuth({
   providers: [
@@ -11,6 +12,10 @@ export default NextAuth({
       }
     })
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  jwt: {
+    signingKey: process.env.NEXTAUTH_JWT_SIGNING_KEY
+  },
   callbacks: {
     jwt: async (token, user, account) => {
       if (account) {
@@ -27,5 +32,12 @@ export default NextAuth({
 
       return Promise.resolve(session)
     }
+  },
+  pages: {
+    signIn: signInUrl,
+    signOut: signOutUrl,
+    // error: 'TODO: create page',
+    verifyRequest: null,
+    newUser: null
   }
 })

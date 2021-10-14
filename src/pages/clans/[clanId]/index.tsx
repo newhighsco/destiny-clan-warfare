@@ -11,6 +11,7 @@ import { canonicalUrl, clanUrl } from '@helpers/urls'
 const ClanPage: React.FC = ({
   name,
   motto,
+  // TODO: Loading state
   meta = { title: 'Loading...' }
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
@@ -44,6 +45,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // if (!detail) {
   //   return { notFound: true }
   // }
+  // TODO: Get from apu
   const detail = {
     name: 'Avalanche UK',
     motto: 'TBC'

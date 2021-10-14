@@ -31,7 +31,7 @@ const ClanPage: React.FC = ({
           }
         ]}
       />
-      <Lockup heading={name} kicker={motto} align="center" reverse primary />
+      <Lockup heading={name} kicker={motto} align="center" reverse highlight />
       <Prose>{isFallback ? 'loading' : 'cached'}</Prose>
     </PageContainer>
   )

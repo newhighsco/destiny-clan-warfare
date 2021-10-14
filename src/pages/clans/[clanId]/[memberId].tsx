@@ -35,7 +35,7 @@ const ClanMemberPage: React.FC = ({
         kickerAttributes={{ href: kickerHref }}
         align="center"
         reverse
-        primary
+        highlight
       />
     </PageContainer>
   )

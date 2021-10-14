@@ -10,7 +10,7 @@ const EventListingPage: React.FC = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <PageContainer meta={meta}>
-      <Lockup kicker="All" heading="events" align="center" primary />
+      <Lockup kicker="All" heading="events" align="center" highlight />
     </PageContainer>
   )
 }

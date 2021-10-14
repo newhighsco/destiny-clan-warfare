@@ -61,7 +61,7 @@
     margin: 0.25em auto 0.5em functions.spacing(-0.25);
     opacity: 0.5;
 
-    .primary & {
+    .highlight & {
       border-color: colors.$terracotta;
       opacity: 0.75;
     }

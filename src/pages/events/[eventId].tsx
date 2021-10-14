@@ -56,7 +56,7 @@ const EventPage: React.FC = ({
           }
         ]}
       />
-      <Lockup kicker={kicker} heading={name} align="center" primary />
+      <Lockup kicker={kicker} heading={name} align="center" highlight />
     </PageContainer>
   )
 }

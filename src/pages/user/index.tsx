@@ -60,15 +60,16 @@ const HomePage: React.FC = ({
             </ul>
           </Prose>
           <br />
-          <Button
-            href="/api/auth/signout"
-            onClick={e => {
-              e.preventDefault()
-              signOut()
-            }}
-          >
-            Sign Out
-          </Button>
+          <Link href="/api/auth/signout" passHref>
+            <Button
+              onClick={e => {
+                e.preventDefault()
+                signOut()
+              }}
+            >
+              Sign out
+            </Button>
+          </Link>
         </>
       )}
     </PageContainer>

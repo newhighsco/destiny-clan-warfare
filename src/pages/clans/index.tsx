@@ -13,7 +13,7 @@ const ClanListingPage: React.FC = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <PageContainer meta={meta}>
-      <Lockup kicker="Clan" heading="leaderboard" align="center" primary />
+      <Lockup kicker="Clan" heading="leaderboard" align="center" highlight />
       <Prose>
         <List>
           <li>

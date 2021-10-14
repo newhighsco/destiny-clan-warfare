@@ -40,11 +40,11 @@ both.args = {
   ...kicker.args
 }
 
-export const primary = Template.bind({})
+export const highlighted = Template.bind({})
 
-primary.args = {
+highlighted.args = {
   ...both.args,
-  primary: true
+  highlight: true
 }
 
 export const reversed = Template.bind({})

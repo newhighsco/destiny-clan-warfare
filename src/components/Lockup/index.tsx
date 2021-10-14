@@ -1,5 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import Link from 'next/link'
+
 import { Element, SmartLink } from '@newhighsco/chipset'
 
 import styles from './Lockup.module.scss'
@@ -8,7 +10,7 @@ interface LockupElementProps {
   href?: string
   className?: string
   id?: string
-  as?: string
+  as?: string | React.FC
 }
 
 const LockupElement: React.FC<LockupElementProps> = ({
@@ -34,24 +36,26 @@ const LockupElement: React.FC<LockupElementProps> = ({
   }
 
   return (
-    <SmartLink href={href} {...commonAttributes}>
-      <Element as={as}>{children}</Element>
-    </SmartLink>
+    <Link href={href} passHref>
+      <SmartLink {...commonAttributes}>
+        <Element as={as}>{children}</Element>
+      </SmartLink>
+    </Link>
   )
+}
+
+interface LockupAttributesProps {
+  as?: string | React.FC
+  className?: string
+  href?: string
 }
 
 export interface LockupProps extends Omit<LockupElementProps, 'href'> {
   heading?: string
-  headingAttributes?: {
-    className?: string
-    href?: string
-  }
+  headingAttributes?: LockupAttributesProps
   kicker?: string
-  kickerAttributes?: {
-    className?: string
-    href?: string
-  }
-  primary?: boolean
+  kickerAttributes?: LockupAttributesProps
+  highlight?: boolean
   align?: 'left' | 'right' | 'center'
   border?: boolean
   reverse?: boolean
@@ -62,7 +66,7 @@ const Lockup: React.FC<LockupProps> = ({
   headingAttributes = {},
   kicker,
   kickerAttributes = {},
-  primary,
+  highlight,
   align,
   border = true,
   reverse,
@@ -108,7 +112,7 @@ const Lockup: React.FC<LockupProps> = ({
       id={id}
       className={classNames(
         styles.root,
-        primary && styles.primary,
+        highlight && styles.highlight,
         reverse && styles.reverse,
         align && styles[align],
         !border && styles.borderless,

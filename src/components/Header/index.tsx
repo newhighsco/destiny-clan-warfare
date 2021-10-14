@@ -50,15 +50,16 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
                 </SmartLink>
               </Link>
             ) : (
-              <Button
-                href="/api/auth/signin"
-                onClick={e => {
-                  e.preventDefault()
-                  signIn('bungie')
-                }}
-              >
-                Sign in
-              </Button>
+              <Link href="/api/auth/signin" passHref>
+                <Button
+                  onClick={e => {
+                    e.preventDefault()
+                    signIn('bungie')
+                  }}
+                >
+                  Sign in
+                </Button>
+              </Link>
             )}
           </Grid.Item>
         </Grid>

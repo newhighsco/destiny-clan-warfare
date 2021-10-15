@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { User } from 'next-auth'
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
                 </SmartLink>
               ) : (
                 <Button
-                  onClick={e => {
+                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
                     e.preventDefault()
                     signIn('bungie')
                   }}

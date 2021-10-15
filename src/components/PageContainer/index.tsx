@@ -1,17 +1,13 @@
 import React from 'react'
-import Image from 'next/image'
 import { useSession } from 'next-auth/client'
-import {
-  Backdrop,
-  PageContainer as ThemedPageContainer
-} from '@newhighsco/chipset'
+import { PageContainer as ThemedPageContainer } from '@newhighsco/chipset'
 import { Meta } from '@newhighsco/press-start'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
-import backgroundImage from '@images/holding-page.jpg'
+import HoldingPageContainer from './HoldingPageContainer'
+import LoadingPageContainer from './LoadingPageContainer'
 
-import styles from './PageContainer.module.scss'
-interface PageContainerProps {
+export interface PageContainerProps {
   showHeader?: boolean
   showFooter?: boolean
   size?: string
@@ -22,7 +18,7 @@ interface PageContainerProps {
 
 const PageContainer: React.FC<PageContainerProps> = ({
   showHeader = true,
-  showFooter = false,
+  showFooter = true,
   size = 'desktopLarge',
   meta,
   children,
@@ -44,34 +40,5 @@ const PageContainer: React.FC<PageContainerProps> = ({
   )
 }
 
-const HoldingPageContainer: React.FC<PageContainerProps> = ({
-  children,
-  ...rest
-}) => {
-  return (
-    <PageContainer
-      showHeader={false}
-      showFooter={false}
-      className={styles.holding}
-      align="center"
-      {...rest}
-    >
-      <Backdrop>
-        <div className={styles.backdrop}>
-          <Image
-            src={backgroundImage}
-            alt=""
-            placeholder="blur"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="50% 0"
-          />
-        </div>
-      </Backdrop>
-      {children}
-    </PageContainer>
-  )
-}
-
 export default PageContainer
-export { PageContainer, HoldingPageContainer }
+export { HoldingPageContainer, LoadingPageContainer }

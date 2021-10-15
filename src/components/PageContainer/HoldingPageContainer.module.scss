@@ -1,0 +1,12 @@
+@use '@styles/functions';
+
+.root {
+  flex-grow: 0;
+  margin: auto;
+  padding: functions.spacing(2);
+}
+
+.background {
+  filter: blur(functions.rem(2)) !important;
+  position: relative;
+}

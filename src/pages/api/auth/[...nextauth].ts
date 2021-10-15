@@ -1,6 +1,9 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
+import { Session } from '@helpers/auth'
 import { signInUrl, signOutUrl } from '@helpers/urls'
+import { getMemberClans } from '@libs/bungie'
+import { GroupV2Card } from 'bungie-api-ts/groupv2'
 
 export default NextAuth({
   providers: [
@@ -19,18 +22,22 @@ export default NextAuth({
   callbacks: {
     jwt: async (token, user, account) => {
       if (account) {
-        token.accessToken = account.accessToken
-        token.refreshToken = account.refreshToken
+        const clans = await getMemberClans(account.id)
+
+        token.clans = clans.results.map(({ group: { groupId, name } }) => ({
+          groupId,
+          name
+        }))
       }
 
       return Promise.resolve(token)
     },
     session: async (session, token) => {
-      session.membershipId = token.sub
-      session.accessToken = token.accessToken
-      session.refreshToken = token.refreshToken
+      const userSession = session as Session
+      userSession.user.membershipId = token.sub as string
+      userSession.user.clans = token.clans as Array<GroupV2Card>
 
-      return Promise.resolve(session)
+      return Promise.resolve(userSession)
     }
   },
   pages: {

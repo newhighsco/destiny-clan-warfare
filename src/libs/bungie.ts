@@ -5,7 +5,6 @@ import {
   GetGroupsForMemberResponse,
   GroupResponse
 } from 'bungie-api-ts/groupv2'
-import { getMembershipDataById, UserMembershipData } from 'bungie-api-ts/user'
 
 const http = (accessToken?: string) => async (config: HttpClientConfig) => {
   try {
@@ -35,15 +34,6 @@ const http = (accessToken?: string) => async (config: HttpClientConfig) => {
 
 export const getClan = async (groupId: string): Promise<GroupResponse> => {
   return await getGroup(http(), { groupId }).then(res => res.Response)
-}
-
-export const getMember = async (
-  membershipId: string
-): Promise<UserMembershipData> => {
-  return await getMembershipDataById(http(), {
-    membershipId,
-    membershipType: 254
-  }).then(res => res.Response)
 }
 
 export const getMemberClans = async (

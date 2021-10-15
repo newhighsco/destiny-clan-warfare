@@ -8,11 +8,9 @@ import { Logo, LogoSize } from '@components/Logo'
 
 const UserSignInPage: React.FC = ({
   csrfToken,
-  providers,
+  provider,
   meta
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const provider = providers.bungie
-
   return (
     <HoldingPageContainer meta={meta}>
       <Logo size={LogoSize.Medium} />
@@ -24,7 +22,7 @@ const UserSignInPage: React.FC = ({
           value={canonicalUrl(userUrl())}
         />
         <Button.Group>
-          <Button type="submit">Authorize with Bungie.net</Button>
+          <Button type="submit">Sign in to Bungie.net</Button>
         </Button.Group>
       </form>
     </HoldingPageContainer>
@@ -46,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       csrfToken: await getCsrfToken(context),
-      providers: await getProviders(),
+      provider: await getProviders().then(providers => providers.bungie),
       meta: {
         title: 'Sign in',
         description: 'TODO: Add meta description',

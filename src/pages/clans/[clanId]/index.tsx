@@ -3,7 +3,6 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useRouter } from 'next/router'
 import { BreadcrumbJsonLd } from 'next-seo'
 import { Prose } from '@newhighsco/chipset'
-// import { getClan } from '@libs/bungie'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import { canonicalUrl, clanUrl } from '@helpers/urls'
@@ -40,16 +39,16 @@ const ClanPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { clanId } = params
-  // const { detail } = await getClan(clanId as string)
-
-  // if (!detail) {
-  //   return { notFound: true }
-  // }
-  // TODO: Get from apu
+  // TODO: Get from api
   const detail = {
     name: 'Avalanche UK',
     motto: 'TBC'
   }
+
+  // TODO: Handle 404
+  // if (!detail) {
+  //   return { notFound: true }
+  // }
 
   const { name, motto = null } = detail
 

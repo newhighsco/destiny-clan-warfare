@@ -22,7 +22,7 @@ const nextConfig = {
     domains: ['www.bungie.net']
   },
   poweredByHeader: false,
-  target: 'serverless'
+  trailingSlash: true
 }
 
 module.exports = withPlugins(

@@ -13,7 +13,7 @@ module.exports = {
       '@config$': path.resolve(__dirname, '../site.config.js'),
       '@helpers': path.resolve(__dirname, '../src/helpers'),
       '@images': path.resolve(__dirname, '../src/images'),
-      '@components': path.resolve(__dirname, '../src/components'),
+      '@libs': path.resolve(__dirname, '../src/libs'),
       '@styles': path.resolve(__dirname, '../src/styles'),
       '@theme': path.resolve(__dirname, '../src/theme')
     }

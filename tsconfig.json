@@ -30,9 +30,6 @@
       "@libs/*": [
         "src/libs/*"
       ],
-      "@layouts/*": [
-        "src/layouts/*"
-      ],
       "@styles/*": [
         "src/styles/*"
       ],

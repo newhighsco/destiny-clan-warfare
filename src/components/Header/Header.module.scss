@@ -55,3 +55,11 @@
   text-align: right;
   width: auto;
 }
+
+.userLink {
+  color: colors.$silver;
+
+  &:hover {
+    color: colors.$white;
+  }
+}

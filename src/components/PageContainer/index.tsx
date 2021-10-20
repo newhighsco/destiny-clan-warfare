@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSession } from 'next-auth/client'
 import { PageContainer as ThemedPageContainer } from '@newhighsco/chipset'
 import { Meta } from '@newhighsco/press-start'
 import Header from '@components/Header'
@@ -24,11 +23,9 @@ const PageContainer: React.FC<PageContainerProps> = ({
   children,
   ...rest
 }) => {
-  const [session] = useSession()
-
   return (
     <ThemedPageContainer
-      header={showHeader && <Header size={size} user={session?.user} />}
+      header={showHeader && <Header size={size} />}
       footer={showFooter && <Footer size={size} />}
       gutter
       size={size}

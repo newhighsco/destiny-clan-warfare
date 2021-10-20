@@ -60,6 +60,7 @@
     display: block;
     margin: 0.25em auto 0.5em functions.spacing(-0.25);
     opacity: 0.5;
+    position: static !important;
 
     .highlight & {
       border-color: colors.$terracotta;
@@ -103,10 +104,10 @@
     content: '';
     opacity: 0.5;
     position: absolute;
-    top: 0.2em;
-    right: functions.spacing(-0.25);
-    bottom: 0.275em;
-    left: functions.spacing(-0.25);
+    top: 0.2em !important;
+    right: functions.spacing(-0.25) !important;
+    bottom: 0.275em !important;
+    left: functions.spacing(-0.25) !important;
   }
 }
 

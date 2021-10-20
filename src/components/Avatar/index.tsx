@@ -65,6 +65,7 @@ const Avatar: React.FC<AvatarProps> = ({
     <div
       className={classNames(
         styles.root,
+        children && styles.inline,
         size && styles[size],
         outline && styles.outline
       )}

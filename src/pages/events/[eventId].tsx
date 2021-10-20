@@ -1,7 +1,9 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import Link from 'next/link'
 import { BreadcrumbJsonLd, EventJsonLd } from 'next-seo'
 import { canonicalUrl, eventUrl } from '@helpers/urls'
+import { Button } from '@newhighsco/chipset'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import config from '@config'
@@ -57,6 +59,11 @@ const EventPage: React.FC = ({
         ]}
       />
       <Lockup kicker={kicker} heading={name} align="center" highlight />
+      <Button.Group>
+        <Link href={eventUrl()} passHref>
+          <Button>View all events</Button>
+        </Link>
+      </Button.Group>
     </PageContainer>
   )
 }

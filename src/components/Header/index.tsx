@@ -1,10 +1,8 @@
 import React, { MouseEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { User } from 'next-auth'
-import { signIn } from 'next-auth/client'
+import { signIn, useSession } from 'next-auth/client'
 import {
-  Button,
   ContentContainer,
   Grid,
   HeaderContainer,
@@ -14,14 +12,16 @@ import Avatar, { AvatarSize } from '@components/Avatar'
 import { LogoLockup, LogoSize } from '@components/Logo'
 import { userUrl } from '@helpers/urls'
 import backgroundImage from '@images/header.jpg'
+import { ReactComponent as UserIcon } from '@images/icons/user.svg'
 
 import styles from './Header.module.scss'
 interface HeaderProps {
   size?: string
-  user?: User
 }
 
-const Header: React.FC<HeaderProps> = ({ size, user }) => {
+const Header: React.FC<HeaderProps> = ({ size }) => {
+  const [session] = useSession()
+
   return (
     <HeaderContainer theme={{ content: styles.root }}>
       <Image
@@ -44,20 +44,22 @@ const Header: React.FC<HeaderProps> = ({ size, user }) => {
           </Grid.Item>
           <Grid.Item className={styles.navigation}>
             <Link href={userUrl()} passHref>
-              {user ? (
-                <SmartLink>
-                  <Avatar src={user.image} size={AvatarSize.Small} />
-                </SmartLink>
-              ) : (
-                <Button
-                  onClick={(e: MouseEvent<HTMLButtonElement>) => {
-                    e.preventDefault()
-                    signIn('bungie')
-                  }}
-                >
-                  Sign in
-                </Button>
-              )}
+              <SmartLink
+                className={styles.userLink}
+                onClick={
+                  !session
+                    ? (e: MouseEvent<HTMLButtonElement>) => {
+                        e.preventDefault()
+                        signIn('bungie')
+                      }
+                    : undefined
+                }
+                title={session ? 'View user profile' : 'Sign in'}
+              >
+                <Avatar src={session?.user.image} size={AvatarSize.Small}>
+                  {!session && <UserIcon />}
+                </Avatar>
+              </SmartLink>
             </Link>
           </Grid.Item>
         </Grid>

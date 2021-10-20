@@ -67,7 +67,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         title: `${name} [${clan.tag}] | Members`,
         description: 'TODO: Add meta description'
       }
-    }
+    },
+    revalidate: 60
   }
 }
 

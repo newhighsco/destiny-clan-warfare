@@ -61,9 +61,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         title: `${name} | Clans`,
         description: `${name}'s progress battling their way to the top of the Destiny 2 clan leaderboard`
       }
-    }
-    // TODO: Not currently supported by Next on Netlify
-    // revalidate: 60
+    },
+    revalidate: 60
   }
 }
 

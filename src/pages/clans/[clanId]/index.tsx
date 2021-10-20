@@ -61,8 +61,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         title: `${name} | Clans`,
         description: `${name}'s progress battling their way to the top of the Destiny 2 clan leaderboard`
       }
-    }
-    // revalidate: 60
+    },
+    revalidate: 60
   }
 }
 
@@ -73,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { clanId }
   }))
 
-  return { paths, fallback: false }
+  return { paths, fallback: true }
 }
 
 export default ClanPage

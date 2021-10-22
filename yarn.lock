@@ -1706,10 +1706,10 @@
     "@semantic-release/npm" "8.0.2"
     "@semantic-release/release-notes-generator" "10.0.2"
 
-"@newhighsco/storybook-preset@4.3.23":
-  version "4.3.23"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.3.23.tgz#b35f8acbf893ae1100d2c70a4ff833c19b359551"
-  integrity sha512-2Bh/s9eCpynCPFEbkMj3rcDhFAg0TNGWIjYr6b90/GQoP5cnnsc6qFE54P62eRTmM8lJ8IoAWbLLa55vMmYULQ==
+"@newhighsco/storybook-preset@4.3.24":
+  version "4.3.24"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.3.24.tgz#7f284f9dfb85e6f5c58c044a256f0b89e129555d"
+  integrity sha512-2HkDK1sQiwmBrArhXibDNxb18Ly3WA+EP7yCBd/szsZJdOzMJCRMN3uFwavqbKIhacy1cSA8annFr/I9bDrIbA==
   dependencies:
     "@storybook/addon-actions" "6.3.12"
     "@storybook/addon-backgrounds" "6.3.12"
@@ -1721,6 +1721,7 @@
     "@storybook/manager-webpack5" "6.3.12"
     "@storybook/preset-scss" "1.0.3"
     "@svgr/webpack" "5.5.0"
+    new-url-loader "0.1.1"
     postcss "8.3.11"
     react-is "17.0.2"
     sass "1.43.3"
@@ -10804,6 +10805,11 @@ nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
+
+new-url-loader@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/new-url-loader/-/new-url-loader-0.1.1.tgz#d7bd273f34e9dfa25732ea17772092a5f4e66f66"
+  integrity sha512-e7v5Q3uFk2jXgnL1JSVCszPTg9MYkbNIpKI6azeNlAa1bAwboA63aBsC63jlTEWlTacNL45tqWPx0Nm0SkCxCQ==
 
 next-auth@3.29.0:
   version "3.29.0"

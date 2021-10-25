@@ -65,7 +65,7 @@
     "@newhighsco/prettier-config": "2.0.14",
     "@newhighsco/release-config": "1.0.73",
     "@newhighsco/storybook-preset": "4.3.24",
-    "@newhighsco/stylelint-config": "2.0.48",
+    "@newhighsco/stylelint-config": "3.0.1",
     "@storybook/react": "6.3.12",
     "@types/react": "17.0.31",
     "@typescript-eslint/eslint-plugin": "5.1.0",

@@ -28,8 +28,8 @@
     "test": "yarn lint",
     "snapshot": "chromatic --storybook-build-dir storybook --auto-accept-changes main --exit-once-uploaded",
     "lint": "npm-run-all --parallel lint:*",
-    "lint:js": "eslint --cache --ext .js,.json,.jsx,.mdx.ts,.tsx .",
-    "lint:css": "stylelint '**/*.{css,scss}' --cache",
+    "lint:js": "eslint --cache --ignore-path .gitignore --ext .js,.json,.jsx,.mdx.ts,.tsx .",
+    "lint:css": "stylelint '**/*.{css,scss}' --cache --ignore-path .gitignore",
     "lint:ts": "tsc --noEmit",
     "format": "npm-run-all --parallel format:*",
     "format:js": "yarn lint:js --fix",
@@ -100,6 +100,9 @@
         "error"
       ]
     },
+    "settings": {
+      "json/json-with-comments-files": []
+    },
     "overrides": [
       {
         "files": [
@@ -118,7 +121,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint"
+      "pre-commit": "yarn lint"
     }
   },
   "prettier": "@newhighsco/prettier-config",

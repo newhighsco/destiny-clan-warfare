@@ -72,7 +72,7 @@
 }
 
 .creditLogo {
-  opacity: 0.75;
+  opacity: 75%;
 }
 
 .creditLink {
@@ -80,7 +80,7 @@
   &:focus,
   &:active {
     .creditLogo {
-      opacity: 1;
+      opacity: 100%;
     }
   }
 }

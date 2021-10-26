@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '@styles/breakpoints.module';
 @use '@styles/colors.module';
 @use '@styles/functions';
@@ -6,8 +7,9 @@
 .root {
   background: colors.$smoke;
   box-shadow: 0 functions.spacing(1) functions.spacing(1)
-      rgba(colors.$black, 0.5),
-    0 functions.spacing(0.5) functions.spacing(0.5) rgba(colors.$black, 0.25);
+      color.adjust(colors.$black, $alpha: -0.5%),
+    0 functions.spacing(0.5) functions.spacing(0.5)
+      color.adjust(colors.$black, $alpha: -0.75%);
   color: colors.$nero;
   padding: functions.spacing(2) functions.spacing(1);
 

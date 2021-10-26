@@ -59,12 +59,12 @@
     content: '';
     display: block;
     margin: 0.25em auto 0.5em functions.spacing(-0.25);
-    opacity: 0.5;
+    opacity: 50%;
     position: static !important;
 
     .highlight & {
       border-color: colors.$terracotta;
-      opacity: 0.75;
+      opacity: 75%;
     }
   }
 
@@ -102,7 +102,7 @@
   &::after {
     border: 1px solid currentColor;
     content: '';
-    opacity: 0.5;
+    opacity: 50%;
     position: absolute;
     top: 0.2em !important;
     right: functions.spacing(-0.25) !important;
@@ -116,7 +116,7 @@
   font-family: fonts.$body;
   font-size: functions.rem(12);
   font-weight: normal;
-  opacity: 0.75;
+  opacity: 75%;
   letter-spacing: 0.4em;
   text-transform: uppercase;
 }

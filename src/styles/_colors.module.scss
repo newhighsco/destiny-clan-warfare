@@ -1,7 +1,7 @@
 @use 'sass:color';
 
 $black: #000;
-$nero: lighten($black, 15%);
+$nero: color.adjust($black, $lightness: 15%);
 $nero: color.adjust($black, $lightness: 15%);
 $nightrider: color.adjust($black, $lightness: 20%);
 $eclipse: color.adjust($black, $lightness: 25%);

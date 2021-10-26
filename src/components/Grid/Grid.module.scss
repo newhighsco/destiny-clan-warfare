@@ -4,8 +4,8 @@
 @use '@styles/mixins';
 
 @include grid.gutter('', functions.spacing(1));
-@include grid.flex();
-@include grid.reverse();
+@include grid.flex;
+@include grid.reverse;
 @include grid.valign(middle bottom);
 @include grid.widths('', 2 4);
 

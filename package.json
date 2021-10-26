@@ -67,7 +67,7 @@
     "@newhighsco/storybook-preset": "4.3.24",
     "@newhighsco/stylelint-config": "2.0.48",
     "@storybook/react": "6.3.12",
-    "@types/react": "17.0.31",
+    "@types/react": "17.0.33",
     "@typescript-eslint/eslint-plugin": "5.1.0",
     "@typescript-eslint/parser": "5.1.0",
     "babel-loader": "8.2.3",

@@ -3,7 +3,7 @@ import Providers from 'next-auth/providers'
 import { Session } from '@helpers/auth'
 import { signInUrl, signOutUrl } from '@helpers/urls'
 import { getMemberClans } from '@libs/bungie'
-import { GroupV2Card } from 'bungie-api-ts/groupv2'
+// import { GroupV2Card } from 'bungie-api-ts/groupv2'
 
 export default NextAuth({
   providers: [
@@ -35,7 +35,7 @@ export default NextAuth({
     session: async (session, token) => {
       const userSession = session as Session
       userSession.user.membershipId = token.sub as string
-      userSession.user.clans = token.clans as Array<GroupV2Card>
+      userSession.user.clans = token.clans as Array<any>
 
       return Promise.resolve(userSession)
     }

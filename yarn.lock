@@ -1584,13 +1584,6 @@
   dependencies:
     is-promise "^4.0.0"
 
-"@netlify/functions@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@netlify/functions/-/functions-0.8.0.tgz#0c0a3d5a8efdc6aa469f75acb9df556a317cff1f"
-  integrity sha512-Ew4Q2ofSBa5aeVOvrHNNEkfCJNmjTkEIr+WkyveOZrcnKQGH/sTtPqVb6HP51NJHNhczBkd3S3KdXfrCB0q0Ig==
-  dependencies:
-    is-promise "^4.0.0"
-
 "@netlify/ipx@^0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@netlify/ipx/-/ipx-0.0.7.tgz#56098885577c32319cf161be6dc836ade645231d"
@@ -1606,23 +1599,19 @@
     ufo "^0.7.9"
     unstorage "^0.2.8"
 
-"@netlify/plugin-nextjs@4.0.0-beta.4":
-  version "4.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.0.0-beta.4.tgz#0c69db989822194e94c23404ca5897a11dbaaacc"
-  integrity sha512-ZM6i39//dW0u8iXRh6SVeufZsxsDHhKyaTDzxZjy8j96zQHJJMd+bji8F0+YH/8FFzdIPYGuVzgTIh5/S2V0Bw==
+"@netlify/plugin-nextjs@4.0.0-beta.2":
+  version "4.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.0.0-beta.2.tgz#9c0aa8090ce1782dfbfa57513829b2558b08ce2e"
+  integrity sha512-0kOrPXC2RGuZC2z5A5UyLeQKW1mT/b7YEZ79yYnuzhE30urE4xw5GUGBCo5egL4yySY0KXX6lntSKFqRbIQygQ==
   dependencies:
-    "@netlify/functions" "^0.8.0"
+    "@netlify/functions" "^0.7.2"
     "@netlify/ipx" "^0.0.7"
     "@vercel/node" "^1.11.2-canary.4"
     chalk "^4.1.2"
     fs-extra "^10.0.0"
     moize "^6.1.0"
-    node-fetch "^2.6.5"
-    node-stream-zip "^1.15.0"
     outdent "^0.8.0"
-    p-limit "^3.1.0"
     pathe "^0.2.0"
-    pretty-bytes "^5.6.0"
     semver "^7.3.5"
     slash "^3.0.0"
     tiny-glob "^0.2.9"
@@ -10900,7 +10889,7 @@ node-fetch@2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-fetch@^2.0.0, node-fetch@^2.6.1, node-fetch@^2.6.5:
+node-fetch@^2.0.0, node-fetch@^2.6.1:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.5.tgz#42735537d7f080a7e5f78b6c549b7146be1742fd"
   integrity sha512-mmlIVHJEu5rnIxgEgez6b9GgWXbkZj5YZ7fx+2r94a2E+Uirsp6HsPTPlomfdHtpt/B0cdKviwkoaM6pyvUOpQ==
@@ -10983,11 +10972,6 @@ node-releases@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.0.tgz#67dc74903100a7deb044037b8a2e5f453bb05400"
   integrity sha512-aA87l0flFYMzCHpTM3DERFSYxc6lv/BltdbRTOMZuxZ0cwZCD3mejE5n9vLhSJCN++/eOqr77G1IO5uXxlQYWA==
-
-node-stream-zip@^1.15.0:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.15.0.tgz#158adb88ed8004c6c49a396b50a6a5de3bca33ea"
-  integrity sha512-LN4fydt9TqhZhThkZIVQnF9cwjU3qmUH9h78Mx/K7d3VvfRqqwthLwJEUOEL0QPZ0XQmNN7be5Ggit5+4dq3Bw==
 
 nodemailer@^6.4.16:
   version "6.7.0"
@@ -12468,11 +12452,6 @@ prettier@~2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
   integrity sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==
-
-pretty-bytes@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-5.6.0.tgz#356256f643804773c82f64723fe78c92c62beaeb"
-  integrity sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==
 
 pretty-error@^2.1.1:
   version "2.1.2"

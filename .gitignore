@@ -25,6 +25,7 @@ yarn-error.log
 .stylelintcache
 .next
 .env.*
+*.tsbuildinfo
 public/robots.txt
 public/sitemap.xml
 storybook

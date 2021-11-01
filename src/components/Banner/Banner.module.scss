@@ -1,0 +1,32 @@
+.root {
+  position: relative;
+  width: 400px;
+}
+
+.layers {
+  // clip-path: url('#foo');
+  // -webkit-mask-image: url('./banner.svg');
+  // -webkit-mask-position: 50% 50%;
+  // mask-image: url('./banner.svg');
+  // mask-position: 50% 50%;
+  // position: relative;
+  // overflow: hidden;
+  // margin: auto;
+  // padding: 6% 0 0;
+  // width: 97%;
+  // height: 69%;
+}
+
+.layer {
+  color-interpolation-filters: sRGB;
+
+  // width: auto;
+  // height: auto;
+  // top: 10%;
+}
+
+.staff {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

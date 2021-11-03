@@ -1795,10 +1795,10 @@
     ufo "^0.7.9"
     unstorage "^0.2.8"
 
-"@netlify/plugin-nextjs@4.0.0-beta.4":
-  version "4.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.0.0-beta.4.tgz#0c69db989822194e94c23404ca5897a11dbaaacc"
-  integrity sha512-ZM6i39//dW0u8iXRh6SVeufZsxsDHhKyaTDzxZjy8j96zQHJJMd+bji8F0+YH/8FFzdIPYGuVzgTIh5/S2V0Bw==
+"@netlify/plugin-nextjs@4.0.0-beta.5":
+  version "4.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.0.0-beta.5.tgz#9eaaec2406902f8f4c415fd5f7f5775bcd5fde00"
+  integrity sha512-2IHYL4d9xD65KJpEtcl3qCUJvVbvfC1BcsL6qrmlr6hxO37qZgmykzG6HlNXRa5yExXECAwM9gX/zyGn+s+5FA==
   dependencies:
     "@netlify/functions" "^0.8.0"
     "@netlify/ipx" "^0.0.7"
@@ -1806,7 +1806,7 @@
     chalk "^4.1.2"
     fs-extra "^10.0.0"
     moize "^6.1.0"
-    node-fetch "^2.6.5"
+    node-fetch "^2.6.6"
     node-stream-zip "^1.15.0"
     outdent "^0.8.0"
     p-limit "^3.1.0"
@@ -11062,7 +11062,7 @@ node-fetch@^2.0.0, node-fetch@^2.6.1:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^2.6.5:
+node-fetch@^2.6.6:
   version "2.6.6"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz#1751a7c01834e8e1697758732e9efb6eeadfaf89"
   integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==

@@ -1,0 +1,33 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/functions';
+
+.root {
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.label {
+  display: inline-block;
+  font-size: functions.rem(13);
+  line-height: 1;
+  margin: functions.spacing(0.25) auto 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:first-child {
+    border-bottom: 1px solid colors.$silver;
+    margin: 0;
+    padding: 0 0 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+.value {
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 1;
+}

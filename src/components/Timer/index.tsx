@@ -1,0 +1,110 @@
+import React, { useEffect, useLayoutEffect, useState, useRef } from 'react'
+import { Dayjs } from 'dayjs'
+import {
+  countdown,
+  formatDate,
+  formatDateTime,
+  formatTime,
+  localDate,
+  utcDate
+} from '@helpers/time'
+import Stat from '@components/Stat'
+
+import styles from './Timer.module.scss'
+
+function useInterval(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback)
+
+  useLayoutEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  useEffect(() => {
+    if (!delay) return
+
+    const id = setInterval(() => savedCallback.current(), delay)
+
+    return () => clearInterval(id)
+  }, [delay])
+}
+
+enum TimerTense {
+  Current = 'Ends',
+  Future = 'Starts',
+  Past = 'Ended'
+}
+
+interface TimerDateProps {
+  label: string
+  date: Dayjs
+}
+
+const TimerDate: React.FC<TimerDateProps> = ({ label, date }) => {
+  return (
+    <time
+      data-label={label}
+      className={styles.date}
+      dateTime={date.toISOString()}
+    >
+      {formatDateTime(date)}
+    </time>
+  )
+}
+
+export interface TimerProps {
+  start: Dayjs
+  end: Dayjs
+  tickInterval?: number
+}
+
+const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
+  const [enhanced, setEnhanced] = useState(false)
+  const [startDate, setStartDate] = useState(utcDate(start))
+  const [endDate, setEndDate] = useState(utcDate(end))
+  const [currentDate, setCurrentDate] = useState(utcDate())
+  const tense = currentDate.isBetween(startDate, endDate)
+    ? TimerTense.Current
+    : startDate.isAfter(currentDate)
+    ? TimerTense.Future
+    : TimerTense.Past
+  const displayDate = tense === TimerTense.Future ? startDate : endDate
+  const [duration, progress] = enhanced
+    ? countdown(displayDate, startDate, endDate, currentDate)
+    : []
+  const stat = {
+    label: [tense, duration && 'in'].filter(Boolean).join(' '),
+    value: {
+      label: !duration && formatTime(displayDate),
+      value: duration || formatDate(displayDate)
+    }
+  }
+
+  useEffect(() => {
+    setEnhanced(true)
+    setStartDate(localDate(startDate))
+    setEndDate(localDate(endDate))
+    setCurrentDate(localDate())
+  }, [])
+
+  useInterval(
+    () => setCurrentDate(localDate()),
+    tense !== TimerTense.Past ? tickInterval : null
+  )
+
+  return (
+    <div className={styles.root}>
+      <Stat {...stat} className={styles.stat} />
+      {duration && (
+        <div>
+          {progress > 0 && (
+            <progress max={100} value={progress} className={styles.progress} />
+          )}
+          <TimerDate label="Start" date={startDate} />
+          <TimerDate label="End" date={endDate} />
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Timer

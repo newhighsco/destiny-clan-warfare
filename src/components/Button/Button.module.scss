@@ -29,11 +29,13 @@
 }
 
 .group {
+  text-align: center;
+
   .root {
-    margin: functions.spacing(1) 0;
+    margin: functions.spacing(0.5) 0;
 
     @include mixins.mq(breakpoints.$tablet) {
-      margin: functions.spacing(1);
+      margin: functions.spacing(0.5);
     }
   }
 }

@@ -1,0 +1,71 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/functions';
+
+.root {
+  display: block;
+  margin: auto;
+  max-width: breakpoints.$mobileLandscape;
+}
+
+.stat {
+  position: relative;
+  z-index: 1;
+}
+
+.progress {
+  appearance: none;
+  border: 1px solid colors.$silver;
+  display: block;
+  height: functions.spacing(1);
+  margin: functions.spacing(-0.75) auto 0;
+  padding: 1px;
+  text-align: left;
+  width: 100%;
+
+  &::-webkit-progress-bar {
+    background: none;
+  }
+
+  &::-webkit-progress-value {
+    background: colors.$terracotta;
+    opacity: 75%;
+  }
+
+  &[value='100']::-webkit-progress-value {
+    opacity: 25%;
+  }
+}
+
+.date {
+  display: inline-block;
+  font-size: functions.rem(12);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  margin-top: functions.spacing(0.25);
+  padding: 0 functions.spacing(0.5);
+  text-align: right;
+  text-transform: uppercase;
+  vertical-align: top;
+  width: 50%;
+
+  &::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: bold;
+  }
+
+  & + & {
+    text-align: left;
+  }
+
+  .progress ~ & {
+    padding: 0;
+    text-align: left;
+
+    & + .date {
+      text-align: right;
+    }
+  }
+}

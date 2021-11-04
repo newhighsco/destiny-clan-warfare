@@ -39,7 +39,6 @@ const HomePage: React.FC = ({
             align="center"
             highlight
           />
-          <br />
           <Card
             heading={
               <Lockup

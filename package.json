@@ -40,6 +40,7 @@
     "@newhighsco/next-plugin-svgr": "3.0.30",
     "@newhighsco/press-start": "2.1.0",
     "bungie-api-ts": "4.11.0",
+    "dayjs": "1.10.7",
     "next": "11.1.2",
     "next-auth": "3.29.0",
     "next-compose-plugins": "2.2.1",

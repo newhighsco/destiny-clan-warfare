@@ -18,7 +18,8 @@
   }
 }
 
-.content {
+.content,
+.copy {
   > * + * {
     margin-top: functions.spacing(1);
   }

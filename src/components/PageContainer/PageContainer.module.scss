@@ -4,3 +4,9 @@
   margin-top: functions.spacing(2);
   position: relative;
 }
+
+.content {
+  > * + * {
+    margin-top: functions.spacing(1);
+  }
+}

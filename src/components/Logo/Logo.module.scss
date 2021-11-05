@@ -51,12 +51,4 @@
   .kicker::after {
     opacity: 75%;
   }
-
-  &.small {
-    font-size: functions.rem(30);
-  }
-
-  &.medium {
-    font-size: functions.rem(40);
-  }
 }

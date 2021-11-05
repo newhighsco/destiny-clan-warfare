@@ -5,19 +5,23 @@
 @use '@styles/mixins';
 
 .root {
+  $font-size-small: functions.rem(30);
+  $font-size-medium: functions.rem(40);
+  $font-size-large: functions.rem(50);
+
   display: inline-block;
   font-family: fonts.$heading;
-  font-size: functions.rem(30);
+  font-size: $font-size-small;
   line-height: 1;
   max-width: 100%;
   text-align: left;
 
   @include mixins.mq(breakpoints.$tablet) {
-    font-size: functions.rem(40);
+    font-size: $font-size-medium;
   }
 
   @include mixins.mq(breakpoints.$desktop) {
-    font-size: functions.rem(50);
+    font-size: $font-size-large;
   }
 
   & + & {
@@ -27,6 +31,14 @@
   a[href] {
     color: currentColor;
     text-decoration: none;
+  }
+
+  &.small {
+    font-size: $font-size-small;
+  }
+
+  &.medium {
+    font-size: $font-size-medium;
   }
 }
 

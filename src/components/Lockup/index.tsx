@@ -6,6 +6,11 @@ import { Element, SmartLink } from '@newhighsco/chipset'
 
 import styles from './Lockup.module.scss'
 
+export enum LockupSize {
+  Small = 'small',
+  Medium = 'medium'
+}
+
 interface LockupElementProps {
   href?: string
   className?: string
@@ -56,7 +61,8 @@ export interface LockupProps extends Omit<LockupElementProps, 'href'> {
   kicker?: string
   kickerAttributes?: LockupAttributesProps
   highlight?: boolean
-  align?: 'left' | 'right' | 'center'
+  align?: AlignSetting
+  size?: LockupSize
   border?: boolean
   reverse?: boolean
 }
@@ -68,6 +74,7 @@ const Lockup: React.FC<LockupProps> = ({
   kickerAttributes = {},
   highlight,
   align,
+  size,
   border = true,
   reverse,
   className,
@@ -115,6 +122,7 @@ const Lockup: React.FC<LockupProps> = ({
         highlight && styles.highlight,
         reverse && styles.reverse,
         align && styles[align],
+        size && styles[size],
         !border && styles.borderless,
         className
       )}

@@ -27,7 +27,7 @@ const UserPage: React.FC = ({
     <PageContainer meta={meta}>
       <Prose>
         <ul>
-          {user?.clans?.map(({ groupId, name }) => (
+          {user?.clans?.map(({ groupId, membershipId, name }) => (
             <React.Fragment key={groupId}>
               <li>
                 <Link href={clanUrl(groupId)} passHref>
@@ -35,10 +35,7 @@ const UserPage: React.FC = ({
                 </Link>
               </li>
               <li>
-                <Link
-                  href={clanUrl(groupId, user.membershipId as string)}
-                  passHref
-                >
+                <Link href={clanUrl(groupId, membershipId as string)} passHref>
                   <SmartLink>{user.name}</SmartLink>
                 </Link>
               </li>

@@ -1,9 +1,12 @@
 import { DefaultSession } from 'next-auth'
-import { GroupV2Card } from 'bungie-api-ts/groupv2'
+import { GroupUserInfoCard, GroupV2 } from 'bungie-api-ts/groupv2'
+
+export type SessionClan = Pick<GroupV2, 'groupId' | 'name'> &
+  Pick<GroupUserInfoCard, 'membershipId'>
 
 export type Session = DefaultSession & {
   user: {
     membershipId: string
-    clans?: Array<GroupV2Card>
+    clans?: Array<SessionClan>
   }
 }

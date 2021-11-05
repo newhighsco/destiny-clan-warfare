@@ -12,6 +12,7 @@ module.exports = {
       '@components': path.resolve(__dirname, '../src/components'),
       '@config$': path.resolve(__dirname, '../site.config.js'),
       '@helpers': path.resolve(__dirname, '../src/helpers'),
+      '@hooks': path.resolve(__dirname, '../src/hooks'),
       '@images': path.resolve(__dirname, '../src/images'),
       '@libs': path.resolve(__dirname, '../src/libs'),
       '@styles': path.resolve(__dirname, '../src/styles'),

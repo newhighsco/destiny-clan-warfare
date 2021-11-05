@@ -24,6 +24,9 @@
       "@helpers/*": [
         "src/helpers/*"
       ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
       "@images/*": [
         "src/images/*"
       ],

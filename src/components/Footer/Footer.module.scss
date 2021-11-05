@@ -13,7 +13,7 @@
 .content {
   padding: functions.spacing(4) 0 functions.spacing(1);
 
-  @include mixins.mq(breakpoints.$tabletLandscape) {
+  @include mixins.mq(breakpoints.$tablet-landscape) {
     padding-top: functions.spacing(1);
   }
 }

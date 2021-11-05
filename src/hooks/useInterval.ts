@@ -1,9 +1,9 @@
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 function useInterval(callback: () => void, delay: number | null) {
   const ref = useRef(callback)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     ref.current = callback
   }, [callback])
 

@@ -12,9 +12,9 @@ import Avatar, { AvatarSize } from '@components/Avatar'
 import { LogoLockup, LogoSize } from '@components/Logo'
 import { userUrl } from '@helpers/urls'
 import backgroundImage from '@images/header.jpg'
-import { ReactComponent as UserIcon } from '@images/icons/user.svg'
 
 import styles from './Header.module.scss'
+import Icon from '@components/Icon'
 interface HeaderProps {
   size?: string
 }
@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
                 title={session ? 'View user profile' : 'Sign in'}
               >
                 <Avatar src={session?.user.image} size={AvatarSize.Small}>
-                  {!session && <UserIcon />}
+                  {!session && <Icon name="user" width="100%" />}
                 </Avatar>
               </SmartLink>
             </Link>

@@ -56,9 +56,9 @@ const StatList: React.FC<StatListProps> = ({ stats, kicker }) => {
         />
       )}
       <List inline className={styles.list}>
-        {stats.map(({ label, ...rest }) => (
-          <li key={label}>
-            <Stat label={label} {...rest} />
+        {stats.map((stat, i) => (
+          <li key={i}>
+            <Stat {...stat} />
           </li>
         ))}
       </List>

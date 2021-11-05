@@ -9,6 +9,8 @@ import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import config from '@config'
 import Timer from '@components/Timer'
+import { StatList } from '@components/Stat'
+import { ModifierList } from '@components/Modifier'
 
 enum EventKicker {
   Current = 'Current event',
@@ -16,12 +18,20 @@ enum EventKicker {
   Future = 'Upcoming event'
 }
 
+enum StatListKicker {
+  Current = 'Top stats',
+  Past = 'Overall stats'
+}
+
 const EventPage: React.FC = ({
   kicker,
   name,
   description,
+  tense,
   startDate,
   endDate,
+  modifiers,
+  stats,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { openGraphImage, name: siteName } = config
@@ -70,6 +80,8 @@ const EventPage: React.FC = ({
       <Card heading={<Lockup heading={name} align="center" />} align="center">
         <Timer start={startDate} end={endDate} />
         <Prose html={description} />
+        <ModifierList modifiers={modifiers} />
+        <StatList kicker={StatListKicker[tense]} stats={stats} />
       </Card>
       <Button.Group>
         <Link href={eventUrl()} passHref>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react/types-6-0'
-import { Stat, StatList, StatListProps, StatProps } from '@components/Stat'
+import { Stat, StatList, StatProps } from '@components/Stat'
 
 export default {
   title: 'Components/Stat',
@@ -27,8 +27,6 @@ complex.args = {
     value: 'Buzz'
   }
 }
-
-const List: Story<StatListProps> = args => <StatList {...args} />
 
 export const list = () => {
   const values = [

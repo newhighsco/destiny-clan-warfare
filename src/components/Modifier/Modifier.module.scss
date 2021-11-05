@@ -1,0 +1,61 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  background: colors.$black;
+  border-radius: 100%;
+  color: colors.$white;
+  font-size: functions.rem(45);
+  fill: currentColor;
+  display: block;
+  height: 1em;
+  line-height: 1em;
+  position: relative;
+  text-align: center;
+  width: 1em;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @include mixins.mq(breakpoints.$tablet) {
+    font-size: functions.rem(60);
+  }
+}
+
+.icon {
+  vertical-align: top;
+}
+
+.label {
+  display: inline-block;
+  font-size: 0.3em;
+  vertical-align: top;
+
+  .icon + & {
+    background: colors.$terracotta;
+    border-radius: functions.spacing(1);
+    font-size: x-small;
+    line-height: 1;
+    min-width: 2em;
+    padding: functions.spacing(0.25);
+    position: absolute;
+    bottom: 0;
+    right: -0.5em;
+    text-align: center;
+  }
+}
+
+.list {
+  position: relative;
+
+  > li {
+    vertical-align: top;
+  }
+
+  .root {
+    margin: functions.spacing(0.5);
+  }
+}

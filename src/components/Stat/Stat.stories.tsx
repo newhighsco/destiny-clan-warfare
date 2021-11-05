@@ -1,7 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react/types-6-0'
-import { List } from '@newhighsco/chipset'
-import Stat, { StatProps } from '@components/Stat'
+import { Stat, StatList, StatListProps, StatProps } from '@components/Stat'
 
 export default {
   title: 'Components/Stat',
@@ -29,7 +28,9 @@ complex.args = {
   }
 }
 
-export const multiple = () => {
+const List: Story<StatListProps> = args => <StatList {...args} />
+
+export const list = () => {
   const values = [
     -1000000,
     -100000,
@@ -53,12 +54,9 @@ export const multiple = () => {
   ]
 
   return (
-    <List inline>
-      {values.map(value => (
-        <li key={value} style={{ margin: '1em' }}>
-          <Stat label="Kills" value={value} />
-        </li>
-      ))}
-    </List>
+    <StatList
+      kicker="Top stats"
+      stats={values.map(value => ({ label: 'Kills', value }))}
+    />
   )
 }

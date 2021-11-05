@@ -1,8 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
+import { List } from '@newhighsco/chipset'
 import { shortNumber } from '@helpers/stats'
 
 import styles from './Stat.module.scss'
+import Lockup from '@components/Lockup'
 
 const BLANK = '-'
 
@@ -35,4 +37,33 @@ const Stat: React.FC<StatProps> = ({ label, value, className }) => {
   )
 }
 
-export default Stat
+export interface StatListProps {
+  stats: Array<StatProps>
+  kicker?: string
+}
+
+const StatList: React.FC<StatListProps> = ({ stats, kicker }) => {
+  if (!stats) return null
+
+  return (
+    <>
+      {kicker && (
+        <Lockup
+          kicker={kicker}
+          border={false}
+          align="center"
+          className={styles.heading}
+        />
+      )}
+      <List inline className={styles.list}>
+        {stats.map(({ label, ...rest }) => (
+          <li key={label}>
+            <Stat label={label} {...rest} />
+          </li>
+        ))}
+      </List>
+    </>
+  )
+}
+
+export { Stat, StatList }

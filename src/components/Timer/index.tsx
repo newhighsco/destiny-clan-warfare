@@ -9,7 +9,7 @@ import {
   utcDate
 } from '@helpers/time'
 import useInterval from '@hooks/useInterval'
-import Stat from '@components/Stat'
+import { Stat } from '@components/Stat'
 
 import styles from './Timer.module.scss'
 

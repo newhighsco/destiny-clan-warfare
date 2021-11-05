@@ -31,3 +31,19 @@
   font-weight: bold;
   line-height: 1;
 }
+
+.list {
+  text-align: center;
+
+  > li {
+    vertical-align: top;
+  }
+
+  .root {
+    margin: functions.spacing(0.25) functions.spacing(1);
+  }
+
+  .heading + & {
+    margin-top: functions.spacing(1);
+  }
+}

@@ -3,9 +3,10 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useRouter } from 'next/router'
 import { BreadcrumbJsonLd } from 'next-seo'
 import { Prose } from '@newhighsco/chipset'
+import { possessive } from '@helpers/grammar'
+import { canonicalUrl, clanUrl } from '@helpers/urls'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
-import { canonicalUrl, clanUrl } from '@helpers/urls'
 
 const ClanPage: React.FC = ({
   name,
@@ -59,7 +60,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       meta: {
         canonical: canonicalUrl(clanUrl(clanId as string)),
         title: `${name} | Clans`,
-        description: `${name}'s progress battling their way to the top of the Destiny 2 clan leaderboard`
+        description: `${possessive(
+          name
+        )} progress battling their way to the top of the Destiny 2 clan leaderboard`
       }
     },
     revalidate: 60

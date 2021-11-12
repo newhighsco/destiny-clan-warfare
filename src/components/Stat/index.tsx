@@ -28,6 +28,7 @@ const Stat: React.FC<StatProps> = ({ label, value, className }) => {
     // }
   }
 
+  // TODO: Add wrapping tooltip
   return (
     <div className={classNames(styles.root, className)}>
       <div className={styles.label}>{label}</div>

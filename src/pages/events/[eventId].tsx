@@ -23,6 +23,11 @@ enum StatListKicker {
   Past = 'Overall stats'
 }
 
+const StatListTooltip = {
+  Current: (threshold: number) =>
+    threshold && `Play a minimum of ${threshold} games to be included.`
+}
+
 const EventPage: React.FC = ({
   kicker,
   name,
@@ -32,6 +37,7 @@ const EventPage: React.FC = ({
   endDate,
   modifiers,
   stats,
+  statsGamesThreshold,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { openGraphImage, name: siteName } = config
@@ -80,8 +86,12 @@ const EventPage: React.FC = ({
       <Card heading={<Lockup heading={name} align="center" />} align="center">
         <Timer start={startDate} end={endDate} />
         <Prose html={description} />
-        <ModifierList modifiers={modifiers} />
-        <StatList kicker={StatListKicker[tense]} stats={stats} />
+        <ModifierList modifiers={modifiers} tooltipProps={{ manual: false }} />
+        <StatList
+          kicker={StatListKicker[tense]}
+          tooltip={StatListTooltip[tense]?.(statsGamesThreshold)}
+          stats={stats}
+        />
       </Card>
       <Button.Group>
         <Link href={eventUrl()} passHref>

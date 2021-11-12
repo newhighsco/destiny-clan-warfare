@@ -1,5 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react/types-6-0'
+import { styled } from '@storybook/theming'
 import {
   Modifier,
   ModifierList,
@@ -1231,5 +1232,27 @@ all.args = {
         'Lots of bonus points for a full raid completion that was started fresh without going to orbit',
       name: 'Completionist'
     }
-  ]
+  ].sort((a, b) => a.name.localeCompare(b.name)),
+  tooltipProps: { disabled: true }
 }
+
+const Wrapper = styled.div`
+  * {
+    vertical-align: top;
+  }
+
+  [hidden] {
+    display: inline-block;
+    margin: 10px;
+    position: static;
+    transform: none;
+  }
+`
+
+all.decorators = [
+  Story => (
+    <Wrapper>
+      <Story />
+    </Wrapper>
+  )
+]

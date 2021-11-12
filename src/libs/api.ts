@@ -6,19 +6,19 @@ const modifiers = [
     name: 'Pulsating',
     description: 'Get bonus points for pulse rifle kills',
     scoringModifier: true,
-    bonus: 100
+    scoringBonus: 100
   },
   {
     name: 'Show Some Mercy!',
     description: 'Win a game by mercy ruling and get a bonus 3000 points!',
     scoringModifier: true,
-    bonus: 3000
+    scoringBonus: 3000
   },
   {
     name: 'Band Together',
     description:
       'Get an increased multiplier for playing with members of your clan (stacks)',
-    bonus: 0.5
+    multiplierBonus: 0.5
   }
 ]
 const pastStats = [
@@ -92,6 +92,7 @@ export const getEvent = async eventId => {
       : event.tense === 'Past'
       ? pastStats
       : null
+  event.statsGamesThreshold = 25
   // TODO: Get medals
   event.medals = []
   // TODO: Get leaderboard

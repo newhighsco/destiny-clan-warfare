@@ -4,6 +4,7 @@ import ContentContainer from '@components/ContentContainer/ContentContainer.modu
 import Grid from '@components/Grid/Grid.module.scss'
 import PageContainer from '@components/PageContainer/PageContainer.module.scss'
 import Prose from '@components/Prose/Prose.module.scss'
+import Tooltip from '@components/Tooltip/Tooltip.module.scss'
 
 export default {
   Button,
@@ -11,5 +12,6 @@ export default {
   ContentContainer,
   Grid,
   PageContainer,
-  Prose
+  Prose,
+  Tooltip
 }

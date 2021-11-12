@@ -1,0 +1,34 @@
+@use 'sass:color';
+@use '@styles/colors.module';
+@use '@styles/fonts.module';
+@use '@styles/functions';
+
+$tooltip-width: functions.rem(250);
+
+.toggle[disabled] {
+  pointer-events: none;
+}
+
+.content {
+  background: colors.$smoke;
+  border: 1px solid colors.$silver;
+  box-shadow: 0 0 functions.spacing(0.5)
+    color.adjust(colors.$black, $alpha: -0.5%);
+  color: colors.$black;
+  font-size: smaller;
+  line-height: 1.25;
+  padding: functions.spacing(0.5);
+  text-align: left;
+  width: $tooltip-width;
+}
+
+.heading {
+  font-family: fonts.$heading;
+  text-transform: uppercase;
+
+  & + .copy {
+    border-top: 1px solid colors.$silver;
+    margin-top: functions.spacing(0.25);
+    padding-top: functions.spacing(0.5);
+  }
+}

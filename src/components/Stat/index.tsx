@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { List } from '@newhighsco/chipset'
+import { List, Tooltip } from '@newhighsco/chipset'
 import { shortNumber } from '@helpers/stats'
 
 import styles from './Stat.module.scss'
@@ -40,21 +40,35 @@ const Stat: React.FC<StatProps> = ({ label, value, className }) => {
 export interface StatListProps {
   stats: Array<StatProps>
   kicker?: string
+  tooltip?: string
 }
 
-const StatList: React.FC<StatListProps> = ({ stats, kicker }) => {
+const StatList: React.FC<StatListProps> = ({ stats, kicker, tooltip }) => {
   if (!stats) return null
+
+  const heading = (
+    <Lockup
+      kicker={[kicker, tooltip && '\u24D8'].filter(Boolean).join('')}
+      border={false}
+      align="center"
+      className={styles.heading}
+    />
+  )
 
   return (
     <>
-      {kicker && (
-        <Lockup
-          kicker={kicker}
-          border={false}
-          align="center"
-          className={styles.heading}
-        />
-      )}
+      {kicker &&
+        (tooltip ? (
+          <Tooltip
+            toggle={heading}
+            manual={false}
+            theme={{ content: styles.tooltip }}
+          >
+            {tooltip}
+          </Tooltip>
+        ) : (
+          heading
+        ))}
       <List inline className={styles.list}>
         {stats.map((stat, i) => (
           <li key={i}>

@@ -53,7 +53,7 @@ export const list = () => {
 
   return (
     <StatList
-      kicker="Top stats"
+      kicker="Kicker"
       stats={values.map(value => ({ label: 'Kills', value }))}
     />
   )

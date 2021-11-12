@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { paramCase } from 'param-case'
-import { List } from '@newhighsco/chipset'
+import { List, Tooltip } from '@newhighsco/chipset'
 
 import styles from './Modifier.module.scss'
 import Icon from '@components/Icon'
@@ -16,17 +17,21 @@ const NAMES_TBC = ['Modifier TBC', 'Multiplier TBC']
 export interface ModifierProps {
   name: string
   multiplierBonus?: number
+  multiplierModifier?: boolean
   scoringBonus?: number
   scoringModifier?: boolean
   description?: string
-  creator?: string
+  createdBy?: string
+  tooltipProps?: PropTypes.InferProps<Tooltip.propTypes>
 }
 
 const Modifier: React.FC<ModifierProps> = ({
   name,
   multiplierBonus,
   scoringBonus,
-  scoringModifier
+  scoringModifier,
+  description,
+  tooltipProps
 }) => {
   let key = paramCase(name || '')
 
@@ -50,7 +55,6 @@ const Modifier: React.FC<ModifierProps> = ({
   if (scoringModifier && bonus === 0) prefix = PREFIX_POSITIVE
 
   if (NAMES_TBC.includes(name)) {
-    key = 'modifier-tbc'
     prefix = ''
     suffix = ''
     bonus = undefined
@@ -66,28 +70,40 @@ const Modifier: React.FC<ModifierProps> = ({
   const label = [prefix, bonus, suffix].join('')
 
   return (
-    <div className={styles.root} data-icon={key}>
-      {key && (
-        <Icon
-          name={`modifier/${duplicates[key] || key}`}
-          theme={{ root: styles.icon }}
-        />
-      )}
-      {label && <div className={styles.label}>{label}</div>}
-    </div>
+    <Tooltip
+      toggle={
+        <div className={styles.root} data-icon={key}>
+          {key && (
+            <Icon
+              name={`modifier/${duplicates[key] || key}`}
+              theme={{ root: styles.icon }}
+            />
+          )}
+          {label && <div className={styles.label}>{label}</div>}
+        </div>
+      }
+      heading={name}
+      {...tooltipProps}
+    >
+      {description}
+    </Tooltip>
   )
 }
 
 export interface ModifierListProps {
   modifiers: Array<ModifierProps>
+  tooltipProps?: ModifierProps['tooltipProps']
 }
 
-const ModifierList: React.FC<ModifierListProps> = ({ modifiers }) => {
+const ModifierList: React.FC<ModifierListProps> = ({
+  modifiers,
+  tooltipProps
+}) => {
   return (
     <List inline className={styles.list}>
       {modifiers.map((modifier, i) => (
         <li key={i}>
-          <Modifier {...modifier} />
+          <Modifier {...modifier} tooltipProps={tooltipProps} />
         </li>
       ))}
     </List>

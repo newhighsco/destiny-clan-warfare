@@ -22,13 +22,13 @@ const modifiers = [
   }
 ]
 const pastStats = [
-  { label: 'Total clans', value: 1710 },
-  { label: 'Total active', value: 34639 },
-  { label: 'Total games', value: 996509 }
+  { name: 'Total clans', value: 1710 },
+  { name: 'Total active', value: 34639 },
+  { name: 'Total games', value: 996509 }
 ]
 const currentStats = [
-  { label: 'Most games', value: { value: 495 } },
-  { label: 'Most wins', value: { value: 343 } }
+  { name: 'Most games', value: 495, label: 'Player [CLAN]' },
+  { name: 'Most wins', value: 343, label: 'Player [CLAN]' }
 ]
 
 export const getEvents = async () => {

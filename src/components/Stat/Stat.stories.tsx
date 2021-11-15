@@ -11,21 +11,29 @@ const Template: Story<StatProps> = args => <Stat {...args} />
 
 export const source = Template.bind({})
 
-export const simple = Template.bind({})
-
-simple.args = {
-  label: 'Foo',
-  value: 'Bar'
+source.args = {
+  name: 'Name',
+  value: 'Value',
+  label: 'Label'
 }
 
-export const complex = Template.bind({})
+export const empty = Template.bind({})
+empty.args = {
+  name: 'Kills'
+}
 
-complex.args = {
-  label: 'Foo',
-  value: {
-    label: 'Fizz',
-    value: 'Buzz'
-  }
+export const withValue = Template.bind({})
+
+withValue.args = {
+  ...empty.args,
+  value: 1000
+}
+
+export const withLabel = Template.bind({})
+
+withLabel.args = {
+  ...withValue.args,
+  label: 'Player [CLAN]'
 }
 
 export const list = () => {
@@ -53,8 +61,8 @@ export const list = () => {
 
   return (
     <StatList
-      kicker="Kicker"
-      stats={values.map(value => ({ label: 'Kills', value }))}
+      kicker="Top stats"
+      stats={values.map(value => ({ ...empty.args, value }))}
     />
   )
 }

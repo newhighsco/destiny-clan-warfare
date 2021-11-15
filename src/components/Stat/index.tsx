@@ -9,31 +9,24 @@ import Lockup from '@components/Lockup'
 const BLANK = '-'
 
 export interface StatProps {
-  label: string
-  value: string | number | { label: string; value: string | number }
+  name: string
+  value?: string | number
+  label?: string
   className?: string
 }
 
-const Stat: React.FC<StatProps> = ({ label, value, className }) => {
-  let valueLabel
-
-  if (typeof value === 'object') {
-    valueLabel = value.label
-    value = typeof value.value !== 'undefined' ? value.value : BLANK
-
-    // TODO: Handle blanks
-    // if (value <= 0) {
-    //   value = BLANK
-    //   valueLabel = undefined
-    // }
-  }
-
+const Stat: React.FC<StatProps> = ({
+  name,
+  value = BLANK,
+  label,
+  className
+}) => {
   // TODO: Add wrapping tooltip
   return (
     <div className={classNames(styles.root, className)}>
-      <div className={styles.label}>{label}</div>
+      <div className={styles.label}>{name}</div>
       <div className={styles.value}>{shortNumber(value)}</div>
-      {valueLabel && <div className={styles.label}>{valueLabel}</div>}
+      {label && <div className={styles.label}>{label}</div>}
     </div>
   )
 }
@@ -47,7 +40,7 @@ export interface StatListProps {
 const StatList: React.FC<StatListProps> = ({ stats, kicker, tooltip }) => {
   if (!stats) return null
 
-  const heading = (
+  const lockup = (
     <Lockup
       kicker={[kicker, tooltip && '\u24D8'].filter(Boolean).join('')}
       border={false}
@@ -61,14 +54,14 @@ const StatList: React.FC<StatListProps> = ({ stats, kicker, tooltip }) => {
       {kicker &&
         (tooltip ? (
           <Tooltip
-            toggle={heading}
+            toggle={lockup}
             manual={false}
             theme={{ content: styles.tooltip }}
           >
             {tooltip}
           </Tooltip>
         ) : (
-          heading
+          lockup
         ))}
       <List inline className={styles.list}>
         {stats.map((stat, i) => (

@@ -1,0 +1,126 @@
+@use '@styles/breakpoints.module';
+@use '@styles/colors.module';
+@use '@styles/functions';
+@use '@styles/mixins';
+
+.root {
+  color: colors.$black;
+  font-size: functions.rem(60);
+  height: 1em;
+  line-height: 1em;
+  width: 1em;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @include mixins.mq(breakpoints.$tablet) {
+    font-size: functions.rem(75);
+  }
+}
+
+.layers {
+  overflow: visible;
+  position: relative;
+}
+
+.layer {
+  fill: currentColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.highlight {
+  fill: colors.$white;
+  opacity: 10%;
+}
+
+.count {
+  background: currentColor;
+  border-radius: functions.spacing(1);
+  font-size: functions.rem(16);
+  font-weight: bold;
+  line-height: 1;
+  min-width: 2em;
+  padding: functions.spacing(0.25);
+  position: absolute;
+  text-align: center;
+  top: 45%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: auto;
+
+  .foreground ~ & {
+    font-size: x-small;
+    top: 0.5em;
+    right: -0.5em;
+    transform: none;
+  }
+}
+
+.Primary {
+  .background,
+  :global([class='background']) {
+    color: colors.$black;
+  }
+
+  .foreground,
+  :global([class='foreground']) {
+    color: colors.$lemon;
+  }
+}
+
+.Secondary {
+  .background,
+  :global([class='background']) {
+    color: colors.$eclipse;
+  }
+
+  .foreground,
+  :global([class='foreground']) {
+    color: colors.$equator;
+  }
+}
+
+.Tertiary {
+  .background,
+  :global([class='background']) {
+    color: colors.$silver;
+  }
+
+  .foreground,
+  :global([class='foreground']) {
+    color: colors.$terracotta;
+  }
+
+  .count .background {
+    color: colors.$white;
+  }
+}
+
+.label {
+  font-size: small;
+  line-height: 1;
+  margin: functions.spacing(0.25) auto 0;
+}
+
+.list {
+  > li {
+    vertical-align: top;
+  }
+
+  .root {
+    margin: functions.spacing(0.25);
+
+    @include mixins.mq(breakpoints.$tablet) {
+      margin: functions.spacing(0.5);
+    }
+  }
+
+  .heading + & {
+    margin-top: functions.spacing(1);
+  }
+}

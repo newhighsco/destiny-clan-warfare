@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { paramCase } from 'param-case'
 import { List, Tooltip } from '@newhighsco/chipset'
-
-import styles from './Modifier.module.scss'
 import Icon from '@components/Icon'
 import { duplicates } from './icons'
+
+import styles from './Modifier.module.scss'
 
 const PREFIX_MULTIPLY = 'x'
 const PREFIX_NOT_APPLICABLE = 'N/A'
@@ -99,6 +99,8 @@ const ModifierList: React.FC<ModifierListProps> = ({
   modifiers,
   tooltipProps
 }) => {
+  if (!modifiers?.length) return null
+
   return (
     <List inline className={styles.list}>
       {modifiers.map((modifier, i) => (

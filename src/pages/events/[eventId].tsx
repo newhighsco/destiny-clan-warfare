@@ -11,6 +11,7 @@ import config from '@config'
 import Timer from '@components/Timer'
 import { StatList } from '@components/Stat'
 import { ModifierList } from '@components/Modifier'
+import { MedalList } from '@components/Medal'
 
 enum EventKicker {
   Current = 'Current event',
@@ -38,6 +39,7 @@ const EventPage: React.FC = ({
   modifiers,
   stats,
   statsGamesThreshold,
+  medals,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { openGraphImage, name: siteName } = config
@@ -92,6 +94,7 @@ const EventPage: React.FC = ({
           tooltip={StatListTooltip[tense]?.(statsGamesThreshold)}
           stats={stats}
         />
+        <MedalList medals={medals} tooltipProps={{ manual: false }} />
       </Card>
       <Button.Group>
         <Link href={eventUrl()} passHref>

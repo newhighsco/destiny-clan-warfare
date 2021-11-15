@@ -30,6 +30,45 @@ const currentStats = [
   { name: 'Most games', value: 495, label: 'Player [CLAN]' },
   { name: 'Most wins', value: 343, label: 'Player [CLAN]' }
 ]
+const pastMedals = [
+  {
+    tier: 2,
+    awardedTo: ['Valhalla&#8482;'],
+    description: 'Finished first place in a Company division event',
+    name: 'First Company'
+  },
+  {
+    tier: 2,
+    awardedTo: ['MaIice&#8482;'],
+    description: 'Finished first place in a Platoon division event',
+    name: 'First Platoon'
+  },
+  {
+    tier: 2,
+    awardedTo: ['Care'],
+    description: 'Finished first place in a Squad division event',
+    name: 'First Squad'
+  },
+  {
+    tier: 3,
+    awardedTo: ['MaIice&#8482;'],
+    description: 'Finished with the highest score overall for an event',
+    name: 'The Best of the Best'
+  },
+  {
+    tier: 1,
+    awardedTo: [
+      'Six Beers Deep',
+      'Aces and Kings',
+      'Ghosts Raiders',
+      '0 M E G A',
+      'II This Is The Way II',
+      'Most Rewarding Clan Ever'
+    ],
+    description: 'Had over 50% clan member participation in an event',
+    name: 'The more you give, the more you get'
+  }
+]
 
 export const getEvents = async () => {
   // TODO: Get all events from API
@@ -94,7 +133,7 @@ export const getEvent = async eventId => {
       : null
   event.statsGamesThreshold = 25
   // TODO: Get medals
-  event.medals = []
+  event.medals = event.tense === 'Past' ? pastMedals : null
   // TODO: Get leaderboard
   event.leaderboard = []
 

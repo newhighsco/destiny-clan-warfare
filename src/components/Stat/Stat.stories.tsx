@@ -1,7 +1,6 @@
 import React from 'react'
 import { Story } from '@storybook/react/types-6-0'
-import { List } from '@newhighsco/chipset'
-import Stat, { StatProps } from '@components/Stat'
+import { Stat, StatList, StatProps } from '@components/Stat'
 
 export default {
   title: 'Components/Stat',
@@ -12,24 +11,32 @@ const Template: Story<StatProps> = args => <Stat {...args} />
 
 export const source = Template.bind({})
 
-export const simple = Template.bind({})
-
-simple.args = {
-  label: 'Foo',
-  value: 'Bar'
+source.args = {
+  name: 'Name',
+  value: 'Value',
+  label: 'Label'
 }
 
-export const complex = Template.bind({})
-
-complex.args = {
-  label: 'Foo',
-  value: {
-    label: 'Fizz',
-    value: 'Buzz'
-  }
+export const empty = Template.bind({})
+empty.args = {
+  name: 'Kills'
 }
 
-export const multiple = () => {
+export const withValue = Template.bind({})
+
+withValue.args = {
+  ...empty.args,
+  value: 1000
+}
+
+export const withLabel = Template.bind({})
+
+withLabel.args = {
+  ...withValue.args,
+  label: 'Player [CLAN]'
+}
+
+export const list = () => {
   const values = [
     -1000000,
     -100000,
@@ -53,12 +60,9 @@ export const multiple = () => {
   ]
 
   return (
-    <List inline>
-      {values.map(value => (
-        <li key={value} style={{ margin: '1em' }}>
-          <Stat label="Kills" value={value} />
-        </li>
-      ))}
-    </List>
+    <StatList
+      kicker="Top stats"
+      stats={values.map(value => ({ ...empty.args, value }))}
+    />
   )
 }

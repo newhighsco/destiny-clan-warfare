@@ -9,7 +9,7 @@ import {
   utcDate
 } from '@helpers/time'
 import useInterval from '@hooks/useInterval'
-import Stat from '@components/Stat'
+import { Stat } from '@components/Stat'
 
 import styles from './Timer.module.scss'
 
@@ -57,11 +57,9 @@ const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
     ? countdown(displayDate, startDate, endDate, currentDate)
     : []
   const stat = {
-    label: [tense, duration && 'in'].filter(Boolean).join(' '),
-    value: {
-      label: !duration && formatTime(displayDate),
-      value: duration || formatDate(displayDate)
-    }
+    name: [tense, duration && 'in'].filter(Boolean).join(' '),
+    value: duration || formatDate(displayDate),
+    label: !duration && formatTime(displayDate)
   }
 
   useEffect(() => {

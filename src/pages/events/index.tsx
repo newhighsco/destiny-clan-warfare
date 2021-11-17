@@ -26,6 +26,9 @@ const EventListingPage: React.FC = ({
           ))}
         </ul>
       )}
+      <pre style={{ whiteSpace: 'pre-wrap' }}>
+        {JSON.stringify(events, null, 2)}
+      </pre>
     </PageContainer>
   )
 }

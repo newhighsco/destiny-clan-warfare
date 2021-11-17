@@ -1,6 +1,7 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { BreadcrumbJsonLd } from 'next-seo'
+import { possessive } from '@helpers/grammar'
 import { canonicalUrl, clanUrl } from '@helpers/urls'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
@@ -65,7 +66,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       meta: {
         canonical: canonicalUrl(clanUrl(clanId as string, memberId as string)),
         title: `${name} [${clan.tag}] | Members`,
-        description: 'TODO: Add meta description'
+        description: `${possessive(
+          name
+        )} progress in the war against other clans in Destiny 2`
       }
     },
     revalidate: 60

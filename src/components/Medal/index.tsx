@@ -19,7 +19,7 @@ export interface MedalProps {
   description: string
   tier: MedalTiers
   count?: number
-  awardedTo?: string[]
+  awardedTo?: [string?]
   tooltipProps?: PropTypes.InferProps<Tooltip.propTypes>
 }
 

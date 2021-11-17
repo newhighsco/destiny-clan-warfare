@@ -21,9 +21,7 @@ const nextConfig = {
   images: {
     domains: ['www.bungie.net']
   },
-  poweredByHeader: false,
-  // TODO: Add trailing slash to canonical URLs
-  trailingSlash: true
+  poweredByHeader: false
 }
 
 module.exports = withPlugins(

@@ -4968,10 +4968,10 @@ builtins@^1.0.3:
   resolved "https://registry.yarnpkg.com/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
   integrity sha1-y5T662HIaWRR2zZTThQi+U8K7og=
 
-bungie-api-ts@4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-4.13.0.tgz#9a69881931bf47269fa4d54197eabaa9362f3a9f"
-  integrity sha512-d/RwANIUhnPw1WVZln5xNOzq3+gGhRjG6FgA6Iavcs0sAcwVqT/xSNFlLawebGe1V90nvs/UTFA2M0eObnTgcg==
+bungie-api-ts@4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-4.14.0.tgz#b592d78fee7f733ac70f7278dcffff9e0d0b5d84"
+  integrity sha512-Js5bts7XUW5/CSi7hnUBI0Y2m4v20J5oYgxXcIedpSRAOBxBTGgT5W+XsPHrTNIlYtwX56C1nHPs6+s3f+Ka4w==
 
 byline@^5.0.0:
   version "5.0.0"

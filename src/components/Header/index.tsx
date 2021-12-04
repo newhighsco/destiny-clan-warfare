@@ -32,6 +32,7 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
         objectFit="cover"
         objectPosition="50% 0"
         className={styles.background}
+        priority
       />
       <ContentContainer gutter size={size} theme={{ content: styles.content }}>
         <Grid flex valign="middle">

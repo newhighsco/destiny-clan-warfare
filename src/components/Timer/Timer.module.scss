@@ -29,11 +29,11 @@
 
   &::-webkit-progress-value {
     background: colors.$terracotta;
-    opacity: 75%;
+    opacity: 0.75;
   }
 
   &[value='100']::-webkit-progress-value {
-    opacity: 25%;
+    opacity: 0.25;
   }
 }
 

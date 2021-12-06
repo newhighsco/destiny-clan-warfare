@@ -25,19 +25,6 @@ const nextConfig = {
 }
 
 module.exports = withPlugins(
-  [
-    [withTranspileModules],
-    [
-      withSvgr,
-      {
-        inlineImageLimit: -1,
-        svgrOptions: {
-          svgoConfig: {
-            plugins: [{ prefixIds: false }]
-          }
-        }
-      }
-    ]
-  ],
+  [[withTranspileModules], [withSvgr, { inlineImageLimit: -1 }]],
   nextConfig
 )

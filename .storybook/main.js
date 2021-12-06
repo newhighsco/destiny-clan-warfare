@@ -6,6 +6,7 @@ module.exports = {
   },
   stories: ['../src/**/*.stories.@(js|mdx|ts|tsx)'],
   addons: ['@newhighsco/storybook-preset'],
+  staticDirs: ['../public'],
   webpackFinal: async config => {
     config.resolve.alias = {
       ...config.resolve.alias,

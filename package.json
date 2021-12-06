@@ -23,7 +23,7 @@
     "build": "next build",
     "postbuild": "next-sitemap",
     "prebuild:storybook": "rm -rf storybook",
-    "build:storybook": "build-storybook --output-dir storybook--docs --quiet",
+    "build:storybook": "build-storybook --output-dir storybook --docs --quiet",
     "serve": "next start",
     "test": "yarn lint",
     "snapshot": "chromatic --storybook-build-dir storybook --auto-accept-changes main --exit-once-uploaded",

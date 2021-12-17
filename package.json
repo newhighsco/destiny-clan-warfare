@@ -26,7 +26,8 @@
     "prebuild:storybook": "rm -rf storybook",
     "build:storybook": "build-storybook --output-dir storybook --docs --quiet",
     "serve": "next start",
-    "test": "yarn lint",
+    "pretest": "yarn lint",
+    "test": "jest",
     "snapshot": "chromatic --storybook-build-dir storybook --auto-accept-changes main --exit-once-uploaded",
     "lint": "npm-run-all --parallel lint:*",
     "lint:js": "eslint --cache --ignore-path .gitignore --ext .js,.json,.jsx,.mdx.ts,.tsx .",
@@ -67,14 +68,20 @@
     "@newhighsco/storybook-preset": "4.4.5",
     "@newhighsco/stylelint-config": "3.0.8",
     "@storybook/react": "6.4.9",
+    "@testing-library/jest-dom": "5.16.1",
+    "@testing-library/react": "12.1.2",
+    "@types/jest": "27.0.3",
     "@types/react": "17.0.37",
     "@typescript-eslint/eslint-plugin": "5.7.0",
     "@typescript-eslint/parser": "5.7.0",
     "babel-loader": "8.2.3",
     "chromatic": "6.2.1",
     "eslint": "8.4.1",
+    "eslint-plugin-jest-dom": "3.9.2",
+    "eslint-plugin-testing-library": "5.0.1",
     "eslint-plugin-tsc": "2.0.0",
     "husky": "7.0.4",
+    "jest": "27.4.5",
     "local-ssl-proxy": "1.3.0",
     "npm-run-all": "4.1.5",
     "prettier": "2.5.1",
@@ -122,6 +129,23 @@
         ],
         "extends": [
           "plugin:@typescript-eslint/recommended"
+        ]
+      },
+      {
+        "files": [
+          "**/*.spec.ts?(x)"
+        ],
+        "plugins": [
+          "testing-library",
+          "jest-dom"
+        ],
+        "rules": {
+          "testing-library/no-container": "off",
+          "testing-library/no-node-access": "off"
+        },
+        "extends": [
+          "plugin:testing-library/react",
+          "plugin:jest-dom/recommended"
         ]
       }
     ]

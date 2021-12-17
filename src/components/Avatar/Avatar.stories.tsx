@@ -1,6 +1,8 @@
 import React from 'react'
 import Avatar from '@components/Avatar'
 
+import { ReactComponent as UserSvg } from '../../images/icons/user.svg'
+
 export default {
   title: 'Components/Avatar',
   component: Avatar
@@ -17,17 +19,17 @@ source.parameters = {
   chromatic: { disable: true }
 }
 
-export const empty = Template.bind({})
+export const Empty = Template.bind({})
 
-export const member = Template.bind({})
+export const Member = Template.bind({})
 
-member.args = {
+Member.args = {
   src: 'https://www.bungie.net/img/profile/avatars/cc13.jpg'
 }
 
-export const clan = Template.bind({})
+export const Clan = Template.bind({})
 
-clan.args = {
+Clan.args = {
   id: '1486166',
   fill: '#5be7de',
   background: {
@@ -38,4 +40,10 @@ clan.args = {
     fill: '#f0f0f0',
     src: 'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_c0ecd484a44c9aa934f9fb67e1ac1108.png'
   }
+}
+
+export const Custom = Template.bind({})
+
+Custom.args = {
+  children: <UserSvg />
 }

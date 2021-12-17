@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { configure, render, screen, waitFor } from '@testing-library/react'
 
 import { Clan, Custom, Empty, Member } from './Avatar.stories'
 
@@ -19,16 +19,13 @@ describe('Components/Avatar', () => {
   })
 
   describe('Clan', () => {
-    it('should render the expected markup for a clan', () => {
-      const { container } = render(<Clan {...Clan.args} />)
+    it('should render the expected markup for a clan', async () => {
+      await configure({ testIdAttribute: 'id' })
+      render(<Clan {...Clan.args} />)
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()
-      expect(
-        container.querySelector(`[id="${Clan.args.id}-bg"]`)
-      ).toBeInTheDocument()
-      expect(
-        container.querySelector(`[id="${Clan.args.id}-fg"]`)
-      ).toBeInTheDocument()
+      expect(screen.getByTestId(`${Clan.args.id}-bg`)).toBeInTheDocument()
+      expect(screen.getByTestId(`${Clan.args.id}-fg`)).toBeInTheDocument()
     })
   })
 

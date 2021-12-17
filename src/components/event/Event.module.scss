@@ -1,0 +1,7 @@
+@use '@styles/functions';
+
+.content {
+  > * + * {
+    margin-top: functions.spacing(1);
+  }
+}

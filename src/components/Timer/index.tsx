@@ -43,6 +43,8 @@ export interface TimerProps {
 }
 
 const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
+  if (!start || !end) return null
+
   const [enhanced, setEnhanced] = useState(false)
   const [startDate, setStartDate] = useState(utcDate(start))
   const [endDate, setEndDate] = useState(utcDate(end))

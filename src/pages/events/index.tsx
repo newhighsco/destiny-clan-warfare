@@ -17,18 +17,15 @@ const EventListingPage: React.FC = ({
       <Lockup kicker="All" heading="events" align="center" highlight />
       {!!events.length && (
         <ul>
-          {events.map(({ eventId, name }) => (
-            <li key={eventId}>
-              <Link href={eventUrl(eventId)} passHref>
+          {events.map(({ id, name }) => (
+            <li key={id}>
+              <Link href={eventUrl(id)} passHref>
                 <SmartLink>{name}</SmartLink>
               </Link>
             </li>
           ))}
         </ul>
       )}
-      <pre style={{ whiteSpace: 'pre-wrap' }}>
-        {JSON.stringify(events, null, 2)}
-      </pre>
     </PageContainer>
   )
 }

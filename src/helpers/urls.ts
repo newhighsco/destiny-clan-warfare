@@ -10,7 +10,8 @@ export const canonicalUrl = (path?: string): string => join(siteUrl, path)
 export const clanUrl = (clanId?: string, membershipId?: string): string =>
   join('/clans', clanId, membershipId)
 
-export const eventUrl = (id?: string): string => join('/events', id)
+export const eventUrl = (id?: string | number): string =>
+  join('/events', id && `${id}`)
 
 export const userUrl = (path?: string): string => join('/user', path)
 

@@ -50,7 +50,7 @@ interface AvatarProps extends Partial<AvatarLayerProps> {
 }
 
 const Avatar: React.FC<AvatarProps> = ({
-  src = 'https://bungie.destinyclanwarfare.com/img/profile/avatars/default_avatar.gif',
+  src = 'https://www.bungie.net/img/profile/avatars/default_avatar.gif',
   fill,
   background,
   foreground,

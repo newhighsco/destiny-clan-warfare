@@ -21,6 +21,9 @@
       "@config": [
         "site.config"
       ],
+      "@fixtures/*": [
+        "src/__mocks__/fixtures/*"
+      ],
       "@helpers/*": [
         "src/helpers/*"
       ],

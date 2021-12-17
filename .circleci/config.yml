@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  codecov: codecov/codecov@3.2.2
+
 parameters:
   yarn-cache-key:
     type: string
@@ -33,6 +37,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: yarn test
+      - codecov/upload
   build:
     executor: node-executor
     steps:

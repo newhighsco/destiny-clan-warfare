@@ -75,7 +75,7 @@
     "@typescript-eslint/eslint-plugin": "5.8.0",
     "@typescript-eslint/parser": "5.8.0",
     "babel-loader": "8.2.3",
-    "chromatic": "6.2.3",
+    "chromatic": "6.3.3",
     "eslint": "8.5.0",
     "eslint-plugin-jest-dom": "3.9.2",
     "eslint-plugin-testing-library": "5.0.1",

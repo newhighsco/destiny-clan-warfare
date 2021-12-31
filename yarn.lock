@@ -62,27 +62,6 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/core@7.16.5", "@babel/core@^7.7.2":
-  version "7.16.5"
-  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.5.tgz#924aa9e1ae56e1e55f7184c8bf073a50d8677f5c"
-  integrity sha512-wUcenlLzuWMZ9Zt8S0KmFwGlH6QKRh3vsm/dhDA3CHkiTA45YuG1XkHRcNRl73EFPXDp/d5kVOU0/y7x2w6OaQ==
-  dependencies:
-    "@babel/code-frame" "^7.16.0"
-    "@babel/generator" "^7.16.5"
-    "@babel/helper-compilation-targets" "^7.16.3"
-    "@babel/helper-module-transforms" "^7.16.5"
-    "@babel/helpers" "^7.16.5"
-    "@babel/parser" "^7.16.5"
-    "@babel/template" "^7.16.0"
-    "@babel/traverse" "^7.16.5"
-    "@babel/types" "^7.16.0"
-    convert-source-map "^1.7.0"
-    debug "^4.1.0"
-    gensync "^1.0.0-beta.2"
-    json5 "^2.1.2"
-    semver "^6.3.0"
-    source-map "^0.5.0"
-
 "@babel/core@7.16.7":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.7.tgz#db990f931f6d40cb9b87a0dc7d2adc749f1dcbcf"
@@ -117,6 +96,27 @@
     "@babel/parser" "^7.16.0"
     "@babel/template" "^7.16.0"
     "@babel/traverse" "^7.16.0"
+    "@babel/types" "^7.16.0"
+    convert-source-map "^1.7.0"
+    debug "^4.1.0"
+    gensync "^1.0.0-beta.2"
+    json5 "^2.1.2"
+    semver "^6.3.0"
+    source-map "^0.5.0"
+
+"@babel/core@^7.7.2":
+  version "7.16.5"
+  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.5.tgz#924aa9e1ae56e1e55f7184c8bf073a50d8677f5c"
+  integrity sha512-wUcenlLzuWMZ9Zt8S0KmFwGlH6QKRh3vsm/dhDA3CHkiTA45YuG1XkHRcNRl73EFPXDp/d5kVOU0/y7x2w6OaQ==
+  dependencies:
+    "@babel/code-frame" "^7.16.0"
+    "@babel/generator" "^7.16.5"
+    "@babel/helper-compilation-targets" "^7.16.3"
+    "@babel/helper-module-transforms" "^7.16.5"
+    "@babel/helpers" "^7.16.5"
+    "@babel/parser" "^7.16.5"
+    "@babel/template" "^7.16.0"
+    "@babel/traverse" "^7.16.5"
     "@babel/types" "^7.16.0"
     convert-source-map "^1.7.0"
     debug "^4.1.0"
@@ -2298,12 +2298,12 @@
   resolved "https://registry.yarnpkg.com/@newhighsco/editor-config/-/editor-config-1.1.2.tgz#4f9d24749bf2db72e0af963052e9fa741ed749aa"
   integrity sha512-MFzblCmgiEOte69Mv8dQTT6+4Rj27e3x6bA7tuxycCPCwo4CsP3vWAfEhcz9hDO3+S5Vs/AIpxWTqzt2m0RJNw==
 
-"@newhighsco/eslint-config@2.3.52":
-  version "2.3.52"
-  resolved "https://registry.yarnpkg.com/@newhighsco/eslint-config/-/eslint-config-2.3.52.tgz#11aeeb67cd46bdad9ef204042cd332f28b96477d"
-  integrity sha512-uQtTy33vSwbvoGR5QQ7Ql/NXfkUT3ORBfRaCp/Dn6+ufZm459DnxgLf3j4w84MfKaeMMp/TRsR2w3yxMGsJB1Q==
+"@newhighsco/eslint-config@2.3.53":
+  version "2.3.53"
+  resolved "https://registry.yarnpkg.com/@newhighsco/eslint-config/-/eslint-config-2.3.53.tgz#e665b63ebc6e629c8d481a055bf34b19bc37a9fe"
+  integrity sha512-Txfb3OzxRpK1O9FpZnevsYCsM12FsT3iVf+ZxgVZ4n05mRdI+NTY4tVYFqzisssxMlFAoZ7lKOFuq2lHEXDYmA==
   dependencies:
-    "@babel/core" "7.16.5"
+    "@babel/core" "7.16.7"
     "@babel/eslint-parser" "7.16.5"
     eslint-config-prettier "8.3.0"
     eslint-config-standard "16.0.3"
@@ -2364,10 +2364,10 @@
     "@semantic-release/release-notes-generator" "10.0.3"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.4.6.tgz#96b2c0c085a148dbd9437d53f5933976a7342675"
-  integrity sha512-OlkE4CS1exBUMOTkfXSGxfuBbpEFAxVW0gacSnKP1XlZtJiCvF9sZFPz8KWQzo8VQpx6Li8RKD4N3o2JpoMHXg==
+"@newhighsco/storybook-preset@4.4.7":
+  version "4.4.7"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.4.7.tgz#82c22ba02886f9081226869a10effda69fb6c4d3"
+  integrity sha512-TPHD0/5OItHx4EqoDlmcuE9D+ICi3SCufONf420ZqWtEywbpzyFpGKkzmgfqwH3t+qusL91jW5e2f90sqlYPgw==
   dependencies:
     "@storybook/addon-actions" "6.4.9"
     "@storybook/addon-backgrounds" "6.4.9"
@@ -2382,7 +2382,7 @@
     new-url-loader "0.1.1"
     postcss "8.4.5"
     react-is "17.0.2"
-    sass "1.45.1"
+    sass "1.45.2"
     sass-loader "12.4.0"
     storybook-dark-mode "1.0.8"
 
@@ -16399,15 +16399,6 @@ sass-loader@12.4.0:
   dependencies:
     klona "^2.0.4"
     neo-async "^2.6.2"
-
-sass@1.45.1:
-  version "1.45.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.45.1.tgz#fa03951f924d1ba5762949567eaf660e608a1ab0"
-  integrity sha512-pwPRiq29UR0o4X3fiQyCtrESldXvUQAAE0QmcJTpsI4kuHHcLzZ54M1oNBVIXybQv8QF2zfkpFcTxp8ta97dUA==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
-    immutable "^4.0.0"
-    source-map-js ">=0.6.2 <2.0.0"
 
 sass@1.45.2:
   version "1.45.2"

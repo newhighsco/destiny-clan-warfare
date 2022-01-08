@@ -2328,14 +2328,14 @@
     file-loader "6.2.0"
     url-loader "4.1.1"
 
-"@newhighsco/postcss-config@3.4.42":
-  version "3.4.42"
-  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.4.42.tgz#a84cb81b3e17a0076c0eeb4c52f9382b9c051f44"
-  integrity sha512-BXmYaTCJGxoBfJbOkwCbAmhWAW9aJZEua3aoouNcAGrCkH1RIzEHmad86NxTAx+T6P9YPIYiALNgNrh6ZjD76g==
+"@newhighsco/postcss-config@3.4.43":
+  version "3.4.43"
+  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.4.43.tgz#bf33467540edd498f01ccb9dd1572f2a69ef9df0"
+  integrity sha512-8Hm2gSi6bkrIJkOjf68UbMHvRm32waw8tMrv1WMT051he3LqtMemJQhszJoRC/jahtL/6cDvXjyQPWcQkxVqCA==
   dependencies:
     "@fullhuman/postcss-purgecss" "4.1.3"
     autoprefixer "10.4.2"
-    caniuse-lite "1.0.30001297"
+    caniuse-lite "1.0.30001298"
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "7.2.0"
 
@@ -2364,10 +2364,10 @@
     "@semantic-release/release-notes-generator" "10.0.3"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@4.4.8":
-  version "4.4.8"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.4.8.tgz#3861d44941a5be5aee1bf04362395c1ec857b3f4"
-  integrity sha512-fAjlQTpg3h47xp/eRy5ntEsYv7v+ZpijniRfQZjEJIuHWCFe+YOtT0RKa6WATxkU8O1RjLSU3CuQLhHWJKKYWg==
+"@newhighsco/storybook-preset@4.4.9":
+  version "4.4.9"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.4.9.tgz#f479b5d23d91159da5c9ff27c80f0367f68da900"
+  integrity sha512-DqiPhPsSTXHDBAcyZzMPYepamslBybj9hTRY9fI3M7p+ReNNgy/OuLIi9OD2nOXN1s1UGdwqvr+SK8/NUgwTdQ==
   dependencies:
     "@storybook/addon-actions" "6.4.9"
     "@storybook/addon-backgrounds" "6.4.9"
@@ -2382,7 +2382,7 @@
     new-url-loader "0.1.1"
     postcss "8.4.5"
     react-is "17.0.2"
-    sass "1.46.0"
+    sass "1.47.0"
     sass-loader "12.4.0"
     storybook-dark-mode "1.0.8"
 
@@ -6154,10 +6154,10 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
   integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
 
-caniuse-lite@1.0.30001297, caniuse-lite@^1.0.30001297:
-  version "1.0.30001297"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001297.tgz#ea7776ccc4992956582cae5b8fea127fbebde430"
-  integrity sha512-6bbIbowYG8vFs/Lk4hU9jFt7NknGDleVAciK916tp6ft1j+D//ZwwL6LbF1wXMQ32DMSjeuUV8suhh6dlmFjcA==
+caniuse-lite@1.0.30001298:
+  version "1.0.30001298"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001298.tgz#0e690039f62e91c3ea581673d716890512e7ec52"
+  integrity sha512-AcKqikjMLlvghZL/vfTHorlQsLDhGRalYf1+GmWCf5SCMziSGjRYQW/JEksj14NaYHIR6KIhrFAy0HV5C25UzQ==
 
 caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001202, caniuse-lite@^1.0.30001219, caniuse-lite@^1.0.30001228, caniuse-lite@^1.0.30001274:
   version "1.0.30001278"
@@ -6183,6 +6183,11 @@ caniuse-lite@^1.0.30001295:
   version "1.0.30001295"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001295.tgz#68a60f8f0664f342b2835c5d8898b4faea7b3d51"
   integrity sha512-lSP16vcyC0FEy0R4ECc9duSPoKoZy+YkpGkue9G4D81OfPnliopaZrU10+qtPdT8PbGXad/PNx43TIQrOmJZSQ==
+
+caniuse-lite@^1.0.30001297:
+  version "1.0.30001297"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001297.tgz#ea7776ccc4992956582cae5b8fea127fbebde430"
+  integrity sha512-6bbIbowYG8vFs/Lk4hU9jFt7NknGDleVAciK916tp6ft1j+D//ZwwL6LbF1wXMQ32DMSjeuUV8suhh6dlmFjcA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -16436,15 +16441,6 @@ sass-loader@12.4.0:
   dependencies:
     klona "^2.0.4"
     neo-async "^2.6.2"
-
-sass@1.46.0:
-  version "1.46.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.46.0.tgz#923117049525236026a7ede69715580eb0fac751"
-  integrity sha512-Z4BYTgioAOlMmo4LU3Ky2txR8KR0GRPLXxO38kklaYxgo7qMTgy+mpNN4eKsrXDTFlwS5vdruvazG4cihxHRVQ==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
-    immutable "^4.0.0"
-    source-map-js ">=0.6.2 <2.0.0"
 
 sass@1.47.0:
   version "1.47.0"

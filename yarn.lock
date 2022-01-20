@@ -76,27 +76,6 @@
     semver "^6.3.0"
     source-map "^0.5.0"
 
-"@babel/core@7.16.7", "@babel/core@^7.8.0":
-  version "7.16.7"
-  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.7.tgz#db990f931f6d40cb9b87a0dc7d2adc749f1dcbcf"
-  integrity sha512-aeLaqcqThRNZYmbMqtulsetOQZ/5gbR/dWruUCJcpas4Qoyy+QeagfDsPdMrqwsPRDNxJvBlRiZxxX7THO7qtA==
-  dependencies:
-    "@babel/code-frame" "^7.16.7"
-    "@babel/generator" "^7.16.7"
-    "@babel/helper-compilation-targets" "^7.16.7"
-    "@babel/helper-module-transforms" "^7.16.7"
-    "@babel/helpers" "^7.16.7"
-    "@babel/parser" "^7.16.7"
-    "@babel/template" "^7.16.7"
-    "@babel/traverse" "^7.16.7"
-    "@babel/types" "^7.16.7"
-    convert-source-map "^1.7.0"
-    debug "^4.1.0"
-    gensync "^1.0.0-beta.2"
-    json5 "^2.1.2"
-    semver "^6.3.0"
-    source-map "^0.5.0"
-
 "@babel/core@^7.1.0", "@babel/core@^7.12.10", "@babel/core@^7.12.3", "@babel/core@^7.15.5", "@babel/core@^7.7.5":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.0.tgz#c4ff44046f5fe310525cc9eb4ef5147f0c5374d4"
@@ -132,6 +111,27 @@
     "@babel/template" "^7.16.0"
     "@babel/traverse" "^7.16.5"
     "@babel/types" "^7.16.0"
+    convert-source-map "^1.7.0"
+    debug "^4.1.0"
+    gensync "^1.0.0-beta.2"
+    json5 "^2.1.2"
+    semver "^6.3.0"
+    source-map "^0.5.0"
+
+"@babel/core@^7.8.0":
+  version "7.16.7"
+  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.16.7.tgz#db990f931f6d40cb9b87a0dc7d2adc749f1dcbcf"
+  integrity sha512-aeLaqcqThRNZYmbMqtulsetOQZ/5gbR/dWruUCJcpas4Qoyy+QeagfDsPdMrqwsPRDNxJvBlRiZxxX7THO7qtA==
+  dependencies:
+    "@babel/code-frame" "^7.16.7"
+    "@babel/generator" "^7.16.7"
+    "@babel/helper-compilation-targets" "^7.16.7"
+    "@babel/helper-module-transforms" "^7.16.7"
+    "@babel/helpers" "^7.16.7"
+    "@babel/parser" "^7.16.7"
+    "@babel/template" "^7.16.7"
+    "@babel/traverse" "^7.16.7"
+    "@babel/types" "^7.16.7"
     convert-source-map "^1.7.0"
     debug "^4.1.0"
     gensync "^1.0.0-beta.2"
@@ -2331,12 +2331,12 @@
   resolved "https://registry.yarnpkg.com/@newhighsco/editor-config/-/editor-config-1.1.2.tgz#4f9d24749bf2db72e0af963052e9fa741ed749aa"
   integrity sha512-MFzblCmgiEOte69Mv8dQTT6+4Rj27e3x6bA7tuxycCPCwo4CsP3vWAfEhcz9hDO3+S5Vs/AIpxWTqzt2m0RJNw==
 
-"@newhighsco/eslint-config@2.3.57":
-  version "2.3.57"
-  resolved "https://registry.yarnpkg.com/@newhighsco/eslint-config/-/eslint-config-2.3.57.tgz#5fa5b73232dbd11679cf21588c3fae50695a2c1b"
-  integrity sha512-k0bH53ul9p3IuRFLfq81VRzpTEyr3nj0sl494RqxlrCsIeEIx2TtpmoaxwnDLDjW83uWt9HwCbKDdUaemvgYwg==
+"@newhighsco/eslint-config@2.3.58":
+  version "2.3.58"
+  resolved "https://registry.yarnpkg.com/@newhighsco/eslint-config/-/eslint-config-2.3.58.tgz#71291da8bae38c6895332d91b1082944aa83035f"
+  integrity sha512-bKe170yd48ZvWQW6UAKjEOe+dBNBJArOMFkxZzYCQsGPhu3Cfo9qp14+muEapdlGReER+MMvZGoSahPtMQSrUg==
   dependencies:
-    "@babel/core" "7.16.7"
+    "@babel/core" "7.16.10"
     "@babel/eslint-parser" "7.16.5"
     eslint-config-prettier "8.3.0"
     eslint-config-standard "16.0.3"
@@ -2372,12 +2372,12 @@
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "7.2.3"
 
-"@newhighsco/press-start@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.1.0.tgz#eba54b179fe6a3b510e4df9e11dbdc4817f8d15c"
-  integrity sha512-3OoJ4FYWw8YI8MQiny6JX20bqc0slrXP4ZAoHkt/DbaFRMknZVZmKrgjJASIahPZ4P4ftbm69DGVyeMC0vEICQ==
+"@newhighsco/press-start@2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.1.1.tgz#d9d5e457ac035f261d7a1ef4d82e61da493002a5"
+  integrity sha512-BmAaJtmIWW8LMlspKFjUAJmvP3pNTBzeUT8AdIjDyM3BMzGjLvFZob91SVfc69FpMGXk1aoOu0nQU0mEtxtwfg==
   dependencies:
-    next-seo "4.28.1"
+    next-seo "4.29.0"
 
 "@newhighsco/prettier-config@2.0.16":
   version "2.0.16"
@@ -13534,10 +13534,10 @@ next-compose-plugins@2.2.1:
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.1.tgz#020fc53f275a7e719d62521bef4300fbb6fde5ab"
   integrity sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==
 
-next-seo@4.28.1:
-  version "4.28.1"
-  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.28.1.tgz#c98ee559c8ab7196c62d0f6903afd7a8cde47a03"
-  integrity sha512-WZgwdM+UhpNF3A37zFllzmPhnOVJ9vYeYlc0n3Z/kYfz/QQgy8NEdncNNggS9dU4JD8xriaCcyknhy5OsrFsJw==
+next-seo@4.29.0:
+  version "4.29.0"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.29.0.tgz#d281e95ba47914117cc99e9e468599f0547d9b9b"
+  integrity sha512-xmwzcz4uHaYJ8glbuhs6FSBQ7z3irmdPYdJJ5saWm72Uy3o+mPKGaPCXQetTCE6/xxVnpoDV4yFtFlEjUcljSg==
 
 next-sitemap@1.9.12:
   version "1.9.12"

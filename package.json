@@ -39,7 +39,7 @@
   "dependencies": {
     "@newhighsco/chipset": "6.13.2",
     "@newhighsco/next-plugin-svgr": "3.0.40",
-    "@newhighsco/press-start": "2.1.0",
+    "@newhighsco/press-start": "2.1.1",
     "bungie-api-ts": "4.14.0",
     "dayjs": "1.10.7",
     "next": "12.0.8",
@@ -61,7 +61,7 @@
     "@newhighsco/browserslist-config": "1.0.3",
     "@newhighsco/commitlint-config": "1.0.21",
     "@newhighsco/editor-config": "1.1.2",
-    "@newhighsco/eslint-config": "2.3.57",
+    "@newhighsco/eslint-config": "2.3.58",
     "@newhighsco/postcss-config": "3.4.46",
     "@newhighsco/prettier-config": "2.0.16",
     "@newhighsco/release-config": "1.1.4",

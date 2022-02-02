@@ -2296,10 +2296,10 @@
     ufo "^0.7.10"
     unstorage "^0.2.8"
 
-"@netlify/plugin-nextjs@4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.2.2.tgz#41922dd3e457fb5f53fa89f3a5ceb61f5d569c52"
-  integrity sha512-zDfKWcDq1mzslBEEGb+kGc6uxTGzFBI+K27YuStbto4oedn8q4WOMM21W9IAYh2UgvXvcrwORdWrYXaQbYrxhw==
+"@netlify/plugin-nextjs@4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.2.3.tgz#526476f09e79ab241ea75d400c0b364b9359e0c4"
+  integrity sha512-OOsZVvJIBy2uxPBHYzGUjWLjxrEGWXuRSnZsZkadz71ujZ0ZDiiLAcKy5+RE3wCNFTI+8dRPRtRP4SjV8A7Jtw==
   dependencies:
     "@netlify/functions" "^0.11.0"
     "@netlify/ipx" "^0.0.9"

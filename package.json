@@ -16,7 +16,7 @@
   "files": [],
   "scripts": {
     "prepare": "husky install",
-    "clean": "rm -rf {.next,public/{robots.txt,sitemap.xml}}",
+    "clean": "rm -rf {.next,public/{robots.txt,sitemap*.xml}}",
     "start": "npm-run-all --parallel start:ssl start:next",
     "start:next": "next dev --hostname localhost.destinyclanwarfare.com --port 9000",
     "start:ssl": "local-ssl-proxy --hostname localhost.destinyclanwarfare.com --source 9001 --target 9000",

@@ -28,5 +28,5 @@ yarn-error.log
 *.tsbuildinfo
 coverage
 public/robots.txt
-public/sitemap.xml
+public/sitemap*.xml
 storybook

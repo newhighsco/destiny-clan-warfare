@@ -1,4 +1,5 @@
 import React from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Provider } from 'next-auth/client'
 import Header from '@components/Header'
 
@@ -10,9 +11,9 @@ export default {
       default: 'dark'
     }
   }
-}
+} as ComponentMeta<typeof Header>
 
-const Template = args => <Header {...args} />
+const Template: ComponentStory<typeof Header> = args => <Header {...args} />
 
 export const source = Template.bind({})
 

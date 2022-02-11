@@ -1,13 +1,13 @@
 import React from 'react'
-import { Story } from '@storybook/react/types-6-0'
-import { Stat, StatList, StatProps } from '@components/Stat'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Stat, StatList } from '@components/Stat'
 
 export default {
   title: 'Components/Stat',
   component: Stat
-}
+} as ComponentMeta<typeof Stat>
 
-const Template: Story<StatProps> = args => <Stat {...args} />
+const Template: ComponentStory<typeof Stat> = args => <Stat {...args} />
 
 export const source = Template.bind({})
 
@@ -36,33 +36,33 @@ withLabel.args = {
   label: 'Player [CLAN]'
 }
 
-export const list = () => {
-  const values = [
-    -1000000,
-    -100000,
-    -10000,
-    -1000,
-    -100,
-    -10.11,
-    -10.1,
-    -10,
-    -1,
-    0,
-    1,
-    10,
-    10.1,
-    10.11,
-    100,
-    10000,
-    100000,
-    1000000,
-    'Zero'
-  ]
+const List: ComponentStory<typeof StatList> = args => <StatList {...args} />
 
-  return (
-    <StatList
-      kicker="Top stats"
-      stats={values.map(value => ({ ...empty.args, value }))}
-    />
-  )
+export const list = List.bind({})
+
+const values = [
+  -1000000,
+  -100000,
+  -10000,
+  -1000,
+  -100,
+  -10.11,
+  -10.1,
+  -10,
+  -1,
+  0,
+  1,
+  10,
+  10.1,
+  10.11,
+  100,
+  10000,
+  100000,
+  1000000,
+  'Zero'
+]
+
+list.args = {
+  kicker: 'Top stats',
+  stats: values.map(value => ({ ...empty.args, value }))
 }

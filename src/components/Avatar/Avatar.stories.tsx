@@ -1,4 +1,5 @@
 import React from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Avatar from '@components/Avatar'
 
 import { ReactComponent as UserSvg } from '../../images/icons/user.svg'
@@ -6,9 +7,9 @@ import { ReactComponent as UserSvg } from '../../images/icons/user.svg'
 export default {
   title: 'Components/Avatar',
   component: Avatar
-}
+} as ComponentMeta<typeof Avatar>
 
-const Template = args => <Avatar {...args} />
+const Template: ComponentStory<typeof Avatar> = args => <Avatar {...args} />
 
 export const source = Template.bind({})
 

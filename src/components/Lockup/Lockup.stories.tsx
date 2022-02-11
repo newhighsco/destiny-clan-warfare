@@ -1,12 +1,13 @@
 import React from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Lockup from '@components/Lockup'
 
 export default {
   title: 'Components/Lockup',
   component: Lockup
-}
+} as ComponentMeta<typeof Lockup>
 
-const Template = args => <Lockup {...args} />
+const Template: ComponentStory<typeof Lockup> = args => <Lockup {...args} />
 
 export const source = Template.bind({})
 

@@ -17,7 +17,7 @@ const UserPage: React.FC = ({
   if (loading) return <LoadingPageContainer />
 
   if (!session) {
-    router.push(signInUrl)
+    void router.push(signInUrl)
     return null
   }
 
@@ -35,7 +35,7 @@ const UserPage: React.FC = ({
                 </Link>
               </li>
               <li>
-                <Link href={clanUrl(groupId, membershipId as string)} passHref>
+                <Link href={clanUrl(groupId, membershipId)} passHref>
                   <SmartLink>{user.name}</SmartLink>
                 </Link>
               </li>
@@ -46,9 +46,9 @@ const UserPage: React.FC = ({
       <Button.Group>
         <Link href={signOutUrl} passHref>
           <Button
-            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+            onClick={async (e: MouseEvent<HTMLButtonElement>) => {
               e.preventDefault()
-              signOut({ callbackUrl: canonicalUrl() })
+              await signOut({ callbackUrl: canonicalUrl() })
             }}
           >
             Sign out

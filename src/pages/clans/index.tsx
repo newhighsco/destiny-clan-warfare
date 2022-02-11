@@ -43,11 +43,11 @@ const ClanListingPage: React.FC = ({
 export const getStaticProps: GetStaticProps = async () => {
   const leaderboard = await fetch(
     'https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json'
-  ).then(res => res.json())
+  ).then(async res => await res.json())
 
   const members = await fetch(
     'https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json'
-  ).then(res => res.json())
+  ).then(async res => await res.json())
 
   return {
     props: {

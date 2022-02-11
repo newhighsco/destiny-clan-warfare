@@ -5,11 +5,10 @@ import { ReactComponent as LogoSvg } from './logo.svg'
 
 import styles from './Logo.module.scss'
 
-export const LogoSize = {
-  ...LockupSize
+export enum LogoSize {
+  Small = LockupSize.Small,
+  Medium = LockupSize.Medium
 }
-
-export type LogoSize = LockupSize
 
 interface LogoProps {
   size?: LogoSize
@@ -28,7 +27,7 @@ const LogoLockup: React.FC<LogoProps> = ({ size, className }) => (
     kicker="Destiny"
     heading="Clan Warfare"
     kickerAttributes={{ className: styles.kicker }}
-    size={size}
+    size={LockupSize[size]}
     className={classNames(styles.lockup, className)}
   />
 )

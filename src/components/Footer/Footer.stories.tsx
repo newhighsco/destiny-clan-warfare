@@ -1,4 +1,5 @@
 import React from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Footer from '@components/Footer'
 
 export default {
@@ -9,9 +10,9 @@ export default {
       default: 'dark'
     }
   }
-}
+} as ComponentMeta<typeof Footer>
 
-const Template = args => <Footer {...args} />
+const Template: ComponentStory<typeof Footer> = args => <Footer {...args} />
 
 export const source = Template.bind({})
 

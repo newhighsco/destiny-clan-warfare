@@ -44,7 +44,8 @@ const ClanMemberPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { clanId, memberId } = params
+  const clanId = params?.clanId
+  const memberId = params?.memberId
 
   const data = {
     name: 'benedfit',

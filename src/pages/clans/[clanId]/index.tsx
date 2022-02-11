@@ -39,11 +39,11 @@ const ClanPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { clanId } = params
+  const clanId = params?.clanId
   // TODO: Get from api
   const detail = {
     name: 'Avalanche UK',
-    motto: 'TBC'
+    motto: clanId
   }
 
   // TODO: Handle 404

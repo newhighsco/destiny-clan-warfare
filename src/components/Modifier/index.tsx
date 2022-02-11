@@ -75,7 +75,7 @@ const Modifier: React.FC<ModifierProps> = ({
         <div className={styles.root} data-icon={key}>
           {key && (
             <Icon
-              name={`modifier/${duplicates[key] || key}`}
+              name={`modifier/${(duplicates[key] || key) as string}`}
               theme={{ root: styles.icon }}
             />
           )}
@@ -91,7 +91,7 @@ const Modifier: React.FC<ModifierProps> = ({
 }
 
 export interface ModifierListProps {
-  modifiers: Array<ModifierProps>
+  modifiers: ModifierProps[]
   tooltipProps?: ModifierProps['tooltipProps']
 }
 

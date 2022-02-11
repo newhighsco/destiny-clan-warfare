@@ -34,10 +34,10 @@ interface EventProps {
   description?: string
   startDate?: Dayjs
   endDate?: Dayjs
-  modifiers?: Array<ModifierProps>
-  stats?: Array<StatProps>
+  modifiers?: ModifierProps[]
+  stats?: StatProps[]
   statsGamesThreshold?: number
-  medals?: Array<MedalProps>
+  medals?: MedalProps[]
   summary?: boolean
 }
 

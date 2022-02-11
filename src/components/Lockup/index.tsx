@@ -82,7 +82,7 @@ const Lockup: React.FC<LockupProps> = ({
   as,
   children
 }) => {
-  const Kicker = () => {
+  const Kicker: React.FC<LockupElementProps> = () => {
     const { className, ...rest } = kickerAttributes
 
     return (
@@ -96,7 +96,7 @@ const Lockup: React.FC<LockupProps> = ({
     )
   }
 
-  const Heading = () => {
+  const Heading: React.FC<LockupElementProps> = () => {
     const { className, ...rest } = headingAttributes
 
     return (
@@ -110,7 +110,7 @@ const Lockup: React.FC<LockupProps> = ({
     )
   }
 
-  const Content = () => (
+  const Content: React.FC<LockupElementProps> = () => (
     <LockupElement className={styles.content}>{children}</LockupElement>
   )
 

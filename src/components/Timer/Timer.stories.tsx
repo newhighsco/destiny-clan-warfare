@@ -1,6 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
-import { Story } from '@storybook/react/types-6-0'
+import { ComponentStory, ComponentMeta, Story } from '@storybook/react'
 import Timer, { TimerProps } from '@components/Timer'
 
 const now = dayjs()
@@ -20,9 +20,9 @@ const nextYear = now.subtract(-1, 'y').startOf('d')
 export default {
   title: 'Components/Timer',
   component: Timer
-}
+} as ComponentMeta<typeof Timer>
 
-const Template: Story<TimerProps> = args => <Timer {...args} />
+const Template: ComponentStory<typeof Timer> = args => <Timer {...args} />
 
 export const source = Template.bind({})
 
@@ -31,7 +31,7 @@ source.args = {
   end: now.format()
 }
 
-const Stories: Story<{ items: Array<TimerProps> }> = args => (
+const Stories: Story<{ items: TimerProps[] }> = args => (
   <>
     {args.items.map((item, i) => (
       <React.Fragment key={i}>

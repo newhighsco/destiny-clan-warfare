@@ -32,7 +32,7 @@ const Stat: React.FC<StatProps> = ({
 }
 
 export interface StatListProps {
-  stats: Array<StatProps>
+  stats: StatProps[]
   kicker?: string
   tooltip?: string
 }

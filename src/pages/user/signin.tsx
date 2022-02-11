@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       csrfToken: await getCsrfToken(context),
-      provider: await getProviders().then(providers => providers.bungie),
+      provider: await getProviders().then(providers => providers?.bungie),
       meta: {
         title: 'Sign in',
         description: 'TODO: Add meta description',

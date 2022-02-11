@@ -49,9 +49,9 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
                 className={styles.userLink}
                 onClick={
                   !session
-                    ? (e: MouseEvent<HTMLButtonElement>) => {
+                    ? async (e: MouseEvent<HTMLButtonElement>) => {
                         e.preventDefault()
-                        signIn('bungie')
+                        await signIn('bungie')
                       }
                     : undefined
                 }

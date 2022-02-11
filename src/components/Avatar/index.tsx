@@ -74,8 +74,8 @@ const Avatar: React.FC<AvatarProps> = ({
       <ResponsiveMedia ratio="1:1">
         {hasLayers ? (
           <>
-            {background && <AvatarLayer id={`${id}-bg`} {...background} />}
-            {foreground && <AvatarLayer id={`${id}-fg`} {...foreground} />}
+            {background && <AvatarLayer {...background} id={`${id}-bg`} />}
+            {foreground && <AvatarLayer {...foreground} id={`${id}-fg`} />}
           </>
         ) : (
           children || <Image src={src} alt="" layout="fill" objectFit="cover" />

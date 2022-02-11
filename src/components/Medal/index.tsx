@@ -48,7 +48,7 @@ const Medal: React.FC<MedalProps> = ({
             />
             {key && (
               <Icon
-                name={`medal/foreground/${duplicates[key] || key}`}
+                name={`medal/foreground/${(duplicates[key] || key) as string}`}
                 theme={{ root: classNames(styles.foreground, styles.layer) }}
               />
             )}
@@ -79,7 +79,7 @@ const Medal: React.FC<MedalProps> = ({
 }
 
 export interface MedalListProps {
-  medals: Array<MedalProps>
+  medals: MedalProps[]
   tooltipProps?: MedalProps['tooltipProps']
 }
 

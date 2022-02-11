@@ -79,7 +79,7 @@ const EventPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { eventId } = params
+  const eventId = params?.eventId
   const event = await getEvent(parseInt(eventId as string, 10))
 
   return {
@@ -87,7 +87,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       ...event,
       meta: {
         canonical: canonicalUrl(eventUrl(event.id)),
-        title: `${event.name} | ${EventKicker[event.tense]}`,
+        title: [event.name, EventKicker[event.tense]].join(' | '),
         description: event.description
       }
     }

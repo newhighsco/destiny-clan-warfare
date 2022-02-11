@@ -1,12 +1,13 @@
 import React from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Logo, LogoIcon, LogoLockup } from '@components/Logo'
 
 export default {
   title: 'Components/Logo',
   component: Logo
-}
+} as ComponentMeta<typeof Logo>
 
-const Template = args => <Logo {...args} />
+const Template: ComponentStory<typeof Logo> = args => <Logo {...args} />
 
 export const source = Template.bind({})
 

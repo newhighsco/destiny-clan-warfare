@@ -1,23 +1,20 @@
 import React from 'react'
-import { Story } from '@storybook/react/types-6-0'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { styled } from '@storybook/theming'
-import {
-  Modifier,
-  ModifierList,
-  ModifierListProps,
-  ModifierProps
-} from '@components/Modifier'
+import { Modifier, ModifierList } from '@components/Modifier'
 
 export default {
   title: 'Components/Modifier',
   component: Modifier
-}
+} as ComponentMeta<typeof Modifier>
 
-const Template: Story<ModifierProps> = args => <Modifier {...args} />
+const Template: ComponentStory<typeof Modifier> = args => <Modifier {...args} />
 
 export const source = Template.bind({})
 
-const List: Story<ModifierListProps> = args => <ModifierList {...args} />
+const List: ComponentStory<typeof ModifierList> = args => (
+  <ModifierList {...args} />
+)
 
 export const list = List.bind({})
 

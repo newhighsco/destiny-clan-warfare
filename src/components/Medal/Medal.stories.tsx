@@ -1,17 +1,17 @@
 import React from 'react'
-import { Story } from '@storybook/react/types-6-0'
-import { Medal, MedalList, MedalListProps, MedalProps } from '@components/Medal'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Medal, MedalList } from '@components/Medal'
 
 export default {
   title: 'Components/Medal',
   component: Medal
-}
+} as ComponentMeta<typeof Medal>
 
-const Template: Story<MedalProps> = args => <Medal {...args} />
+const Template: ComponentStory<typeof Medal> = args => <Medal {...args} />
 
 export const source = Template.bind({})
 
-const List: Story<MedalListProps> = args => <MedalList {...args} />
+const List: ComponentStory<typeof MedalList> = args => <MedalList {...args} />
 
 export const list = List.bind({})
 

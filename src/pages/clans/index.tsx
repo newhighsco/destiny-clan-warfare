@@ -27,13 +27,9 @@ const ClanListingPage: React.FC = ({
             </Link>
           </li>
         </List>
-        <p>
-          https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json:
-        </p>
+        <p>ClanLeaderboard.json:</p>
         <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
-        <p>
-          https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json:
-        </p>
+        <p>ClanMembersLeaderboard.json:</p>
         <pre>{JSON.stringify(members, null, 2)}</pre>
       </Prose>
     </PageContainer>
@@ -42,11 +38,11 @@ const ClanListingPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const leaderboard = await fetch(
-    'https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanLeaderboard.json'
+    'https://newhighscoredcw.blob.core.windows.net/dcw/CurrentEvent/ClanLeaderboard.json'
   ).then(async res => await res.json())
 
   const members = await fetch(
-    'https://newhighscoredcw.blob.core.windows.net/dcw/1/ClanMembers.json'
+    'https://newhighscoredcw.blob.core.windows.net/dcw/CurrentEvent/ClanMembersLeaderboard.json'
   ).then(async res => await res.json())
 
   return {

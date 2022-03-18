@@ -27,13 +27,9 @@ const ClanListingPage: React.FC = ({
             </Link>
           </li>
         </List>
-        <p>
-          ClanLeaderboard.json:
-        </p>
+        <p>ClanLeaderboard.json:</p>
         <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
-        <p>
-          ClanMembersLeaderboard.json:
-        </p>
+        <p>ClanMembersLeaderboard.json:</p>
         <pre>{JSON.stringify(members, null, 2)}</pre>
       </Prose>
     </PageContainer>

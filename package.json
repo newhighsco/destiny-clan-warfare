@@ -51,7 +51,7 @@
     "postcss": "8.4.12",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "sass": "1.49.9",
+    "sass": "1.49.10",
     "sentence-case": "3.0.4"
   },
   "devDependencies": {

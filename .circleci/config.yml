@@ -12,14 +12,14 @@ workflows:
           name: setup
       - newhighsco/test:
           name: test
+          post-steps:
+            - codecov/upload
           requires:
             - setup
       - newhighsco/build:
           name: build
           command: yarn build:storybook
           path-to-persist: storybook
-          post-steps:
-            - codecov/upload
           requires:
             - test
       - newhighsco/snapshot:

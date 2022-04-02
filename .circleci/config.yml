@@ -2,81 +2,31 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.2.2
-
-parameters:
-  yarn-cache-key:
-    type: string
-    default: v1-yarn-cache-{{ checksum ".nvmrc" }}-{{ checksum "yarn.lock" }}
-
-executors:
-  node-executor:
-    docker:
-      - image: circleci/node:latest-browsers
-    working_directory: ~/repo
-
-jobs:
-  setup:
-    executor: node-executor
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - << pipeline.parameters.yarn-cache-key >>
-      - run: yarn install
-      - save_cache:
-          key: << pipeline.parameters.yarn-cache-key >>
-          paths:
-            - node_modules
-      - persist_to_workspace:
-          root: .
-          paths:
-            - '*'
-  test:
-    executor: node-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run: yarn test
-      - codecov/upload
-  build:
-    executor: node-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run: yarn build:storybook
-      - persist_to_workspace:
-          root: .
-          paths:
-            - storybook
-  snapshot:
-    executor: node-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run: yarn snapshot
-  release:
-    executor: node-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - deploy:
-          command: npx semantic-release
+  newhighsco: newhighsco/orb@1.7.0
 
 workflows:
   version: 2
   test_and_release:
     jobs:
-      - setup
-      - test:
+      - newhighsco/setup:
+          name: setup
+      - newhighsco/test:
           requires:
             - setup
-      - build:
+      - newhighsco/build:
+          name: build
+          command: yarn build:storybook
+          path-to-persist: storybook
+          post-steps:
+            - codecov/upload
           requires:
             - test
-      - snapshot:
+      - newhighsco/snapshot:
+          name: snapshot
           requires:
             - build
-      - release:
+      - newhighsco/release:
+          name: release
           requires:
             - snapshot
           filters:

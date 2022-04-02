@@ -43,7 +43,7 @@
     "bungie-api-ts": "4.16.0",
     "dayjs": "1.11.0",
     "next": "12.1.4",
-    "next-auth": "3.29.1",
+    "next-auth": "4.3.1",
     "next-compose-plugins": "2.2.1",
     "next-sitemap": "2.5.17",
     "next-transpile-modules": "9.0.0",

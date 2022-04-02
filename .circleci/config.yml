@@ -11,6 +11,7 @@ workflows:
       - newhighsco/setup:
           name: setup
       - newhighsco/test:
+          name: test
           requires:
             - setup
       - newhighsco/build:

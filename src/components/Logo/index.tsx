@@ -27,7 +27,7 @@ const LogoLockup: React.FC<LogoProps> = ({ size, className }) => (
     kicker="Destiny"
     heading="Clan Warfare"
     kickerAttributes={{ className: styles.kicker }}
-    size={LockupSize[size]}
+    size={LockupSize[LogoSize[size]]}
     className={classNames(styles.lockup, className)}
   />
 )

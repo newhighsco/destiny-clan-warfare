@@ -16,6 +16,22 @@ nvm install
 yarn install
 ```
 
+Add a `.env.local` at the root of your project and configure the following environment variables:
+
+```elixir
+URL=https://localhost.destinyclanwarfare.com:9001
+
+# Copy from Bungie.net "development" application
+# https://www.bungie.net/en/Application
+BUNGIE_API_KEY= # "API Key"
+BUNGIE_CLIENT_ID= # "OAuth client_id"
+BUNGIE_CLIENT_SECRET= # "OAuth client_secret"
+
+# Copy from Netlify environment variables
+NEXTAUTH_JWT_SIGNING_KEY=
+NEXTAUTH_SECRET=
+```
+
 ## Run
 
 All project processes can be started using the following:

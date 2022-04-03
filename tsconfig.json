@@ -36,6 +36,9 @@
       "@libs/*": [
         "src/libs/*"
       ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
       "@styles/*": [
         "src/styles/*"
       ],

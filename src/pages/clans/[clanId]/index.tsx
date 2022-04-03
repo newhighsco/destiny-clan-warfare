@@ -2,19 +2,22 @@ import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useRouter } from 'next/router'
 import { BreadcrumbJsonLd } from 'next-seo'
-import { Prose } from '@newhighsco/chipset'
 import { possessive } from '@helpers/grammar'
-import { canonicalUrl, clanUrl } from '@helpers/urls'
-import PageContainer from '@components/PageContainer'
-import Lockup from '@components/Lockup'
+import { canonicalUrl } from '@helpers/urls'
+import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
+import Clan, { ClanMeta } from '@components/Clan'
 
 const ClanPage: React.FC = ({
+  tense,
   name,
   motto,
-  // TODO: Loading state
-  meta = { title: 'Loading...' }
+  meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
+
+  if (isFallback) return <LoadingPageContainer />
+
+  const { kicker, url } = ClanMeta[tense]
 
   return (
     <PageContainer meta={meta}>
@@ -22,8 +25,8 @@ const ClanPage: React.FC = ({
         itemListElements={[
           {
             position: 1,
-            name: 'Clans',
-            item: canonicalUrl(clanUrl())
+            name: kicker,
+            item: canonicalUrl(url())
           },
           {
             position: 2,
@@ -32,34 +35,36 @@ const ClanPage: React.FC = ({
           }
         ]}
       />
-      <Lockup heading={name} kicker={motto} align="center" reverse highlight />
-      <Prose>{isFallback ? 'loading' : 'cached'}</Prose>
+      <Clan tense={tense} name={name} motto={motto} />
     </PageContainer>
   )
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const clanId = params?.clanId
+  const tense = (params?.tense as string) || null
+  const clanId = params?.clanId as string
   // TODO: Get from api
-  const detail = {
-    name: 'Avalanche UK',
+  const clan = {
+    id: clanId,
+    name: 'TODO: Clan name',
     motto: clanId
   }
 
   // TODO: Handle 404
-  // if (!detail) {
+  // if (!clan) {
   //   return { notFound: true }
   // }
 
-  const { name, motto = null } = detail
+  const { name } = clan
+  const { kicker, url } = ClanMeta[tense]
 
   return {
     props: {
-      name,
-      motto,
+      ...clan,
+      tense,
       meta: {
-        canonical: canonicalUrl(clanUrl(clanId as string)),
-        title: `${name} | Clans`,
+        canonical: canonicalUrl(url(clan.id)),
+        title: [name, kicker].join(' | '),
         description: `${possessive(
           name
         )} progress battling their way to the top of the Destiny 2 clan leaderboard`

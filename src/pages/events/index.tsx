@@ -7,6 +7,7 @@ import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import config from '@config'
 import { getEvents } from '@libs/api'
+import { EventKicker } from '@components/Event'
 
 const EventListingPage: React.FC = ({
   events,
@@ -17,10 +18,12 @@ const EventListingPage: React.FC = ({
       <Lockup kicker="All" heading="events" align="center" highlight />
       {!!events.length && (
         <ul>
-          {events.map(({ id, name }) => (
+          {events.map(({ id, name, tense }) => (
             <li key={id}>
-              <Link href={eventUrl(id)} passHref>
-                <SmartLink>{name}</SmartLink>
+              <Link href={eventUrl(tense, id)} passHref>
+                <SmartLink>
+                  {name} - {EventKicker[tense]}
+                </SmartLink>
               </Link>
             </li>
           ))}

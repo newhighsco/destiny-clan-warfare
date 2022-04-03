@@ -63,8 +63,8 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       meta: {
-        // TODO: Add title and description
         title: 'User profile',
+        description: 'TODO: Add meta description',
         noindex: true,
         nofollow: true
       }

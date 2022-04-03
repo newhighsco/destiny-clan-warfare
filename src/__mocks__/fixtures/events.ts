@@ -3,9 +3,24 @@ import { eventModifiers } from './modifiers'
 
 const now = dayjs().startOf('d')
 
+export const currentEvent = {
+  id: 1,
+  startDate: now.format(),
+  endDate: now.add(7, 'd').format(),
+  name: 'Competitive',
+  description: 'Score points by completing matches in the Competitive playlist',
+  tense: 'Current',
+  modifiers: eventModifiers,
+  stats: [
+    { name: 'Most games', value: 495, label: 'Player [CLAN]' },
+    { name: 'Most wins', value: 343, label: 'Player [CLAN]' }
+  ],
+  statsGamesThreshold: 25
+}
+
 export const pastEvents = [
   {
-    id: 1,
+    id: 2,
     startDate: now.subtract(408, 'd').format(),
     endDate: now.subtract(401, 'd').format(),
     name: 'Quickplay',
@@ -58,7 +73,7 @@ export const pastEvents = [
     ]
   },
   {
-    id: 2,
+    id: 3,
     startDate: now.subtract(8, 'd').format(),
     endDate: now.subtract(1, 'd').format(),
     name: 'Iron Banner',
@@ -73,21 +88,6 @@ export const pastEvents = [
     ]
   }
 ]
-
-export const currentEvent = {
-  id: 3,
-  startDate: now.format(),
-  endDate: now.add(7, 'd').format(),
-  name: 'Competitive',
-  description: 'Score points by completing matches in the Competitive playlist',
-  tense: 'Current',
-  modifiers: eventModifiers,
-  stats: [
-    { name: 'Most games', value: 495, label: 'Player [CLAN]' },
-    { name: 'Most wins', value: 343, label: 'Player [CLAN]' }
-  ],
-  statsGamesThreshold: 25
-}
 
 export const futureEvents = [
   {

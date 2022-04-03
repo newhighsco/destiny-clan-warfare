@@ -44,8 +44,8 @@ const ClanMemberPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const clanId = params?.clanId
-  const memberId = params?.memberId
+  const clanId = params?.clanId as string
+  const memberId = params?.memberId as string
 
   const data = {
     name: 'benedfit',
@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       name,
       clan,
       meta: {
-        canonical: canonicalUrl(clanUrl(clanId as string, memberId as string)),
+        canonical: canonicalUrl(clanUrl(clanId, memberId)),
         title: `${name} [${clan.tag}] | Members`,
         description: `${possessive(
           name

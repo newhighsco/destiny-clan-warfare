@@ -15,6 +15,7 @@ module.exports = (async () => {
       '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
       '^@images/(.*)$': '<rootDir>/src/images/$1',
       '^@libs/(.*)$': '<rootDir>/src/libs/$1',
+      '^@pages/(.*)$': '<rootDir>/src/pages/$1',
       '^@styles/(.*)$': '<rootDir>/src/styles/$1',
       '^@theme$': '<rootDir>/theme'
     },

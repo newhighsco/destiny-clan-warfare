@@ -9,13 +9,15 @@ export const percentage = (
   total: number,
   precision = 0,
   limit: boolean
-) => {
+): number => {
   let result = (current / total) * 100
 
   if (limit) result = Math.max(0, Math.min(result, 100))
 
   return round(result, precision)
 }
+
+export const rankNumber = (value: number): string => `#${value}`
 
 export const shortNumber = (value: number | string): string => {
   if (typeof value !== 'number') return value

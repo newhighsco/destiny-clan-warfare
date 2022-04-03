@@ -1,0 +1,48 @@
+@use '@styles/colors.module';
+@use '@styles/functions';
+
+.row {
+  background: colors.$nightrider;
+  border-bottom: 1px solid colors.$nero;
+  display: flex;
+
+  &:nth-child(even) {
+    background: colors.$eclipse;
+  }
+
+  &:hover {
+    background: colors.$smoke;
+    color: colors.$black;
+  }
+}
+
+.cell {
+  flex: 1 1 0;
+  max-width: 25%;
+  padding: functions.spacing(1);
+  text-align: right;
+
+  &[data-label] {
+    position: relative;
+
+    &::before {
+      color: colors.$silver;
+      content: attr(data-label);
+      display: block;
+      font-size: x-small;
+      line-height: 1;
+      margin-top: functions.spacing(-0.5);
+      text-transform: uppercase;
+
+      .row:hover & {
+        color: colors.$eclipse;
+      }
+    }
+  }
+}
+
+.heading {
+  flex-grow: 1;
+  max-width: 100%;
+  text-align: left;
+}

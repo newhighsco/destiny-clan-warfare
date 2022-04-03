@@ -1,7 +1,7 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { BreadcrumbJsonLd, EventJsonLd } from 'next-seo'
-import { canonicalUrl, eventUrl } from '@helpers/urls'
+import { canonicalUrl, CURRENT_TENSE, eventUrl } from '@helpers/urls'
 import { getEvent, getEvents } from '@libs/api'
 import config from '@config'
 import Event, { EventKicker } from '@components/Event'
@@ -18,6 +18,7 @@ const EventPage: React.FC = ({
   stats,
   statsGamesThreshold,
   medals,
+  leaderboard,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { openGraphImage, name: siteName } = config
@@ -73,20 +74,21 @@ const EventPage: React.FC = ({
         stats={stats}
         statsGamesThreshold={statsGamesThreshold}
         medals={medals}
+        leaderboard={leaderboard}
       />
     </PageContainer>
   )
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const eventId = params?.eventId
-  const event = await getEvent(parseInt(eventId as string, 10))
+  const eventId = params?.eventId as string
+  const event = await getEvent(eventId)
 
   return {
     props: {
       ...event,
       meta: {
-        canonical: canonicalUrl(eventUrl(event.id)),
+        canonical: canonicalUrl(eventUrl(event.tense, event.id)),
         title: [event.name, EventKicker[event.tense]].join(' | '),
         description: event.description
       }
@@ -95,7 +97,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await getEvents()
+  const events = (await getEvents())?.filter(
+    ({ tense }) => tense !== CURRENT_TENSE
+  )
   const paths = events.map(({ id }) => ({
     params: { eventId: `${id}` }
   }))

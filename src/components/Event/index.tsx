@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Dayjs } from 'dayjs'
 import { Button, Card, ContentContainer, Prose } from '@newhighsco/chipset'
 import { eventUrl } from '@helpers/urls'
+import Leaderboard from '@components/Leaderboard'
 import Lockup from '@components/Lockup'
 import { MedalList, MedalProps } from '@components/Medal'
 import { ModifierList, ModifierProps } from '@components/Modifier'
@@ -22,6 +23,11 @@ enum StatListKicker {
   Past = 'Overall stats'
 }
 
+enum SummaryCallToAction {
+  Current = 'View full leaderboard',
+  Past = 'View full result'
+}
+
 const StatListTooltip = {
   Current: (threshold: number) =>
     threshold && `Play a minimum of ${threshold} games to be included.`
@@ -39,6 +45,7 @@ interface EventProps {
   statsGamesThreshold?: number
   medals?: MedalProps[]
   summary?: boolean
+  leaderboard?: any
 }
 
 const Event: React.FC<EventProps> = ({
@@ -52,12 +59,14 @@ const Event: React.FC<EventProps> = ({
   stats,
   statsGamesThreshold,
   medals,
-  summary
+  summary,
+  leaderboard
 }) => {
-  const href = eventUrl(id)
+  const href = eventUrl(tense, id)
+  const summaryCallToAction = summary && SummaryCallToAction[tense]
 
   return (
-    <ContentContainer theme={{ content: styles.content }}>
+    <ContentContainer theme={{ content: styles.content }} size="desktop">
       <Lockup
         kicker={EventKicker[tense]}
         kickerAttributes={summary && { as: 'h1' }}
@@ -83,18 +92,21 @@ const Event: React.FC<EventProps> = ({
           stats={!summary && stats}
         />
         <MedalList medals={medals} tooltipProps={{ manual: false }} />
-        {summary && (
+        {summaryCallToAction && (
           <Link href={href} passHref>
-            <Button>View</Button>
+            <Button>{summaryCallToAction}</Button>
           </Link>
         )}
       </Card>
       {!summary && (
-        <Button.Group>
-          <Link href={eventUrl()} passHref>
-            <Button>View all events</Button>
-          </Link>
-        </Button.Group>
+        <>
+          <Leaderboard data={leaderboard} />
+          <Button.Group>
+            <Link href={eventUrl()} passHref>
+              <Button>View all events</Button>
+            </Link>
+          </Button.Group>
+        </>
       )}
     </ContentContainer>
   )

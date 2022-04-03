@@ -7,7 +7,7 @@ import { canonicalUrl, eventUrl } from '@helpers/urls'
 import PageContainer from '@components/PageContainer'
 import config from '@config'
 import Event from '@components/Event'
-import { getEvent } from '@libs/api'
+import { getCurrentEvent, getEvent } from '@libs/api'
 
 const { logo, name, socialLinks, title, url } = config
 
@@ -43,8 +43,8 @@ const HomePage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  // TODO: Get current event from API
-  const currentEvent = await getEvent(3)
+  const { currentEventId } = await getCurrentEvent()
+  const currentEvent = await getEvent(currentEventId)
 
   return {
     props: {

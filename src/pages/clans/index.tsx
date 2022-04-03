@@ -4,11 +4,9 @@ import Link from 'next/link'
 import { List, Prose, SmartLink } from '@newhighsco/chipset'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
-import { apiUrl, canonicalUrl, clanUrl } from '@helpers/urls'
+import { canonicalUrl, clanUrl } from '@helpers/urls'
 
 const ClanListingPage: React.FC = ({
-  leaderboard,
-  members,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -27,28 +25,14 @@ const ClanListingPage: React.FC = ({
             </Link>
           </li>
         </List>
-        <p>ClanLeaderboard.json:</p>
-        <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
-        <p>ClanMembersLeaderboard.json:</p>
-        {/* <pre>{JSON.stringify(members, null, 2)}</pre> */}
       </Prose>
     </PageContainer>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const leaderboard = await fetch(
-    apiUrl('CurrentEvent/ClanLeaderboard.json')
-  ).then(async res => await res.json())
-
-  const members = await fetch(
-    apiUrl('CurrentEvent/ClanMembersLeaderboard.json')
-  ).then(async res => await res.json())
-
   return {
     props: {
-      leaderboard,
-      members,
       meta: {
         canonical: canonicalUrl(clanUrl()),
         title: 'Clan leaderboard',

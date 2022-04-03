@@ -2566,6 +2566,11 @@
     stylelint-config-standard-scss "3.0.0"
     stylelint-prettier "2.0.0"
 
+"@newhighsco/svgo-config@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@newhighsco/svgo-config/-/svgo-config-1.0.0.tgz#7fcba883e0f62fd7474df636f0806ebc33250757"
+  integrity sha512-IgaTAiRBfgDlHnrhret7xmGxu7Ood/x53uy+4KGEiedd6jECdkQQNefWu6h8wG1E3qFIDch3WS91/C2CUjvf1w==
+
 "@next-auth/prisma-legacy-adapter@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@next-auth/prisma-legacy-adapter/-/prisma-legacy-adapter-0.1.2.tgz#d19b65696bf16bda5dbc88f85da98aee6f30e2f3"

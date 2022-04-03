@@ -3,7 +3,10 @@ import config from '@config'
 
 const { url: siteUrl } = config
 
-const join = (...paths: Array<string>): string => urlJoin(paths.filter(Boolean))
+const join = (...paths: string[]): string => urlJoin(paths.filter(Boolean))
+
+export const apiUrl = (path?: string): string =>
+  join('https://newhighscoredcw.blob.core.windows.net/dcw/', path)
 
 export const canonicalUrl = (path?: string): string => join(siteUrl, path)
 

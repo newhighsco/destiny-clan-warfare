@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { List, Prose, SmartLink } from '@newhighsco/chipset'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
-import { canonicalUrl, clanUrl } from '@helpers/urls'
+import { apiUrl, canonicalUrl, clanUrl } from '@helpers/urls'
 
 const ClanListingPage: React.FC = ({
   leaderboard,
@@ -30,7 +30,7 @@ const ClanListingPage: React.FC = ({
         <p>ClanLeaderboard.json:</p>
         <pre>{JSON.stringify(leaderboard, null, 2)}</pre>
         <p>ClanMembersLeaderboard.json:</p>
-        <pre>{JSON.stringify(members, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(members, null, 2)}</pre> */}
       </Prose>
     </PageContainer>
   )
@@ -38,11 +38,11 @@ const ClanListingPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const leaderboard = await fetch(
-    'https://newhighscoredcw.blob.core.windows.net/dcw/CurrentEvent/ClanLeaderboard.json'
+    apiUrl('CurrentEvent/ClanLeaderboard.json')
   ).then(async res => await res.json())
 
   const members = await fetch(
-    'https://newhighscoredcw.blob.core.windows.net/dcw/CurrentEvent/ClanMembersLeaderboard.json'
+    apiUrl('CurrentEvent/ClanMembersLeaderboard.json')
   ).then(async res => await res.json())
 
   return {

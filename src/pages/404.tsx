@@ -10,7 +10,7 @@ const NotFoundPage: React.FC = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <HoldingPageContainer meta={meta}>
-      <Link href="/" passHref>
+      <Link href="/" passHref prefetch={false}>
         <SmartLink>
           <Logo size={LogoSize.Medium} />
           <Button.Group>

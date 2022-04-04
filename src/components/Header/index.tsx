@@ -37,14 +37,14 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
       <ContentContainer gutter size={size} theme={{ content: styles.content }}>
         <Grid flex valign="middle">
           <Grid.Item className={styles.logo}>
-            <Link href="/" passHref>
+            <Link href="/" passHref prefetch={false}>
               <SmartLink className={styles.logoLink}>
                 <LogoLockup size={LogoSize.Small} />
               </SmartLink>
             </Link>
           </Grid.Item>
           <Grid.Item className={styles.navigation}>
-            <Link href={userUrl()} passHref>
+            <Link href={userUrl()} passHref prefetch={false}>
               <SmartLink
                 className={styles.userLink}
                 onClick={

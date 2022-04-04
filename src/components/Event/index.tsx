@@ -93,7 +93,7 @@ const Event: React.FC<EventProps> = ({
         />
         <MedalList medals={medals} tooltipProps={{ manual: false }} />
         {summaryCallToAction && (
-          <Link href={href} passHref>
+          <Link href={href} passHref prefetch={false}>
             <Button>{summaryCallToAction}</Button>
           </Link>
         )}
@@ -102,7 +102,7 @@ const Event: React.FC<EventProps> = ({
         <>
           <Leaderboard data={leaderboard} />
           <Button.Group>
-            <Link href={eventUrl()} passHref>
+            <Link href={eventUrl()} passHref prefetch={false}>
               <Button>View all events</Button>
             </Link>
           </Button.Group>

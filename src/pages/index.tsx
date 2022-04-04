@@ -34,7 +34,7 @@ const HomePage: React.FC = ({
         <Grid.Item sizes={['one-quarter']}>Next event</Grid.Item>
       </Grid>
       <Button.Group>
-        <Link href={eventUrl()} passHref>
+        <Link href={eventUrl()} passHref prefetch={false}>
           <Button>View all events</Button>
         </Link>
       </Button.Group>

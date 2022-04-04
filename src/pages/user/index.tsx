@@ -30,12 +30,16 @@ const UserPage: React.FC = ({
           {user?.clans?.map(({ groupId, membershipId, name }) => (
             <React.Fragment key={groupId}>
               <li>
-                <Link href={clanUrl(groupId)} passHref>
+                <Link href={clanUrl(groupId)} passHref prefetch={false}>
                   <SmartLink>{name}</SmartLink>
                 </Link>
               </li>
               <li>
-                <Link href={clanUrl(groupId, membershipId)} passHref>
+                <Link
+                  href={clanUrl(groupId, membershipId)}
+                  passHref
+                  prefetch={false}
+                >
                   <SmartLink>{user.name}</SmartLink>
                 </Link>
               </li>
@@ -44,7 +48,7 @@ const UserPage: React.FC = ({
         </ul>
       </Prose>
       <Button.Group>
-        <Link href={signOutUrl} passHref>
+        <Link href={signOutUrl} passHref prefetch={false}>
           <Button
             onClick={async (e: MouseEvent<HTMLButtonElement>) => {
               e.preventDefault()

@@ -19,7 +19,11 @@ const Leaderboard: React.FC<LeaderProps> = ({ data }) => {
       {data.map(({ ClanId, Score, Rank }) => (
         <div key={ClanId} className={styles.row}>
           <div className={classNames(styles.cell, styles.heading)}>
-            <Link href={currentUrl(ClanId.toString())} passHref>
+            <Link
+              href={currentUrl(ClanId.toString())}
+              passHref
+              prefetch={false}
+            >
               <SmartLink>{ClanId}</SmartLink>
             </Link>
           </div>

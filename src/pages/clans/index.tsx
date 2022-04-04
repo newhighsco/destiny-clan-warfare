@@ -15,12 +15,12 @@ const ClanListingPage: React.FC = ({
       <Prose>
         <List>
           <li>
-            <Link href={clanUrl('123')} passHref>
+            <Link href={clanUrl('123')} passHref prefetch={false}>
               <SmartLink>Cached clan</SmartLink>
             </Link>
           </li>
           <li>
-            <Link href={clanUrl('1486166')} passHref>
+            <Link href={clanUrl('1486166')} passHref prefetch={false}>
               <SmartLink>Un-cached clan</SmartLink>
             </Link>
           </li>

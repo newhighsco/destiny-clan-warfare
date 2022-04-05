@@ -108,7 +108,7 @@ const Event: React.FC<EventProps> = ({
       </Card>
       {!summary && (
         <>
-          <Leaderboard rows={leaderboard} />
+          <Leaderboard rows={leaderboard} columns={['active', 'size']} />
           <Button.Group>
             <Link href={eventUrl()} passHref prefetch={false}>
               <Button>View all events</Button>

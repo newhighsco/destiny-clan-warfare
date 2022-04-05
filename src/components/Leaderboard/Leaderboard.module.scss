@@ -21,7 +21,7 @@
 
 .cell {
   flex: 1 1 0;
-  max-width: 25%;
+  max-width: 12.5%;
   padding: functions.spacing(1);
   text-align: right;
 
@@ -42,6 +42,11 @@
       }
     }
   }
+}
+
+.avatar {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .heading {

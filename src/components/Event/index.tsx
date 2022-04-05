@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Dayjs } from 'dayjs'
 import { Button, Card, ContentContainer, Prose } from '@newhighsco/chipset'
-import { eventUrl } from '@helpers/urls'
+import { currentUrl, eventUrl } from '@helpers/urls'
 import Leaderboard from '@components/Leaderboard'
 import Lockup from '@components/Lockup'
 import { MedalList, MedalProps } from '@components/Medal'
@@ -108,7 +108,11 @@ const Event: React.FC<EventProps> = ({
       </Card>
       {!summary && (
         <>
-          <Leaderboard rows={leaderboard} columns={['active', 'size']} />
+          <Leaderboard
+            rows={leaderboard}
+            columns={['active', 'size']}
+            setHref={({ id }) => currentUrl(id)}
+          />
           <Button.Group>
             <Link href={eventUrl()} passHref prefetch={false}>
               <Button>View all events</Button>

@@ -1,75 +1,72 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import { useRouter } from 'next/router'
 import { BreadcrumbJsonLd } from 'next-seo'
+import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
+import Member, { MemberMeta } from '@components/Member'
 import { possessive } from '@helpers/grammar'
-import { canonicalUrl, clanUrl } from '@helpers/urls'
-import PageContainer from '@components/PageContainer'
-import Lockup from '@components/Lockup'
+import { canonicalUrl, currentUrl, isCurrent } from '@helpers/urls'
 
 const ClanMemberPage: React.FC = ({
+  id,
+  tense,
   name,
+  avatar,
   clan,
-  // TODO: Loading state
-  meta = { title: 'Loading...' }
+  meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const kicker = clan?.name
-  const kickerHref = clanUrl(clan?.id)
+  const { isFallback } = useRouter()
+
+  if (isFallback) return <LoadingPageContainer />
+
+  const isCurrentEvent = isCurrent(tense)
+  const { kicker, url } = MemberMeta[tense]
+  const breadcrumbs = [
+    isCurrentEvent && { name: kicker, item: canonicalUrl(currentUrl()) },
+    { name: clan.name, item: canonicalUrl(url(clan.id)) },
+    { name, item: meta.canonical }
+  ].filter(Boolean)
 
   return (
     <PageContainer meta={meta}>
       <BreadcrumbJsonLd
-        itemListElements={[
-          {
-            position: 1,
-            name: kicker,
-            item: canonicalUrl(kickerHref)
-          },
-          {
-            position: 2,
-            name,
-            item: meta.canonical
-          }
-        ]}
+        itemListElements={breadcrumbs.map((breadcrumb, index) => ({
+          position: index + 1,
+          ...breadcrumb
+        }))}
       />
-      <Lockup
-        heading={name}
-        kicker={kicker}
-        kickerAttributes={{ href: kickerHref }}
-        align="center"
-        reverse
-        highlight
-      />
+      <Member id={id} tense={tense} name={name} avatar={avatar} clan={clan} />
     </PageContainer>
   )
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const tense = (params?.tense as string) || null
   const clanId = params?.clanId as string
   const memberId = params?.memberId as string
 
-  const data = {
-    name: 'benedfit',
+  const member = {
     id: memberId,
+    name: 'TODO: Member name',
     avatar: 'https://www.bungie.net/img/profile/avatars/cc13.jpg',
     clan: {
-      id: '1486166',
-      name: 'Avalanche UK',
-      tag: 'AVA'
+      id: clanId,
+      name: clanId,
+      tag: '???'
     }
   }
 
-  const { name, clan } = data
+  const { name, clan } = member
+  const { kicker, url, description } = MemberMeta[tense]
 
   return {
     props: {
-      name,
-      clan,
+      ...member,
+      tense,
       meta: {
-        canonical: canonicalUrl(clanUrl(clanId, memberId)),
-        title: `${name} [${clan.tag}] | Members`,
-        description: `${possessive(
-          name
-        )} progress in the war against other clans in Destiny 2`
+        canonical: canonicalUrl(url(clan.id, member.id)),
+        title: [`${name} [${clan.tag}]`, kicker].join(' | '),
+        description: [possessive(name), description].join(' ')
       }
     },
     revalidate: 60

@@ -1,7 +1,7 @@
 import { company } from '@fixtures/clans'
 import { currentEvent, futureEvents, pastEvents } from '@fixtures/events'
 import { apiUrl } from '@helpers/urls'
-import { Clan, Event, EventLeaderboardRow } from './types'
+import { Clan, ClanLeaderboardRow, Event, EventLeaderboardRow } from './types'
 
 const getData = async (url: string): Promise<any> =>
   await fetch(apiUrl(url)).then(async response => {
@@ -23,6 +23,14 @@ export const getClan = async (id: number): Promise<Clan> => {
   const clan = (await getClans()).find(clan => clan.id === id)
 
   return clan
+}
+
+export const getClanLeaderboard = async (
+  id: number
+): Promise<ClanLeaderboardRow[]> => {
+  const { members } = await getData(`/CurrentEvent/Clan/${id}`)
+
+  return members
 }
 
 export const getCurrentEvent = async (): Promise<{

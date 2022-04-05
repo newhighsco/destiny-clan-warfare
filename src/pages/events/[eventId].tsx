@@ -1,7 +1,7 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { BreadcrumbJsonLd, EventJsonLd } from 'next-seo'
-import { canonicalUrl, CURRENT_TENSE, eventUrl } from '@helpers/urls'
+import { canonicalUrl, eventUrl, isCurrent } from '@helpers/urls'
 import { getEvent, getEvents } from '@libs/api'
 import config from '@config'
 import Event, { EventKicker } from '@components/Event'
@@ -51,16 +51,8 @@ const EventPage: React.FC = ({
       />
       <BreadcrumbJsonLd
         itemListElements={[
-          {
-            position: 1,
-            name: 'Events',
-            item: canonicalUrl(eventUrl())
-          },
-          {
-            position: 2,
-            name,
-            item: meta.canonical
-          }
+          { position: 1, name: 'Events', item: canonicalUrl(eventUrl()) },
+          { position: 2, name, item: meta.canonical }
         ]}
       />
       <Event
@@ -97,9 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = (await getEvents())?.filter(
-    ({ tense }) => tense !== CURRENT_TENSE
-  )
+  const events = (await getEvents())?.filter(({ tense }) => !isCurrent(tense))
   const paths = events.map(({ id }) => ({
     params: { eventId: `${id}` }
   }))

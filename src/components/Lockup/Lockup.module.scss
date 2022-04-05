@@ -24,10 +24,6 @@
     font-size: $font-size-large;
   }
 
-  & + & {
-    margin-top: 0;
-  }
-
   a[href] {
     color: currentColor;
     text-decoration: none;

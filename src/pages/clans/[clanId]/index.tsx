@@ -8,9 +8,11 @@ import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
 import Clan, { ClanMeta } from '@components/Clan'
 
 const ClanPage: React.FC = ({
+  id,
   tense,
   name,
   motto,
+  leaderboard,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
@@ -23,19 +25,17 @@ const ClanPage: React.FC = ({
     <PageContainer meta={meta}>
       <BreadcrumbJsonLd
         itemListElements={[
-          {
-            position: 1,
-            name: kicker,
-            item: canonicalUrl(url())
-          },
-          {
-            position: 2,
-            name,
-            item: meta.canonical
-          }
+          { position: 1, name: kicker, item: canonicalUrl(url()) },
+          { position: 2, name, item: meta.canonical }
         ]}
       />
-      <Clan tense={tense} name={name} motto={motto} />
+      <Clan
+        id={id}
+        tense={tense}
+        name={name}
+        motto={motto}
+        leaderboard={leaderboard}
+      />
     </PageContainer>
   )
 }
@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // }
 
   const { name } = clan
-  const { kicker, url } = ClanMeta[tense]
+  const { kicker, url, description } = ClanMeta[tense]
 
   return {
     props: {
@@ -65,9 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       meta: {
         canonical: canonicalUrl(url(clan.id)),
         title: [name, kicker].join(' | '),
-        description: `${possessive(
-          name
-        )} progress battling their way to the top of the Destiny 2 clan leaderboard`
+        description: [possessive(name), description].join(' ')
       }
     },
     revalidate: 60
@@ -76,7 +74,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // TODO: Only load top clans
-  const clans = Array.from(Array(5).keys()).map(key => `${key}`)
+  const clans = []
   const paths = clans.map(clanId => ({
     params: { clanId }
   }))

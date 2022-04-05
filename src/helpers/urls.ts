@@ -3,6 +3,8 @@ import config from '@config'
 
 export const CURRENT_TENSE = 'Current'
 
+export const isCurrent = (tense: string): boolean => tense === CURRENT_TENSE
+
 const { url: siteUrl } = config
 
 const join = (...paths: any[]): string =>
@@ -24,7 +26,7 @@ export const currentUrl = (
 ): string => join('/current', clanId, membershipId)
 
 export const eventUrl = (tense?: string, id?: number | string): string => {
-  if (tense === CURRENT_TENSE) return currentUrl()
+  if (isCurrent(tense)) return currentUrl()
 
   return join('/events', id)
 }

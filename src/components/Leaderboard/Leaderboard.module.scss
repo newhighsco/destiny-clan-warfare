@@ -1,6 +1,10 @@
 @use '@styles/colors.module';
 @use '@styles/functions';
 
+.root {
+  padding: 0 functions.spacing(0.5);
+}
+
 .row {
   align-items: center;
   background: colors.$nightrider;
@@ -19,7 +23,7 @@
   }
 }
 
-.cell {
+.column {
   flex: 1 1 0;
   max-width: 12.5%;
   padding: functions.spacing(1);
@@ -61,10 +65,10 @@
   display: inline-block;
   text-decoration: none;
 
-  &:focus,
-  &:focus-within,
-  &:hover,
-  .row:hover & {
+  &[href]:focus,
+  &[href]:focus-within,
+  &[href]:hover,
+  .row:hover &[href] {
     border-color: colors.$terracotta;
     color: colors.$black;
   }

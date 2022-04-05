@@ -17,15 +17,7 @@ interface FooterProps {
 }
 
 const year = new Date().getFullYear()
-const links = [
-  {
-    href: '/test',
-    children: 'Test'
-  },
-  {
-    children: <>&copy;{year}</>
-  }
-]
+const links = [{ children: <>&copy;{year}</> }]
 
 const Footer: React.FC<FooterProps> = ({ size }) => (
   <FooterContainer theme={{ root: styles.root, content: styles.content }}>

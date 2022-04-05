@@ -4,6 +4,7 @@ import ClanPage, {
   getStaticProps as clanStaticProps
 } from '@pages/clans/[clanId]'
 import { CURRENT_TENSE } from '@helpers/urls'
+import { getClanLeaderboard } from '@libs/api'
 
 const CurrentClanPage: React.FC = props => {
   return <ClanPage {...props} />
@@ -12,17 +13,19 @@ const CurrentClanPage: React.FC = props => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { props }: InferGetStaticPropsType<typeof clanStaticProps> =
     await clanStaticProps({ params: { ...params, tense: CURRENT_TENSE } })
+  const leaderboard = await getClanLeaderboard(props.id)
 
   return {
     props: {
-      ...props
+      ...props,
+      leaderboard
     }
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // TODO: Only load top clans
-  const clans = Array.from(Array(5).keys()).map(key => `${key}`)
+  const clans = []
   const paths = clans.map(clanId => ({
     params: { clanId }
   }))

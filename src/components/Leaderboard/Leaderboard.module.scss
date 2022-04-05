@@ -2,11 +2,14 @@
 @use '@styles/functions';
 
 .row {
+  align-items: center;
   background: colors.$nightrider;
   border-bottom: 1px solid colors.$nero;
+  color: colors.$white;
   display: flex;
+  line-height: 1.2;
 
-  &:nth-child(even) {
+  &.even {
     background: colors.$eclipse;
   }
 
@@ -45,4 +48,31 @@
   flex-grow: 1;
   max-width: 100%;
   text-align: left;
+}
+
+.link {
+  border-bottom: 1px solid transparent;
+  color: currentColor;
+  display: inline-block;
+  text-decoration: none;
+
+  &:focus,
+  &:focus-within,
+  &:hover,
+  .row:hover & {
+    border-color: colors.$terracotta;
+    color: colors.$black;
+  }
+}
+
+.date {
+  color: colors.$silver;
+  display: block;
+  font-size: smaller;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+
+  .row:hover & {
+    color: colors.$eclipse;
+  }
 }

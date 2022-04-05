@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { eventModifiers } from './modifiers'
+import { Event } from '@libs/api/types'
 
 const now = dayjs().startOf('d')
 
@@ -16,7 +17,7 @@ export const currentEvent = {
     { name: 'Most wins', value: 343, label: 'Player [CLAN]' }
   ],
   statsGamesThreshold: 25
-}
+} as Event
 
 export const pastEvents = [
   {
@@ -87,7 +88,7 @@ export const pastEvents = [
       { name: 'Total games', value: 996509 }
     ]
   }
-]
+] as Event[]
 
 export const futureEvents = [
   {
@@ -100,4 +101,4 @@ export const futureEvents = [
     tense: 'Future',
     modifiers: eventModifiers
   }
-]
+] as Event[]

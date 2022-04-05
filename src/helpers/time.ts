@@ -16,11 +16,11 @@ dayjs.extend(relativeTime)
 
 dayjs.tz.setDefault('UTC')
 
-export const utcDate = (date?: ConfigType) => dayjs.tz(date)
+export const utcDate = (date?: ConfigType): Dayjs => dayjs.tz(date)
 
-export const localDate = (date?: ConfigType) => dayjs(date).local()
+export const localDate = (date?: ConfigType): Dayjs => dayjs(date).local()
 
-export const formatDate = (date: Dayjs) => {
+export const formatDate = (date: Dayjs): string => {
   const now = date.isUTC ? utcDate() : localDate()
   const showYear = !date.isSame(now, 'y')
 
@@ -29,12 +29,12 @@ export const formatDate = (date: Dayjs) => {
   )
 }
 
-export const formatTime = (date: Dayjs) => date.format('HH:mm\xa0z')
+export const formatTime = (date: Dayjs): string => date.format('HH:mm\xa0z')
 
-export const formatDateTime = (date: Dayjs) =>
+export const formatDateTime = (date: Dayjs): string =>
   [formatDate(date), formatTime(date)].join(' ')
 
-export const formatDuration = (milliseconds: number) => {
+export const formatDuration = (milliseconds: number): string => {
   const duration = dayjs.duration(milliseconds)
   const days = Math.floor(duration.asDays())
 
@@ -60,7 +60,7 @@ export const countdown = (
   start: Dayjs,
   end: Dayjs,
   now: Dayjs
-) => {
+): [string, number] => {
   const total = dayjs.duration(end.diff(start)).asMilliseconds()
   const passed = dayjs.duration(now.diff(start)).asMilliseconds()
   const remaining = dayjs.duration(date.diff(now)).asMilliseconds()

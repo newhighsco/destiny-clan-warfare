@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { props }: InferGetStaticPropsType<typeof eventStaticProps> =
     await eventStaticProps({
-      params: { eventId: currentEventId }
+      params: { eventId: `${currentEventId}` }
     })
 
   return {

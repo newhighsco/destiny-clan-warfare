@@ -19,6 +19,10 @@ interface FooterProps {
 const year = new Date().getFullYear()
 const links = [
   {
+    href: '/test',
+    children: 'Test'
+  },
+  {
     children: <>&copy;{year}</>
   }
 ]

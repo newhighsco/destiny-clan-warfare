@@ -6,9 +6,10 @@ import { eventUrl } from '@helpers/urls'
 import Leaderboard from '@components/Leaderboard'
 import Lockup from '@components/Lockup'
 import { MedalList, MedalProps } from '@components/Medal'
-import { ModifierList, ModifierProps } from '@components/Modifier'
+import { ModifierList } from '@components/Modifier'
 import { StatList, StatProps } from '@components/Stat'
 import Timer from '@components/Timer'
+import { EventLeaderboardRow, Modifier } from '@libs/api/types'
 
 import styles from './Event.module.scss'
 
@@ -36,21 +37,23 @@ const StatListTooltip = {
 interface EventProps {
   id: number
   tense: string
+  kicker?: string
   name: string
   description?: string
   startDate?: Dayjs
   endDate?: Dayjs
-  modifiers?: ModifierProps[]
+  modifiers?: Modifier[]
   stats?: StatProps[]
   statsGamesThreshold?: number
   medals?: MedalProps[]
   summary?: boolean
-  leaderboard?: any
+  leaderboard?: EventLeaderboardRow[]
 }
 
 const Event: React.FC<EventProps> = ({
   id,
   tense,
+  kicker,
   name,
   description,
   startDate,
@@ -62,13 +65,18 @@ const Event: React.FC<EventProps> = ({
   summary,
   leaderboard
 }) => {
+  if (!id) return null
+
   const href = eventUrl(tense, id)
   const summaryCallToAction = summary && SummaryCallToAction[tense]
 
   return (
-    <ContentContainer theme={{ content: styles.content }} size="desktop">
+    <ContentContainer
+      theme={{ root: styles.root, content: styles.content }}
+      size="desktop"
+    >
       <Lockup
-        kicker={EventKicker[tense]}
+        kicker={kicker || EventKicker[tense]}
         kickerAttributes={summary && { as: 'h1' }}
         align="center"
         highlight
@@ -100,7 +108,7 @@ const Event: React.FC<EventProps> = ({
       </Card>
       {!summary && (
         <>
-          <Leaderboard data={leaderboard} />
+          <Leaderboard rows={leaderboard} />
           <Button.Group>
             <Link href={eventUrl()} passHref prefetch={false}>
               <Button>View all events</Button>

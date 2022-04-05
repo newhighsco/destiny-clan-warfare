@@ -1,5 +1,11 @@
 @use '@styles/functions';
 
+.root {
+  & + & {
+    margin-top: functions.spacing(2.5);
+  }
+}
+
 .content {
   > * + * {
     margin-top: functions.spacing(1);

@@ -8,7 +8,8 @@ import { round } from '@helpers/stats'
 import styles from './Avatar.module.scss'
 
 export enum AvatarSize {
-  Small = 'small'
+  Small = 'small',
+  Medium = 'medium'
 }
 
 interface AvatarLayerProps {
@@ -42,9 +43,10 @@ const AvatarLayer: React.FC<AvatarLayerProps> = ({ id, fill, src }) => {
   )
 }
 
-interface AvatarProps extends Partial<AvatarLayerProps> {
-  background?: AvatarLayerProps
-  foreground?: AvatarLayerProps
+interface AvatarProps extends Pick<AvatarLayerProps, 'fill' | 'src'> {
+  id?: number
+  background?: Omit<AvatarLayerProps, 'id'>
+  foreground?: Omit<AvatarLayerProps, 'id'>
   size?: AvatarSize
   outline?: boolean
 }
@@ -59,7 +61,8 @@ const Avatar: React.FC<AvatarProps> = ({
   id,
   children
 }) => {
-  const hasLayers = background || foreground
+  const hasLayers =
+    !!Object.keys(background).length || !!Object.keys(foreground).length
 
   return (
     <div

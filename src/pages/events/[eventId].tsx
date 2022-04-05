@@ -82,7 +82,7 @@ const EventPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const eventId = params?.eventId as string
-  const event = await getEvent(eventId)
+  const event = await getEvent(parseInt(eventId))
 
   return {
     props: {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { paramCase } from 'param-case'
 import { List, Tooltip } from '@newhighsco/chipset'
 import Icon from '@components/Icon'
+import { Modifier as ModifierType } from '@libs/api/types'
 import { duplicates } from './icons'
 
 import styles from './Modifier.module.scss'
@@ -14,14 +15,7 @@ const PREFIX_POSITIVE = '+'
 const NAMES_NOT_APPLICABLE = ['No Modifier', 'No Multiplier']
 const NAMES_TBC = ['Modifier TBC', 'Multiplier TBC']
 
-export interface ModifierProps {
-  name: string
-  multiplierBonus?: number
-  multiplierModifier?: boolean
-  scoringBonus?: number
-  scoringModifier?: boolean
-  description?: string
-  createdBy?: string
+interface ModifierProps extends ModifierType {
   tooltipProps?: PropTypes.InferProps<Tooltip.propTypes>
 }
 
@@ -91,8 +85,8 @@ const Modifier: React.FC<ModifierProps> = ({
 }
 
 export interface ModifierListProps {
-  modifiers: ModifierProps[]
-  tooltipProps?: ModifierProps['tooltipProps']
+  modifiers: ModifierType[]
+  tooltipProps?: PropTypes.InferProps<Tooltip.propTypes>
 }
 
 const ModifierList: React.FC<ModifierListProps> = ({

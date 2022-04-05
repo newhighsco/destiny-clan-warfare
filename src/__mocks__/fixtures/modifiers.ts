@@ -1,3 +1,5 @@
+import { Modifier } from '@libs/api/types'
+
 export const eventModifiers = [
   {
     name: 'Pulsating',
@@ -17,4 +19,4 @@ export const eventModifiers = [
       'Get an increased multiplier for playing with members of your clan (stacks)',
     multiplierBonus: 0.5
   }
-]
+] as Modifier[]

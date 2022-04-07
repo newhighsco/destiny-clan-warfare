@@ -54,7 +54,7 @@ const HomePage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { currentEventId } = await getCurrentEvent()
+  const { eventId: currentEventId } = await getCurrentEvent()
   const currentEvent = await getEvent(currentEventId)
   // TODO: Get from API
   const previousEvent = null // await getEvent(3)

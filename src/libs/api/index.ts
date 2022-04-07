@@ -34,18 +34,14 @@ export const getClanLeaderboard = async (
 }
 
 export const getCurrentEvent = async (): Promise<{
-  currentEventId: number
+  eventId: number
   leaderboard: EventLeaderboardRow[]
 }> => {
-  const {
-    currentEvent: { id },
-    result: leaderboard
-  } = await getData('CurrentEvent/ClanLeaderboard')
+  const { eventId, result: leaderboard } = await getData(
+    'CurrentEvent/ClanLeaderboard'
+  )
 
-  return {
-    currentEventId: id,
-    leaderboard
-  }
+  return { eventId, leaderboard }
 }
 
 export const getEvents = async (): Promise<Event[]> => {

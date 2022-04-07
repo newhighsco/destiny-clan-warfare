@@ -10,15 +10,15 @@ const CurrentEventPage: React.FC = props => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { currentEventId, leaderboard } = await getCurrentEvent()
+  const { eventId, leaderboard } = await getCurrentEvent()
 
-  if (!currentEventId) {
+  if (!eventId) {
     return { notFound: true }
   }
 
   const { props }: InferGetStaticPropsType<typeof eventStaticProps> =
     await eventStaticProps({
-      params: { eventId: `${currentEventId}` }
+      params: { eventId: `${eventId}` }
     })
 
   return {

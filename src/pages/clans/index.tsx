@@ -5,8 +5,10 @@ import { List, Prose, SmartLink } from '@newhighsco/chipset'
 import PageContainer from '@components/PageContainer'
 import Lockup from '@components/Lockup'
 import { canonicalUrl, clanUrl } from '@helpers/urls'
+import { getClans } from '@libs/api'
 
 const ClanListingPage: React.FC = ({
+  clans,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -14,16 +16,13 @@ const ClanListingPage: React.FC = ({
       <Lockup kicker="Clan" heading="leaderboard" align="center" highlight />
       <Prose>
         <List>
-          <li>
-            <Link href={clanUrl('123')} passHref prefetch={false}>
-              <SmartLink>Cached clan</SmartLink>
-            </Link>
-          </li>
-          <li>
-            <Link href={clanUrl('1486166')} passHref prefetch={false}>
-              <SmartLink>Un-cached clan</SmartLink>
-            </Link>
-          </li>
+          {clans?.map(({ id, name }) => (
+            <li key={id}>
+              <Link href={clanUrl(id)} passHref prefetch={false}>
+                <SmartLink>{name}</SmartLink>
+              </Link>
+            </li>
+          ))}
         </List>
       </Prose>
     </PageContainer>
@@ -33,6 +32,7 @@ const ClanListingPage: React.FC = ({
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      clans: await getClans(),
       meta: {
         canonical: canonicalUrl(clanUrl()),
         title: 'Clan leaderboard',

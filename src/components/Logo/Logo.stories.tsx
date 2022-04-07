@@ -9,14 +9,14 @@ export default {
 
 const Template: ComponentStory<typeof Logo> = args => <Logo {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.parameters = {
+Source.parameters = {
   chromatic: { disable: true }
 }
 
-export const icon: React.FC = () => <LogoIcon />
+export const Icon: React.FC = () => <LogoIcon />
 
-export const lockup: React.FC = () => <LogoLockup />
+export const Lockup: React.FC = () => <LogoLockup />
 
-export const complete = Template.bind({})
+export const Complete = Template.bind({})

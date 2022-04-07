@@ -4,6 +4,7 @@ import ClanMemberPage, {
   getStaticProps as memberStaticProps
 } from '@pages/clans/[clanId]/[memberId]'
 import { CURRENT_TENSE } from '@helpers/urls'
+import { getMemberLeaderboard } from '@libs/api'
 
 const CurrentMemberPage: React.FC = props => {
   return <ClanMemberPage {...props} />
@@ -12,9 +13,18 @@ const CurrentMemberPage: React.FC = props => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { props }: InferGetStaticPropsType<typeof memberStaticProps> =
     await memberStaticProps({ params: { ...params, tense: CURRENT_TENSE } })
+  let leaderboard
+
+  try {
+    leaderboard = await getMemberLeaderboard(props.id)
+  } catch {
+    // TODO: log this somewhere?
+    leaderboard = []
+  }
 
   return {
     props: {
+      leaderboard,
       ...props
     }
   }

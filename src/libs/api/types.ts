@@ -56,6 +56,11 @@ export interface Member {
   avatar: string
 }
 
+export interface MemberLeaderboardRow extends LeaderboardRow {
+  id: number
+  name: string
+}
+
 export interface Modifier {
   name: string
   description?: string

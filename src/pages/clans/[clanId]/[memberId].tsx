@@ -13,6 +13,7 @@ const ClanMemberPage: React.FC = ({
   name,
   avatar,
   clan,
+  leaderboard,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
@@ -35,7 +36,14 @@ const ClanMemberPage: React.FC = ({
           ...breadcrumb
         }))}
       />
-      <Member id={id} tense={tense} name={name} avatar={avatar} clan={clan} />
+      <Member
+        id={id}
+        tense={tense}
+        name={name}
+        avatar={avatar}
+        clan={clan}
+        leaderboard={leaderboard}
+      />
     </PageContainer>
   )
 }
@@ -45,16 +53,21 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const clanId = params?.clanId as string
   const memberId = params?.memberId as string
 
+  // TODO: Get from API
   const member = {
     id: memberId,
     name: 'TODO: Member name',
-    avatar: 'https://www.bungie.net/img/profile/avatars/cc13.jpg',
     clan: {
       id: clanId,
       name: clanId,
       tag: '???'
     }
   }
+
+  // TODO: Handle 404
+  // if (!member) {
+  //   return { notFound: true }
+  // }
 
   const { name, clan } = member
   const { kicker, url, description } = MemberMeta[tense]

@@ -12,12 +12,12 @@ export default {
 
 const Template: ComponentStory<typeof Avatar> = args => <Avatar {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.args = {
+Source.args = {
   src: 'https://example.com/image.jpg'
 }
-source.parameters = {
+Source.parameters = {
   chromatic: { disable: true }
 }
 

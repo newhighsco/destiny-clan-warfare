@@ -10,15 +10,19 @@ export default {
 
 const Template: ComponentStory<typeof Modifier> = args => <Modifier {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-const List: ComponentStory<typeof ModifierList> = args => (
+Source.parameters = {
+  chromatic: { disable: true }
+}
+
+const ListTemplate: ComponentStory<typeof ModifierList> = args => (
   <ModifierList {...args} />
 )
 
-export const list = List.bind({})
+export const List = ListTemplate.bind({})
 
-list.args = {
+List.args = {
   modifiers: [
     { name: '20/20' },
     { name: '20/20', multiplierBonus: 100 },
@@ -45,9 +49,9 @@ list.args = {
   ]
 }
 
-export const all = List.bind({})
+export const All = ListTemplate.bind({})
 
-all.args = {
+All.args = {
   modifiers: [
     {
       id: 1,
@@ -1246,7 +1250,7 @@ const Wrapper = styled.div`
   }
 `
 
-all.decorators = [
+All.decorators = [
   Story => (
     <Wrapper>
       <Story />

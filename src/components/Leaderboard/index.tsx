@@ -8,31 +8,36 @@ import {
 } from 'react-window'
 import { ContentContainer, SmartLink } from '@newhighsco/chipset'
 import Avatar, { AvatarSize } from '@components/Avatar'
+import RelativeDate from '@components/RelativeDate'
 import { rankNumber, shortNumber } from '@helpers/stats'
-import { ClanLeaderboardRow, EventLeaderboardRow } from '@libs/api/types'
+import {
+  ClanLeaderboardRow,
+  EventLeaderboardRow,
+  MemberLeaderboardRow
+} from '@libs/api/types'
 
 import styles from './Leaderboard.module.scss'
-import RelativeDate from '@components/RelativeDate'
 
-interface LeaderProps {
-  rows?: EventLeaderboardRow[] | ClanLeaderboardRow[]
+interface LeaderboardProps {
+  rows?: EventLeaderboardRow[] | ClanLeaderboardRow[] | MemberLeaderboardRow[]
   columns?: string[]
-  setHref?: (row: EventLeaderboardRow | ClanLeaderboardRow) => string
+  setHref?: (
+    row: EventLeaderboardRow | ClanLeaderboardRow | MemberLeaderboardRow
+  ) => string
 }
 
-const Leaderboard: React.FC<LeaderProps> = ({ rows, columns, setHref }) => {
+const Leaderboard: React.FC<LeaderboardProps> = ({
+  rows,
+  columns,
+  setHref
+}) => {
   if (!rows || rows.length < 1) return null
 
   const height = 500
-
-  const Row: React.FC<ListChildComponentProps> = ({
-    index,
-    style,
-    ...rest
-  }) => {
+  const Row: React.FC<ListChildComponentProps> = ({ index, style }) => {
     const row = rows[index]
-    const { id, avatar, name, lastUpdated, rank, score } = row
-    const avatarProps = typeof avatar === 'string' ? { src: avatar } : avatar
+    const { id, name, lastUpdated, rank, score } = row
+    const avatar = 'avatar' in row && row.avatar
     const href = setHref?.(row)
 
     return (
@@ -40,12 +45,14 @@ const Leaderboard: React.FC<LeaderProps> = ({ rows, columns, setHref }) => {
         style={style}
         className={classNames(styles.row, index % 2 === 0 && styles.even)}
       >
-        <Avatar
-          size={AvatarSize.Medium}
-          id={id}
-          {...avatarProps}
-          className={styles.avatar}
-        />
+        {avatar && (
+          <Avatar
+            {...(typeof avatar === 'string' ? { src: avatar } : avatar)}
+            size={AvatarSize.Medium}
+            id={id}
+            className={styles.avatar}
+          />
+        )}
         <div className={classNames(styles.column, styles.heading)}>
           {href ? (
             <Link href={href} passHref prefetch={false}>

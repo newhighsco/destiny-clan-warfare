@@ -24,11 +24,14 @@ export default {
 
 const Template: ComponentStory<typeof Timer> = args => <Timer {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.args = {
+Source.args = {
   start: now.format(),
   end: now.format()
+}
+Source.parameters = {
+  chromatic: { disable: true }
 }
 
 const Stories: Story<{ items: TimerProps[] }> = args => (
@@ -42,9 +45,9 @@ const Stories: Story<{ items: TimerProps[] }> = args => (
   </>
 )
 
-export const current = Stories.bind({})
+export const Current = Stories.bind({})
 
-current.args = {
+Current.args = {
   items: [
     {
       start: yesterday,
@@ -85,9 +88,9 @@ current.args = {
   ]
 }
 
-export const future = Stories.bind({})
+export const Future = Stories.bind({})
 
-future.args = {
+Future.args = {
   items: [
     {
       start: nextYear,
@@ -128,9 +131,9 @@ future.args = {
   ]
 }
 
-export const past = Stories.bind({})
+export const Past = Stories.bind({})
 
-past.args = {
+Past.args = {
   items: [
     {
       start: lastYear,

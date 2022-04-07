@@ -9,13 +9,19 @@ export default {
 
 const Template: ComponentStory<typeof Medal> = args => <Medal {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-const List: ComponentStory<typeof MedalList> = args => <MedalList {...args} />
+Source.parameters = {
+  chromatic: { disable: true }
+}
 
-export const list = List.bind({})
+const ListTemplate: ComponentStory<typeof MedalList> = args => (
+  <MedalList {...args} />
+)
 
-list.args = {
+export const List = ListTemplate.bind({})
+
+List.args = {
   medals: [
     { name: 'Top 3 company', tier: 1, count: 1 },
     { name: 'Top 3 company', tier: 1, count: 5 },

@@ -1,7 +1,12 @@
+@use '@styles/colors.module';
 @use '@styles/functions';
 
 .content {
   > * + * {
     margin-top: functions.spacing(1);
   }
+}
+
+.avatar {
+  margin-bottom: functions.spacing(1);
 }

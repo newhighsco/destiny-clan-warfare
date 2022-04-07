@@ -9,69 +9,69 @@ export default {
 
 const Template: ComponentStory<typeof Lockup> = args => <Lockup {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.args = {
+Source.args = {
   heading: 'Heading',
   kicker: 'Kicker',
   children: 'Content'
 }
-source.parameters = {
+Source.parameters = {
   chromatic: { disable: true }
 }
 
-export const heading = Template.bind({})
+export const WithHeading = Template.bind({})
 
-heading.args = {
+WithHeading.args = {
   heading: 'Avalanche UK',
   headingAttributes: { href: '#' }
 }
 
-export const kicker = Template.bind({})
+export const WithKicker = Template.bind({})
 
-kicker.args = {
+WithKicker.args = {
   kicker: 'Hardcore Casuals / Laidback Diehards',
   kickerAttributes: { href: '#' }
 }
 
-export const both = Template.bind({})
+export const WithBoth = Template.bind({})
 
-both.args = {
-  ...heading.args,
-  ...kicker.args
+WithBoth.args = {
+  ...WithHeading.args,
+  ...WithKicker.args
 }
 
-export const highlighted = Template.bind({})
+export const Highlighted = Template.bind({})
 
-highlighted.args = {
-  ...both.args,
+Highlighted.args = {
+  ...WithBoth.args,
   highlight: true
 }
 
-export const reversed = Template.bind({})
+export const Reversed = Template.bind({})
 
-reversed.args = {
-  ...both.args,
+Reversed.args = {
+  ...WithBoth.args,
   reverse: true
 }
 
-export const centerAligned = Template.bind({})
+export const CenterAligned = Template.bind({})
 
-centerAligned.args = {
-  ...both.args,
+CenterAligned.args = {
+  ...WithBoth.args,
   align: 'center'
 }
 
-export const rightAligned = Template.bind({})
+export const RightAligned = Template.bind({})
 
-rightAligned.args = {
-  ...both.args,
+RightAligned.args = {
+  ...WithBoth.args,
   align: 'right'
 }
 
-export const borderless = Template.bind({})
+export const WithoutBorders = Template.bind({})
 
-borderless.args = {
-  ...both.args,
+WithoutBorders.args = {
+  ...WithBoth.args,
   border: false
 }

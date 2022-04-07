@@ -49,6 +49,7 @@ interface AvatarProps extends Pick<AvatarLayerProps, 'fill' | 'src'> {
   foreground?: Omit<AvatarLayerProps, 'id'>
   size?: AvatarSize
   outline?: boolean
+  align?: AlignSetting
   className?: string
 }
 
@@ -59,6 +60,7 @@ const Avatar: React.FC<AvatarProps> = ({
   foreground,
   size,
   outline,
+  align,
   id,
   className,
   children
@@ -72,6 +74,7 @@ const Avatar: React.FC<AvatarProps> = ({
         children && styles.inline,
         size && styles[size],
         outline && styles.outline,
+        align && styles[align],
         className
       )}
       style={{ backgroundColor: fill }}

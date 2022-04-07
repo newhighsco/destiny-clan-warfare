@@ -14,12 +14,12 @@ export default {
 
 const Template: ComponentStory<typeof Footer> = args => <Footer {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.parameters = {
+Source.parameters = {
   chromatic: { disable: true }
 }
 
-export const example = Template.bind({})
+export const Example = Template.bind({})
 
-example.storyName = ' '
+Example.storyName = ' '

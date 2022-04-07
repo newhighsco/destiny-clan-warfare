@@ -9,36 +9,41 @@ export default {
 
 const Template: ComponentStory<typeof Stat> = args => <Stat {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.args = {
+Source.args = {
   name: 'Name',
   value: 'Value',
   label: 'Label'
 }
+Source.parameters = {
+  chromatic: { disable: true }
+}
 
-export const empty = Template.bind({})
-empty.args = {
+export const Empty = Template.bind({})
+Empty.args = {
   name: 'Kills'
 }
 
-export const withValue = Template.bind({})
+export const WithValue = Template.bind({})
 
-withValue.args = {
-  ...empty.args,
+WithValue.args = {
+  ...Empty.args,
   value: 1000
 }
 
-export const withLabel = Template.bind({})
+export const WithLabel = Template.bind({})
 
-withLabel.args = {
-  ...withValue.args,
+WithLabel.args = {
+  ...WithValue.args,
   label: 'Player [CLAN]'
 }
 
-const List: ComponentStory<typeof StatList> = args => <StatList {...args} />
+const ListTemplate: ComponentStory<typeof StatList> = args => (
+  <StatList {...args} />
+)
 
-export const list = List.bind({})
+export const List = ListTemplate.bind({})
 
 const values = [
   -1000000,
@@ -59,10 +64,11 @@ const values = [
   10000,
   100000,
   1000000,
-  'Zero'
+  'Zero',
+  undefined
 ]
 
-list.args = {
+List.args = {
   kicker: 'Top stats',
-  stats: values.map(value => ({ ...empty.args, value }))
+  stats: values.map(value => ({ ...Empty.args, value }))
 }

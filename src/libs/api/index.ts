@@ -1,11 +1,18 @@
+import JSONBig from 'json-bigint'
 import { company } from '@fixtures/clans'
 import { currentEvent, futureEvents, pastEvents } from '@fixtures/events'
 import { apiUrl } from '@helpers/urls'
-import { Clan, ClanLeaderboardRow, Event, EventLeaderboardRow } from './types'
+import {
+  Clan,
+  ClanLeaderboardRow,
+  Event,
+  EventLeaderboardRow,
+  MemberLeaderboardRow
+} from './types'
 
 const getData = async (url: string): Promise<any> =>
   await fetch(apiUrl(url)).then(async response => {
-    const json = await response.json()
+    const json = JSONBig({ storeAsString: true }).parse(await response.text())
     // TODO: remove debug and handle errors
     // console.log(url, json)
     return json
@@ -28,7 +35,7 @@ export const getClan = async (id: number): Promise<Clan> => {
 export const getClanLeaderboard = async (
   id: number
 ): Promise<ClanLeaderboardRow[]> => {
-  const { members } = await getData(`/CurrentEvent/Clan/${id}`)
+  const { members } = await getData(`CurrentEvent/Clan/${id}`)
 
   return members
 }
@@ -56,4 +63,12 @@ export const getEvent = async (id: number): Promise<Event> => {
   const event = (await getEvents()).find(event => event.id === id)
 
   return event
+}
+
+export const getMemberLeaderboard = async (
+  id: number
+): Promise<MemberLeaderboardRow[]> => {
+  const { matches } = await getData(`CurrentEvent/ClanMember/${id}`)
+
+  return matches
 }

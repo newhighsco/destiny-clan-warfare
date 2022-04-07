@@ -12,6 +12,7 @@ const ClanPage: React.FC = ({
   tense,
   name,
   motto,
+  avatar,
   leaderboard,
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -34,6 +35,7 @@ const ClanPage: React.FC = ({
         tense={tense}
         name={name}
         motto={motto}
+        avatar={avatar}
         leaderboard={leaderboard}
       />
     </PageContainer>

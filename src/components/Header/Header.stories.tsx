@@ -15,17 +15,17 @@ export default {
 
 const Template: ComponentStory<typeof Header> = args => <Header {...args} />
 
-export const source = Template.bind({})
+export const Source = Template.bind({})
 
-source.parameters = {
+Source.parameters = {
   chromatic: { disable: true }
 }
 
-export const withNoUser = Template.bind({})
+export const WithNoUser = Template.bind({})
 
-export const withUser = Template.bind({})
+export const WithUser = Template.bind({})
 
-withUser.decorators = [
+WithUser.decorators = [
   Story => (
     <Provider
       session={{

@@ -5,9 +5,10 @@ import { EventKicker } from '@components/Event'
 import Leaderboard from '@components/Leaderboard'
 import config from '@config'
 import { clanUrl, currentUrl, isCurrent } from '@helpers/urls'
-import { ClanLeaderboardRow } from '@libs/api/types'
+import { Clan as ClanTypes, ClanLeaderboardRow } from '@libs/api/types'
 
 import styles from './Clan.module.scss'
+import Avatar from '@components/Avatar'
 
 export const ClanMeta = {
   null: {
@@ -23,15 +24,19 @@ export const ClanMeta = {
   }
 }
 
-interface ClanProps {
-  id: number
+interface ClanProps extends ClanTypes {
   tense?: string
-  name: string
-  motto: string
-  leaderboard: ClanLeaderboardRow[]
+  leaderboard?: ClanLeaderboardRow[]
 }
 
-const Clan: React.FC<ClanProps> = ({ id, tense, name, motto, leaderboard }) => {
+const Clan: React.FC<ClanProps> = ({
+  id,
+  tense = null,
+  name,
+  motto,
+  avatar,
+  leaderboard
+}) => {
   const isCurrentEvent = isCurrent(tense)
   const { kicker, url } = ClanMeta[tense]
 
@@ -47,13 +52,22 @@ const Clan: React.FC<ClanProps> = ({ id, tense, name, motto, leaderboard }) => {
       )}
       <Card
         heading={
-          <Lockup
-            heading={name}
-            kicker={motto}
-            align="center"
-            reverse
-            highlight={!isCurrent}
-          />
+          <>
+            <Avatar
+              id={id}
+              {...avatar}
+              align="center"
+              outline
+              className={styles.avatar}
+            />
+            <Lockup
+              heading={name}
+              kicker={motto}
+              align="center"
+              reverse
+              highlight={!isCurrentEvent}
+            />
+          </>
         }
         // {!isCurrent && description && Join button && <MedalList />}
         // {isCurrent && <Stats />}

@@ -1,15 +1,14 @@
 import React from 'react'
 import Link from 'next/link'
-import { Dayjs } from 'dayjs'
 import { Button, Card, ContentContainer, Prose } from '@newhighsco/chipset'
 import { currentUrl, eventUrl } from '@helpers/urls'
 import Leaderboard from '@components/Leaderboard'
 import Lockup from '@components/Lockup'
 import { MedalList, MedalProps } from '@components/Medal'
 import { ModifierList } from '@components/Modifier'
-import { StatList, StatProps } from '@components/Stat'
+import { StatList } from '@components/Stat'
 import Timer from '@components/Timer'
-import { EventLeaderboardRow, Modifier } from '@libs/api/types'
+import { Event as EventType, EventLeaderboardRow } from '@libs/api/types'
 
 import styles from './Event.module.scss'
 
@@ -34,17 +33,8 @@ const StatListTooltip = {
     threshold && `Play a minimum of ${threshold} games to be included.`
 }
 
-interface EventProps {
-  id: number
-  tense: string
+interface EventProps extends EventType {
   kicker?: string
-  name: string
-  description?: string
-  startDate?: Dayjs
-  endDate?: Dayjs
-  modifiers?: Modifier[]
-  stats?: StatProps[]
-  statsGamesThreshold?: number
   medals?: MedalProps[]
   summary?: boolean
   leaderboard?: EventLeaderboardRow[]

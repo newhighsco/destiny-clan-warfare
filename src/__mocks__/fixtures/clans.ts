@@ -5,6 +5,8 @@ export const company = {
   name: 'Avalanche UK',
   tag: 'AVA',
   motto: 'Hardcore Casuals / Laidback Diehards',
+  description:
+    "Avalanche UK is a team of parents and adult gamers who've found mutual friendship through Destiny on Xbox One, our goal is to play the games we love with people who share our ethics. While fun is our main goal we also try to help new members rank up and progress as much as we can. So if you're an adult with or without commitments we could be the clan for you.\n\nWebsite: https://avaclanche.uk\nDiscord: https://discord.avaclanche.uk",
   avatar: {
     fill: '#5be7de',
     background: {

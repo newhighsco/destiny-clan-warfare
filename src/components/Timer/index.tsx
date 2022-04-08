@@ -37,8 +37,8 @@ const TimerDate: React.FC<TimerDateProps> = ({ label, date }) => {
 }
 
 export interface TimerProps {
-  start: Dayjs
-  end: Dayjs
+  start: string
+  end: string
   tickInterval?: number
 }
 

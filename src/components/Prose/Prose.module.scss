@@ -5,6 +5,8 @@
   font-family: fonts.$body;
 
   a {
+    color: currentColor;
+
     &[href] {
       text-decoration: underline;
 

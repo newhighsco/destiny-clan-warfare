@@ -27,7 +27,7 @@ export const getClans = async (): Promise<Clan[]> => {
 
 export const getClan = async (id: number): Promise<Clan> => {
   // TODO: Get clan details from API
-  const clan = (await getClans()).find(clan => clan.id === id)
+  const clan = { ...company, id }
 
   return clan
 }

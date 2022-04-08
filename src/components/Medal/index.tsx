@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { paramCase } from 'param-case'
 import { List, ResponsiveMedia, Tooltip } from '@newhighsco/chipset'
 import Icon from '@components/Icon'
+import Lockup from '@components/Lockup'
 import { duplicates } from './foregrounds'
 
 import styles from './Medal.module.scss'
@@ -80,22 +81,30 @@ const Medal: React.FC<MedalProps> = ({
 
 export interface MedalListProps {
   medals: MedalProps[]
+  kicker?: string
   tooltipProps?: MedalProps['tooltipProps']
 }
 
-const MedalList: React.FC<MedalListProps> = ({ medals, tooltipProps }) => {
+const MedalList: React.FC<MedalListProps> = ({
+  medals,
+  kicker,
+  tooltipProps
+}) => {
   if (!medals?.length) return null
 
   return (
-    <List inline className={styles.list}>
-      {medals
-        .sort((a, b) => b.tier - a.tier)
-        .map((medal, i) => (
-          <li key={i}>
-            <Medal {...medal} tooltipProps={tooltipProps} />
-          </li>
-        ))}
-    </List>
+    <>
+      {kicker && <Lockup kicker={kicker} border={false} align="center" />}
+      <List inline className={styles.list}>
+        {medals
+          .sort((a, b) => b.tier - a.tier)
+          .map((medal, i) => (
+            <li key={i}>
+              <Medal {...medal} tooltipProps={tooltipProps} />
+            </li>
+          ))}
+      </List>
+    </>
   )
 }
 

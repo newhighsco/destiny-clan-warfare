@@ -21,12 +21,24 @@ Source.parameters = {
 export const Overall = Template.bind({})
 
 Overall.args = {
-  ...company
+  ...company,
+  medals: [
+    { name: 'The best of the best', tier: 3, count: 3 },
+    { name: 'First company', tier: 2, count: 4 },
+    { name: 'Top 3 company', tier: 1, count: 7 }
+  ]
 }
 
 export const Current = Template.bind({})
 
 Current.args = {
-  ...Overall.args,
-  tense: CURRENT_TENSE
+  ...company,
+  tense: CURRENT_TENSE,
+  description: null,
+  stats: [
+    { name: 'Total active', value: 100 },
+    { name: 'Total games', value: 1000 },
+    { name: 'Bonus 1', value: 1000 },
+    { name: 'Bonus 2', value: 1000 }
+  ]
 }

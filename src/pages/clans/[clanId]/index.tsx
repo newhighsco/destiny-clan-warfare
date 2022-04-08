@@ -6,12 +6,14 @@ import { possessive } from '@helpers/grammar'
 import { canonicalUrl } from '@helpers/urls'
 import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
 import Clan, { ClanMeta } from '@components/Clan'
+import { getClan } from '@libs/api'
 
 const ClanPage: React.FC = ({
   id,
   tense,
   name,
   motto,
+  description,
   avatar,
   leaderboard,
   meta
@@ -35,6 +37,7 @@ const ClanPage: React.FC = ({
         tense={tense}
         name={name}
         motto={motto}
+        description={description}
         avatar={avatar}
         leaderboard={leaderboard}
       />
@@ -45,12 +48,7 @@ const ClanPage: React.FC = ({
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const tense = (params?.tense as string) || null
   const clanId = params?.clanId as string
-  // TODO: Get from api
-  const clan = {
-    id: clanId,
-    name: 'TODO: Clan name',
-    motto: clanId
-  }
+  const clan = await getClan(parseInt(clanId))
 
   // TODO: Handle 404
   // if (!clan) {

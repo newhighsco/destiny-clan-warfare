@@ -1,9 +1,6 @@
 import urlJoin from 'url-join'
 import config from '@config'
-
-export const CURRENT_TENSE = 'Current'
-
-export const isCurrent = (tense: string): boolean => tense === CURRENT_TENSE
+import { Status } from '@libs/api/types'
 
 const { url: siteUrl } = config
 
@@ -25,8 +22,8 @@ export const currentUrl = (
   membershipId?: number | string
 ): string => join('/current', clanId, membershipId)
 
-export const eventUrl = (tense?: string, id?: number | string): string => {
-  if (isCurrent(tense)) return currentUrl()
+export const eventUrl = (status?: string, id?: number | string): string => {
+  if (status === Status[Status.Running]) return currentUrl()
 
   return join('/events', id)
 }

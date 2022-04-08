@@ -94,7 +94,12 @@ const MedalList: React.FC<MedalListProps> = ({
 
   return (
     <>
-      {kicker && <Lockup kicker={kicker} border={false} align="center" />}
+      <Lockup
+        kicker={kicker}
+        border={false}
+        align="center"
+        className={styles.heading}
+      />
       <List inline className={styles.list}>
         {medals
           .sort((a, b) => b.tier - a.tier)

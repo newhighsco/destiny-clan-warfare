@@ -6,11 +6,12 @@ import Leaderboard from '@components/Leaderboard'
 import Avatar from '@components/Avatar'
 import Notification from '@components/Notification'
 import config from '@config'
-import { clanUrl, currentUrl, isCurrent } from '@helpers/urls'
+import { clanUrl, currentUrl } from '@helpers/urls'
 import {
   Clan,
   Member as MemberType,
-  MemberLeaderboardRow
+  MemberLeaderboardRow,
+  Status
 } from '@libs/api/types'
 
 import styles from './Member.module.scss'
@@ -21,32 +22,32 @@ export const MemberMeta = {
     kicker: 'Members',
     description: 'progress in the war against other clans in Destiny 2'
   },
-  Current: {
+  Running: {
     url: currentUrl,
-    kicker: EventKicker.Current,
+    kicker: EventKicker.Running,
     description: `stats and match history in the current ${config.name} event`
   }
 }
 
 interface MemberProps extends Omit<MemberType, 'clanId'> {
-  tense?: string
+  status?: string
   clan?: Clan
   leaderboard?: MemberLeaderboardRow[]
 }
 
 const Member: React.FC<MemberProps> = ({
-  tense,
+  status,
   name,
   avatar,
   clan,
   leaderboard
 }) => {
-  const isCurrentEvent = isCurrent(tense)
-  const { kicker, url } = MemberMeta[tense]
+  const isCurrent = status === Status[Status.Running]
+  const { kicker, url } = MemberMeta[status]
 
   return (
     <ContentContainer theme={{ content: styles.content }} size="desktop">
-      {isCurrentEvent && (
+      {isCurrent && (
         <Lockup
           kicker={kicker}
           kickerAttributes={{ href: url() }}
@@ -69,12 +70,12 @@ const Member: React.FC<MemberProps> = ({
               kickerAttributes={{ href: url(clan.id) }}
               align="center"
               reverse
-              highlight={!isCurrentEvent}
+              highlight={!isCurrent}
             />
           </>
         }
       />
-      {isCurrentEvent && !leaderboard.length && (
+      {isCurrent && !leaderboard.length && (
         <Notification>
           Match history is being calculated. Please check back later.
         </Notification>

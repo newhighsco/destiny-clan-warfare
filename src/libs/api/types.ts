@@ -1,3 +1,10 @@
+export enum Status {
+  NotStarted,
+  Running,
+  Calculating,
+  Ended
+}
+
 export interface Clan {
   id: number
   name: string
@@ -30,7 +37,7 @@ export interface Event {
   endDate: string
   name: string
   description: string
-  tense: 'Current' | 'Future' | 'Past'
+  status: keyof typeof Status
   modifiers?: Modifier[]
   stats?: any[]
   statsGamesThreshold?: number
@@ -63,6 +70,7 @@ export interface MemberLeaderboardRow extends LeaderboardRow {
 
 export interface Modifier {
   name: string
+  shortName?: string
   description?: string
   createdBy?: string
   multiplierBonus?: number

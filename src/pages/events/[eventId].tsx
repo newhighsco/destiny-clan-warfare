@@ -1,15 +1,16 @@
 import React from 'react'
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { BreadcrumbJsonLd, EventJsonLd } from 'next-seo'
-import { canonicalUrl, eventUrl, isCurrent } from '@helpers/urls'
-import { getEvent, getEvents } from '@libs/api'
-import config from '@config'
 import Event, { EventKicker } from '@components/Event'
 import PageContainer from '@components/PageContainer'
+import config from '@config'
+import { canonicalUrl, eventUrl } from '@helpers/urls'
+import { getEvent, getEventLeaderboard, getEvents } from '@libs/api'
+import { Status } from '@libs/api/types'
 
 const EventPage: React.FC = ({
   id,
-  tense,
+  status,
   name,
   description,
   startDate,
@@ -57,7 +58,7 @@ const EventPage: React.FC = ({
       />
       <Event
         id={id}
-        tense={tense}
+        status={status}
         name={name}
         description={description}
         startDate={startDate}
@@ -74,25 +75,32 @@ const EventPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const eventId = params?.eventId as string
-  const event = await getEvent(parseInt(eventId))
+  const event = await getEvent(eventId)
+
+  if (!event) {
+    return { notFound: true }
+  }
+
+  const { id, status, name, description } = event
 
   return {
     props: {
       ...event,
+      leaderboard: await getEventLeaderboard(id, status),
       meta: {
-        canonical: canonicalUrl(eventUrl(event.tense, event.id)),
-        title: [event.name, EventKicker[event.tense]].join(' | '),
-        description: event.description
+        canonical: canonicalUrl(eventUrl(status, id)),
+        title: [name, EventKicker[status]].join(' | '),
+        description
       }
     }
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = (await getEvents())?.filter(({ tense }) => !isCurrent(tense))
-  const paths = events.map(({ id }) => ({
-    params: { eventId: `${id}` }
-  }))
+  const events = (await getEvents())?.filter(
+    ({ status }) => status !== Status[Status.Running]
+  )
+  const paths = events.map(({ id }) => ({ params: { eventId: `${id}` } }))
 
   return { paths, fallback: false }
 }

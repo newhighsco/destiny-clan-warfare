@@ -5,11 +5,12 @@ import { BreadcrumbJsonLd } from 'next-seo'
 import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
 import Member, { MemberMeta } from '@components/Member'
 import { possessive } from '@helpers/grammar'
-import { canonicalUrl, currentUrl, isCurrent } from '@helpers/urls'
+import { canonicalUrl, currentUrl } from '@helpers/urls'
+import { Status } from '@libs/api/types'
 
 const ClanMemberPage: React.FC = ({
   id,
-  tense,
+  status,
   name,
   avatar,
   clan,
@@ -20,10 +21,10 @@ const ClanMemberPage: React.FC = ({
 
   if (isFallback) return <LoadingPageContainer />
 
-  const isCurrentEvent = isCurrent(tense)
-  const { kicker, url } = MemberMeta[tense]
+  const isCurrent = status === Status[Status.Running]
+  const { kicker, url } = MemberMeta[status]
   const breadcrumbs = [
-    isCurrentEvent && { name: kicker, item: canonicalUrl(currentUrl()) },
+    isCurrent && { name: kicker, item: canonicalUrl(currentUrl()) },
     { name: clan.name, item: canonicalUrl(url(clan.id)) },
     { name, item: meta.canonical }
   ].filter(Boolean)
@@ -38,7 +39,7 @@ const ClanMemberPage: React.FC = ({
       />
       <Member
         id={id}
-        tense={tense}
+        status={status}
         name={name}
         avatar={avatar}
         clan={clan}
@@ -49,7 +50,7 @@ const ClanMemberPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const tense = (params?.tense as string) || null
+  const status = (params?.status as string) || null
   const clanId = params?.clanId as string
   const memberId = params?.memberId as string
 
@@ -70,12 +71,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // }
 
   const { name, clan } = member
-  const { kicker, url, description } = MemberMeta[tense]
+  const { kicker, url, description } = MemberMeta[status]
 
   return {
     props: {
       ...member,
-      tense,
+      status,
       meta: {
         canonical: canonicalUrl(url(clan.id, member.id)),
         title: [`${name} [${clan.tag}]`, kicker].join(' | '),

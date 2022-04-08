@@ -1,13 +1,13 @@
 import JSONBig from 'json-bigint'
 import { company } from '@fixtures/clans'
-import { currentEvent, futureEvents, pastEvents } from '@fixtures/events'
 import { apiUrl } from '@helpers/urls'
 import {
   Clan,
   ClanLeaderboardRow,
   Event,
   EventLeaderboardRow,
-  MemberLeaderboardRow
+  MemberLeaderboardRow,
+  Status
 } from './types'
 
 const getData = async (url: string): Promise<any> =>
@@ -25,50 +25,59 @@ export const getClans = async (): Promise<Clan[]> => {
   return clans
 }
 
-export const getClan = async (id: number): Promise<Clan> => {
+export const getClan = async (clanId: number): Promise<Clan> => {
   // TODO: Get clan details from API
-  const clan = { ...company, id }
+  const clan = { ...company, id: clanId }
 
   return clan
 }
 
 export const getClanLeaderboard = async (
-  id: number
+  eventId: number,
+  clanId: number
 ): Promise<ClanLeaderboardRow[]> => {
-  const { members } = await getData(`CurrentEvent/Clan/${id}`)
+  try {
+    const { members } = await getData(`${eventId}/Clan/${clanId}`)
 
-  return members
-}
-
-export const getCurrentEvent = async (): Promise<{
-  eventId: number
-  leaderboard: EventLeaderboardRow[]
-}> => {
-  const { eventId, result: leaderboard } = await getData(
-    'CurrentEvent/ClanLeaderboard'
-  )
-
-  return { eventId, leaderboard }
+    return members
+  } catch {
+    return []
+  }
 }
 
 export const getEvents = async (): Promise<Event[]> => {
-  // TODO: Get all events from API
-  const events = [...futureEvents, currentEvent, ...pastEvents]
-
-  return events
+  try {
+    return await getData('Tournaments')
+  } catch {
+    return []
+  }
 }
 
-export const getEvent = async (id: number): Promise<Event> => {
-  // TODO: Get event details from API
-  const event = (await getEvents()).find(event => event.id === id)
+export const getEvent = async (eventId: string): Promise<Event> => {
+  try {
+    return await getData(`${eventId}/Tournament`)
+  } catch {
+    return null
+  }
+}
 
-  return event
+export const getEventLeaderboard = async (
+  eventId: number,
+  status: string
+): Promise<EventLeaderboardRow[]> => {
+  if (status === Status[Status.NotStarted]) return []
+
+  try {
+    return await getData(`${eventId}/ClanLeaderboard`)
+  } catch {
+    return []
+  }
 }
 
 export const getMemberLeaderboard = async (
-  id: number
+  memberId: number
 ): Promise<MemberLeaderboardRow[]> => {
-  const { matches } = await getData(`CurrentEvent/ClanMember/${id}`)
+  const { matches } = await getData(`CurrentEvent/ClanMember/${memberId}`)
 
   return matches
 }

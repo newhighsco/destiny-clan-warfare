@@ -7,7 +7,7 @@ import { canonicalUrl, eventUrl } from '@helpers/urls'
 import PageContainer from '@components/PageContainer'
 import config from '@config'
 import Event from '@components/Event'
-import { getCurrentEvent, getEvent } from '@libs/api'
+import { getEvent } from '@libs/api'
 
 const { logo, name, socialLinks, title, url } = config
 
@@ -18,13 +18,17 @@ const HomePage: React.FC = ({
   meta
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   let events = [
-    <Event
-      {...previousEvent}
-      key={previousEvent?.id}
-      summary
-      kicker="Previous event"
-    />,
-    <Event {...nextEvent} key={nextEvent?.id} summary kicker="Next event" />
+    previousEvent && (
+      <Event
+        {...previousEvent}
+        key={previousEvent?.id}
+        summary
+        kicker="Previous event"
+      />
+    ),
+    nextEvent && (
+      <Event {...nextEvent} key={nextEvent?.id} summary kicker="Next event" />
+    )
   ].filter(Boolean)
 
   if (!currentEvent && events.length > 1) {
@@ -54,11 +58,10 @@ const HomePage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { eventId: currentEventId } = await getCurrentEvent()
-  const currentEvent = await getEvent(currentEventId)
   // TODO: Get from API
-  const previousEvent = null // await getEvent(3)
-  const nextEvent = null // await getEvent(4)
+  const currentEvent = await getEvent('2')
+  const previousEvent = await getEvent('1')
+  const nextEvent = null // await getEvent('4')
 
   return {
     props: {

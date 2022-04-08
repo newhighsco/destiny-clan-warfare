@@ -2,7 +2,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Clan from '@components/Clan'
 import { company } from '@fixtures/clans'
-import { CURRENT_TENSE } from '@helpers/urls'
+import { Status } from '@libs/api/types'
 
 export default {
   title: 'Components/Clan',
@@ -33,7 +33,7 @@ export const Current = Template.bind({})
 
 Current.args = {
   ...company,
-  tense: CURRENT_TENSE,
+  status: Status[Status.Running],
   description: null,
   stats: [
     { name: 'Total active', value: 100 },

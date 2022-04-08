@@ -11,6 +11,8 @@
     0 functions.spacing(0.5) functions.spacing(0.5)
       color.adjust(colors.$black, $alpha: -0.75%);
   color: colors.$nero;
+  height: auto;
+  overflow: visible;
   padding: functions.spacing(2) functions.spacing(1);
 
   @include mixins.mq(breakpoints.$tablet) {

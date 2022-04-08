@@ -10,7 +10,7 @@ export const currentEvent = {
   endDate: now.add(7, 'd').format(),
   name: 'Competitive',
   description: 'Score points by completing matches in the Competitive playlist',
-  tense: 'Current',
+  status: 'Running',
   modifiers: eventModifiers,
   stats: [
     { name: 'Most games', value: 495, label: 'Player [CLAN]' },
@@ -26,7 +26,7 @@ export const pastEvents = [
     endDate: now.subtract(401, 'd').format(),
     name: 'Quickplay',
     description: 'Score points by completing matches in the Quickplay playlist',
-    tense: 'Past',
+    status: 'Ended',
     modifiers: eventModifiers,
     stats: [
       { name: 'Total clans', value: 1710 },
@@ -80,7 +80,7 @@ export const pastEvents = [
     name: 'Iron Banner',
     description:
       'Iron Banner returns for season 2! Play Iron Banner, earn points.',
-    tense: 'Past',
+    status: 'Ended',
     modifiers: eventModifiers,
     stats: [
       { name: 'Total clans', value: 1710 },
@@ -98,7 +98,7 @@ export const futureEvents = [
     name: 'Strikes',
     description:
       'Celebrate the return of heroic strikes by scoring points in any strike playlist',
-    tense: 'Future',
+    status: 'NotStarted',
     modifiers: eventModifiers
   }
 ] as Event[]

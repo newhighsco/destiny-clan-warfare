@@ -38,7 +38,7 @@ export interface StatListProps {
 }
 
 const StatList: React.FC<StatListProps> = ({ stats, kicker, tooltip }) => {
-  if (!stats) return null
+  if (!stats?.length) return null
 
   const lockup = (
     <Lockup

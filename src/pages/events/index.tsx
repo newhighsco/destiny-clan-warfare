@@ -18,11 +18,11 @@ const EventListingPage: React.FC = ({
       <Lockup kicker="All" heading="events" align="center" highlight />
       {!!events.length && (
         <ul>
-          {events.map(({ id, name, tense }) => (
+          {events.map(({ id, name, status }) => (
             <li key={id}>
-              <Link href={eventUrl(tense, id)} passHref prefetch={false}>
+              <Link href={eventUrl(status, id)} passHref prefetch={false}>
                 <SmartLink>
-                  {name} - {EventKicker[tense]}
+                  {name} - {EventKicker[status]}
                 </SmartLink>
               </Link>
             </li>

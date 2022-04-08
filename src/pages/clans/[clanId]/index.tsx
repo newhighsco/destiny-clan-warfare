@@ -10,7 +10,7 @@ import { getClan } from '@libs/api'
 
 const ClanPage: React.FC = ({
   id,
-  tense,
+  status,
   name,
   motto,
   description,
@@ -22,7 +22,7 @@ const ClanPage: React.FC = ({
 
   if (isFallback) return <LoadingPageContainer />
 
-  const { kicker, url } = ClanMeta[tense]
+  const { kicker, url } = ClanMeta[status]
 
   return (
     <PageContainer meta={meta}>
@@ -34,7 +34,7 @@ const ClanPage: React.FC = ({
       />
       <Clan
         id={id}
-        tense={tense}
+        status={status}
         name={name}
         motto={motto}
         description={description}
@@ -46,7 +46,7 @@ const ClanPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const tense = (params?.tense as string) || null
+  const status = (params?.status as string) || null
   const clanId = params?.clanId as string
   const clan = await getClan(parseInt(clanId))
 
@@ -56,12 +56,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // }
 
   const { name } = clan
-  const { kicker, url, description } = ClanMeta[tense]
+  const { kicker, url, description } = ClanMeta[status]
 
   return {
     props: {
       ...clan,
-      tense,
+      status,
       meta: {
         canonical: canonicalUrl(url(clan.id)),
         title: [name, kicker].join(' | '),

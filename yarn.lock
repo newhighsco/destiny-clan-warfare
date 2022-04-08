@@ -2535,12 +2535,12 @@
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "7.4.3"
 
-"@newhighsco/press-start@2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.1.6.tgz#7f0efb4e91cd56775d72930f89b008bad88526d8"
-  integrity sha512-OdVhHYfRpuJVK/XkiVpmeCfRHG0dqzy1DM3ix+2mGEVTMHT7xvIsPJC9jk07ama/tWQW4mmTIjcCyixFBB+7lg==
+"@newhighsco/press-start@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.1.7.tgz#ee4570cb06119567efd7dbc9c731914ac3f2bcb0"
+  integrity sha512-CflC/Us2A81L0UoQTerRnNMBm5aPphwbKZiXXBLwIpkRxnzSVVqOTKIh+v2yUiN/OUcFz+81nbNmNlz3rPBrLw==
   dependencies:
-    next-seo "5.3.0"
+    next-seo "5.4.0"
 
 "@newhighsco/prettier-config@2.1.1":
   version "2.1.1"
@@ -2560,10 +2560,10 @@
     "@semantic-release/release-notes-generator" "10.0.3"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@4.5.0":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.0.tgz#d9a4da2bd513f8be10f3998c865a34c0c572ac69"
-  integrity sha512-8Up2tyarYgSO1xcVFLHsP6LSSaDFehzIJquPTXlhrArW8n2WdPGCGW0DGgiL00fCrF/w34y2rxD8zMwVHz60sw==
+"@newhighsco/storybook-preset@4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.1.tgz#12341f67031b0f5d1d997a71aa387d84f0bf3444"
+  integrity sha512-sBdVuirWJ4JtMVAoGoaDOCkH6oNpjrLGfxaSAlG6qwmxWKdgim3Y/93F2I75HqXmlvUh6NSfAQoR+Kb/jFdNFw==
   dependencies:
     "@storybook/addon-actions" "6.4.20"
     "@storybook/addon-backgrounds" "6.4.20"
@@ -2576,7 +2576,7 @@
     new-url-loader "0.1.1"
     postcss "8.4.12"
     react-is "18.0.0"
-    sass "1.49.11"
+    sass "1.50.0"
     sass-loader "12.6.0"
     storybook-dark-mode "1.0.9"
 
@@ -13507,10 +13507,10 @@ next-compose-plugins@2.2.1:
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.1.tgz#020fc53f275a7e719d62521bef4300fbb6fde5ab"
   integrity sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==
 
-next-seo@5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.3.0.tgz#35a8c3ebb9898fd2ac4c8208de360feed3756bf8"
-  integrity sha512-ofXUGGZ4l6j4oCxu6aecTWTkNbN/g+zbYUOvLRBKl96bJrt+WWyo4riRxQqqczvk1niGH4ibN7cCEwVjlYZs2g==
+next-seo@5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.4.0.tgz#37a7784b30b3f70cec3fa0d77f9dde5990822d24"
+  integrity sha512-R9DhajPwJnR/lsF2hZ8cN8uqr5CVITsRrCG1AF5+ufcaybKYOvnH8sH9MaH4/hpkps3PQ9H71S7J7SPYixAYzQ==
 
 next-sitemap@2.5.19:
   version "2.5.19"
@@ -16738,6 +16738,15 @@ sass@1.49.11:
   version "1.49.11"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.11.tgz#1ffeb77faeed8b806a2a1e021d7c9fd3fc322cb7"
   integrity sha512-wvS/geXgHUGs6A/4ud5BFIWKO1nKd7wYIGimDk4q4GFkJicILActpv9ueMT4eRGSsp1BdKHuw1WwAHXbhsJELQ==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
+sass@1.50.0:
+  version "1.50.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.50.0.tgz#3e407e2ebc53b12f1e35ce45efb226ea6063c7c8"
+  integrity sha512-cLsD6MEZ5URXHStxApajEh7gW189kkjn4Rc8DQweMyF+o5HF5nfEz8QYLMlPsTOD88DknatTmBWkOcw5/LnJLQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

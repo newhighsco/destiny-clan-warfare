@@ -1,10 +1,6 @@
 @use '@styles/colors.module';
 @use '@styles/functions';
 
-.root {
-  padding: 0 functions.spacing(0.5);
-}
-
 .row {
   align-items: center;
   background: colors.$nightrider;

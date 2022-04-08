@@ -86,7 +86,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   }
 
   return (
-    <ContentContainer theme={{ root: styles.root }}>
+    <ContentContainer>
       <List
         height={height}
         itemCount={rows.length}

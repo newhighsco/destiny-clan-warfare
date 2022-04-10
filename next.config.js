@@ -19,7 +19,8 @@ const nextConfig = {
     localeDetection: false
   },
   images: {
-    domains: ['www.bungie.net']
+    domains: ['www.bungie.net'],
+    formats: ['image/avif', 'image/webp']
   },
   poweredByHeader: false
 }

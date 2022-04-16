@@ -1237,7 +1237,7 @@ All.args = {
   tooltipProps: { disabled: true }
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled('div')`
   * {
     vertical-align: top;
   }

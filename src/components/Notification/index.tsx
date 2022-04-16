@@ -14,6 +14,7 @@ interface NotificationProps {
   state?: NotificationState
   id?: string
   html?: string
+  children?: React.ReactNode
 }
 
 const Notification: React.FC<NotificationProps> = ({

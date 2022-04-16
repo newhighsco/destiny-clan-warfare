@@ -1252,6 +1252,7 @@ const Wrapper = styled('div')`
 
 All.decorators = [
   Story => (
+    {/* @ts-ignore */}
     <Wrapper>
       <Story />
     </Wrapper>

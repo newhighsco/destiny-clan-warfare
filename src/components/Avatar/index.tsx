@@ -51,6 +51,7 @@ interface AvatarProps extends Pick<AvatarLayerProps, 'fill' | 'src'> {
   outline?: boolean
   align?: AlignSetting
   className?: string
+  children?: React.ReactNode
 }
 
 const Avatar: React.FC<AvatarProps> = ({

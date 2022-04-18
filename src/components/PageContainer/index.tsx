@@ -13,6 +13,7 @@ export interface PageContainerProps {
   className?: string
   align?: string
   meta?: unknown
+  children?: React.ReactNode
 }
 
 const PageContainer: React.FC<PageContainerProps> = ({

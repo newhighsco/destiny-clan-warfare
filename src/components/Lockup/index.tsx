@@ -16,6 +16,7 @@ interface LockupElementProps {
   className?: string
   id?: string
   as?: string | React.FC
+  children?: React.ReactNode
 }
 
 const LockupElement: React.FC<LockupElementProps> = ({

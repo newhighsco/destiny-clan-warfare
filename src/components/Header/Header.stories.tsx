@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentStory, ComponentMeta, DecoratorFn } from '@storybook/react'
 import { Provider } from 'next-auth/client'
 import Header from '@components/Header'
 
@@ -26,7 +26,7 @@ export const WithNoUser = Template.bind({})
 export const WithUser = Template.bind({})
 
 WithUser.decorators = [
-  Story => (
+  (Story => (
     <Provider
       session={{
         user: {
@@ -37,5 +37,5 @@ WithUser.decorators = [
     >
       {Story()}
     </Provider>
-  )
+  )) as DecoratorFn
 ]

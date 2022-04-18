@@ -10,6 +10,7 @@ import styles from './HoldingPageContainer.module.scss'
 interface HoldingPageContainerProps {
   showBackground?: boolean
   meta?: PageContainerProps['meta']
+  children?: React.ReactNode
 }
 
 const HoldingPageContainer: React.FC<HoldingPageContainerProps> = ({

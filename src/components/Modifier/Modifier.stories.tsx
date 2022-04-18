@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentStory, ComponentMeta, DecoratorFn } from '@storybook/react'
 import { styled } from '@storybook/theming'
 import { Modifier, ModifierList } from '@components/Modifier'
 
@@ -1251,9 +1251,10 @@ const Wrapper = styled.div`
 `
 
 All.decorators = [
-  Story => (
+  (Story => (
+    // @ts-expect-error
     <Wrapper>
       <Story />
     </Wrapper>
-  )
+  )) as DecoratorFn
 ]

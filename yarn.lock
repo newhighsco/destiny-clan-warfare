@@ -2580,10 +2580,10 @@
     sass-loader "12.6.0"
     storybook-dark-mode "1.0.9"
 
-"@newhighsco/stylelint-config@3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@newhighsco/stylelint-config/-/stylelint-config-3.1.2.tgz#1e630dc7839f5ec3ddb6543e7c12eecaec876a1d"
-  integrity sha512-Z1ZTH8wljRvVvfLOez217rcYkQ4j0b2sNnn64XXDXmxjIxvWLgAuTNIf22k17zWlv3kBob4Kuh6pmNxO5kTamA==
+"@newhighsco/stylelint-config@3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@newhighsco/stylelint-config/-/stylelint-config-3.1.3.tgz#0894427f5d144533b1d4d520f85ce440a884c5a6"
+  integrity sha512-vEV//efKYiXWQJB6iPPpsZf+uh/8QJUtUEW7mkYBrWp4R7Jha56Npc67mbBRIiYKXpk/0+e+PxGire4QhSyeJQ==
   dependencies:
     stylelint-config-css-modules "4.1.0"
     stylelint-config-prettier "9.0.3"
@@ -6736,10 +6736,10 @@ chownr@^2.0.0:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-2.0.0.tgz#15bfbe53d2eab4cf70f18a8cd68ebe5b3cb1dece"
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
 
-chromatic@6.5.3:
-  version "6.5.3"
-  resolved "https://registry.yarnpkg.com/chromatic/-/chromatic-6.5.3.tgz#dd96e6df6d2ed9d0c79277dc18b06a089080ce62"
-  integrity sha512-6Wy2lsNaojY5wTvobE3WV5VrQ5oP7B8kal6zWGrxu9g7Qbenb2cTcQ5SYgQY7tzT0Ed0zeHVyQm4TMmKz+XfXA==
+chromatic@6.5.4:
+  version "6.5.4"
+  resolved "https://registry.yarnpkg.com/chromatic/-/chromatic-6.5.4.tgz#2e1beb7a8f6b84e7575456fe484201a3b4327ee1"
+  integrity sha512-/yunI/+rdc56C6x0IhpPmdfK/DRMOvQ2hoNyAe6uuU9rdWRoAH72lYatr2NcpdsOdHGOcV5DKgIaKgVdPfUk1w==
 
 chrome-trace-event@^1.0.2:
   version "1.0.3"
@@ -17957,10 +17957,10 @@ stylelint-scss@^4.2.0:
     postcss-selector-parser "^6.0.6"
     postcss-value-parser "^4.1.0"
 
-stylelint@14.7.0:
-  version "14.7.0"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-14.7.0.tgz#f2c4457a63ba813d72856818ab7d4141d2bdd6ab"
-  integrity sha512-vAVPAYaHhcexOiuvym0S64UWIIonMKgYz1Eh+SZgXKkKFLL+wwBzzWGH7Bdnk/HLyH3KlrX+tlisFdEG8ik+Lw==
+stylelint@14.7.1:
+  version "14.7.1"
+  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-14.7.1.tgz#f1b3236cbf9e1b25a04d03f76250943a58d3f37f"
+  integrity sha512-rUOWm67hrzGXXyO/cInENEejF4urh1dLgOb9cr/3XLDb/t/A+rXQp3p6+no8o8QCKTgBUdhVUq/bXMgE988PJw==
   dependencies:
     balanced-match "^2.0.0"
     colord "^2.9.2"

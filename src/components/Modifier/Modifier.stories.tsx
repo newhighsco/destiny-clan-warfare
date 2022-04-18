@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentStory, ComponentMeta, DecoratorFn } from '@storybook/react'
 import { styled } from '@storybook/theming'
 import { Modifier, ModifierList } from '@components/Modifier'
 
@@ -1237,7 +1237,7 @@ All.args = {
   tooltipProps: { disabled: true }
 }
 
-const Wrapper = styled('div')`
+const Wrapper = styled.div`
   * {
     vertical-align: top;
   }
@@ -1251,10 +1251,10 @@ const Wrapper = styled('div')`
 `
 
 All.decorators = [
-  Story => (
-    {/* @ts-ignore */}
+  (Story => (
+    // @ts-expect-error
     <Wrapper>
       <Story />
     </Wrapper>
-  )
+  )) as DecoratorFn
 ]

@@ -54,7 +54,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-window": "1.8.6",
-    "sass": "1.50.0",
+    "sass": "1.50.1",
     "sentence-case": "3.0.4"
   },
   "devDependencies": {

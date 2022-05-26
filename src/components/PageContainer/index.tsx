@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { PageContainer as ThemedPageContainer } from '@newhighsco/chipset'
 import { Meta } from '@newhighsco/press-start'
 import Header from '@components/Header'
@@ -12,7 +13,7 @@ export interface PageContainerProps {
   size?: string
   className?: string
   align?: string
-  meta?: unknown
+  meta?: PropTypes.InferProps<Meta.propTypes>
   children?: React.ReactNode
 }
 

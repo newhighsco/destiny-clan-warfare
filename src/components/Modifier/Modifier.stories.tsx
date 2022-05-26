@@ -1252,7 +1252,6 @@ const Wrapper = styled.div`
 
 All.decorators = [
   (Story => (
-    // @ts-expect-error
     <Wrapper>
       <Story />
     </Wrapper>

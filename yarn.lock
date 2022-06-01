@@ -2603,10 +2603,10 @@
     classnames "2.3.1"
     react-device-detect "2.2.2"
 
-"@newhighsco/commitlint-config@1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@newhighsco/commitlint-config/-/commitlint-config-1.1.4.tgz#a37d070c573ac89d2a7f29fdbf181bcda113502d"
-  integrity sha512-cWCMvOCphrvJ7S2NIm7llJYbl7icBaD1rx8MT8vvS4VmwY4ojhy1i0OgE6b/F6WxnZFpodTD6wPu5Vj0kdBgmA==
+"@newhighsco/commitlint-config@1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@newhighsco/commitlint-config/-/commitlint-config-1.1.5.tgz#57a1dd36b12d4792794c16edcbebc4207fbe92a4"
+  integrity sha512-gMEK1AyVVX/18xF9LvVsP1LPyT8bJFzR+wdsg/SA3UYAHBZtvyU6YZe6gimxVhY1TTfAtAEGMrtUsKSTBFLGMg==
 
 "@newhighsco/editor-config@1.2.0":
   version "1.2.0"
@@ -2654,10 +2654,10 @@
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "7.7.0"
 
-"@newhighsco/press-start@2.1.7":
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.1.7.tgz#ee4570cb06119567efd7dbc9c731914ac3f2bcb0"
-  integrity sha512-CflC/Us2A81L0UoQTerRnNMBm5aPphwbKZiXXBLwIpkRxnzSVVqOTKIh+v2yUiN/OUcFz+81nbNmNlz3rPBrLw==
+"@newhighsco/press-start@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@newhighsco/press-start/-/press-start-2.2.0.tgz#42ff94ec369ca0a187c21821ece817859d6b1a5f"
+  integrity sha512-nTAcLn1MQ8usKJDmnGYOmCOLn6kSgGIrGraGxQf53KqwuMxViA8IHOCpI4GlMS4hozVz4/Z9gQTZ7bTXXKprbg==
   dependencies:
     next-seo "5.4.0"
 

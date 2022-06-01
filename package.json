@@ -39,7 +39,7 @@
   "dependencies": {
     "@newhighsco/chipset": "6.14.5",
     "@newhighsco/next-plugin-svgr": "3.0.50",
-    "@newhighsco/press-start": "2.1.7",
+    "@newhighsco/press-start": "2.2.0",
     "autolinker": "3.15.0",
     "bungie-api-ts": "4.16.0",
     "dayjs": "1.11.2",
@@ -62,7 +62,7 @@
     "@commitlint/cli": "17.0.2",
     "@netlify/plugin-nextjs": "4.7.1",
     "@newhighsco/browserslist-config": "1.1.0",
-    "@newhighsco/commitlint-config": "1.1.4",
+    "@newhighsco/commitlint-config": "1.1.5",
     "@newhighsco/editor-config": "1.2.0",
     "@newhighsco/eslint-config": "3.2.18",
     "@newhighsco/postcss-config": "3.5.23",

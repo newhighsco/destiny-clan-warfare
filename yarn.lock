@@ -13789,10 +13789,10 @@ new-url-loader@0.1.1:
   resolved "https://registry.yarnpkg.com/new-url-loader/-/new-url-loader-0.1.1.tgz#d7bd273f34e9dfa25732ea17772092a5f4e66f66"
   integrity sha512-e7v5Q3uFk2jXgnL1JSVCszPTg9MYkbNIpKI6azeNlAa1bAwboA63aBsC63jlTEWlTacNL45tqWPx0Nm0SkCxCQ==
 
-next-auth@3.29.7:
-  version "3.29.7"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-3.29.7.tgz#56af5d087ce0521c923d79c0ea596c0af9db8cbc"
-  integrity sha512-0p3jQjootKVbleSzC16/97gpzyps6/d/CbWrxA7Ho2SVp7SQE7i8GorlFk4HugqqWfJL6Co1DC3y610V2TFJMw==
+next-auth@3.29.8:
+  version "3.29.8"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-3.29.8.tgz#aedda4412bfd5f84a312fcbd29ded2c122211510"
+  integrity sha512-C4YxgeVTeYtAkKCpEq2qX9kNctWBav5mWHtL32xj5qDOpdmH4LocuAUVZdj0tAae1xv4fKZLtPkV6wN5iqi5Zg==
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@next-auth/prisma-legacy-adapter" "0.1.2"

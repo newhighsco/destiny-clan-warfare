@@ -3384,10 +3384,10 @@
     "@semantic-release/release-notes-generator" "10.0.3"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@4.5.26":
-  version "4.5.26"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.26.tgz#83a9dca550b641ae35794714f94ad69e99abb03f"
-  integrity sha512-bZCKS12EmGp4/7ID/wycYO+8Pd+jTWKQGz70dlGwP+s28NMLVGzJrEgeobZW3m3DRaYGidffUxXlAWRljnmsdQ==
+"@newhighsco/storybook-preset@4.5.27":
+  version "4.5.27"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.27.tgz#ff99e1c5245defa91330b89dca6ee2c7001c34ef"
+  integrity sha512-WFEGZR8jH3a8sbmQFxJJ3bQFOFQXGhzkKZit36REOVtSSQ6X0bgEYRdKELhmoRgcretKD5ZFi3cNl6tkPpNR2A==
   dependencies:
     "@storybook/addon-actions" "6.5.9"
     "@storybook/addon-backgrounds" "6.5.9"
@@ -3400,7 +3400,7 @@
     new-url-loader "0.1.1"
     postcss "8.4.14"
     react-is "18.2.0"
-    sass "1.54.0"
+    sass "1.54.1"
     sass-loader "13.0.2"
     storybook-dark-mode "1.1.0"
 
@@ -17915,15 +17915,6 @@ sass-loader@13.0.2:
   dependencies:
     klona "^2.0.4"
     neo-async "^2.6.2"
-
-sass@1.54.0:
-  version "1.54.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.54.0.tgz#24873673265e2a4fe3d3a997f714971db2fba1f4"
-  integrity sha512-C4zp79GCXZfK0yoHZg+GxF818/aclhp9F48XBu/+bm9vXEVAYov9iU3FBVRMq3Hx3OA4jfKL+p2K9180mEh0xQ==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
-    immutable "^4.0.0"
-    source-map-js ">=0.6.2 <2.0.0"
 
 sass@1.54.1:
   version "1.54.1"

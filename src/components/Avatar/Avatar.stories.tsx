@@ -2,7 +2,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Avatar from '@components/Avatar'
 
-import { ReactComponent as UserSvg } from '../../images/icons/user.svg'
+import { ReactComponent as UserSvg } from '@images/icons/user.svg'
 import { company } from '@fixtures/clans'
 
 export default {

@@ -8,6 +8,7 @@ module.exports = (async () => {
     collectCoverageFrom: ['src/components/**/*.tsx'],
     coveragePathIgnorePatterns: ['.stories.tsx'],
     moduleNameMapper: {
+      '^.+\\.(svg)$': '<rootDir>/config/jest/__mocks__/svgMock.js',
       '^@components/(.*)$': '<rootDir>/src/components/$1',
       '^@config$': '<rootDir>/site.config',
       '^@fixtures/(.*)$': '<rootDir>/src/__mocks__/fixtures//$1',
@@ -23,10 +24,6 @@ module.exports = (async () => {
     testEnvironment: 'jest-environment-jsdom'
   })()
 
-  config.moduleNameMapper = {
-    '^.+\\.(svg)$': '<rootDir>/config/jest/__mocks__/svgMock.js',
-    ...config.moduleNameMapper
-  }
   config.transformIgnorePatterns.splice(
     0,
     1,

@@ -5554,10 +5554,10 @@ builtins@^5.0.1:
   dependencies:
     semver "^7.0.0"
 
-bungie-api-ts@4.18.0:
-  version "4.18.0"
-  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-4.18.0.tgz#1383ea3c3640477b8a77d26993a79421b2219730"
-  integrity sha512-4Onz1DIuT/9pU+qwxPw+DKN4CPgJUUNVZKTJ6iMthq8Nyw0iS+4O4X57EI3FoWAHEwjNCaYoy07HE430OP193w==
+bungie-api-ts@4.19.0:
+  version "4.19.0"
+  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-4.19.0.tgz#b1d9e797e705f07702ea8cfd563c851195a011ae"
+  integrity sha512-3hObpe5EIQBb9nu27YGqKlOPq/05HjY8D1pYTI2rKSjOueWC376pSpnSTwuOA0mcMrqDSihUQRP+LDcljidzaQ==
 
 byline@^5.0.0:
   version "5.0.0"

@@ -1,6 +1,5 @@
-import NextAuth from 'next-auth'
+import NextAuth, { Session } from 'next-auth'
 import Providers from 'next-auth/providers'
-import { Session, SessionClan } from '@helpers/auth'
 import { signInUrl, signOutUrl } from '@helpers/urls'
 import { getMemberClans } from '@libs/bungie'
 
@@ -46,7 +45,7 @@ export default NextAuth({
     session: async (session, token) => {
       const userSession = session as Session
       userSession.user.membershipId = token.sub as string
-      userSession.user.clans = token.clans as Array<SessionClan>
+      userSession.user.clans = token.clans
 
       return Promise.resolve(userSession)
     }

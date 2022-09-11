@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function useSvg(
   name: string
 ): [boolean, React.FC<React.HTMLAttributes<SVGElement>> | null] {
-  const ref = useRef<React.FC<React.SVGProps<SVGSVGElement>>>()
+  const [Icon, setIcon] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -12,11 +12,11 @@ function useSvg(
 
     const importIcon = async (): Promise<void> => {
       try {
-        ref.current = (
+        setIcon(
           await import(
             /* webpackChunkName: "[request]" */ `@images/icons/${name}.svg`
           )
-        ).ReactComponent
+        )
       } catch (err) {
         console.error(err)
       } finally {
@@ -31,7 +31,7 @@ function useSvg(
     }
   }, [name])
 
-  return [loading, ref.current || null]
+  return [loading, Icon?.ReactComponent]
 }
 
 export default useSvg

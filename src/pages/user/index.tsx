@@ -2,7 +2,6 @@ import React, { MouseEvent } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Session } from 'next-auth'
 import { signOut, useSession } from 'next-auth/client'
 import { Button, Prose, SmartLink } from '@newhighsco/chipset'
 import { canonicalUrl, clanUrl, signInUrl, signOutUrl } from '@helpers/urls'
@@ -21,7 +20,7 @@ const UserPage: React.FC = ({
     return null
   }
 
-  const { user } = session as Session
+  const { user } = session
 
   return (
     <PageContainer meta={meta}>

@@ -1,4 +1,4 @@
-import NextAuth, { Session } from 'next-auth'
+import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 import { signInUrl, signOutUrl } from '@helpers/urls'
 import { getMemberClans } from '@libs/bungie'
@@ -40,14 +40,14 @@ export default NextAuth({
         }
       }
 
-      return Promise.resolve(token)
+      return await Promise.resolve(token)
     },
     session: async (session, token) => {
-      const userSession = session as Session
+      const userSession = session
       userSession.user.membershipId = token.sub as string
-      userSession.user.clans = token.clans
+      userSession.user.clans = token.clans as any
 
-      return Promise.resolve(userSession)
+      return await Promise.resolve(userSession)
     }
   },
   pages: {

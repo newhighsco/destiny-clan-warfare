@@ -2062,14 +2062,14 @@
     file-loader "6.2.0"
     url-loader "4.1.1"
 
-"@newhighsco/postcss-config@3.5.87":
-  version "3.5.87"
-  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.5.87.tgz#1aba9002b310646ee7be8c743c12e57191c9b59e"
-  integrity sha512-zkOzyfA/Y22dTMTZkATlfSqgWFtuBsum3CxQ7ArBNVmzKqCsI6cbk0Npr0SDrNOsBw6oBmBM3Dikn8f3HdzxFA==
+"@newhighsco/postcss-config@3.5.88":
+  version "3.5.88"
+  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.5.88.tgz#8563f5d95f8ece753d9ec729dfea9c2b07c80613"
+  integrity sha512-CInIIkwt+tjo+t9t4gsIiDA+zqMoxwYgoENplpQrk7omM/YpWpDk8clDMWN+a4TdtLnihPy1pyTBZTr47GCTbw==
   dependencies:
     "@fullhuman/postcss-purgecss" "5.0.0"
     autoprefixer "10.4.12"
-    caniuse-lite "1.0.30001420"
+    caniuse-lite "1.0.30001421"
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "7.8.2"
 
@@ -2098,10 +2098,10 @@
     "@semantic-release/release-notes-generator" "10.0.3"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@4.5.45":
-  version "4.5.45"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.45.tgz#828d0d8523371c4d828e57c8972bbb8b18e47c5d"
-  integrity sha512-Rekpub4Hv8m8TeHP41p+k386oBsBkRwk4mLDiMkEfHRhR+T/8GFCKbpgcceMgUORiDMUog+r1TXw6TPz4FGWLw==
+"@newhighsco/storybook-preset@4.5.46":
+  version "4.5.46"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.46.tgz#5d7e78bf9996d52a8c4a2aa5061d61cd1167e1bd"
+  integrity sha512-MjrU6sRL818EGLNHtYO77R3AsfJj6I0E/9CggQOLzg+q4KetYRYgO+OFbV1jrEC+1PEVNFM+gDgxSU/mx/DpYQ==
   dependencies:
     "@storybook/addon-actions" "6.5.12"
     "@storybook/addon-backgrounds" "6.5.12"
@@ -2110,7 +2110,7 @@
     "@storybook/addon-postcss" "2.0.0"
     "@storybook/addons" "6.5.12"
     "@storybook/preset-scss" "1.0.3"
-    "@svgr/webpack" "6.4.0"
+    "@svgr/webpack" "6.5.0"
     new-url-loader "0.1.1"
     postcss "8.4.18"
     react-is "18.2.0"
@@ -3546,7 +3546,7 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^6.5.0"
     "@svgr/babel-plugin-transform-svg-component" "^6.5.0"
 
-"@svgr/core@^6.4.0", "@svgr/core@^6.5.0":
+"@svgr/core@^6.5.0":
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/@svgr/core/-/core-6.5.0.tgz#13af3337b7b66a2b6ebe197b67b62badbe490bf1"
   integrity sha512-jIbu36GMjfK8HCCQitkfVVeQ2vSXGfq0ef0GO9HUxZGjal6Kvpkk4PwpkFP+OyCzF+skQFT9aWrUqekT3pKF8w==
@@ -3565,7 +3565,7 @@
     "@babel/types" "^7.18.4"
     entities "^4.3.0"
 
-"@svgr/plugin-jsx@^6.4.0", "@svgr/plugin-jsx@^6.5.0":
+"@svgr/plugin-jsx@^6.5.0":
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/@svgr/plugin-jsx/-/plugin-jsx-6.5.0.tgz#c23ba0048007f1591fe7a9b060be373e4771487b"
   integrity sha512-1CHMqOBKoNk/ZPU+iGXKcQPC6q9zaD7UOI99J+BaGY5bdCztcf5bZyi0QZSDRJtCQpdofeVv7XfBYov2mtl0Pw==
@@ -3575,7 +3575,7 @@
     "@svgr/hast-util-to-babel-ast" "^6.5.0"
     svg-parser "^2.0.4"
 
-"@svgr/plugin-svgo@^6.3.1", "@svgr/plugin-svgo@^6.5.0":
+"@svgr/plugin-svgo@^6.5.0":
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/@svgr/plugin-svgo/-/plugin-svgo-6.5.0.tgz#1d9b7d0909bde9fe7d724569c7f7833f3a7bacd7"
   integrity sha512-8Zv1Yyv6I7HlIqrqGFM0sDKQrhjbfNZJawR8UjIaVWSb0tKZP1Ra6ymhqIFu6FT6kDRD0Ct5NlQZ10VUujSspw==
@@ -3583,20 +3583,6 @@
     cosmiconfig "^7.0.1"
     deepmerge "^4.2.2"
     svgo "^2.8.0"
-
-"@svgr/webpack@6.4.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@svgr/webpack/-/webpack-6.4.0.tgz#6db74282ecd753c4a279c9c595a511e43aa89570"
-  integrity sha512-ejt2JdVX6k0XzUjVObMcTzTgsaCadEVCHBvOt3J0Vcp3eFirf0nqsjQCUD+ogFep25+ICDMZa1nLlotbXxKDXw==
-  dependencies:
-    "@babel/core" "^7.18.5"
-    "@babel/plugin-transform-react-constant-elements" "^7.17.12"
-    "@babel/preset-env" "^7.18.2"
-    "@babel/preset-react" "^7.17.12"
-    "@babel/preset-typescript" "^7.17.12"
-    "@svgr/core" "^6.4.0"
-    "@svgr/plugin-jsx" "^6.4.0"
-    "@svgr/plugin-svgo" "^6.3.1"
 
 "@svgr/webpack@6.5.0":
   version "6.5.0"
@@ -5778,10 +5764,10 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
   integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
 
-caniuse-lite@1.0.30001420, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001332, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001407:
-  version "1.0.30001420"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001420.tgz#f62f35f051e0b6d25532cf376776d41e45b47ef6"
-  integrity sha512-OnyeJ9ascFA9roEj72ok2Ikp7PHJTKubtEJIQ/VK3fdsS50q4KWy+Z5X0A1/GswEItKX0ctAp8n4SYDE7wTu6A==
+caniuse-lite@1.0.30001421, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001332, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001407:
+  version "1.0.30001421"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001421.tgz#979993aaacff5ab72a8d0d58c28ddbcb7b4deba6"
+  integrity sha512-Sw4eLbgUJAEhjLs1Fa+mk45sidp1wRn5y6GtDpHGBaNJ9OCDJaVh2tIaWWUnGfuXfKf1JCBaIarak3FkVAvEeA==
 
 capture-exit@^2.0.0:
   version "2.0.0"

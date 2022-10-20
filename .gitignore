@@ -24,9 +24,10 @@ yarn-error.log
 .eslintcache
 .stylelintcache
 .next
-.env.*
+.netlify
 *.tsbuildinfo
 coverage
 public/robots.txt
 public/sitemap*.xml
+ssl
 storybook

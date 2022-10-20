@@ -38,7 +38,7 @@
     "generate:ssl": "mkcert -cert-file ssl/cert.pem -key-file ssl/key.pem localhost 127.0.0.1 ::1"
   },
   "dependencies": {
-    "@newhighsco/chipset": "6.14.8",
+    "@newhighsco/chipset": "6.14.9",
     "@newhighsco/next-plugin-svgr": "3.0.63",
     "@newhighsco/press-start": "2.2.3",
     "autolinker": "4.0.0",

@@ -1,5 +1,6 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
+import { Session } from 'next-auth'
 import { Provider } from 'next-auth/client'
 import { AppPage } from '@newhighsco/press-start'
 import config from '@config'
@@ -17,7 +18,7 @@ const meta = {
   }))
 }
 
-const App: React.FC<AppProps> = props => (
+const App: React.FC<AppProps<{ session: Session }>> = props => (
   <Provider session={props.pageProps.session}>
     <AppPage {...props} theme={theme} config={config} meta={meta} />
   </Provider>

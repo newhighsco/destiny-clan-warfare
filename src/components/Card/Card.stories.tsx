@@ -1,28 +1,14 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Card } from '@newhighsco/chipset'
-import { WithBoth } from '@components/Lockup/Lockup.stories'
+import Lockup from '@components/Lockup'
 
-export default {
-  title: 'Components/Card',
-  component: Card
-} as ComponentMeta<typeof Card>
+export default { component: Card }
 
-const Template: ComponentStory<typeof Card> = args => <Card {...args} />
-
-export const Source = Template.bind({})
-
-Source.args = {
-  heading: 'Heading',
-  children: 'Content'
-}
-Source.parameters = {
-  chromatic: { disable: true }
+export const Source = {
+  args: { heading: 'Heading', children: 'Content' },
+  parameters: { chromatic: { disable: true } }
 }
 
-export const WithHeading = Template.bind({})
-
-WithHeading.args = {
-  heading: <WithBoth {...WithBoth.args} align="center" reverse />,
-  children: <p>Content</p>
+export const WithHeading = {
+  args: { heading: <Lockup heading="Heading" />, children: <p>Content</p> }
 }

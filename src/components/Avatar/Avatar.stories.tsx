@@ -1,43 +1,21 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-import Avatar from '@components/Avatar'
+import Avatar from '.'
 
 import { ReactComponent as UserSvg } from '@images/icons/user.svg'
 import { company } from '@fixtures/clans'
+import { member } from '@fixtures/members'
 
-export default {
-  title: 'Components/Avatar',
-  component: Avatar
-} as ComponentMeta<typeof Avatar>
+export default { component: Avatar }
 
-const Template: ComponentStory<typeof Avatar> = args => <Avatar {...args} />
-
-export const Source = Template.bind({})
-
-Source.args = {
-  src: 'https://example.com/image.jpg'
-}
-Source.parameters = {
-  chromatic: { disable: true }
+export const Source = {
+  args: { src: 'https://example.com/image.jpg' },
+  parameters: { chromatic: { disable: true } }
 }
 
-export const Empty = Template.bind({})
+export const Empty = {}
 
-export const Member = Template.bind({})
+export const Member = { args: { src: member.image } }
 
-Member.args = {
-  src: 'https://www.bungie.net/img/profile/avatars/cc13.jpg'
-}
+export const Clan = { args: { id: company.id, ...company.avatar } }
 
-export const Clan = Template.bind({})
-
-Clan.args = {
-  id: company.id,
-  ...company.avatar
-}
-
-export const Custom = Template.bind({})
-
-Custom.args = {
-  children: <UserSvg />
-}
+export const Custom = { args: { children: <UserSvg /> } }

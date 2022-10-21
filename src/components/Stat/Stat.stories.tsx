@@ -1,49 +1,18 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Stat, StatList } from '@components/Stat'
 
-export default {
-  title: 'Components/Stat',
-  component: Stat
-} as ComponentMeta<typeof Stat>
+export default { component: Stat }
 
-const Template: ComponentStory<typeof Stat> = args => <Stat {...args} />
-
-export const Source = Template.bind({})
-
-Source.args = {
-  name: 'Name',
-  value: 'Value',
-  label: 'Label'
-}
-Source.parameters = {
-  chromatic: { disable: true }
+export const Source = {
+  args: { name: 'Name', value: 'Value', label: 'Label' },
+  parameters: { chromatic: { disable: true } }
 }
 
-export const Empty = Template.bind({})
-Empty.args = {
-  name: 'Kills'
-}
+export const Empty = { args: { name: 'Kills' } }
 
-export const WithValue = Template.bind({})
+export const WithValue = { args: { ...Empty.args, value: 1000 } }
 
-WithValue.args = {
-  ...Empty.args,
-  value: 1000
-}
-
-export const WithLabel = Template.bind({})
-
-WithLabel.args = {
-  ...WithValue.args,
-  label: 'Player [CLAN]'
-}
-
-const ListTemplate: ComponentStory<typeof StatList> = args => (
-  <StatList {...args} />
-)
-
-export const List = ListTemplate.bind({})
+export const WithLabel = { args: { ...WithValue.args, label: 'Player [CLAN]' } }
 
 const values = [
   -1000000,
@@ -68,7 +37,10 @@ const values = [
   undefined
 ]
 
-List.args = {
-  kicker: 'Top stats',
-  stats: values.map(value => ({ ...Empty.args, value }))
+export const List = {
+  render: args => <StatList {...args} />,
+  args: {
+    kicker: 'Top stats',
+    stats: values.map(value => ({ ...Empty.args, value }))
+  }
 }

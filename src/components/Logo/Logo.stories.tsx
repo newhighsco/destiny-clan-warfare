@@ -1,22 +1,12 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Logo, LogoIcon, LogoLockup } from '@components/Logo'
 
-export default {
-  title: 'Components/Logo',
-  component: Logo
-} as ComponentMeta<typeof Logo>
+export default { component: Logo }
 
-const Template: ComponentStory<typeof Logo> = args => <Logo {...args} />
+export const Source = { parameters: { chromatic: { disable: true } } }
 
-export const Source = Template.bind({})
+export const Icon = { render: () => <LogoIcon /> }
 
-Source.parameters = {
-  chromatic: { disable: true }
-}
+export const Lockup = { render: () => <LogoLockup /> }
 
-export const Icon: React.FC = () => <LogoIcon />
-
-export const Lockup: React.FC = () => <LogoLockup />
-
-export const Complete = Template.bind({})
+export const Complete = {}

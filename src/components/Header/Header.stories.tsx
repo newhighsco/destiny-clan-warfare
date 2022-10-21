@@ -1,43 +1,23 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta, DecoratorFn } from '@storybook/react'
 import { Provider } from 'next-auth/client'
 import Header from '@components/Header'
+import { member } from '@fixtures/members'
 
 export default {
-  title: 'Components/Header',
   component: Header,
-  parameters: {
-    backgrounds: {
-      default: 'dark'
-    }
-  }
-} as ComponentMeta<typeof Header>
-
-const Template: ComponentStory<typeof Header> = args => <Header {...args} />
-
-export const Source = Template.bind({})
-
-Source.parameters = {
-  chromatic: { disable: true }
+  parameters: { backgrounds: { default: 'dark' } }
 }
 
-export const WithNoUser = Template.bind({})
+export const Source = { parameters: { chromatic: { disable: true } } }
 
-export const WithUser = Template.bind({})
+export const WithNoUser = {}
 
-WithUser.decorators = [
-  (Story => (
-    <Provider
-      session={{
-        user: {
-          name: 'benedfit',
-          image: 'https://www.bungie.net/img/profile/avatars/cc13.jpg',
-          email: 'email@example.com',
-          membershipId: '4611686018441246884'
-        }
-      }}
-    >
-      {Story()}
-    </Provider>
-  )) as DecoratorFn
-]
+export const WithUser = {
+  decorators: [
+    Story => (
+      <Provider session={{ user: member }}>
+        <Story />
+      </Provider>
+    )
+  ]
+}

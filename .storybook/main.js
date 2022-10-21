@@ -1,25 +1,16 @@
-const path = require('path')
+const hq = require('alias-hq')
 
 module.exports = {
   core: {
     builder: 'webpack5'
   },
-  stories: ['../src/**/*.stories.@(js|mdx|ts|tsx)'],
+  stories: ['../src'],
   addons: ['@newhighsco/storybook-preset'],
   staticDirs: ['../public'],
   webpackFinal: async config => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@components': path.resolve(__dirname, '../src/components'),
-      '@config$': path.resolve(__dirname, '../site.config.js'),
-      '@fixtures': path.resolve(__dirname, '../src/__mocks__/fixtures'),
-      '@helpers': path.resolve(__dirname, '../src/helpers'),
-      '@hooks': path.resolve(__dirname, '../src/hooks'),
-      '@images': path.resolve(__dirname, '../src/images'),
-      '@libs': path.resolve(__dirname, '../src/libs'),
-      '@pages': path.resolve(__dirname, '../src/pages'),
-      '@styles': path.resolve(__dirname, '../src/styles'),
-      '@theme': path.resolve(__dirname, '../src/theme')
+      ...hq.get('webpack', { format: 'array' })
     }
 
     return config

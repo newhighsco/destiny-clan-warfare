@@ -1,3 +1,4 @@
+const hq = require('alias-hq')
 const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({ dir: './' })
@@ -9,16 +10,7 @@ module.exports = (async () => {
     coveragePathIgnorePatterns: ['.stories.tsx'],
     moduleNameMapper: {
       '^.+\\.(svg)$': '<rootDir>/config/jest/__mocks__/svgMock.js',
-      '^@components/(.*)$': '<rootDir>/src/components/$1',
-      '^@config$': '<rootDir>/site.config',
-      '^@fixtures/(.*)$': '<rootDir>/src/__mocks__/fixtures//$1',
-      '^@helpers/(.*)$': '<rootDir>/src/helpers/$1',
-      '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
-      '^@images/(.*)$': '<rootDir>/src/images/$1',
-      '^@libs/(.*)$': '<rootDir>/src/libs/$1',
-      '^@pages/(.*)$': '<rootDir>/src/pages/$1',
-      '^@styles/(.*)$': '<rootDir>/src/styles/$1',
-      '^@theme$': '<rootDir>/theme'
+      ...hq.get('jest', { format: 'array' })
     },
     setupFilesAfterEnv: ['<rootDir>/config/jest/setup.js'],
     testEnvironment: 'jest-environment-jsdom'

@@ -1,5 +1,43 @@
+@use 'sass:color';
 @use '@styles/colors.module';
 @use '@styles/functions';
+
+.wrapper {
+  position: relative;
+
+  &::before,
+  &::after {
+    background: linear-gradient(
+      color.adjust(colors.$black, $alpha: -0.25),
+      color.adjust(colors.$black, $alpha: -1)
+    );
+    content: '';
+    display: block;
+    height: functions.spacing(0.5);
+    margin-top: functions.spacing(-0.5);
+    opacity: 0;
+    position: sticky;
+    width: 100%;
+    z-index: 1;
+  }
+
+  &::before {
+    top: 0;
+
+    [data-overflow-top='true'] & {
+      opacity: 1;
+    }
+  }
+
+  &::after {
+    bottom: 0;
+    transform: scaleY(-1);
+
+    [data-overflow-bottom='true'] & {
+      opacity: 1;
+    }
+  }
+}
 
 .row {
   align-items: center;

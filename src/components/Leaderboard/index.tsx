@@ -1,10 +1,11 @@
-import React, { memo } from 'react'
+import React, { createRef, memo, useState } from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
 import {
   areEqual,
   FixedSizeList as List,
-  ListChildComponentProps
+  ListChildComponentProps,
+  ListOnScrollProps
 } from 'react-window'
 import { ContentContainer, SmartLink } from '@newhighsco/chipset'
 import Avatar, { AvatarSize } from '@components/Avatar'
@@ -31,9 +32,14 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   columns,
   setHref
 }) => {
+  const innerRef = createRef<HTMLDivElement>()
+  const [overflowTop, setOverflowTop] = useState(false)
+  const [overflowBottom, setOverflowBottom] = useState(false)
+
   if (!rows || rows.length < 1) return null
 
   const height = 500
+
   const Row: React.FC<ListChildComponentProps> = ({ index, style }) => {
     const row = rows[index]
     const { id, name, lastUpdated, rank, score } = row
@@ -85,12 +91,28 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
     )
   }
 
+  const handleScroll = ({ scrollOffset }: ListOnScrollProps): void => {
+    const { clientHeight } = innerRef.current
+    const top = scrollOffset > 0
+    const bottom = scrollOffset + height < clientHeight
+
+    if (top !== overflowTop) setOverflowTop(top)
+    if (bottom !== overflowBottom) setOverflowBottom(bottom)
+  }
+
   return (
-    <ContentContainer>
+    <ContentContainer
+      data-overflow-top={overflowTop}
+      data-overflow-bottom={overflowBottom}
+    >
       <List
+        className={styles.wrapper}
         height={height}
+        innerRef={innerRef}
         itemCount={rows.length}
+        itemData={rows}
         itemSize={75}
+        onScroll={handleScroll}
         overscanCount={10}
         width="100%"
       >

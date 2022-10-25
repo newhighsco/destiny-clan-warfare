@@ -8,26 +8,7 @@
 }
 
 .avatar {
+  display: flex;
   margin-bottom: functions.spacing(1);
-}
-
-.grid {
-  flex-wrap: nowrap !important;
-}
-
-.column {
-  > * + * {
-    margin-top: functions.spacing(1);
-  }
-}
-
-.avatar2 {
-  flex-shrink: 0;
-  width: auto;
-}
-
-.card2 {
-  flex-grow: 1;
-  flex-shrink: 1;
-  width: auto;
+  margin-top: functions.spacing(-3);
 }

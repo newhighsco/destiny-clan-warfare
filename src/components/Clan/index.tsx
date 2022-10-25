@@ -1,6 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
-import { Card, ContentContainer, Grid, Prose } from '@newhighsco/chipset'
+import { Card, ContentContainer, Prose } from '@newhighsco/chipset'
 import Lockup from '@components/Lockup'
 import { EventKicker } from '@components/Event'
 import Leaderboard from '@components/Leaderboard'
@@ -54,31 +53,30 @@ const Clan: React.FC<ClanProps> = ({
       {isCurrent && (
         <Lockup kicker={kicker} kickerAttributes={{ href: url() }} highlight />
       )}
-      <Grid flex className={styles.grid}>
-        <Grid.Item className={classNames(styles.column, styles.avatar2)}>
-          <Avatar {...avatar} id={id} className={styles.avatar} />
-        </Grid.Item>
-        <Grid.Item className={classNames(styles.column, styles.card2)}>
-          <Card>
+      <Card
+        heading={
+          <>
+            <Avatar {...avatar} id={id} outline className={styles.avatar} />
             <Lockup
               heading={name}
               kicker={motto}
               reverse
               highlight={!isCurrent}
             />
-            <Prose html={formatDescription(description)} />
-          </Card>
-          {/* <StatList stats={stats} kicker="Top stats" /> */}
-          {/* <MedalList kicker="Medals awarded" medals={medals} /> */}
-          <Leaderboard
-            rows={leaderboard}
-            columns={['games', 'wins']}
-            setHref={({ id: memberId }) => currentUrl(id, memberId)}
-          />
-          {/* isCurrent && <Leaderboard /> && link to "/clans/{id}" */}
-          {/* !isCurrent && <PreviousLeaderboard /> && <OverallLeaderboard /> && link to "/current/id" */}
-        </Grid.Item>
-      </Grid>
+          </>
+        }
+      >
+        <Prose html={formatDescription(description)} />
+      </Card>
+      {/* <StatList stats={stats} kicker="Top stats" /> */}
+      {/* <MedalList kicker="Medals awarded" medals={medals} /> */}
+      <Leaderboard
+        rows={leaderboard}
+        columns={['games', 'wins', 'kills', 'assists', 'deaths', 'score']}
+        setHref={({ id: memberId }) => currentUrl(id, memberId)}
+      />
+      {/* isCurrent && <Leaderboard /> && link to "/clans/{id}" */}
+      {/* !isCurrent && <PreviousLeaderboard /> && <OverallLeaderboard /> && link to "/current/id" */}
     </ContentContainer>
   )
 }

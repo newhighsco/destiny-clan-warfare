@@ -1,5 +1,5 @@
-import Lockup from '@components/Lockup'
 import { company } from '@fixtures/clans'
+import Lockup from '.'
 
 export default { component: Lockup }
 

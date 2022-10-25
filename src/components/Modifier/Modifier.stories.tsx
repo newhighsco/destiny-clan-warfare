@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@storybook/theming'
-import { Modifier, ModifierList } from '@components/Modifier'
+import { Modifier, ModifierList } from '.'
 
 export default { component: Modifier }
 

@@ -1,12 +1,8 @@
-import Footer from '@components/Footer'
+import Footer from '.'
 
 export default {
   component: Footer,
-  parameters: {
-    backgrounds: {
-      default: 'dark'
-    }
-  }
+  parameters: { backgrounds: { default: 'dark' } }
 }
 
 export const Source = { parameters: { chromatic: { disable: true } } }

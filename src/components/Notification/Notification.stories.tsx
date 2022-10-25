@@ -1,4 +1,4 @@
-import Notification, { NotificationState } from '@components/Notification'
+import Notification, { NotificationState } from '.'
 
 export default { component: Notification }
 

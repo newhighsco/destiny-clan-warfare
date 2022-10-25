@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stat, StatList } from '@components/Stat'
+import { Stat, StatList } from '.'
 
 export default { component: Stat }
 

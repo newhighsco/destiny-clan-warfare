@@ -1,5 +1,5 @@
 import React from 'react'
-import { Logo, LogoIcon, LogoLockup } from '@components/Logo'
+import { Logo, LogoIcon, LogoLockup } from '.'
 
 export default { component: Logo }
 

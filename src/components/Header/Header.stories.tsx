@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'next-auth/client'
-import Header from '@components/Header'
 import { member } from '@fixtures/members'
+import Header from '.'
 
 export default {
   component: Header,

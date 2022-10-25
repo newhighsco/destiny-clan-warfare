@@ -1,6 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
-import Timer from '@components/Timer'
+import Timer from '.'
 
 const now = dayjs()
 const nextSecond = now.subtract(-1, 's')

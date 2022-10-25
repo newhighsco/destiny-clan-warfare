@@ -1,5 +1,5 @@
 import React from 'react'
-import { Medal, MedalList } from '@components/Medal'
+import { Medal, MedalList } from '.'
 
 export default { component: Medal }
 

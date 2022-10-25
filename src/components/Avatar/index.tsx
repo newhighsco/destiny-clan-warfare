@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Image from 'next/image'
-import { ResponsiveMedia } from '@newhighsco/chipset'
 import { hexToRgb } from '@helpers/hex'
 import { round } from '@helpers/stats'
 
@@ -80,16 +79,14 @@ const Avatar: React.FC<AvatarProps> = ({
       )}
       style={{ backgroundColor: fill }}
     >
-      <ResponsiveMedia ratio="1:1">
-        {hasLayers ? (
-          <>
-            {background && <AvatarLayer {...background} id={`${id}-bg`} />}
-            {foreground && <AvatarLayer {...foreground} id={`${id}-fg`} />}
-          </>
-        ) : (
-          children || <Image src={src} alt="" layout="fill" objectFit="cover" />
-        )}
-      </ResponsiveMedia>
+      {hasLayers ? (
+        <>
+          {background && <AvatarLayer {...background} id={`${id}-bg`} />}
+          {foreground && <AvatarLayer {...foreground} id={`${id}-fg`} />}
+        </>
+      ) : (
+        children || <Image src={src} alt="" layout="fill" objectFit="cover" />
+      )}
     </div>
   )
 }

@@ -10,6 +10,7 @@ import {
 import { ContentContainer, SmartLink } from '@newhighsco/chipset'
 import Avatar, { AvatarSize } from '@components/Avatar'
 import RelativeDate from '@components/RelativeDate'
+import { decode } from '@helpers/html-entities'
 import { rankNumber, shortNumber } from '@helpers/stats'
 import {
   ClanLeaderboardRow,
@@ -22,6 +23,7 @@ import styles from './Leaderboard.module.scss'
 interface LeaderboardProps {
   rows?: EventLeaderboardRow[] | ClanLeaderboardRow[] | MemberLeaderboardRow[]
   columns?: string[]
+  height?: number
   setHref?: (
     row: EventLeaderboardRow | ClanLeaderboardRow | MemberLeaderboardRow
   ) => string
@@ -30,6 +32,7 @@ interface LeaderboardProps {
 const Leaderboard: React.FC<LeaderboardProps> = ({
   rows,
   columns,
+  height = 500,
   setHref
 }) => {
   const innerRef = createRef<HTMLDivElement>()
@@ -37,8 +40,6 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   const [overflowBottom, setOverflowBottom] = useState(false)
 
   if (!rows || rows.length < 1) return null
-
-  const height = 500
 
   const Row: React.FC<ListChildComponentProps> = ({ index, style }) => {
     const row = rows[index]
@@ -62,7 +63,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
         <div className={classNames(styles.column, styles.heading)}>
           {href ? (
             <Link href={href} passHref prefetch={false}>
-              <SmartLink className={styles.link}>{name}</SmartLink>
+              <SmartLink className={styles.link}>{decode(name)}</SmartLink>
             </Link>
           ) : (
             <span>{name}</span>

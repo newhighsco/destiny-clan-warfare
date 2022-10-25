@@ -9,6 +9,7 @@ import {
   MemberLeaderboardRow,
   Status
 } from './types'
+import { leaderboard } from '@fixtures/members'
 
 const getData = async (url: string): Promise<any> =>
   await fetch(apiUrl(url)).then(async response => {
@@ -27,7 +28,7 @@ export const getClans = async (): Promise<Clan[]> => {
 
 export const getClan = async (clanId: number): Promise<Clan> => {
   // TODO: Get clan details from API
-  const clan = { ...company, id: clanId }
+  const clan = { ...company, id: clanId, leaderboard }
 
   return clan
 }

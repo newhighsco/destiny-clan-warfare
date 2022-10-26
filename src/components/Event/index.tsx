@@ -117,7 +117,7 @@ const Event: React.FC<EventProps> = ({
         <>
           <Leaderboard
             rows={leaderboard}
-            columns={['active', 'size']}
+            columns={['active', 'size', 'score']}
             setHref={({ id }) => (isCurrent ? currentUrl(id) : clanUrl(id))}
           />
           <Button.Group>

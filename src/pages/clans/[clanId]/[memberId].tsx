@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     name: 'TODO: Member name',
     clan: {
       id: clanId,
-      name: clanId,
+      name: 'TODO: Clan name',
       tag: '???'
     }
   }

@@ -8,7 +8,7 @@ const join = (...paths: any[]): string =>
   urlJoin(paths.filter(Boolean).map(path => `${path as string}`))
 
 export const apiUrl = (path?: string): string =>
-  join('https://newhighscoredcw.blob.core.windows.net/dcw', `${path}.json`)
+  join(process.env.NEXT_PUBLIC_API_URL, `${path}.json`)
 
 export const canonicalUrl = (path?: string): string => join(siteUrl, path)
 

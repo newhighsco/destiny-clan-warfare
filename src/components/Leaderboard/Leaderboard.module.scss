@@ -1,8 +1,11 @@
 @use 'sass:color';
+@use '@styles/breakpoints.module';
 @use '@styles/colors.module';
 @use '@styles/functions';
+@use '@styles/mixins';
 
 .wrapper {
+  min-height: 500px;
   position: relative;
 
   &::before,
@@ -40,27 +43,42 @@
 }
 
 .row {
-  align-items: center;
-  background: colors.$nightrider;
-  border-bottom: 1px solid colors.$nero;
+  --current-background: #{colors.$nightrider};
+
   color: colors.$white;
   display: flex;
+  height: auto !important;
+  min-height: functions.rem(50);
   line-height: 1.2;
 
+  & + & {
+    border-top: 1px solid colors.$nero;
+  }
+
   &.even {
-    background: colors.$eclipse;
+    --current-background: #{colors.$eclipse};
   }
 
   &:hover {
-    background: colors.$smoke;
+    --current-background: #{colors.$smoke};
+
     color: colors.$black;
   }
 }
 
+.columns {
+  align-items: center;
+  background: var(--current-background);
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .column {
-  flex: 1 1 0;
-  max-width: 12.5%;
-  padding: functions.spacing(1);
+  flex-shrink: 0;
+  max-width: 25%;
+  padding: functions.spacing(0.5);
   text-align: right;
 
   &[data-label] {
@@ -72,25 +90,43 @@
       display: block;
       font-size: x-small;
       line-height: 1;
-      margin-top: functions.spacing(-0.5);
       text-transform: uppercase;
 
       .row:hover & {
         color: colors.$eclipse;
       }
+
+      @include mixins.mq(breakpoints.$tablet-landscape) {
+        margin-top: functions.spacing(-0.5);
+      }
     }
+  }
+
+  @include mixins.mq(breakpoints.$tablet-landscape) {
+    padding-inline: functions.spacing(1);
   }
 }
 
 .avatar {
+  align-self: start;
   flex-grow: 0;
   flex-shrink: 0;
 }
 
 .heading {
-  flex-grow: 1;
-  max-width: 100%;
+  border-bottom: 1px solid colors.$nero;
+  max-width: none;
   text-align: left;
+  width: 100%;
+
+  .row:hover & {
+    border-color: colors.$silver;
+  }
+
+  @include mixins.mq(breakpoints.$tablet-landscape) {
+    border: 0;
+    width: 40%;
+  }
 }
 
 .link {
@@ -100,9 +136,7 @@
   text-decoration: none;
 
   &[href]:focus,
-  &[href]:focus-within,
-  &[href]:hover,
-  .row:hover &[href] {
+  &[href]:hover {
     border-color: colors.$terracotta;
     color: colors.$black;
   }

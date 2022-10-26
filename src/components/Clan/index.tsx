@@ -51,7 +51,12 @@ const Clan: React.FC<ClanProps> = ({
   return (
     <ContentContainer theme={{ content: styles.content }}>
       {isCurrent && (
-        <Lockup kicker={kicker} kickerAttributes={{ href: url() }} highlight />
+        <Lockup
+          kicker={kicker}
+          kickerAttributes={{ href: url() }}
+          align="right"
+          highlight
+        />
       )}
       <Card
         heading={
@@ -73,7 +78,9 @@ const Clan: React.FC<ClanProps> = ({
       <Leaderboard
         rows={leaderboard}
         columns={['games', 'wins', 'kills', 'assists', 'deaths', 'score']}
-        setHref={({ id: memberId }) => currentUrl(id, memberId)}
+        setHref={({ id: memberId }) =>
+          isCurrent ? currentUrl(id, memberId) : clanUrl(id, memberId)
+        }
       />
       {/* isCurrent && <Leaderboard /> && link to "/clans/{id}" */}
       {/* !isCurrent && <PreviousLeaderboard /> && <OverallLeaderboard /> && link to "/current/id" */}

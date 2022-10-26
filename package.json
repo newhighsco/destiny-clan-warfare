@@ -15,7 +15,7 @@
   },
   "files": [],
   "scripts": {
-    "prepare": "is-ci || (husky install && brew bundle)",
+    "prepare": "is-ci || husky install",
     "clean": "rm -rf {.next,public/{robots.txt,sitemap*.xml}}",
     "start": "netlify dev",
     "start:next": "next dev --port 9001",
@@ -54,6 +54,7 @@
     "postcss": "8.4.18",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-virtualized-auto-sizer": "1.0.7",
     "react-window": "1.8.7",
     "sass": "1.55.0",
     "sentence-case": "3.0.4"

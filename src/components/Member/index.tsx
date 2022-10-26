@@ -46,29 +46,23 @@ const Member: React.FC<MemberProps> = ({
   const { kicker, url } = MemberMeta[status]
 
   return (
-    <ContentContainer theme={{ content: styles.content }} size="desktop">
+    <ContentContainer theme={{ content: styles.content }}>
       {isCurrent && (
         <Lockup
           kicker={kicker}
           kickerAttributes={{ href: url() }}
-          align="center"
+          align="right"
           highlight
         />
       )}
       <Card
         heading={
           <>
-            <Avatar
-              src={avatar}
-              align="center"
-              outline
-              className={styles.avatar}
-            />
+            <Avatar src={avatar} outline className={styles.avatar} />
             <Lockup
               heading={name}
               kicker={clan.name}
               kickerAttributes={{ href: url(clan.id) }}
-              align="center"
               reverse
               highlight={!isCurrent}
             />
@@ -80,7 +74,10 @@ const Member: React.FC<MemberProps> = ({
           Match history is being calculated. Please check back later.
         </Notification>
       )}
-      <Leaderboard rows={leaderboard} />
+      <Leaderboard
+        rows={leaderboard}
+        columns={['kills', 'assists', 'deaths']}
+      />
     </ContentContainer>
   )
 }

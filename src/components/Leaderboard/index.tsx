@@ -1,13 +1,20 @@
-import React, { createRef, memo, useState } from 'react'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import classNames from 'classnames'
 import Link from 'next/link'
 import {
-  areEqual,
-  FixedSizeList as List,
+  VariableSizeList as List,
   ListChildComponentProps,
   ListOnScrollProps
 } from 'react-window'
-import { ContentContainer, SmartLink } from '@newhighsco/chipset'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { SmartLink } from '@newhighsco/chipset'
 import Avatar, { AvatarSize } from '@components/Avatar'
 import RelativeDate from '@components/RelativeDate'
 import { decode } from '@helpers/html-entities'
@@ -29,41 +36,58 @@ interface LeaderboardProps {
   ) => string
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({
-  rows,
+interface LeaderboardRowProps extends ListChildComponentProps {
+  width: number
+  columns: LeaderboardProps['columns']
+  setHref?: LeaderboardProps['setHref']
+}
+
+const LeaderboardContext = createContext<
+  Partial<{ setSize: (index: number, size: number) => void }>
+>({})
+
+const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
+  data,
+  index,
+  style,
+  width,
   columns,
-  height = 500,
   setHref
 }) => {
-  const innerRef = createRef<HTMLDivElement>()
-  const [overflowTop, setOverflowTop] = useState(false)
-  const [overflowBottom, setOverflowBottom] = useState(false)
+  const { setSize } = useContext(LeaderboardContext)
+  const rowRef = useRef<HTMLDivElement>(null)
 
-  if (!rows || rows.length < 1) return null
+  useEffect(() => {
+    if (rowRef.current) {
+      setSize?.(index, rowRef.current.getBoundingClientRect().height)
+    }
+  }, [index, setSize, width])
 
-  const Row: React.FC<ListChildComponentProps> = ({ index, style }) => {
-    const row = rows[index]
-    const { id, name, lastUpdated, rank, score } = row
-    const avatar = 'avatar' in row && row.avatar
-    const href = setHref?.(row)
+  const row = data[index]
+  const { id, name: encodedName, lastUpdated, rank } = row
+  const name = decode(encodedName || id.toString())
+  const avatar = 'avatar' in row && row.avatar
+  const href = setHref?.(row)
 
-    return (
-      <div
-        style={style}
-        className={classNames(styles.row, index % 2 === 0 && styles.even)}
-      >
-        {avatar && (
-          <Avatar
-            {...(typeof avatar === 'string' ? { src: avatar } : avatar)}
-            size={AvatarSize.Medium}
-            id={id}
-            className={styles.avatar}
-          />
-        )}
+  return (
+    <div
+      style={style}
+      ref={rowRef}
+      className={classNames(styles.row, index % 2 === 0 && styles.even)}
+    >
+      {avatar && (
+        <Avatar
+          {...(typeof avatar === 'string' ? { src: avatar } : avatar)}
+          size={AvatarSize.Medium}
+          id={id}
+          className={styles.avatar}
+        />
+      )}
+      <div className={styles.columns}>
         <div className={classNames(styles.column, styles.heading)}>
           {href ? (
             <Link href={href} passHref prefetch={false}>
-              <SmartLink className={styles.link}>{decode(name)}</SmartLink>
+              <SmartLink className={styles.link}>{name}</SmartLink>
             </Link>
           ) : (
             <span>{name}</span>
@@ -74,9 +98,11 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
             className={styles.date}
           />
         </div>
-        <div className={styles.column} data-label="rank">
-          {rankNumber(rank)}
-        </div>
+        {rank && (
+          <div className={styles.column} data-label="rank">
+            {rankNumber(rank)}
+          </div>
+        )}
         {columns?.map(
           column =>
             column in row && (
@@ -85,12 +111,24 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
               </div>
             )
         )}
-        <div className={styles.column} data-label="score">
-          {shortNumber(score)}
-        </div>
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+const Leaderboard: React.FC<LeaderboardProps> = ({
+  rows,
+  columns,
+  height = 500,
+  setHref
+}) => {
+  const listRef = useRef<List>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [overflowTop, setOverflowTop] = useState(false)
+  const [overflowBottom, setOverflowBottom] = useState(false)
+  const sizeMap = useRef<{ [key: string]: number }>({})
+
+  if (!rows?.length) return null
 
   const handleScroll = ({ scrollOffset }: ListOnScrollProps): void => {
     const { clientHeight } = innerRef.current
@@ -101,25 +139,63 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
     if (bottom !== overflowBottom) setOverflowBottom(bottom)
   }
 
+  const setSize = useCallback((index: number, size: number) => {
+    if (sizeMap.current[index] !== size) {
+      sizeMap.current = { ...sizeMap.current, [index]: size }
+
+      if (listRef.current) {
+        listRef.current.resetAfterIndex(0)
+      }
+    }
+  }, [])
+
+  const getSize = useCallback(
+    (index: number) => sizeMap.current[index] || 75,
+    []
+  )
+
+  const calcEstimatedSize = useCallback(() => {
+    const keys = Object.keys(sizeMap.current)
+    const estimatedHeight = keys.reduce((p, i) => p + sizeMap.current[i], 0)
+
+    return estimatedHeight / keys.length
+  }, [])
+
   return (
-    <ContentContainer
+    <div
       data-overflow-top={overflowTop}
       data-overflow-bottom={overflowBottom}
+      style={{ minHeight: height }}
     >
-      <List
-        className={styles.wrapper}
-        height={height}
-        innerRef={innerRef}
-        itemCount={rows.length}
-        itemData={rows}
-        itemSize={75}
-        onScroll={handleScroll}
-        overscanCount={10}
-        width="100%"
-      >
-        {memo(Row, areEqual)}
-      </List>
-    </ContentContainer>
+      <LeaderboardContext.Provider value={{ setSize }}>
+        <AutoSizer>
+          {({ width }) => (
+            <List
+              ref={listRef}
+              className={styles.wrapper}
+              estimatedItemSize={calcEstimatedSize()}
+              height={height}
+              innerRef={innerRef}
+              itemCount={rows.length}
+              itemData={rows}
+              itemSize={getSize}
+              onScroll={handleScroll}
+              overscanCount={10}
+              width={width}
+            >
+              {({ ...props }) => (
+                <LeaderboardRow
+                  {...props}
+                  width={width}
+                  columns={columns}
+                  setHref={setHref}
+                />
+              )}
+            </List>
+          )}
+        </AutoSizer>
+      </LeaderboardContext.Provider>
+    </div>
   )
 }
 

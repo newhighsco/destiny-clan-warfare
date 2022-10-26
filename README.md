@@ -14,6 +14,7 @@ Install dependencies
 ```
 nvm install
 yarn install
+brew bundle
 yarn generate:ssl
 ```
 

@@ -3,6 +3,7 @@
 @use '@styles/colors.module';
 @use '@styles/functions';
 @use '@styles/mixins';
+@use '@components/Avatar/sizes.module' as avatar-sizes;
 
 .wrapper {
   min-height: 500px;
@@ -21,7 +22,7 @@
     opacity: 0;
     position: sticky;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
   }
 
   &::before {
@@ -46,9 +47,12 @@
   --current-background: #{colors.$nightrider};
 
   color: colors.$white;
-  display: flex;
+  display: grid;
+  grid-template:
+    'avatar heading' auto
+    '. columns' auto
+    / auto 1fr;
   height: auto !important;
-  min-height: functions.rem(50);
   line-height: 1.2;
 
   & + & {
@@ -64,22 +68,66 @@
 
     color: colors.$black;
   }
+
+  @include mixins.mq(breakpoints.$tablet-landscape) {
+    grid-template: 'avatar heading columns' / auto 40% 1fr;
+  }
+}
+
+.avatar {
+  grid-area: avatar;
+  max-width: functions.rem(avatar-sizes.$small);
+  position: sticky;
+  top: 0;
+
+  @include mixins.mq(breakpoints.$tablet-landscape) {
+    max-width: none;
+  }
+}
+
+.heading {
+  align-items: center;
+  background: var(--current-background);
+  border-bottom: 1px solid colors.$nero;
+  display: flex;
+  grid-area: heading;
+  padding: functions.spacing(0.5);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  @include mixins.mq(breakpoints.$tablet-landscape) {
+    align-items: start;
+    border: 0;
+    padding-inline: functions.spacing(1);
+    padding-block: functions.spacing(1.4);
+
+    > * {
+      position: sticky;
+      bottom: functions.spacing(1.4);
+      top: functions.spacing(1.4);
+    }
+  }
 }
 
 .columns {
   align-items: center;
   background: var(--current-background);
   display: flex;
-  flex-grow: 1;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: functions.spacing(0.5) functions.spacing(1);
+  grid-area: columns;
+  padding: functions.spacing(0.5);
+
+  @include mixins.mq(breakpoints.$tablet-landscape) {
+    padding-inline: functions.spacing(1);
+    justify-content: end;
+  }
 }
 
 .column {
-  flex-shrink: 0;
-  max-width: 25%;
-  padding: functions.spacing(0.5);
-  text-align: right;
+  flex: 1 1 0;
+  white-space: nowrap;
 
   &[data-label] {
     position: relative;
@@ -95,37 +143,12 @@
       .row:hover & {
         color: colors.$eclipse;
       }
-
-      @include mixins.mq(breakpoints.$tablet-landscape) {
-        margin-top: functions.spacing(-0.5);
-      }
     }
   }
 
   @include mixins.mq(breakpoints.$tablet-landscape) {
-    padding-inline: functions.spacing(1);
-  }
-}
-
-.avatar {
-  align-self: start;
-  flex-grow: 0;
-  flex-shrink: 0;
-}
-
-.heading {
-  border-bottom: 1px solid colors.$nero;
-  max-width: none;
-  text-align: left;
-  width: 100%;
-
-  .row:hover & {
-    border-color: colors.$silver;
-  }
-
-  @include mixins.mq(breakpoints.$tablet-landscape) {
-    border: 0;
-    width: 40%;
+    max-width: 25%;
+    text-align: right;
   }
 }
 

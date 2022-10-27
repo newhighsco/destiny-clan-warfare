@@ -19,3 +19,18 @@ export const company = {
     }
   }
 } as Clan
+
+export const leaderboard = [...new Array(100)].map((_, index) => {
+  const { id, name, avatar } = company
+  const rank = index + 1
+
+  return {
+    id,
+    name,
+    avatar,
+    rank,
+    active: 50 * rank,
+    size: 100 * rank,
+    score: 110000 * rank
+  }
+})

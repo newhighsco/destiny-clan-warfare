@@ -6,7 +6,7 @@ import Leaderboard from '@components/Leaderboard'
 import Avatar from '@components/Avatar'
 import Notification from '@components/Notification'
 import config from '@config'
-import { clanUrl, currentUrl } from '@helpers/urls'
+import { clanUrl, currentUrl, pgcrUrl } from '@helpers/urls'
 import {
   Clan,
   Member as MemberType,
@@ -77,6 +77,7 @@ const Member: React.FC<MemberProps> = ({
       <Leaderboard
         rows={leaderboard}
         columns={['kills', 'assists', 'deaths']}
+        setHref={({ id }) => pgcrUrl(id)}
       />
     </ContentContainer>
   )

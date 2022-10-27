@@ -1,0 +1,11 @@
+@use '@styles/functions';
+
+$small: 48px;
+$medium: 75px;
+$large: 96px;
+
+:export {
+  small: functions.strip-unit($small);
+  medium: functions.strip-unit($medium);
+  large: functions.strip-unit($large);
+}

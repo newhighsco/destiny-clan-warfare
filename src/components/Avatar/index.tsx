@@ -5,6 +5,7 @@ import { hexToRgb } from '@helpers/hex'
 import { round } from '@helpers/stats'
 
 import styles from './Avatar.module.scss'
+import sizes from './_sizes.module.scss'
 
 export enum AvatarSize {
   Small = 'small',
@@ -85,7 +86,7 @@ const Avatar: React.FC<AvatarProps> = ({
           {foreground && <AvatarLayer {...foreground} id={`${id}-fg`} />}
         </>
       ) : (
-        children || <Image src={src} alt="" fill />
+        children || <Image src={src} alt="" fill sizes={sizes.large} />
       )}
     </div>
   )

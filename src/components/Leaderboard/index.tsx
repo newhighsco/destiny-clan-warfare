@@ -16,6 +16,7 @@ import {
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SmartLink } from '@newhighsco/chipset'
 import Avatar, { AvatarSize } from '@components/Avatar'
+import avatarSizes from '@components/Avatar/_sizes.module.scss'
 import RelativeDate from '@components/RelativeDate'
 import { decode } from '@helpers/html-entities'
 import { rankNumber, shortNumber } from '@helpers/stats'
@@ -59,13 +60,18 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
 
   useEffect(() => {
     if (rowRef.current) {
-      setSize?.(index, rowRef.current.getBoundingClientRect().height)
+      setSize?.(index, rowRef.current.clientHeight)
     }
   }, [index, setSize, width])
 
   const row = data[index]
-  const { id, name: encodedName, lastUpdated, rank } = row
-  const name = decode(encodedName || id.toString())
+  const {
+    id = index,
+    name: encodedName = id.toString(),
+    lastUpdated,
+    rank
+  } = row
+  const name = decode(encodedName)
   const avatar = 'avatar' in row && row.avatar
   const href = setHref?.(row)
 
@@ -83,21 +89,21 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
           className={styles.avatar}
         />
       )}
+      <div className={styles.heading}>
+        {href ? (
+          <Link href={href} passHref legacyBehavior prefetch={false}>
+            <SmartLink className={styles.link}>{name}</SmartLink>
+          </Link>
+        ) : (
+          <span>{name}</span>
+        )}
+        <RelativeDate
+          date={lastUpdated}
+          label="Updated"
+          className={styles.date}
+        />
+      </div>
       <div className={styles.columns}>
-        <div className={classNames(styles.column, styles.heading)}>
-          {href ? (
-            <Link href={href} passHref legacyBehavior prefetch={false}>
-              <SmartLink className={styles.link}>{name}</SmartLink>
-            </Link>
-          ) : (
-            <span>{name}</span>
-          )}
-          <RelativeDate
-            date={lastUpdated}
-            label="Updated"
-            className={styles.date}
-          />
-        </div>
         {rank && (
           <div className={styles.column} data-label="rank">
             {rankNumber(rank)}
@@ -150,7 +156,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   }, [])
 
   const getSize = useCallback(
-    (index: number) => sizeMap.current[index] || 75,
+    (index: number) => sizeMap.current[index] || +avatarSizes.medium,
     []
   )
 
@@ -165,7 +171,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
     <div
       data-overflow-top={overflowTop}
       data-overflow-bottom={overflowBottom}
-      style={{ minHeight: height }}
+      style={{ height }}
     >
       <LeaderboardContext.Provider value={{ setSize }}>
         <AutoSizer>

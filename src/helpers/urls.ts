@@ -28,6 +28,9 @@ export const eventUrl = (status?: string, id?: number | string): string => {
   return join('/events', id)
 }
 
+export const pgcrUrl = (id: number | string): string =>
+  join('https://destinytracker.com/destiny-2/pgcr', id)
+
 export const userUrl = (path?: string): string => join('/user', path)
 
 export const signInUrl = userUrl('signin')

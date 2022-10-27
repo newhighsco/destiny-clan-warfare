@@ -2,29 +2,28 @@
 @use '@styles/colors.module';
 @use '@styles/functions';
 @use '@styles/mixins';
+@use './sizes.module';
 
 .root {
-  $avatar-width-small: functions.rem(48);
-  $avatar-width-medium: functions.rem(75);
-  $avatar-width-large: functions.rem(96);
+  --avatar-width: #{functions.rem(sizes.$medium)};
 
   aspect-ratio: 1;
   background: colors.$nero;
   display: inline-block;
   fill: currentColor;
   position: relative;
-  width: $avatar-width-medium;
+  width: var(--avatar-width);
 
   @include mixins.mq(breakpoints.$tablet) {
-    width: $avatar-width-large;
+    --avatar-width: #{functions.rem(sizes.$large)};
   }
 
   &.small {
-    width: $avatar-width-small;
+    --avatar-width: #{functions.rem(sizes.$small)};
   }
 
   &.medium {
-    width: $avatar-width-medium;
+    --avatar-width: #{functions.rem(sizes.$medium)};
   }
 }
 

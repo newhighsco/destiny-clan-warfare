@@ -49,7 +49,7 @@ const HomePage: React.FC = ({
       <Event {...currentEvent} summary />
       {events.map(event => event)}
       <Button.Group>
-        <Link href={eventUrl()} passHref prefetch={false}>
+        <Link href={eventUrl()} passHref legacyBehavior prefetch={false}>
           <Button>View all events</Button>
         </Link>
       </Button.Group>

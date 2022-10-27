@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
       <ContentContainer gutter size={size} theme={{ content: styles.content }}>
         <Grid flex valign="middle">
           <Grid.Item className={styles.logo}>
-            <Link href="/" passHref prefetch={false}>
+            <Link href="/" passHref legacyBehavior prefetch={false}>
               <SmartLink className={styles.logoLink}>
                 <LogoLockup size={LogoSize.Small} />
               </SmartLink>

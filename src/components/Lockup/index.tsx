@@ -42,7 +42,7 @@ const LockupElement: React.FC<LockupElementProps> = ({
   }
 
   return (
-    <Link href={href} passHref prefetch={false}>
+    <Link href={href} passHref legacyBehavior prefetch={false}>
       <SmartLink {...commonAttributes}>
         <Element as={as}>{children}</Element>
       </SmartLink>

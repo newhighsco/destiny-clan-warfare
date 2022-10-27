@@ -86,7 +86,7 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
       <div className={styles.columns}>
         <div className={classNames(styles.column, styles.heading)}>
           {href ? (
-            <Link href={href} passHref prefetch={false}>
+            <Link href={href} passHref legacyBehavior prefetch={false}>
               <SmartLink className={styles.link}>{name}</SmartLink>
             </Link>
           ) : (

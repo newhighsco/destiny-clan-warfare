@@ -29,14 +29,7 @@ const HoldingPageContainer: React.FC<HoldingPageContainerProps> = ({
       {showBackground && (
         <Backdrop>
           <div className={styles.background}>
-            <Image
-              src={backgroundImage}
-              alt=""
-              placeholder="blur"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="50% 0"
-            />
+            <Image src={backgroundImage} alt="" placeholder="blur" fill />
           </div>
         </Backdrop>
       )}

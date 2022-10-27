@@ -28,6 +28,8 @@
 
 .background {
   filter: blur(functions.rem(2)) !important;
+  object-fit: cover;
+  object-position: 50% 0;
   transform: scale(1.01);
 }
 

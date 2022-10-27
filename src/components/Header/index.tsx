@@ -28,9 +28,7 @@ const Header: React.FC<HeaderProps> = ({ size }) => {
         src={backgroundImage}
         alt=""
         placeholder="blur"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="50% 0"
+        fill
         className={styles.background}
         priority
       />

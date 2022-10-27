@@ -37,7 +37,7 @@ const Footer: React.FC<FooterProps> = ({ size }) => (
               }
 
               return (
-                <Link href={href} passHref prefetch={false}>
+                <Link href={href} passHref legacyBehavior prefetch={false}>
                   <SmartLink {...rest}>{children}</SmartLink>
                 </Link>
               )

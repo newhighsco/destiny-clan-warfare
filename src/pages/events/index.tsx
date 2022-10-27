@@ -20,7 +20,12 @@ const EventListingPage: React.FC = ({
         <ul>
           {events.map(({ id, name, status }) => (
             <li key={id}>
-              <Link href={eventUrl(status, id)} passHref prefetch={false}>
+              <Link
+                href={eventUrl(status, id)}
+                passHref
+                legacyBehavior
+                prefetch={false}
+              >
                 <SmartLink>
                   {name} - {EventKicker[status]}
                 </SmartLink>

@@ -18,7 +18,7 @@ const ClanListingPage: React.FC = ({
         <List>
           {clans?.map(({ id, name }) => (
             <li key={id}>
-              <Link href={clanUrl(id)} passHref prefetch={false}>
+              <Link href={clanUrl(id)} passHref legacyBehavior prefetch={false}>
                 <SmartLink>{name}</SmartLink>
               </Link>
             </li>

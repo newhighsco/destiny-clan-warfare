@@ -85,7 +85,7 @@ const Avatar: React.FC<AvatarProps> = ({
           {foreground && <AvatarLayer {...foreground} id={`${id}-fg`} />}
         </>
       ) : (
-        children || <Image src={src} alt="" layout="fill" objectFit="cover" />
+        children || <Image src={src} alt="" fill />
       )}
     </div>
   )

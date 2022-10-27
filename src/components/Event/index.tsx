@@ -108,7 +108,7 @@ const Event: React.FC<EventProps> = ({
           </>
         )}
         {summaryCallToAction && (
-          <Link href={href} passHref prefetch={false}>
+          <Link href={href} passHref legacyBehavior prefetch={false}>
             <Button>{summaryCallToAction}</Button>
           </Link>
         )}
@@ -121,7 +121,7 @@ const Event: React.FC<EventProps> = ({
             setHref={({ id }) => (isCurrent ? currentUrl(id) : clanUrl(id))}
           />
           <Button.Group>
-            <Link href={eventUrl()} passHref prefetch={false}>
+            <Link href={eventUrl()} passHref legacyBehavior prefetch={false}>
               <Button>View all events</Button>
             </Link>
           </Button.Group>

@@ -24,7 +24,7 @@ function useSvg(
       }
     }
 
-    importIcon()
+    void importIcon()
 
     return () => {
       mounted = false

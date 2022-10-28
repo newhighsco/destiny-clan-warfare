@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
-import { Heading, Meta, Source, Title, Typeset } from '@storybook/addon-docs'
-import { sentenceCase } from 'sentence-case'
+import { Heading, Meta, Source, Typeset } from '@storybook/addon-docs'
 
 import fonts from '@styles/_fonts.module.scss'
 
@@ -8,20 +7,18 @@ export const sizes = ['1em', '2em', '3em', '4em']
 
 <Meta title="Styles/Fonts" />
 
-<Title>Fonts</Title>
+# Fonts
 
 `import fonts from '@styles/_fonts.module.scss'`
 
 <br />
 
 <>
-  {Object.keys(fonts).map(font => {
-    return (
-      <Fragment key={font}>
-        <Heading>fonts.${font}</Heading>
-        <Source code={`font-family: ${fonts[font]}`} language="css" dark />
-        <Typeset fontFamily={fonts[font]} fontSizes={sizes} />
-      </Fragment>
-    )
-  })}
+  {Object.keys(fonts).map(font => (
+    <Fragment key={font}>
+      <Heading>fonts.${font}</Heading>
+      <Source code={`font-family: ${fonts[font]}`} language="css" dark />
+      <Typeset fontFamily={fonts[font]} fontSizes={sizes} />
+    </Fragment>
+  ))}
 </>

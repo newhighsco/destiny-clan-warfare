@@ -15,14 +15,18 @@ const ClanPage: React.FC = ({
   motto,
   description,
   avatar,
-  leaderboard,
-  meta
+  leaderboard
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
 
   if (isFallback) return <LoadingPageContainer />
 
   const { kicker, url } = ClanMeta[status]
+  const meta = {
+    canonical: canonicalUrl(url(id)),
+    title: [name, kicker].join(' | '),
+    description: [possessive(name), description].join(' ')
+  }
 
   return (
     <PageContainer meta={meta}>
@@ -46,8 +50,8 @@ const ClanPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const status = (params?.status as string) || null
-  const clanId = params?.clanId as string
+  const status = params?.status || null
+  const clanId = params?.clanId.toString()
   const clan = await getClan(parseInt(clanId))
 
   // TODO: Handle 404
@@ -55,18 +59,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   //   return { notFound: true }
   // }
 
-  const { name } = clan
-  const { kicker, url, description } = ClanMeta[status]
-
   return {
     props: {
       ...clan,
-      status,
-      meta: {
-        canonical: canonicalUrl(url(clan.id)),
-        title: [name, kicker].join(' | '),
-        description: [possessive(name), description].join(' ')
-      }
+      status
     },
     revalidate: 60
   }

@@ -8,9 +8,15 @@ import { canonicalUrl, clanUrl } from '@helpers/urls'
 import { getClans } from '@libs/api'
 
 const ClanListingPage: React.FC = ({
-  clans,
-  meta
+  clans
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const meta = {
+    canonical: canonicalUrl(clanUrl()),
+    title: 'Clan leaderboard',
+    description:
+      'All clans battling their way to the top of the Destiny 2 clan leaderboard'
+  }
+
   return (
     <PageContainer meta={meta}>
       <Lockup kicker="Clan" heading="leaderboard" align="center" highlight />
@@ -32,13 +38,7 @@ const ClanListingPage: React.FC = ({
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      clans: await getClans(),
-      meta: {
-        canonical: canonicalUrl(clanUrl()),
-        title: 'Clan leaderboard',
-        description:
-          'All clans battling their way to the top of the Destiny 2 clan leaderboard'
-      }
+      clans: await getClans()
     }
   }
 }

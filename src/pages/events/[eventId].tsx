@@ -19,10 +19,14 @@ const EventPage: React.FC = ({
   stats,
   statsGamesThreshold,
   medals,
-  leaderboard,
-  meta
+  leaderboard
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { openGraphImage, name: siteName } = config
+  const meta = {
+    canonical: canonicalUrl(eventUrl(status, id)),
+    title: [name, EventKicker[status]].join(' | '),
+    description
+  }
 
   return (
     <PageContainer meta={meta}>
@@ -74,24 +78,19 @@ const EventPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const eventId = params?.eventId as string
+  const eventId = params?.eventId.toString()
   const event = await getEvent(eventId)
 
   if (!event) {
     return { notFound: true }
   }
 
-  const { id, status, name, description } = event
+  const { id, status } = event
 
   return {
     props: {
       ...event,
-      leaderboard: await getEventLeaderboard(id, status),
-      meta: {
-        canonical: canonicalUrl(eventUrl(status, id)),
-        title: [name, EventKicker[status]].join(' | '),
-        description
-      }
+      leaderboard: await getEventLeaderboard(id, status)
     }
   }
 }

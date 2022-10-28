@@ -1,5 +1,4 @@
 import React, { MouseEvent } from 'react'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/client'
@@ -7,9 +6,7 @@ import { Button, Prose, SmartLink } from '@newhighsco/chipset'
 import { canonicalUrl, clanUrl, signInUrl, signOutUrl } from '@helpers/urls'
 import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
 
-const UserPage: React.FC = ({
-  meta
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const UserPage: React.FC = () => {
   const [session, loading] = useSession()
   const router = useRouter()
 
@@ -20,6 +17,12 @@ const UserPage: React.FC = ({
     return null
   }
 
+  const meta = {
+    title: 'User profile',
+    description: 'TODO: Add meta description',
+    noindex: true,
+    nofollow: true
+  }
   const { user } = session
 
   return (
@@ -66,19 +69,6 @@ const UserPage: React.FC = ({
       </Button.Group>
     </PageContainer>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {
-      meta: {
-        title: 'User profile',
-        description: 'TODO: Add meta description',
-        noindex: true,
-        nofollow: true
-      }
-    }
-  }
 }
 
 export default UserPage

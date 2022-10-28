@@ -14,15 +14,20 @@ const ClanMemberPage: React.FC = ({
   name,
   avatar,
   clan,
-  leaderboard,
-  meta
+  leaderboard
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { isFallback } = useRouter()
 
   if (isFallback) return <LoadingPageContainer />
 
   const isCurrent = status === Status[Status.Running]
-  const { kicker, url } = MemberMeta[status]
+  const { kicker, url, description } = MemberMeta[status]
+  const meta = {
+    canonical: canonicalUrl(url(clan.id, id)),
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    title: [`${name} [${clan.tag}]`, kicker].join(' | '),
+    description: [possessive(name), description].join(' ')
+  }
   const breadcrumbs = [
     isCurrent && { name: kicker, item: canonicalUrl(currentUrl()) },
     { name: clan.name, item: canonicalUrl(url(clan.id)) },
@@ -50,9 +55,9 @@ const ClanMemberPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const status = (params?.status as string) || null
-  const clanId = params?.clanId as string
-  const memberId = params?.memberId as string
+  const status = params?.status || null
+  const clanId = params?.clanId
+  const memberId = params?.memberId
 
   // TODO: Get from API
   const member = {
@@ -70,18 +75,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   //   return { notFound: true }
   // }
 
-  const { name, clan } = member
-  const { kicker, url, description } = MemberMeta[status]
-
   return {
     props: {
       ...member,
-      status,
-      meta: {
-        canonical: canonicalUrl(url(clan.id, member.id)),
-        title: [`${name} [${clan.tag}]`, kicker].join(' | '),
-        description: [possessive(name), description].join(' ')
-      }
+      status
     },
     revalidate: 60
   }

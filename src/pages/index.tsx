@@ -14,8 +14,7 @@ const { logo, name, socialLinks, title, url } = config
 const HomePage: React.FC = ({
   currentEvent,
   previousEvent,
-  nextEvent,
-  meta
+  nextEvent
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   let events = [
     previousEvent && (
@@ -33,6 +32,12 @@ const HomePage: React.FC = ({
 
   if (!currentEvent && events.length > 1) {
     events = events.reverse()
+  }
+
+  const meta = {
+    canonical: canonicalUrl(),
+    customTitle: true,
+    title
   }
 
   return (
@@ -67,12 +72,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       currentEvent,
       previousEvent,
-      nextEvent,
-      meta: {
-        canonical: canonicalUrl(),
-        customTitle: true,
-        title
-      }
+      nextEvent
     }
   }
 }

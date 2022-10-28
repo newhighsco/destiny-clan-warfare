@@ -7,9 +7,15 @@ import { Logo, LogoSize } from '@components/Logo'
 import { canonicalUrl } from '@helpers/urls'
 
 const UserSignInPage: React.FC = ({
-  csrfToken,
-  meta
+  csrfToken
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const meta = {
+    title: 'Sign out',
+    description: 'TODO: Add meta description',
+    noindex: true,
+    nofollow: true
+  }
+
   return (
     <HoldingPageContainer meta={meta}>
       <Logo size={LogoSize.Medium} />
@@ -38,13 +44,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      csrfToken: await getCsrfToken(context),
-      meta: {
-        title: 'Sign out',
-        description: 'TODO: Add meta description',
-        noindex: true,
-        nofollow: true
-      }
+      csrfToken: await getCsrfToken(context)
     }
   }
 }

@@ -9,7 +9,7 @@ import { StatProps } from '@components/Stat'
 import config from '@config'
 import { formatDescription } from '@helpers/grammar'
 import { clanUrl, currentUrl } from '@helpers/urls'
-import { Clan as ClanTypes, ClanLeaderboardRow, Status } from '@libs/api/types'
+import { Clan as ClanType, ClanLeaderboardRow, Status } from '@libs/api/types'
 
 import styles from './Clan.module.scss'
 
@@ -27,7 +27,7 @@ export const ClanMeta = {
   }
 }
 
-interface ClanProps extends ClanTypes {
+interface ClanProps extends ClanType {
   status?: string
   medals?: MedalProps[]
   stats?: StatProps[]

@@ -136,8 +136,8 @@
     ]
   },
   "lint-staged": {
-    "*.{[j|t]s?(on|x),mdx}": "yarn lint-staged:js",
-    "*.?(s)css": "yarn lint-staged:css"
+    "*.{[j|t]s?(on|x),mdx}": "yarn lint-staged:js --fix",
+    "*.?(s)css": "yarn lint-staged:css --fix"
   },
   "prettier": "@newhighsco/prettier-config",
   "release": {

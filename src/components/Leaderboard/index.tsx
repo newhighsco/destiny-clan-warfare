@@ -156,7 +156,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   }, [])
 
   const getSize = useCallback(
-    (index: number) => sizeMap.current[index] || +avatarSizes.medium,
+    (index: number) => sizeMap.current[index] || parseInt(avatarSizes.medium),
     []
   )
 

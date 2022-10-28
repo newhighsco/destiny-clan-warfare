@@ -5,7 +5,7 @@
 @use './sizes.module';
 
 .root {
-  --avatar-width: #{functions.rem(sizes.$medium)};
+  --avatar-width: #{sizes.$medium-rem};
 
   aspect-ratio: 1;
   background: colors.$nero;
@@ -15,15 +15,15 @@
   width: var(--avatar-width);
 
   @include mixins.mq(breakpoints.$tablet) {
-    --avatar-width: #{functions.rem(sizes.$large)};
+    --avatar-width: #{sizes.$large-rem};
   }
 
   &.small {
-    --avatar-width: #{functions.rem(sizes.$small)};
+    --avatar-width: #{sizes.$small-rem};
   }
 
   &.medium {
-    --avatar-width: #{functions.rem(sizes.$medium)};
+    --avatar-width: #{sizes.$medium-rem};
   }
 }
 

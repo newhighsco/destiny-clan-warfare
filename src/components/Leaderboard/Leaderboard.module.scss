@@ -76,7 +76,7 @@
 
 .avatar {
   grid-area: avatar;
-  max-width: functions.rem(avatar-sizes.$small);
+  max-width: avatar-sizes.$small-rem;
   position: sticky;
   top: 0;
 

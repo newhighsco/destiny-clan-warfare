@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { hexToRgb } from '@helpers/hex'
+import { imageUrl } from '@helpers/images'
 import { round } from '@helpers/stats'
 
 import styles from './Avatar.module.scss'
@@ -21,17 +22,9 @@ interface AvatarLayerProps {
   id: number
   layers: Layer[]
   width?: number
-  height?: number
-  viewBox?: React.SVGProps<SVGSVGElement>['viewBox']
 }
 
-const AvatarLayer: React.FC<AvatarLayerProps> = ({
-  id,
-  layers,
-  width = '100%',
-  height = width,
-  viewBox = '0 0 1 1'
-}) => {
+const AvatarLayer: React.FC<AvatarLayerProps> = ({ id, layers, width }) => {
   const defs = []
   const images = []
 
@@ -40,9 +33,10 @@ const AvatarLayer: React.FC<AvatarLayerProps> = ({
       const [r, g, b] = hexToRgb(fill).map(v => round(v / 255, 3))
       const key = [id, index].join('-')
       const anchor = [id, r, g, b].join('-')
+      const props = { key, width: '100%', height: '100%' }
 
       defs.push(
-        <filter key={key} id={anchor} x={0} y={0} width={width} height={height}>
+        <filter {...props} id={anchor} x={0} y={0}>
           <feColorMatrix
             values={`${r} 0 0 0 0 0 ${g} 0 0 0 0 0 ${b} 0 0 0 0 0 1 0`}
           />
@@ -51,11 +45,9 @@ const AvatarLayer: React.FC<AvatarLayerProps> = ({
 
       images.push(
         <image
-          key={key}
-          width={width}
-          height={height}
+          {...props}
           filter={`url(#${anchor})`}
-          xlinkHref={src}
+          xlinkHref={imageUrl({ src, width })}
         />
       )
     }
@@ -64,7 +56,7 @@ const AvatarLayer: React.FC<AvatarLayerProps> = ({
   if (!images.length) return null
 
   return (
-    <svg className={styles.layer} viewBox={viewBox}>
+    <svg className={styles.layer} viewBox="0 0 1 1">
       <defs>{defs.map(def => def)}</defs>
       <g>{images.map(image => image)}</g>
     </svg>
@@ -94,6 +86,7 @@ const Avatar: React.FC<AvatarProps> = ({
   children
 }) => {
   const hasLayers = background || foreground
+  const width = parseInt(sizes.large)
 
   return (
     <div
@@ -111,9 +104,10 @@ const Avatar: React.FC<AvatarProps> = ({
         <AvatarLayer
           id={id}
           layers={[background, foreground].filter(Boolean)}
+          width={width}
         />
       ) : (
-        children || <Image src={src} alt="" fill sizes={sizes.large} />
+        children || <Image src={src} alt="" width={width} height={width} />
       )}
     </div>
   )

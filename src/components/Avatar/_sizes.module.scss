@@ -3,6 +3,9 @@
 $small: 48px;
 $medium: 75px;
 $large: 96px;
+$small-rem: functions.rem($small);
+$medium-rem: functions.rem($medium);
+$large-rem: functions.rem($large);
 
 :export {
   small: functions.strip-unit($small);

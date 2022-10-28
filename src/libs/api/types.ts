@@ -22,15 +22,6 @@ export interface Clan {
   motto?: string
   description?: string
 }
-
-export interface ClanLeaderboardRow
-  extends Pick<Member, 'id' | 'name' | 'avatar'>,
-    LeaderboardRow {
-  overall: number
-  games: number
-  wins: number
-}
-
 export interface Event {
   id: number
   startDate: string
@@ -43,29 +34,11 @@ export interface Event {
   statsGamesThreshold?: number
 }
 
-export interface EventLeaderboardRow
-  extends Pick<Clan, 'id' | 'name' | 'avatar'>,
-    LeaderboardRow {
-  size: number
-  active: number
-}
-
-export interface LeaderboardRow {
-  rank: number
-  score: number
-  lastUpdated: string
-}
-
 export interface Member {
   id: number
   clanId: number
   name: string
   avatar: string
-}
-
-export interface MemberLeaderboardRow extends LeaderboardRow {
-  id: number
-  name: string
 }
 
 export interface Modifier {
@@ -77,4 +50,33 @@ export interface Modifier {
   multiplierModifier?: boolean
   scoringBonus?: number
   scoringModifier?: boolean
+}
+
+export interface LeaderboardRow {
+  rank: number
+  score: number
+  lastUpdated: string
+}
+
+export interface EventsLeaderboardRow
+  extends Pick<Event, 'id' | 'name' | 'status'> {}
+
+export interface EventLeaderboardRow
+  extends Pick<Clan, 'id' | 'name' | 'avatar'>,
+    LeaderboardRow {
+  size: number
+  active: number
+}
+
+export interface ClanLeaderboardRow
+  extends Pick<Member, 'id' | 'name' | 'avatar'>,
+    LeaderboardRow {
+  overall: number
+  games: number
+  wins: number
+}
+
+export interface MemberLeaderboardRow extends LeaderboardRow {
+  id: number
+  name: string
 }

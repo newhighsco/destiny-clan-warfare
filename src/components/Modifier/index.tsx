@@ -61,17 +61,15 @@ const Modifier: React.FC<ModifierProps> = ({
     bonus = undefined
   }
 
+  const icon: string = duplicates[key] || key
   const label = [prefix, bonus, suffix].join('')
 
   return (
     <Tooltip
       toggle={
         <div className={styles.root} data-icon={key}>
-          {key && (
-            <Icon
-              name={`modifier/${(duplicates[key] || key) as string}`}
-              theme={{ root: styles.icon }}
-            />
+          {icon && (
+            <Icon name={`modifier/${icon}`} theme={{ root: styles.icon }} />
           )}
           {label && <div className={styles.label}>{label}</div>}
         </div>

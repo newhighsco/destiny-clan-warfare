@@ -23,17 +23,26 @@ import { rankNumber, shortNumber } from '@helpers/stats'
 import {
   ClanLeaderboardRow,
   EventLeaderboardRow,
+  EventsLeaderboardRow,
   MemberLeaderboardRow
 } from '@libs/api/types'
 
 import styles from './Leaderboard.module.scss'
 
 interface LeaderboardProps {
-  rows?: EventLeaderboardRow[] | ClanLeaderboardRow[] | MemberLeaderboardRow[]
+  rows?:
+    | EventsLeaderboardRow[]
+    | EventLeaderboardRow[]
+    | ClanLeaderboardRow[]
+    | MemberLeaderboardRow[]
   columns?: string[]
   height?: number
   setHref?: (
-    row: EventLeaderboardRow | ClanLeaderboardRow | MemberLeaderboardRow
+    row:
+      | EventsLeaderboardRow
+      | EventLeaderboardRow
+      | ClanLeaderboardRow
+      | MemberLeaderboardRow
   ) => string
 }
 
@@ -60,7 +69,7 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
 
   useEffect(() => {
     if (rowRef.current) {
-      setSize?.(index, rowRef.current.clientHeight)
+      setSize?.(index, rowRef.current.getBoundingClientRect().height)
     }
   }, [index, setSize, width])
 
@@ -89,19 +98,21 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
           className={styles.avatar}
         />
       )}
-      <div className={styles.heading}>
-        {href ? (
-          <Link href={href} passHref legacyBehavior prefetch={false}>
-            <SmartLink className={styles.link}>{name}</SmartLink>
-          </Link>
-        ) : (
-          <span>{name}</span>
-        )}
-        <RelativeDate
-          date={lastUpdated}
-          label="Updated"
-          className={styles.date}
-        />
+      <div className={styles.headings}>
+        <div className={styles.heading}>
+          {href ? (
+            <Link href={href} passHref legacyBehavior prefetch={false}>
+              <SmartLink className={styles.link}>{name}</SmartLink>
+            </Link>
+          ) : (
+            <span>{name}</span>
+          )}
+          <RelativeDate
+            date={lastUpdated}
+            label="Updated"
+            className={styles.date}
+          />
+        </div>
       </div>
       <div className={styles.columns}>
         {rank && (

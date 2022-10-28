@@ -33,6 +33,7 @@ const Medal: React.FC<MedalProps> = ({
   tooltipProps
 }) => {
   const key = paramCase(name || '')
+  const icon: string = duplicates[key] || key
   const label = new Intl.ListFormat().format(awardedTo)
 
   return (
@@ -47,9 +48,9 @@ const Medal: React.FC<MedalProps> = ({
               name={`medal/background/tier${tier}`}
               theme={{ root: classNames(styles.background, styles.layer) }}
             />
-            {key && (
+            {icon && (
               <Icon
-                name={`medal/foreground/${(duplicates[key] || key) as string}`}
+                name={`medal/foreground/${icon}`}
                 theme={{ root: classNames(styles.foreground, styles.layer) }}
               />
             )}

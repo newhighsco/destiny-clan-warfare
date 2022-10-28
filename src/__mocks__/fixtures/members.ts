@@ -1,3 +1,8 @@
+import dayjs from 'dayjs'
+
+const now = dayjs()
+const lastUpdated = now.subtract(1, 'M').startOf('d').toISOString()
+
 export const member = {
   name: 'benedfit',
   image: 'https://www.bungie.net/img/profile/avatars/cc13.jpg',
@@ -13,6 +18,7 @@ export const leaderboard = [...new Array(100)].map((_, index) => {
     id,
     name,
     avatar,
+    lastUpdated,
     rank,
     game: 100 * rank,
     wins: 10 * rank,

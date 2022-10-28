@@ -70,10 +70,7 @@ const Event: React.FC<EventProps> = ({
   const isCurrent = status === Status[Status.Running]
 
   return (
-    <ContentContainer
-      theme={{ root: styles.root, content: styles.content }}
-      size="desktop"
-    >
+    <ContentContainer theme={{ content: styles.content }}>
       <Lockup
         kicker={kicker || EventKicker[status]}
         kickerAttributes={summary && { as: 'h1' }}
@@ -85,7 +82,6 @@ const Event: React.FC<EventProps> = ({
           <Lockup
             heading={name}
             headingAttributes={summary && { as: 'h2', href }}
-            align="center"
           />
         }
         align="center"

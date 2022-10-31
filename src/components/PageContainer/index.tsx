@@ -33,7 +33,10 @@ const PageContainer: React.FC<PageContainerProps> = ({
       size={size}
       {...rest}
     >
-      <Meta {...meta} />
+      <Meta
+        {...meta}
+        additionalMetaTags={[{ name: 'color-scheme', content: 'dark light' }]}
+      />
       {children}
     </ThemedPageContainer>
   )

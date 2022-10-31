@@ -179,13 +179,9 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   }, [])
 
   return (
-    <div
-      data-overflow-top={overflowTop}
-      data-overflow-bottom={overflowBottom}
-      style={{ height }}
-    >
+    <div data-overflow-top={overflowTop} data-overflow-bottom={overflowBottom}>
       <LeaderboardContext.Provider value={{ setSize }}>
-        <AutoSizer>
+        <AutoSizer disableHeight>
           {({ width }) => (
             <List
               ref={listRef}

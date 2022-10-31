@@ -7,7 +7,7 @@
 }
 
 .avatar {
-  display: flex;
+  display: flex !important;
   margin-bottom: functions.spacing(1);
   margin-top: functions.spacing(-3);
 }

@@ -2,6 +2,7 @@
 @use '~@newhighsco/chipset/styles/normalize';
 @use '@styles/fonts.module';
 @use '@styles/font-faces';
+@use '@styles/theme';
 
 :global {
   body {

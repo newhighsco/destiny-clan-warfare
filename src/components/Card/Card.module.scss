@@ -1,16 +1,15 @@
 @use 'sass:color';
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/functions';
 @use '@styles/mixins';
 
 .root {
-  background: colors.$smoke;
+  background: var(--color-background-inverted);
   box-shadow: 0 functions.spacing(1) functions.spacing(1)
-      color.adjust(colors.$black, $alpha: -0.5),
+      rgb(var(--color-shadow) 0.5),
     0 functions.spacing(0.5) functions.spacing(0.5)
-      color.adjust(colors.$black, $alpha: -0.75);
-  color: colors.$nero;
+      rgb(var(--color-shadow) 0.25);
+  color: var(--color-text-inverted);
   height: auto;
   overflow: visible;
   padding: functions.spacing(2) functions.spacing(1);

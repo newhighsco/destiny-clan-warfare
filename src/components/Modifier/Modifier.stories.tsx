@@ -27,11 +27,7 @@ export const List = {
       { name: 'Modifier TBC', multiplierBonus: 0 },
       { name: 'Multiplier TBC', scoringBonus: 0, scoringModifier: true },
       { name: 'No Modifier', multiplierBonus: 0 },
-      {
-        name: 'No Multiplier',
-        scoringBonus: 0,
-        scoringModifier: true
-      }
+      { name: 'No Multiplier', scoringBonus: 0, scoringModifier: true }
     ]
   }
 }

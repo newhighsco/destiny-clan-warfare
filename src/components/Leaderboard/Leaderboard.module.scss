@@ -1,6 +1,4 @@
-@use 'sass:color';
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/functions';
 @use '@styles/mixins';
 @use '@components/Avatar/sizes.module' as avatar-sizes;
@@ -11,8 +9,8 @@
   &::before,
   &::after {
     background: linear-gradient(
-      color.adjust(colors.$black, $alpha: -0.25),
-      color.adjust(colors.$black, $alpha: -1)
+      rgb(var(--color-shadow) 0.75),
+      rgb(var(--color-shadow) 0)
     );
     content: '';
     display: block;
@@ -43,9 +41,9 @@
 }
 
 .row {
-  --current-background: #{colors.$nightrider};
+  --row-background: var(--color-background-odd);
 
-  color: colors.$white;
+  color: var(--color-text);
   display: grid;
   gap: 1px 0;
   grid-template:
@@ -60,13 +58,13 @@
   }
 
   &.even {
-    --current-background: #{colors.$eclipse};
+    --row-background: var(--color-background-even);
   }
 
   &:hover {
-    --current-background: #{colors.$smoke};
+    --row-background: var(--color-background-inverted);
 
-    color: colors.$black;
+    color: var(--color-text-inverted);
   }
 
   @include mixins.mq(breakpoints.$tablet-landscape) {
@@ -86,7 +84,7 @@
 }
 
 .headings {
-  background: var(--current-background);
+  background: var(--row-background);
   grid-area: heading;
 }
 
@@ -108,7 +106,7 @@
 
 .columns {
   align-items: center;
-  background: var(--current-background);
+  background: var(--row-background);
   display: flex;
   flex-wrap: wrap;
   gap: functions.spacing(0.5) functions.spacing(1);
@@ -133,7 +131,7 @@
     position: relative;
 
     &::before {
-      color: colors.$silver;
+      color: var(--color-muted);
       content: attr(data-label);
       display: block;
       font-size: x-small;
@@ -141,7 +139,7 @@
       text-transform: uppercase;
 
       .row:hover & {
-        color: colors.$eclipse;
+        color: var(--color-muted-inverted);
       }
     }
   }
@@ -160,19 +158,19 @@
 
   &[href]:focus,
   &[href]:hover {
-    border-color: colors.$terracotta;
-    color: colors.$black;
+    border-color: var(--color-highlight);
+    color: var(--color-text-inverted);
   }
 }
 
 .date {
-  color: colors.$silver;
+  color: var(--color-muted);
   display: block;
   font-size: smaller;
   font-variant-numeric: tabular-nums;
   line-height: 1;
 
   .row:hover & {
-    color: colors.$eclipse;
+    color: var(--color-muted-inverted);
   }
 }

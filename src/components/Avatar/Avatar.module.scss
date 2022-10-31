@@ -1,5 +1,4 @@
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/functions';
 @use '@styles/mixins';
 @use './sizes.module';
@@ -8,7 +7,7 @@
   --avatar-width: #{sizes.$medium-rem};
 
   aspect-ratio: 1;
-  background: colors.$nero;
+  background: var(--color-background);
   display: inline-block;
   fill: currentColor;
   position: relative;
@@ -38,7 +37,7 @@
 }
 
 .outline {
-  outline: 2px solid colors.$white;
+  outline: 2px solid var(--color-text-inverted);
 }
 
 .center {

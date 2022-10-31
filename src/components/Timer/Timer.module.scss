@@ -1,5 +1,4 @@
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/functions';
 
 .root {
@@ -15,7 +14,7 @@
 
 .progress {
   appearance: none;
-  border: 1px solid colors.$silver;
+  border: 1px solid var(--color-muted);
   display: block;
   height: functions.spacing(1);
   margin: functions.spacing(-0.75) auto 0;
@@ -28,7 +27,7 @@
   }
 
   &::-webkit-progress-value {
-    background: colors.$terracotta;
+    background-color: var(--color-highlight);
     opacity: 0.75;
   }
 

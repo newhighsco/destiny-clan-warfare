@@ -1,16 +1,16 @@
 @use '~@newhighsco/chipset/styles/normalize';
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/fonts.module';
 @use '@styles/font-faces';
+@use '@styles/theme';
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: colors.$nero;
-  color: colors.$white;
+  background: var(--color-background);
+  color: var(--color-text);
   font-size: 16px;
   line-height: 1.5;
   font-family: fonts.$body;
@@ -23,7 +23,7 @@ a {
 }
 
 ::selection {
-  color: colors.$white;
-  background: colors.$terracotta;
+  color: var(--color-text);
+  background: var(--color-highlight);
   text-shadow: none;
 }

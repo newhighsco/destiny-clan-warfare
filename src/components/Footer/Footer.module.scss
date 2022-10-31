@@ -1,11 +1,10 @@
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/functions';
 @use '@styles/mixins';
 
 .root {
-  border-top: 1px solid colors.$eclipse;
-  color: colors.$white;
+  border-top: 1px solid var(--color-muted-inverted);
+  color: currentColor;
   margin-top: functions.spacing(3);
   position: relative;
 }
@@ -42,7 +41,7 @@
 }
 
 .link {
-  color: colors.$silver;
+  color: var(--color-muted);
   display: block;
   font-size: functions.rem(14);
   letter-spacing: 0.4em;
@@ -58,7 +57,7 @@
   &[href]:focus,
   &[href]:hover {
     &::after {
-      border-color: colors.$terracotta;
+      border-color: var(--color-highlight);
     }
   }
 }
@@ -86,12 +85,12 @@
 }
 
 .creditText {
-  color: colors.$silver;
+  color: var(--color-muted);
   font-size: functions.rem(14);
 }
 
 .logo {
-  color: colors.$silver;
+  color: var(--color-muted);
   margin: 0 auto;
   position: absolute;
   left: 0;
@@ -102,7 +101,7 @@
   width: functions.rem(60);
 
   &:hover {
-    color: colors.$white;
+    color: var(--color-text);
     margin-top: functions.spacing(-0.5);
   }
 }

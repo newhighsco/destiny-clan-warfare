@@ -1,4 +1,3 @@
-@use '@styles/colors.module';
 @use '@styles/fonts.module';
 
 .root {
@@ -12,7 +11,7 @@
 
       &:hover,
       &:focus {
-        text-decoration-color: colors.$terracotta;
+        text-decoration-color: var(--color-highlight);
       }
     }
   }

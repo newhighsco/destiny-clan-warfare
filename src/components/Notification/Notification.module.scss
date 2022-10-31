@@ -4,7 +4,9 @@
 @use '@styles/mixins';
 
 .root {
-  border: 2px solid colors.$silver;
+  --notification-color: #{colors.$silver};
+
+  border: 2px solid var(--notification-color);
   font-size: functions.rem(14);
   letter-spacing: 0.1em;
   padding: functions.spacing(0.5) functions.spacing(1) functions.spacing(0.5)
@@ -25,7 +27,7 @@
   }
 
   &::after {
-    background: colors.$silver;
+    background: var(--notification-color);
     content: '';
     position: absolute;
     top: 0;
@@ -63,10 +65,6 @@ $notification-states: (
 @each $state, $color in $notification-states {
   .#{$state} {
     /*! purgecss ignore current */
-    border-color: $color;
-
-    &::after {
-      background: $color;
-    }
+    --notification-color: #{$color};
   }
 }

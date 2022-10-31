@@ -1,0 +1,28 @@
+@use '@styles/colors.module';
+
+:root {
+  // Dark mode
+  --color-background: #{colors.$nero};
+  --color-background-inverted: #{colors.$smoke};
+  --color-background-odd: #{colors.$eclipse};
+  --color-background-even: #{colors.$nightrider};
+  --color-text: #{colors.$white};
+  --color-text-inverted: #{colors.$black};
+  --color-muted: #{colors.$silver};
+  --color-muted-inverted: #{colors.$eclipse};
+  --color-highlight: #{colors.$terracotta};
+  --color-shadow: 0, 0, 0;
+}
+
+// * {
+//   // Light mode
+//   --color-background: #{colors.$smoke};
+//   --color-background-inverted: #{colors.$eclipse};
+//   --color-background-odd: #{colors.$white};
+//   --color-background-even: #{colors.$cloud};
+//   --color-text: #{colors.$black};
+//   --color-text-inverted: #{colors.$white};
+//   --color-muted: #{colors.$eclipse};
+//   --color-muted-inverted: #{colors.$silver};
+//   --color-shadow: 179, 179, 179;
+// }

@@ -4,7 +4,7 @@
 @use '@styles/mixins';
 
 .root {
-  color: colors.$black;
+  color: currentColor;
   font-size: functions.rem(60);
   line-height: 1em;
   width: 1em;

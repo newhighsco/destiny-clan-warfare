@@ -1,5 +1,4 @@
 @use '@styles/breakpoints.module';
-@use '@styles/colors.module';
 @use '@styles/fonts.module';
 @use '@styles/functions';
 @use '@styles/mixins';
@@ -70,7 +69,7 @@
     position: static !important;
 
     .highlight & {
-      border-color: colors.$terracotta;
+      border-color: var(--color-highlight);
       opacity: 0.75;
     }
   }

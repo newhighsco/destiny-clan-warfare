@@ -25,8 +25,12 @@ describe('Components/Avatar', () => {
       render(<Avatar {...Clan.args} />)
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()
-      expect(screen.getByTestId(`${Clan.args.id}-bg`)).toBeInTheDocument()
-      expect(screen.getByTestId(`${Clan.args.id}-fg`)).toBeInTheDocument()
+      expect(
+        screen.getByTestId(`${Clan.args.id}-0.357-0.906-0.871`)
+      ).toBeInTheDocument()
+      expect(
+        screen.getByTestId(`${Clan.args.id}-0.941-0.941-0.941`)
+      ).toBeInTheDocument()
     })
   })
 

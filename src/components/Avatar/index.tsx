@@ -86,7 +86,7 @@ const Avatar: React.FC<AvatarProps> = ({
   children
 }) => {
   const hasLayers = background || foreground
-  const width = parseInt(sizes.large)
+  const width = parseInt(sizes.large) || 0
 
   return (
     <div

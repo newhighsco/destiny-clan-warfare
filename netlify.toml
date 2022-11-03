@@ -10,6 +10,6 @@
   command = "yarn start:next"
   port = 9000
   targetPort = 9001
-  # [dev.https]
-  #   certFile = "ssl/cert.pem"
-  #   keyFile = "ssl/key.pem"
+  [dev.https]
+    certFile = "ssl/localhost.crt"
+    keyFile = "ssl/localhost.key"

@@ -1,2 +1,0 @@
-brew "mkcert"
-brew "nss"

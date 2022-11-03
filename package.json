@@ -37,7 +37,7 @@
     "format:js": "yarn lint:js --fix",
     "format:css": "yarn lint:css --fix",
     "pregenerate:ssl": "mkdir -p ssl",
-    "generate:ssl": "mkcert -cert-file ssl/cert.pem -key-file ssl/key.pem localhost 127.0.0.1 ::1"
+    "generate:ssl": "openssl req -x509 -out ssl/localhost.crt -keyout ssl/localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config certconf"
   },
   "dependencies": {
     "@newhighsco/chipset": "6.14.9",

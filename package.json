@@ -40,7 +40,7 @@
     "generate:ssl": "openssl req -x509 -out ssl/localhost.crt -keyout ssl/localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config certconf"
   },
   "dependencies": {
-    "@newhighsco/chipset": "6.14.10",
+    "@newhighsco/chipset": "6.14.11",
     "@newhighsco/next-plugin-svgr": "3.0.70",
     "@newhighsco/press-start": "2.2.9",
     "autolinker": "4.0.0",
@@ -68,7 +68,7 @@
     "@newhighsco/browserslist-config": "1.1.0",
     "@newhighsco/commitlint-config": "1.1.9",
     "@newhighsco/editor-config": "1.2.0",
-    "@newhighsco/eslint-config": "3.4.9",
+    "@newhighsco/eslint-config": "3.4.11",
     "@newhighsco/postcss-config": "3.5.98",
     "@newhighsco/prettier-config": "2.1.3",
     "@newhighsco/release-config": "1.3.9",

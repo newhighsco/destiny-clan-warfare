@@ -62,7 +62,7 @@
     "sentence-case": "3.0.4"
   },
   "devDependencies": {
-    "@babel/core": "7.20.7",
+    "@babel/core": "7.20.12",
     "@commitlint/cli": "17.4.0",
     "@netlify/plugin-nextjs": "4.29.4",
     "@newhighsco/browserslist-config": "1.1.0",

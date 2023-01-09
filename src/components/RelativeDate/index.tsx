@@ -12,9 +12,14 @@ const RelativeDate: React.FC<RelativeDateProps> = ({
   label,
   className
 }) => {
+  const [enhanced, setEnhanced] = useState(false)
+
+  useEffect(() => {
+    setEnhanced(true)
+  }, [])
+
   if (!date) return null
 
-  const [enhanced, setEnhanced] = useState(false)
   const dateTime = utcDate(date)
   const currentDate = utcDate()
   const displayDate = enhanced
@@ -22,10 +27,6 @@ const RelativeDate: React.FC<RelativeDateProps> = ({
       ? dateTime.toNow()
       : dateTime.fromNow()
     : formatDateTime(dateTime)
-
-  useEffect(() => {
-    setEnhanced(true)
-  }, [])
 
   return (
     <time dateTime={dateTime.toISOString()} className={className}>

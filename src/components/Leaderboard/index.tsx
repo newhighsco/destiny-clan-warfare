@@ -143,18 +143,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   const innerRef = useRef<HTMLDivElement>(null)
   const [overflowTop, setOverflowTop] = useState(false)
   const [overflowBottom, setOverflowBottom] = useState(false)
-  const sizeMap = useRef<{ [key: string]: number }>({})
-
-  if (!rows?.length) return null
-
-  const handleScroll = ({ scrollOffset }: ListOnScrollProps): void => {
-    const { clientHeight } = innerRef.current
-    const top = scrollOffset > 0
-    const bottom = scrollOffset + height < clientHeight
-
-    if (top !== overflowTop) setOverflowTop(top)
-    if (bottom !== overflowBottom) setOverflowBottom(bottom)
-  }
+  const sizeMap = useRef<Record<string, number>>({})
 
   const setSize = useCallback((index: number, size: number) => {
     if (sizeMap.current[index] !== size) {
@@ -177,6 +166,17 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
 
     return estimatedHeight / keys.length
   }, [])
+
+  if (!rows?.length) return null
+
+  const handleScroll = ({ scrollOffset }: ListOnScrollProps): void => {
+    const { clientHeight } = innerRef.current
+    const top = scrollOffset > 0
+    const bottom = scrollOffset + height < clientHeight
+
+    if (top !== overflowTop) setOverflowTop(top)
+    if (bottom !== overflowBottom) setOverflowBottom(bottom)
+  }
 
   return (
     <div

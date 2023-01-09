@@ -10,9 +10,9 @@ const http = (accessToken?: string) => async (config: HttpClientConfig) => {
   try {
     const params = new URLSearchParams()
 
-    Object.entries(config?.params ?? []).forEach(([key, value]) =>
+    Object.entries(config?.params ?? []).forEach(([key, value]) => {
       params.append(key, value as string)
-    )
+    })
 
     const url = `${config.url}?${params.toString()}`
 

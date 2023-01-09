@@ -43,8 +43,6 @@ export interface TimerProps {
 }
 
 const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
-  if (!start || !end) return null
-
   const [enhanced, setEnhanced] = useState(false)
   const [startDate, setStartDate] = useState(utcDate(start))
   const [endDate, setEndDate] = useState(utcDate(end))
@@ -54,15 +52,6 @@ const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
     : startDate.isAfter(currentDate)
     ? TimerTense.Future
     : TimerTense.Past
-  const displayDate = tense === TimerTense.Future ? startDate : endDate
-  const [duration, progress] = enhanced
-    ? countdown(displayDate, startDate, endDate, currentDate)
-    : []
-  const stat = {
-    name: [tense, duration && 'in'].filter(Boolean).join(' '),
-    value: duration || formatDate(displayDate),
-    label: !duration && formatTime(displayDate)
-  }
 
   useEffect(() => {
     setEnhanced(true)
@@ -72,9 +61,23 @@ const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
   }, [])
 
   useInterval(
-    () => setCurrentDate(localDate()),
+    () => {
+      setCurrentDate(localDate())
+    },
     tense !== TimerTense.Past ? tickInterval : null
   )
+
+  if (!start || !end) return null
+
+  const displayDate = tense === TimerTense.Future ? startDate : endDate
+  const [duration, progress] = enhanced
+    ? countdown(displayDate, startDate, endDate, currentDate)
+    : []
+  const stat = {
+    name: [tense, duration && 'in'].filter(Boolean).join(' '),
+    value: duration || formatDate(displayDate),
+    label: !duration && formatTime(displayDate)
+  }
 
   return (
     <div className={styles.root}>

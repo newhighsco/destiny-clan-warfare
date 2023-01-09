@@ -20,8 +20,8 @@ describe('Components/Avatar', () => {
   })
 
   describe('Clan', () => {
-    it('should render the expected markup for a clan', async () => {
-      await configure({ testIdAttribute: 'id' })
+    it('should render the expected markup for a clan', () => {
+      configure({ testIdAttribute: 'id' })
       render(<Avatar {...Clan.args} />)
 
       expect(screen.queryByRole('img')).not.toBeInTheDocument()

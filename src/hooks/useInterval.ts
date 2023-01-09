@@ -10,9 +10,13 @@ function useInterval(callback: () => void, delay: number | null): void {
   useEffect(() => {
     if (!delay) return
 
-    const id = setInterval(() => ref.current(), delay)
+    const id = setInterval(() => {
+      ref.current()
+    }, delay)
 
-    return () => clearInterval(id)
+    return () => {
+      clearInterval(id)
+    }
   }, [delay])
 }
 

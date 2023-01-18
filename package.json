@@ -48,7 +48,7 @@
     "dayjs": "1.11.7",
     "json-bigint": "1.0.0",
     "next": "13.1.2",
-    "next-auth": "3.29.10",
+    "next-auth": "4.18.8",
     "next-compose-plugins": "2.2.1",
     "next-sitemap": "3.1.45",
     "param-case": "3.0.4",

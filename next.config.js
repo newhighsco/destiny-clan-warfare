@@ -1,8 +1,4 @@
 const withPlugins = require('next-compose-plugins')
-const withTranspileModules = require('next-transpile-modules')([
-  '@newhighsco/chipset',
-  '@newhighsco/press-start'
-])
 const withSvgr = require('@newhighsco/next-plugin-svgr')
 
 /**
@@ -22,10 +18,8 @@ const nextConfig = {
     domains: ['www.bungie.net'],
     formats: ['image/avif', 'image/webp']
   },
-  poweredByHeader: false
+  poweredByHeader: false,
+  transpilePackages: ['@newhighsco/chipset', '@newhighsco/press-start']
 }
 
-module.exports = withPlugins(
-  [[withTranspileModules], [withSvgr, { inlineImageLimit: -1 }]],
-  nextConfig
-)
+module.exports = withPlugins([[withSvgr, { inlineImageLimit: -1 }]], nextConfig)

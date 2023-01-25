@@ -1,10 +1,11 @@
-import React from 'react'
-import classNames from 'classnames'
 import { List, Tooltip } from '@newhighsco/chipset'
-import { shortNumber } from '@helpers/stats'
+import classNames from 'classnames'
+import React from 'react'
+
+import Lockup from '~components/Lockup'
+import { shortNumber } from '~helpers/stats'
 
 import styles from './Stat.module.scss'
-import Lockup from '@components/Lockup'
 
 const BLANK = '-'
 

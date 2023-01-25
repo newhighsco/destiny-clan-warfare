@@ -1,12 +1,17 @@
-import React from 'react'
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import {
+  type GetStaticPaths,
+  type GetStaticProps,
+  type InferGetStaticPropsType
+} from 'next'
 import { BreadcrumbJsonLd, EventJsonLd } from 'next-seo'
-import Event, { EventKicker } from '@components/Event'
-import PageContainer from '@components/PageContainer'
-import config from '@config'
-import { canonicalUrl, eventUrl } from '@helpers/urls'
-import { getEvent, getEventLeaderboard, getEvents } from '@libs/api'
-import { Status } from '@libs/api/types'
+import React from 'react'
+
+import Event, { EventKicker } from '~components/Event'
+import PageContainer from '~components/PageContainer'
+import config from '~config'
+import { canonicalUrl, eventUrl } from '~helpers/urls'
+import { getEvent, getEventLeaderboard, getEvents } from '~libs/api'
+import { Status } from '~libs/api/types'
 
 const EventPage: React.FC = ({
   id,

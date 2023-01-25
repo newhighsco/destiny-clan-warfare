@@ -1,6 +1,6 @@
-@use '@styles/breakpoints.module';
-@use '@styles/colors.module';
-@use '@styles/functions';
+@use '~styles/breakpoints.module';
+@use '~styles/colors.module';
+@use '~styles/functions';
 
 .root {
   display: block;

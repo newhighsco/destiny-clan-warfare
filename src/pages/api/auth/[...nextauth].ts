@@ -1,7 +1,8 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import { signInUrl, signOutUrl } from '@helpers/urls'
-import { getMemberClans } from '@libs/bungie'
+
+import { signInUrl, signOutUrl } from '~helpers/urls'
+import { getMemberClans } from '~libs/bungie'
 
 export default NextAuth({
   providers: [

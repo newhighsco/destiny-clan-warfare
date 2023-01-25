@@ -1,6 +1,6 @@
-@use '@styles/breakpoints.module';
-@use '@styles/functions';
-@use '@styles/mixins';
+@use '~styles/breakpoints.module';
+@use '~styles/functions';
+@use '~styles/mixins';
 
 .gutter {
   padding-left: functions.spacing(0.5);

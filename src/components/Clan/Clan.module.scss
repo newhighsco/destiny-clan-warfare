@@ -1,5 +1,5 @@
-@use '@styles/colors.module';
-@use '@styles/functions';
+@use '~styles/colors.module';
+@use '~styles/functions';
 
 .content {
   > * + * {

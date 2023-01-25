@@ -1,13 +1,14 @@
-import React from 'react'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { Button } from '@newhighsco/chipset'
+import { type GetStaticProps, type InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 import { LogoJsonLd, SocialProfileJsonLd } from 'next-seo'
-import { Button } from '@newhighsco/chipset'
-import { canonicalUrl, eventUrl } from '@helpers/urls'
-import PageContainer from '@components/PageContainer'
-import config from '@config'
-import Event from '@components/Event'
-import { getEvent } from '@libs/api'
+import React from 'react'
+
+import Event from '~components/Event'
+import PageContainer from '~components/PageContainer'
+import config from '~config'
+import { canonicalUrl, eventUrl } from '~helpers/urls'
+import { getEvent } from '~libs/api'
 
 const { logo, name, socialLinks, title, url } = config
 

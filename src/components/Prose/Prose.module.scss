@@ -1,5 +1,5 @@
-@use '@styles/colors.module';
-@use '@styles/fonts.module';
+@use '~styles/colors.module';
+@use '~styles/fonts.module';
 
 .root {
   font-family: fonts.$body;

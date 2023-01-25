@@ -1,8 +1,7 @@
-import React from 'react'
+import { Element, SmartLink } from '@newhighsco/chipset'
 import classNames from 'classnames'
 import Link from 'next/link'
-
-import { Element, SmartLink } from '@newhighsco/chipset'
+import React from 'react'
 
 import styles from './Lockup.module.scss'
 

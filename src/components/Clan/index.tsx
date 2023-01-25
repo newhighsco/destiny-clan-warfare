@@ -1,15 +1,20 @@
-import React from 'react'
 import { Card, ContentContainer, Prose } from '@newhighsco/chipset'
-import Lockup from '@components/Lockup'
-import { EventKicker } from '@components/Event'
-import Leaderboard from '@components/Leaderboard'
-import Avatar from '@components/Avatar'
-import { MedalProps } from '@components/Medal'
-import { StatProps } from '@components/Stat'
-import config from '@config'
-import { formatDescription } from '@helpers/grammar'
-import { clanUrl, currentUrl } from '@helpers/urls'
-import { Clan as ClanType, ClanLeaderboardRow, Status } from '@libs/api/types'
+import React from 'react'
+
+import Avatar from '~components/Avatar'
+import { EventKicker } from '~components/Event'
+import Leaderboard from '~components/Leaderboard'
+import Lockup from '~components/Lockup'
+import { type MedalProps } from '~components/Medal'
+import { type StatProps } from '~components/Stat'
+import config from '~config'
+import { formatDescription } from '~helpers/grammar'
+import { clanUrl, currentUrl } from '~helpers/urls'
+import {
+  type Clan as ClanType,
+  type ClanLeaderboardRow,
+  Status
+} from '~libs/api/types'
 
 import styles from './Clan.module.scss'
 

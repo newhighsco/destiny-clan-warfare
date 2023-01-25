@@ -1,5 +1,7 @@
+import { type Dayjs } from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { Dayjs } from 'dayjs'
+
+import { Stat } from '~components/Stat'
 import {
   countdown,
   formatDate,
@@ -7,9 +9,8 @@ import {
   formatTime,
   localDate,
   utcDate
-} from '@helpers/time'
-import useInterval from '@hooks/useInterval'
-import { Stat } from '@components/Stat'
+} from '~helpers/time'
+import useInterval from '~hooks/useInterval'
 
 import styles from './Timer.module.scss'
 

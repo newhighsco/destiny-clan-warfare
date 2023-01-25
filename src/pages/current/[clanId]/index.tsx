@@ -1,10 +1,15 @@
+import {
+  type GetStaticPaths,
+  type GetStaticProps,
+  type InferGetStaticPropsType
+} from 'next'
 import React from 'react'
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+
+import { getClanLeaderboard } from '~libs/api'
+import { Status } from '~libs/api/types'
 import ClanPage, {
   getStaticProps as clanStaticProps
-} from '@pages/clans/[clanId]'
-import { getClanLeaderboard } from '@libs/api'
-import { Status } from '@libs/api/types'
+} from '~pages/clans/[clanId]'
 
 const CurrentClanPage: React.FC = props => {
   return <ClanPage {...props} />

@@ -1,9 +1,10 @@
-import React from 'react'
 import classNames from 'classnames'
-import Lockup, { LockupSize } from '@components/Lockup'
-import { ReactComponent as LogoSvg } from './logo.svg'
+import React from 'react'
+
+import Lockup, { LockupSize } from '~components/Lockup'
 
 import styles from './Logo.module.scss'
+import { ReactComponent as LogoSvg } from './logo.svg'
 
 export enum LogoSize {
   Small = LockupSize.Small,

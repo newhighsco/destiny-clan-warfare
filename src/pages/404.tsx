@@ -1,8 +1,9 @@
-import React from 'react'
-import Link from 'next/link'
 import { Button, SmartLink } from '@newhighsco/chipset'
-import { HoldingPageContainer } from '@components/PageContainer'
-import { Logo, LogoSize } from '@components/Logo'
+import Link from 'next/link'
+import React from 'react'
+
+import { Logo, LogoSize } from '~components/Logo'
+import { HoldingPageContainer } from '~components/PageContainer'
 
 const NotFoundPage: React.FC = () => {
   const meta = {

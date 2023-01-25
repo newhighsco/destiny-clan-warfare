@@ -1,12 +1,13 @@
-import React from 'react'
-import type { AppProps } from 'next/app'
-import { Session } from 'next-auth'
-import { Provider } from 'next-auth/client'
-import { AppPage } from '@newhighsco/press-start'
-import config from '@config'
-import theme from '@theme'
+import '~styles/app.scss'
 
-import '@styles/app.scss'
+import { AppPage } from '@newhighsco/press-start'
+import type { AppProps } from 'next/app'
+import { type Session } from 'next-auth'
+import { Provider } from 'next-auth/client'
+import React from 'react'
+
+import config from '~config'
+import theme from '~theme'
 
 const meta = {
   additionalLinkTags: ['montserrat'].map(font => ({

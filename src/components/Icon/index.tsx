@@ -1,7 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { Icon as ThemedIcon } from '@newhighsco/chipset'
-import useSvg from '@hooks/useSvg'
+import type PropTypes from 'prop-types'
+import React from 'react'
+
+import useSvg from '~hooks/useSvg'
 
 interface IconProps extends PropTypes.InferProps<ThemedIcon.propTypes> {
   name: string

@@ -1,10 +1,10 @@
-import { HttpClientConfig } from 'bungie-api-ts/http'
 import {
+  type GetGroupsForMemberResponse,
+  type GroupResponse,
   getGroup,
-  getGroupsForMember,
-  GetGroupsForMemberResponse,
-  GroupResponse
+  getGroupsForMember
 } from 'bungie-api-ts/groupv2'
+import { type HttpClientConfig } from 'bungie-api-ts/http'
 
 const http = (accessToken?: string) => async (config: HttpClientConfig) => {
   try {

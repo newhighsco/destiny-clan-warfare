@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { formatDateTime, utcDate } from '@helpers/time'
+
+import { formatDateTime, utcDate } from '~helpers/time'
 
 interface RelativeDateProps {
   date: string

@@ -1,10 +1,11 @@
-import React from 'react'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { getProviders, getSession, getCsrfToken } from 'next-auth/client'
 import { Button } from '@newhighsco/chipset'
-import { HoldingPageContainer } from '@components/PageContainer'
-import { canonicalUrl, userUrl } from '@helpers/urls'
-import { Logo, LogoSize } from '@components/Logo'
+import { type GetServerSideProps, type InferGetServerSidePropsType } from 'next'
+import { getCsrfToken, getProviders, getSession } from 'next-auth/client'
+import React from 'react'
+
+import { Logo, LogoSize } from '~components/Logo'
+import { HoldingPageContainer } from '~components/PageContainer'
+import { canonicalUrl, userUrl } from '~helpers/urls'
 
 const UserSignInPage: React.FC = ({
   csrfToken,

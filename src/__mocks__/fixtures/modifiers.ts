@@ -1,4 +1,4 @@
-import { Modifier } from '@libs/api/types'
+import { type Modifier } from '~libs/api/types'
 
 export const eventModifiers = [
   {

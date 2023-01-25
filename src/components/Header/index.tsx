@@ -1,20 +1,21 @@
-import React, { MouseEvent } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { signIn, useSession } from 'next-auth/client'
 import {
   ContentContainer,
   Grid,
   HeaderContainer,
   SmartLink
 } from '@newhighsco/chipset'
-import Avatar, { AvatarSize } from '@components/Avatar'
-import { LogoLockup, LogoSize } from '@components/Logo'
-import { userUrl } from '@helpers/urls'
-import backgroundImage from '@images/header.jpg'
+import Image from 'next/image'
+import Link from 'next/link'
+import { signIn, useSession } from 'next-auth/client'
+import React, { type MouseEvent } from 'react'
+
+import Avatar, { AvatarSize } from '~components/Avatar'
+import Icon from '~components/Icon'
+import { LogoLockup, LogoSize } from '~components/Logo'
+import { userUrl } from '~helpers/urls'
+import backgroundImage from '~images/header.jpg'
 
 import styles from './Header.module.scss'
-import Icon from '@components/Icon'
 interface HeaderProps {
   size?: string
 }

@@ -1,12 +1,13 @@
-import React from 'react'
 import classNames from 'classnames'
 import Image from 'next/image'
-import { hexToRgb } from '@helpers/hex'
-import { imageUrl } from '@helpers/images'
-import { round } from '@helpers/stats'
+import React from 'react'
 
-import styles from './Avatar.module.scss'
+import { hexToRgb } from '~helpers/hex'
+import { imageUrl } from '~helpers/images'
+import { round } from '~helpers/stats'
+
 import sizes from './_sizes.module.scss'
+import styles from './Avatar.module.scss'
 
 export enum AvatarSize {
   Small = 'small',

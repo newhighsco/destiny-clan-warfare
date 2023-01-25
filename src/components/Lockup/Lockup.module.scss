@@ -1,8 +1,8 @@
-@use '@styles/breakpoints.module';
-@use '@styles/colors.module';
-@use '@styles/fonts.module';
-@use '@styles/functions';
-@use '@styles/mixins';
+@use '~styles/breakpoints.module';
+@use '~styles/colors.module';
+@use '~styles/fonts.module';
+@use '~styles/functions';
+@use '~styles/mixins';
 
 .root {
   $font-size-small: functions.rem(30);

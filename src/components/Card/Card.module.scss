@@ -1,8 +1,8 @@
 @use 'sass:color';
-@use '@styles/breakpoints.module';
-@use '@styles/colors.module';
-@use '@styles/functions';
-@use '@styles/mixins';
+@use '~styles/breakpoints.module';
+@use '~styles/colors.module';
+@use '~styles/functions';
+@use '~styles/mixins';
 
 .root {
   background: colors.$smoke;

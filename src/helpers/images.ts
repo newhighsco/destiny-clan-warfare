@@ -1,6 +1,6 @@
 import {
-  ImageConfigComplete,
-  ImageLoaderProps
+  type ImageConfigComplete,
+  type ImageLoaderProps
 } from 'next/dist/shared/lib/image-config'
 import imageLoader from 'next/dist/shared/lib/image-loader'
 

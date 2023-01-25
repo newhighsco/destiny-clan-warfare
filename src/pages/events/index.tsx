@@ -1,13 +1,14 @@
+import { type GetStaticProps, type InferGetStaticPropsType } from 'next'
 import React from 'react'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { canonicalUrl, eventUrl } from '@helpers/urls'
-import PageContainer from '@components/PageContainer'
-import Lockup from '@components/Lockup'
-import config from '@config'
-import { getEvents } from '@libs/api'
-import { EventsLeaderboardRow } from '@libs/api/types'
-import { EventKicker } from '@components/Event'
-import Leaderboard from '@components/Leaderboard'
+
+import { EventKicker } from '~components/Event'
+import Leaderboard from '~components/Leaderboard'
+import Lockup from '~components/Lockup'
+import PageContainer from '~components/PageContainer'
+import config from '~config'
+import { canonicalUrl, eventUrl } from '~helpers/urls'
+import { getEvents } from '~libs/api'
+import { type EventsLeaderboardRow } from '~libs/api/types'
 
 const EventListingPage: React.FC = ({
   events

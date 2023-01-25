@@ -1,6 +1,8 @@
 import React from 'react'
+
+import Lockup from '~components/Lockup'
+
 import HoldingPageContainer from './HoldingPageContainer'
-import Lockup from '@components/Lockup'
 
 const meta = {
   title: 'Loading...',

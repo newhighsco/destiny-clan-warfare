@@ -1,5 +1,5 @@
-import React from 'react'
 import { configure, render, screen, waitFor } from '@testing-library/react'
+import React from 'react'
 
 import Avatar from '.'
 import { Clan, Custom, Member } from './Avatar.stories'

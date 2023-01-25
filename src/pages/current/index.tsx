@@ -1,8 +1,9 @@
+import { type GetStaticProps } from 'next'
 import React from 'react'
-import { GetStaticProps } from 'next'
+
 import EventPage, {
   getStaticProps as eventStaticProps
-} from '@pages/events/[eventId]'
+} from '~pages/events/[eventId]'
 
 const CurrentEventPage: React.FC = props => {
   return <EventPage {...props} />

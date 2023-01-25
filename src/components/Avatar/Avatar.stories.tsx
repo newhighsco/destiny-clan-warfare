@@ -1,9 +1,10 @@
 import React from 'react'
-import Avatar from '.'
 
-import { ReactComponent as UserSvg } from '@images/icons/user.svg'
-import { company } from '@fixtures/clans'
-import { member } from '@fixtures/members'
+import { company } from '~fixtures/clans'
+import { member } from '~fixtures/members'
+import { ReactComponent as UserSvg } from '~images/icons/user.svg'
+
+import Avatar from '.'
 
 export default { component: Avatar }
 

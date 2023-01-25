@@ -1,6 +1,8 @@
 import dayjs from 'dayjs'
+
+import { type Event } from '~libs/api/types'
+
 import { eventModifiers } from './modifiers'
-import { Event } from '@libs/api/types'
 
 const now = dayjs().startOf('d')
 

@@ -1,11 +1,12 @@
-import dayjs, { ConfigType, Dayjs } from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
+import dayjs, { type ConfigType, type Dayjs } from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
-import isBetween from 'dayjs/plugin/isBetween'
 import duration from 'dayjs/plugin/duration'
+import isBetween from 'dayjs/plugin/isBetween'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { percentage } from '@helpers/stats'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+
+import { percentage } from '~helpers/stats'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

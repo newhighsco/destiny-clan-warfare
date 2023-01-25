@@ -1,12 +1,17 @@
-import React from 'react'
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import {
+  type GetStaticPaths,
+  type GetStaticProps,
+  type InferGetStaticPropsType
+} from 'next'
 import { useRouter } from 'next/router'
 import { BreadcrumbJsonLd } from 'next-seo'
-import { possessive } from '@helpers/grammar'
-import { canonicalUrl } from '@helpers/urls'
-import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
-import Clan, { ClanMeta } from '@components/Clan'
-import { getClan } from '@libs/api'
+import React from 'react'
+
+import Clan, { ClanMeta } from '~components/Clan'
+import PageContainer, { LoadingPageContainer } from '~components/PageContainer'
+import { possessive } from '~helpers/grammar'
+import { canonicalUrl } from '~helpers/urls'
+import { getClan } from '~libs/api'
 
 const ClanPage: React.FC = ({
   id,

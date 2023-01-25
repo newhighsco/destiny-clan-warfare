@@ -1,9 +1,11 @@
-import React from 'react'
-import Image from 'next/image'
 import { Backdrop } from '@newhighsco/chipset'
-import PageContainer, { PageContainerProps } from '@components/PageContainer'
+import Image from 'next/image'
+import React from 'react'
 
-import backgroundImage from '@images/holding-page.jpg'
+import PageContainer, {
+  type PageContainerProps
+} from '~components/PageContainer'
+import backgroundImage from '~images/holding-page.jpg'
 
 import styles from './HoldingPageContainer.module.scss'
 

@@ -1,5 +1,6 @@
-import { leaderboard as clans } from '@fixtures/clans'
-import { leaderboard as members } from '@fixtures/members'
+import { leaderboard as clans } from '~fixtures/clans'
+import { leaderboard as members } from '~fixtures/members'
+
 import Leaderboard from '.'
 
 export default {

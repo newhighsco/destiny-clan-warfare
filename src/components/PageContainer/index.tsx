@@ -1,9 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { PageContainer as ThemedPageContainer } from '@newhighsco/chipset'
 import { Meta } from '@newhighsco/press-start'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import type PropTypes from 'prop-types'
+import React from 'react'
+
+import Footer from '~components/Footer'
+import Header from '~components/Header'
+
 import HoldingPageContainer from './HoldingPageContainer'
 import LoadingPageContainer from './LoadingPageContainer'
 

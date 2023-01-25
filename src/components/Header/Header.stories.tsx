@@ -1,6 +1,8 @@
-import React from 'react'
 import { Provider } from 'next-auth/client'
-import { member } from '@fixtures/members'
+import React from 'react'
+
+import { member } from '~fixtures/members'
+
 import Header from '.'
 
 export default {

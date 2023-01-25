@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button } from '@newhighsco/chipset'
+import React from 'react'
 
 export default { component: Button }
 

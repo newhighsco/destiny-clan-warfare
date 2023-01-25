@@ -1,15 +1,17 @@
 import JSONBig from 'json-bigint'
-import { company } from '@fixtures/clans'
-import { apiUrl } from '@helpers/urls'
+
+import { company } from '~fixtures/clans'
+import { leaderboard } from '~fixtures/members'
+import { apiUrl } from '~helpers/urls'
+
 import {
-  Clan,
-  ClanLeaderboardRow,
-  Event,
-  EventLeaderboardRow,
-  MemberLeaderboardRow,
+  type Clan,
+  type ClanLeaderboardRow,
+  type Event,
+  type EventLeaderboardRow,
+  type MemberLeaderboardRow,
   Status
 } from './types'
-import { leaderboard } from '@fixtures/members'
 
 const getData = async (url: string): Promise<any> =>
   await fetch(apiUrl(url)).then(async response => {

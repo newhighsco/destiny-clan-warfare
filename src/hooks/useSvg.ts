@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 
 function useSvg(
   name: string
@@ -14,7 +15,7 @@ function useSvg(
       try {
         setIcon(
           await import(
-            /* webpackChunkName: "[request]" */ `@images/icons/${name}.svg`
+            /* webpackChunkName: "[request]" */ `~images/icons/${name}.svg`
           )
         )
       } catch (err) {

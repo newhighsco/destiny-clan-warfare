@@ -1,5 +1,3 @@
-import React from 'react'
-import Link from 'next/link'
 import {
   ContentContainer,
   CreditLockup,
@@ -8,7 +6,10 @@ import {
   Navigation,
   SmartLink
 } from '@newhighsco/chipset'
-import { LogoIcon, LogoSize } from '@components/Logo'
+import Link from 'next/link'
+import React from 'react'
+
+import { LogoIcon, LogoSize } from '~components/Logo'
 
 import styles from './Footer.module.scss'
 

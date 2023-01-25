@@ -1,18 +1,19 @@
-import React from 'react'
 import { Card, ContentContainer } from '@newhighsco/chipset'
-import Lockup from '@components/Lockup'
-import { EventKicker } from '@components/Event'
-import Leaderboard from '@components/Leaderboard'
-import Avatar from '@components/Avatar'
-import Notification from '@components/Notification'
-import config from '@config'
-import { clanUrl, currentUrl, pgcrUrl } from '@helpers/urls'
+import React from 'react'
+
+import Avatar from '~components/Avatar'
+import { EventKicker } from '~components/Event'
+import Leaderboard from '~components/Leaderboard'
+import Lockup from '~components/Lockup'
+import Notification from '~components/Notification'
+import config from '~config'
+import { clanUrl, currentUrl, pgcrUrl } from '~helpers/urls'
 import {
-  Clan,
-  Member as MemberType,
-  MemberLeaderboardRow,
+  type Clan,
+  type Member as MemberType,
+  type MemberLeaderboardRow,
   Status
-} from '@libs/api/types'
+} from '~libs/api/types'
 
 import styles from './Member.module.scss'
 

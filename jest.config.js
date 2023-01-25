@@ -13,7 +13,8 @@ module.exports = (async () => {
       ...hq.get('jest', { format: 'array' })
     },
     setupFilesAfterEnv: ['<rootDir>/config/jest/setup.js'],
-    testEnvironment: 'jest-environment-jsdom'
+    testEnvironment: 'jest-environment-jsdom',
+    testPathIgnorePatterns: ['<rootDir>/.netlify/', '<rootDir>/node_modules/']
   })()
 
   config.transformIgnorePatterns.splice(

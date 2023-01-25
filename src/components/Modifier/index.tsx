@@ -1,11 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { paramCase } from 'param-case'
 import { List, Tooltip } from '@newhighsco/chipset'
-import Icon from '@components/Icon'
-import { Modifier as ModifierType } from '@libs/api/types'
-import { duplicates } from './icons'
+import { paramCase } from 'param-case'
+import type PropTypes from 'prop-types'
+import React from 'react'
 
+import Icon from '~components/Icon'
+import { type Modifier as ModifierType } from '~libs/api/types'
+
+import { duplicates } from './icons'
 import styles from './Modifier.module.scss'
 
 const PREFIX_MULTIPLY = 'x'

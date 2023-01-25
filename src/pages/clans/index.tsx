@@ -1,11 +1,12 @@
-import React from 'react'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import Link from 'next/link'
 import { List, Prose, SmartLink } from '@newhighsco/chipset'
-import PageContainer from '@components/PageContainer'
-import Lockup from '@components/Lockup'
-import { canonicalUrl, clanUrl } from '@helpers/urls'
-import { getClans } from '@libs/api'
+import { type GetStaticProps, type InferGetStaticPropsType } from 'next'
+import Link from 'next/link'
+import React from 'react'
+
+import Lockup from '~components/Lockup'
+import PageContainer from '~components/PageContainer'
+import { canonicalUrl, clanUrl } from '~helpers/urls'
+import { getClans } from '~libs/api'
 
 const ClanListingPage: React.FC = ({
   clans

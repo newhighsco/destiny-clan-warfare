@@ -1,3 +1,6 @@
+import { SmartLink } from '@newhighsco/chipset'
+import classNames from 'classnames'
+import Link from 'next/link'
 import React, {
   createContext,
   useCallback,
@@ -6,26 +9,24 @@ import React, {
   useRef,
   useState
 } from 'react'
-import classNames from 'classnames'
-import Link from 'next/link'
-import {
-  VariableSizeList as List,
-  ListChildComponentProps,
-  ListOnScrollProps
-} from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { SmartLink } from '@newhighsco/chipset'
-import Avatar, { AvatarSize } from '@components/Avatar'
-import avatarSizes from '@components/Avatar/_sizes.module.scss'
-import RelativeDate from '@components/RelativeDate'
-import { decode } from '@helpers/html-entities'
-import { rankNumber, shortNumber } from '@helpers/stats'
 import {
-  ClanLeaderboardRow,
-  EventLeaderboardRow,
-  EventsLeaderboardRow,
-  MemberLeaderboardRow
-} from '@libs/api/types'
+  type ListChildComponentProps,
+  type ListOnScrollProps,
+  VariableSizeList as List
+} from 'react-window'
+
+import Avatar, { AvatarSize } from '~components/Avatar'
+import avatarSizes from '~components/Avatar/_sizes.module.scss'
+import RelativeDate from '~components/RelativeDate'
+import { decode } from '~helpers/html-entities'
+import { rankNumber, shortNumber } from '~helpers/stats'
+import {
+  type ClanLeaderboardRow,
+  type EventLeaderboardRow,
+  type EventsLeaderboardRow,
+  type MemberLeaderboardRow
+} from '~libs/api/types'
 
 import styles from './Leaderboard.module.scss'
 

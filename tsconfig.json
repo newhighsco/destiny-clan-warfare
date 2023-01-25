@@ -15,34 +15,34 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@components/*": [
+      "~components/*": [
         "src/components/*"
       ],
-      "@config": [
+      "~config": [
         "site.config"
       ],
-      "@fixtures/*": [
+      "~fixtures/*": [
         "src/__mocks__/fixtures/*"
       ],
-      "@helpers/*": [
+      "~helpers/*": [
         "src/helpers/*"
       ],
-      "@hooks/*": [
+      "~hooks/*": [
         "src/hooks/*"
       ],
-      "@images/*": [
+      "~images/*": [
         "src/images/*"
       ],
-      "@libs/*": [
+      "~libs/*": [
         "src/libs/*"
       ],
-      "@pages/*": [
+      "~pages/*": [
         "src/pages/*"
       ],
-      "@styles/*": [
+      "~styles/*": [
         "src/styles/*"
       ],
-      "@theme": [
+      "~theme": [
         "src/theme"
       ]
     },

@@ -1,6 +1,7 @@
-import React from 'react'
 import { Card } from '@newhighsco/chipset'
-import Lockup from '@components/Lockup'
+import React from 'react'
+
+import Lockup from '~components/Lockup'
 
 export default { component: Card }
 

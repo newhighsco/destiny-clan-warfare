@@ -1,12 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { List, ResponsiveMedia, Tooltip } from '@newhighsco/chipset'
 import classNames from 'classnames'
 import { paramCase } from 'param-case'
-import { List, ResponsiveMedia, Tooltip } from '@newhighsco/chipset'
-import Icon from '@components/Icon'
-import Lockup from '@components/Lockup'
-import { duplicates } from './foregrounds'
+import type PropTypes from 'prop-types'
+import React from 'react'
 
+import Icon from '~components/Icon'
+import Lockup from '~components/Lockup'
+
+import { duplicates } from './foregrounds'
 import styles from './Medal.module.scss'
 
 export enum MedalTiers {

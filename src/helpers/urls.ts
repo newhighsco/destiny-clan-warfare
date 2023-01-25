@@ -1,6 +1,7 @@
 import urlJoin from 'url-join'
-import config from '@config'
-import { Status } from '@libs/api/types'
+
+import config from '~config'
+import { Status } from '~libs/api/types'
 
 const { url: siteUrl } = config
 

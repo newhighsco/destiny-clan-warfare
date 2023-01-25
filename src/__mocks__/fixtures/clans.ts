@@ -1,4 +1,4 @@
-import { Clan } from '@libs/api/types'
+import { type Clan } from '~libs/api/types'
 
 export const company = {
   id: 1486166,

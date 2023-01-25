@@ -1,7 +1,7 @@
 @use 'sass:color';
-@use '@styles/colors.module';
-@use '@styles/fonts.module';
-@use '@styles/functions';
+@use '~styles/colors.module';
+@use '~styles/fonts.module';
+@use '~styles/functions';
 
 $tooltip-width: functions.rem(250);
 

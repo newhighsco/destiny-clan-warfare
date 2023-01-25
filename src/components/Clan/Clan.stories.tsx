@@ -1,5 +1,6 @@
-import { company } from '@fixtures/clans'
-import { Status } from '@libs/api/types'
+import { company } from '~fixtures/clans'
+import { Status } from '~libs/api/types'
+
 import Clan from '.'
 
 export default { component: Clan }

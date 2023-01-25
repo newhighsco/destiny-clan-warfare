@@ -1,7 +1,7 @@
 import React from 'react'
 import * as NextImage from 'next/image'
 import { ThemeProvider } from '@newhighsco/chipset'
-import componentTheme from '@theme'
+import componentTheme from '~theme'
 import theme from './theme'
 
 import './preview.scss'

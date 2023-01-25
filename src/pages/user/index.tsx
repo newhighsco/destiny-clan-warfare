@@ -1,10 +1,11 @@
-import React, { MouseEvent } from 'react'
+import { Button, Prose, SmartLink } from '@newhighsco/chipset'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/client'
-import { Button, Prose, SmartLink } from '@newhighsco/chipset'
-import { canonicalUrl, clanUrl, signInUrl, signOutUrl } from '@helpers/urls'
-import PageContainer, { LoadingPageContainer } from '@components/PageContainer'
+import React, { type MouseEvent } from 'react'
+
+import PageContainer, { LoadingPageContainer } from '~components/PageContainer'
+import { canonicalUrl, clanUrl, signInUrl, signOutUrl } from '~helpers/urls'
 
 const UserPage: React.FC = () => {
   const [session, loading] = useSession()

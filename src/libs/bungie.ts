@@ -1,8 +1,8 @@
 import {
-  type GetGroupsForMemberResponse,
-  type GroupResponse,
   getGroup,
-  getGroupsForMember
+  getGroupsForMember,
+  type GetGroupsForMemberResponse,
+  type GroupResponse
 } from 'bungie-api-ts/groupv2'
 import { type HttpClientConfig } from 'bungie-api-ts/http'
 

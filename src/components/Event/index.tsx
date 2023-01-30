@@ -4,7 +4,7 @@ import React from 'react'
 
 import Leaderboard from '~components/Leaderboard'
 import Lockup from '~components/Lockup'
-import { type MedalProps, MedalList } from '~components/Medal'
+import { MedalList, type MedalProps } from '~components/Medal'
 import { ModifierList } from '~components/Modifier'
 import { StatList } from '~components/Stat'
 import Timer from '~components/Timer'

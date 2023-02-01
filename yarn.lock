@@ -2593,14 +2593,14 @@
     file-loader "6.2.0"
     url-loader "4.1.1"
 
-"@newhighsco/postcss-config@3.5.111":
-  version "3.5.111"
-  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.5.111.tgz#e9cf5ad84152721c65f8bedf55556317f18663ad"
-  integrity sha512-+zxLM20yv8IBsjjzcRqCh2EHxZr4L8x9BVN+bAhU0NHho2YKUcjCIq6blYdCTFK1Mj+DxETZUnZ+hvUvypEEzA==
+"@newhighsco/postcss-config@3.5.112":
+  version "3.5.112"
+  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.5.112.tgz#2e171dadd87e2660b9d0c616e530619085e8e059"
+  integrity sha512-vyXYcDYfd93jdCfsZ9NNtAZPvZLjT6Im/SZKSwVn8mmZ1WGLL9SHrDBS8uImcKGp3L842MRp/3eMKnauDl0NJA==
   dependencies:
     "@fullhuman/postcss-purgecss" "5.0.0"
     autoprefixer "10.4.13"
-    caniuse-lite "1.0.30001449"
+    caniuse-lite "1.0.30001450"
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "8.0.1"
 
@@ -2629,10 +2629,10 @@
     "@semantic-release/release-notes-generator" "10.0.3"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@4.5.61":
-  version "4.5.61"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.61.tgz#aef898bd36780ac43f44585948492f939adcb8f0"
-  integrity sha512-kL4HDZ+RHNdOfjlySP/DSgoZy0tbFGvQwwR1KaxO+hJaj3DWSdp7S3EVGRl4sZphGb1AG5ohIo5dafP0Kn9gyw==
+"@newhighsco/storybook-preset@4.5.62":
+  version "4.5.62"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-4.5.62.tgz#c2148351664ad1d8e6c1c55008a1ef2bd0503c49"
+  integrity sha512-cPxSLzV5E+gtYh44zM7+q/bgdBkMEi2LZGds7l+F4iMd/+3AcIPSPtmB/p4uF/55D/pT6lad5mRaGzZYmkaFGw==
   dependencies:
     "@storybook/addon-actions" "6.5.16"
     "@storybook/addon-backgrounds" "6.5.16"
@@ -2645,7 +2645,7 @@
     new-url-loader "0.1.1"
     postcss "8.4.21"
     react-is "18.2.0"
-    sass "1.57.1"
+    sass "1.58.0"
     sass-loader "13.2.0"
     storybook-dark-mode "2.0.5"
 
@@ -7017,10 +7017,10 @@ camelcase@^7.0.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-7.0.0.tgz#fd112621b212126741f998d614cbc2a8623fd174"
   integrity sha512-JToIvOmz6nhGsUhAYScbo2d6Py5wojjNfoxoc2mEVLUdJ70gJK2gnd+ABY1Tc3sVMyK7QDPtN0T/XdlCQWITyQ==
 
-caniuse-lite@1.0.30001449, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001426:
-  version "1.0.30001449"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001449.tgz#a8d11f6a814c75c9ce9d851dc53eb1d1dfbcd657"
-  integrity sha512-CPB+UL9XMT/Av+pJxCKGhdx+yg1hzplvFJQlJ2n68PyQGMz9L/E2zCyLdOL8uasbouTUgnPl+y0tccI/se+BEw==
+caniuse-lite@1.0.30001450, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001426:
+  version "1.0.30001450"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001450.tgz#022225b91200589196b814b51b1bbe45144cf74f"
+  integrity sha512-qMBmvmQmFXaSxexkjjfMvD5rnDL0+m+dUMZKoDYsGG8iZN29RuYh9eRoMvKsT6uMAWlyUUGDEQGJJYjzCIO9ew==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -20377,15 +20377,6 @@ sass-loader@13.2.0:
   dependencies:
     klona "^2.0.4"
     neo-async "^2.6.2"
-
-sass@1.57.1:
-  version "1.57.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.57.1.tgz#dfafd46eb3ab94817145e8825208ecf7281119b5"
-  integrity sha512-O2+LwLS79op7GI0xZ8fqzF7X2m/m8WFfI02dHOdsK5R2ECeS5F62zrwg/relM1rjSLy7Vd/DiMNIvPrQGsA0jw==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
-    immutable "^4.0.0"
-    source-map-js ">=0.6.2 <2.0.0"
 
 sass@1.58.0:
   version "1.58.0"

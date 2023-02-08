@@ -30,21 +30,17 @@ import {
 
 import styles from './Leaderboard.module.scss'
 
+type Row =
+  | EventsLeaderboardRow
+  | EventLeaderboardRow
+  | ClanLeaderboardRow
+  | MemberLeaderboardRow
+
 interface LeaderboardProps {
-  rows?:
-    | EventsLeaderboardRow[]
-    | EventLeaderboardRow[]
-    | ClanLeaderboardRow[]
-    | MemberLeaderboardRow[]
+  rows?: Row[]
   columns?: string[]
   height?: number
-  setHref?: (
-    row:
-      | EventsLeaderboardRow
-      | EventLeaderboardRow
-      | ClanLeaderboardRow
-      | MemberLeaderboardRow
-  ) => string
+  setHref?: (row: Row) => string
 }
 
 interface LeaderboardRowProps extends ListChildComponentProps {

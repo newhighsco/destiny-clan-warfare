@@ -1,3 +1,10 @@
+## [5.7.5](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.4...v5.7.5) (2023-02-10)
+
+
+### Bug Fixes
+
+* **deps:** update newhighsco packages ([#1295](https://github.com/newhighsco/destiny-clan-warfare/issues/1295)) ([4aa7096](https://github.com/newhighsco/destiny-clan-warfare/commit/4aa70961806406fad129f4fd4fce2850fc668ae8))
+
 ## [5.7.4](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.3...v5.7.4) (2023-02-09)
 
 

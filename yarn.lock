@@ -6739,10 +6739,10 @@ builtins@^5.0.0, builtins@^5.0.1:
   dependencies:
     semver "^7.0.0"
 
-bungie-api-ts@4.21.0:
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-4.21.0.tgz#035b2f15b3119ea5f360268ea6799b58b55de067"
-  integrity sha512-9PzlK4LP8gMx2ndlQEt66n0p+M90PaZWw3XdtDytlZR5b0VSfMjuM/r2K5DFSdY30j/gaBEPw/213C3llpPw1A==
+bungie-api-ts@4.22.0:
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/bungie-api-ts/-/bungie-api-ts-4.22.0.tgz#6d1d600f8b217a976a5e76cc082612c202bfa2af"
+  integrity sha512-6IIgCvOMS5TTTLJFAuB0/ypE4T7YJDaaUW11uKxAQDMj1bUZ0/REdA+Q95APRUyALWI/v+LCHNExisoaNPchPg==
 
 busboy@^1.6.0:
   version "1.6.0"

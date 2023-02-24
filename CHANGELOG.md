@@ -1,3 +1,10 @@
+## [5.7.11](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.10...v5.7.11) (2023-02-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency bungie-api-ts to v4.22.0 ([#1336](https://github.com/newhighsco/destiny-clan-warfare/issues/1336)) ([3b5a301](https://github.com/newhighsco/destiny-clan-warfare/commit/3b5a30175ecfa4d8430a02fd381839e5b2cf8e54))
+
 ## [5.7.10](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.9...v5.7.10) (2023-02-24)
 
 

@@ -2,7 +2,6 @@
 @use '~styles/breakpoints.module';
 @use '~styles/functions';
 @use '~styles/mixins';
-
 @include grid.gutter('', functions.spacing(1));
 @include grid.flex;
 @include grid.reverse;

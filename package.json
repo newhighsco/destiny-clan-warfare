@@ -43,7 +43,7 @@
     "@newhighsco/next-plugin-svgr": "3.0.82",
     "@newhighsco/press-start": "2.2.10",
     "autolinker": "4.0.0",
-    "bungie-api-ts": "4.22.0",
+    "bungie-api-ts": "4.22.2",
     "dayjs": "1.11.7",
     "json-bigint": "1.0.0",
     "next": "13.2.1",

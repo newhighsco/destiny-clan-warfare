@@ -1,3 +1,31 @@
+## [5.7.16](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.15...v5.7.16) (2023-03-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next to v13.2.3 ([#1347](https://github.com/newhighsco/destiny-clan-warfare/issues/1347)) ([077848c](https://github.com/newhighsco/destiny-clan-warfare/commit/077848c247c5323f1f579cba668cdcd83549774a))
+
+## [5.7.15](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.14...v5.7.15) (2023-03-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next-sitemap to v3.1.55 ([#1345](https://github.com/newhighsco/destiny-clan-warfare/issues/1345)) ([2d8910d](https://github.com/newhighsco/destiny-clan-warfare/commit/2d8910d29e74efec888240ac5ee45807b9dd5631))
+
+## [5.7.14](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.13...v5.7.14) (2023-03-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next to v13.2.2 ([#1346](https://github.com/newhighsco/destiny-clan-warfare/issues/1346)) ([01781b0](https://github.com/newhighsco/destiny-clan-warfare/commit/01781b0ab6da597ac738e4f81898244bdc337361))
+
+## [5.7.13](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.12...v5.7.13) (2023-03-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency bungie-api-ts to v4.22.2 ([#1344](https://github.com/newhighsco/destiny-clan-warfare/issues/1344)) ([20b9ac8](https://github.com/newhighsco/destiny-clan-warfare/commit/20b9ac88874faaf57f657fab7fb517747647476b))
+
 ## [5.7.12](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.11...v5.7.12) (2023-02-26)
 
 

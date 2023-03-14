@@ -1,11 +1,14 @@
 import { Button } from '@newhighsco/chipset'
 import { type GetServerSideProps, type InferGetServerSidePropsType } from 'next'
-import { getCsrfToken, getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
+import { getCsrfToken } from 'next-auth/react'
 import React from 'react'
 
 import { Logo, LogoSize } from '~components/Logo'
 import { HoldingPageContainer } from '~components/PageContainer'
 import { canonicalUrl } from '~helpers/urls'
+
+import { authOptions } from '../api/auth/[...nextauth]'
 
 const UserSignInPage: React.FC = ({
   csrfToken
@@ -32,22 +35,15 @@ const UserSignInPage: React.FC = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const session = await getSession(context)
+  const session = await getServerSession(context.req, context.res, authOptions)
 
   if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
+    return { redirect: { destination: '/', permanent: false } }
   }
 
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context)
-    }
-  }
+  const csrfToken = await getCsrfToken(context)
+
+  return { props: { csrfToken } }
 }
 
 export default UserSignInPage

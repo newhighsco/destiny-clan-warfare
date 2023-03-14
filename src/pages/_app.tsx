@@ -3,7 +3,7 @@ import '~styles/app.scss'
 import { AppPage } from '@newhighsco/press-start'
 import type { AppProps } from 'next/app'
 import { type Session } from 'next-auth'
-import { Provider } from 'next-auth/client'
+import { SessionProvider } from 'next-auth/react'
 import React from 'react'
 
 import config from '~config'
@@ -20,9 +20,9 @@ const meta = {
 }
 
 const App: React.FC<AppProps<{ session: Session }>> = props => (
-  <Provider session={props.pageProps.session}>
+  <SessionProvider session={props.pageProps.session}>
     <AppPage {...props} theme={theme} config={config} meta={meta} />
-  </Provider>
+  </SessionProvider>
 )
 
 export default App

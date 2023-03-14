@@ -1,11 +1,14 @@
 import { Button } from '@newhighsco/chipset'
 import { type GetServerSideProps, type InferGetServerSidePropsType } from 'next'
-import { getCsrfToken, getProviders, getSession } from 'next-auth/client'
+import { getServerSession } from 'next-auth/next'
+import { getCsrfToken, getProviders } from 'next-auth/react'
 import React from 'react'
 
 import { Logo, LogoSize } from '~components/Logo'
 import { HoldingPageContainer } from '~components/PageContainer'
 import { canonicalUrl, userUrl } from '~helpers/urls'
+
+import { authOptions } from '../api/auth/[...nextauth]'
 
 const UserSignInPage: React.FC = ({
   csrfToken,
@@ -21,7 +24,7 @@ const UserSignInPage: React.FC = ({
   return (
     <HoldingPageContainer meta={meta}>
       <Logo size={LogoSize.Medium} />
-      <form action={provider.signinUrl} method="POST">
+      <form action={provider?.signinUrl} method="POST">
         <input type="hidden" name="csrfToken" value={csrfToken} />
         <input
           type="hidden"
@@ -29,7 +32,7 @@ const UserSignInPage: React.FC = ({
           value={canonicalUrl(userUrl())}
         />
         <Button.Group>
-          <Button type="submit">Sign in to Bungie.net</Button>
+          <Button type="submit">Sign in to {provider?.name}</Button>
         </Button.Group>
       </form>
     </HoldingPageContainer>
@@ -37,23 +40,16 @@ const UserSignInPage: React.FC = ({
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const session = await getSession(context)
+  const session = await getServerSession(context.req, context.res, authOptions)
 
   if (session) {
-    return {
-      redirect: {
-        destination: userUrl(),
-        permanent: false
-      }
-    }
+    return { redirect: { destination: userUrl(), permanent: false } }
   }
 
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context),
-      provider: await getProviders().then(providers => providers?.bungie)
-    }
-  }
+  const csrfToken = await getCsrfToken(context)
+  const { bungie: provider } = await getProviders()
+
+  return { props: { csrfToken, provider } }
 }
 
 export default UserSignInPage

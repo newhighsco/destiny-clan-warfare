@@ -1,15 +1,16 @@
 import { Button, Prose, SmartLink } from '@newhighsco/chipset'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { signOut, useSession } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/react'
 import React, { type MouseEvent } from 'react'
 
 import PageContainer, { LoadingPageContainer } from '~components/PageContainer'
 import { canonicalUrl, clanUrl, signInUrl, signOutUrl } from '~helpers/urls'
 
 const UserPage: React.FC = () => {
-  const [session, loading] = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
+  const loading = status === 'loading'
 
   if (loading) return <LoadingPageContainer />
 

@@ -1,6 +1,6 @@
 import { Button } from '@newhighsco/chipset'
 import { type GetServerSideProps, type InferGetServerSidePropsType } from 'next'
-import { getCsrfToken, getProviders, getSession } from 'next-auth/client'
+import { getCsrfToken, getProviders, getSession } from 'next-auth/react'
 import React from 'react'
 
 import { Logo, LogoSize } from '~components/Logo'

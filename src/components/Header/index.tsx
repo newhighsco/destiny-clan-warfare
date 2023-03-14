@@ -6,7 +6,7 @@ import {
 } from '@newhighsco/chipset'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signIn, useSession } from 'next-auth/client'
+import { signIn, useSession } from 'next-auth/react'
 import React, { type MouseEvent } from 'react'
 
 import Avatar, { AvatarSize } from '~components/Avatar'
@@ -21,7 +21,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ size }) => {
-  const [session] = useSession()
+  const { data: session } = useSession()
 
   return (
     <HeaderContainer theme={{ content: styles.root }}>

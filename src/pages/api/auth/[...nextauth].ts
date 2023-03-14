@@ -1,28 +1,24 @@
 import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+import BungieProvider from 'next-auth/providers/bungie'
 
 import { signInUrl, signOutUrl } from '~helpers/urls'
 import { getMemberClans } from '~libs/bungie'
 
 export default NextAuth({
   providers: [
-    Providers.Bungie({
+    BungieProvider({
       clientId: process.env.BUNGIE_CLIENT_ID,
-      clientSecret: process.env.BUNGIE_CLIENT_SECRET,
-      headers: {
-        'X-API-Key': process.env.BUNGIE_API_KEY
-      }
+      clientSecret: process.env.BUNGIE_CLIENT_SECRET
+      // headers: {
+      //   'X-API-Key': process.env.BUNGIE_API_KEY
+      // }
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET,
-  jwt: {
-    signingKey: process.env.NEXTAUTH_JWT_SIGNING_KEY
-  },
   callbacks: {
-    jwt: async (token, user, account) => {
+    jwt: async ({ token, account }) => {
       if (account) {
         try {
-          const clans = await getMemberClans(account.id)
+          const clans = await getMemberClans(token.sub)
 
           token.clans = clans.results.map(
             ({
@@ -41,14 +37,13 @@ export default NextAuth({
         }
       }
 
-      return await Promise.resolve(token)
+      return token
     },
-    session: async (session, token) => {
-      const userSession = session
-      userSession.user.membershipId = token.sub as string
-      userSession.user.clans = token.clans as any
+    session: async ({ session, token }) => {
+      session.user.membershipId = token.sub
+      session.user.clans = token.clans as any
 
-      return await Promise.resolve(userSession)
+      return session
     }
   },
   pages: {

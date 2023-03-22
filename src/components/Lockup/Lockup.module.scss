@@ -111,10 +111,7 @@
     content: '';
     opacity: 0.5;
     position: absolute;
-    top: 0.2em !important;
-    right: functions.spacing(-0.25) !important;
-    bottom: 0.275em !important;
-    left: functions.spacing(-0.25) !important;
+    inset: 0.2em functions.spacing(-0.25) 0.275em functions.spacing(-0.25) !important;
   }
 }
 

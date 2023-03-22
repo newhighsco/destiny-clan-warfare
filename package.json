@@ -101,6 +101,9 @@
     "typescript": "5.0.2",
     "webpack": "5.76.2"
   },
+  "resolutions": {
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.cd77847.0"
+  },
   "browserslist": [
     "extends @newhighsco/browserslist-config"
   ],

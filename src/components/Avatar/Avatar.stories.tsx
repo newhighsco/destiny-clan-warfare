@@ -19,4 +19,4 @@ export const Member = { args: { src: member.image } }
 
 export const Clan = { args: { id: company.id, ...company.avatar } }
 
-export const Custom = { args: { children: <UserSvg /> } }
+export const Custom = { args: { children: <UserSvg role="img" /> } }

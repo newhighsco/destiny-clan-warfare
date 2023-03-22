@@ -1,4 +1,4 @@
-import { configure, render, screen, waitFor } from '@testing-library/react'
+import { configure, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import Avatar from '.'
@@ -35,12 +35,10 @@ describe('Components/Avatar', () => {
   })
 
   describe('Custom', () => {
-    it('should output the expected markup when `children` prop passed', async () => {
-      const { container } = render(<Avatar {...Custom.args} />)
+    it('should output the expected markup when `children` prop passed', () => {
+      render(<Avatar {...Custom.args} />)
 
-      await waitFor(() => container.querySelector('svg'))
-
-      expect(container.querySelector('svg')).toBeInTheDocument()
+      expect(screen.getByRole('img')).toBeInTheDocument()
     })
   })
 })

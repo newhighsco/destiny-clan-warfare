@@ -1,3 +1,10 @@
+## [5.7.30](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.29...v5.7.30) (2023-03-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @newhighsco/next-plugin-svgr to v3.0.86 ([#1411](https://github.com/newhighsco/destiny-clan-warfare/issues/1411)) ([2aefe6a](https://github.com/newhighsco/destiny-clan-warfare/commit/2aefe6ac94796b260fb8d459ebe352d6dbe4f4a5))
+
 ## [5.7.29](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.28...v5.7.29) (2023-03-27)
 
 

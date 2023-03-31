@@ -5,4 +5,4 @@ on:
 
 jobs:
   lint:
-    uses: newhighsco/.github/.github/workflows/lint.yml
+    uses: newhighsco/.github/.github/workflows/lint.yml@main

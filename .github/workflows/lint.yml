@@ -1,0 +1,8 @@
+name: Lint
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    uses: newhighsco/.github/.github/workflows/lint.yml

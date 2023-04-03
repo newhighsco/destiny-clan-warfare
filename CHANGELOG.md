@@ -1,3 +1,10 @@
+## [5.7.35](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.34...v5.7.35) (2023-04-03)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @newhighsco/press-start to v2.2.11 ([#1429](https://github.com/newhighsco/destiny-clan-warfare/issues/1429)) ([054c04f](https://github.com/newhighsco/destiny-clan-warfare/commit/054c04f0dde741a9992312efce0d885c20fb8d8d))
+
 ## [5.7.34](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.33...v5.7.34) (2023-04-03)
 
 

@@ -1,3 +1,10 @@
+## [5.7.36](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.35...v5.7.36) (2023-04-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @newhighsco/chipset to v6.14.15 ([#1432](https://github.com/newhighsco/destiny-clan-warfare/issues/1432)) ([1aa0647](https://github.com/newhighsco/destiny-clan-warfare/commit/1aa0647665df53aeb1029c1f392e3e4f4310732c))
+
 ## [5.7.35](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.34...v5.7.35) (2023-04-03)
 
 

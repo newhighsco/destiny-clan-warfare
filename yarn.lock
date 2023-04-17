@@ -20028,10 +20028,10 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-virtualized-auto-sizer@1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.14.tgz#e4bbf61305ebe456ca8c51cbf9450acf4c2e2604"
-  integrity sha512-UW9AiHYF2uo/8YgPYEtWHtwssFpHt/oQxs+uroTUcNI3W9/dP/+DVwQ47d2Xp3v2jVWlBuiOT+NBV2z6jam9XQ==
+react-virtualized-auto-sizer@1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.15.tgz#84558bcab61a625d13ec37876639bb09c5a3ec0b"
+  integrity sha512-01yhkssgHShMiu5W8k+86kgl8lutpl+Uef9KP4wrozXnzZjxWIgj+cH8Qi064oQpKD8myn/JNMzp4tcZNQ3Avg==
 
 react-window@1.8.8:
   version "1.8.8"

@@ -1,3 +1,10 @@
+## [5.7.58](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.57...v5.7.58) (2023-05-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next-sitemap to v4.0.9 ([#1487](https://github.com/newhighsco/destiny-clan-warfare/issues/1487)) ([da66741](https://github.com/newhighsco/destiny-clan-warfare/commit/da667419d2375068c321a21db1f1b4a415e480a0))
+
 ## [5.7.57](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.56...v5.7.57) (2023-05-01)
 
 

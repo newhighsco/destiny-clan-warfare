@@ -1,3 +1,10 @@
+## [5.7.69](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.68...v5.7.69) (2023-05-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency react-virtualized-auto-sizer to v1.0.17 ([#1513](https://github.com/newhighsco/destiny-clan-warfare/issues/1513)) ([95eb7b6](https://github.com/newhighsco/destiny-clan-warfare/commit/95eb7b6da2691bf095ad2ce0d64aee325e66de47))
+
 ## [5.7.68](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.67...v5.7.68) (2023-05-13)
 
 

@@ -1,3 +1,10 @@
+## [5.7.92](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.91...v5.7.92) (2023-07-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency dayjs to v1.11.9 ([#1596](https://github.com/newhighsco/destiny-clan-warfare/issues/1596)) ([7d877af](https://github.com/newhighsco/destiny-clan-warfare/commit/7d877afa0bf03fd0e167e1b09ca2de77aa1ea07f))
+
 ## [5.7.91](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.90...v5.7.91) (2023-06-30)
 
 

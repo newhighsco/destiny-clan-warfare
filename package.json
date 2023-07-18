@@ -97,7 +97,7 @@
     "semantic-release": "21.0.7",
     "stylelint": "15.10.1",
     "typescript": "5.1.6",
-    "webpack": "5.88.1"
+    "webpack": "5.88.2"
   },
   "resolutions": {
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.f9c48c0.0"

@@ -4,12 +4,18 @@ const {
 } = require('next/dist/build/webpack/plugins/jsconfig-paths-plugin')
 
 module.exports = {
-  core: {
-    builder: 'webpack5'
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      builder: {
+        useSWC: true
+      }
+    }
   },
   stories: ['../src'],
   addons: ['@newhighsco/storybook-preset'],
   staticDirs: ['../public'],
+  docs: { autodocs: true },
   webpackFinal: async config => {
     const aliases = hq.get('webpack', { format: 'array' })
     const { paths, baseUrl } = hq.config

@@ -16,9 +16,7 @@ export const decorators = [
 
 export const parameters = {
   darkMode: {
-    current: theme.base,
-    dark: theme,
-    light: theme
+    current: theme.base
   }
 }
 

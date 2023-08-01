@@ -11,11 +11,11 @@ export const company = {
     fill: '#5be7de',
     background: {
       fill: '#5be7de',
-      src: 'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_53468fe0799b424f995509d03be6bfa8.png'
+      src: 'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_4a2c1176d1e014ff2845c756603b04d3.png'
     },
     foreground: {
       fill: '#f0f0f0',
-      src: 'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_c0ecd484a44c9aa934f9fb67e1ac1108.png'
+      src: 'https://www.bungie.net/common/destiny2_content/icons/cb_decal_square_f70a6bf33d1b03001325e27a60d74ee4.png'
     }
   }
 } as Clan

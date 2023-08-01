@@ -1,3 +1,10 @@
+# [5.8.0](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.104...v5.8.0) (2023-08-01)
+
+
+### Features
+
+* **deps:** storybook v7 ([#1668](https://github.com/newhighsco/destiny-clan-warfare/issues/1668)) ([df5b376](https://github.com/newhighsco/destiny-clan-warfare/commit/df5b37690ebc633bc2e38ece7301cdedf70be5ba))
+
 ## [5.7.104](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.103...v5.7.104) (2023-08-01)
 
 

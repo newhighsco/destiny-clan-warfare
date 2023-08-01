@@ -59,6 +59,7 @@ const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
     setStartDate(localDate(startDate))
     setEndDate(localDate(endDate))
     setCurrentDate(localDate())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useInterval(

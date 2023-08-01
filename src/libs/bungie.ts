@@ -11,7 +11,7 @@ const http = (accessToken?: string) => async (config: HttpClientConfig) => {
     const params = new URLSearchParams()
 
     Object.entries(config?.params ?? []).forEach(([key, value]) => {
-      params.append(key, value as string)
+      params.append(key, value)
     })
 
     const url = `${config.url}?${params.toString()}`

@@ -2,6 +2,7 @@ const hq = require('alias-hq')
 const {
   JsConfigPathsPlugin
 } = require('next/dist/build/webpack/plugins/jsconfig-paths-plugin')
+const { resolve } = require('path')
 
 module.exports = {
   framework: {
@@ -22,7 +23,9 @@ module.exports = {
 
     config.resolve.alias = {
       ...config.resolve.alias,
-      ...aliases
+      ...aliases,
+      'sb-original/next/image': require.resolve('next/image'),
+      'next/image': resolve(__dirname, './images/NextImage.tsx')
     }
 
     config.resolve.plugins = [

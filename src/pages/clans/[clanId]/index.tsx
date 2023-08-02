@@ -80,7 +80,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { clanId }
   }))
 
-  return { paths, fallback: true }
+  return { paths, fallback: 'blocking' }
 }
 
 export default ClanPage

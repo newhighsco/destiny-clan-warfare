@@ -36,7 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { clanId, memberId }
   }))
 
-  return { paths, fallback: true }
+  return { paths, fallback: 'blocking' }
 }
 
 export default CurrentMemberPage

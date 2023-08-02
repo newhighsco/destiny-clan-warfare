@@ -42,7 +42,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const clans = []
   const paths = clans.map(clanId => ({ params: { clanId } }))
 
-  return { paths, fallback: true }
+  return { paths, fallback: 'blocking' }
 }
 
 export default CurrentClanPage

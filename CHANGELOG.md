@@ -1,3 +1,10 @@
+## [5.8.1](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.0...v5.8.1) (2023-08-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next to v13.4.12 ([#1602](https://github.com/newhighsco/destiny-clan-warfare/issues/1602)) ([b2f335c](https://github.com/newhighsco/destiny-clan-warfare/commit/b2f335c58eed3aa271d75fdb9c29cb4c18b62d41))
+
 # [5.8.0](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.7.104...v5.8.0) (2023-08-01)
 
 

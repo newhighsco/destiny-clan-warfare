@@ -1,5 +1,4 @@
 import React from 'react'
-import * as NextImage from 'next/image'
 import { ThemeProvider } from '@newhighsco/chipset'
 import componentTheme from '~theme'
 import theme from './theme'
@@ -19,16 +18,3 @@ export const parameters = {
     current: theme.base
   }
 }
-
-const PureNextImage = NextImage.default
-
-Object.defineProperty(NextImage, 'default', {
-  configurable: true,
-  value: props => (
-    <PureNextImage
-      {...props}
-      unoptimized
-      blurDataURL="data:image/svg+xml,<svg/>"
-    />
-  )
-})

@@ -1,3 +1,10 @@
+## [5.8.2](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.1...v5.8.2) (2023-08-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next-auth to v4.22.4 ([#1682](https://github.com/newhighsco/destiny-clan-warfare/issues/1682)) ([1e8c94f](https://github.com/newhighsco/destiny-clan-warfare/commit/1e8c94f0d2d77959c90450ef7dbe3a74d8abbf89))
+
 ## [5.8.1](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.0...v5.8.1) (2023-08-02)
 
 

@@ -2788,10 +2788,10 @@
     classnames "2.3.2"
     react-device-detect "2.2.3"
 
-"@newhighsco/commitlint-config@1.1.18":
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/@newhighsco/commitlint-config/-/commitlint-config-1.1.18.tgz#a3f1cd36550d73ac9645b0cdd9e2a3150bba232d"
-  integrity sha512-uYaDGtkQeVeFhPMw2nECskRXoz+Uj6tqsbuWeL06Nz+Ehf2K6XDP6XkcZJyUm0emAKmduIWFlZAhSBuCM3d8Kg==
+"@newhighsco/commitlint-config@1.1.19":
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/@newhighsco/commitlint-config/-/commitlint-config-1.1.19.tgz#e60cbf15269503ad7fe8c7a61201215b454e20ce"
+  integrity sha512-h+DFd1mQJejfiJT/27CdCJy3n3bAEBBaZpkMNeDehzxKYdBSpilIizCUCCdEtsU9qXAqGRMeklyhDcOYUpqwdg==
 
 "@newhighsco/editor-config@1.2.0":
   version "1.2.0"
@@ -2871,10 +2871,10 @@
     "@semantic-release/release-notes-generator" "11.0.4"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@5.1.45":
-  version "5.1.45"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-5.1.45.tgz#2c06f63d33d637bb07f23fb797725789722a39cb"
-  integrity sha512-OaAAZzwJVt4VkanH1gjMOvhh4P7nxQ1UglAEaYJkHtpeaTEy7PNxuOgjbWlspsSZ68cJ/5oH1aE07w1rb1fJuA==
+"@newhighsco/storybook-preset@5.1.46":
+  version "5.1.46"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-5.1.46.tgz#1a37b6469e03ac7613cf36b963dfc3adde31af0f"
+  integrity sha512-YeeeDKUTtwl4DMq4YdM7a7LPGn7eHX18iKcmY6O3OWWNx5yiKtG2JodWvW8O3NzzMWii/l1TD5eBB24Xnslmzw==
   dependencies:
     "@storybook/addon-actions" "7.2.2"
     "@storybook/addon-backgrounds" "7.2.2"
@@ -2887,7 +2887,7 @@
     new-url-loader "0.1.1"
     postcss "8.4.27"
     react-is "18.2.0"
-    sass "1.64.2"
+    sass "1.65.1"
     sass-loader "13.3.2"
     storybook-dark-mode "3.0.1"
 
@@ -19872,15 +19872,6 @@ sass-loader@13.3.2:
   integrity sha512-CQbKl57kdEv+KDLquhC+gE3pXt74LEAzm+tzywcA0/aHZuub8wTErbjAoNI57rPUWRYRNC5WUnNl8eGJNbDdwg==
   dependencies:
     neo-async "^2.6.2"
-
-sass@1.64.2:
-  version "1.64.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.64.2.tgz#0d9805ad6acf31c59c3acc725fcfb91b7fcc6909"
-  integrity sha512-TnDlfc+CRnUAgLO9D8cQLFu/GIjJIzJCGkE7o4ekIGQOH7T3GetiRR/PsTWJUHhkzcSPrARkPI+gNWn5alCzDg==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
-    immutable "^4.0.0"
-    source-map-js ">=0.6.2 <2.0.0"
 
 sass@1.65.1:
   version "1.65.1"

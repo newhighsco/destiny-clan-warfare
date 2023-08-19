@@ -6407,10 +6407,10 @@ ajv@^8.0.0, ajv@^8.0.1, ajv@^8.10.0, ajv@^8.11.0, ajv@^8.11.2, ajv@^8.12.0, ajv@
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-alias-hq@6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/alias-hq/-/alias-hq-6.2.1.tgz#2018931cd584f5569dc36d310aaebe67629ce474"
-  integrity sha512-o1QN+i/AvuJOeel4rq01NvtajclGMT2Z9okGLa0xOZ3DcJUutL2e1HbNLIGnN1O9CPxpjP+7n/A6LcrOKqG1Yg==
+alias-hq@6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/alias-hq/-/alias-hq-6.2.2.tgz#f119ffc2ec028973343ecf50fdb1cf77281a0046"
+  integrity sha512-ghCxUM2i4ZTrYTvTA8aqVwd3Jkl1CLb05mEiSZyflREk2pVjOsBt+rGo5CIGGIr5iHU/WITYe3XIaTvlzjebsg==
   dependencies:
     colors "^1.4.0"
     glob "^7.1.6"

@@ -50,6 +50,9 @@
     "resolveJsonModule": true,
     "strict": false,
     "target": "es5",
+    "types": [
+      "@testing-library/jest-dom"
+    ],
     "incremental": true
   },
   "exclude": [

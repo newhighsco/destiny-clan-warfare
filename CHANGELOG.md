@@ -1,3 +1,10 @@
+## [5.8.17](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.16...v5.8.17) (2023-08-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency postcss to v8.4.29 ([#1761](https://github.com/newhighsco/destiny-clan-warfare/issues/1761)) ([0bd422a](https://github.com/newhighsco/destiny-clan-warfare/commit/0bd422adef5c852e0e3004b87a6bc66451f06cc5))
+
 ## [5.8.16](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.15...v5.8.16) (2023-08-19)
 
 

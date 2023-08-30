@@ -14,7 +14,11 @@ module.exports = (async () => {
     },
     setupFilesAfterEnv: ['<rootDir>/config/jest/setup.js'],
     testEnvironment: 'jest-environment-jsdom',
-    testPathIgnorePatterns: ['<rootDir>/.netlify/', '<rootDir>/node_modules/']
+    testPathIgnorePatterns: ['<rootDir>/.netlify/', '<rootDir>/node_modules/'],
+    reporters: [
+      'default',
+      ['jest-junit', { outputDirectory: 'reports', outputName: 'jest.xml' }]
+    ]
   })()
 
   config.transformIgnorePatterns.splice(

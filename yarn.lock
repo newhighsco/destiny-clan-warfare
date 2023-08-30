@@ -3028,10 +3028,10 @@
     "@semantic-release/release-notes-generator" "11.0.7"
     semantic-release-circleci-orb "1.1.1"
 
-"@newhighsco/storybook-preset@5.1.54":
-  version "5.1.54"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-5.1.54.tgz#fe1a5506c34b54cd7cf9c35640955b7791e3c411"
-  integrity sha512-3o9Wc2ipDuufSZiERdeNn3ajSb4TRC5YXjCEDA+z9OAGVu3qOLuissjWKOrO2PTVLEPGwx3awLKakFbaqLljCg==
+"@newhighsco/storybook-preset@5.1.55":
+  version "5.1.55"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-5.1.55.tgz#dfb6e6e82bdce338a10157641af6cfa36ca9b721"
+  integrity sha512-XaTHgy3ZVERi3yBozgf2R/93y3X+UKh7GSERSvoV/pl8Q8/k4vEma39vIJZuMKtgzJAdsPCvg0eW1Y0XXcQ6zg==
   dependencies:
     "@storybook/addon-actions" "7.4.0"
     "@storybook/addon-backgrounds" "7.4.0"
@@ -3042,7 +3042,7 @@
     "@storybook/preset-scss" "1.0.3"
     "@svgr/webpack" "8.1.0"
     new-url-loader "0.1.1"
-    postcss "8.4.28"
+    postcss "8.4.29"
     react-is "18.2.0"
     sass "1.66.1"
     sass-loader "13.3.2"
@@ -18496,15 +18496,6 @@ postcss@8.4.14:
   integrity sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==
   dependencies:
     nanoid "^3.3.4"
-    picocolors "^1.0.0"
-    source-map-js "^1.0.2"
-
-postcss@8.4.28:
-  version "8.4.28"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.28.tgz#c6cc681ed00109072816e1557f889ef51cf950a5"
-  integrity sha512-Z7V5j0cq8oEKyejIKfpD8b4eBy9cwW2JWPk0+fB1HOAMsfHbnAXLLS+PfVWlzMSLQaWttKDt607I0XHmpE67Vw==
-  dependencies:
-    nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 

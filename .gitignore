@@ -30,5 +30,6 @@ coverage
 next-env.d.ts
 public/robots.txt
 public/sitemap*.xml
+reports
 ssl
 storybook

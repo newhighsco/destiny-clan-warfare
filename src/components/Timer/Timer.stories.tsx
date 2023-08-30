@@ -9,8 +9,8 @@ const nextMinute = now.subtract(-1, 'm').startOf('m')
 const nextHour = now.subtract(-1, 'h').startOf('h')
 const quarterDay = now.subtract(-6, 'h').startOf('h')
 const yesterday = now.subtract(1, 'd').startOf('d')
-const tomorrow = now.subtract(-24, 'h').subtract(-2, 's')
-const overmorrow = now.subtract(-48, 'h').subtract(-2, 's')
+const tomorrow = now.subtract(-24, 'h').subtract(1, 's')
+const overmorrow = now.subtract(-48, 'h').subtract(1, 's')
 const lastWeek = now.subtract(1, 'w').startOf('d')
 const nextWeek = now.subtract(-1, 'w').startOf('d')
 const lastMonth = now.subtract(1, 'M').startOf('d')
@@ -43,7 +43,8 @@ export const Current = {
       { start: yesterday, end: quarterDay },
       { start: yesterday, end: nextHour },
       { start: yesterday, end: nextMinute },
-      { start: yesterday, end: nextSecond }
+      { start: yesterday, end: nextSecond },
+      { start: yesterday, end: now }
     ]
   }
 }

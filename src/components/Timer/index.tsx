@@ -48,7 +48,7 @@ const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
   const [startDate, setStartDate] = useState(utcDate(start))
   const [endDate, setEndDate] = useState(utcDate(end))
   const [currentDate, setCurrentDate] = useState(utcDate())
-  const tense = currentDate.isBetween(startDate, endDate)
+  const tense = currentDate.isBetween(startDate, endDate, null, '[]')
     ? TimerTense.Current
     : startDate.isAfter(currentDate)
     ? TimerTense.Future

@@ -1,3 +1,10 @@
+## [5.8.19](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.18...v5.8.19) (2023-09-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sass to v1.67.0 ([#1786](https://github.com/newhighsco/destiny-clan-warfare/issues/1786)) ([16b1289](https://github.com/newhighsco/destiny-clan-warfare/commit/16b128962627d23c58f991349119447540c68bd9))
+
 ## [5.8.18](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.17...v5.8.18) (2023-09-07)
 
 

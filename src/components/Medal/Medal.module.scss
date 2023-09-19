@@ -104,6 +104,11 @@
   font-size: small;
   line-height: 1;
   margin: functions.spacing(0.25) auto 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .list {

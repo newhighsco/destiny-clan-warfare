@@ -3049,10 +3049,10 @@
     stylelint-config-standard-scss "11.0.0"
     stylelint-prettier "4.0.2"
 
-"@newhighsco/svgo-config@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@newhighsco/svgo-config/-/svgo-config-1.0.1.tgz#0a4142bf984d5785a0fda983c73047f7308544ae"
-  integrity sha512-Xqlx9EbDTqwC1dbEP74HS8lP4VztuSKw+zMz7CUEe/Kbnsv4C92z5wLP3WNPhqzkn3mtYmozJVb+tvp7o+pR4g==
+"@newhighsco/svgo-config@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@newhighsco/svgo-config/-/svgo-config-1.0.2.tgz#994162cdd7e3646e2c22c325608abc46e8f7706d"
+  integrity sha512-N0mMtBu0PGlRH7gsPRxoyiibfBsxLxGH13zW32ykMSoC/ab7JvWkw3VJKkVTReHA0/R6V3NEy1cvtlMtQAmOng==
 
 "@next/env@13.4.19", "@next/env@^13.4.3":
   version "13.4.19"

@@ -8,6 +8,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  experimental: {
+    appDir: true
+  },
   generateBuildId: () => 'build',
   i18n: {
     locales: ['en'],

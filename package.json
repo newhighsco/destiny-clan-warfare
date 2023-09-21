@@ -46,7 +46,7 @@
     "bungie-api-ts": "5.0.0",
     "dayjs": "1.11.10",
     "json-bigint": "1.0.0",
-    "next": "13.5.2",
+    "next": "13.4.19",
     "next-auth": "4.23.1",
     "next-compose-plugins": "2.2.1",
     "next-sitemap": "4.2.3",
@@ -129,6 +129,15 @@
   "renovate": {
     "extends": [
       "local>newhighsco/.github:renovate-config"
+    ],
+    "packageRules": [
+      {
+        "description": "Pin Next to v13.4 as v13.5 breaks ISR - https://github.com/netlify/next-runtime/issues/2127",
+        "matchPackageNames": [
+          "wrap-ansi"
+        ],
+        "allowedVersions": "<13.5"
+      }
     ]
   },
   "stylelint": {

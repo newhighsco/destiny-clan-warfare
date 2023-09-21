@@ -134,7 +134,7 @@
       {
         "description": "Pin Next to v13.4 as v13.5 breaks ISR - https://github.com/netlify/next-runtime/issues/2127",
         "matchPackageNames": [
-          "wrap-ansi"
+          "next"
         ],
         "allowedVersions": "<13.5"
       }

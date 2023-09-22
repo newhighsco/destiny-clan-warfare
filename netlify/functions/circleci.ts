@@ -47,6 +47,7 @@ export const handler: Handler = async event => {
     )
 
     console.log('CircleCI workflow triggered', response.status)
+    console.log('debug', response)
 
     return {
       statusCode: response.status,

@@ -50,5 +50,4 @@ workflows:
     when:
       equal: [e2e, << pipeline.parameters.workflow >>]
     jobs:
-      - cypress:
-          name: cypress
+      - cypress

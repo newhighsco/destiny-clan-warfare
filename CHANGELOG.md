@@ -1,3 +1,10 @@
+## [5.9.1](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.0...v5.9.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* **function:** handle missing event values ([20d6436](https://github.com/newhighsco/destiny-clan-warfare/commit/20d6436384a4ab6aedae92239082396f9a5df9dc))
+
 # [5.9.0](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.26...v5.9.0) (2023-09-22)
 
 

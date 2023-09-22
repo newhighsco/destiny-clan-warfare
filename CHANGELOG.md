@@ -1,3 +1,10 @@
+## [5.8.26](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.25...v5.8.26) (2023-09-22)
+
+
+### Bug Fixes
+
+* **events:** correctly link to current event ([8a48933](https://github.com/newhighsco/destiny-clan-warfare/commit/8a48933a57daa334a90365e4ded511c24bb6e739))
+
 ## [5.8.25](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.24...v5.8.25) (2023-09-21)
 
 

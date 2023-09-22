@@ -46,5 +46,5 @@ workflows:
     when:
       equal: [e2e, << pipeline.parameters.workflow >>]
     jobs:
-      - cypress/run
+      - cypress/run:
           cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com

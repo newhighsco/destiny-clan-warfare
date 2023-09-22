@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.5
   newhighsco: newhighsco/orb@1.8.0
+  node: circleci/node@5.0.2
 
 parameters:
   workflow:
@@ -11,6 +12,7 @@ parameters:
 
 jobs:
   cypress:
+    executor: node/default
     steps:
       - run: echo "Run Cypress"
 

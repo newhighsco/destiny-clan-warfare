@@ -2,19 +2,13 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.2.5
+  cypress: cypress-io/cypress@3.1.4
   newhighsco: newhighsco/orb@1.8.0
-  node: circleci/node@5.0.2
 
 parameters:
   workflow:
     type: string
     default: test_and_release
-
-jobs:
-  cypress:
-    executor: node/default
-    steps:
-      - run: echo "Run Cypress"
 
 workflows:
   version: 2
@@ -52,4 +46,5 @@ workflows:
     when:
       equal: [e2e, << pipeline.parameters.workflow >>]
     jobs:
-      - cypress
+      - cypress/run
+          cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com

@@ -4,9 +4,16 @@ orbs:
   codecov: codecov/codecov@3.2.5
   newhighsco: newhighsco/orb@1.8.0
 
+parameters:
+  workflow:
+    type: string
+    default: test_and_release
+
 workflows:
   version: 2
   test_and_release:
+    when:
+      equal: [test_and_release, << pipeline.parameters.workflow >>]
     jobs:
       - newhighsco/setup:
           name: setup

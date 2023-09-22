@@ -1,3 +1,10 @@
+# [5.9.0](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.26...v5.9.0) (2023-09-22)
+
+
+### Features
+
+* **function:** add function to trigger CircleCI workflow ([1631bcf](https://github.com/newhighsco/destiny-clan-warfare/commit/1631bcface43b3714ea8a23b3afba34931a5a0a3))
+
 ## [5.8.26](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.25...v5.8.26) (2023-09-22)
 
 

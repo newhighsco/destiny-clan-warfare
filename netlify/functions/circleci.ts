@@ -31,8 +31,8 @@ export const handler: Handler = async event => {
     }
   }
 
-  const { branch } = JSON.parse(event.body)
-  const { workflow } = event.queryStringParameters
+  const { branch } = JSON.parse(event.body || '{}')
+  const { workflow } = event.queryStringParameters || {}
 
   try {
     console.log('Triggering CircleCI workflow', workflow)

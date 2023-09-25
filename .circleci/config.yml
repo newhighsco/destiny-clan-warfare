@@ -12,8 +12,9 @@ parameters:
 
 jobs:
   cypress:
-    executor: cypress/default
-      node-version: "18.18.0"
+    executor:
+      name: cypress/default
+      node-version: 18.18.0
     steps:
       - cypress/run-tests:
           cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com

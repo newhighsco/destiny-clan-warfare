@@ -73,12 +73,12 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
   const row = data[index]
   const {
     id = index,
+    avatar,
     name: encodedName = id.toString(),
     lastUpdated,
     rank
   } = row
   const name = decode(encodedName)
-  const avatar = 'avatar' in row && row.avatar
   const href = setHref?.(row)
 
   return (
@@ -88,9 +88,11 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
       className={classNames(styles.row, index % 2 === 0 && styles.even)}
       role="row"
     >
-      {avatar && (
+      {avatar !== undefined && (
         <Avatar
-          {...(typeof avatar === 'string' ? { src: avatar } : avatar)}
+          {...(['string', 'null'].includes(typeof avatar)
+            ? { src: avatar }
+            : avatar)}
           size={AvatarSize.Medium}
           id={id}
           className={styles.avatar}

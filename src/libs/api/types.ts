@@ -36,7 +36,7 @@ export interface Event {
 
 export interface Member {
   id: number
-  clanId: number
+  clanId?: number
   name: string
   avatar: string
 }

@@ -11,6 +11,7 @@ import Member, { MemberMeta } from '~components/Member'
 import PageContainer, { LoadingPageContainer } from '~components/PageContainer'
 import { possessive } from '~helpers/grammar'
 import { canonicalUrl, currentUrl } from '~helpers/urls'
+import { getClan, getMember } from '~libs/api'
 import { Status } from '~libs/api/types'
 
 const ClanMemberPage: React.FC = ({
@@ -61,26 +62,17 @@ const ClanMemberPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const status = params?.status || null
-  const clanId = params?.clanId
-  const memberId = params?.memberId
-
-  // TODO: Get from API
-  const member = {
-    id: memberId,
-    name: 'TODO: Member name',
-    clan: {
-      id: clanId,
-      name: 'TODO: Clan name',
-      tag: '???'
-    }
-  }
+  const clanId = params?.clanId.toString()
+  const memberId = params?.memberId.toString()
+  const clan = await getClan(parseInt(clanId))
+  const member = await getMember(parseInt(memberId))
 
   // TODO: Handle 404
   // if (!member) {
   //   return { notFound: true }
   // }
 
-  return { props: { ...member, status }, revalidate: 60 }
+  return { props: { ...member, clan, status }, revalidate: 60 }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

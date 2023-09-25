@@ -1,7 +1,7 @@
 import JSONBig from 'json-bigint'
 
 import { company } from '~fixtures/clans'
-import { leaderboard } from '~fixtures/members'
+import { leaderboard, member as clanMember } from '~fixtures/members'
 import { apiUrl } from '~helpers/urls'
 
 import {
@@ -9,6 +9,7 @@ import {
   type ClanLeaderboardRow,
   type Event,
   type EventLeaderboardRow,
+  type Member,
   type MemberLeaderboardRow,
   Status
 } from './types'
@@ -77,6 +78,17 @@ export const getEventLeaderboard = async (
   } catch {
     return []
   }
+}
+
+export const getMember = async (memberId: number): Promise<Member> => {
+  // TODO: Get member details from API
+  const member = {
+    id: memberId,
+    name: clanMember.name,
+    avatar: clanMember.image
+  }
+
+  return member
 }
 
 export const getMemberLeaderboard = async (

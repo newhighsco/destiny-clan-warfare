@@ -3,12 +3,15 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.5
   cypress: cypress-io/cypress@3.1.4
-  newhighsco: newhighsco/orb@1.8.0
+  newhighsco: newhighsco/orb@1.9.0
 
 parameters:
   workflow:
     type: string
     default: test_and_release
+  install-command:
+    type: string
+    default: CYPRESS_CACHE_FOLDER="./node_modules/CypressBinary" yarn install --frozen-lockfile
 
 jobs:
   cypress:
@@ -29,6 +32,7 @@ workflows:
     jobs:
       - newhighsco/setup:
           name: setup
+          install-command: << pipeline.parameters.install-command >>
       - newhighsco/test:
           name: test
           post-steps:
@@ -56,9 +60,10 @@ workflows:
   e2e:
     when:
       equal: [e2e, << pipeline.parameters.workflow >>]
-    executor:
-      name: cypress/default
-      node-version: 18.18.0
     jobs:
-      - cypress/run:
-          package-manager: yarn
+      - newhighsco/setup:
+          name: setup
+          install-command: << pipeline.parameters.install-command >>
+      - cypress:
+          requires:
+            - setup

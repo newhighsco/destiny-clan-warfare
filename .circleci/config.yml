@@ -56,9 +56,9 @@ workflows:
   e2e:
     when:
       equal: [e2e, << pipeline.parameters.workflow >>]
+    executor:
+      name: cypress/default
+      node-version: 18.18.0
     jobs:
-      - newhighsco/setup:
-          name: setup
-      - cypress:
-          requires:
-            - setup
+      - cypress/run:
+          package-manager: yarn

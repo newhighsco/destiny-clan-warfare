@@ -46,6 +46,10 @@ workflows:
     when:
       equal: [e2e, << pipeline.parameters.workflow >>]
     jobs:
-      - cypress/run:
-          package-manager: yarn
+      - newhighsco/setup:
+          name: setup
+      - cypress/run-tests:
+          name: cypress
           cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com
+          requires:
+            - setup

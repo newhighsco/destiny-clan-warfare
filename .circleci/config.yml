@@ -2,14 +2,37 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.2.5
-  newhighsco: newhighsco/orb@1.8.0
+  cypress: cypress-io/cypress@3.1.4
+  newhighsco: newhighsco/orb@1.9.0
+
+parameters:
+  workflow:
+    type: string
+    default: test_and_release
+  cache-version:
+    type: string
+    default: v1.1
+
+jobs:
+  cypress:
+    executor:
+      name: cypress/default
+      node-version: 18.18.0
+    steps:
+      - attach_workspace:
+          at: .
+      - cypress/run-tests:
+          cypress-command: yarn cypress run
 
 workflows:
   version: 2
   test_and_release:
+    when:
+      equal: [test_and_release, << pipeline.parameters.workflow >>]
     jobs:
       - newhighsco/setup:
           name: setup
+          cache-version: << pipeline.parameters.cache-version >>
       - newhighsco/test:
           name: test
           post-steps:
@@ -34,3 +57,13 @@ workflows:
             branches:
               only:
                 - main
+  e2e:
+    when:
+      equal: [e2e, << pipeline.parameters.workflow >>]
+    jobs:
+      - newhighsco/setup:
+          name: setup
+          cache-version: << pipeline.parameters.cache-version >>
+      - cypress:
+          requires:
+            - setup

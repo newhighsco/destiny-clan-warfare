@@ -1,3 +1,31 @@
+## [5.9.1](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.0...v5.9.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* **function:** handle missing event values ([20d6436](https://github.com/newhighsco/destiny-clan-warfare/commit/20d6436384a4ab6aedae92239082396f9a5df9dc))
+
+# [5.9.0](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.26...v5.9.0) (2023-09-22)
+
+
+### Features
+
+* **function:** add function to trigger CircleCI workflow ([1631bcf](https://github.com/newhighsco/destiny-clan-warfare/commit/1631bcface43b3714ea8a23b3afba34931a5a0a3))
+
+## [5.8.26](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.25...v5.8.26) (2023-09-22)
+
+
+### Bug Fixes
+
+* **events:** correctly link to current event ([8a48933](https://github.com/newhighsco/destiny-clan-warfare/commit/8a48933a57daa334a90365e4ded511c24bb6e739))
+
+## [5.8.25](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.24...v5.8.25) (2023-09-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sass to v1.68.0 ([#1807](https://github.com/newhighsco/destiny-clan-warfare/issues/1807)) ([544086c](https://github.com/newhighsco/destiny-clan-warfare/commit/544086ceb9c5da5422c8fb7c2754dd0bea4f49b3))
+
 ## [5.8.24](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.8.23...v5.8.24) (2023-09-21)
 
 

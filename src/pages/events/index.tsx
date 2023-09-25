@@ -26,7 +26,8 @@ const EventListingPage: React.FC = ({
         rows={events.map(({ id, name, endDate, status }) => ({
           id,
           name: [name, EventKicker[status]].join(' - '),
-          lastUpdated: endDate
+          lastUpdated: endDate,
+          status
         }))}
         setHref={({ id, status }: EventsLeaderboardRow) => eventUrl(status, id)}
       />

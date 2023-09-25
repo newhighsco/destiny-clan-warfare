@@ -16,6 +16,8 @@ jobs:
       name: cypress/default
       node-version: 18.18.0
     steps:
+      - attach_workspace:
+          at: .
       - cypress/run-tests:
           cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com
 

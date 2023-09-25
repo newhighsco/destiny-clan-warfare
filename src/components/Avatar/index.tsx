@@ -108,7 +108,15 @@ const Avatar: React.FC<AvatarProps> = ({
           width={width}
         />
       ) : (
-        children || <Image src={src} alt="" width={width} height={width} />
+        children || (
+          <Image
+            className={styles.inner}
+            src={src}
+            alt=""
+            width={width}
+            height={width}
+          />
+        )
       )}
     </div>
   )

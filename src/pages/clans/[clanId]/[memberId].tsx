@@ -30,7 +30,6 @@ const ClanMemberPage: React.FC = ({
   const { kicker, url, description } = MemberMeta[status]
   const meta = {
     canonical: canonicalUrl(url(clan.id, id)),
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     title: [`${name} [${clan.tag}]`, kicker].join(' | '),
     description: [possessive(name), description].join(' ')
   }

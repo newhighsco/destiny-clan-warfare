@@ -5,7 +5,7 @@ import {
 } from 'next'
 import React from 'react'
 
-import { getClanLeaderboard } from '~libs/api'
+import { getClanLeaderboard, getEvents } from '~libs/api'
 import { Status } from '~libs/api/types'
 import ClanPage, {
   getStaticProps as clanStaticProps
@@ -16,10 +16,12 @@ const CurrentClanPage: React.FC = props => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  // TODO: Get from API
-  const eventId = 2
+  const events = await getEvents()
+  const currentEvent = events.find(
+    ({ status }) => status === Status[Status.Running]
+  )
 
-  if (!eventId) {
+  if (!currentEvent) {
     return { notFound: true }
   }
 
@@ -31,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       ...props,
-      leaderboard: await getClanLeaderboard(eventId, props.id),
+      leaderboard: await getClanLeaderboard(currentEvent.id, props.id),
       description: null
     },
     revalidate: 60

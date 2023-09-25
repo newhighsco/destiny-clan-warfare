@@ -85,7 +85,7 @@ export const getStaticProps: GetStaticProps = async () => {
     { currentEvent: null, previousEvent: null, nextEvent: null }
   )
 
-  return { props }
+  return { props, revalidate: 60 }
 }
 
 export default HomePage

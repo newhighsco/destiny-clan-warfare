@@ -1,9 +1,8 @@
 import urlJoin from 'url-join'
 
-import config from '~config'
 import { Status } from '~libs/api/types'
 
-const { url: siteUrl } = config
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 
 const join = (...paths: any[]): string =>
   urlJoin(paths.filter(Boolean).map(path => `${path as string}`))

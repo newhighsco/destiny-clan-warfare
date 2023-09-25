@@ -38,9 +38,7 @@ const ClanListingPage: React.FC = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
-    props: {
-      clans: await getClans()
-    }
+    props: { clans: await getClans(), revalidate: 60 }
   }
 }
 

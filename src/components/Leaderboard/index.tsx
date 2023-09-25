@@ -86,6 +86,7 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
       style={style}
       ref={rowRef}
       className={classNames(styles.row, index % 2 === 0 && styles.even)}
+      role="row"
     >
       {avatar && (
         <Avatar

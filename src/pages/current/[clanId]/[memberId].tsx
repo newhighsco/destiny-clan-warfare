@@ -22,10 +22,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
 
   return {
-    props: {
-      leaderboard: await getMemberLeaderboard(props.id),
-      ...props
-    }
+    props: { leaderboard: await getMemberLeaderboard(props.id), ...props },
+    revalidate: 60
   }
 }
 

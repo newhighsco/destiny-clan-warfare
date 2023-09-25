@@ -36,11 +36,7 @@ const EventListingPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {
-      events: await getEvents()
-    }
-  }
+  return { props: { events: await getEvents() }, revalidate: 60 }
 }
 
 export default EventListingPage

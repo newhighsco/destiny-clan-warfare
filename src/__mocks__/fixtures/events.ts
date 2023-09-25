@@ -7,7 +7,7 @@ import { eventModifiers } from './modifiers'
 const now = dayjs().startOf('d')
 
 export const currentEvent = {
-  id: 1,
+  id: 2,
   startDate: now.format(),
   endDate: now.add(7, 'd').format(),
   name: 'Competitive',
@@ -23,7 +23,7 @@ export const currentEvent = {
 
 export const pastEvents = [
   {
-    id: 2,
+    id: 1,
     startDate: now.subtract(408, 'd').format(),
     endDate: now.subtract(401, 'd').format(),
     name: 'Quickplay',

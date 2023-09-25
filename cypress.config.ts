@@ -4,7 +4,7 @@ const DOMAIN = 'destiny-clan-warfare.netlify.app'
 
 const baseUrl = (): string => {
   if (process.env.CIRCLE_PULL_REQUEST) {
-    return `https://deploy-preview-${process.env.CIRCLE_PR_NUMBER.split(
+    return `https://deploy-preview-${process.env.CIRCLE_PULL_REQUEST.split(
       '/'
     ).pop()}--${DOMAIN}`
   }

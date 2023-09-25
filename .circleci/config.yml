@@ -25,7 +25,7 @@ jobs:
       - attach_workspace:
           at: .
       - cypress/run-tests:
-          cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com
+          cypress-command: CYPRESS_CACHE_FOLDER="./node_modules/CypressBinary" yarn cypress run --browser chrome --config baseUrl=https://deploy-preview-$CIRCLE_PR_NUMBER.next.destinyclanwarfare.com
 
 workflows:
   version: 2

@@ -94,7 +94,13 @@ export const getMember = async (memberId: number): Promise<Member> => {
 export const getMemberLeaderboard = async (
   memberId: number
 ): Promise<MemberLeaderboardRow[]> => {
-  const { matches } = await getData<any>(`CurrentEvent/ClanMember/${memberId}`)
+  try {
+    const { matches } = await getData<any>(
+      `CurrentEvent/ClanMember/${memberId}`
+    )
 
-  return matches
+    return matches
+  } catch {
+    return []
+  }
 }

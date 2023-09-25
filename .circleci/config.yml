@@ -10,6 +10,14 @@ parameters:
     type: string
     default: test_and_release
 
+jobs:
+  cypress:
+    executor: cypress/default
+      node-version:
+    steps:
+      - cypress/run-tests:
+          cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com
+
 workflows:
   version: 2
   test_and_release:
@@ -48,8 +56,6 @@ workflows:
     jobs:
       - newhighsco/setup:
           name: setup
-      - cypress/run-tests:
-          name: cypress
-          cypress-command: yarn cypress run --browser chrome --config baseUrl=https://next.destinyclanwarfare.com
+      - cypress:
           requires:
             - setup

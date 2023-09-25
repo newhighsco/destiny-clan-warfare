@@ -8,7 +8,8 @@ import Event from '~components/Event'
 import PageContainer from '~components/PageContainer'
 import config from '~config'
 import { canonicalUrl, eventUrl } from '~helpers/urls'
-import { getEvent } from '~libs/api'
+import { getEvents } from '~libs/api'
+import { Status } from '~libs/api/types'
 
 const { logo, name, socialLinks, title, url } = config
 
@@ -64,18 +65,27 @@ const HomePage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  // TODO: Get from API
-  const currentEvent = await getEvent('2')
-  const previousEvent = await getEvent('1')
-  const nextEvent = null // await getEvent('4')
+  const events = await getEvents()
+  const props = events.reduce(
+    (props, event) => {
+      switch (event.status) {
+        case Status[Status.Running]:
+          props.currentEvent = event
+          break
+        case Status[Status.Ended]:
+          props.previousEvent = event
+          break
+        case Status[Status.NotStarted]:
+          props.nextEvent = event
+          break
+      }
 
-  return {
-    props: {
-      currentEvent,
-      previousEvent,
-      nextEvent
-    }
-  }
+      return props
+    },
+    { currentEvent: null, previousEvent: null, nextEvent: null }
+  )
+
+  return { props }
 }
 
 export default HomePage

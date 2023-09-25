@@ -64,13 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   //   return { notFound: true }
   // }
 
-  return {
-    props: {
-      ...clan,
-      status
-    },
-    revalidate: 60
-  }
+  return { props: { ...clan, status }, revalidate: 60 }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

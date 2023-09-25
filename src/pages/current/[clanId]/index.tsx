@@ -33,7 +33,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       ...props,
       leaderboard: await getClanLeaderboard(eventId, props.id),
       description: null
-    }
+    },
+    revalidate: 60
   }
 }
 

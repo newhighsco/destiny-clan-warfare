@@ -93,10 +93,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id, status } = event
 
   return {
-    props: {
-      ...event,
-      leaderboard: await getEventLeaderboard(id, status)
-    }
+    props: { ...event, leaderboard: await getEventLeaderboard(id, status) },
+    revalidate: 60
   }
 }
 

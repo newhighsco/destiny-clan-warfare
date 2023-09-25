@@ -9,10 +9,10 @@ module.exports = (async () => {
     collectCoverageFrom: ['src/components/**/*.tsx'],
     coveragePathIgnorePatterns: ['.stories.tsx'],
     moduleNameMapper: {
-      '^.+\\.(svg)$': '<rootDir>/config/jest/__mocks__/svgMock.js',
+      '^.+\\.(svg)$': '<rootDir>/config/jest/__mocks__/svgMock.ts',
       ...hq.get('jest', { format: 'array' })
     },
-    setupFilesAfterEnv: ['<rootDir>/config/jest/setup.js'],
+    setupFilesAfterEnv: ['<rootDir>/config/jest/setup.ts'],
     testEnvironment: 'jest-environment-jsdom',
     testPathIgnorePatterns: ['<rootDir>/.netlify/', '<rootDir>/node_modules/'],
     reporters: [

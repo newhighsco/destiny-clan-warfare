@@ -13,12 +13,12 @@ import {
   Status
 } from './types'
 
-const getData = async (url: string): Promise<any> =>
+const getData = async <T>(url: string): Promise<T> =>
   await fetch(apiUrl(url)).then(async response => {
     const json = JSONBig({ storeAsString: true }).parse(await response.text())
     // TODO: remove debug and handle errors
     // console.log(url, json)
-    return json
+    return json as T
   })
 
 export const getClans = async (): Promise<Clan[]> => {
@@ -40,7 +40,7 @@ export const getClanLeaderboard = async (
   clanId: number
 ): Promise<ClanLeaderboardRow[]> => {
   try {
-    const { members } = await getData(`${eventId}/Clan/${clanId}`)
+    const { members } = await getData<any>(`${eventId}/Clan/${clanId}`)
 
     return members
   } catch {
@@ -50,7 +50,9 @@ export const getClanLeaderboard = async (
 
 export const getEvents = async (): Promise<Event[]> => {
   try {
-    return await getData('Tournaments')
+    const events = await getData<Event[]>('Tournaments')
+
+    return events.sort((a, b) => b.startDate.localeCompare(a.startDate))
   } catch {
     return []
   }
@@ -80,7 +82,7 @@ export const getEventLeaderboard = async (
 export const getMemberLeaderboard = async (
   memberId: number
 ): Promise<MemberLeaderboardRow[]> => {
-  const { matches } = await getData(`CurrentEvent/ClanMember/${memberId}`)
+  const { matches } = await getData<any>(`CurrentEvent/ClanMember/${memberId}`)
 
   return matches
 }

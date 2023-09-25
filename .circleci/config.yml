@@ -12,9 +12,12 @@ parameters:
   cache-version:
     type: string
     default: v2
+  cypress-cache-folder:
+    type: string
+    default: CYPRESS_CACHE_FOLDER="./node_modules/CypressBinary"
   install-command:
     type: string
-    default: CYPRESS_CACHE_FOLDER="./node_modules/CypressBinary" yarn install --frozen-lockfile
+    default: << pipeline.parameters.cypress-cache-folder >> yarn install --frozen-lockfile
 
 jobs:
   cypress:
@@ -25,7 +28,7 @@ jobs:
       - attach_workspace:
           at: .
       - cypress/run-tests:
-          cypress-command: CYPRESS_CACHE_FOLDER="./node_modules/CypressBinary" yarn cypress run --browser chrome --config baseUrl=https://deploy-preview-$CIRCLE_PR_NUMBER.next.destinyclanwarfare.com
+          cypress-command: << pipeline.parameters.cypress-cache-folder >> yarn cypress run --config baseUrl=https://deploy-preview-$CIRCLE_PR_NUMBER.next.destinyclanwarfare.com
 
 workflows:
   version: 2

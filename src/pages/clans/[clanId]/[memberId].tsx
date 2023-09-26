@@ -9,10 +9,10 @@ import React from 'react'
 
 import Member, { MemberMeta } from '~components/Member'
 import PageContainer, { LoadingPageContainer } from '~components/PageContainer'
+import { isCurrentEvent } from '~helpers/events'
 import { possessive } from '~helpers/grammar'
 import { canonicalUrl, currentUrl } from '~helpers/urls'
 import { getClan, getMember } from '~libs/api'
-import { Status } from '~libs/api/types'
 
 const ClanMemberPage: React.FC = ({
   id,
@@ -26,7 +26,7 @@ const ClanMemberPage: React.FC = ({
 
   if (isFallback) return <LoadingPageContainer />
 
-  const isCurrent = status === Status[Status.Running]
+  const isCurrent = isCurrentEvent(status)
   const { kicker, url, description } = MemberMeta[status]
   const meta = {
     canonical: canonicalUrl(url(clan.id, id)),

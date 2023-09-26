@@ -8,13 +8,10 @@ import Lockup from '~components/Lockup'
 import { type MedalProps } from '~components/Medal'
 import { type StatProps } from '~components/Stat'
 import config from '~config'
+import { isCurrentEvent } from '~helpers/events'
 import { formatDescription } from '~helpers/grammar'
 import { clanUrl, currentUrl } from '~helpers/urls'
-import {
-  type Clan as ClanType,
-  type ClanLeaderboardRow,
-  Status
-} from '~libs/api/types'
+import { type Clan as ClanType, type ClanLeaderboardRow } from '~libs/api/types'
 
 import styles from './Clan.module.scss'
 
@@ -50,7 +47,7 @@ const Clan: React.FC<ClanProps> = ({
   stats,
   leaderboard
 }) => {
-  const isCurrent = status === Status[Status.Running]
+  const isCurrent = isCurrentEvent(status)
   const { kicker, url } = ClanMeta[status]
 
   return (

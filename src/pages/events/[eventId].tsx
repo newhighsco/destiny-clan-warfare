@@ -11,7 +11,6 @@ import PageContainer from '~components/PageContainer'
 import config from '~config'
 import { canonicalUrl, eventUrl } from '~helpers/urls'
 import { getEvent, getEventLeaderboard, getEvents } from '~libs/api'
-import { Status } from '~libs/api/types'
 
 const EventPage: React.FC = ({
   id,
@@ -28,7 +27,7 @@ const EventPage: React.FC = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { openGraphImage, name: siteName } = config
   const meta = {
-    canonical: canonicalUrl(eventUrl(status, id)),
+    canonical: canonicalUrl(eventUrl({ status, id })),
     title: [name, EventKicker[status]].join(' | '),
     description
   }
@@ -83,26 +82,20 @@ const EventPage: React.FC = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const eventId = params?.eventId.toString()
-  const event = await getEvent(eventId)
+  const event = await getEvent(params?.eventId.toString())
 
   if (!event) {
     return { notFound: true }
   }
 
-  const { id, status } = event
+  const leaderboard = await getEventLeaderboard(event)
 
-  return {
-    props: { ...event, leaderboard: await getEventLeaderboard(id, status) },
-    revalidate: 60
-  }
+  return { props: { ...event, leaderboard }, revalidate: 60 }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = (await getEvents())?.filter(
-    ({ status }) => status !== Status[Status.Running]
-  )
-  const paths = events.map(({ id }) => ({ params: { eventId: `${id}` } }))
+  const events = await getEvents()
+  const paths = events.map(({ id }) => ({ params: { eventId: id.toString() } }))
 
   return { paths, fallback: false }
 }

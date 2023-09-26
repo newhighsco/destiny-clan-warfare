@@ -1,6 +1,8 @@
 import { type GetStaticProps } from 'next'
 import React from 'react'
 
+import { isCurrentEvent } from '~helpers/events'
+import { getEvents } from '~libs/api'
 import EventPage, {
   getStaticProps as eventStaticProps
 } from '~pages/events/[eventId]'
@@ -10,14 +12,16 @@ const CurrentEventPage: React.FC = props => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  // TODO: Get from API
-  const eventId = 2
+  const events = await getEvents()
+  const currentEvent = events.find(({ status }) => isCurrentEvent(status))
 
-  if (!eventId) {
+  if (!currentEvent) {
     return { notFound: true }
   }
 
-  return await eventStaticProps({ params: { eventId: `${eventId}` } })
+  return await eventStaticProps({
+    params: { eventId: currentEvent.id.toString() }
+  })
 }
 
 export default CurrentEventPage

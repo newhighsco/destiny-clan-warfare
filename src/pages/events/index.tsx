@@ -29,7 +29,9 @@ const EventListingPage: React.FC = ({
           lastUpdated: endDate,
           status
         }))}
-        setHref={({ id, status }: EventsLeaderboardRow) => eventUrl(status, id)}
+        setHref={({ id, status }: EventsLeaderboardRow) =>
+          eventUrl({ status, id })
+        }
       />
     </PageContainer>
   )

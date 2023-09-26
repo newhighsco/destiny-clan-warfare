@@ -5,6 +5,7 @@ import {
 } from 'next'
 import React from 'react'
 
+import { isCurrentEvent } from '~helpers/events'
 import { getClanLeaderboard, getEvents } from '~libs/api'
 import { Status } from '~libs/api/types'
 import ClanPage, {
@@ -17,9 +18,7 @@ const CurrentClanPage: React.FC = props => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const events = await getEvents()
-  const currentEvent = events.find(
-    ({ status }) => status === Status[Status.Running]
-  )
+  const currentEvent = events.find(({ status }) => isCurrentEvent(status))
 
   if (!currentEvent) {
     return { notFound: true }

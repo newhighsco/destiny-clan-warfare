@@ -7,12 +7,12 @@ import Leaderboard from '~components/Leaderboard'
 import Lockup from '~components/Lockup'
 import Notification from '~components/Notification'
 import config from '~config'
+import { isCurrentEvent } from '~helpers/events'
 import { clanUrl, currentUrl, pgcrUrl } from '~helpers/urls'
 import {
   type Clan,
   type Member as MemberType,
-  type MemberLeaderboardRow,
-  Status
+  type MemberLeaderboardRow
 } from '~libs/api/types'
 
 import styles from './Member.module.scss'
@@ -43,7 +43,7 @@ const Member: React.FC<MemberProps> = ({
   clan,
   leaderboard
 }) => {
-  const isCurrent = status === Status[Status.Running]
+  const isCurrent = isCurrentEvent(status)
   const { kicker, url } = MemberMeta[status]
 
   return (

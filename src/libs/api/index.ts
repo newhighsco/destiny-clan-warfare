@@ -2,6 +2,7 @@ import JSONBig from 'json-bigint'
 
 import { company } from '~fixtures/clans'
 import { leaderboard, member as clanMember } from '~fixtures/members'
+import { isUpcomingEvent } from '~helpers/events'
 import { apiUrl } from '~helpers/urls'
 
 import {
@@ -10,8 +11,7 @@ import {
   type Event,
   type EventLeaderboardRow,
   type Member,
-  type MemberLeaderboardRow,
-  Status
+  type MemberLeaderboardRow
 } from './types'
 
 const getData = async <T>(url: string): Promise<T> =>
@@ -67,14 +67,14 @@ export const getEvent = async (eventId: string): Promise<Event> => {
   }
 }
 
-export const getEventLeaderboard = async (
-  eventId: number,
-  status: string
-): Promise<EventLeaderboardRow[]> => {
-  if (status === Status[Status.NotStarted]) return []
+export const getEventLeaderboard = async ({
+  status,
+  id
+}: Partial<Event>): Promise<EventLeaderboardRow[]> => {
+  if (isUpcomingEvent(status)) return []
 
   try {
-    return await getData(`${eventId}/ClanLeaderboard`)
+    return await getData(`${id}/ClanLeaderboard`)
   } catch {
     return []
   }
@@ -95,6 +95,7 @@ export const getMemberLeaderboard = async (
   memberId: number
 ): Promise<MemberLeaderboardRow[]> => {
   try {
+    // TODO: Use correct endpoint
     const { matches } = await getData<any>(
       `CurrentEvent/ClanMember/${memberId}`
     )

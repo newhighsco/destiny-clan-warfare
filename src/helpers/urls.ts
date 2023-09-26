@@ -1,6 +1,8 @@
 import urlJoin from 'url-join'
 
-import { Status } from '~libs/api/types'
+import { type Event } from '~libs/api/types'
+
+import { isCurrentEvent } from './events'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 
@@ -22,8 +24,10 @@ export const currentUrl = (
   membershipId?: number | string
 ): string => join('/current', clanId, membershipId)
 
-export const eventUrl = (status?: string, id?: number | string): string => {
-  if (status === Status[Status.Running]) return currentUrl()
+export const eventUrl = (event?: Partial<Event>): string => {
+  const { status, id } = event || {}
+
+  if (isCurrentEvent(status)) return currentUrl()
 
   return join('/events', id)
 }

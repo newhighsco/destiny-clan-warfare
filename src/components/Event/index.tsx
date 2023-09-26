@@ -8,12 +8,12 @@ import { MedalList, type MedalProps } from '~components/Medal'
 import { ModifierList } from '~components/Modifier'
 import { StatList } from '~components/Stat'
 import Timer from '~components/Timer'
+import { isCurrentEvent } from '~helpers/events'
 import { formatDescription } from '~helpers/grammar'
 import { clanUrl, currentUrl, eventUrl } from '~helpers/urls'
 import {
   type Event as EventType,
-  type EventLeaderboardRow,
-  Status
+  type EventLeaderboardRow
 } from '~libs/api/types'
 
 import styles from './Event.module.scss'
@@ -66,9 +66,9 @@ const Event: React.FC<EventProps> = ({
 }) => {
   if (!id) return null
 
-  const href = eventUrl(status, id)
+  const href = eventUrl({ status, id })
   const summaryCallToAction = summary && SummaryCallToAction[status]
-  const isCurrent = status === Status[Status.Running]
+  const isCurrent = isCurrentEvent(status)
 
   return (
     <ContentContainer theme={{ content: styles.content }}>

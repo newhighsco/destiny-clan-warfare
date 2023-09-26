@@ -68,17 +68,15 @@ export const getStaticProps: GetStaticProps = async () => {
   const events = await getEvents()
   const props = events.reduce(
     (props, event) => {
-      switch (event.status) {
-        case Status[Status.Running]:
-          props.currentEvent = event
-          break
-        case Status[Status.Ended]:
-          props.previousEvent = event
-          break
-        case Status[Status.NotStarted]:
-          props.nextEvent = event
-          break
+      const findEvent = (target: keyof typeof props, status: Status): void => {
+        if (!props[target] && event.status === Status[status]) {
+          props[target] = event
+        }
       }
+
+      findEvent('currentEvent', Status.Running)
+      findEvent('previousEvent', Status.Ended)
+      findEvent('nextEvent', Status.NotStarted)
 
       return props
     },

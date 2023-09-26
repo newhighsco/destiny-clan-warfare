@@ -6,6 +6,7 @@ import Leaderboard from '~components/Leaderboard'
 import Lockup from '~components/Lockup'
 import { MedalList, type MedalProps } from '~components/Medal'
 import { ModifierList } from '~components/Modifier'
+import Notification from '~components/Notification'
 import { StatList } from '~components/Stat'
 import Timer from '~components/Timer'
 import { isCurrentEvent } from '~helpers/events'
@@ -35,6 +36,16 @@ enum SummaryCallToAction {
   Running = 'View full leaderboard',
   Ended = 'View full result',
   Calculating = Ended
+}
+
+enum LeaderboardNotification {
+  Running = 'Leaderboards for this event are being calculated.',
+  Ended = 'Results for this event are being calculated.',
+  Calculating = Ended
+}
+
+enum StatsListNotification {
+  Running = 'Top stats for this event are being calculated.'
 }
 
 const StatListTooltip = {
@@ -68,6 +79,11 @@ const Event: React.FC<EventProps> = ({
 
   const href = eventUrl({ status, id })
   const summaryCallToAction = summary && SummaryCallToAction[status]
+  const statsListNotification =
+    !stats && !!leaderboard && StatsListNotification[status]
+  const statsListTooltip = StatListTooltip[status]?.(statsGamesThreshold)
+  const leaderboardNotification =
+    !leaderboard && LeaderboardNotification[status]
   const isCurrent = isCurrentEvent(status)
 
   return (
@@ -92,10 +108,15 @@ const Event: React.FC<EventProps> = ({
         <ModifierList modifiers={modifiers} tooltipProps={{ manual: false }} />
         {!summary && (
           <>
+            {statsListNotification && (
+              <Notification>
+                {statsListNotification} {statsListTooltip}
+              </Notification>
+            )}
             <StatList
               kicker={StatListKicker[status]}
-              tooltip={StatListTooltip[status]?.(statsGamesThreshold)}
-              stats={!summary && stats}
+              tooltip={statsListTooltip}
+              stats={stats}
             />
             <MedalList
               kicker="Medals awarded"
@@ -112,6 +133,11 @@ const Event: React.FC<EventProps> = ({
       </Card>
       {!summary && (
         <>
+          {leaderboardNotification && (
+            <Notification>
+              {leaderboardNotification} Please check back later.
+            </Notification>
+          )}
           <Leaderboard
             rows={leaderboard}
             columns={['active', 'size', 'score']}

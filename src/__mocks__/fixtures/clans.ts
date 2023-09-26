@@ -1,5 +1,7 @@
 import { type Clan } from '~libs/api/types'
 
+const LEADERBOARD_LENGTH = 100
+
 export const company = {
   id: 1486166,
   name: 'Avalanche UK',
@@ -20,17 +22,20 @@ export const company = {
   }
 } as Clan
 
-export const leaderboard = [...new Array(100)].map((_, index) => {
-  const { id, name, avatar } = company
-  const rank = index + 1
+export const leaderboard = [...new Array(LEADERBOARD_LENGTH)].map(
+  (_, index) => {
+    const { id, name, avatar } = company
+    const rank = index + 1
+    const multiplier = LEADERBOARD_LENGTH - index
 
-  return {
-    id,
-    name,
-    avatar,
-    rank,
-    active: 50 * rank,
-    size: 100 * rank,
-    score: 110000 * rank
+    return {
+      id,
+      name,
+      avatar,
+      rank,
+      active: multiplier,
+      size: 100 * multiplier,
+      score: 110000 * multiplier
+    }
   }
-})
+)

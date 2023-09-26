@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 
+const LEADERBOARD_LENGTH = 100
 const now = dayjs()
 const lastUpdated = now.subtract(1, 'M').startOf('d').toISOString()
 
@@ -10,21 +11,24 @@ export const member = {
   membershipId: '4611686018441246884'
 }
 
-export const leaderboard = [...new Array(100)].map((_, index) => {
-  const { membershipId: id, name, image: avatar } = member
-  const rank = index + 1
+export const leaderboard = [...new Array(LEADERBOARD_LENGTH)].map(
+  (_, index) => {
+    const { membershipId: id, name, image: avatar } = member
+    const rank = index + 1
+    const multiplier = LEADERBOARD_LENGTH - index
 
-  return {
-    id,
-    name,
-    avatar,
-    lastUpdated,
-    rank,
-    game: 100 * rank,
-    wins: 10 * rank,
-    kills: 1100 * rank,
-    assists: 500 * rank,
-    deaths: 10 * rank,
-    score: 110000 * rank
+    return {
+      id,
+      name,
+      avatar,
+      lastUpdated,
+      rank,
+      game: 100 * multiplier,
+      wins: 10 * multiplier,
+      kills: 1100 * multiplier,
+      assists: 500 * multiplier,
+      deaths: 10 * multiplier,
+      score: 110000 * multiplier
+    }
   }
-})
+)

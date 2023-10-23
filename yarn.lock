@@ -1660,10 +1660,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@dr.pogodin/react-themes@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@dr.pogodin/react-themes/-/react-themes-1.5.0.tgz#6aeed3e96c40ffc6a3fcdda8e529cbc97e255be1"
-  integrity sha512-TpQR/zCQtur3ImTxoUbuFpytXpkKoA24PnpqHt0UJAhmBftq98WpdiT1sMfR7VxZX0GHThMJGJYmW1DZ5lca5Q==
+"@dr.pogodin/react-themes@1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@dr.pogodin/react-themes/-/react-themes-1.5.1.tgz#4c8a7fadded2b39c45f16f4f86a7bd9950b27548"
+  integrity sha512-ytb01g63eKQMT/ZJf71ShVKDXfkEJ6cM8qq3uDolUCs+cB2l1wolVI41Q0pnjXpKoaGAV6QsSujKVipdE/eMKw==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
@@ -2974,12 +2974,12 @@
   resolved "https://registry.yarnpkg.com/@newhighsco/browserslist-config/-/browserslist-config-1.1.0.tgz#23e1ce88944d770bd31878133089e31e676e7d19"
   integrity sha512-gPpJ1qgm/GvD5L/LQe299m/7aWguvfdy2Sg5E46QHo/AGGx0ws9r5f7a4SP54ntQXvFFpaSQsq8+CDY52JIN3w==
 
-"@newhighsco/chipset@6.15.2":
-  version "6.15.2"
-  resolved "https://registry.yarnpkg.com/@newhighsco/chipset/-/chipset-6.15.2.tgz#995f8dfbcd2ba099e1964e017fde8cd3535e15af"
-  integrity sha512-OgNqW54MawPBoS20dLkDJeh4t4xAgufMh2s4oStkcdDWpYQ7r81yRUG2eBtuw12XfC1u2ik3sYkf9dndXZo07Q==
+"@newhighsco/chipset@6.15.3":
+  version "6.15.3"
+  resolved "https://registry.yarnpkg.com/@newhighsco/chipset/-/chipset-6.15.3.tgz#cf8c42fbc982df8185d33e6a1433e43fce165a8f"
+  integrity sha512-V9fW5FCJJAHX17bnshfrXLcS7RzKhY80Rhs6pqaTfqa/JPTp6HLHgBFYwVd/xVGvzOod0xXwl8jwc72P35Hfhg==
   dependencies:
-    "@dr.pogodin/react-themes" "1.5.0"
+    "@dr.pogodin/react-themes" "1.5.1"
     classnames "2.3.2"
     react-device-detect "2.2.3"
 

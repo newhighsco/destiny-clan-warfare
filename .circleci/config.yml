@@ -11,7 +11,7 @@ parameters:
     default: test_and_release
   cache-version:
     type: string
-    default: v1.1
+    default: v1.2
 
 jobs:
   cypress:

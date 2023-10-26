@@ -15,7 +15,7 @@ Install dependencies
 nvm install
 yarn install
 yarn generate:ssl
-yarn netlify link
+netlify link
 ```
 
 ## Run

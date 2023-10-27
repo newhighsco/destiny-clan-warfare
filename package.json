@@ -39,7 +39,7 @@
     "generate:ssl": "openssl req -x509 -out ssl/localhost.crt -keyout ssl/localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config certconf"
   },
   "dependencies": {
-    "@newhighsco/chipset": "6.15.3",
+    "@newhighsco/chipset": "6.15.4",
     "@newhighsco/next-plugin-svgr": "3.0.115",
     "@newhighsco/press-start": "2.2.12",
     "autolinker": "4.0.0",
@@ -64,7 +64,7 @@
     "@commitlint/cli": "18.2.0",
     "@netlify/plugin-nextjs": "4.41.1",
     "@newhighsco/browserslist-config": "1.1.0",
-    "@newhighsco/commitlint-config": "1.1.24",
+    "@newhighsco/commitlint-config": "1.1.25",
     "@newhighsco/editor-config": "1.2.0",
     "@newhighsco/eslint-config": "4.0.89",
     "@newhighsco/postcss-config": "3.5.174",

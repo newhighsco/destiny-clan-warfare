@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@3.3.0
-  cypress: cypress-io/cypress@3.1.4
+  cypress: cypress-io/cypress@3.2.0
   newhighsco: newhighsco/orb@1.9.0
 
 parameters:

@@ -13169,10 +13169,10 @@ new-url-loader@0.1.1:
   resolved "https://registry.yarnpkg.com/new-url-loader/-/new-url-loader-0.1.1.tgz#d7bd273f34e9dfa25732ea17772092a5f4e66f66"
   integrity sha512-e7v5Q3uFk2jXgnL1JSVCszPTg9MYkbNIpKI6azeNlAa1bAwboA63aBsC63jlTEWlTacNL45tqWPx0Nm0SkCxCQ==
 
-next-auth@4.24.4:
-  version "4.24.4"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.24.4.tgz#ec8aa72963c4c8d325ebc21f4c15e3b46647026e"
-  integrity sha512-5DGffi+OpkbU62vPQIJ1z+hFnmow+ec5Qrn9m6eoglIO51m0DlrmLxBduZEwKAYDEg9k2joi1yelgmq1vqK3aQ==
+next-auth@4.24.5:
+  version "4.24.5"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.24.5.tgz#1fd1bfc0603c61fd2ba6fd81b976af690edbf07e"
+  integrity sha512-3RafV3XbfIKk6rF6GlLE4/KxjTcuMCifqrmD+98ejFq73SRoj2rmzoca8u764977lH/Q7jo6Xu6yM+Re1Mz/Og==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@panva/hkdf" "^1.0.2"

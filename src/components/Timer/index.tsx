@@ -51,8 +51,8 @@ const Timer: React.FC<TimerProps> = ({ start, end, tickInterval = 1000 }) => {
   const tense = currentDate.isBetween(startDate, endDate, null, '[]')
     ? TimerTense.Current
     : startDate.isAfter(currentDate)
-    ? TimerTense.Future
-    : TimerTense.Past
+      ? TimerTense.Future
+      : TimerTense.Past
 
   useEffect(() => {
     setEnhanced(true)

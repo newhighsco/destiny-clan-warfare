@@ -1,3 +1,10 @@
+## [5.9.21](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.20...v5.9.21) (2023-11-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency react-window to v1.8.10 ([#1993](https://github.com/newhighsco/destiny-clan-warfare/issues/1993)) ([d8c092c](https://github.com/newhighsco/destiny-clan-warfare/commit/d8c092c1277e7313b25c5525a7222d0960668735))
+
 ## [5.9.20](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.19...v5.9.20) (2023-11-17)
 
 

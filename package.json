@@ -80,7 +80,7 @@
     "@testing-library/jest-dom": "6.1.4",
     "@testing-library/react": "14.1.2",
     "@types/jest": "29.5.10",
-    "@types/react": "18.2.38",
+    "@types/react": "18.2.39",
     "@types/react-dom": "18.2.17",
     "@types/react-window": "1.8.8",
     "alias-hq": "6.2.3",

@@ -85,7 +85,7 @@
     "@types/react-window": "1.8.8",
     "alias-hq": "6.2.3",
     "babel-loader": "9.1.3",
-    "chromatic": "9.1.0",
+    "chromatic": "10.0.0",
     "cypress": "13.6.0",
     "eslint": "8.54.0",
     "husky": "8.0.3",

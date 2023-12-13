@@ -16,6 +16,7 @@ export const authOptions = {
           return await fetch(
             'https://www.bungie.net/platform/User/GetMembershipsForCurrentUser',
             {
+              // eslint-disable-next-line tsc/config
               headers: {
                 ...provider.httpOptions.headers,
                 authorization: `Bearer ${tokens.access_token}`

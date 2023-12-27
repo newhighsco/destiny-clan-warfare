@@ -39,7 +39,7 @@
     "generate:ssl": "openssl req -x509 -out ssl/localhost.crt -keyout ssl/localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config certconf"
   },
   "dependencies": {
-    "@newhighsco/chipset": "6.15.5",
+    "@newhighsco/chipset": "6.15.6",
     "@newhighsco/next-plugin-svgr": "3.0.120",
     "@newhighsco/press-start": "2.2.14",
     "autolinker": "4.0.0",

@@ -2242,10 +2242,10 @@
   resolved "https://registry.yarnpkg.com/@newhighsco/storybook-addon-transpile-modules/-/storybook-addon-transpile-modules-1.0.15.tgz#b4230e0abb315b0f756481a0431ea2bf443a744e"
   integrity sha512-j5pyuvDVWcRUEHXi92UGyjWzP5gp0x4X05YlxqJBfj27HhfHsqHeeNPJEkrsNDOSTWIzJurbWFKy0pUE+osL2A==
 
-"@newhighsco/storybook-preset@6.3.24":
-  version "6.3.24"
-  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-6.3.24.tgz#e6b01076b8a54572e69221b15cc39cc63bbc1cdf"
-  integrity sha512-DNfUZdbzpLke9hGQ0qpG3jYzFuReFxUjO4HUUD+1Sms9pKqbLOEnZYar6/mA+49xlK0I0+eLPimf1S6JZkjgNA==
+"@newhighsco/storybook-preset@6.3.25":
+  version "6.3.25"
+  resolved "https://registry.yarnpkg.com/@newhighsco/storybook-preset/-/storybook-preset-6.3.25.tgz#5305250d18170aa5623df21000a33e5fbed9f0e1"
+  integrity sha512-3lYtRvPiZFwZ4r14XTP7NJRrj5p6qw12jvpHqC4wF82jmtu0t077wsS3b15mPAGWsJU4MUzfrtd0Dhw1250FLg==
   dependencies:
     "@newhighsco/storybook-addon-svgr" "1.0.16"
     "@newhighsco/storybook-addon-transpile-modules" "1.0.15"
@@ -2258,7 +2258,7 @@
     css-loader "6.8.1"
     postcss "8.4.32"
     postcss-loader "7.3.4"
-    sass "1.69.6"
+    sass "1.69.7"
     sass-loader "13.3.3"
     storybook-dark-mode "3.0.3"
     style-loader "3.3.3"
@@ -16013,15 +16013,6 @@ sass-loader@13.3.3:
   integrity sha512-mt5YN2F1MOZr3d/wBRcZxeFgwgkH44wVc2zohO2YF6JiOMkiXe4BYRZpSu2sO1g71mo/j16txzUhsKZlqjVGzA==
   dependencies:
     neo-async "^2.6.2"
-
-sass@1.69.6:
-  version "1.69.6"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.69.6.tgz#88ae1f93facc46d2da9b0bdd652d65068bcfa397"
-  integrity sha512-qbRr3k9JGHWXCvZU77SD2OTwUlC+gNT+61JOLcmLm+XqH4h/5D+p4IIsxvpkB89S9AwJOyb5+rWNpIucaFxSFQ==
-  dependencies:
-    chokidar ">=3.0.0 <4.0.0"
-    immutable "^4.0.0"
-    source-map-js ">=0.6.2 <2.0.0"
 
 sass@1.69.7:
   version "1.69.7"

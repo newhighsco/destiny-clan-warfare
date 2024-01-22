@@ -2109,12 +2109,12 @@
     pump "^3.0.0"
     tar-fs "^2.1.1"
 
-"@netlify/functions@2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@netlify/functions/-/functions-2.4.1.tgz#93bc87313474285993b4de7cde6335ada0665870"
-  integrity sha512-sRFYBaz6dJP1MdUtk/5QNmshhg5UDmB+DUssmH6v9WUG85MrwyExEfGfJA5eClXATjXm0coTvO5nLAlyCpK7QQ==
+"@netlify/functions@2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@netlify/functions/-/functions-2.5.1.tgz#a3c111979cf14654267de8a2384348a066481b4e"
+  integrity sha512-7//hmiFHXGusAzuzEuXvRT9ItaeRjRs5lRs6lYUkaAXO1jnTWYDB2XdqFq5X4yMRX+/A96nrQ2HwCE+Pd0YMwg==
   dependencies:
-    "@netlify/serverless-functions-api" "1.12.3"
+    "@netlify/serverless-functions-api" "1.13.0"
     is-promise "^4.0.0"
 
 "@netlify/node-cookies@^0.1.0":
@@ -2122,10 +2122,10 @@
   resolved "https://registry.yarnpkg.com/@netlify/node-cookies/-/node-cookies-0.1.0.tgz#dda912ba618527695cf519fafa221c5e6777c612"
   integrity sha512-OAs1xG+FfLX0LoRASpqzVntVV/RpYkgpI0VrUnw2u0Q1qiZUzcPffxRK8HF3gc4GjuhG5ahOEMJ9bswBiZPq0g==
 
-"@netlify/serverless-functions-api@1.12.3":
-  version "1.12.3"
-  resolved "https://registry.yarnpkg.com/@netlify/serverless-functions-api/-/serverless-functions-api-1.12.3.tgz#cf1abc7ca2c9d3f920fea458c44bdda4d3e614e4"
-  integrity sha512-g1AZ78pCvMnalZtbnViVLGfG5ufjKyKoi3plLSUtZqh0wVuMR7ZGegeZHhOoY4wRfkkETVvWfhgfcpLMbGM5Lg==
+"@netlify/serverless-functions-api@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@netlify/serverless-functions-api/-/serverless-functions-api-1.13.0.tgz#cba7550881721ffc13db5bc7d6addcacef548d2f"
+  integrity sha512-H3SMpHw24jWjnEMqbXgILWdo3/Iv/2DRzOZZevqqEswRTOWcQJGlU35Dth72VAOxhPyWXjulogG1zJNRw8m2sQ==
   dependencies:
     "@netlify/node-cookies" "^0.1.0"
     urlpattern-polyfill "8.0.2"

@@ -60,7 +60,7 @@
     "sentence-case": "3.0.4"
   },
   "devDependencies": {
-    "@babel/core": "7.23.7",
+    "@babel/core": "7.23.9",
     "@commitlint/cli": "18.6.0",
     "@netlify/functions": "2.5.1",
     "@newhighsco/browserslist-config": "1.1.0",

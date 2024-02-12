@@ -2149,10 +2149,10 @@
   resolved "https://registry.yarnpkg.com/@newhighsco/editor-config/-/editor-config-1.2.0.tgz#a2b4771cb2cb05bc841fdb02fdf27ce7800947a2"
   integrity sha512-dQYY50CJHdQR5X31xZM2YSTrCBE71mXuKzHTSwojWChPGJt4m/ZUNkcd4qZ+3HutuFIs+C5X+Focl/6nVIztQA==
 
-"@newhighsco/eslint-config@4.0.145":
-  version "4.0.145"
-  resolved "https://registry.yarnpkg.com/@newhighsco/eslint-config/-/eslint-config-4.0.145.tgz#a0b18123a4a1a774702f1f1159c90828bf33dee2"
-  integrity sha512-BU/i3+gCZlh5vFAs/YBssWQfipWKRI1T/MxXUuAt4dduOzrDY7wHvugRVJUxwCo3hCfDN0r9mgYc7D0HqqefXQ==
+"@newhighsco/eslint-config@4.0.146":
+  version "4.0.146"
+  resolved "https://registry.yarnpkg.com/@newhighsco/eslint-config/-/eslint-config-4.0.146.tgz#1e874474791df0846049683071362416e4291ed7"
+  integrity sha512-TXnfgZn2Sul24N7DGpazmgLGXNo/YKDr+DUIj5DzWRJCktMe5EBOcH4yz9weH4MP4sEwzO3mX5zp68tIcH9Lng==
   dependencies:
     "@typescript-eslint/eslint-plugin" "6.21.0"
     "@typescript-eslint/parser" "6.21.0"
@@ -2172,7 +2172,7 @@
     eslint-plugin-promise "6.1.1"
     eslint-plugin-react "7.33.2"
     eslint-plugin-react-hooks "4.6.0"
-    eslint-plugin-simple-import-sort "10.0.0"
+    eslint-plugin-simple-import-sort "12.0.0"
     eslint-plugin-storybook "0.6.15"
     eslint-plugin-testing-library "6.2.0"
     eslint-plugin-tsc "2.0.0"
@@ -2186,14 +2186,14 @@
     file-loader "6.2.0"
     url-loader "4.1.1"
 
-"@newhighsco/postcss-config@3.5.201":
-  version "3.5.201"
-  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.5.201.tgz#ac76432167bdf94364bf4c2e920bbde2c5cae63a"
-  integrity sha512-UEOJF+R8/wznI4u5fotSY30CfLp4UZisIQMn5l30hH3f5QbE4SRguE5VYl6UsvTYzHHY2vYdSeOpDpQ+n3PWQw==
+"@newhighsco/postcss-config@3.5.202":
+  version "3.5.202"
+  resolved "https://registry.yarnpkg.com/@newhighsco/postcss-config/-/postcss-config-3.5.202.tgz#64be421b5bc963223acbcdfd62a80f8f134b0fc5"
+  integrity sha512-0jL3CqherRlYDHaHsrJJYRiSlt3grFEote8rzUDjhM1qo8fORK1R+KKBmHPtHoeJWqnhcYOI2Ta/kgwILMh8YQ==
   dependencies:
     "@fullhuman/postcss-purgecss" "5.0.0"
     autoprefixer "10.4.17"
-    caniuse-lite "1.0.30001585"
+    caniuse-lite "1.0.30001587"
     postcss-flexbugs-fixes "5.0.2"
     postcss-preset-env "9.3.0"
 
@@ -6120,10 +6120,10 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-lite@1.0.30001585, caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001565, caniuse-lite@^1.0.30001578:
-  version "1.0.30001585"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001585.tgz#0b4e848d84919c783b2a41c13f7de8ce96744401"
-  integrity sha512-yr2BWR1yLXQ8fMpdS/4ZZXpseBgE7o4g41x3a6AJOqZuOi+iE/WdJYAuZ6Y95i4Ohd2Y+9MzIWRR+uGABH4s3Q==
+caniuse-lite@1.0.30001587, caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001565, caniuse-lite@^1.0.30001578:
+  version "1.0.30001587"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001587.tgz#a0bce920155fa56a1885a69c74e1163fc34b4881"
+  integrity sha512-HMFNotUmLXn71BQxg8cijvqxnIAofforZOwGsxyXJ0qugTdspUF4sPSJ2vhgprHCB996tIDzEq1ubumPDV8ULA==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"
@@ -8182,10 +8182,10 @@ eslint-plugin-react@7.33.2:
     semver "^6.3.1"
     string.prototype.matchall "^4.0.8"
 
-eslint-plugin-simple-import-sort@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-10.0.0.tgz#cc4ceaa81ba73252427062705b64321946f61351"
-  integrity sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==
+eslint-plugin-simple-import-sort@12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-12.0.0.tgz#3cfa05d74509bd4dc329a956938823812194dbb6"
+  integrity sha512-8o0dVEdAkYap0Cn5kNeklaKcT1nUsa3LITWEuFk3nJifOoD+5JQGoyDUW2W/iPWwBsNBJpyJS9y4je/BgxLcyQ==
 
 eslint-plugin-storybook@0.6.15:
   version "0.6.15"

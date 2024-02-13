@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.9",
-    "@commitlint/cli": "18.6.0",
+    "@commitlint/cli": "18.6.1",
     "@netlify/functions": "2.5.1",
     "@newhighsco/browserslist-config": "1.1.0",
     "@newhighsco/commitlint-config": "1.1.32",

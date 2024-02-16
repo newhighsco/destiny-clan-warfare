@@ -1,3 +1,10 @@
+## [5.9.37](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.36...v5.9.37) (2024-02-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @newhighsco/press-start to v2.2.15 ([#2184](https://github.com/newhighsco/destiny-clan-warfare/issues/2184)) ([965e2e8](https://github.com/newhighsco/destiny-clan-warfare/commit/965e2e8bba1c4fad14c4aa3b5311341753f1ad24))
+
 ## [5.9.36](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.35...v5.9.36) (2024-02-15)
 
 

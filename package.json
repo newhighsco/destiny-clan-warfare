@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@newhighsco/chipset": "6.15.9",
-    "@newhighsco/next-plugin-svgr": "3.0.122",
+    "@newhighsco/next-plugin-svgr": "3.0.123",
     "@newhighsco/press-start": "2.2.15",
     "autolinker": "4.0.0",
     "bungie-api-ts": "5.0.0",

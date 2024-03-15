@@ -5,14 +5,7 @@ const {
 const { resolve } = require('path')
 
 module.exports = {
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      builder: {
-        useSWC: true
-      }
-    }
-  },
+  framework: '@storybook/react-webpack5',
   stories: ['../src'],
   addons: ['@newhighsco/storybook-preset'],
   staticDirs: ['../public'],

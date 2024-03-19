@@ -73,7 +73,7 @@
     "@newhighsco/storybook-preset": "7.0.4",
     "@newhighsco/stylelint-config": "3.1.77",
     "@newhighsco/svgo-config": "1.0.2",
-    "@storybook/react-webpack5": "8.0.1",
+    "@storybook/react-webpack5": "8.0.2",
     "@testing-library/cypress": "10.0.1",
     "@testing-library/jest-dom": "6.4.2",
     "@testing-library/react": "14.2.1",
@@ -95,7 +95,7 @@
     "mockdate": "3.0.5",
     "prettier": "3.2.5",
     "semantic-release": "23.0.5",
-    "storybook": "8.0.1",
+    "storybook": "8.0.2",
     "stylelint": "16.2.1",
     "typescript": "5.4.2",
     "webpack": "5.90.3"

@@ -1,5 +1,5 @@
 import { List, Tooltip } from '@newhighsco/chipset'
-import { paramCase } from 'param-case'
+import { kebabCase } from 'change-case'
 import type PropTypes from 'prop-types'
 import React from 'react'
 
@@ -28,7 +28,7 @@ const Modifier: React.FC<ModifierProps> = ({
   description,
   tooltipProps
 }) => {
-  let key = paramCase(name || '')
+  let key = kebabCase(name || '')
 
   let bonus = scoringModifier ? scoringBonus : multiplierBonus
   let prefix = scoringModifier ? PREFIX_POSITIVE : PREFIX_MULTIPLY

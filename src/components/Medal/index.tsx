@@ -1,6 +1,6 @@
 import { List, ResponsiveMedia, Tooltip } from '@newhighsco/chipset'
+import { kebabCase } from 'change-case'
 import classNames from 'classnames'
-import { paramCase } from 'param-case'
 import type PropTypes from 'prop-types'
 import React from 'react'
 
@@ -33,7 +33,7 @@ const Medal: React.FC<MedalProps> = ({
   awardedTo,
   tooltipProps
 }) => {
-  const key = paramCase(name || '')
+  const key = kebabCase(name || '')
   const icon: string = duplicates[key] || key
   const label = new Intl.ListFormat().format(awardedTo)
 

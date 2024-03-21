@@ -98,7 +98,7 @@
     "storybook": "8.0.2",
     "stylelint": "16.2.1",
     "typescript": "5.4.3",
-    "webpack": "5.90.3"
+    "webpack": "5.91.0"
   },
   "browserslist": [
     "extends @newhighsco/browserslist-config"

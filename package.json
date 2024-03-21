@@ -57,7 +57,7 @@
     "react-virtualized-auto-sizer": "1.0.24",
     "react-window": "1.8.10",
     "sass": "1.72.0",
-    "sentence-case": "3.0.4"
+    "sentence-case": "4.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.24.3",

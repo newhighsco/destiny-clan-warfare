@@ -1,3 +1,10 @@
+## [5.9.51](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.50...v5.9.51) (2024-03-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency sentence-case to v4 ([#2283](https://github.com/newhighsco/destiny-clan-warfare/issues/2283)) ([1dc60c6](https://github.com/newhighsco/destiny-clan-warfare/commit/1dc60c6e56d7174839fd9dc1d9d4cca39cdc0747))
+
 ## [5.9.50](https://github.com/newhighsco/destiny-clan-warfare/compare/v5.9.49...v5.9.50) (2024-03-21)
 
 

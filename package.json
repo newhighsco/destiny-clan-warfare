@@ -44,7 +44,7 @@
     "@newhighsco/press-start": "2.2.15",
     "autolinker": "4.0.0",
     "bungie-api-ts": "5.0.0",
-    "change-case": "5.4.3",
+    "change-case": "5.4.4",
     "dayjs": "1.11.10",
     "json-bigint": "1.0.0",
     "next": "13.4.19",

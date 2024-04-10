@@ -39,7 +39,7 @@
     "generate:ssl": "openssl req -x509 -out ssl/localhost.crt -keyout ssl/localhost.key -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config certconf"
   },
   "dependencies": {
-    "@newhighsco/chipset": "6.15.9",
+    "@newhighsco/chipset": "6.16.0",
     "@newhighsco/next-plugin-svgr": "3.0.125",
     "@newhighsco/press-start": "2.2.15",
     "autolinker": "4.0.0",
@@ -65,11 +65,11 @@
     "@newhighsco/browserslist-config": "1.1.0",
     "@newhighsco/commitlint-config": "1.1.38",
     "@newhighsco/editor-config": "1.2.0",
-    "@newhighsco/eslint-config": "4.0.158",
-    "@newhighsco/postcss-config": "3.5.224",
+    "@newhighsco/eslint-config": "4.0.159",
+    "@newhighsco/postcss-config": "3.5.226",
     "@newhighsco/prettier-config": "2.1.22",
     "@newhighsco/release-config": "1.3.71",
-    "@newhighsco/storybook-preset": "7.0.12",
+    "@newhighsco/storybook-preset": "7.0.13",
     "@newhighsco/stylelint-config": "3.1.79",
     "@newhighsco/svgo-config": "1.0.2",
     "@storybook/react-webpack5": "8.0.6",
